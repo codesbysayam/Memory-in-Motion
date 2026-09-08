@@ -1,0 +1,6 @@
+{
+  "name": "Memory in Motion",
+  "description": "An interactive laboratory for understanding recurrent memory and the Dragon Hatchling architecture.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

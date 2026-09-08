@@ -1,0 +1,54 @@
+@import "tailwindcss";
+
+:root {
+  --bg: #07080b;
+  --surface: #11141a;
+  --surface-2: #151922;
+  --border: #252a35;
+  --text: #f4f5f7;
+  --muted: #8f96a3;
+  --violet: #8b5cf6;
+  --cyan: #22d3ee;
+  --success: #34d399;
+  --warning: #f59e0b;
+  --danger: #f87171;
+  --radius: 14px;
+  --max: 1400px;
+}
+
+@layer base {
+  body {
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background-color: var(--bg);
+    color: var(--text);
+  }
+  
+  code, pre, .font-mono, .mono, .equation {
+    font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  }
+}
+
+/* Custom scrollbar for lab panels */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #07080b;
+}
+::-webkit-scrollbar-thumb {
+  background: #252a35;
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #3a4150;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, ::before, ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
