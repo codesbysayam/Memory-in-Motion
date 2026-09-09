@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Network, ArrowRight, ShieldCheck, CheckCircle2, ChevronRight } from 'lucide-react';
+import { FormattedMathText } from './ui/MathView';
 
 interface ConceptNode {
   id: string;
@@ -278,7 +279,9 @@ export const ConceptMap: React.FC<ConceptMapProps> = ({ onNavigate }) => {
           </p>
           <div className="text-xs text-[#22D3EE] pt-1">
             <strong>Key Characteristic: </strong>
-            <span className="text-slate-300">{selectedNode.keyMetric}</span>
+            <span className="text-slate-300">
+              <FormattedMathText text={selectedNode.keyMetric} />
+            </span>
           </div>
         </div>
 

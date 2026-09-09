@@ -1,5 +1,6 @@
 import React from 'react';
 import { CheckCircle2, ShieldAlert, Cpu, Award, ArrowRight, ExternalLink } from 'lucide-react';
+import { MathView } from './ui/MathView';
 
 export const ResearchVsToySplit: React.FC = () => {
   return (
@@ -45,7 +46,7 @@ export const ResearchVsToySplit: React.FC = () => {
             <li className="flex items-start gap-2">
               <span className="text-cyan-400 font-mono font-bold">•</span>
               <span>
-                <strong>Coordinate-by-Coordinate Inspection:</strong> Every update step M_(t+1) = λM_t + η k_t v_t^T is 100% visible and deterministic in JavaScript.
+                <strong>Coordinate-by-Coordinate Inspection:</strong> Every update step <MathView math="M_{t+1} = \lambda M_t + \eta k_t v_t^T" /> is 100% visible and deterministic in JavaScript.
               </span>
             </li>
             <li className="flex items-start gap-2">

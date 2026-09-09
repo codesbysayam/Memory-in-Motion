@@ -149,6 +149,13 @@ export const Section03RecurrentMemory: React.FC = () => {
     return combined;
   }, [sequenceLength, distractorCount, selectedQuery]);
 
+  // Keep activeStep clamped within activeFacts range
+  useEffect(() => {
+    if (activeStep > activeFacts.length) {
+      setActiveStep(activeFacts.length);
+    }
+  }, [activeFacts.length, activeStep]);
+
   // Adjust effective retention based on interference
   const effectiveRetention = useMemo(() => {
     const raw = retentionPct / 100;
@@ -718,6 +725,7 @@ export const Section03RecurrentMemory: React.FC = () => {
               dim={memoryDim}
               retention={effectiveRetention}
               writeStrength={writeStrength}
+              step={activeStep}
               onStepChange={setActiveStep}
             />
 

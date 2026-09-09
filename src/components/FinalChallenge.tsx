@@ -149,17 +149,17 @@ export const FinalChallenge: React.FC = () => {
           <div className="flex items-center gap-2">
             <span className="text-xs font-mono uppercase tracking-wider text-cyan-400 bg-cyan-950/60 border border-cyan-800/60 px-2.5 py-0.5 rounded-md font-bold flex items-center gap-1.5">
               <Target className="w-3.5 h-3.5" />
-              CAPSTONE EVALUATION
+              EVERSIVE EVALUATION
             </span>
             <span className="text-xs font-mono uppercase tracking-wider text-purple-300 bg-purple-950/70 border border-purple-800/60 px-2.5 py-0.5 rounded-md font-bold">
-              PREDICT → TEST → EXPLAIN
+              HYPOTHESIS STRESS TEST
             </span>
           </div>
-          <h3 className="text-xl sm:text-2xl font-bold font-mono text-white tracking-tight">
-            BLIND ARCHITECTURAL CHALLENGE
+          <h3 className="text-2xl sm:text-3xl font-serif font-normal text-white tracking-tight">
+            NOW BREAK YOUR OWN CLAIM
           </h3>
-          <p className="text-xs sm:text-sm text-slate-400 font-sans max-w-2xl">
-            Test your understanding of recurrent memory mechanisms. Make a prediction based on hidden parameters, execute the live deterministic experiment, and explain the observed failure or success.
+          <p className="text-xs sm:text-sm text-slate-400 font-sans max-w-2xl leading-relaxed">
+            Rigorous science requires attempting to falsify our own claims. Push recurrent memory past its boundary conditions: predict where the mathematical mechanism breaks, run the deterministic probe, and uncover the failure mode.
           </p>
         </div>
 

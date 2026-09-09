@@ -12,6 +12,7 @@ import {
   AlertTriangle,
   Award,
 } from 'lucide-react';
+import { FormattedMathText } from '../ui/MathView';
 
 export interface ChapterInfo {
   id: string;
@@ -300,7 +301,7 @@ export const ChapterIndexModal: React.FC<ChapterIndexModalProps> = ({
 
                 <div className="mt-3 pt-2.5 border-t border-[#1C2436] flex items-center justify-between text-[11px] font-mono text-slate-400">
                   <span className="truncate max-w-[80%] text-[10px] text-zinc-400">
-                    {ch.keyFormulaOrConcept}
+                    <FormattedMathText text={ch.keyFormulaOrConcept} />
                   </span>
                   <span className="flex items-center gap-1 text-[#22D3EE] font-semibold group-hover:translate-x-0.5 transition-transform shrink-0">
                     Jump <ArrowRight className="w-3 h-3" />

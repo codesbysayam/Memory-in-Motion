@@ -15,6 +15,7 @@ import {
 } from 'lucide-react';
 import { Fact, CANONICAL_FACTS, createAssociativeMemory, vector, cosine } from '../models/associativeMemory';
 import { MatrixDiff } from './MatrixDiff';
+import { MathView } from './ui/MathView';
 
 interface MemoryWriteReadProps {
   initialFact?: Fact;
@@ -317,7 +318,7 @@ export const MemoryWriteRead: React.FC<MemoryWriteReadProps> = ({
             </div>
 
             <p className="text-xs text-slate-300 font-sans leading-relaxed">
-              <strong>Write changes the internal memory representation.</strong> The outer product $k v^T$ constructs a {dimension}×{dimension} matrix binding key coordinates to value coordinates, weighted by write strength $\eta={writeStrength}$ and decayed by retention $\lambda={retention}$.
+              <strong>Write changes the internal memory representation.</strong> The outer product <MathView math="k v^T" /> constructs a {dimension}×{dimension} matrix binding key coordinates to value coordinates, weighted by write strength <MathView math={`\\eta = ${writeStrength}`} /> and decayed by retention <MathView math={`\\lambda = ${retention}`} />.
             </p>
 
             {/* Matrix Diff Inspector */}
@@ -436,14 +437,14 @@ export const MemoryWriteRead: React.FC<MemoryWriteReadProps> = ({
         {stage === 5 && (
           <div className="space-y-4 animate-in fade-in">
             <div className="flex items-center justify-between border-b border-[#1E2638] pb-2">
-              <span className="text-xs font-bold text-cyan-400 uppercase">
-                STEP 6: READ OPERATION (\hat&#123;v&#125; = q^T M)
+              <span className="text-xs font-bold text-cyan-400 uppercase inline-flex items-center gap-1.5">
+                STEP 6: READ OPERATION (<MathView math="\hat{v} = q^T M" />)
               </span>
               <span className="text-[11px] text-slate-400">Linear readout from continuous state</span>
             </div>
 
             <p className="text-xs text-slate-300 font-sans leading-relaxed">
-              <strong>Read retrieves information from that representation.</strong> The probe query vector multiplies against the memory matrix: $\hat&#123;v&#125;_j = \sum_i q_i M_&#123;ij&#125;$.
+              <strong>Read retrieves information from that representation.</strong> The probe query vector multiplies against the memory matrix: <MathView math="\hat{v}_j = \sum_i q_i M_{ij}" />.
             </p>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">

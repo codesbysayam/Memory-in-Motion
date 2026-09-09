@@ -15,6 +15,7 @@ import {
   Layers3,
 } from 'lucide-react';
 import { latentStep, createDeterministicLatentInput } from '../models/latentReasoning';
+import { MathView } from './ui/MathView';
 
 interface LatentReasoningDemoProps {
   id?: string;
@@ -206,7 +207,7 @@ export const LatentReasoningDemo: React.FC<LatentReasoningDemoProps> = ({
           <div className="flex items-center gap-2">
             <span className="text-purple-400 font-bold">STATE RECURRENCE FORMULA:</span>
             <span className="text-white bg-[#101626] px-2 py-0.5 rounded border border-[#202C44]">
-              state_(t+1) = tanh(λ · state_t + input)
+              <MathView math="s_{t+1} = \tanh(\lambda \cdot s_t + x_t)" />
             </span>
           </div>
           <span className="text-slate-400 text-[11px]">

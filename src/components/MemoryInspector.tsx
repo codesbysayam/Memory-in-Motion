@@ -1,8 +1,10 @@
 import React, { useState, useEffect, useRef, useMemo } from 'react';
-import { Play, Pause, RotateCcw, SkipForward, HelpCircle, Activity, Layers, Database } from 'lucide-react';
+import { Play, Pause, RotateCcw, SkipForward, HelpCircle, Activity, Layers, Database, ArrowRight, Repeat } from 'lucide-react';
 import { Fact, createAssociativeMemory, vector, cosine } from '../models/associativeMemory';
 import { StateInspectionDetail } from '../models/types';
 import { TruthModelComparison } from './TruthModelComparison';
+import { useMemoryLens } from '../context/MemoryLensContext';
+import { MathView } from './ui/MathView';
 
 interface MemoryInspectorProps {
   facts: Fact[];
@@ -10,6 +12,7 @@ interface MemoryInspectorProps {
   dim: number;
   retention: number;
   writeStrength: number;
+  step?: number;
   onStepChange?: (currentStep: number) => void;
 }
 
@@ -19,19 +22,72 @@ export const MemoryInspector: React.FC<MemoryInspectorProps> = ({
   dim,
   retention,
   writeStrength,
+  step,
   onStepChange,
 }) => {
-  const [currentStep, setCurrentStep] = useState<number>(facts.length);
-  const [isPlaying, setIsPlaying] = useState<boolean>(false);
-  const [hoveredCell, setHoveredCell] = useState<StateInspectionDetail | null>(null);
-  const timerRef = useRef<number | null>(null);
+  const isControlled = typeof step === 'number';
+  const [internalStep, setInternalStep] = useState<number>(facts.length);
+  const currentStep = isControlled ? Math.min(step, facts.length) : Math.min(internalStep, facts.length);
 
-  // Sync step if facts length shrinks
-  useEffect(() => {
-    if (currentStep > facts.length) {
-      setCurrentStep(facts.length);
+  const [isPlaying, setIsPlaying] = useState<boolean>(false);
+  const [isLooping, setIsLooping] = useState<boolean>(false);
+  const [hoveredCell, setHoveredCell] = useState<StateInspectionDetail & { row?: number; col?: number } | null>(null);
+  const timerRef = useRef<number | null>(null);
+  const { isLensActive, activeStage } = useMemoryLens();
+
+  // Centralized step update function outside of render cycle
+  const changeStep = (newStep: number) => {
+    const clamped = Math.max(0, Math.min(newStep, facts.length));
+    if (!isControlled) {
+      setInternalStep(clamped);
     }
-  }, [facts.length, currentStep]);
+    onStepChange?.(clamped);
+  };
+
+  // Keep refs for interval callback to avoid side-effects inside state updaters
+  const currentStepRef = useRef(currentStep);
+  currentStepRef.current = currentStep;
+
+  const factsLengthRef = useRef(facts.length);
+  factsLengthRef.current = facts.length;
+
+  const isLoopingRef = useRef(isLooping);
+  isLoopingRef.current = isLooping;
+
+  const changeStepRef = useRef(changeStep);
+  changeStepRef.current = changeStep;
+
+  // Step ticker with loop support
+  useEffect(() => {
+    if (!isPlaying) {
+      if (timerRef.current) {
+        clearInterval(timerRef.current);
+        timerRef.current = null;
+      }
+      return;
+    }
+
+    timerRef.current = window.setInterval(() => {
+      const cur = currentStepRef.current;
+      const max = factsLengthRef.current;
+      if (cur >= max) {
+        if (isLoopingRef.current) {
+          changeStepRef.current(0);
+        } else {
+          setIsPlaying(false);
+        }
+      } else {
+        changeStepRef.current(cur + 1);
+      }
+    }, 750);
+
+    return () => {
+      if (timerRef.current) {
+        clearInterval(timerRef.current);
+        timerRef.current = null;
+      }
+    };
+  }, [isPlaying]);
 
   // Compute memory deterministically up to currentStep
   const { currentMatrix, matrixHistory, queryResult, stateVector, stateHistory, stateNorm, activeUnits } =
@@ -65,53 +121,41 @@ export const MemoryInspector: React.FC<MemoryInspectorProps> = ({
       };
     }, [facts, currentStep, dim, retention, writeStrength, queryKey]);
 
-  // Step ticker
-  useEffect(() => {
-    if (isPlaying) {
-      timerRef.current = window.setInterval(() => {
-        setCurrentStep((prev) => {
-          if (prev >= facts.length) {
-            setIsPlaying(false);
-            return prev;
-          }
-          const next = prev + 1;
-          onStepChange?.(next);
-          return next;
-        });
-      }, 700);
-    } else {
-      if (timerRef.current) clearInterval(timerRef.current);
-    }
-    return () => {
-      if (timerRef.current) clearInterval(timerRef.current);
-    };
-  }, [isPlaying, facts.length, onStepChange]);
-
   const handleReset = () => {
     setIsPlaying(false);
-    setCurrentStep(0);
-    onStepChange?.(0);
+    changeStep(0);
   };
 
   const handleStep = () => {
     setIsPlaying(false);
-    if (currentStep < facts.length) {
-      const next = currentStep + 1;
-      setCurrentStep(next);
-      onStepChange?.(next);
+    if (currentStep >= facts.length) {
+      changeStep(0);
+    } else {
+      changeStep(currentStep + 1);
+    }
+  };
+
+  const handleTogglePlay = () => {
+    if (isPlaying) {
+      setIsPlaying(false);
+    } else {
+      if (currentStep >= facts.length) {
+        changeStep(0);
+      }
+      setIsPlaying(true);
     }
   };
 
   const handleReplay = () => {
-    setCurrentStep(0);
+    changeStep(0);
     setIsPlaying(true);
-    onStepChange?.(0);
   };
 
   const groundTruth = facts.find((f) => f.key === queryKey)?.value ?? 'UNKNOWN';
+  const currentFactBeingWritten = currentStep > 0 && currentStep <= facts.length ? facts[currentStep - 1] : null;
 
   return (
-    <div className="rounded-xl border border-[#252A35] bg-[#11141A] p-5 space-y-6">
+    <div className="rounded-xl border border-[#252A35] bg-[#11141A] p-5 space-y-5">
       {/* Header & Playback Controls */}
       <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[#252A35] pb-4">
         <div>
@@ -120,6 +164,9 @@ export const MemoryInspector: React.FC<MemoryInspectorProps> = ({
             <h3 className="font-mono text-sm font-bold text-white uppercase tracking-wider">
               Memory Inspector & Fast-Weight Matrix
             </h3>
+            <span className="px-2 py-0.5 rounded text-[10px] font-mono bg-cyan-950/80 text-cyan-300 border border-cyan-800/60">
+              Interactive
+            </span>
           </div>
           <p className="text-xs text-[#8F96A3] mt-0.5">
             Step through sequential memory writes. Observe matrix M update and vector readout.
@@ -127,29 +174,36 @@ export const MemoryInspector: React.FC<MemoryInspectorProps> = ({
         </div>
 
         {/* Playback Button Bar */}
-        <div className="flex items-center gap-1.5 font-mono text-xs">
+        <div className="flex flex-wrap items-center gap-2 font-mono text-xs">
           <button
+            type="button"
             onClick={handleReset}
-            className="flex items-center gap-1 px-2.5 py-1.5 rounded-lg border border-[#252A35] bg-[#151922] text-[#8F96A3] hover:text-white hover:border-[#22D3EE]/50 transition-colors"
-            title="Reset to step 0"
+            className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg border border-[#252A35] bg-[#151922] text-[#8F96A3] hover:text-white hover:border-[#22D3EE]/50 transition-colors cursor-pointer"
+            title="Reset to step 0 (empty matrix)"
           >
             <RotateCcw className="w-3.5 h-3.5" />
             <span>RESET</span>
           </button>
 
           <button
+            type="button"
             onClick={handleStep}
-            disabled={currentStep >= facts.length}
-            className="flex items-center gap-1 px-2.5 py-1.5 rounded-lg border border-[#252A35] bg-[#151922] text-[#8F96A3] hover:text-white disabled:opacity-40 hover:border-[#22D3EE]/50 transition-colors"
-            title="Advance one step"
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-[#252A35] bg-[#151922] text-white hover:border-[#22D3EE]/60 hover:bg-[#1A2232] transition-colors cursor-pointer"
+            title={currentStep >= facts.length ? 'Restart from step 0' : 'Advance one fact step'}
           >
-            <SkipForward className="w-3.5 h-3.5" />
-            <span>STEP</span>
+            <SkipForward className="w-3.5 h-3.5 text-cyan-400" />
+            <span>{currentStep >= facts.length ? 'STEP (RESTART)' : 'STEP'}</span>
           </button>
 
           <button
-            onClick={() => setIsPlaying(!isPlaying)}
-            className="flex items-center gap-1 px-3 py-1.5 rounded-lg border border-[#22D3EE] bg-cyan-950/60 text-[#22D3EE] font-bold hover:bg-cyan-900/60 transition-colors"
+            type="button"
+            onClick={handleTogglePlay}
+            className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg border font-bold transition-all cursor-pointer ${
+              isPlaying
+                ? 'border-amber-400 bg-amber-950/70 text-amber-200 ring-1 ring-amber-400'
+                : 'border-[#22D3EE] bg-cyan-950/70 text-[#22D3EE] hover:bg-cyan-900/80'
+            }`}
+            title={isPlaying ? 'Pause animation' : 'Play fact ingestion step-by-step'}
           >
             {isPlaying ? (
               <>
@@ -159,46 +213,147 @@ export const MemoryInspector: React.FC<MemoryInspectorProps> = ({
             ) : (
               <>
                 <Play className="w-3.5 h-3.5 fill-current" />
-                <span>PLAY</span>
+                <span>{currentStep >= facts.length ? 'REPLAY ALL' : 'PLAY'}</span>
               </>
             )}
           </button>
 
           <button
+            type="button"
             onClick={handleReplay}
-            className="flex items-center gap-1 px-2.5 py-1.5 rounded-lg border border-[#252A35] bg-[#151922] text-[#8F96A3] hover:text-white hover:border-[#22D3EE]/50 transition-colors"
+            className="flex items-center gap-1 px-2.5 py-1.5 rounded-lg border border-[#252A35] bg-[#151922] text-[#8F96A3] hover:text-white hover:border-[#22D3EE]/50 transition-colors cursor-pointer"
+            title="Start playback from step 0"
           >
             <span>REPLAY</span>
           </button>
 
-          <span className="ml-2 px-2 py-1 rounded bg-[#151922] border border-[#252A35] text-zinc-300 text-[11px]">
-            Step {currentStep}/{facts.length}
+          <button
+            type="button"
+            onClick={() => setIsLooping(!isLooping)}
+            className={`flex items-center gap-1 px-2.5 py-1.5 rounded-lg border text-[11px] transition-colors cursor-pointer ${
+              isLooping
+                ? 'border-cyan-500 bg-cyan-950 text-cyan-300'
+                : 'border-[#252A35] bg-[#151922] text-slate-500 hover:text-slate-300'
+            }`}
+            title="Loop playback continuously"
+          >
+            <Repeat className="w-3 h-3" />
+            <span>LOOP</span>
+          </button>
+
+          <span className="ml-1 px-2.5 py-1 rounded bg-[#151922] border border-[#252A35] text-cyan-300 font-bold text-[11px]">
+            Step {currentStep} / {facts.length}
           </span>
         </div>
       </div>
 
+      {/* Interactive Step Scrubber Slider */}
+      <div className="p-3 rounded-lg bg-[#0C101A] border border-[#20293C] space-y-2">
+        <div className="flex items-center justify-between text-xs font-mono">
+          <span className="text-slate-300 font-bold flex items-center gap-1.5">
+            <span>SCRUB INGESTION TIMELINE:</span>
+            <span className="text-cyan-400">t = {currentStep}</span>
+          </span>
+          <span className="text-[11px] text-slate-400">
+            {currentStep === 0
+              ? 'Empty Initial State'
+              : `${currentStep} of ${facts.length} facts ingested into memory`}
+          </span>
+        </div>
+        <div className="flex items-center gap-3">
+          <span className="text-[10px] font-mono text-slate-500">t=0</span>
+          <input
+            type="range"
+            min={0}
+            max={facts.length}
+            value={currentStep}
+            onChange={(e) => {
+              const val = Number(e.target.value);
+              setIsPlaying(false);
+              changeStep(val);
+            }}
+            className="w-full accent-cyan-400 h-2 bg-[#1B2232] rounded-lg cursor-pointer"
+          />
+          <span className="text-[10px] font-mono text-slate-500">t={facts.length}</span>
+        </div>
+      </div>
+
+      {/* Currently Ingested Fact Banner */}
+      <div
+        className={`p-3 rounded-lg border transition-all text-xs font-mono flex items-center justify-between ${
+          isLensActive && activeStage === 'write'
+            ? 'bg-cyan-950/70 border-cyan-400 text-cyan-200 ring-2 ring-cyan-500/40 shadow-md'
+            : currentFactBeingWritten
+            ? 'bg-[#151B28] border-cyan-900/50 text-slate-200'
+            : 'bg-[#11141A] border-[#252A35] text-slate-400'
+        }`}
+      >
+        <div className="flex items-center gap-2.5 flex-wrap">
+          <span className="text-cyan-400 font-bold uppercase">
+            {currentFactBeingWritten ? `Step ${currentStep} Active Write:` : 'Initial State (t=0):'}
+          </span>
+          {currentFactBeingWritten ? (
+            <div className="flex items-center gap-2">
+              <span className="px-2 py-0.5 rounded bg-cyan-900/60 border border-cyan-700/60 font-bold text-white">
+                {currentFactBeingWritten.key}
+              </span>
+              <ArrowRight className="w-3 h-3 text-cyan-400" />
+              <span className="px-2 py-0.5 rounded bg-purple-900/60 border border-purple-700/60 font-bold text-white">
+                {currentFactBeingWritten.value}
+              </span>
+              <span className="text-[11px] text-slate-400">
+                (update: ΔM = {writeStrength} · k_{currentStep} ⊗ v_{currentStep}^T)
+              </span>
+            </div>
+          ) : (
+            <span>Matrix initialized to zeros. Advance step to write facts.</span>
+          )}
+        </div>
+        {isLensActive && activeStage === 'write' && (
+          <span className="text-[10px] font-bold bg-cyan-500 text-black px-2 py-0.5 rounded">
+            LENS: WRITE STAGE SPOTLIGHT
+          </span>
+        )}
+      </div>
+
       {/* Truth Comparison Hero Bar */}
-      <TruthModelComparison
-        prediction={queryResult.prediction}
-        truth={groundTruth}
-        confidence={queryResult.confidence}
-      />
+      <div
+        className={`transition-all rounded-xl ${
+          isLensActive && activeStage === 'retrieval'
+            ? 'ring-2 ring-emerald-400 shadow-lg shadow-emerald-950/30'
+            : ''
+        }`}
+      >
+        <TruthModelComparison
+          prediction={queryResult.prediction}
+          truth={groundTruth}
+          confidence={queryResult.confidence}
+        />
+      </div>
 
       {/* 2-Column Inspector: Left = Matrix M + Vector Readout, Right = State History + Candidates */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
         {/* Left Col (7 cols): Associative Memory Matrix M */}
         <div className="lg:col-span-7 space-y-4">
-          <div className="rounded-xl border border-[#252A35] bg-[#151922] p-4 space-y-3">
+          <div
+            className={`rounded-xl border p-4 space-y-3 transition-all ${
+              isLensActive && activeStage === 'state'
+                ? 'border-cyan-400 bg-[#0F1626] ring-2 ring-cyan-500/40 shadow-lg shadow-cyan-950/30'
+                : 'border-[#252A35] bg-[#151922]'
+            }`}
+          >
             <div className="flex items-center justify-between text-xs font-mono">
               <span className="text-white font-semibold flex items-center gap-1.5">
                 <Database className="w-3.5 h-3.5 text-violet-400" />
                 ASSOCIATIVE MEMORY MATRIX M ({dim}×{dim})
               </span>
-              <span className="text-[10px] text-[#8F96A3]">M_(t+1) = λM_t + η k_t v_t^T</span>
+              <span className="text-[10px] text-cyan-300 bg-[#0C101A] px-2 py-0.5 rounded border border-[#20293C]">
+                <MathView math="M_{t+1} = \lambda M_t + \eta k_t v_t^T" />
+              </span>
             </div>
 
             {/* Matrix Heatmap Grid */}
-            <div className="overflow-x-auto p-2 bg-[#07080B] rounded-lg border border-[#252A35]">
+            <div className="overflow-x-auto p-3 bg-[#07080B] rounded-lg border border-[#252A35]">
               <div
                 className="grid gap-[2px] mx-auto w-fit select-none"
                 style={{
@@ -218,12 +373,15 @@ export const MemoryInspector: React.FC<MemoryInspectorProps> = ({
                       <div
                         key={`${rIdx}-${cIdx}`}
                         onMouseEnter={() => {
-                          const prevVal = currentStep > 0 && matrixHistory[currentStep - 2]
-                            ? matrixHistory[currentStep - 2][rIdx][cIdx]
-                            : 0;
+                          const prevVal =
+                            currentStep > 1 && matrixHistory[currentStep - 2]
+                              ? matrixHistory[currentStep - 2][rIdx][cIdx]
+                              : 0;
                           setHoveredCell({
                             timestep: currentStep,
                             dimension: rIdx,
+                            row: rIdx,
+                            col: cIdx,
                             value: val,
                             delta: val - prevVal,
                             stateNorm,
@@ -233,6 +391,7 @@ export const MemoryInspector: React.FC<MemoryInspectorProps> = ({
                         onMouseLeave={() => setHoveredCell(null)}
                         className="w-4 h-4 sm:w-5 sm:h-5 rounded-[2px] transition-all hover:ring-2 hover:ring-white cursor-pointer relative"
                         style={{ backgroundColor: bgStyle }}
+                        title={`M[${rIdx},${cIdx}] = ${val.toFixed(3)}`}
                       />
                     );
                   })
@@ -250,15 +409,21 @@ export const MemoryInspector: React.FC<MemoryInspectorProps> = ({
                   <span className="w-2.5 h-2.5 rounded bg-[#F43F5E] inline-block" /> Negative Weight
                 </span>
               </div>
-              <span>Hover cell for weight telemetry</span>
+              <span className="text-cyan-400">Hover cell for weight telemetry</span>
             </div>
           </div>
 
           {/* Vectors Row: Key Vector q, Retrieved Vector v_hat */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs font-mono">
             {/* Query Vector q */}
-            <div className="rounded-xl border border-[#252A35] bg-[#151922] p-3 space-y-2">
-              <span className="text-[10px] text-[#8F96A3] uppercase block">
+            <div
+              className={`rounded-xl border p-3 space-y-2 transition-all ${
+                isLensActive && activeStage === 'query'
+                  ? 'border-violet-400 bg-violet-950/40 ring-2 ring-violet-500/40'
+                  : 'border-[#252A35] bg-[#151922]'
+              }`}
+            >
+              <span className="text-[10px] text-[#8F96A3] uppercase block font-bold">
                 QUERY KEY VECTOR q ("{queryKey}")
               </span>
               <div className="flex flex-wrap gap-1">
@@ -279,8 +444,14 @@ export const MemoryInspector: React.FC<MemoryInspectorProps> = ({
             </div>
 
             {/* Retrieved Value Vector v_hat */}
-            <div className="rounded-xl border border-[#252A35] bg-[#151922] p-3 space-y-2">
-              <span className="text-[10px] text-[#8F96A3] uppercase block">
+            <div
+              className={`rounded-xl border p-3 space-y-2 transition-all ${
+                isLensActive && activeStage === 'retrieval'
+                  ? 'border-emerald-400 bg-emerald-950/40 ring-2 ring-emerald-500/40'
+                  : 'border-[#252A35] bg-[#151922]'
+              }`}
+            >
+              <span className="text-[10px] text-[#8F96A3] uppercase block font-bold">
                 RETRIEVED VALUE VECTOR v̂ = q^T M
               </span>
               <div className="flex flex-wrap gap-1">
@@ -305,57 +476,75 @@ export const MemoryInspector: React.FC<MemoryInspectorProps> = ({
         {/* Right Col (5 cols): State Timeline + Nearest Candidates */}
         <div className="lg:col-span-5 space-y-4 font-mono text-xs">
           {/* Candidate Decoding Ranks */}
-          <div className="rounded-xl border border-[#252A35] bg-[#151922] p-4 space-y-3">
+          <div
+            className={`rounded-xl border p-4 space-y-3 transition-all ${
+              isLensActive && activeStage === 'retrieval'
+                ? 'border-emerald-500/60 bg-[#0E171E] ring-1 ring-emerald-500/40'
+                : 'border-[#252A35] bg-[#151922]'
+            }`}
+          >
             <span className="text-white font-semibold text-xs uppercase tracking-wider block">
               Cosine Similarity to Known Values
             </span>
 
             <div className="space-y-1.5 max-h-48 overflow-y-auto pr-1">
-              {queryResult.candidates.map((cand, idx) => {
-                const isTop = idx === 0;
-                const isTruth = cand.value === groundTruth;
-                const barWidth = Math.max(0, Math.min(100, Math.round(((cand.score + 1) / 2) * 100)));
+              {queryResult.candidates.length > 0 ? (
+                queryResult.candidates.map((cand, idx) => {
+                  const isTop = idx === 0;
+                  const isTruth = cand.value === groundTruth;
+                  const barWidth = Math.max(0, Math.min(100, Math.round(((cand.score + 1) / 2) * 100)));
 
-                return (
-                  <div
-                    key={cand.value}
-                    className={`p-2 rounded border transition-colors ${
-                      isTop
-                        ? isTruth
-                          ? 'border-emerald-500/50 bg-emerald-950/20 text-emerald-200'
-                          : 'border-rose-500/50 bg-rose-950/20 text-rose-200'
-                        : 'border-[#252A35] bg-[#11141A] text-[#8F96A3]'
-                    }`}
-                  >
-                    <div className="flex items-center justify-between text-[11px] mb-1">
-                      <span className="font-semibold flex items-center gap-1.5">
-                        {isTop && <span>★</span>}
-                        {cand.value}
-                        {isTruth && <span className="text-[9px] text-[#22D3EE]">(Truth)</span>}
-                      </span>
-                      <span>cosine = {cand.score.toFixed(3)}</span>
-                    </div>
+                  return (
+                    <div
+                      key={cand.value}
+                      className={`p-2 rounded border transition-colors ${
+                        isTop
+                          ? isTruth
+                            ? 'border-emerald-500/50 bg-emerald-950/20 text-emerald-200'
+                            : 'border-rose-500/50 bg-rose-950/20 text-rose-200'
+                          : 'border-[#252A35] bg-[#11141A] text-[#8F96A3]'
+                      }`}
+                    >
+                      <div className="flex items-center justify-between text-[11px] mb-1">
+                        <span className="font-semibold flex items-center gap-1.5">
+                          {isTop && <span>★</span>}
+                          {cand.value}
+                          {isTruth && <span className="text-[9px] text-[#22D3EE]">(Truth)</span>}
+                        </span>
+                        <span>cosine = {cand.score.toFixed(3)}</span>
+                      </div>
 
-                    <div className="w-full bg-[#07080B] h-1.5 rounded-full overflow-hidden border border-[#252A35]">
-                      <div
-                        className={`h-full rounded-full transition-all ${
-                          isTop
-                            ? isTruth
-                              ? 'bg-emerald-400'
-                              : 'bg-rose-400'
-                            : 'bg-zinc-600'
-                        }`}
-                        style={{ width: `${barWidth}%` }}
-                      />
+                      <div className="w-full bg-[#07080B] h-1.5 rounded-full overflow-hidden border border-[#252A35]">
+                        <div
+                          className={`h-full rounded-full transition-all ${
+                            isTop
+                              ? isTruth
+                                ? 'bg-emerald-400'
+                                : 'bg-rose-400'
+                              : 'bg-zinc-600'
+                          }`}
+                          style={{ width: `${barWidth}%` }}
+                        />
+                      </div>
                     </div>
-                  </div>
-                );
-              })}
+                  );
+                })
+              ) : (
+                <div className="p-3 text-center text-slate-500 text-[11px]">
+                  No memory signal retrieved at step t={currentStep}. Advance step to ingest facts.
+                </div>
+              )}
             </div>
           </div>
 
           {/* State History Across Time (Heatmap) */}
-          <div className="rounded-xl border border-[#252A35] bg-[#151922] p-4 space-y-2.5">
+          <div
+            className={`rounded-xl border p-4 space-y-2.5 transition-all ${
+              isLensActive && activeStage === 'persistence'
+                ? 'border-indigo-400 bg-indigo-950/30 ring-2 ring-indigo-500/40'
+                : 'border-[#252A35] bg-[#151922]'
+            }`}
+          >
             <div className="flex items-center justify-between">
               <span className="text-white font-semibold text-xs uppercase tracking-wider">
                 State Vector Over Time (t=0..{stateHistory.length - 1})
@@ -366,18 +555,19 @@ export const MemoryInspector: React.FC<MemoryInspectorProps> = ({
             <div className="overflow-x-auto p-2 bg-[#07080B] rounded border border-[#252A35]">
               <div className="flex gap-1 items-center">
                 {stateHistory.map((stepVec, tIdx) => (
-                  <div
+                  <button
+                    type="button"
                     key={tIdx}
                     onClick={() => {
-                      setCurrentStep(tIdx);
-                      onStepChange?.(tIdx);
+                      setIsPlaying(false);
+                      changeStep(tIdx);
                     }}
-                    className={`flex flex-col gap-[2px] cursor-pointer p-0.5 rounded transition-all ${
+                    className={`flex flex-col gap-[2px] cursor-pointer p-1 rounded transition-all ${
                       currentStep === tIdx
-                        ? 'ring-1 ring-[#22D3EE] bg-cyan-950/40'
-                        : 'hover:bg-zinc-900'
+                        ? 'ring-2 ring-[#22D3EE] bg-cyan-950/60'
+                        : 'hover:bg-zinc-850'
                     }`}
-                    title={`Click to inspect step t=${tIdx}`}
+                    title={`Click to jump to step t=${tIdx}`}
                   >
                     <span className="text-[8px] text-center text-[#8F96A3] mb-0.5 font-mono">
                       t{tIdx}
@@ -394,7 +584,7 @@ export const MemoryInspector: React.FC<MemoryInspectorProps> = ({
                         }}
                       />
                     ))}
-                  </div>
+                  </button>
                 ))}
               </div>
             </div>
@@ -424,7 +614,7 @@ export const MemoryInspector: React.FC<MemoryInspectorProps> = ({
             {/* Hovered cell info if present */}
             {hoveredCell ? (
               <div className="pt-2 border-t border-[#252A35] text-[10px] text-amber-300">
-                <span>Cell [Row {hoveredCell.dimension}, Col]:</span>{' '}
+                <span>Cell [Row {hoveredCell.row}, Col {hoveredCell.col}]:</span>{' '}
                 <span className="font-bold text-white">val = {hoveredCell.value.toFixed(4)}</span>{' '}
                 <span className="text-zinc-400">(Δ = {hoveredCell.delta > 0 ? '+' : ''}{hoveredCell.delta.toFixed(4)})</span>
               </div>

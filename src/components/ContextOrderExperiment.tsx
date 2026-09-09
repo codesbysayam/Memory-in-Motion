@@ -1,6 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import { ArrowRight, ArrowLeftRight, CheckCircle2, AlertTriangle, HelpCircle, Layers, Sliders } from 'lucide-react';
 import { Fact, CANONICAL_FACTS, createAssociativeMemory } from '../models/associativeMemory';
+import { MathView } from './ui/MathView';
 
 export const ContextOrderExperiment: React.FC = () => {
   const [dimension, setDimension] = useState<number>(16);
@@ -218,11 +219,13 @@ export const ContextOrderExperiment: React.FC = () => {
       <div className="p-3 rounded-lg bg-[#0E131F] border border-[#1C2538] flex flex-wrap items-center justify-between gap-2 text-xs">
         <div>
           <span className="text-slate-400">Final State Matrix L2 Difference: </span>
-          <strong className="text-cyan-300 font-mono">||M_A - M_B||_F = {evalResults.matrixDiffNorm.toFixed(4)}</strong>
+          <strong className="text-cyan-300 font-mono">
+            <MathView math={`\\|M_A - M_B\\|_F = ${evalResults.matrixDiffNorm.toFixed(4)}`} />
+          </strong>
         </div>
         <div className="text-[11px] text-slate-400 font-sans">
           {evalResults.matrixDiffNorm > 0.001
-            ? 'Because retention λ < 1.0, earlier updates decay exponentially more than later updates, breaking commutativity.'
+            ? <span>Because retention <MathView math="\lambda < 1.0" />, earlier updates decay exponentially more than later updates, breaking commutativity.</span>
             : 'Order did not affect retrieval under this configuration.'}
         </div>
       </div>
@@ -231,7 +234,7 @@ export const ContextOrderExperiment: React.FC = () => {
       <div className="p-3 rounded-xl bg-[#080B14] border border-[#182132] text-xs text-slate-300 font-sans flex items-start gap-2">
         <HelpCircle className="w-4 h-4 text-cyan-400 shrink-0 mt-0.5" />
         <div>
-          <strong>Scientific Principle:</strong> In recurrent memory with decay factor &lambda; &lt; 1, memory is not commutative. The most recently seen facts undergo fewer decay cycles than facts presented earlier in the sequence.
+          <strong>Scientific Principle:</strong> In recurrent memory with decay factor <MathView math="\lambda < 1" />, memory is not commutative. The most recently seen facts undergo fewer decay cycles than facts presented earlier in the sequence.
         </div>
       </div>
     </div>

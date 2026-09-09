@@ -1,4 +1,5 @@
 import React from 'react';
+import { MathView } from './MathView';
 
 interface EquationCardProps {
   label?: string;
@@ -27,8 +28,8 @@ export function EquationCard({
       </div>
 
       <div className="rounded-lg bg-[#151922] border border-[#252A35] p-3 text-center overflow-x-auto">
-        <div className="font-mono text-sm sm:text-base font-medium text-[#22D3EE] tracking-wide py-1">
-          {formula}
+        <div className="text-sm sm:text-base font-medium text-[#22D3EE] tracking-wide py-1">
+          <MathView math={formula} block />
         </div>
       </div>
 

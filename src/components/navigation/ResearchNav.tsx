@@ -21,19 +21,14 @@ export function ResearchNav({
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const sectionsList = [
-    { id: 'section-01', num: '01', title: 'Memory Problem', category: 'Learn' },
-    { id: 'section-02', num: '02', title: 'Growing Context', category: 'Learn' },
-    { id: 'section-03', num: '03', title: 'Recurrent Memory', category: 'Laboratory' },
-    { id: 'section-04', num: '04', title: 'Interference Lab', category: 'Laboratory' },
-    { id: 'section-05', num: '05', title: 'Find the Failure', category: 'Laboratory' },
-    { id: 'section-06', num: '06', title: 'Why This Matters', category: 'Laboratory' },
-    { id: 'section-07', num: '07', title: 'Meet BDH', category: 'BDH' },
-    { id: 'section-08', num: '08', title: 'BDH Architecture', category: 'BDH' },
-    { id: 'section-09', num: '09', title: 'BDH Playground', category: 'BDH' },
-    { id: 'section-10', num: '10', title: 'BDH-CQ Reasoning', category: 'BDH' },
-    { id: 'section-so-what', num: '11', title: 'So What? Future', category: 'Research' },
-    { id: 'evidence-sources', num: '12', title: 'Evidence & Sources', category: 'Research' },
-    { id: 'final-eval', num: '13', title: 'Capstone Evaluation', category: 'Research' },
+    { id: 'section-01', num: '01', title: '01 MEMORY', category: 'Foundation' },
+    { id: 'section-05', num: '02', title: '02 BREAK', category: 'Interference' },
+    { id: 'section-04', num: '03', title: '03 TRACE', category: 'Dynamics' },
+    { id: 'section-measure', num: '04', title: '04 MEASURE', category: 'Analytics' },
+    { id: 'section-08', num: '05', title: '05 BDH', category: 'Architecture' },
+    { id: 'section-10', num: '06', title: '06 REASON', category: 'Reasoning' },
+    { id: 'final-eval', num: '07', title: '07 PROVE', category: 'Evaluation' },
+    { id: 'you-made-it', num: '08', title: 'CERTIFICATE', category: 'Attestation' },
   ];
 
   const handleNavClick = (id: string) => {
@@ -67,51 +62,20 @@ export function ResearchNav({
         </div>
 
         {/* Primary nav group tabs */}
-        <nav className="hidden md:flex items-center gap-1 text-xs font-medium">
-          <button
-            onClick={() => handleNavClick('section-01')}
-            className={`px-3 py-1.5 rounded-lg transition-colors flex items-center gap-1.5 ${
-              activeSectionIndex <= 2
-                ? 'text-white bg-[#151922] border border-[#252A35]'
-                : 'text-[#8F96A3] hover:text-white hover:bg-[#11141A]'
-            }`}
-          >
-            <BookOpen className="w-3.5 h-3.5 text-violet-400" />
-            Learn
-          </button>
-          <button
-            onClick={() => handleNavClick('section-03')}
-            className={`px-3 py-1.5 rounded-lg transition-colors flex items-center gap-1.5 ${
-              activeSectionIndex >= 3 && activeSectionIndex <= 6
-                ? 'text-white bg-[#151922] border border-[#252A35]'
-                : 'text-[#8F96A3] hover:text-white hover:bg-[#11141A]'
-            }`}
-          >
-            <FlaskConical className="w-3.5 h-3.5 text-cyan-400" />
-            Laboratory
-          </button>
-          <button
-            onClick={() => handleNavClick('section-07')}
-            className={`px-3 py-1.5 rounded-lg transition-colors flex items-center gap-1.5 ${
-              activeSectionIndex >= 7 && activeSectionIndex <= 9
-                ? 'text-white bg-[#151922] border border-[#252A35]'
-                : 'text-[#8F96A3] hover:text-white hover:bg-[#11141A]'
-            }`}
-          >
-            <Cpu className="w-3.5 h-3.5 text-purple-400" />
-            BDH Architecture
-          </button>
-          <button
-            onClick={() => handleNavClick('section-10')}
-            className={`px-3 py-1.5 rounded-lg transition-colors flex items-center gap-1.5 ${
-              activeSectionIndex >= 10
-                ? 'text-white bg-[#151922] border border-[#252A35]'
-                : 'text-[#8F96A3] hover:text-white hover:bg-[#11141A]'
-            }`}
-          >
-            <FileText className="w-3.5 h-3.5 text-emerald-400" />
-            Synthesis & Sources
-          </button>
+        <nav className="hidden xl:flex items-center gap-1 text-xs font-mono">
+          {sectionsList.map((sec) => (
+            <button
+              key={sec.id}
+              onClick={() => handleNavClick(sec.id)}
+              className={`px-2.5 py-1 rounded-md transition-colors ${
+                currentSectionId === sec.id
+                  ? 'text-[#22D3EE] bg-[#151922] border border-[#252A35] font-bold'
+                  : 'text-[#8F96A3] hover:text-white hover:bg-[#11141A]'
+              }`}
+            >
+              {sec.title}
+            </button>
+          ))}
         </nav>
 
         {/* Right side: Step counter & mobile toggle */}
@@ -134,19 +98,16 @@ export function ResearchNav({
             <span>{String(totalSections).padStart(2, '0')}</span>
           </div>
 
-          {/* Three-dash symbol in top-right corner for Index & Roadmap */}
+          {/* Three-line icon for Chapter Index & Roadmap */}
           {onOpenIndex && (
             <button
               id="top-right-index-menu-btn"
               onClick={onOpenIndex}
-              className="flex items-center justify-center gap-1.5 min-h-[44px] min-w-[44px] px-3 py-2 rounded-lg bg-[#141A28] hover:bg-[#1C253B] text-[#22D3EE] border border-[#252A35] hover:border-cyan-500/50 transition-all shadow-sm group cursor-pointer touch-manipulation"
-              title="Open Chapter Index & Roadmap"
-              aria-label="Open Chapter Index & Roadmap"
+              className="flex items-center justify-center w-10 h-10 rounded-lg bg-[#141A28] hover:bg-[#1C253B] text-[#22D3EE] border border-[#252A35] hover:border-cyan-500/50 transition-all shadow-sm group cursor-pointer touch-manipulation"
+              title="Chapter Index & Roadmap"
+              aria-label="Chapter Index & Roadmap"
             >
               <Menu className="w-5 h-5 text-[#22D3EE] group-hover:scale-110 transition-transform" />
-              <span className="hidden sm:inline font-mono text-xs font-semibold text-slate-300 group-hover:text-white">
-                INDEX
-              </span>
             </button>
           )}
         </div>

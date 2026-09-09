@@ -17,6 +17,7 @@ import {
 } from 'lucide-react';
 import { JUDGE_STEPS, runJudgeStep1, runJudgeStep2And3 } from '../data/judgeJourney';
 import { EvidenceStrip } from './ui/EvidenceStrip';
+import { MathView } from './ui/MathView';
 
 interface JudgeModeProps {
   isOpen: boolean;
@@ -166,7 +167,7 @@ export const JudgeMode: React.FC<JudgeModeProps> = ({
                   EXPERIMENTAL SETUP
                 </div>
                 <p className="text-sm text-slate-300 font-sans leading-relaxed">
-                  The model stores 3 facts into a compact fixed-size matrix ($D=16$ coordinates, $\lambda=0.95$ retention rate):
+                  The model stores 3 facts into a compact fixed-size matrix (<MathView math="D=16" /> coordinates, <MathView math="\lambda=0.95" /> retention rate):
                 </p>
                 <div className="flex flex-wrap gap-2 text-xs font-mono pt-1">
                   {step1Data.facts.map((f, i) => (
@@ -331,9 +332,9 @@ export const JudgeMode: React.FC<JudgeModeProps> = ({
                     DIRECTLY OBSERVED IN TOY
                   </div>
                   <ul className="space-y-2 text-xs text-slate-300 font-sans leading-relaxed">
-                    <li>• Constant $O(1)$ memory buffer during sequential fact ingestion.</li>
-                    <li>• Deterministic interference emerges as fact count exceeds capacity $D$.</li>
-                    <li>• Exponential decay $\lambda^t$ creates recency bias and early forgetting.</li>
+                    <li>• Constant <MathView math="O(1)" /> memory buffer during sequential fact ingestion.</li>
+                    <li>• Deterministic interference emerges as fact count exceeds capacity <MathView math="D" />.</li>
+                    <li>• Exponential decay <MathView math="\lambda^t" /> creates recency bias and early forgetting.</li>
                   </ul>
                 </div>
 
@@ -378,10 +379,10 @@ export const JudgeMode: React.FC<JudgeModeProps> = ({
                   <div className="text-[#22D3EE] font-bold text-xs uppercase">
                     OUR EDUCATIONAL TOY
                   </div>
-                  <div className="p-3 bg-[#07090F] rounded-lg text-slate-300 space-y-1">
-                    <div><strong>Memory Substrate:</strong> Global State Matrix M ∈ ℝ^(D×D)</div>
-                    <div><strong>Update Law:</strong> M(t+1) = λ M(t) + η k v^T</div>
-                    <div><strong>Readout:</strong> Linear projection v̂ = q^T M</div>
+                  <div className="p-3 bg-[#07090F] rounded-lg text-slate-300 space-y-1.5">
+                    <div><strong>Memory Substrate:</strong> Global State Matrix <MathView math="M \in \mathbb{R}^{D \times D}" /></div>
+                    <div><strong>Update Law:</strong> <MathView math="M_{t+1} = \lambda M_t + \eta k v^T" /></div>
+                    <div><strong>Readout:</strong> Linear projection <MathView math="\hat{v} = q^T M" /></div>
                   </div>
                 </div>
 
@@ -389,9 +390,9 @@ export const JudgeMode: React.FC<JudgeModeProps> = ({
                   <div className="text-purple-300 font-bold text-xs uppercase">
                     DRAGON HATCHLING (BDH)
                   </div>
-                  <div className="p-3 bg-[#07090F] rounded-lg text-slate-300 space-y-1">
-                    <div><strong>Memory Substrate:</strong> Decentralized Synapses σ_ij</div>
-                    <div><strong>Update Law:</strong> Hebbian Plasticity σ_ij(t+1) = λ σ_ij(t) + η x_i y_j</div>
+                  <div className="p-3 bg-[#07090F] rounded-lg text-slate-300 space-y-1.5">
+                    <div><strong>Memory Substrate:</strong> Decentralized Synapses <MathView math="\sigma_{ij}" /></div>
+                    <div><strong>Update Law:</strong> Hebbian Plasticity <MathView math="\sigma_{ij}(t+1) = \lambda \sigma_{ij}(t) + \eta x_i y_j" /></div>
                     <div><strong>Dynamics:</strong> Recurrent latent graph relaxation</div>
                   </div>
                 </div>

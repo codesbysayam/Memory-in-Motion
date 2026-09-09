@@ -2,6 +2,7 @@ import React from 'react';
 import { ShieldAlert, Cpu, Award, BookOpen, ExternalLink } from 'lucide-react';
 import { sources } from '../data/researchSources';
 import { SourceBadge } from './ui/SourceBadge';
+import { MathView } from './ui/MathView';
 
 interface ScientificHonestyPanelProps {
   id?: string;
@@ -30,7 +31,7 @@ export const ScientificHonestyPanel: React.FC<ScientificHonestyPanelProps> = ({
             LIVE TOY COMPUTATION
           </div>
           <p className="text-[11px] text-slate-400 font-sans leading-relaxed">
-            The coordinates, matrix heatmaps, and retrieval scores were computed dynamically in your browser using deterministic linear algebra (M_(t+1) = λ·M_t + η·k_t·v_t^T).
+            The coordinates, matrix heatmaps, and retrieval scores were computed dynamically in your browser using deterministic linear algebra (<MathView math="M_{t+1} = \lambda M_t + \eta k_t v_t^T" />).
           </p>
         </div>
 

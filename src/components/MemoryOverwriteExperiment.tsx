@@ -10,6 +10,7 @@ import {
   AlertTriangle,
 } from 'lucide-react';
 import { createAssociativeMemory, vector, cosine, Fact } from '../models/associativeMemory';
+import { MathView } from './ui/MathView';
 
 export const MemoryOverwriteExperiment: React.FC = () => {
   const [retention, setRetention] = useState<number>(0.95);
@@ -124,7 +125,7 @@ export const MemoryOverwriteExperiment: React.FC = () => {
             <span className="text-amber-300">Osaka</span>
           </div>
           <p className="text-[10px] text-slate-400 font-sans">
-            Overwriting update: $M_2 = \lambda M_1 + \eta k v_&#123;osaka&#125;^T$.
+            Overwriting update: <MathView math="M_2 = \lambda M_1 + \eta k v_{\text{osaka}}^T" />
           </p>
         </div>
 
@@ -169,7 +170,7 @@ export const MemoryOverwriteExperiment: React.FC = () => {
               />
             </div>
             <span className="text-[10px] text-slate-400 block font-sans">
-              Retained weight after decay: factor of $\lambda = {retention}$.
+              Retained weight after decay: factor of <MathView math={`\\lambda = ${retention}`} />.
             </span>
           </div>
 

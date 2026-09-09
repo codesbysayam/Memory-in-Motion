@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { ChevronDown, ChevronUp, Code2, ShieldAlert, Sparkles, BookOpen } from 'lucide-react';
 import { MODEL_CONTRACT } from '../data/bdhResearch';
+import { MathView } from './ui/MathView';
 
 export const UnderTheHoodPanel: React.FC = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -79,7 +80,9 @@ export const UnderTheHoodPanel: React.FC = () => {
               {/* Recurrent Update */}
               <div className="p-3.5 rounded-lg bg-[#0C101C] border border-[#1A2234] space-y-1.5">
                 <div className="text-slate-400 text-[10px] uppercase font-bold">2. RECURRENT UPDATE</div>
-                <div className="text-cyan-300 font-bold text-sm">h_t = tanh(W_h h_(t-1) + W_x x_t)</div>
+                <div className="text-cyan-300 font-bold text-sm">
+                  <MathView math="h_t = \tanh(W_h h_{t-1} + W_x x_t)" />
+                </div>
                 <p className="text-[11px] text-slate-400 font-sans">
                   The latent state vector is updated iteratively without expanding external sequence tokens.
                 </p>
@@ -88,16 +91,20 @@ export const UnderTheHoodPanel: React.FC = () => {
               {/* Associative Memory Update */}
               <div className="p-3.5 rounded-lg bg-[#0C101C] border border-[#1A2234] space-y-1.5">
                 <div className="text-slate-400 text-[10px] uppercase font-bold">3. ASSOCIATIVE MATRIX WRITE</div>
-                <div className="text-purple-300 font-bold text-sm">M_(t+1) = λ M_t + η k_t v_t^T</div>
+                <div className="text-purple-300 font-bold text-sm">
+                  <MathView math="M_{t+1} = \lambda M_t + \eta k_t v_t^T" />
+                </div>
                 <p className="text-[11px] text-slate-400 font-sans">
-                  Linear fast-weight outer product write with retention attenuation factor λ ∈ [0, 1].
+                  Linear fast-weight outer product write with retention attenuation factor <MathView math="\lambda \in [0, 1]" />.
                 </p>
               </div>
 
               {/* Query & Decoding */}
               <div className="p-3.5 rounded-lg bg-[#0C101C] border border-[#1A2234] space-y-1.5">
                 <div className="text-slate-400 text-[10px] uppercase font-bold">4. QUERY & DECODING</div>
-                <div className="text-emerald-300 font-bold text-sm">v̂ = q^T M , ŷ = argmax_v sim(v̂, v)</div>
+                <div className="text-emerald-300 font-bold text-sm">
+                  <MathView math="\hat{v} = q^T M, \quad \hat{y} = \operatorname{argmax}_v \operatorname{sim}(\hat{v}, v)" />
+                </div>
                 <p className="text-[11px] text-slate-400 font-sans">
                   Vector projection followed by cosine similarity ranking across all stored candidate concepts.
                 </p>
