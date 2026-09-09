@@ -3,21 +3,15 @@ import {
   TrendingUp,
   PieChart as PieChartIcon,
   GitCommit,
-  Layers,
   ArrowRight,
   Info,
   CheckCircle2,
   XCircle,
   AlertTriangle,
-  RotateCcw,
-  Sliders,
-  Sparkles,
-  ChevronRight,
   Activity,
-  Maximize2
 } from 'lucide-react';
 import { Fact, CANONICAL_FACTS, createAssociativeMemory, cosine, vector } from '../models/associativeMemory';
-import { MathView, FormattedMathText } from './ui/MathView';
+import { MathView } from './ui/MathView';
 import { markMilestoneCompleted } from '../utils/progressTracker';
 
 export const SectionMeasure: React.FC = () => {
@@ -209,7 +203,7 @@ export const SectionMeasure: React.FC = () => {
       symbol: '(k_t, v_t)',
       desc: 'Fact arrives as symbolic pair (France → Paris).',
       math: '\\text{input} = (\\text{key}, \\text{value})',
-      color: '#A78BFA',
+      color: '#6842C2',
     },
     {
       id: 2,
@@ -217,7 +211,7 @@ export const SectionMeasure: React.FC = () => {
       symbol: 'k_t, v_t \\in \\mathbb{R}^D',
       desc: 'Embedding projections generate continuous coordinate vectors.',
       math: 'k_t = W_k x_t, \\quad v_t = W_v y_t',
-      color: '#60A5FA',
+      color: '#2E689C',
     },
     {
       id: 3,
@@ -225,7 +219,7 @@ export const SectionMeasure: React.FC = () => {
       symbol: '\\Delta M_t = \\eta k_t v_t^T',
       desc: 'Dense D×D outer-product binds key coordinates directly to value coordinates.',
       math: '\\Delta M_t = \\eta \\cdot (k_t v_t^T)',
-      color: '#22D3EE',
+      color: '#167C80',
     },
     {
       id: 4,
@@ -233,7 +227,7 @@ export const SectionMeasure: React.FC = () => {
       symbol: 'M_t = \\lambda M_{t-1} + \\Delta M_t',
       desc: 'Prior matrix decays by factor λ; new rank-1 matrix superposes on top.',
       math: 'M_t = \\lambda M_{t-1} + \\Delta M_t',
-      color: '#34D399',
+      color: '#247A4B',
     },
     {
       id: 5,
@@ -241,7 +235,7 @@ export const SectionMeasure: React.FC = () => {
       symbol: '\\sum_i k_i v_i^T',
       desc: 'Multiple facts share the exact same D×D numbers, causing gradual interference.',
       math: 'M_T = \\sum_{\\tau=1}^T \\lambda^{T-\\tau} \\eta k_\\tau v_\\tau^T',
-      color: '#FBBF24',
+      color: '#A46622',
     },
     {
       id: 6,
@@ -249,7 +243,7 @@ export const SectionMeasure: React.FC = () => {
       symbol: 'q^T M_t',
       desc: 'Query vector excites the associative matrix via linear vector-matrix multiplication.',
       math: '\\hat{v} = q^T M_t',
-      color: '#F472B6',
+      color: '#9B4174',
     },
     {
       id: 7,
@@ -257,45 +251,45 @@ export const SectionMeasure: React.FC = () => {
       symbol: '\\operatorname{argmax}_v \\cos(\\hat{v}, v)',
       desc: 'Decoded answer is selected by maximum similarity against known vocabularies.',
       math: '\\hat{y} = \\operatorname{argmax}_v \\operatorname{sim}(\\hat{v}, v)',
-      color: '#38BDF8',
+      color: '#167C80',
     },
   ];
 
   return (
-    <section id="section-measure" className="scroll-mt-20 border-b border-[#252A35] bg-[#0A0C12] py-16 text-[#F4F5F7]">
+    <section id="section-measure" className="scroll-mt-20 border-b border-[#E5E0D8] bg-[#FBF9F5] py-16 text-[#151515]">
       <div className="max-w-[1400px] mx-auto px-4 sm:px-6 space-y-10">
         {/* Editorial Section Header */}
         <div className="space-y-3">
           <div className="flex items-center gap-2">
-            <span className="text-[11px] font-mono uppercase tracking-widest px-2.5 py-0.5 rounded bg-[#161C2A] text-[#22D3EE] border border-[#232F48] font-bold">
+            <span className="text-[11px] font-mono uppercase tracking-widest px-2.5 py-0.5 rounded bg-[#F3EFFF] text-[#6842C2] border border-[#E2D8FA] font-bold">
               04 / MEASURE
             </span>
-            <span className="text-xs font-mono text-[#8F96A3]">
+            <span className="text-xs font-mono text-[#716F68]">
               STATE PERSISTENCE & ANALYTICS
             </span>
           </div>
 
-          <h2 className="text-2xl sm:text-4xl font-serif tracking-tight text-white font-normal">
-            WATCH MEMORY CHANGE.
+          <h2 className="text-2xl sm:text-4xl font-serif tracking-tight text-[#151515] font-normal">
+            Watch memory change.
           </h2>
 
-          <p className="text-sm sm:text-base text-zinc-400 font-sans max-w-3xl leading-relaxed">
+          <p className="text-sm sm:text-base text-[#52504A] font-sans max-w-3xl leading-relaxed">
             The state is fixed in size (<MathView math={`D \\times D = ${dimension} \\times ${dimension}`} /> coordinates). What changes is what survives inside it. Follow the empirical trajectory of retained memories as new facts arrive.
           </p>
         </div>
 
         {/* View Selection Bar */}
-        <div className="flex flex-wrap items-center justify-between gap-4 p-2 rounded-xl bg-[#111622] border border-[#20293D]">
+        <div className="flex flex-wrap items-center justify-between gap-4 p-2 rounded-2xl bg-[#FFFFFF] border border-[#E5E0D8] shadow-xs">
           <div className="flex items-center gap-1.5 font-mono text-xs">
-            <span className="text-slate-400 px-2 py-1 text-[11px] uppercase tracking-wider hidden sm:inline-block">
+            <span className="text-[#716F68] px-2 py-1 text-[11px] uppercase tracking-wider hidden sm:inline-block">
               ONE EXPERIMENT — THREE VIEWS:
             </span>
             <button
               onClick={() => setActiveView('time')}
-              className={`px-3.5 py-1.5 rounded-lg font-medium transition-all flex items-center gap-2 ${
+              className={`px-3.5 py-1.5 rounded-xl font-medium transition-all flex items-center gap-2 cursor-pointer ${
                 activeView === 'time'
-                  ? 'bg-[#1C2538] text-[#22D3EE] border border-cyan-500/40 shadow-sm'
-                  : 'text-slate-400 hover:text-white hover:bg-[#151C2C]'
+                  ? 'bg-[#F3EFFF] text-[#6842C2] border border-[#E2D8FA] font-bold shadow-xs'
+                  : 'text-[#716F68] hover:text-[#151515] hover:bg-[#FAF8F5]'
               }`}
             >
               <TrendingUp className="w-3.5 h-3.5" />
@@ -303,10 +297,10 @@ export const SectionMeasure: React.FC = () => {
             </button>
             <button
               onClick={() => setActiveView('outcome')}
-              className={`px-3.5 py-1.5 rounded-lg font-medium transition-all flex items-center gap-2 ${
+              className={`px-3.5 py-1.5 rounded-xl font-medium transition-all flex items-center gap-2 cursor-pointer ${
                 activeView === 'outcome'
-                  ? 'bg-[#1C2538] text-[#22D3EE] border border-cyan-500/40 shadow-sm'
-                  : 'text-slate-400 hover:text-white hover:bg-[#151C2C]'
+                  ? 'bg-[#F3EFFF] text-[#6842C2] border border-[#E2D8FA] font-bold shadow-xs'
+                  : 'text-[#716F68] hover:text-[#151515] hover:bg-[#FAF8F5]'
               }`}
             >
               <PieChartIcon className="w-3.5 h-3.5" />
@@ -314,10 +308,10 @@ export const SectionMeasure: React.FC = () => {
             </button>
             <button
               onClick={() => setActiveView('mechanism')}
-              className={`px-3.5 py-1.5 rounded-lg font-medium transition-all flex items-center gap-2 ${
+              className={`px-3.5 py-1.5 rounded-xl font-medium transition-all flex items-center gap-2 cursor-pointer ${
                 activeView === 'mechanism'
-                  ? 'bg-[#1C2538] text-[#22D3EE] border border-cyan-500/40 shadow-sm'
-                  : 'text-slate-400 hover:text-white hover:bg-[#151C2C]'
+                  ? 'bg-[#F3EFFF] text-[#6842C2] border border-[#E2D8FA] font-bold shadow-xs'
+                  : 'text-[#716F68] hover:text-[#151515] hover:bg-[#FAF8F5]'
               }`}
             >
               <GitCommit className="w-3.5 h-3.5" />
@@ -326,8 +320,8 @@ export const SectionMeasure: React.FC = () => {
           </div>
 
           {/* Interactive Parameters Quick Bar */}
-          <div className="flex items-center gap-3 font-mono text-xs text-slate-300">
-            <span className="text-[11px] text-slate-400">λ: {retention.toFixed(2)}</span>
+          <div className="flex items-center gap-3 font-mono text-xs text-[#52504A] px-2">
+            <span className="text-[11px] text-[#716F68]">λ: {retention.toFixed(2)}</span>
             <input
               type="range"
               min="0.70"
@@ -338,57 +332,57 @@ export const SectionMeasure: React.FC = () => {
                 setRetention(parseFloat(e.target.value));
                 markMilestoneCompleted('adjust_params');
               }}
-              className="w-20 sm:w-28 accent-[#22D3EE] cursor-pointer"
+              className="w-20 sm:w-28 accent-[#6842C2] cursor-pointer"
               title="Retention attenuation factor λ"
             />
-            <span className="text-[11px] text-slate-400">D: {dimension}</span>
+            <span className="text-[11px] text-[#716F68]">D: {dimension}</span>
           </div>
         </div>
 
         {/* VIEW 01: TIME (RETRIEVAL ACROSS SEQUENCE) */}
         {activeView === 'time' && (
-          <div className="rounded-2xl border border-[#20293D] bg-[#0E131E] p-5 sm:p-7 space-y-6">
-            <div className="flex flex-wrap items-center justify-between gap-4 border-b border-[#1A2334] pb-4">
+          <div className="rounded-2xl border border-[#E5E0D8] bg-[#FFFFFF] p-5 sm:p-7 space-y-6 shadow-xs">
+            <div className="flex flex-wrap items-center justify-between gap-4 border-b border-[#EAE6DF] pb-4">
               <div>
-                <h3 className="text-base sm:text-lg font-serif font-bold text-white flex items-center gap-2">
+                <h3 className="text-base sm:text-lg font-serif font-bold text-[#151515] flex items-center gap-2">
                   <span>Retrieval Performance Across the Sequence</span>
-                  <span className="text-xs font-mono font-normal text-cyan-400 bg-cyan-950/60 px-2 py-0.5 rounded border border-cyan-800/50">
+                  <span className="text-xs font-mono font-normal text-[#167C80] bg-[#EDF7F7] px-2.5 py-0.5 rounded border border-[#CFE8E8]">
                     Fact #1: France → Paris
                   </span>
                 </h3>
-                <p className="text-xs text-slate-400 font-sans mt-0.5">
-                  Track how Fact #1 ("France → Paris") decays and interferes as 5 subsequent facts are written.
+                <p className="text-xs text-[#716F68] font-sans mt-0.5">
+                  Track how Fact #1 (&ldquo;France → Paris&rdquo;) decays and interferes as 5 subsequent facts are written.
                 </p>
               </div>
 
               {/* Metric Selector */}
-              <div className="flex items-center gap-1 bg-[#141A28] p-1 rounded-lg border border-[#222E44] text-xs font-mono">
+              <div className="flex items-center gap-1 bg-[#FAF8F5] p-1 rounded-xl border border-[#EAE6DF] text-xs font-mono">
                 <button
                   onClick={() => setMetricMode('retrievalScore')}
-                  className={`px-2.5 py-1 rounded transition-colors ${
+                  className={`px-3 py-1 rounded-lg transition-colors cursor-pointer ${
                     metricMode === 'retrievalScore'
-                      ? 'bg-cyan-900/70 text-cyan-200 border border-cyan-700/60 font-bold'
-                      : 'text-slate-400 hover:text-white'
+                      ? 'bg-[#FFFFFF] text-[#151515] border border-[#D8D4CB] font-bold shadow-xs'
+                      : 'text-[#716F68] hover:text-[#151515]'
                   }`}
                 >
                   Retrieval Score
                 </button>
                 <button
                   onClick={() => setMetricMode('top1Margin')}
-                  className={`px-2.5 py-1 rounded transition-colors ${
+                  className={`px-3 py-1 rounded-lg transition-colors cursor-pointer ${
                     metricMode === 'top1Margin'
-                      ? 'bg-cyan-900/70 text-cyan-200 border border-cyan-700/60 font-bold'
-                      : 'text-slate-400 hover:text-white'
+                      ? 'bg-[#FFFFFF] text-[#151515] border border-[#D8D4CB] font-bold shadow-xs'
+                      : 'text-[#716F68] hover:text-[#151515]'
                   }`}
                 >
                   Top-1 Margin
                 </button>
                 <button
                   onClick={() => setMetricMode('stateSimilarity')}
-                  className={`px-2.5 py-1 rounded transition-colors ${
+                  className={`px-3 py-1 rounded-lg transition-colors cursor-pointer ${
                     metricMode === 'stateSimilarity'
-                      ? 'bg-cyan-900/70 text-cyan-200 border border-cyan-700/60 font-bold'
-                      : 'text-slate-400 hover:text-white'
+                      ? 'bg-[#FFFFFF] text-[#151515] border border-[#D8D4CB] font-bold shadow-xs'
+                      : 'text-[#716F68] hover:text-[#151515]'
                   }`}
                 >
                   State Similarity
@@ -405,12 +399,12 @@ export const SectionMeasure: React.FC = () => {
                 >
                   <defs>
                     <linearGradient id="lineGrad" x1="0" y1="0" x2="1" y2="0">
-                      <stop offset="0%" stopColor="#22D3EE" />
-                      <stop offset="100%" stopColor="#818CF8" />
+                      <stop offset="0%" stopColor="#167C80" />
+                      <stop offset="100%" stopColor="#6842C2" />
                     </linearGradient>
                     <linearGradient id="areaGrad" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="0%" stopColor="#22D3EE" stopOpacity="0.25" />
-                      <stop offset="100%" stopColor="#22D3EE" stopOpacity="0.0" />
+                      <stop offset="0%" stopColor="#167C80" stopOpacity="0.15" />
+                      <stop offset="100%" stopColor="#167C80" stopOpacity="0.0" />
                     </linearGradient>
                   </defs>
 
@@ -424,14 +418,14 @@ export const SectionMeasure: React.FC = () => {
                           y1={y}
                           x2={chartWidth - padding.right}
                           y2={y}
-                          stroke="#1A2436"
+                          stroke="#EAE6DF"
                           strokeDasharray="3 3"
                         />
                         <text
                           x={padding.left - 8}
                           y={y + 4}
                           textAnchor="end"
-                          className="fill-slate-500 font-mono text-[10px]"
+                          className="fill-[#716F68] font-mono text-[10px]"
                         >
                           {v.toFixed(2)}
                         </text>
@@ -455,7 +449,7 @@ export const SectionMeasure: React.FC = () => {
                   <polyline
                     fill="none"
                     stroke="url(#lineGrad)"
-                    strokeWidth="3"
+                    strokeWidth="2.5"
                     strokeLinecap="round"
                     strokeLinejoin="round"
                     points={polylinePath}
@@ -472,9 +466,9 @@ export const SectionMeasure: React.FC = () => {
                       <circle
                         cx={p.x}
                         cy={p.y}
-                        r={hoveredDataPoint?.step === p.step ? 7 : 4.5}
-                        fill={p.isCorrect ? '#22D3EE' : '#F87171'}
-                        stroke="#0E131E"
+                        r={hoveredDataPoint?.step === p.step ? 6.5 : 4.5}
+                        fill={p.isCorrect ? '#167C80' : '#B64235'}
+                        stroke="#FFFFFF"
                         strokeWidth="2"
                         className="transition-all"
                       />
@@ -483,7 +477,7 @@ export const SectionMeasure: React.FC = () => {
                         x={p.x}
                         y={chartHeight - 14}
                         textAnchor="middle"
-                        className="fill-slate-400 font-mono text-[10px]"
+                        className="fill-[#716F68] font-mono text-[10px]"
                       >
                         Step {p.step}
                       </text>
@@ -491,7 +485,7 @@ export const SectionMeasure: React.FC = () => {
                         x={p.x}
                         y={chartHeight - 2}
                         textAnchor="middle"
-                        className="fill-slate-500 font-mono text-[8px]"
+                        className="fill-[#151515] font-mono text-[9px] font-semibold"
                       >
                         +{p.factName}
                       </text>
@@ -500,10 +494,10 @@ export const SectionMeasure: React.FC = () => {
                 </svg>
 
                 {/* Honest Scientific Annotation */}
-                <div className="mt-3 p-3 rounded-xl bg-[#080B12] border border-[#1C2538] text-xs font-sans text-slate-300 flex items-start gap-2.5">
-                  <Info className="w-4 h-4 text-[#22D3EE] shrink-0 mt-0.5" />
+                <div className="mt-3 p-3.5 rounded-xl bg-[#FAF8F5] border border-[#EAE6DF] text-xs font-sans text-[#52504A] flex items-start gap-2.5">
+                  <Info className="w-4 h-4 text-[#167C80] shrink-0 mt-0.5" />
                   <div>
-                    <strong className="text-white font-mono uppercase text-[11px] block mb-0.5">
+                    <strong className="text-[#151515] font-mono uppercase text-[11px] block mb-0.5">
                       Epistemic Interpretation:
                     </strong>
                     Retrieval score measures representation cosine similarity (<MathView math="\cos(\hat{v}, v_{\text{cand}})" />), not a calibrated softmax probability. Decay (<MathView math={`\\lambda = ${retention}`} />) continuously lowers representation energy unless refreshed.
@@ -512,12 +506,12 @@ export const SectionMeasure: React.FC = () => {
               </div>
 
               {/* Data Point Telemetry Card */}
-              <div className="rounded-xl bg-[#121826] border border-[#212C42] p-4 space-y-3 font-mono text-xs">
-                <div className="flex items-center justify-between border-b border-[#1E273A] pb-2">
-                  <span className="text-[11px] font-bold text-slate-400 uppercase">
+              <div className="rounded-xl bg-[#FAF8F5] border border-[#EAE6DF] p-4 space-y-3 font-mono text-xs">
+                <div className="flex items-center justify-between border-b border-[#EAE6DF] pb-2">
+                  <span className="text-[11px] font-bold text-[#716F68] uppercase tracking-wider">
                     STEP TELEMETRY
                   </span>
-                  <span className="text-[10px] text-cyan-400 bg-cyan-950/70 border border-cyan-800/60 px-1.5 py-0.5 rounded">
+                  <span className="text-[10px] text-[#167C80] bg-[#EDF7F7] border border-[#CFE8E8] px-2 py-0.5 rounded font-bold">
                     {hoveredDataPoint ? `Step ${hoveredDataPoint.step}` : 'Hover a node'}
                   </span>
                 </div>
@@ -525,40 +519,40 @@ export const SectionMeasure: React.FC = () => {
                 {hoveredDataPoint ? (
                   <div className="space-y-2.5">
                     <div className="flex justify-between">
-                      <span className="text-slate-400">Probed Fact:</span>
-                      <strong className="text-white">France → Paris</strong>
+                      <span className="text-[#716F68]">Probed Fact:</span>
+                      <strong className="text-[#151515]">France → Paris</strong>
                     </div>
-                    <div className="flex justify-between">
-                      <span className="text-slate-400">Decoded Output:</span>
+                    <div className="flex justify-between items-center">
+                      <span className="text-[#716F68]">Decoded Output:</span>
                       <span
-                        className={`px-1.5 py-0.5 rounded font-bold ${
+                        className={`px-2 py-0.5 rounded font-bold text-xs ${
                           hoveredDataPoint.isCorrect
-                            ? 'text-emerald-300 bg-emerald-950/60 border border-emerald-800/60'
-                            : 'text-rose-300 bg-rose-950/60 border border-rose-800/60'
+                            ? 'text-[#247A4B] bg-[#EDF8F2] border border-[#CDEEDB]'
+                            : 'text-[#B64235] bg-[#FDF2F0] border border-[#F7D3CF]'
                         }`}
                       >
                         {hoveredDataPoint.retrieved}
                       </span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-slate-400">Ground Truth:</span>
-                      <span className="text-white">Paris</span>
+                      <span className="text-[#716F68]">Ground Truth:</span>
+                      <span className="text-[#151515] font-medium">Paris</span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-slate-400">Cosine Score:</span>
-                      <strong className="text-cyan-300">{hoveredDataPoint.score.toFixed(4)}</strong>
+                      <span className="text-[#716F68]">Cosine Score:</span>
+                      <strong className="text-[#167C80]">{hoveredDataPoint.score.toFixed(4)}</strong>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-slate-400">Top-1 Margin:</span>
-                      <strong className="text-purple-300">{hoveredDataPoint.margin.toFixed(4)}</strong>
+                      <span className="text-[#716F68]">Top-1 Margin:</span>
+                      <strong className="text-[#6842C2]">{hoveredDataPoint.margin.toFixed(4)}</strong>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-slate-400">Fact Written:</span>
-                      <span className="text-slate-200 font-bold">+{hoveredDataPoint.factName}</span>
+                      <span className="text-[#716F68]">Fact Written:</span>
+                      <span className="text-[#151515] font-bold">+{hoveredDataPoint.factName}</span>
                     </div>
                   </div>
                 ) : (
-                  <div className="text-slate-400 py-6 text-center italic font-sans text-xs">
+                  <div className="text-[#716F68] py-8 text-center italic font-sans text-xs">
                     Hover over or click any point along the curve to inspect step-level cosine margin and output.
                   </div>
                 )}
@@ -569,55 +563,55 @@ export const SectionMeasure: React.FC = () => {
 
         {/* VIEW 02: OUTCOME (DONUT CHART & SURVIVAL BREAKDOWN) */}
         {activeView === 'outcome' && (
-          <div className="rounded-2xl border border-[#20293D] bg-[#0E131E] p-5 sm:p-7 space-y-6">
-            <div className="flex flex-wrap items-center justify-between gap-4 border-b border-[#1A2334] pb-4">
+          <div className="rounded-2xl border border-[#E5E0D8] bg-[#FFFFFF] p-5 sm:p-7 space-y-6 shadow-xs">
+            <div className="flex flex-wrap items-center justify-between gap-4 border-b border-[#EAE6DF] pb-4">
               <div>
-                <h3 className="text-base sm:text-lg font-serif font-bold text-white">
+                <h3 className="text-base sm:text-lg font-serif font-bold text-[#151515]">
                   What Survived in Memory? (Final Outcome)
                 </h3>
-                <p className="text-xs text-slate-400 font-sans mt-0.5">
+                <p className="text-xs text-[#716F68] font-sans mt-0.5">
                   Empirical classification of all {outcomeBreakdown.total} facts after sequential ingestion into {dimension}×{dimension} state.
                 </p>
               </div>
 
               {/* Segment Filter */}
-              <div className="flex items-center gap-1 bg-[#141A28] p-1 rounded-lg border border-[#222E44] text-xs font-mono">
+              <div className="flex items-center gap-1 bg-[#FAF8F5] p-1 rounded-xl border border-[#EAE6DF] text-xs font-mono">
                 <button
                   onClick={() => setSelectedOutcomeSegment('all')}
-                  className={`px-2.5 py-1 rounded transition-colors ${
+                  className={`px-2.5 py-1 rounded-lg transition-colors cursor-pointer ${
                     selectedOutcomeSegment === 'all'
-                      ? 'bg-slate-700 text-white font-bold'
-                      : 'text-slate-400 hover:text-white'
+                      ? 'bg-[#FFFFFF] text-[#151515] font-bold border border-[#D8D4CB] shadow-xs'
+                      : 'text-[#716F68] hover:text-[#151515]'
                   }`}
                 >
                   All ({outcomeBreakdown.total})
                 </button>
                 <button
                   onClick={() => setSelectedOutcomeSegment('correct')}
-                  className={`px-2.5 py-1 rounded transition-colors ${
+                  className={`px-2.5 py-1 rounded-lg transition-colors cursor-pointer ${
                     selectedOutcomeSegment === 'correct'
-                      ? 'bg-emerald-900/80 text-emerald-200 font-bold border border-emerald-700/60'
-                      : 'text-slate-400 hover:text-white'
+                      ? 'bg-[#EDF8F2] text-[#247A4B] font-bold border border-[#CDEEDB]'
+                      : 'text-[#716F68] hover:text-[#151515]'
                   }`}
                 >
                   Correct ({outcomeBreakdown.correct.length})
                 </button>
                 <button
                   onClick={() => setSelectedOutcomeSegment('incorrect')}
-                  className={`px-2.5 py-1 rounded transition-colors ${
+                  className={`px-2.5 py-1 rounded-lg transition-colors cursor-pointer ${
                     selectedOutcomeSegment === 'incorrect'
-                      ? 'bg-rose-900/80 text-rose-200 font-bold border border-rose-700/60'
-                      : 'text-slate-400 hover:text-white'
+                      ? 'bg-[#FDF2F0] text-[#B64235] font-bold border border-[#F7D3CF]'
+                      : 'text-[#716F68] hover:text-[#151515]'
                   }`}
                 >
                   Incorrect ({outcomeBreakdown.incorrect.length})
                 </button>
                 <button
                   onClick={() => setSelectedOutcomeSegment('unresolved')}
-                  className={`px-2.5 py-1 rounded transition-colors ${
+                  className={`px-2.5 py-1 rounded-lg transition-colors cursor-pointer ${
                     selectedOutcomeSegment === 'unresolved'
-                      ? 'bg-amber-900/80 text-amber-200 font-bold border border-amber-700/60'
-                      : 'text-slate-400 hover:text-white'
+                      ? 'bg-[#FDF8EE] text-[#A46622] font-bold border border-[#F5E2C4]'
+                      : 'text-[#716F68] hover:text-[#151515]'
                   }`}
                 >
                   Unresolved ({outcomeBreakdown.unresolved.length})
@@ -650,7 +644,7 @@ export const SectionMeasure: React.FC = () => {
                             cy="50"
                             r="38"
                             fill="transparent"
-                            stroke="#10B981"
+                            stroke="#247A4B"
                             strokeWidth="12"
                             strokeDasharray={`${cDash} ${circ - cDash}`}
                             strokeDashoffset="0"
@@ -663,7 +657,7 @@ export const SectionMeasure: React.FC = () => {
                             cy="50"
                             r="38"
                             fill="transparent"
-                            stroke="#F43F5E"
+                            stroke="#B64235"
                             strokeWidth="12"
                             strokeDasharray={`${iDash} ${circ - iDash}`}
                             strokeDashoffset={`${-cDash}`}
@@ -676,7 +670,7 @@ export const SectionMeasure: React.FC = () => {
                             cy="50"
                             r="38"
                             fill="transparent"
-                            stroke="#F59E0B"
+                            stroke="#A46622"
                             strokeWidth="12"
                             strokeDasharray={`${uDash} ${circ - uDash}`}
                             strokeDashoffset={`${-(cDash + iDash)}`}
@@ -690,26 +684,26 @@ export const SectionMeasure: React.FC = () => {
 
                   {/* Centered Donut Label */}
                   <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
-                    <span className="text-3xl font-mono font-bold text-white">
+                    <span className="text-3xl font-mono font-bold text-[#151515]">
                       {outcomeBreakdown.total}
                     </span>
-                    <span className="text-[10px] font-mono text-slate-400 uppercase tracking-wider">
+                    <span className="text-[10px] font-mono text-[#716F68] uppercase tracking-wider font-bold">
                       TOTAL QUERIES
                     </span>
                   </div>
                 </div>
 
-                <div className="flex items-center gap-4 mt-4 text-[11px] font-mono text-slate-300">
+                <div className="flex items-center gap-4 mt-4 text-[11px] font-mono text-[#52504A]">
                   <div className="flex items-center gap-1.5">
-                    <span className="w-2.5 h-2.5 rounded-full bg-emerald-500" />
+                    <span className="w-2.5 h-2.5 rounded-full bg-[#247A4B]" />
                     <span>Correct ({Math.round((outcomeBreakdown.correct.length / (outcomeBreakdown.total || 1)) * 100)}%)</span>
                   </div>
                   <div className="flex items-center gap-1.5">
-                    <span className="w-2.5 h-2.5 rounded-full bg-rose-500" />
+                    <span className="w-2.5 h-2.5 rounded-full bg-[#B64235]" />
                     <span>Incorrect ({Math.round((outcomeBreakdown.incorrect.length / (outcomeBreakdown.total || 1)) * 100)}%)</span>
                   </div>
                   <div className="flex items-center gap-1.5">
-                    <span className="w-2.5 h-2.5 rounded-full bg-amber-500" />
+                    <span className="w-2.5 h-2.5 rounded-full bg-[#A46622]" />
                     <span>Unresolved ({Math.round((outcomeBreakdown.unresolved.length / (outcomeBreakdown.total || 1)) * 100)}%)</span>
                   </div>
                 </div>
@@ -729,35 +723,35 @@ export const SectionMeasure: React.FC = () => {
                       key={idx}
                       className={`p-3 rounded-xl border flex items-center justify-between gap-3 text-xs font-mono ${
                         qr.isCorrect
-                          ? 'bg-[#0E1A18] border-emerald-800/40 text-emerald-200'
+                          ? 'bg-[#EDF8F2] border-[#CDEEDB] text-[#247A4B]'
                           : qr.score > 0.15
-                          ? 'bg-[#1D1115] border-rose-800/40 text-rose-200'
-                          : 'bg-[#1B160E] border-amber-800/40 text-amber-200'
+                          ? 'bg-[#FDF2F0] border-[#F7D3CF] text-[#B64235]'
+                          : 'bg-[#FDF8EE] border-[#F5E2C4] text-[#A46622]'
                       }`}
                     >
                       <div className="flex items-center gap-2 min-w-0">
                         {qr.isCorrect ? (
-                          <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
+                          <CheckCircle2 className="w-4 h-4 text-[#247A4B] shrink-0" />
                         ) : qr.score > 0.15 ? (
-                          <XCircle className="w-4 h-4 text-rose-400 shrink-0" />
+                          <XCircle className="w-4 h-4 text-[#B64235] shrink-0" />
                         ) : (
-                          <AlertTriangle className="w-4 h-4 text-amber-400 shrink-0" />
+                          <AlertTriangle className="w-4 h-4 text-[#A46622] shrink-0" />
                         )}
-                        <span className="text-white font-bold">{qr.fact.key}</span>
-                        <ArrowRight className="w-3 h-3 text-slate-500 shrink-0" />
+                        <span className="text-[#151515] font-bold">{qr.fact.key}</span>
+                        <ArrowRight className="w-3 h-3 text-[#716F68] shrink-0" />
                         <span className="truncate">
-                          Expected: <strong className="text-white">{qr.fact.value}</strong>
+                          Expected: <strong className="text-[#151515]">{qr.fact.value}</strong>
                         </span>
                       </div>
 
                       <div className="flex items-center gap-3 shrink-0">
                         <div className="text-right">
-                          <span className="text-[10px] text-slate-400 block">OUTPUT</span>
-                          <span className="font-bold text-white">{qr.retrievedVal}</span>
+                          <span className="text-[10px] text-[#716F68] block">OUTPUT</span>
+                          <span className="font-bold text-[#151515]">{qr.retrievedVal}</span>
                         </div>
                         <div className="text-right">
-                          <span className="text-[10px] text-slate-400 block">SIM</span>
-                          <span className="text-cyan-300 font-bold">{qr.score.toFixed(3)}</span>
+                          <span className="text-[10px] text-[#716F68] block">SIM</span>
+                          <span className="text-[#167C80] font-bold">{qr.score.toFixed(3)}</span>
                         </div>
                       </div>
                     </div>
@@ -766,10 +760,10 @@ export const SectionMeasure: React.FC = () => {
             </div>
 
             {/* Honest Annotation */}
-            <div className="p-3 rounded-xl bg-[#080B12] border border-[#1C2538] text-xs font-sans text-slate-300 flex items-start gap-2">
-              <Info className="w-4 h-4 text-[#22D3EE] shrink-0 mt-0.5" />
+            <div className="p-3.5 rounded-xl bg-[#FAF8F5] border border-[#EAE6DF] text-xs font-sans text-[#52504A] flex items-start gap-2">
+              <Info className="w-4 h-4 text-[#167C80] shrink-0 mt-0.5" />
               <div>
-                <strong>Scientific Grounding:</strong> Decoded via <MathView math="\operatorname{argmax}_v \operatorname{sim}(\hat{v}, v)" /> against candidate value representations. Collisions and cross-talk directly stem from finite coordinate dimension <MathView math={`D=${dimension}`} />.
+                <strong className="text-[#151515]">Scientific Grounding:</strong> Decoded via <MathView math="\operatorname{argmax}_v \operatorname{sim}(\hat{v}, v)" /> against candidate value representations. Collisions and cross-talk directly stem from finite coordinate dimension <MathView math={`D=${dimension}`} />.
               </div>
             </div>
           </div>
@@ -777,12 +771,12 @@ export const SectionMeasure: React.FC = () => {
 
         {/* VIEW 03: MECHANISM (FLOWCHART OF HOW FACTS BECOME MEMORY) */}
         {activeView === 'mechanism' && (
-          <div className="rounded-2xl border border-[#20293D] bg-[#0E131E] p-5 sm:p-7 space-y-6">
-            <div className="border-b border-[#1A2334] pb-4">
-              <h3 className="text-base sm:text-lg font-serif font-bold text-white">
+          <div className="rounded-2xl border border-[#E5E0D8] bg-[#FFFFFF] p-5 sm:p-7 space-y-6 shadow-xs">
+            <div className="border-b border-[#EAE6DF] pb-4">
+              <h3 className="text-base sm:text-lg font-serif font-bold text-[#151515]">
                 How Does One Fact Become Memory? (The Computational Graph)
               </h3>
-              <p className="text-xs text-slate-400 font-sans mt-0.5">
+              <p className="text-xs text-[#716F68] font-sans mt-0.5">
                 Step through each mathematical transformation from symbolic fact to associative matrix superposition and linear probe readout.
               </p>
             </div>
@@ -795,21 +789,21 @@ export const SectionMeasure: React.FC = () => {
                   <button
                     key={stage.id}
                     onClick={() => setActiveMechanismStep(stage.id)}
-                    className={`p-3 rounded-xl border text-left transition-all flex flex-col justify-between space-y-2 cursor-pointer ${
+                    className={`p-3.5 rounded-xl border text-left transition-all flex flex-col justify-between space-y-2 cursor-pointer ${
                       isActive
-                        ? 'border-cyan-400 bg-cyan-950/70 ring-1 ring-cyan-500/50 text-white shadow-lg'
-                        : 'border-[#1E273A] bg-[#111724] text-slate-400 hover:text-white hover:border-slate-600'
+                        ? 'border-[#6842C2] bg-[#F3EFFF] ring-1 ring-[#6842C2]/40 text-[#151515] shadow-xs'
+                        : 'border-[#EAE6DF] bg-[#FAF8F5] text-[#716F68] hover:text-[#151515] hover:border-[#D8D4CB]'
                     }`}
                   >
                     <div>
                       <span className="text-[10px] font-mono uppercase tracking-wider block font-bold" style={{ color: stage.color }}>
                         {stage.title}
                       </span>
-                      <div className="text-xs font-mono font-semibold text-white mt-1">
+                      <div className="text-xs font-mono font-semibold text-[#151515] mt-1">
                         <MathView math={stage.symbol} />
                       </div>
                     </div>
-                    <span className="text-[9px] font-mono text-slate-500 self-end">
+                    <span className="text-[9px] font-mono text-[#716F68] self-end">
                       Stage {stage.id}/7
                     </span>
                   </button>
@@ -821,31 +815,31 @@ export const SectionMeasure: React.FC = () => {
             {(() => {
               const currentStage = mechanismStages.find((s) => s.id === activeMechanismStep) || mechanismStages[0];
               return (
-                <div className="p-5 rounded-xl bg-[#090D16] border border-cyan-800/40 space-y-3 font-mono">
-                  <div className="flex flex-wrap items-center justify-between gap-2 border-b border-[#1C2538] pb-3">
+                <div className="p-5 rounded-xl bg-[#FAF8F5] border border-[#EAE6DF] space-y-3 font-mono">
+                  <div className="flex flex-wrap items-center justify-between gap-2 border-b border-[#EAE6DF] pb-3">
                     <div className="flex items-center gap-2">
-                      <span className="text-xs font-bold text-cyan-400 uppercase">
+                      <span className="text-xs font-bold text-[#6842C2] uppercase">
                         ACTIVE STAGE {currentStage.id}:
                       </span>
-                      <span className="text-sm font-bold text-white">
+                      <span className="text-sm font-bold text-[#151515]">
                         {currentStage.title}
                       </span>
                     </div>
 
-                    <div className="text-xs text-cyan-300 bg-cyan-950/80 px-2.5 py-1 rounded border border-cyan-700/60 font-bold">
+                    <div className="text-xs text-[#6842C2] bg-[#F3EFFF] px-3 py-1 rounded-lg border border-[#E2D8FA] font-bold">
                       <MathView math={currentStage.math} />
                     </div>
                   </div>
 
-                  <p className="text-xs text-slate-300 font-sans leading-relaxed">
+                  <p className="text-xs text-[#52504A] font-sans leading-relaxed">
                     {currentStage.desc}
                   </p>
 
-                  <div className="flex items-center justify-between pt-2 text-xs text-slate-400">
+                  <div className="flex items-center justify-between pt-2 text-xs text-[#716F68]">
                     <button
                       disabled={activeMechanismStep <= 1}
                       onClick={() => setActiveMechanismStep((s) => Math.max(1, s - 1))}
-                      className="px-3 py-1 rounded bg-[#131A28] hover:bg-[#1B2436] border border-[#232F46] disabled:opacity-40"
+                      className="px-3 py-1.5 rounded-lg bg-[#FFFFFF] hover:bg-[#FAF8F5] border border-[#E5E0D8] text-[#151515] disabled:opacity-40 cursor-pointer"
                     >
                       ← Previous Step
                     </button>
@@ -853,7 +847,7 @@ export const SectionMeasure: React.FC = () => {
                     <button
                       disabled={activeMechanismStep >= 7}
                       onClick={() => setActiveMechanismStep((s) => Math.min(7, s + 1))}
-                      className="px-3 py-1 rounded bg-[#131A28] hover:bg-[#1B2436] border border-[#232F46] text-cyan-400 disabled:opacity-40"
+                      className="px-3 py-1.5 rounded-lg bg-[#FFFFFF] hover:bg-[#FAF8F5] border border-[#E5E0D8] text-[#6842C2] font-bold disabled:opacity-40 cursor-pointer"
                     >
                       Next Step →
                     </button>
@@ -865,59 +859,59 @@ export const SectionMeasure: React.FC = () => {
         )}
 
         {/* STATE CHANGE MINI-GRAPH: COORDINATE DELTAS ΔM_t */}
-        <div className="p-5 sm:p-6 rounded-2xl border border-[#20293D] bg-[#0E131E] space-y-4 font-mono text-xs">
-          <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[#1A2334] pb-3">
+        <div className="p-5 sm:p-6 rounded-2xl border border-[#E5E0D8] bg-[#FFFFFF] space-y-4 font-mono text-xs shadow-xs">
+          <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[#EAE6DF] pb-3">
             <div className="flex items-center gap-2">
-              <Activity className="w-4 h-4 text-cyan-400" />
-              <span className="font-bold text-white uppercase text-xs">
+              <Activity className="w-4 h-4 text-[#167C80]" />
+              <span className="font-bold text-[#151515] uppercase text-xs">
                 State Coordinate Deltas (<MathView math="\Delta M_t = M_t - M_{t-1}" />)
               </span>
             </div>
-            <span className="text-[11px] text-slate-400">
+            <span className="text-[11px] text-[#716F68]">
               Final Ingestion Step: +{finalStep?.factWritten.key} → {finalStep?.factWritten.value}
             </span>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-            <div className="p-3 rounded-lg bg-[#0A0E18] border border-[#1B2336] space-y-1">
-              <span className="text-[10px] text-emerald-400 font-bold uppercase block">
+            <div className="p-3.5 rounded-xl bg-[#EDF8F2] border border-[#CDEEDB] space-y-1">
+              <span className="text-[10px] text-[#247A4B] font-bold uppercase tracking-wider block">
                 LARGEST POSITIVE SHIFT
               </span>
-              <div className="text-sm font-bold text-emerald-300">
+              <div className="text-sm font-bold text-[#247A4B]">
                 +{finalStep?.maxPosDelta.val.toFixed(4)}
               </div>
-              <div className="text-[10px] text-slate-400">
+              <div className="text-[10px] text-[#52504A]">
                 Coordinate #{finalStep?.maxPosDelta.index} (Constructive binding)
               </div>
             </div>
 
-            <div className="p-3 rounded-lg bg-[#0A0E18] border border-[#1B2336] space-y-1">
-              <span className="text-[10px] text-rose-400 font-bold uppercase block">
+            <div className="p-3.5 rounded-xl bg-[#FDF2F0] border border-[#F7D3CF] space-y-1">
+              <span className="text-[10px] text-[#B64235] font-bold uppercase tracking-wider block">
                 LARGEST NEGATIVE SHIFT
               </span>
-              <div className="text-sm font-bold text-rose-300">
+              <div className="text-sm font-bold text-[#B64235]">
                 {finalStep?.maxNegDelta.val.toFixed(4)}
               </div>
-              <div className="text-[10px] text-slate-400">
+              <div className="text-[10px] text-[#52504A]">
                 Coordinate #{finalStep?.maxNegDelta.index} (Destructive attenuation)
               </div>
             </div>
 
-            <div className="p-3 rounded-lg bg-[#0A0E18] border border-[#1B2336] space-y-1">
-              <span className="text-[10px] text-cyan-400 font-bold uppercase block">
+            <div className="p-3.5 rounded-xl bg-[#FAF8F5] border border-[#EAE6DF] space-y-1">
+              <span className="text-[10px] text-[#167C80] font-bold uppercase tracking-wider block">
                 NEAR-ZERO COORDINATES
               </span>
-              <div className="text-sm font-bold text-cyan-300">
+              <div className="text-sm font-bold text-[#167C80]">
                 {finalStep?.nearZeroCount} / {dimension * dimension}
               </div>
-              <div className="text-[10px] text-slate-400">
+              <div className="text-[10px] text-[#52504A]">
                 Coordinates unaffected (|Δ| &lt; 0.005)
               </div>
             </div>
           </div>
 
-          <div className="text-[11px] text-slate-400 font-sans leading-relaxed pt-1">
-            <strong>Scientific Note:</strong> Latent dimensions are continuous mathematical coordinates in <MathView math="\mathbb{R}^{D \times D}" /> without human-interpretable single-neuron labels. Interference happens because information is distributed across these superposed linear coordinates.
+          <div className="text-[11px] text-[#716F68] font-sans leading-relaxed pt-1">
+            <strong className="text-[#151515]">Scientific Note:</strong> Latent dimensions are continuous mathematical coordinates in <MathView math="\mathbb{R}^{D \times D}" /> without human-interpretable single-neuron labels. Interference happens because information is distributed across these superposed linear coordinates.
           </div>
         </div>
       </div>

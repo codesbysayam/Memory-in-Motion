@@ -18,38 +18,40 @@ export function SectionHeader({
   subtitle,
   discovery,
   id,
-  theme = 'dark'
+  theme = 'light'
 }: SectionHeaderProps) {
-  const isLight = theme === 'light';
-
   return (
-    <div id={id} className={`mb-8 border-b pb-6 ${isLight ? 'border-[#D8D4CB]' : 'border-[#252A35]/80'}`}>
-      <div className="flex flex-wrap items-center gap-2 mb-2">
-        <span className={`font-mono text-xs uppercase tracking-widest font-semibold ${isLight ? 'text-[#6842C2]' : 'text-[#8B5CF6]'}`}>
+    <div id={id} className="mb-10 border-b border-[#E5E0D8] pb-6">
+      <div className="flex flex-wrap items-center gap-2 mb-2.5">
+        <span className="font-mono text-xs uppercase tracking-widest font-bold text-[#6842C2]">
           {number}
         </span>
         {category && (
           <>
-            <span className={isLight ? 'text-[#D8D4CB]' : 'text-[#252A35]'}>/</span>
-            <span className={`font-mono text-xs uppercase tracking-wider ${isLight ? 'text-[#716F68]' : 'text-[#8F96A3]'}`}>
+            <span className="text-[#D8D4CB]">/</span>
+            <span className="font-mono text-xs uppercase tracking-wider text-[#716F68]">
               {category}
             </span>
           </>
         )}
       </div>
 
-      <h2 className={`text-2xl sm:text-3xl lg:text-4xl font-serif font-normal tracking-tight mb-2 leading-tight ${isLight ? 'text-[#151515]' : 'text-[#F4F5F7]'}`}>
+      <h2 className="text-2xl sm:text-3xl lg:text-4xl font-serif font-normal tracking-tight mb-3 leading-tight text-[#151515]">
         {title}
       </h2>
 
-      <div className={`text-base max-w-3xl leading-relaxed ${isLight ? 'text-[#2A2926]' : 'text-[#8F96A3]'}`}>
+      <div className="text-base sm:text-lg max-w-3xl leading-relaxed text-[#52504A] font-sans">
         {typeof subtitle === 'string' ? <FormattedMathText text={subtitle} /> : subtitle}
       </div>
 
       {discovery && (
-        <div className={`mt-3 inline-flex items-center gap-2 rounded-lg border px-3 py-1.5 text-xs ${isLight ? 'bg-[#ECE8DF] border-[#D8D4CB] text-[#167C80]' : 'bg-[#151922] border-[#252A35] text-[#22D3EE]'}`}>
-          <span className={`font-mono font-medium uppercase tracking-wider text-[10px] ${isLight ? 'text-[#716F68]' : 'text-[#8F96A3]'}`}>Key Discovery:</span>
-          <span>{typeof discovery === 'string' ? <FormattedMathText text={discovery} /> : discovery}</span>
+        <div className="mt-4 inline-flex items-center gap-2 rounded-lg border border-[#CFE8E8] bg-[#EDF7F7] px-3.5 py-1.5 text-xs text-[#167C80] shadow-xs">
+          <span className="font-mono font-bold uppercase tracking-wider text-[10px] text-[#167C80]">
+            Key Discovery:
+          </span>
+          <span className="font-medium">
+            {typeof discovery === 'string' ? <FormattedMathText text={discovery} /> : discovery}
+          </span>
         </div>
       )}
     </div>

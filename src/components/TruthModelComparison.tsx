@@ -18,32 +18,32 @@ export function TruthModelComparison({
 
   return (
     <div
-      className={`truth-grid grid grid-cols-2 sm:grid-cols-4 gap-2.5 rounded-xl border border-[#252A35] bg-[#11141A] p-3.5 font-mono text-xs ${className}`}
+      className={`truth-grid grid grid-cols-2 sm:grid-cols-4 gap-3 rounded-xl border border-[#E5E0D8] bg-[#FFFFFF] p-4 font-mono text-xs shadow-xs ${className}`}
     >
-      <div className="bg-[#151922] p-2.5 rounded-lg border border-[#252A35]">
-        <span className="text-[10px] text-[#8F96A3] block tracking-wider uppercase">GROUND TRUTH</span>
-        <strong className="text-white text-sm tracking-wide block mt-0.5">{truth}</strong>
+      <div className="bg-[#FAF8F5] p-3 rounded-lg border border-[#EAE6DF]">
+        <span className="text-[10px] text-[#716F68] block tracking-wider uppercase font-bold">GROUND TRUTH</span>
+        <strong className="text-[#151515] font-serif text-base tracking-wide block mt-1">{truth}</strong>
       </div>
 
-      <div className="bg-[#151922] p-2.5 rounded-lg border border-[#252A35]">
-        <span className="text-[10px] text-[#8F96A3] block tracking-wider uppercase">MODEL OUTPUT</span>
-        <strong className={`text-sm tracking-wide block mt-0.5 ${correct ? 'text-emerald-300' : 'text-rose-400'}`}>
+      <div className="bg-[#FAF8F5] p-3 rounded-lg border border-[#EAE6DF]">
+        <span className="text-[10px] text-[#716F68] block tracking-wider uppercase font-bold">MODEL OUTPUT</span>
+        <strong className={`font-serif text-base tracking-wide block mt-1 ${correct ? 'text-[#247A4B]' : 'text-[#B64235]'}`}>
           {prediction}
         </strong>
       </div>
 
-      <div className="bg-[#151922] p-2.5 rounded-lg border border-[#252A35]" title="This score is based on representation similarity and is not a calibrated probability.">
-        <span className="text-[10px] text-[#8F96A3] block tracking-wider uppercase">RETRIEVAL SCORE</span>
-        <strong className="text-[#22D3EE] text-sm tracking-wide block mt-0.5">
+      <div className="bg-[#FAF8F5] p-3 rounded-lg border border-[#EAE6DF]" title="This score is based on representation similarity and is not a calibrated probability.">
+        <span className="text-[10px] text-[#716F68] block tracking-wider uppercase font-bold">RETRIEVAL SCORE</span>
+        <strong className="text-[#167C80] font-serif text-base tracking-wide block mt-1">
           {Math.round(confidence * 100)}%
         </strong>
       </div>
 
       <div
-        className={`p-2.5 rounded-lg border flex items-center justify-center font-bold text-xs tracking-wider uppercase transition-colors ${
+        className={`p-3 rounded-lg border flex items-center justify-center font-bold text-xs tracking-wider uppercase transition-colors ${
           correct
-            ? 'success bg-emerald-950/40 border-emerald-500/40 text-emerald-300'
-            : 'failure bg-rose-950/40 border-rose-500/40 text-rose-300'
+            ? 'success bg-[#EDF8F2] border-[#CDEEDB] text-[#247A4B]'
+            : 'failure bg-[#FDF2F0] border-[#F7D3CF] text-[#B64235]'
         }`}
       >
         {correct ? '✓ CORRECT' : '✗ INTERFERENCE'}

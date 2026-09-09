@@ -9,6 +9,7 @@ interface ControlSliderProps {
   unit?: string;
   formatValue?: (val: number) => string;
   description?: string;
+  hint?: string;
   onChange: (value: number) => void;
   id?: string;
 }
@@ -22,18 +23,20 @@ export function ControlSlider({
   unit = '',
   formatValue,
   description,
+  hint,
   onChange,
   id
 }: ControlSliderProps) {
+  const textDesc = description || hint;
   const displayValue = formatValue ? formatValue(value) : `${value}${unit ? ` ${unit}` : ''}`;
 
   return (
     <div id={id} className="space-y-1.5">
       <div className="flex items-center justify-between text-xs">
-        <span className="font-mono uppercase tracking-wider text-[#8F96A3] font-medium">
+        <span className="font-mono uppercase tracking-wider text-[#716F68] font-medium">
           {label}
         </span>
-        <span className="font-mono font-semibold text-white bg-[#151922] px-2 py-0.5 rounded border border-[#252A35]">
+        <span className="font-mono font-semibold text-[#151515] bg-[#FFFFFF] px-2 py-0.5 rounded border border-[#D8D4CB] shadow-xs">
           {displayValue}
         </span>
       </div>
@@ -45,12 +48,12 @@ export function ControlSlider({
         step={step}
         value={value}
         onChange={(e) => onChange(parseFloat(e.target.value))}
-        className="w-full h-1.5 bg-[#252A35] rounded-lg appearance-none cursor-pointer accent-[#8B5CF6] focus:outline-none"
+        className="w-full h-1.5 bg-[#E5E0D8] rounded-lg appearance-none cursor-pointer accent-[#6842C2] focus:outline-none"
       />
 
-      {description && (
-        <p className="text-[11px] text-[#8F96A3] leading-normal pt-0.5">
-          {description}
+      {textDesc && (
+        <p className="text-[11px] text-[#716F68] leading-normal pt-0.5 font-sans">
+          {textDesc}
         </p>
       )}
     </div>

@@ -1,13 +1,7 @@
-import React, { useState, useMemo, useEffect, useRef } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import {
-  StepForward,
-  StepBack,
   RotateCcw,
-  Plus,
-  Layers,
-  HelpCircle,
   Sliders,
-  Database,
   Search,
   Copy,
   Share2,
@@ -15,11 +9,10 @@ import {
   AlertTriangle,
   Lock,
   Unlock,
-  ArrowRight,
   TrendingUp,
 } from 'lucide-react';
 import { CANONICAL_FACTS, Fact } from '../models/associativeMemory';
-import { runMemoryExperiment, MemoryExperimentResult } from '../models/experimentEngine';
+import { runMemoryExperiment } from '../models/experimentEngine';
 import { SectionHeader } from './ui/SectionHeader';
 import { SourceBadge } from './ui/SourceBadge';
 import { MemoryInspector } from './MemoryInspector';
@@ -379,7 +372,7 @@ export const Section03RecurrentMemory: React.FC = () => {
   }, [experimentResult.correct, experimentResult.prediction, selectedQuery, groundTruth]);
 
   return (
-    <section id="section-03" className="scroll-mt-20 border-b border-[#252A35] bg-[#07080B] py-14">
+    <section id="section-03" className="scroll-mt-20 border-b border-[#E5E0D8] bg-[#FBF9F5] py-16 text-[#151515]">
       <div className="max-w-[1400px] mx-auto px-4 sm:px-6 space-y-8">
         <SectionHeader
           number="03"
@@ -393,39 +386,39 @@ export const Section03RecurrentMemory: React.FC = () => {
         <MemoryLens currentFocus="state" />
 
         {/* 3. MEMORY AT A GLANCE (Computed real metrics, no invented labels) */}
-        <div className="rounded-2xl border border-[#252A35] bg-[#0D111A] p-4">
-          <div className="text-[10px] font-mono uppercase tracking-wider text-slate-400 mb-2.5 font-bold flex items-center justify-between">
+        <div className="rounded-2xl border border-[#E5E0D8] bg-[#FFFFFF] p-5 shadow-xs">
+          <div className="text-[10px] font-mono uppercase tracking-wider text-[#716F68] mb-3 font-bold flex items-center justify-between">
             <span>MEMORY AT A GLANCE · ACTUAL COMPUTED STATE</span>
-            <span className="text-cyan-400 font-normal">DETERMINISTIC EVALUATION</span>
+            <span className="text-[#167C80] font-normal">DETERMINISTIC EVALUATION</span>
           </div>
 
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 font-mono">
-            <div className="p-3 rounded-xl bg-[#121724] border border-[#20283A] flex flex-col justify-between">
-              <span className="text-[#8F96A3] text-xs">DIMENSION</span>
-              <span className="text-xl font-bold text-white mt-1">{memoryDim}</span>
-              <span className="text-[10px] text-slate-500 mt-0.5">Vector coordinates</span>
+            <div className="p-3.5 rounded-xl bg-[#FAF8F5] border border-[#EAE6DF] flex flex-col justify-between">
+              <span className="text-[#716F68] text-xs font-bold uppercase tracking-wider">DIMENSION</span>
+              <span className="text-2xl font-bold text-[#151515] mt-1">{memoryDim}</span>
+              <span className="text-[10px] text-[#716F68] mt-0.5">Vector coordinates</span>
             </div>
 
-            <div className="p-3 rounded-xl bg-[#121724] border border-[#20283A] flex flex-col justify-between">
-              <span className="text-[#8F96A3] text-xs">FACTS STORED</span>
-              <span className="text-xl font-bold text-[#22D3EE] mt-1">{activeFacts.length}</span>
-              <span className="text-[10px] text-slate-500 mt-0.5">{distractorCount} distractors</span>
+            <div className="p-3.5 rounded-xl bg-[#FAF8F5] border border-[#EAE6DF] flex flex-col justify-between">
+              <span className="text-[#716F68] text-xs font-bold uppercase tracking-wider">FACTS STORED</span>
+              <span className="text-2xl font-bold text-[#167C80] mt-1">{activeFacts.length}</span>
+              <span className="text-[10px] text-[#716F68] mt-0.5">{distractorCount} distractors</span>
             </div>
 
-            <div className="p-3 rounded-xl bg-[#121724] border border-[#20283A] flex flex-col justify-between" title="This score is based on representation similarity and is not a calibrated probability.">
-              <span className="text-[#8F96A3] text-xs">RETRIEVAL SCORE</span>
-              <span className={`text-xl font-bold mt-1 ${experimentResult.correct ? 'text-emerald-400' : 'text-rose-400'}`}>
+            <div className="p-3.5 rounded-xl bg-[#FAF8F5] border border-[#EAE6DF] flex flex-col justify-between" title="This score is based on representation similarity and is not a calibrated probability.">
+              <span className="text-[#716F68] text-xs font-bold uppercase tracking-wider">RETRIEVAL SCORE</span>
+              <span className={`text-2xl font-bold mt-1 ${experimentResult.correct ? 'text-[#247A4B]' : 'text-[#B64235]'}`}>
                 {(experimentResult.confidence * 100).toFixed(0)}%
               </span>
-              <span className="text-[10px] text-slate-500 mt-0.5">
+              <span className="text-[10px] text-[#716F68] mt-0.5">
                 {experimentResult.correct ? 'Decoded accurately' : 'Corrupted / Miss'}
               </span>
             </div>
 
-            <div className="p-3 rounded-xl bg-[#121724] border border-[#20283A] flex flex-col justify-between">
-              <span className="text-[#8F96A3] text-xs">INTERFERENCE PARAMETER</span>
-              <span className="text-xl font-bold text-amber-400 mt-1">{interferencePct}%</span>
-              <span className="text-[10px] text-slate-500 mt-0.5">Perturbation noise</span>
+            <div className="p-3.5 rounded-xl bg-[#FAF8F5] border border-[#EAE6DF] flex flex-col justify-between">
+              <span className="text-[#716F68] text-xs font-bold uppercase tracking-wider">INTERFERENCE</span>
+              <span className="text-2xl font-bold text-[#A46622] mt-1">{interferencePct}%</span>
+              <span className="text-[10px] text-[#716F68] mt-0.5">Perturbation noise</span>
             </div>
           </div>
         </div>
@@ -434,28 +427,28 @@ export const Section03RecurrentMemory: React.FC = () => {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
           {/* Left Column (4 cols): Control Deck */}
           <div className="lg:col-span-4 space-y-4 font-mono text-xs">
-            <div className="rounded-xl border border-[#252A35] bg-[#11141A] p-5 space-y-4">
-              <div className="flex items-center justify-between border-b border-[#252A35] pb-2">
-                <span className="font-semibold text-white uppercase tracking-wider flex items-center gap-1.5">
-                  <Sliders className="w-3.5 h-3.5 text-[#22D3EE]" />
+            <div className="rounded-2xl border border-[#E5E0D8] bg-[#FFFFFF] p-5 sm:p-6 space-y-4 shadow-xs">
+              <div className="flex items-center justify-between border-b border-[#EAE6DF] pb-3">
+                <span className="font-semibold text-[#151515] uppercase tracking-wider flex items-center gap-1.5">
+                  <Sliders className="w-3.5 h-3.5 text-[#167C80]" />
                   EXPERIMENT PARAMETERS
                 </span>
                 <SourceBadge type="toy" />
               </div>
 
               {/* 6. Controlled Mode (One Variable At A Time) Toggle */}
-              <div className="p-2.5 rounded-lg bg-[#0A0E17] border border-[#222A3C] space-y-2">
+              <div className="p-3 rounded-xl bg-[#FAF8F5] border border-[#EAE6DF] space-y-2">
                 <div className="flex items-center justify-between">
-                  <span className="font-bold text-slate-300 text-[11px] flex items-center gap-1.5">
-                    {isControlledMode ? <Lock className="w-3 h-3 text-cyan-400" /> : <Unlock className="w-3 h-3 text-slate-500" />}
+                  <span className="font-bold text-[#151515] text-[11px] flex items-center gap-1.5">
+                    {isControlledMode ? <Lock className="w-3.5 h-3.5 text-[#6842C2]" /> : <Unlock className="w-3.5 h-3.5 text-[#716F68]" />}
                     CONTROLLED MODE
                   </span>
                   <button
                     onClick={toggleControlledMode}
-                    className={`px-2.5 py-1 rounded text-[10px] font-bold transition border ${
+                    className={`px-2.5 py-1 rounded-lg text-[10px] font-bold transition border cursor-pointer ${
                       isControlledMode
-                        ? 'bg-cyan-950 text-cyan-300 border-cyan-700/60 hover:bg-cyan-900/60'
-                        : 'bg-[#141A28] text-slate-400 border-[#252A35] hover:text-white'
+                        ? 'bg-[#F3EFFF] text-[#6842C2] border-[#E2D8FA]'
+                        : 'bg-[#FFFFFF] text-[#716F68] border-[#E5E0D8] hover:text-[#151515]'
                     }`}
                   >
                     {isControlledMode ? 'ACTIVE ✓' : 'ENABLE'}
@@ -463,12 +456,12 @@ export const Section03RecurrentMemory: React.FC = () => {
                 </div>
 
                 {isControlledMode && (
-                  <div className="text-[10px] space-y-1.5 pt-1 text-slate-400 border-t border-[#1C2538]">
+                  <div className="text-[10px] space-y-1.5 pt-1 text-[#716F68] border-t border-[#EAE6DF]">
                     <div className="flex items-center justify-between">
                       <span>Baseline frozen. Test one variable:</span>
                       <button
                         onClick={resetBaseline}
-                        className="text-cyan-400 hover:underline text-[10px] flex items-center gap-1"
+                        className="text-[#6842C2] hover:underline text-[10px] flex items-center gap-1 cursor-pointer font-bold"
                       >
                         <RotateCcw className="w-2.5 h-2.5" />
                         RESET BASELINE
@@ -476,19 +469,19 @@ export const Section03RecurrentMemory: React.FC = () => {
                     </div>
 
                     {controlledDeltas && controlledDeltas.length > 0 && (
-                      <div className="p-1.5 rounded bg-[#121927] border border-[#232F46] space-y-1">
+                      <div className="p-2 rounded-lg bg-[#FFFFFF] border border-[#EAE6DF] space-y-1">
                         {controlledDeltas.map((d, i) => (
-                          <div key={i} className="flex justify-between text-slate-300">
-                            <span className="text-cyan-300 font-semibold">{d.name}:</span>
-                            <span>{d.base} → <strong className="text-white">{d.curr}</strong></span>
+                          <div key={i} className="flex justify-between text-[#52504A]">
+                            <span className="text-[#6842C2] font-semibold">{d.name}:</span>
+                            <span>{d.base} → <strong className="text-[#151515]">{d.curr}</strong></span>
                           </div>
                         ))}
                       </div>
                     )}
 
                     {controlledWarning && (
-                      <div className="p-1.5 rounded bg-amber-950/40 border border-amber-700/60 text-amber-200 text-[10px] leading-tight flex items-start gap-1">
-                        <AlertTriangle className="w-3.5 h-3.5 text-amber-400 shrink-0 mt-0.5" />
+                      <div className="p-2 rounded-lg bg-[#FDF8EE] border border-[#F5E2C4] text-[#A46622] text-[10px] leading-tight flex items-start gap-1">
+                        <AlertTriangle className="w-3.5 h-3.5 text-[#A46622] shrink-0 mt-0.5" />
                         <span>{controlledWarning}</span>
                       </div>
                     )}
@@ -499,8 +492,8 @@ export const Section03RecurrentMemory: React.FC = () => {
               {/* Memory Dimension Picker */}
               <div className="space-y-1.5">
                 <div className="flex justify-between text-[11px]">
-                  <span className="text-[#8F96A3]">Memory Dimension (D):</span>
-                  <span className="text-[#22D3EE] font-bold">{memoryDim}</span>
+                  <span className="text-[#716F68] font-bold">Memory Dimension (D):</span>
+                  <span className="text-[#167C80] font-bold">{memoryDim}</span>
                 </div>
                 <div className="grid grid-cols-4 gap-1.5">
                   {[4, 8, 16, 32].map((d) => (
@@ -510,10 +503,10 @@ export const Section03RecurrentMemory: React.FC = () => {
                         handleParamCommit('Dimension', memoryDim, d);
                         setMemoryDim(d);
                       }}
-                      className={`py-1.5 rounded border text-center transition-all ${
+                      className={`py-1.5 rounded-lg border text-center transition-all cursor-pointer ${
                         memoryDim === d
-                          ? 'border-[#22D3EE] bg-cyan-950/60 text-[#22D3EE] font-bold ring-1 ring-[#22D3EE]'
-                          : 'border-[#252A35] bg-[#151922] text-[#8F96A3] hover:text-white'
+                          ? 'border-[#6842C2] bg-[#F3EFFF] text-[#6842C2] font-bold shadow-xs'
+                          : 'border-[#E5E0D8] bg-[#FFFFFF] text-[#716F68] hover:text-[#151515]'
                       }`}
                     >
                       D={d}
@@ -599,15 +592,15 @@ export const Section03RecurrentMemory: React.FC = () => {
               />
 
               {/* Target Query Selection */}
-              <div className="space-y-1.5 pt-2 border-t border-[#252A35]">
+              <div className="space-y-1.5 pt-2 border-t border-[#EAE6DF]">
                 <div className="flex justify-between text-[11px]">
-                  <span className="text-[#8F96A3] flex items-center gap-1">
-                    <Search className="w-3 h-3 text-violet-400" />
+                  <span className="text-[#716F68] flex items-center gap-1 font-bold">
+                    <Search className="w-3 h-3 text-[#6842C2]" />
                     Probe Key Query (q):
                   </span>
-                  <span className="text-white font-bold">{selectedQuery}</span>
+                  <span className="text-[#151515] font-bold">{selectedQuery}</span>
                 </div>
-                <div className="grid grid-cols-3 gap-1 text-[11px]">
+                <div className="grid grid-cols-3 gap-1.5 text-[11px]">
                   {CANONICAL_FACTS.slice(0, 6).map((f) => (
                     <button
                       key={f.key}
@@ -615,10 +608,10 @@ export const Section03RecurrentMemory: React.FC = () => {
                         handleParamCommit('Query', selectedQuery, f.key);
                         setSelectedQuery(f.key);
                       }}
-                      className={`py-1 px-1.5 rounded border truncate text-center ${
+                      className={`py-1.5 px-1.5 rounded-lg border truncate text-center cursor-pointer ${
                         selectedQuery === f.key
-                          ? 'border-violet-500 bg-violet-950/60 text-violet-200 font-bold'
-                          : 'border-[#252A35] bg-[#151922] text-[#8F96A3] hover:text-white'
+                          ? 'border-[#6842C2] bg-[#F3EFFF] text-[#6842C2] font-bold'
+                          : 'border-[#E5E0D8] bg-[#FFFFFF] text-[#716F68] hover:text-[#151515]'
                       }`}
                     >
                       {f.key}
@@ -628,22 +621,22 @@ export const Section03RecurrentMemory: React.FC = () => {
               </div>
 
               {/* 8. COPY CONFIG & COPY RESULT Buttons */}
-              <div className="grid grid-cols-2 gap-2 pt-2 border-t border-[#252A35]">
+              <div className="grid grid-cols-2 gap-2 pt-2 border-t border-[#EAE6DF]">
                 <button
                   onClick={handleCopyConfig}
-                  className="py-1.5 px-2 rounded-lg bg-[#141A26] hover:bg-[#1B2335] text-slate-300 hover:text-white border border-[#252A35] text-[10px] font-mono flex items-center justify-center gap-1.5 transition"
+                  className="py-2 px-2 rounded-xl bg-[#FAF8F5] hover:bg-[#F3EFFF] text-[#52504A] hover:text-[#6842C2] border border-[#E5E0D8] text-[10px] font-mono flex items-center justify-center gap-1.5 transition cursor-pointer"
                   title="Copy deterministic experiment configuration JSON"
                 >
-                  <Copy className="w-3 h-3 text-cyan-400" />
+                  <Copy className="w-3 h-3 text-[#167C80]" />
                   <span>{copiedConfig ? 'COPIED ✓' : 'COPY CONFIG'}</span>
                 </button>
 
                 <button
                   onClick={handleCopyResult}
-                  className="py-1.5 px-2 rounded-lg bg-[#141A26] hover:bg-[#1B2335] text-slate-300 hover:text-white border border-[#252A35] text-[10px] font-mono flex items-center justify-center gap-1.5 transition"
+                  className="py-2 px-2 rounded-xl bg-[#FAF8F5] hover:bg-[#EDF8F2] text-[#52504A] hover:text-[#247A4B] border border-[#E5E0D8] text-[10px] font-mono flex items-center justify-center gap-1.5 transition cursor-pointer"
                   title="Copy full experiment outcome payload"
                 >
-                  <CheckCircle2 className="w-3 h-3 text-emerald-400" />
+                  <CheckCircle2 className="w-3 h-3 text-[#247A4B]" />
                   <span>{copiedResult ? 'COPIED ✓' : 'COPY RESULT'}</span>
                 </button>
               </div>
@@ -651,55 +644,55 @@ export const Section03RecurrentMemory: React.FC = () => {
               {/* 9. SHARE EXPERIMENT (URL Reproduction) */}
               <button
                 onClick={handleShareExperiment}
-                className="w-full py-1.5 px-2 rounded-lg bg-gradient-to-r from-cyan-950/50 to-blue-950/50 hover:from-cyan-900/60 hover:to-blue-900/60 text-cyan-200 border border-cyan-800/50 text-[10px] font-mono flex items-center justify-center gap-1.5 transition"
+                className="w-full py-2 px-2 rounded-xl bg-[#F3EFFF] hover:bg-[#ECE5FC] text-[#6842C2] border border-[#E2D8FA] text-[10px] font-mono flex items-center justify-center gap-1.5 transition cursor-pointer font-bold"
                 title="Copy shareable URL with parameters"
               >
-                <Share2 className="w-3 h-3 text-cyan-400" />
+                <Share2 className="w-3 h-3 text-[#6842C2]" />
                 <span>{copiedShare ? 'URL COPIED TO CLIPBOARD ✓' : 'SHARE EXPERIMENT (URL)'}</span>
               </button>
             </div>
 
             {/* 5. COMPARE BEFORE / AFTER (Dynamically Calculated) */}
             {prevSnapshot && (
-              <div className="rounded-xl border border-[#252A35] bg-[#0F131D] p-4 text-xs font-mono space-y-3">
-                <div className="flex items-center justify-between border-b border-[#1E2536] pb-2 text-[10px]">
-                  <span className="font-bold text-slate-300 uppercase tracking-wider flex items-center gap-1">
-                    <TrendingUp className="w-3 h-3 text-cyan-400" />
+              <div className="rounded-2xl border border-[#E5E0D8] bg-[#FFFFFF] p-4 text-xs font-mono space-y-3 shadow-xs">
+                <div className="flex items-center justify-between border-b border-[#EAE6DF] pb-2 text-[10px]">
+                  <span className="font-bold text-[#151515] uppercase tracking-wider flex items-center gap-1">
+                    <TrendingUp className="w-3 h-3 text-[#167C80]" />
                     COMPARE BEFORE / AFTER
                   </span>
-                  <span className="text-slate-500">LIVE DELTA</span>
+                  <span className="text-[#716F68]">LIVE DELTA</span>
                 </div>
 
                 <div className="grid grid-cols-2 gap-3 text-[11px]">
-                  <div className="p-2 rounded-lg bg-[#141824] border border-[#202738] space-y-1">
-                    <span className="text-[10px] text-slate-400 font-bold block">BEFORE</span>
-                    <div>Dim: <strong className="text-slate-200">{prevSnapshot.dimension}</strong></div>
-                    <div>Score: <strong className="text-slate-200">{prevSnapshot.confidence}%</strong></div>
-                    <div>State: <strong className={prevSnapshot.correct ? 'text-emerald-400' : 'text-rose-400'}>
+                  <div className="p-2.5 rounded-xl bg-[#FAF8F5] border border-[#EAE6DF] space-y-1">
+                    <span className="text-[10px] text-[#716F68] font-bold block">BEFORE</span>
+                    <div>Dim: <strong className="text-[#151515]">{prevSnapshot.dimension}</strong></div>
+                    <div>Score: <strong className="text-[#151515]">{prevSnapshot.confidence}%</strong></div>
+                    <div>State: <strong className={prevSnapshot.correct ? 'text-[#247A4B]' : 'text-[#B64235]'}>
                       {prevSnapshot.correct ? 'Match' : 'Miss'}
                     </strong></div>
                   </div>
 
-                  <div className="p-2 rounded-lg bg-[#141824] border border-[#202738] space-y-1">
-                    <span className="text-[10px] text-cyan-400 font-bold block">AFTER</span>
-                    <div>Dim: <strong className="text-white">{currentSnapshot.dimension}</strong></div>
-                    <div>Score: <strong className="text-white">{currentSnapshot.confidence}%</strong></div>
-                    <div>State: <strong className={currentSnapshot.correct ? 'text-emerald-400' : 'text-rose-400'}>
+                  <div className="p-2.5 rounded-xl bg-[#FAF8F5] border border-[#EAE6DF] space-y-1">
+                    <span className="text-[10px] text-[#167C80] font-bold block">AFTER</span>
+                    <div>Dim: <strong className="text-[#151515]">{currentSnapshot.dimension}</strong></div>
+                    <div>Score: <strong className="text-[#151515]">{currentSnapshot.confidence}%</strong></div>
+                    <div>State: <strong className={currentSnapshot.correct ? 'text-[#247A4B]' : 'text-[#B64235]'}>
                       {currentSnapshot.correct ? 'Match' : 'Miss'}
                     </strong></div>
                   </div>
                 </div>
 
-                <div className="p-2 rounded-lg bg-[#0A0D15] border border-[#1A2234] text-[10px] space-y-0.5">
-                  <span className="text-slate-400 font-bold block uppercase">WHAT CHANGED?</span>
-                  <div className="text-slate-300">
+                <div className="p-2.5 rounded-xl bg-[#FAF8F5] border border-[#EAE6DF] text-[10px] space-y-0.5">
+                  <span className="text-[#716F68] font-bold block uppercase">WHAT CHANGED?</span>
+                  <div className="text-[#151515] font-semibold">
                     {currentSnapshot.confidence - prevSnapshot.confidence >= 0 ? '+' : ''}
                     {(currentSnapshot.confidence - prevSnapshot.confidence).toFixed(1)} pp retrieval score
                   </div>
-                  <div className="text-[9px] text-slate-500 font-sans">
+                  <div className="text-[9px] text-[#716F68] font-sans">
                     Note: Retrieval score indicates representation similarity in this toy model, not a calibrated probability.
                   </div>
-                  <div className="text-slate-400">
+                  <div className="text-[#52504A]">
                     {currentSnapshot.correct !== prevSnapshot.correct
                       ? currentSnapshot.correct
                         ? 'Recovery observed: retrieved correct candidate.'
@@ -754,24 +747,24 @@ export const Section03RecurrentMemory: React.FC = () => {
             />
 
             {/* MECHANISTIC WORKBENCH SUITE */}
-            <div className="rounded-2xl border border-[#252A35] bg-[#0A0E18] p-5 space-y-4">
-              <div className="flex flex-wrap items-center justify-between gap-2 border-b border-[#1E2536] pb-3">
+            <div className="rounded-2xl border border-[#E5E0D8] bg-[#FFFFFF] p-5 sm:p-6 space-y-5 shadow-xs">
+              <div className="flex flex-wrap items-center justify-between gap-2 border-b border-[#EAE6DF] pb-3">
                 <div>
-                  <span className="text-xs font-mono uppercase tracking-wider text-cyan-400 font-bold block">
+                  <span className="text-xs font-mono uppercase tracking-wider text-[#167C80] font-bold block">
                     MECHANISTIC INSPECTOR & EXPERIMENTAL SUITE
                   </span>
-                  <p className="text-xs text-slate-400 font-sans mt-0.5">
+                  <p className="text-xs text-[#716F68] font-sans mt-0.5">
                     Step inside the internal algebra: inspect intermediate vectors, state persistence, ordering sensitivity, and overwrite mechanics.
                   </p>
                 </div>
 
-                <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-zinc-900 border border-zinc-800 text-slate-400">
+                <span className="text-[10px] font-mono px-2.5 py-0.5 rounded bg-[#EDF7F7] border border-[#CFE8E8] text-[#167C80] font-bold">
                   DETERMINISTIC SUITE
                 </span>
               </div>
 
               {/* Workbench Tab Navigation */}
-              <div className="flex flex-wrap gap-1.5 font-mono text-xs border-b border-[#1A2234] pb-2">
+              <div className="flex flex-wrap gap-1.5 font-mono text-xs border-b border-[#EAE6DF] pb-3">
                 {[
                   { id: 'pipeline', label: 'Write / Read Pipeline' },
                   { id: 'persistence', label: 'State Persistence' },
@@ -782,10 +775,10 @@ export const Section03RecurrentMemory: React.FC = () => {
                   <button
                     key={tab.id}
                     onClick={() => setWorkbenchTab(tab.id as any)}
-                    className={`px-3 py-1.5 rounded-lg border transition ${
+                    className={`px-3.5 py-1.5 rounded-xl border transition cursor-pointer ${
                       workbenchTab === tab.id
-                        ? 'bg-cyan-950 border-cyan-500 text-cyan-200 font-bold'
-                        : 'bg-[#121826] border-[#222E46] text-slate-400 hover:text-white'
+                        ? 'bg-[#F3EFFF] border-[#6842C2] text-[#6842C2] font-bold shadow-xs'
+                        : 'bg-[#FAF8F5] border-[#E5E0D8] text-[#716F68] hover:text-[#151515]'
                     }`}
                   >
                     {tab.label}
@@ -797,7 +790,7 @@ export const Section03RecurrentMemory: React.FC = () => {
               <div className="pt-2">
                 {workbenchTab === 'pipeline' && (
                   <MemoryWriteRead
-                    selectedFact={activeFacts[0] || CANONICAL_FACTS[0]}
+                    initialFact={activeFacts[0] || CANONICAL_FACTS[0]}
                     dimension={memoryDim}
                     retention={effectiveRetention}
                     writeStrength={writeStrength}
@@ -818,12 +811,10 @@ export const Section03RecurrentMemory: React.FC = () => {
 
                 {workbenchTab === 'representations' && (
                   <RepresentationInspector
-                    keyVector={experimentResult.history[0]?.stateVector.slice(0, 16) || []}
-                    valueVector={experimentResult.history[1]?.stateVector.slice(0, 16) || []}
-                    queryVector={experimentResult.history[0]?.stateVector.slice(0, 16) || []}
-                    keyLabel={selectedQuery}
-                    valueLabel={groundTruth}
-                    queryLabel={selectedQuery}
+                    currentKey={selectedQuery}
+                    currentValue={groundTruth}
+                    queryKey={selectedQuery}
+                    dimension={memoryDim}
                   />
                 )}
               </div>

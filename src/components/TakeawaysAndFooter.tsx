@@ -32,35 +32,37 @@ export const TakeawaysAndFooter: React.FC = () => {
   ];
 
   return (
-    <footer id="takeaways" className="scroll-mt-20 border-t border-[#252A35] bg-[#07080B] py-14 text-zinc-300">
-      <div className="max-w-[1400px] mx-auto px-4 sm:px-6">
+    <footer id="takeaways" className="scroll-mt-20 border-t border-[#E5E0D8] bg-[#FBF9F5] py-20 text-[#151515]">
+      <div className="max-w-[1400px] mx-auto px-4 sm:px-6 space-y-12">
         {/* Five Takeaways */}
-        <div className="mb-10 space-y-4">
+        <div className="space-y-6">
           <div className="flex items-center gap-2">
-            <Sparkles className="w-4 h-4 text-[#8B5CF6]" />
-            <span className="font-mono text-xs font-bold uppercase tracking-widest text-[#22D3EE]">
-              SYNTHESIS · WHAT YOU SHOULD REMEMBER
+            <span className="text-[11px] font-mono uppercase tracking-widest px-2.5 py-0.5 rounded bg-[#F3EFFF] text-[#6842C2] border border-[#E2D8FA] font-bold">
+              SYNTHESIS
+            </span>
+            <span className="text-xs font-mono text-[#716F68]">
+              WHAT YOU SHOULD REMEMBER
             </span>
           </div>
 
-          <h2 className="font-mono text-xl font-bold text-white sm:text-2xl">
-            Five Core Scientific Takeaways
+          <h2 className="text-2xl sm:text-4xl font-serif tracking-tight text-[#151515] font-normal">
+            Five core scientific takeaways
           </h2>
 
-          <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-5">
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-5">
             {takeaways.map((t) => (
               <div
                 key={t.num}
-                className="flex flex-col justify-between rounded-xl border border-[#252A35] bg-[#11141A] p-5 space-y-3"
+                className="flex flex-col justify-between rounded-2xl border border-[#E5E0D8] bg-[#FFFFFF] p-5 space-y-3 shadow-xs hover:border-[#D8D4CB] transition-all"
               >
                 <div>
-                  <span className="font-mono text-xs font-bold text-violet-400 block mb-1">
+                  <span className="font-mono text-xs font-bold text-[#6842C2] block mb-1">
                     {t.num}
                   </span>
-                  <h4 className="text-xs font-semibold text-white mb-1.5">
+                  <h4 className="text-xs font-serif font-bold text-[#151515] mb-1.5">
                     {t.title}
                   </h4>
-                  <p className="text-[11px] text-[#8F96A3] leading-relaxed font-sans">
+                  <p className="text-[11px] text-[#716F68] leading-relaxed font-sans">
                     {t.desc}
                   </p>
                 </div>
@@ -70,35 +72,35 @@ export const TakeawaysAndFooter: React.FC = () => {
         </div>
 
         {/* 19. WHAT THIS SITE DEMONSTRATES: Final Claim & Disclaimer Card */}
-        <div className="mb-10">
+        <div>
           <FinalClaimCard />
         </div>
 
         {/* Technical Honesty & AI Disclosure */}
-        <div className="rounded-xl border border-[#252A35] bg-[#11141A] p-5 text-xs text-[#8F96A3] leading-relaxed space-y-2">
-          <div className="flex items-center gap-2 font-mono text-white font-bold">
-            <ShieldCheck className="w-4 h-4 text-emerald-400" />
+        <div className="rounded-2xl border border-[#E5E0D8] bg-[#FFFFFF] p-6 text-xs text-[#52504A] leading-relaxed space-y-2 shadow-xs">
+          <div className="flex items-center gap-2 font-mono text-[#151515] font-bold">
+            <ShieldCheck className="w-4 h-4 text-[#167C80]" />
             <span>Technical Honesty & AI Assistance Disclosure</span>
           </div>
           <p>
-            This laboratory was created for <strong>DataForge 2026 — Pathway Track ("Explain the Frontier")</strong>. All simulations execute deterministically in your browser using PRNG-seeded vector arithmetic and local graph updates. No benchmark numbers or experimental claims were fabricated.
+            This laboratory was created for <strong>DataForge 2026 — Pathway Track (&ldquo;Explain the Frontier&rdquo;)</strong>. All simulations execute deterministically in your browser using PRNG-seeded vector arithmetic and local graph updates. No benchmark numbers or experimental claims were fabricated.
           </p>
-          <p className="font-mono text-[11px] text-[#8F96A3]">
-            "This project uses AI-assisted development. The author is responsible for understanding, verifying, and defending every component."
+          <p className="font-mono text-[11px] text-[#716F68]">
+            &ldquo;This project uses AI-assisted development. The author is responsible for understanding, verifying, and defending every component.&rdquo;
           </p>
         </div>
 
         {/* Hackathon Footer Line */}
-        <div className="mt-8 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 border-t border-[#252A35] pt-6 text-xs text-[#8F96A3] font-mono">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 border-t border-[#EAE6DF] pt-6 text-xs text-[#716F68] font-mono">
           <div>
-            DataForge 2026 — Pathway Track · <span className="text-white font-semibold">"Explain the Frontier"</span>
+            DataForge 2026 — Pathway Track · <span className="text-[#151515] font-semibold">&ldquo;Explain the Frontier&rdquo;</span>
           </div>
           <div className="flex items-center gap-4">
             <a
               href="https://github.com/pathwaycom/bdh"
               target="_blank"
               rel="noreferrer"
-              className="text-[#22D3EE] hover:underline flex items-center gap-1"
+              className="text-[#167C80] hover:underline flex items-center gap-1 font-semibold"
             >
               <span>Pathway BDH Repo</span>
               <ArrowUpRight className="w-3 h-3" />
@@ -107,7 +109,7 @@ export const TakeawaysAndFooter: React.FC = () => {
               href="https://arxiv.org/abs/2509.26507"
               target="_blank"
               rel="noreferrer"
-              className="text-violet-400 hover:underline flex items-center gap-1"
+              className="text-[#6842C2] hover:underline flex items-center gap-1 font-semibold"
             >
               <span>arXiv:2509.26507</span>
               <ArrowUpRight className="w-3 h-3" />

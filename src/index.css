@@ -18,20 +18,23 @@
 }
 
 :root {
-  --paper: #F4F1EA;
+  --paper: #FBF9F5;
+  --surface: #FFFFFF;
+  --surface-2: #F4F1EA;
+  --surface-3: #EFECE6;
   --ink: #151515;
   --secondary: #2A2926;
   --muted: #716F68;
-  --border: #D8D4CB;
+  --border: #E5E0D8;
+  --border-subtle: #EFECE6;
+  --border-strong: #D8D4CB;
   --memory: #6842C2;
   --state: #167C80;
   --success: #247A4B;
   --failure: #B64235;
   --research: #A46622;
 
-  --bg: #07080b;
-  --surface: #11141a;
-  --surface-2: #151922;
+  --bg: #FBF9F5;
   --radius: 12px;
   --max: 1400px;
 }
@@ -40,7 +43,7 @@
   body {
     font-family: 'DM Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     background-color: var(--bg);
-    color: #f4f5f7;
+    color: var(--ink);
   }
   
   .font-display, .font-serif, .editorial-heading {
@@ -52,20 +55,20 @@
   }
 }
 
-/* Custom scrollbar for lab panels */
+/* Custom scrollbar for editorial panels */
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
 }
 ::-webkit-scrollbar-track {
-  background: #07080b;
+  background: #F4F1EA;
 }
 ::-webkit-scrollbar-thumb {
-  background: #252a35;
+  background: #D8D4CB;
   border-radius: 3px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #3a4150;
+  background: #BDB7AB;
 }
 
 @media (prefers-reduced-motion: reduce) {

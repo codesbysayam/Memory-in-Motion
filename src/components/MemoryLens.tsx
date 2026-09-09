@@ -29,7 +29,7 @@ export const MemoryLens: React.FC<MemoryLensProps> = ({ currentFocus, className 
       id: 'write',
       label: '1. WRITE',
       sub: 'Input key-value ingested',
-      icon: <ArrowRight className="w-3.5 h-3.5 text-cyan-400" />,
+      icon: <ArrowRight className="w-3.5 h-3.5 text-[#167C80]" />,
       math: '\\Delta M_t = \\eta (k_t v_t^T)',
       detail: 'The fact pair (key, value) is projected into dense continuous vectors k and v. A rank-1 outer product matrix update is prepared for ingestion.',
     },
@@ -37,7 +37,7 @@ export const MemoryLens: React.FC<MemoryLensProps> = ({ currentFocus, className 
       id: 'state',
       label: '2. STATE',
       sub: 'Superposed in fixed matrix',
-      icon: <Database className="w-3.5 h-3.5 text-blue-400" />,
+      icon: <Database className="w-3.5 h-3.5 text-[#2F6399]" />,
       math: 'M_t \\in \\mathbb{R}^{D \\times D}',
       detail: 'Information no longer exists as tokens or text. It lives entirely as superposed floating-point weights within the fixed-size matrix coordinates.',
     },
@@ -45,7 +45,7 @@ export const MemoryLens: React.FC<MemoryLensProps> = ({ currentFocus, className 
       id: 'persistence',
       label: '3. PERSISTENCE',
       sub: 'Exponential decay over time',
-      icon: <Cpu className="w-3.5 h-3.5 text-indigo-400" />,
+      icon: <Cpu className="w-3.5 h-3.5 text-[#6842C2]" />,
       math: 'M_t = \\lambda M_{t-1} + \\Delta M_t',
       detail: 'At each subsequent timestep, previous weights decay by factor λ (retention). As sequence length grows, early facts exponentially attenuate.',
     },
@@ -53,7 +53,7 @@ export const MemoryLens: React.FC<MemoryLensProps> = ({ currentFocus, className 
       id: 'query',
       label: '4. QUERY',
       sub: 'Probe projection applied',
-      icon: <Search className="w-3.5 h-3.5 text-violet-400" />,
+      icon: <Search className="w-3.5 h-3.5 text-[#A46622]" />,
       math: '\\hat{v} = q^T M_t',
       detail: 'A query key vector q probes the memory matrix via matrix multiplication, exciting the superposed directions associated with the key.',
     },
@@ -61,7 +61,7 @@ export const MemoryLens: React.FC<MemoryLensProps> = ({ currentFocus, className 
       id: 'retrieval',
       label: '5. RETRIEVAL',
       sub: 'Nearest cosine decode',
-      icon: <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />,
+      icon: <CheckCircle2 className="w-3.5 h-3.5 text-[#247A4B]" />,
       math: '\\text{score} = \\cos(\\hat{v}, v_{\\text{cand}})',
       detail: 'The retrieved representation v̂ is compared against candidate representations. The candidate with maximum cosine similarity becomes the decoded answer.',
     },
@@ -71,41 +71,41 @@ export const MemoryLens: React.FC<MemoryLensProps> = ({ currentFocus, className 
 
   return (
     <div
-      className={`rounded-xl border transition-all duration-300 ${
+      className={`rounded-2xl border transition-all duration-300 ${
         isLensActive
-          ? 'border-cyan-500/60 bg-[#0C121E]/95 ring-1 ring-cyan-500/30 shadow-lg shadow-cyan-950/20'
-          : 'border-[#252A35] bg-[#11141A]/70'
-      } p-4 ${className}`}
+          ? 'border-[#CFE8E8] bg-[#F7FCFC] shadow-xs'
+          : 'border-[#E5E0D8] bg-[#FFFFFF] shadow-xs'
+      } p-5 ${className}`}
     >
-      <div className="flex flex-wrap items-center justify-between gap-3">
-        <div className="flex items-center gap-3">
+      <div className="flex flex-wrap items-center justify-between gap-4">
+        <div className="flex items-center gap-3.5">
           <div
-            className={`p-2 rounded-lg transition-all ${
+            className={`p-2.5 rounded-xl transition-all ${
               isLensActive
-                ? 'bg-cyan-950/90 text-cyan-300 ring-1 ring-cyan-400/60'
-                : 'bg-[#181D28] text-slate-400'
+                ? 'bg-[#EDF7F7] text-[#167C80] border border-[#CFE8E8]'
+                : 'bg-[#FAF8F5] text-[#716F68] border border-[#EAE6DF]'
             }`}
           >
             <Eye className="w-4 h-4" />
           </div>
           <div>
             <div className="flex items-center gap-2">
-              <span className="text-xs font-mono font-bold tracking-wide text-white uppercase flex items-center gap-1.5">
+              <span className="text-xs font-mono font-bold tracking-wide text-[#151515] uppercase flex items-center gap-1.5">
                 MEMORY LENS INSTRUMENT
-                {isLensActive && <Sparkles className="w-3 h-3 text-cyan-400 animate-pulse" />}
+                {isLensActive && <Sparkles className="w-3 h-3 text-[#167C80]" />}
               </span>
               <span
-                className={`px-2 py-0.5 rounded-full text-[10px] font-mono font-semibold transition-colors ${
+                className={`px-2 py-0.5 rounded-full text-[10px] font-mono font-bold transition-colors ${
                   isLensActive
-                    ? 'bg-cyan-950 text-cyan-300 border border-cyan-700/60'
-                    : 'bg-zinc-800 text-zinc-400 border border-zinc-700'
+                    ? 'bg-[#EDF7F7] text-[#167C80] border border-[#CFE8E8]'
+                    : 'bg-[#FAF8F5] text-[#716F68] border border-[#EAE6DF]'
                 }`}
               >
                 {isLensActive ? 'ACTIVE' : 'STANDBY'}
               </span>
             </div>
-            <p className="text-[11px] text-slate-400 font-mono mt-0.5">
-              Probe: <span className="text-slate-300 italic">&ldquo;Where does information live at each step?&rdquo;</span>
+            <p className="text-[11px] text-[#716F68] font-sans mt-0.5">
+              Probe: <span className="italic text-[#151515]">&ldquo;Where does information live at each step?&rdquo;</span>
             </p>
           </div>
         </div>
@@ -113,10 +113,10 @@ export const MemoryLens: React.FC<MemoryLensProps> = ({ currentFocus, className 
         <button
           type="button"
           onClick={toggleLens}
-          className={`px-3.5 py-1.5 rounded-lg text-xs font-mono font-bold transition-all border cursor-pointer ${
+          className={`px-4 py-2 rounded-xl text-xs font-mono font-bold transition-all border cursor-pointer ${
             isLensActive
-              ? 'bg-cyan-500 text-black border-cyan-300 shadow-md shadow-cyan-500/20 hover:bg-cyan-400'
-              : 'bg-[#181E2C] text-cyan-300 border-cyan-800/60 hover:border-cyan-500 hover:text-white hover:bg-cyan-950/40'
+              ? 'bg-[#151515] text-[#FFFFFF] border-[#151515] shadow-xs hover:bg-[#2A2926]'
+              : 'bg-[#FAF8F5] text-[#151515] border-[#D8D4CB] hover:bg-[#F4F1EA]'
           }`}
         >
           {isLensActive ? 'DISABLE LENS' : 'ENABLE MEMORY LENS'}
@@ -124,7 +124,7 @@ export const MemoryLens: React.FC<MemoryLensProps> = ({ currentFocus, className 
       </div>
 
       {isLensActive && (
-        <div className="mt-3.5 pt-3.5 border-t border-[#1F293D] space-y-3 animate-in fade-in duration-200">
+        <div className="mt-4 pt-4 border-t border-[#EAE6DF] space-y-3.5">
           {/* Stage selection tabs */}
           <div className="grid grid-cols-1 sm:grid-cols-5 gap-2">
             {stages.map((st) => {
@@ -134,38 +134,38 @@ export const MemoryLens: React.FC<MemoryLensProps> = ({ currentFocus, className 
                   type="button"
                   key={st.id}
                   onClick={() => setActiveStage(st.id)}
-                  className={`p-2.5 rounded-lg text-left transition-all border text-xs font-mono flex flex-col gap-1 cursor-pointer ${
+                  className={`p-3 rounded-xl text-left transition-all border text-xs font-mono flex flex-col gap-1 cursor-pointer ${
                     isSelected
-                      ? 'bg-cyan-950/80 border-cyan-400 text-cyan-200 ring-2 ring-cyan-500/40 shadow-sm'
-                      : 'bg-[#111622] border-[#222B3D] text-slate-400 hover:text-white hover:border-slate-600 hover:bg-[#151C2C]'
+                      ? 'bg-[#EDF7F7] border-[#167C80] text-[#167C80] shadow-xs'
+                      : 'bg-[#FAF8F5] border-[#EAE6DF] text-[#716F68] hover:text-[#151515] hover:border-[#D8D4CB]'
                   }`}
                 >
                   <div className="flex items-center gap-1.5 font-bold">
                     {st.icon}
                     <span>{st.label}</span>
                   </div>
-                  <span className="text-[10px] text-slate-400 truncate">{st.sub}</span>
+                  <span className="text-[10px] text-[#716F68] truncate font-sans">{st.sub}</span>
                 </button>
               );
             })}
           </div>
 
           {/* Detailed Explanatory Telemetry for Selected Stage */}
-          <div className="p-3 rounded-lg bg-[#080C14] border border-cyan-900/40 text-xs font-mono flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
-            <div className="space-y-1">
-              <div className="flex items-center gap-2">
-                <Info className="w-3.5 h-3.5 text-cyan-400 shrink-0" />
-                <span className="font-bold text-white uppercase">{currentStageInfo.label}:</span>
-                <span className="text-cyan-300 font-bold bg-cyan-950/60 px-2 py-0.5 rounded border border-cyan-800/50">
+          <div className="p-4 rounded-xl bg-[#FAF8F5] border border-[#EAE6DF] text-xs font-mono flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+            <div className="space-y-1.5">
+              <div className="flex items-center gap-2 flex-wrap">
+                <Info className="w-3.5 h-3.5 text-[#167C80] shrink-0" />
+                <span className="font-bold text-[#151515] uppercase">{currentStageInfo.label}:</span>
+                <span className="text-[#167C80] font-bold bg-[#FFFFFF] px-2.5 py-0.5 rounded border border-[#CFE8E8]">
                   <MathView math={currentStageInfo.math} />
                 </span>
               </div>
-              <p className="text-[11px] text-slate-300 font-sans leading-relaxed">
+              <p className="text-[11px] text-[#52504A] font-sans leading-relaxed">
                 {currentStageInfo.detail}
               </p>
             </div>
             <div className="shrink-0 flex items-center gap-2">
-              <span className="text-[10px] text-slate-400 bg-[#121824] px-2 py-1 rounded border border-[#222E42]">
+              <span className="text-[10px] text-[#716F68] bg-[#FFFFFF] px-2 py-1 rounded border border-[#E5E0D8] font-bold">
                 Stage {stages.findIndex((s) => s.id === currentStageInfo.id) + 1} / 5
               </span>
             </div>

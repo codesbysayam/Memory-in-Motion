@@ -12,30 +12,30 @@ export function EvidenceStrip({ type, detail, className = '' }: EvidenceStripPro
   const getIcon = () => {
     switch (type) {
       case 'live':
-        return <Binary className="w-3.5 h-3.5 text-cyan-400 animate-pulse" />;
+        return <Binary className="w-3.5 h-3.5 text-[#167C80]" />;
       case 'published':
-        return <BookOpen className="w-3.5 h-3.5 text-emerald-400" />;
+        return <BookOpen className="w-3.5 h-3.5 text-[#247A4B]" />;
       case 'abstraction':
-        return <ShieldCheck className="w-3.5 h-3.5 text-purple-400" />;
+        return <ShieldCheck className="w-3.5 h-3.5 text-[#6842C2]" />;
       case 'illustration':
-        return <Eye className="w-3.5 h-3.5 text-amber-400" />;
+        return <Eye className="w-3.5 h-3.5 text-[#A46622]" />;
       case 'precomputed':
-        return <Sparkles className="w-3.5 h-3.5 text-blue-400" />;
+        return <Sparkles className="w-3.5 h-3.5 text-[#2F6399]" />;
     }
   };
 
   const getBadgeStyle = () => {
     switch (type) {
       case 'live':
-        return 'border-cyan-500/30 bg-cyan-950/40 text-cyan-300';
+        return 'border-[#CFE8E8] bg-[#EDF7F7] text-[#167C80]';
       case 'published':
-        return 'border-emerald-500/30 bg-emerald-950/40 text-emerald-300';
+        return 'border-[#CDEEDB] bg-[#EDF8F2] text-[#247A4B]';
       case 'abstraction':
-        return 'border-purple-500/30 bg-purple-950/40 text-purple-300';
+        return 'border-[#E2D8FA] bg-[#F3EFFF] text-[#6842C2]';
       case 'illustration':
-        return 'border-amber-500/30 bg-amber-950/40 text-amber-300';
+        return 'border-[#F5E2C4] bg-[#FDF8EE] text-[#A46622]';
       case 'precomputed':
-        return 'border-blue-500/30 bg-blue-950/40 text-blue-300';
+        return 'border-[#D3E2F2] bg-[#EEF4FA] text-[#2F6399]';
     }
   };
 
@@ -50,8 +50,8 @@ export function EvidenceStrip({ type, detail, className = '' }: EvidenceStripPro
       </span>
       {detail && (
         <>
-          <span className="opacity-30">•</span>
-          <span className="text-[10px] text-slate-300 font-sans truncate max-w-[280px]">
+          <span className="opacity-40">•</span>
+          <span className="text-[10px] text-[#52504A] font-sans truncate max-w-[280px]">
             {detail}
           </span>
         </>

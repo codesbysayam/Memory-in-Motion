@@ -155,21 +155,21 @@ export const MemoryInspector: React.FC<MemoryInspectorProps> = ({
   const currentFactBeingWritten = currentStep > 0 && currentStep <= facts.length ? facts[currentStep - 1] : null;
 
   return (
-    <div className="rounded-xl border border-[#252A35] bg-[#11141A] p-5 space-y-5">
+    <div className="rounded-2xl border border-[#E5E0D8] bg-[#FFFFFF] p-6 space-y-5 shadow-xs">
       {/* Header & Playback Controls */}
-      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[#252A35] pb-4">
+      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[#EAE6DF] pb-4">
         <div>
           <div className="flex items-center gap-2">
-            <Layers className="w-4 h-4 text-[#22D3EE]" />
-            <h3 className="font-mono text-sm font-bold text-white uppercase tracking-wider">
+            <Layers className="w-4 h-4 text-[#167C80]" />
+            <h3 className="font-serif text-base font-bold text-[#151515]">
               Memory Inspector & Fast-Weight Matrix
             </h3>
-            <span className="px-2 py-0.5 rounded text-[10px] font-mono bg-cyan-950/80 text-cyan-300 border border-cyan-800/60">
+            <span className="px-2 py-0.5 rounded-full text-[10px] font-mono bg-[#EDF7F7] text-[#167C80] border border-[#CFE8E8] font-bold">
               Interactive
             </span>
           </div>
-          <p className="text-xs text-[#8F96A3] mt-0.5">
-            Step through sequential memory writes. Observe matrix M update and vector readout.
+          <p className="text-xs text-[#716F68] font-sans mt-1">
+            Step through sequential memory writes. Notice how matrix M updates and reads out the queried representation.
           </p>
         </div>
 
@@ -178,7 +178,7 @@ export const MemoryInspector: React.FC<MemoryInspectorProps> = ({
           <button
             type="button"
             onClick={handleReset}
-            className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg border border-[#252A35] bg-[#151922] text-[#8F96A3] hover:text-white hover:border-[#22D3EE]/50 transition-colors cursor-pointer"
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-[#D8D4CB] bg-[#FAF8F5] text-[#716F68] hover:text-[#151515] hover:bg-[#F4F1EA] transition-colors cursor-pointer"
             title="Reset to step 0 (empty matrix)"
           >
             <RotateCcw className="w-3.5 h-3.5" />
@@ -188,20 +188,20 @@ export const MemoryInspector: React.FC<MemoryInspectorProps> = ({
           <button
             type="button"
             onClick={handleStep}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-[#252A35] bg-[#151922] text-white hover:border-[#22D3EE]/60 hover:bg-[#1A2232] transition-colors cursor-pointer"
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-[#D8D4CB] bg-[#FAF8F5] text-[#151515] hover:bg-[#F4F1EA] font-semibold transition-colors cursor-pointer"
             title={currentStep >= facts.length ? 'Restart from step 0' : 'Advance one fact step'}
           >
-            <SkipForward className="w-3.5 h-3.5 text-cyan-400" />
+            <SkipForward className="w-3.5 h-3.5 text-[#167C80]" />
             <span>{currentStep >= facts.length ? 'STEP (RESTART)' : 'STEP'}</span>
           </button>
 
           <button
             type="button"
             onClick={handleTogglePlay}
-            className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg border font-bold transition-all cursor-pointer ${
+            className={`flex items-center gap-1.5 px-4 py-1.5 rounded-xl border font-bold transition-all cursor-pointer ${
               isPlaying
-                ? 'border-amber-400 bg-amber-950/70 text-amber-200 ring-1 ring-amber-400'
-                : 'border-[#22D3EE] bg-cyan-950/70 text-[#22D3EE] hover:bg-cyan-900/80'
+                ? 'border-[#F5E2C4] bg-[#FDF8EE] text-[#A46622]'
+                : 'border-[#151515] bg-[#151515] text-[#FFFFFF] hover:bg-[#2A2926]'
             }`}
             title={isPlaying ? 'Pause animation' : 'Play fact ingestion step-by-step'}
           >
@@ -221,7 +221,7 @@ export const MemoryInspector: React.FC<MemoryInspectorProps> = ({
           <button
             type="button"
             onClick={handleReplay}
-            className="flex items-center gap-1 px-2.5 py-1.5 rounded-lg border border-[#252A35] bg-[#151922] text-[#8F96A3] hover:text-white hover:border-[#22D3EE]/50 transition-colors cursor-pointer"
+            className="flex items-center gap-1 px-3 py-1.5 rounded-xl border border-[#D8D4CB] bg-[#FAF8F5] text-[#716F68] hover:text-[#151515] hover:bg-[#F4F1EA] transition-colors cursor-pointer"
             title="Start playback from step 0"
           >
             <span>REPLAY</span>
@@ -230,10 +230,10 @@ export const MemoryInspector: React.FC<MemoryInspectorProps> = ({
           <button
             type="button"
             onClick={() => setIsLooping(!isLooping)}
-            className={`flex items-center gap-1 px-2.5 py-1.5 rounded-lg border text-[11px] transition-colors cursor-pointer ${
+            className={`flex items-center gap-1 px-3 py-1.5 rounded-xl border text-[11px] transition-colors cursor-pointer ${
               isLooping
-                ? 'border-cyan-500 bg-cyan-950 text-cyan-300'
-                : 'border-[#252A35] bg-[#151922] text-slate-500 hover:text-slate-300'
+                ? 'border-[#CFE8E8] bg-[#EDF7F7] text-[#167C80] font-bold'
+                : 'border-[#D8D4CB] bg-[#FAF8F5] text-[#716F68] hover:text-[#151515]'
             }`}
             title="Loop playback continuously"
           >
@@ -241,27 +241,27 @@ export const MemoryInspector: React.FC<MemoryInspectorProps> = ({
             <span>LOOP</span>
           </button>
 
-          <span className="ml-1 px-2.5 py-1 rounded bg-[#151922] border border-[#252A35] text-cyan-300 font-bold text-[11px]">
+          <span className="ml-1 px-3 py-1.5 rounded-xl bg-[#FAF8F5] border border-[#EAE6DF] text-[#167C80] font-bold text-[11px]">
             Step {currentStep} / {facts.length}
           </span>
         </div>
       </div>
 
       {/* Interactive Step Scrubber Slider */}
-      <div className="p-3 rounded-lg bg-[#0C101A] border border-[#20293C] space-y-2">
+      <div className="p-4 rounded-xl bg-[#FAF8F5] border border-[#EAE6DF] space-y-2.5">
         <div className="flex items-center justify-between text-xs font-mono">
-          <span className="text-slate-300 font-bold flex items-center gap-1.5">
+          <span className="text-[#151515] font-bold flex items-center gap-1.5">
             <span>SCRUB INGESTION TIMELINE:</span>
-            <span className="text-cyan-400">t = {currentStep}</span>
+            <span className="text-[#167C80]">t = {currentStep}</span>
           </span>
-          <span className="text-[11px] text-slate-400">
+          <span className="text-[11px] text-[#716F68]">
             {currentStep === 0
               ? 'Empty Initial State'
               : `${currentStep} of ${facts.length} facts ingested into memory`}
           </span>
         </div>
         <div className="flex items-center gap-3">
-          <span className="text-[10px] font-mono text-slate-500">t=0</span>
+          <span className="text-[10px] font-mono text-[#716F68]">t=0</span>
           <input
             type="range"
             min={0}
@@ -272,36 +272,36 @@ export const MemoryInspector: React.FC<MemoryInspectorProps> = ({
               setIsPlaying(false);
               changeStep(val);
             }}
-            className="w-full accent-cyan-400 h-2 bg-[#1B2232] rounded-lg cursor-pointer"
+            className="w-full accent-[#6842C2] h-2 bg-[#E5E0D8] rounded-lg cursor-pointer"
           />
-          <span className="text-[10px] font-mono text-slate-500">t={facts.length}</span>
+          <span className="text-[10px] font-mono text-[#716F68]">t={facts.length}</span>
         </div>
       </div>
 
       {/* Currently Ingested Fact Banner */}
       <div
-        className={`p-3 rounded-lg border transition-all text-xs font-mono flex items-center justify-between ${
+        className={`p-3.5 rounded-xl border transition-all text-xs font-mono flex items-center justify-between ${
           isLensActive && activeStage === 'write'
-            ? 'bg-cyan-950/70 border-cyan-400 text-cyan-200 ring-2 ring-cyan-500/40 shadow-md'
+            ? 'bg-[#EDF7F7] border-[#167C80] text-[#167C80] ring-1 ring-[#167C80]/30 shadow-xs'
             : currentFactBeingWritten
-            ? 'bg-[#151B28] border-cyan-900/50 text-slate-200'
-            : 'bg-[#11141A] border-[#252A35] text-slate-400'
+            ? 'bg-[#FAF8F5] border-[#EAE6DF] text-[#151515]'
+            : 'bg-[#FAF8F5] border-[#EAE6DF] text-[#716F68]'
         }`}
       >
         <div className="flex items-center gap-2.5 flex-wrap">
-          <span className="text-cyan-400 font-bold uppercase">
+          <span className="text-[#167C80] font-bold uppercase">
             {currentFactBeingWritten ? `Step ${currentStep} Active Write:` : 'Initial State (t=0):'}
           </span>
           {currentFactBeingWritten ? (
             <div className="flex items-center gap-2">
-              <span className="px-2 py-0.5 rounded bg-cyan-900/60 border border-cyan-700/60 font-bold text-white">
+              <span className="px-2.5 py-0.5 rounded-md bg-[#FFFFFF] border border-[#CFE8E8] font-bold text-[#167C80] shadow-xs">
                 {currentFactBeingWritten.key}
               </span>
-              <ArrowRight className="w-3 h-3 text-cyan-400" />
-              <span className="px-2 py-0.5 rounded bg-purple-900/60 border border-purple-700/60 font-bold text-white">
+              <ArrowRight className="w-3 h-3 text-[#BDB7AB]" />
+              <span className="px-2.5 py-0.5 rounded-md bg-[#FFFFFF] border border-[#E2D8FA] font-bold text-[#6842C2] shadow-xs">
                 {currentFactBeingWritten.value}
               </span>
-              <span className="text-[11px] text-slate-400">
+              <span className="text-[11px] text-[#716F68]">
                 (update: ΔM = {writeStrength} · k_{currentStep} ⊗ v_{currentStep}^T)
               </span>
             </div>
@@ -310,7 +310,7 @@ export const MemoryInspector: React.FC<MemoryInspectorProps> = ({
           )}
         </div>
         {isLensActive && activeStage === 'write' && (
-          <span className="text-[10px] font-bold bg-cyan-500 text-black px-2 py-0.5 rounded">
+          <span className="text-[10px] font-bold bg-[#167C80] text-[#FFFFFF] px-2.5 py-0.5 rounded-full">
             LENS: WRITE STAGE SPOTLIGHT
           </span>
         )}
@@ -320,7 +320,7 @@ export const MemoryInspector: React.FC<MemoryInspectorProps> = ({
       <div
         className={`transition-all rounded-xl ${
           isLensActive && activeStage === 'retrieval'
-            ? 'ring-2 ring-emerald-400 shadow-lg shadow-emerald-950/30'
+            ? 'ring-2 ring-[#247A4B] shadow-sm'
             : ''
         }`}
       >
@@ -338,22 +338,22 @@ export const MemoryInspector: React.FC<MemoryInspectorProps> = ({
           <div
             className={`rounded-xl border p-4 space-y-3 transition-all ${
               isLensActive && activeStage === 'state'
-                ? 'border-cyan-400 bg-[#0F1626] ring-2 ring-cyan-500/40 shadow-lg shadow-cyan-950/30'
-                : 'border-[#252A35] bg-[#151922]'
+                ? 'border-[#167C80] bg-[#F7FCFC] ring-1 ring-[#167C80]/30 shadow-xs'
+                : 'border-[#EAE6DF] bg-[#FAF8F5]'
             }`}
           >
             <div className="flex items-center justify-between text-xs font-mono">
-              <span className="text-white font-semibold flex items-center gap-1.5">
-                <Database className="w-3.5 h-3.5 text-violet-400" />
+              <span className="text-[#151515] font-bold flex items-center gap-1.5">
+                <Database className="w-3.5 h-3.5 text-[#6842C2]" />
                 ASSOCIATIVE MEMORY MATRIX M ({dim}×{dim})
               </span>
-              <span className="text-[10px] text-cyan-300 bg-[#0C101A] px-2 py-0.5 rounded border border-[#20293C]">
+              <span className="text-[10px] text-[#167C80] bg-[#FFFFFF] px-2 py-0.5 rounded border border-[#CFE8E8]">
                 <MathView math="M_{t+1} = \lambda M_t + \eta k_t v_t^T" />
               </span>
             </div>
 
             {/* Matrix Heatmap Grid */}
-            <div className="overflow-x-auto p-3 bg-[#07080B] rounded-lg border border-[#252A35]">
+            <div className="overflow-x-auto p-3 bg-[#FFFFFF] rounded-lg border border-[#E5E0D8]">
               <div
                 className="grid gap-[2px] mx-auto w-fit select-none"
                 style={{
@@ -366,8 +366,8 @@ export const MemoryInspector: React.FC<MemoryInspectorProps> = ({
                     const isPositive = val >= 0;
                     const opacity = Math.min(1, absVal * 1.8);
                     const bgStyle = isPositive
-                      ? `rgba(34, 211, 238, ${Math.max(0.08, opacity)})`
-                      : `rgba(244, 63, 94, ${Math.max(0.08, opacity)})`;
+                      ? `rgba(22, 124, 128, ${Math.max(0.08, opacity * 0.7)})`
+                      : `rgba(182, 66, 53, ${Math.max(0.08, opacity * 0.7)})`;
 
                     return (
                       <div
@@ -389,7 +389,7 @@ export const MemoryInspector: React.FC<MemoryInspectorProps> = ({
                           });
                         }}
                         onMouseLeave={() => setHoveredCell(null)}
-                        className="w-4 h-4 sm:w-5 sm:h-5 rounded-[2px] transition-all hover:ring-2 hover:ring-white cursor-pointer relative"
+                        className="w-4 h-4 sm:w-5 sm:h-5 rounded-[2px] transition-all hover:ring-2 hover:ring-[#151515] cursor-pointer relative"
                         style={{ backgroundColor: bgStyle }}
                         title={`M[${rIdx},${cIdx}] = ${val.toFixed(3)}`}
                       />
@@ -400,16 +400,16 @@ export const MemoryInspector: React.FC<MemoryInspectorProps> = ({
             </div>
 
             {/* Pipeline Step Legend */}
-            <div className="flex flex-wrap items-center justify-between gap-2 text-[10px] font-mono text-[#8F96A3] pt-1 border-t border-[#252A35]">
+            <div className="flex flex-wrap items-center justify-between gap-2 text-[10px] font-mono text-[#716F68] pt-1 border-t border-[#EAE6DF]">
               <div className="flex items-center gap-3">
                 <span className="flex items-center gap-1">
-                  <span className="w-2.5 h-2.5 rounded bg-[#22D3EE] inline-block" /> Positive Weight
+                  <span className="w-2.5 h-2.5 rounded bg-[#167C80] inline-block" /> Positive Weight
                 </span>
                 <span className="flex items-center gap-1">
-                  <span className="w-2.5 h-2.5 rounded bg-[#F43F5E] inline-block" /> Negative Weight
+                  <span className="w-2.5 h-2.5 rounded bg-[#B64235] inline-block" /> Negative Weight
                 </span>
               </div>
-              <span className="text-cyan-400">Hover cell for weight telemetry</span>
+              <span className="text-[#167C80] font-medium">Hover cell for weight telemetry</span>
             </div>
           </div>
 
@@ -417,13 +417,13 @@ export const MemoryInspector: React.FC<MemoryInspectorProps> = ({
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs font-mono">
             {/* Query Vector q */}
             <div
-              className={`rounded-xl border p-3 space-y-2 transition-all ${
+              className={`rounded-xl border p-3.5 space-y-2 transition-all ${
                 isLensActive && activeStage === 'query'
-                  ? 'border-violet-400 bg-violet-950/40 ring-2 ring-violet-500/40'
-                  : 'border-[#252A35] bg-[#151922]'
+                  ? 'border-[#E2D8FA] bg-[#F3EFFF]'
+                  : 'border-[#EAE6DF] bg-[#FAF8F5]'
               }`}
             >
-              <span className="text-[10px] text-[#8F96A3] uppercase block font-bold">
+              <span className="text-[10px] text-[#716F68] uppercase block font-bold">
                 QUERY KEY VECTOR q ("{queryKey}")
               </span>
               <div className="flex flex-wrap gap-1">
@@ -434,8 +434,8 @@ export const MemoryInspector: React.FC<MemoryInspectorProps> = ({
                     style={{
                       backgroundColor:
                         val >= 0
-                          ? `rgba(168, 85, 247, ${Math.max(0.15, Math.abs(val))})`
-                          : `rgba(236, 72, 153, ${Math.max(0.15, Math.abs(val))})`,
+                          ? `rgba(104, 66, 194, ${Math.max(0.15, Math.abs(val))})`
+                          : `rgba(182, 66, 53, ${Math.max(0.15, Math.abs(val))})`,
                     }}
                     title={`q[${i}] = ${val.toFixed(3)}`}
                   />
@@ -445,13 +445,13 @@ export const MemoryInspector: React.FC<MemoryInspectorProps> = ({
 
             {/* Retrieved Value Vector v_hat */}
             <div
-              className={`rounded-xl border p-3 space-y-2 transition-all ${
+              className={`rounded-xl border p-3.5 space-y-2 transition-all ${
                 isLensActive && activeStage === 'retrieval'
-                  ? 'border-emerald-400 bg-emerald-950/40 ring-2 ring-emerald-500/40'
-                  : 'border-[#252A35] bg-[#151922]'
+                  ? 'border-[#CDEEDB] bg-[#EDF8F2]'
+                  : 'border-[#EAE6DF] bg-[#FAF8F5]'
               }`}
             >
-              <span className="text-[10px] text-[#8F96A3] uppercase block font-bold">
+              <span className="text-[10px] text-[#716F68] uppercase block font-bold">
                 RETRIEVED VALUE VECTOR v̂ = q^T M
               </span>
               <div className="flex flex-wrap gap-1">
@@ -462,8 +462,8 @@ export const MemoryInspector: React.FC<MemoryInspectorProps> = ({
                     style={{
                       backgroundColor:
                         val >= 0
-                          ? `rgba(34, 211, 238, ${Math.max(0.15, Math.min(1, Math.abs(val) * 1.5))})`
-                          : `rgba(244, 63, 94, ${Math.max(0.15, Math.min(1, Math.abs(val) * 1.5))})`,
+                          ? `rgba(22, 124, 128, ${Math.max(0.15, Math.min(1, Math.abs(val) * 1.5))})`
+                          : `rgba(182, 66, 53, ${Math.max(0.15, Math.min(1, Math.abs(val) * 1.5))})`,
                     }}
                     title={`v̂[${i}] = ${val.toFixed(3)}`}
                   />
@@ -479,15 +479,15 @@ export const MemoryInspector: React.FC<MemoryInspectorProps> = ({
           <div
             className={`rounded-xl border p-4 space-y-3 transition-all ${
               isLensActive && activeStage === 'retrieval'
-                ? 'border-emerald-500/60 bg-[#0E171E] ring-1 ring-emerald-500/40'
-                : 'border-[#252A35] bg-[#151922]'
+                ? 'border-[#CDEEDB] bg-[#EDF8F2]'
+                : 'border-[#EAE6DF] bg-[#FAF8F5]'
             }`}
           >
-            <span className="text-white font-semibold text-xs uppercase tracking-wider block">
+            <span className="text-[#151515] font-bold text-xs uppercase tracking-wider block">
               Cosine Similarity to Known Values
             </span>
 
-            <div className="space-y-1.5 max-h-48 overflow-y-auto pr-1">
+            <div className="space-y-1.5 max-h-48 overflow-y-auto pr-1 custom-scrollbar">
               {queryResult.candidates.length > 0 ? (
                 queryResult.candidates.map((cand, idx) => {
                   const isTop = idx === 0;
@@ -497,31 +497,31 @@ export const MemoryInspector: React.FC<MemoryInspectorProps> = ({
                   return (
                     <div
                       key={cand.value}
-                      className={`p-2 rounded border transition-colors ${
+                      className={`p-2.5 rounded-lg border transition-colors ${
                         isTop
                           ? isTruth
-                            ? 'border-emerald-500/50 bg-emerald-950/20 text-emerald-200'
-                            : 'border-rose-500/50 bg-rose-950/20 text-rose-200'
-                          : 'border-[#252A35] bg-[#11141A] text-[#8F96A3]'
+                            ? 'border-[#CDEEDB] bg-[#EDF8F2] text-[#247A4B]'
+                            : 'border-[#F7D3CF] bg-[#FDF2F0] text-[#B64235]'
+                          : 'border-[#EAE6DF] bg-[#FFFFFF] text-[#52504A]'
                       }`}
                     >
                       <div className="flex items-center justify-between text-[11px] mb-1">
-                        <span className="font-semibold flex items-center gap-1.5">
+                        <span className="font-bold flex items-center gap-1.5">
                           {isTop && <span>★</span>}
                           {cand.value}
-                          {isTruth && <span className="text-[9px] text-[#22D3EE]">(Truth)</span>}
+                          {isTruth && <span className="text-[9px] text-[#167C80]">(Truth)</span>}
                         </span>
                         <span>cosine = {cand.score.toFixed(3)}</span>
                       </div>
 
-                      <div className="w-full bg-[#07080B] h-1.5 rounded-full overflow-hidden border border-[#252A35]">
+                      <div className="w-full bg-[#E5E0D8] h-1.5 rounded-full overflow-hidden">
                         <div
                           className={`h-full rounded-full transition-all ${
                             isTop
                               ? isTruth
-                                ? 'bg-emerald-400'
-                                : 'bg-rose-400'
-                              : 'bg-zinc-600'
+                                ? 'bg-[#247A4B]'
+                                : 'bg-[#B64235]'
+                              : 'bg-[#BDB7AB]'
                           }`}
                           style={{ width: `${barWidth}%` }}
                         />
@@ -530,7 +530,7 @@ export const MemoryInspector: React.FC<MemoryInspectorProps> = ({
                   );
                 })
               ) : (
-                <div className="p-3 text-center text-slate-500 text-[11px]">
+                <div className="p-3 text-center text-[#716F68] text-[11px]">
                   No memory signal retrieved at step t={currentStep}. Advance step to ingest facts.
                 </div>
               )}
@@ -541,19 +541,19 @@ export const MemoryInspector: React.FC<MemoryInspectorProps> = ({
           <div
             className={`rounded-xl border p-4 space-y-2.5 transition-all ${
               isLensActive && activeStage === 'persistence'
-                ? 'border-indigo-400 bg-indigo-950/30 ring-2 ring-indigo-500/40'
-                : 'border-[#252A35] bg-[#151922]'
+                ? 'border-[#E2D8FA] bg-[#F3EFFF]'
+                : 'border-[#EAE6DF] bg-[#FAF8F5]'
             }`}
           >
             <div className="flex items-center justify-between">
-              <span className="text-white font-semibold text-xs uppercase tracking-wider">
+              <span className="text-[#151515] font-bold text-xs uppercase tracking-wider">
                 State Vector Over Time (t=0..{stateHistory.length - 1})
               </span>
-              <span className="text-[10px] text-[#8F96A3]">D={dim}</span>
+              <span className="text-[10px] text-[#716F68]">D={dim}</span>
             </div>
 
-            <div className="overflow-x-auto p-2 bg-[#07080B] rounded border border-[#252A35]">
-              <div className="flex gap-1 items-center">
+            <div className="overflow-x-auto p-2.5 bg-[#FFFFFF] rounded-lg border border-[#E5E0D8]">
+              <div className="flex gap-1.5 items-center">
                 {stateHistory.map((stepVec, tIdx) => (
                   <button
                     type="button"
@@ -564,12 +564,12 @@ export const MemoryInspector: React.FC<MemoryInspectorProps> = ({
                     }}
                     className={`flex flex-col gap-[2px] cursor-pointer p-1 rounded transition-all ${
                       currentStep === tIdx
-                        ? 'ring-2 ring-[#22D3EE] bg-cyan-950/60'
-                        : 'hover:bg-zinc-850'
+                        ? 'ring-2 ring-[#167C80] bg-[#EDF7F7]'
+                        : 'hover:bg-[#FAF8F5]'
                     }`}
                     title={`Click to jump to step t=${tIdx}`}
                   >
-                    <span className="text-[8px] text-center text-[#8F96A3] mb-0.5 font-mono">
+                    <span className="text-[8px] text-center text-[#716F68] mb-0.5 font-mono">
                       t{tIdx}
                     </span>
                     {stepVec.slice(0, Math.min(16, dim)).map((v, dIdx) => (
@@ -579,8 +579,8 @@ export const MemoryInspector: React.FC<MemoryInspectorProps> = ({
                         style={{
                           backgroundColor:
                             v >= 0
-                              ? `rgba(34, 211, 238, ${Math.max(0.1, Math.min(1, Math.abs(v)))})`
-                              : `rgba(244, 63, 94, ${Math.max(0.1, Math.min(1, Math.abs(v)))})`,
+                              ? `rgba(22, 124, 128, ${Math.max(0.1, Math.min(1, Math.abs(v)))})`
+                              : `rgba(182, 66, 53, ${Math.max(0.1, Math.min(1, Math.abs(v)))})`,
                         }}
                       />
                     ))}
@@ -591,35 +591,35 @@ export const MemoryInspector: React.FC<MemoryInspectorProps> = ({
           </div>
 
           {/* Technical Detail Panel */}
-          <div className="rounded-xl border border-[#252A35] bg-[#11141A] p-3 text-[11px] font-mono space-y-2">
-            <div className="flex items-center justify-between text-[#22D3EE] font-semibold border-b border-[#252A35] pb-1.5">
-              <span className="flex items-center gap-1">
+          <div className="rounded-xl border border-[#EAE6DF] bg-[#FAF8F5] p-3.5 text-[11px] font-mono space-y-2">
+            <div className="flex items-center justify-between text-[#167C80] font-bold border-b border-[#EAE6DF] pb-2">
+              <span className="flex items-center gap-1.5">
                 <Activity className="w-3.5 h-3.5" />
                 STATE TELEMETRY
               </span>
               <span>D={dim}</span>
             </div>
 
-            <div className="grid grid-cols-2 gap-2 text-zinc-300">
+            <div className="grid grid-cols-2 gap-2 text-[#52504A]">
               <div>
-                <span className="text-[#8F96A3] text-[10px] block">CURRENT STATE NORM:</span>
-                <span className="font-bold text-white">{stateNorm.toFixed(3)}</span>
+                <span className="text-[#716F68] text-[10px] block font-semibold">CURRENT STATE NORM:</span>
+                <span className="font-bold text-[#151515]">{stateNorm.toFixed(3)}</span>
               </div>
               <div>
-                <span className="text-[#8F96A3] text-[10px] block">ACTIVE UNITS (&gt;0.05):</span>
-                <span className="font-bold text-[#22D3EE]">{activeUnits} / {dim}</span>
+                <span className="text-[#716F68] text-[10px] block font-semibold">ACTIVE UNITS (&gt;0.05):</span>
+                <span className="font-bold text-[#167C80]">{activeUnits} / {dim}</span>
               </div>
             </div>
 
             {/* Hovered cell info if present */}
             {hoveredCell ? (
-              <div className="pt-2 border-t border-[#252A35] text-[10px] text-amber-300">
+              <div className="pt-2 border-t border-[#EAE6DF] text-[10px] text-[#A46622]">
                 <span>Cell [Row {hoveredCell.row}, Col {hoveredCell.col}]:</span>{' '}
-                <span className="font-bold text-white">val = {hoveredCell.value.toFixed(4)}</span>{' '}
-                <span className="text-zinc-400">(Δ = {hoveredCell.delta > 0 ? '+' : ''}{hoveredCell.delta.toFixed(4)})</span>
+                <span className="font-bold text-[#151515]">val = {hoveredCell.value.toFixed(4)}</span>{' '}
+                <span className="text-[#716F68]">(Δ = {hoveredCell.delta > 0 ? '+' : ''}{hoveredCell.delta.toFixed(4)})</span>
               </div>
             ) : (
-              <div className="pt-2 border-t border-[#252A35] text-[10px] text-[#8F96A3]">
+              <div className="pt-2 border-t border-[#EAE6DF] text-[10px] text-[#716F68]">
                 Hover over matrix cells to inspect localized coordinate delta.
               </div>
             )}

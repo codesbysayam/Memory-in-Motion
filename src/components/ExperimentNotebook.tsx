@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { BookOpen, Download, Trash2, CheckCircle2, AlertTriangle, ArrowRight, Copy } from 'lucide-react';
+import { BookOpen, Download, Trash2, CheckCircle2, AlertTriangle, Copy } from 'lucide-react';
 
 export interface NotebookEntry {
   id: string;
@@ -49,40 +49,40 @@ export const ExperimentNotebook: React.FC<ExperimentNotebookProps> = ({
   };
 
   return (
-    <div className={`rounded-xl border border-[#252A35] bg-[#0E121A] p-4 flex flex-col font-mono text-xs ${className}`}>
+    <div className={`rounded-2xl border border-[#E5E0D8] bg-[#FFFFFF] p-5 flex flex-col font-mono text-xs shadow-xs ${className}`}>
       {/* Header */}
-      <div className="flex items-center justify-between border-b border-[#1E2536] pb-3 mb-3">
+      <div className="flex items-center justify-between border-b border-[#EAE6DF] pb-3 mb-3">
         <div className="flex items-center gap-2">
-          <BookOpen className="w-4 h-4 text-cyan-400" />
-          <span className="font-bold text-white tracking-wide uppercase">
+          <BookOpen className="w-4 h-4 text-[#167C80]" />
+          <span className="font-bold text-[#151515] tracking-wide uppercase">
             EXPERIMENT NOTEBOOK
           </span>
-          <span className="text-[10px] bg-[#182030] text-cyan-300 px-1.5 py-0.5 rounded border border-cyan-800/40">
+          <span className="text-[10px] bg-[#EDF7F7] text-[#167C80] px-2 py-0.5 rounded border border-[#CFE8E8] font-bold">
             {entries.length} LOGGED
           </span>
         </div>
 
-        <div className="flex items-center gap-1">
+        <div className="flex items-center gap-1.5">
           <button
             onClick={handleExportText}
-            className="p-1 px-2 rounded bg-[#151924] hover:bg-[#1E2538] text-slate-300 hover:text-white border border-[#252A35] text-[10px] flex items-center gap-1 transition"
+            className="p-1.5 px-2.5 rounded-lg bg-[#FAF8F5] hover:bg-[#F4F1EA] text-[#716F68] hover:text-[#151515] border border-[#D8D4CB] text-[10px] flex items-center gap-1 transition cursor-pointer"
             title="Copy as Plain Text"
           >
-            <Copy className="w-3 h-3 text-cyan-400" />
+            <Copy className="w-3 h-3 text-[#167C80]" />
             <span>{copied ? 'COPIED ✓' : 'COPY'}</span>
           </button>
           <button
             onClick={handleExportJSON}
-            className="p-1 px-2 rounded bg-[#151924] hover:bg-[#1E2538] text-slate-300 hover:text-white border border-[#252A35] text-[10px] flex items-center gap-1 transition"
+            className="p-1.5 px-2.5 rounded-lg bg-[#FAF8F5] hover:bg-[#F4F1EA] text-[#716F68] hover:text-[#151515] border border-[#D8D4CB] text-[10px] flex items-center gap-1 transition cursor-pointer"
             title="Export JSON"
           >
-            <Download className="w-3 h-3 text-indigo-400" />
+            <Download className="w-3 h-3 text-[#6842C2]" />
             <span>JSON</span>
           </button>
           {entries.length > 0 && (
             <button
               onClick={onClear}
-              className="p-1 px-1.5 rounded bg-rose-950/40 hover:bg-rose-900/60 text-rose-300 border border-rose-800/50 text-[10px] transition ml-1"
+              className="p-1.5 px-2 rounded-lg bg-[#FDF2F0] hover:bg-[#FCE7E4] text-[#B64235] border border-[#F7D3CF] text-[10px] transition cursor-pointer ml-1"
               title="Clear Notebook"
             >
               <Trash2 className="w-3 h-3" />
@@ -92,9 +92,9 @@ export const ExperimentNotebook: React.FC<ExperimentNotebookProps> = ({
       </div>
 
       {/* Entries List */}
-      <div className="space-y-2 max-h-60 overflow-y-auto pr-1">
+      <div className="space-y-2 max-h-60 overflow-y-auto pr-1 custom-scrollbar">
         {entries.length === 0 ? (
-          <div className="py-6 text-center text-slate-500 text-[11px]">
+          <div className="py-6 text-center text-[#716F68] text-[11px] font-sans">
             No experiment actions logged yet. Changing parameters, querying keys, or running sweeps will log automatically.
           </div>
         ) : (
@@ -105,34 +105,34 @@ export const ExperimentNotebook: React.FC<ExperimentNotebookProps> = ({
             return (
               <div
                 key={entry.id}
-                className={`p-2 rounded-lg border text-[11px] space-y-0.5 transition-all ${
+                className={`p-2.5 rounded-lg border text-[11px] space-y-1 transition-all ${
                   isFailure
-                    ? 'bg-rose-950/20 border-rose-800/50 text-rose-200'
+                    ? 'bg-[#FDF2F0] border-[#F7D3CF] text-[#B64235]'
                     : isRecovery
-                    ? 'bg-emerald-950/20 border-emerald-800/50 text-emerald-200'
-                    : 'bg-[#121622] border-[#202738] text-slate-300'
+                    ? 'bg-[#EDF8F2] border-[#CDEEDB] text-[#247A4B]'
+                    : 'bg-[#FAF8F5] border-[#EAE6DF] text-[#52504A]'
                 }`}
               >
                 <div className="flex items-center justify-between text-[10px]">
-                  <span className="text-slate-500">{entry.timestamp}</span>
+                  <span className="text-[#716F68]">{entry.timestamp}</span>
                   <span
                     className={`uppercase font-bold tracking-wider ${
                       isFailure
-                        ? 'text-rose-400'
+                        ? 'text-[#B64235]'
                         : isRecovery
-                        ? 'text-emerald-400'
-                        : 'text-cyan-400'
+                        ? 'text-[#247A4B]'
+                        : 'text-[#167C80]'
                     }`}
                   >
                     {entry.type}
                   </span>
                 </div>
-                <div className="font-semibold text-white flex items-center gap-1">
-                  {isFailure && <AlertTriangle className="w-3 h-3 text-rose-400 shrink-0" />}
-                  {isRecovery && <CheckCircle2 className="w-3 h-3 text-emerald-400 shrink-0" />}
+                <div className="font-semibold text-[#151515] flex items-center gap-1.5">
+                  {isFailure && <AlertTriangle className="w-3 h-3 text-[#B64235] shrink-0" />}
+                  {isRecovery && <CheckCircle2 className="w-3 h-3 text-[#247A4B] shrink-0" />}
                   <span>{entry.title}</span>
                 </div>
-                <div className="text-[10px] text-slate-400 leading-tight">
+                <div className="text-[10px] text-[#716F68] leading-relaxed">
                   {entry.detail}
                 </div>
               </div>

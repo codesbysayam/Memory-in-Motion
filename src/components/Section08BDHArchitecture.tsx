@@ -1,6 +1,6 @@
 import React, { useState, useMemo } from 'react';
-import { Network, MousePointerClick, Info, ArrowRight, Sparkles, Sliders } from 'lucide-react';
-import { BDHToyModel, BDHToyNeuron, BDHToySynapse } from '../models/bdhToyModel';
+import { ArrowRight, Sliders } from 'lucide-react';
+import { BDHToyModel } from '../models/bdhToyModel';
 import { SectionHeader } from './ui/SectionHeader';
 import { ControlSlider } from './ui/ControlSlider';
 import { EquationCard } from './ui/EquationCard';
@@ -44,12 +44,12 @@ export const Section08BDHArchitecture: React.FC = () => {
   }, 0);
 
   return (
-    <section id="section-08" className="scroll-mt-20 border-b border-[#252A35] bg-[#07080B] py-14">
-      <div className="max-w-[1400px] mx-auto px-4 sm:px-6">
+    <section id="section-08" className="scroll-mt-20 border-b border-[#E5E0D8] bg-[#FBF9F5] py-20 text-[#151515]">
+      <div className="max-w-[1400px] mx-auto px-4 sm:px-6 space-y-12">
         <SectionHeader
           number="08"
           category="BDH ARCHITECTURE & GRAPH PARTICLES"
-          title="Where Does BDH Store Memory? Inside the Synapses"
+          title="Where does BDH store memory? Inside the synapses"
           subtitle="In BDH, memory is associated with synaptic connection state rather than simply being an ever-growing token history or a single dense state vector."
           discovery="Synaptic plasticity W_ij(t) allows the computational fabric itself to store associations without blowing up inference memory."
         />
@@ -57,32 +57,32 @@ export const Section08BDHArchitecture: React.FC = () => {
         {/* 12-Column Responsive Layout */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
           {/* Left Column: Equations, Pipeline & Plasticity Slider */}
-          <div className="lg:col-span-5 space-y-5">
+          <div className="lg:col-span-5 space-y-6">
             <div className="flex items-center justify-between">
               <SourceBadge type="illustration" />
-              <span className="text-[10px] font-mono text-[#8F96A3]">ILLUSTRATIVE GRAPH MODEL</span>
+              <span className="text-[10px] font-mono text-[#716F68]">ILLUSTRATIVE GRAPH MODEL</span>
             </div>
 
             {/* Inference Data Flow */}
-            <div className="rounded-xl border border-[#252A35] bg-[#11141A] p-4 space-y-2.5">
-              <span className="font-mono text-xs uppercase tracking-widest text-[#8F96A3] block">
+            <div className="rounded-2xl border border-[#E5E0D8] bg-[#FFFFFF] p-5 space-y-3 shadow-xs">
+              <span className="font-mono text-xs uppercase tracking-widest text-[#716F68] block">
                 BDH INFERENCE DATA FLOW
               </span>
 
-              <div className="flex flex-wrap items-center gap-1.5 text-xs font-mono">
-                <span className="bg-[#151922] text-[#22D3EE] border border-[#252A35] px-2 py-1 rounded">
+              <div className="flex flex-wrap items-center gap-2 text-xs font-mono">
+                <span className="bg-[#FAF8F5] text-[#167C80] border border-[#E5E0D8] px-2.5 py-1 rounded-lg font-medium">
                   Input Pattern
                 </span>
-                <ArrowRight className="w-3 h-3 text-[#8F96A3]" />
-                <span className="bg-[#151922] text-white border border-[#252A35] px-2 py-1 rounded">
+                <ArrowRight className="w-3.5 h-3.5 text-[#A8A29E]" />
+                <span className="bg-[#FAF8F5] text-[#151515] border border-[#E5E0D8] px-2.5 py-1 rounded-lg font-medium">
                   Neuron Particles
                 </span>
-                <ArrowRight className="w-3 h-3 text-[#8F96A3]" />
-                <span className="bg-violet-950/40 text-violet-300 border border-violet-500/40 px-2 py-1 rounded font-semibold">
+                <ArrowRight className="w-3.5 h-3.5 text-[#A8A29E]" />
+                <span className="bg-[#F3EFFF] text-[#6842C2] border border-[#E2D8FA] px-2.5 py-1 rounded-lg font-semibold">
                   Synaptic Update
                 </span>
-                <ArrowRight className="w-3 h-3 text-[#8F96A3]" />
-                <span className="bg-emerald-950/40 text-emerald-300 border border-emerald-500/40 px-2 py-1 rounded">
+                <ArrowRight className="w-3.5 h-3.5 text-[#A8A29E]" />
+                <span className="bg-[#EDF8F2] text-[#247A4B] border border-[#CDEEDB] px-2.5 py-1 rounded-lg font-medium">
                   Output State
                 </span>
               </div>
@@ -91,12 +91,12 @@ export const Section08BDHArchitecture: React.FC = () => {
             {/* Published BDH Formalism vs Simplified Update */}
             <div className="space-y-2">
               <div className="flex items-center justify-between">
-                <span className="text-[10px] font-mono uppercase text-slate-400 font-bold">
+                <span className="text-[10px] font-mono uppercase text-[#716F68] font-bold">
                   SYNAPTIC UPDATE FORMALISM
                 </span>
                 <button
                   onClick={() => setShowPublishedEquation(!showPublishedEquation)}
-                  className="text-[10px] font-mono text-cyan-300 hover:text-white underline transition cursor-pointer"
+                  className="text-[10px] font-mono text-[#167C80] hover:text-[#6842C2] underline transition cursor-pointer"
                 >
                   {showPublishedEquation ? 'Show Educational Equation' : 'Show Published Equation'}
                 </button>
@@ -119,57 +119,29 @@ export const Section08BDHArchitecture: React.FC = () => {
               )}
             </div>
 
-            {/* Controls Panel */}
-            <div className="rounded-xl border border-[#252A35] bg-[#11141A] p-5 space-y-4">
-              <div className="flex items-center justify-between border-b border-[#252A35] pb-2">
-                <span className="text-xs font-mono uppercase tracking-widest text-[#22D3EE] font-semibold flex items-center gap-1.5">
-                  <Sliders className="w-3.5 h-3.5" />
-                  GRAPH CONTROLS
-                </span>
-                <span className="text-[10px] font-mono text-[#8F96A3]">INTERACTIVE TOY</span>
-              </div>
-
-              {/* Neuron Count Selector */}
-              <div className="space-y-1.5">
-                <label className="text-xs font-mono text-white flex items-center justify-between">
-                  <span>Neuron Population:</span>
-                  <span className="text-[#22D3EE] font-bold">{numNeurons} units</span>
-                </label>
-                <div className="grid grid-cols-4 gap-1.5 font-mono text-xs">
-                  {([16, 24, 32, 64] as const).map((n) => (
-                    <button
-                      key={n}
-                      onClick={() => {
-                        setNumNeurons(n);
-                        setSelectedNeuronId(0);
-                      }}
-                      className={`py-1 rounded-lg border transition-all ${
-                        numNeurons === n
-                          ? 'border-[#22D3EE] bg-cyan-950/60 text-[#22D3EE] font-bold'
-                          : 'border-[#252A35] bg-[#151922] text-[#8F96A3] hover:text-white'
-                      }`}
-                    >
-                      {n}
-                    </button>
-                  ))}
-                </div>
+            {/* Hyperparameter Controls */}
+            <div className="rounded-2xl border border-[#E5E0D8] bg-[#FFFFFF] p-6 space-y-5 shadow-xs">
+              <div className="flex items-center gap-2 border-b border-[#EAE6DF] pb-3">
+                <Sliders className="w-4 h-4 text-[#6842C2]" />
+                <h4 className="font-mono text-xs font-bold uppercase tracking-wider text-[#151515]">
+                  Graph Dynamics & Plasticity Controls
+                </h4>
               </div>
 
               {/* Input Pattern Selector */}
-              <div className="space-y-1.5">
-                <label className="text-xs font-mono text-white flex items-center justify-between">
-                  <span>Input Pattern Injection:</span>
-                  <span className="text-violet-400 font-bold">{inputPattern}</span>
+              <div className="space-y-2">
+                <label className="text-xs font-mono text-[#716F68] block">
+                  1. Input Seed Pattern:
                 </label>
-                <div className="grid grid-cols-4 gap-1.5 font-mono text-[11px]">
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
                   {(['Alpha', 'Beta', 'Gamma', 'Orthogonal'] as const).map((pat) => (
                     <button
                       key={pat}
                       onClick={() => setInputPattern(pat)}
-                      className={`py-1 px-1 rounded-lg border transition-all ${
+                      className={`py-1.5 px-2.5 rounded-xl font-mono text-xs transition cursor-pointer border ${
                         inputPattern === pat
-                          ? 'border-violet-500 bg-violet-950/60 text-violet-300 font-bold'
-                          : 'border-[#252A35] bg-[#151922] text-[#8F96A3] hover:text-white'
+                          ? 'border-[#6842C2] bg-[#F3EFFF] text-[#6842C2] font-bold'
+                          : 'border-[#E5E0D8] bg-[#FFFFFF] text-[#52504A] hover:bg-[#FAF8F5]'
                       }`}
                     >
                       {pat}
@@ -178,83 +150,97 @@ export const Section08BDHArchitecture: React.FC = () => {
                 </div>
               </div>
 
-              {/* Slider 1: Sparsity / Active fraction */}
+              {/* Number of Graph Neurons */}
+              <div className="space-y-2">
+                <label className="text-xs font-mono text-[#716F68] block">
+                  2. Graph Size (Particle Count):
+                </label>
+                <div className="flex gap-2">
+                  {([16, 24, 32, 64] as const).map((cnt) => (
+                    <button
+                      key={cnt}
+                      onClick={() => setNumNeurons(cnt)}
+                      className={`flex-1 py-1.5 rounded-xl font-mono text-xs transition cursor-pointer border ${
+                        numNeurons === cnt
+                          ? 'border-[#167C80] bg-[#EDF7F7] text-[#167C80] font-bold'
+                          : 'border-[#E5E0D8] bg-[#FFFFFF] text-[#52504A] hover:bg-[#FAF8F5]'
+                      }`}
+                    >
+                      {cnt} N
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Synaptic Strength (η) */}
               <ControlSlider
-                label="Sparsity Threshold"
-                value={Math.round(activeFraction * 100)}
-                min={10}
-                max={80}
-                step={5}
-                unit="%"
-                description="Higher threshold suppresses lower activations, enforcing cortical sparsity."
-                onChange={(val) => setActiveFraction(val / 100)}
+                label="Synaptic Plasticity Rate (η)"
+                value={synapticStrength}
+                min={0.1}
+                max={1.0}
+                step={0.05}
+                onChange={setSynapticStrength}
+                hint="Controls how much weight is added to connection state σ_ij during coincident firing."
               />
 
-              {/* Slider 2: Recurrent Steps */}
+              {/* Recurrent Steps */}
               <ControlSlider
-                label="Recurrent Relaxation Steps"
+                label="Recurrent Relaxation Steps (L)"
                 value={recurrentSteps}
                 min={1}
                 max={8}
                 step={1}
-                unit="steps"
-                description="Number of multi-hop interaction cycles across the graph per token."
-                onChange={(val) => setRecurrentSteps(val)}
+                onChange={setRecurrentSteps}
+                hint="Internal multi-hop relaxation cycles per inference token step."
               />
 
-              {/* Slider 3: Synaptic Strength */}
+              {/* Active Fraction (Sparsity) */}
               <ControlSlider
-                label="Plastic Synaptic Strength (η)"
-                value={Math.round(synapticStrength * 100)}
-                min={0}
-                max={100}
-                step={10}
-                unit="%"
-                description="Modulates how strongly co-activated neurons strengthen their connection state."
-                onChange={(val) => setSynapticStrength(val / 100)}
+                label="Neuron Sparsity Fraction (Top-K)"
+                value={activeFraction}
+                min={0.1}
+                max={0.7}
+                step={0.05}
+                onChange={setActiveFraction}
+                hint="Only top-k fraction of neurons fire positive signals; others stay zero."
               />
             </div>
           </div>
 
-          {/* Right Column: Interactive Particle Graph SVG & Telemetry */}
-          <div className="lg:col-span-7 space-y-4">
-            <div className="rounded-xl border border-[#252A35] bg-[#11141A] p-5 space-y-4">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                  <Network className="w-4 h-4 text-violet-400" />
-                  <span className="font-mono text-xs uppercase tracking-wider text-white font-semibold">
-                    {numNeurons}-NEURON PARTICLE GRAPH
-                  </span>
-                </div>
-                <div className="flex items-center gap-3 text-xs font-mono text-[#8F96A3]">
-                  <span className="flex items-center gap-1">
-                    <MousePointerClick className="w-3.5 h-3.5 text-[#22D3EE]" /> Click node or edge
-                  </span>
-                </div>
+          {/* Right Column: Scale-Free Graph Visualizer & Inspector */}
+          <div className="lg:col-span-7 space-y-6">
+            <div className="rounded-2xl border border-[#E5E0D8] bg-[#FFFFFF] p-6 space-y-6 shadow-xs">
+              <div className="flex flex-wrap items-center justify-between gap-2 border-b border-[#EAE6DF] pb-3">
+                <h3 className="text-sm font-serif font-bold text-[#151515]">
+                  Scale-free particle graph & synaptic flow
+                </h3>
+                <span className="text-xs font-mono text-[#716F68]">
+                  Step {recurrentSteps} / {recurrentSteps} completed
+                </span>
               </div>
 
-              {/* Sparse Activity Bar */}
-              <div className="grid grid-cols-3 gap-2 p-2 rounded-lg bg-[#151922] border border-[#252A35] font-mono text-[11px] text-center">
-                <div>
-                  <span className="text-[#8F96A3] block text-[10px]">ACTIVE NEURONS</span>
-                  <span className="text-[#22D3EE] font-bold">
+              {/* Metrics Row */}
+              <div className="grid grid-cols-3 gap-3 text-center font-mono text-xs">
+                <div className="p-3 rounded-xl bg-[#FAF8F5] border border-[#EAE6DF]">
+                  <span className="text-[#716F68] block text-[10px]">ACTIVE NEURONS</span>
+                  <span className="text-[#167C80] font-bold">
                     {bdhNetwork.activeCount} / {numNeurons} ({(100 - bdhNetwork.sparsityRatio * 100).toFixed(0)}%)
                   </span>
                 </div>
-                <div>
-                  <span className="text-[#8F96A3] block text-[10px]">INACTIVE (SPARSE)</span>
-                  <span className="text-zinc-400 font-bold">
+                <div className="p-3 rounded-xl bg-[#FAF8F5] border border-[#EAE6DF]">
+                  <span className="text-[#716F68] block text-[10px]">INACTIVE (SPARSE)</span>
+                  <span className="text-[#716F68] font-bold">
                     {numNeurons - bdhNetwork.activeCount} units
                   </span>
                 </div>
-                <div>
-                  <span className="text-[#8F96A3] block text-[10px]">RELAXATION UPDATES</span>
-                  <span className="text-emerald-400 font-bold">{bdhNetwork.updatedCount} events</span>
+                <div className="p-3 rounded-xl bg-[#FAF8F5] border border-[#EAE6DF]">
+                  <span className="text-[#716F68] block text-[10px]">RELAXATION UPDATES</span>
+                  <span className="text-[#247A4B] font-bold">{bdhNetwork.updatedCount} events</span>
                 </div>
               </div>
 
               {/* SVG Graph Visualizer */}
-              <div className="flex items-center justify-center p-4 bg-[#07080B] rounded-xl border border-[#252A35] relative">
+              <div className="flex items-center justify-center p-6 bg-[#FAF8F5] rounded-2xl border border-[#E5E0D8] relative">
                 <svg width="340" height="340" className="overflow-visible select-none">
                   {/* Synapse Lines */}
                   {bdhNetwork.synapses.map((syn) => {
@@ -266,14 +252,14 @@ export const Section08BDHArchitecture: React.FC = () => {
                     const isSynSelected = selectedSynapseId === syn.id;
                     const effectiveWeight = syn.weight + syn.state * synapticStrength;
 
-                    let strokeColor = '#252A35';
-                    if (isSynSelected) strokeColor = '#F59E0B'; // Amber
+                    let strokeColor = '#D8D4CB';
+                    if (isSynSelected) strokeColor = '#A46622'; // Amber
                     else if (isConnected) {
-                      strokeColor = sNode.id === selectedNeuronId ? '#8B5CF6' : '#22D3EE';
+                      strokeColor = sNode.id === selectedNeuronId ? '#6842C2' : '#167C80';
                     }
 
                     const strokeWidth = isSynSelected ? 3 : isConnected ? Math.max(1.5, effectiveWeight * 3) : 1;
-                    const strokeOpacity = isSynSelected ? 1.0 : isConnected ? 0.85 : 0.2;
+                    const strokeOpacity = isSynSelected ? 1.0 : isConnected ? 0.9 : 0.4;
 
                     return (
                       <line
@@ -286,7 +272,7 @@ export const Section08BDHArchitecture: React.FC = () => {
                         stroke={strokeColor}
                         strokeWidth={strokeWidth}
                         strokeOpacity={strokeOpacity}
-                        className="cursor-pointer hover:stroke-amber-400 transition-all"
+                        className="cursor-pointer hover:stroke-[#A46622] transition-all"
                       />
                     );
                   })}
@@ -296,13 +282,13 @@ export const Section08BDHArchitecture: React.FC = () => {
                     const isSelected = neuron.id === selectedNeuronId;
                     const radius = isSelected ? 12 : 8;
                     const isActive = neuron.activation > 0.05;
-                    const fillOpacity = Math.max(0.2, Math.min(1.0, neuron.activation));
+                    const fillOpacity = Math.max(0.3, Math.min(1.0, neuron.activation));
                     const isInput = neuron.layer === 'input';
                     const isOutput = neuron.layer === 'output';
 
-                    let fillColor = '#7c3aed';
-                    if (isInput) fillColor = '#0284c7';
-                    if (isOutput) fillColor = '#10b981';
+                    let fillColor = '#6842C2';
+                    if (isInput) fillColor = '#167C80';
+                    if (isOutput) fillColor = '#247A4B';
 
                     return (
                       <g
@@ -319,7 +305,7 @@ export const Section08BDHArchitecture: React.FC = () => {
                             cy={neuron.y}
                             r={radius + 4}
                             fill="none"
-                            stroke="#22D3EE"
+                            stroke="#6842C2"
                             strokeWidth="2"
                             strokeDasharray="3 3"
                           />
@@ -330,8 +316,8 @@ export const Section08BDHArchitecture: React.FC = () => {
                           cy={neuron.y}
                           r={radius}
                           fill={fillColor}
-                          fillOpacity={isActive ? fillOpacity : 0.15}
-                          stroke={isSelected ? '#ffffff' : isActive ? '#22D3EE' : '#3f3f46'}
+                          fillOpacity={isActive ? fillOpacity : 0.2}
+                          stroke={isSelected ? '#151515' : isActive ? fillColor : '#A8A29E'}
                           strokeWidth={isSelected ? 2 : 1}
                         />
 
@@ -342,7 +328,7 @@ export const Section08BDHArchitecture: React.FC = () => {
                             textAnchor="middle"
                             fontSize="8"
                             fontWeight="bold"
-                            fill={isActive ? '#ffffff' : '#8F96A3'}
+                            fill={isActive ? '#FFFFFF' : '#716F68'}
                             className="font-mono pointer-events-none"
                           >
                             {neuron.id}
@@ -356,60 +342,60 @@ export const Section08BDHArchitecture: React.FC = () => {
 
               {/* Synapse Inspector Box (if selected) */}
               {selectedSynapse && (
-                <div className="rounded-lg bg-amber-950/20 border border-amber-500/40 p-3 text-xs font-mono space-y-1">
-                  <div className="flex items-center justify-between text-amber-300 font-semibold">
+                <div className="rounded-xl bg-[#FFFDF8] border border-[#F5E2C4] p-4 text-xs font-mono space-y-2">
+                  <div className="flex items-center justify-between text-[#A46622] font-semibold">
                     <span>INSPECTING SYNAPSE n_{selectedSynapse.source} → n_{selectedSynapse.target}</span>
                     <button
                       onClick={() => setSelectedSynapseId(null)}
-                      className="text-[#8F96A3] hover:text-white"
+                      className="text-[#716F68] hover:text-[#151515] cursor-pointer"
                     >
                       Close ✕
                     </button>
                   </div>
                   <div className="grid grid-cols-3 gap-2 pt-1">
                     <div>
-                      <span className="text-[#8F96A3] text-[10px] block">STATIC WEIGHT</span>
-                      <span className="text-white font-bold">{selectedSynapse.weight.toFixed(3)}</span>
+                      <span className="text-[#716F68] text-[10px] block">STATIC WEIGHT</span>
+                      <span className="text-[#151515] font-bold">{selectedSynapse.weight.toFixed(3)}</span>
                     </div>
                     <div>
-                      <span className="text-[#8F96A3] text-[10px] block">PLASTIC STATE (s_ij)</span>
-                      <span className="text-amber-400 font-bold">{selectedSynapse.state.toFixed(4)}</span>
+                      <span className="text-[#716F68] text-[10px] block">PLASTIC STATE (s_ij)</span>
+                      <span className="text-[#A46622] font-bold">{selectedSynapse.state.toFixed(4)}</span>
                     </div>
                     <div>
-                      <span className="text-[#8F96A3] text-[10px] block">RECENT DELTA (Δ)</span>
-                      <span className="text-emerald-400 font-bold">+{selectedSynapse.delta.toFixed(4)}</span>
+                      <span className="text-[#716F68] text-[10px] block">RECENT DELTA (Δ)</span>
+                      <span className="text-[#247A4B] font-bold">+{selectedSynapse.delta.toFixed(4)}</span>
                     </div>
                   </div>
                 </div>
               )}
 
               {/* Selected Neuron Inspector Box */}
-              <div className="rounded-xl border border-[#252A35] bg-[#11141A] p-4 text-xs space-y-3 font-mono">
-                <div className="flex items-center justify-between border-b border-[#252A35] pb-2">
-                  <span className="text-white font-semibold">
+              <div className="rounded-xl border border-[#E5E0D8] bg-[#FAF8F5] p-4 text-xs space-y-3 font-mono">
+                <div className="flex items-center justify-between border-b border-[#EAE6DF] pb-2">
+                  <span className="text-[#151515] font-semibold">
                     NEURON n_{selectedNeuron.id} TELEMETRY & LOCAL NEIGHBORHOOD
                   </span>
-                  <span className="text-[10px] text-[#22D3EE] bg-cyan-950/40 px-2 py-0.5 rounded border border-[#22D3EE]/30">
+                  <span className="text-[10px] text-[#167C80] bg-[#EDF7F7] px-2 py-0.5 rounded border border-[#CFE8E8] font-bold">
                     LAYER: {selectedNeuron.layer.toUpperCase()}
                   </span>
                 </div>
 
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-[11px]">
-                  <div className="bg-[#151922] p-2 rounded border border-[#252A35]">
-                    <span className="text-[#8F96A3] block text-[10px]">ACTIVATION (z_i)</span>
-                    <span className="text-[#22D3EE] font-bold">{selectedNeuron.activation.toFixed(3)}</span>
+                  <div className="bg-[#FFFFFF] p-2.5 rounded-lg border border-[#E5E0D8]">
+                    <span className="text-[#716F68] block text-[10px]">ACTIVATION (z_i)</span>
+                    <span className="text-[#167C80] font-bold">{selectedNeuron.activation.toFixed(3)}</span>
                   </div>
-                  <div className="bg-[#151922] p-2 rounded border border-[#252A35]">
-                    <span className="text-[#8F96A3] block text-[10px]">INCOMING SYNAPSES</span>
-                    <span className="text-white font-bold">{incomingSynapses.length} links</span>
+                  <div className="bg-[#FFFFFF] p-2.5 rounded-lg border border-[#E5E0D8]">
+                    <span className="text-[#716F68] block text-[10px]">INCOMING SYNAPSES</span>
+                    <span className="text-[#151515] font-bold">{incomingSynapses.length} links</span>
                   </div>
-                  <div className="bg-[#151922] p-2 rounded border border-[#252A35]">
-                    <span className="text-[#8F96A3] block text-[10px]">OUTGOING SYNAPSES</span>
-                    <span className="text-white font-bold">{outgoingSynapses.length} links</span>
+                  <div className="bg-[#FFFFFF] p-2.5 rounded-lg border border-[#E5E0D8]">
+                    <span className="text-[#716F68] block text-[10px]">OUTGOING SYNAPSES</span>
+                    <span className="text-[#151515] font-bold">{outgoingSynapses.length} links</span>
                   </div>
-                  <div className="bg-[#151922] p-2 rounded border border-[#252A35]">
-                    <span className="text-[#8F96A3] block text-[10px]">LOCAL INPUT SUM</span>
-                    <span className="text-emerald-400 font-bold">{totalInputFromNeighbors.toFixed(3)}</span>
+                  <div className="bg-[#FFFFFF] p-2.5 rounded-lg border border-[#E5E0D8]">
+                    <span className="text-[#716F68] block text-[10px]">LOCAL INPUT SUM</span>
+                    <span className="text-[#247A4B] font-bold">{totalInputFromNeighbors.toFixed(3)}</span>
                   </div>
                 </div>
               </div>
@@ -418,7 +404,7 @@ export const Section08BDHArchitecture: React.FC = () => {
         </div>
 
         {/* Dedicated BDH Educational Microscope */}
-        <div className="mt-10">
+        <div className="mt-12">
           <BDHExplorer id="bdh-microscope-explorer" />
         </div>
 

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Award,
   Download,
@@ -8,15 +8,11 @@ import {
   HelpCircle,
   ChevronDown,
   ChevronUp,
-  Sparkles,
-  ShieldCheck,
-  RefreshCw,
   FileCheck,
-  Check
+  Check,
 } from 'lucide-react';
 import { jsPDF } from 'jspdf';
-import { MILESTONES, getCompletedMilestones, markMilestoneCompleted } from '../utils/progressTracker';
-import { MathView } from './ui/MathView';
+import { MILESTONES, getCompletedMilestones } from '../utils/progressTracker';
 
 export const YouMadeItSection: React.FC = () => {
   const [completedMilestones, setCompletedMilestones] = useState<string[]>([]);
@@ -108,8 +104,8 @@ export const YouMadeItSection: React.FC = () => {
       day: 'numeric',
     });
 
-    // Elegant paper background: #F4F1EA
-    doc.setFillColor(244, 241, 234);
+    // Elegant paper background: #FBF9F5
+    doc.setFillColor(251, 249, 245);
     doc.rect(0, 0, 297, 210, 'F');
 
     // Outer subtle double border: #D8D4CB & #151515
@@ -125,7 +121,7 @@ export const YouMadeItSection: React.FC = () => {
     doc.setFont('courier', 'bold');
     doc.setFontSize(9);
     doc.setTextColor(113, 111, 104);
-    doc.text('DATAFORGE 2026 · PATHWAY TRACK · INTERACTIVE LABORATORY', 148.5, 30, { align: 'center' });
+    doc.text('MEMORY IN MOTION · RESEARCH LABORATORY · SCIENTIFIC RECORD', 148.5, 30, { align: 'center' });
 
     // Main Certificate Heading
     doc.setFont('times', 'bold');
@@ -168,7 +164,7 @@ export const YouMadeItSection: React.FC = () => {
     doc.text(summaryLines, 148.5, 106, { align: 'center', lineHeightFactor: 1.5 });
 
     // Technical Metrics Badge
-    doc.setFillColor(235, 230, 220);
+    doc.setFillColor(243, 239, 255);
     doc.roundedRect(65, 126, 167, 18, 2, 2, 'F');
     doc.setFont('courier', 'bold');
     doc.setFontSize(8.5);
@@ -239,43 +235,43 @@ Core Scientific Lesson: Fixed-size recurrent states maintain O(1) memory at the 
   };
 
   return (
-    <section id="you-made-it" className="scroll-mt-20 border-b border-[#252A35] bg-[#07090E] py-16 text-[#F4F5F7]">
+    <section id="you-made-it" className="scroll-mt-20 border-b border-[#E5E0D8] bg-[#FBF9F5] py-20 text-[#151515]">
       <div className="max-w-[1400px] mx-auto px-4 sm:px-6 space-y-12">
         {/* Editorial Section Header */}
         <div className="space-y-3">
           <div className="flex items-center gap-2">
-            <span className="text-[11px] font-mono uppercase tracking-widest px-2.5 py-0.5 rounded bg-violet-950/70 text-violet-300 border border-violet-800/60 font-bold">
+            <span className="text-[11px] font-mono uppercase tracking-widest px-2.5 py-0.5 rounded bg-[#F3EFFF] text-[#6842C2] border border-[#E2D8FA] font-bold">
               FINAL CAPSTONE
             </span>
-            <span className="text-xs font-mono text-[#8F96A3]">
+            <span className="text-xs font-mono text-[#716F68]">
               RESEARCH ATTESTATION & SUMMARY
             </span>
           </div>
 
-          <h2 className="text-2xl sm:text-4xl font-serif tracking-tight text-white font-normal">
-            YOU BROKE THE MEMORY.
+          <h2 className="text-2xl sm:text-4xl font-serif tracking-tight text-[#151515] font-normal">
+            You broke the memory.
           </h2>
 
-          <p className="text-sm sm:text-base text-zinc-400 font-sans max-w-3xl leading-relaxed">
+          <p className="text-sm sm:text-base text-[#52504A] font-sans max-w-3xl leading-relaxed">
             You pushed the recurrent state beyond its capacity, diagnosed interference, inspected coordinate drift, and explored synaptic architectures. Review your accomplishments and claim your scientific laboratory certificate.
           </p>
         </div>
 
         {/* Milestone Progress Checklist */}
-        <div className="p-6 rounded-2xl border border-[#20293D] bg-[#0D121D] space-y-6">
-          <div className="flex flex-wrap items-center justify-between gap-4 border-b border-[#1A2436] pb-4">
+        <div className="p-6 sm:p-8 rounded-2xl border border-[#E5E0D8] bg-[#FFFFFF] space-y-6 shadow-xs">
+          <div className="flex flex-wrap items-center justify-between gap-4 border-b border-[#EAE6DF] pb-4">
             <div>
-              <h3 className="text-base sm:text-lg font-serif font-bold text-white flex items-center gap-2">
-                <FileCheck className="w-4 h-4 text-cyan-400" />
+              <h3 className="text-base sm:text-lg font-serif font-bold text-[#151515] flex items-center gap-2">
+                <FileCheck className="w-4 h-4 text-[#167C80]" />
                 <span>Laboratory Accomplishment Checklist</span>
               </h3>
-              <p className="text-xs text-slate-400 font-sans mt-0.5">
+              <p className="text-xs text-[#716F68] font-sans mt-0.5">
                 Each milestone reflects an active empirical observation in this session.
               </p>
             </div>
 
             <div className="flex items-center gap-3">
-              <span className="text-xs font-mono text-cyan-300 bg-cyan-950/60 border border-cyan-800/50 px-3 py-1 rounded-lg font-bold">
+              <span className="text-xs font-mono text-[#167C80] bg-[#EDF7F7] border border-[#CFE8E8] px-3 py-1 rounded-xl font-bold">
                 {completedMilestones.length} / {MILESTONES.length} Completed ({completionPercentage}%)
               </span>
             </div>
@@ -288,27 +284,27 @@ Core Scientific Lesson: Fixed-size recurrent states maintain O(1) memory at the 
                 <div
                   key={m.id}
                   onClick={() => toggleMilestoneManual(m.id)}
-                  className={`p-3.5 rounded-xl border transition-all cursor-pointer flex flex-col justify-between space-y-2 ${
+                  className={`p-4 rounded-xl border transition-all cursor-pointer flex flex-col justify-between space-y-2 ${
                     isDone
-                      ? 'bg-[#101A24] border-cyan-800/50 text-slate-200'
-                      : 'bg-[#090D15] border-[#1C2538] text-slate-500 hover:border-slate-600'
+                      ? 'bg-[#F3EFFF] border-[#6842C2]/40 text-[#151515]'
+                      : 'bg-[#FAF8F5] border-[#EAE6DF] text-[#716F68] hover:border-[#D8D4CB]'
                   }`}
                 >
                   <div className="flex items-start justify-between gap-2">
-                    <span className="font-bold text-white leading-snug">
+                    <span className="font-bold text-[#151515] leading-snug">
                       {m.label}
                     </span>
                     <span
                       className={`w-4 h-4 rounded-full flex items-center justify-center shrink-0 border ${
                         isDone
-                          ? 'bg-cyan-500 border-cyan-400 text-black'
-                          : 'border-slate-600'
+                          ? 'bg-[#6842C2] border-[#6842C2] text-white'
+                          : 'border-[#BDB7AB] bg-[#FFFFFF]'
                       }`}
                     >
                       {isDone && <Check className="w-3 h-3 stroke-[3]" />}
                     </span>
                   </div>
-                  <p className="text-[10px] font-sans text-slate-400 leading-normal">
+                  <p className="text-[10px] font-sans text-[#716F68] leading-normal">
                     {m.description}
                   </p>
                 </div>
@@ -318,13 +314,13 @@ Core Scientific Lesson: Fixed-size recurrent states maintain O(1) memory at the 
         </div>
 
         {/* Final Knowledge Snapshot (3 Click-to-Reveal Questions) */}
-        <div className="p-6 rounded-2xl border border-[#20293D] bg-[#0D121D] space-y-4">
-          <div className="border-b border-[#1A2436] pb-3">
-            <h3 className="text-base sm:text-lg font-serif font-bold text-white flex items-center gap-2">
-              <HelpCircle className="w-4 h-4 text-purple-400" />
+        <div className="p-6 sm:p-8 rounded-2xl border border-[#E5E0D8] bg-[#FFFFFF] space-y-4 shadow-xs">
+          <div className="border-b border-[#EAE6DF] pb-3">
+            <h3 className="text-base sm:text-lg font-serif font-bold text-[#151515] flex items-center gap-2">
+              <HelpCircle className="w-4 h-4 text-[#6842C2]" />
               <span>Final Knowledge Snapshot (Foundational Questions)</span>
             </h3>
-            <p className="text-xs text-slate-400 font-sans mt-0.5">
+            <p className="text-xs text-[#716F68] font-sans mt-0.5">
               Click each question to reveal the rigorous mechanistic answer.
             </p>
           </div>
@@ -335,21 +331,21 @@ Core Scientific Lesson: Fixed-size recurrent states maintain O(1) memory at the 
               return (
                 <div
                   key={q.id}
-                  className="rounded-xl border border-[#1E273A] bg-[#0A0E18] overflow-hidden transition-all"
+                  className="rounded-xl border border-[#EAE6DF] bg-[#FAF8F5] overflow-hidden transition-all"
                 >
                   <button
                     onClick={() => setActiveQuestion(isOpen ? null : q.id)}
-                    className="w-full p-4 text-left flex items-center justify-between gap-4 font-mono text-xs sm:text-sm text-white hover:text-cyan-300 cursor-pointer"
+                    className="w-full p-4 text-left flex items-center justify-between gap-4 font-mono text-xs sm:text-sm text-[#151515] hover:text-[#6842C2] cursor-pointer"
                   >
                     <div className="flex items-center gap-2.5">
-                      <span className="text-purple-400 font-bold">0{q.id}.</span>
+                      <span className="text-[#6842C2] font-bold">0{q.id}.</span>
                       <span className="font-semibold">{q.q}</span>
                     </div>
-                    {isOpen ? <ChevronUp className="w-4 h-4 text-slate-400" /> : <ChevronDown className="w-4 h-4 text-slate-400" />}
+                    {isOpen ? <ChevronUp className="w-4 h-4 text-[#716F68]" /> : <ChevronDown className="w-4 h-4 text-[#716F68]" />}
                   </button>
 
                   {isOpen && (
-                    <div className="p-4 pt-0 font-sans text-xs text-slate-300 border-t border-[#161F2E] leading-relaxed animate-in fade-in duration-150">
+                    <div className="p-4 pt-0 font-sans text-xs text-[#52504A] border-t border-[#EAE6DF] leading-relaxed animate-in fade-in duration-150">
                       {q.answer}
                     </div>
                   )}
@@ -360,43 +356,43 @@ Core Scientific Lesson: Fixed-size recurrent states maintain O(1) memory at the 
         </div>
 
         {/* Certificate of Completion Preview & Download */}
-        <div className="p-6 sm:p-8 rounded-2xl border border-[#2B354C] bg-[#111724] space-y-6">
-          <div className="flex flex-wrap items-center justify-between gap-4 border-b border-[#1E283E] pb-4">
+        <div className="p-6 sm:p-8 rounded-2xl border border-[#E5E0D8] bg-[#FFFFFF] space-y-6 shadow-xs">
+          <div className="flex flex-wrap items-center justify-between gap-4 border-b border-[#EAE6DF] pb-4">
             <div>
-              <h3 className="text-lg sm:text-xl font-serif font-bold text-white flex items-center gap-2">
-                <Award className="w-5 h-5 text-amber-400" />
+              <h3 className="text-lg sm:text-xl font-serif font-bold text-[#151515] flex items-center gap-2">
+                <Award className="w-5 h-5 text-[#A46622]" />
                 <span>Certificate of Completion</span>
               </h3>
-              <p className="text-xs text-slate-400 font-sans mt-0.5">
+              <p className="text-xs text-[#716F68] font-sans mt-0.5">
                 Download a personalized, publication-grade PDF certificate of your work.
               </p>
             </div>
 
             {/* Learner Name Input */}
             <div className="flex items-center gap-2 font-mono text-xs">
-              <span className="text-slate-400">YOUR NAME:</span>
+              <span className="text-[#716F68] font-bold">YOUR NAME:</span>
               <input
                 type="text"
                 value={learnerName}
                 onChange={(e) => handleNameChange(e.target.value)}
                 placeholder="Enter your name"
-                className="px-3 py-1.5 rounded-lg bg-[#090C14] border border-[#222E44] text-white focus:outline-none focus:border-cyan-400 font-mono text-xs w-48"
+                className="px-3.5 py-1.5 rounded-xl bg-[#FAF8F5] border border-[#E5E0D8] text-[#151515] focus:outline-none focus:border-[#6842C2] font-mono text-xs w-48"
               />
             </div>
           </div>
 
           {/* Certificate Live Paper Preview */}
-          <div className="rounded-xl border border-[#D8D4CB] bg-[#F4F1EA] text-[#151515] p-6 sm:p-10 shadow-2xl relative overflow-hidden select-none">
+          <div className="rounded-2xl border-2 border-[#D8D4CB] bg-[#FAF8F5] text-[#151515] p-6 sm:p-10 shadow-md relative overflow-hidden select-none">
             {/* Inner Border */}
-            <div className="border border-[#D8D4CB] p-6 sm:p-8 space-y-6 text-center">
+            <div className="border border-[#D8D4CB] p-6 sm:p-8 space-y-6 text-center bg-[#FBF9F5] rounded-xl">
               <div className="space-y-1">
                 <span className="text-[10px] font-mono tracking-widest uppercase text-[#716F68] block">
-                  DATAFORGE 2026 · PATHWAY TRACK · INTERACTIVE LABORATORY
+                  MEMORY IN MOTION · RESEARCH LABORATORY · SCIENTIFIC RECORD
                 </span>
                 <h4 className="text-xl sm:text-3xl font-serif font-bold tracking-tight text-[#151515]">
                   CERTIFICATE OF SCIENTIFIC COMPLETION
                 </h4>
-                <p className="text-xs font-sans text-[#2A2926]">
+                <p className="text-xs font-sans text-[#52504A]">
                   In-Context Learning with Recurrent Memory & Latent Dynamics
                 </p>
               </div>
@@ -412,11 +408,11 @@ Core Scientific Lesson: Fixed-size recurrent states maintain O(1) memory at the 
                 </div>
               </div>
 
-              <p className="text-xs font-sans text-[#2A2926] max-w-xl mx-auto leading-relaxed">
+              <p className="text-xs font-sans text-[#52504A] max-w-xl mx-auto leading-relaxed">
                 has successfully completed the interactive research laboratory on Recurrent State Memory, systematically investigated representational capacity bounds, induced retrieval interference, and evaluated the Dragon Hatchling (BDH) synaptic architecture.
               </p>
 
-              <div className="inline-flex items-center gap-3 px-4 py-1.5 rounded bg-[#EBE6DC] text-[10px] font-mono text-[#6842C2] font-bold">
+              <div className="inline-flex items-center gap-3 px-4 py-1.5 rounded-xl bg-[#F3EFFF] text-[10px] font-mono text-[#6842C2] font-bold border border-[#E2D8FA]">
                 <span>MILESTONES: {completedMilestones.length}/{MILESTONES.length}</span>
                 <span>·</span>
                 <span>RATE: {completionPercentage}%</span>
@@ -442,7 +438,7 @@ Core Scientific Lesson: Fixed-size recurrent states maintain O(1) memory at the 
             <div className="flex items-center gap-2">
               <button
                 onClick={generatePDFCertificate}
-                className="px-5 py-2.5 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-black font-mono text-xs font-bold transition-all flex items-center gap-2 shadow-lg shadow-cyan-950/50 cursor-pointer"
+                className="px-5 py-2.5 rounded-xl bg-[#167C80] hover:bg-[#136B6F] text-white font-mono text-xs font-bold transition-all flex items-center gap-2 shadow-xs cursor-pointer"
               >
                 <Download className="w-4 h-4" />
                 <span>DOWNLOAD CERTIFICATE (PDF)</span>
@@ -450,7 +446,7 @@ Core Scientific Lesson: Fixed-size recurrent states maintain O(1) memory at the 
 
               <button
                 onClick={handlePrint}
-                className="px-4 py-2.5 rounded-xl bg-[#182132] hover:bg-[#202B40] text-slate-300 hover:text-white border border-[#2B3852] font-mono text-xs font-semibold transition-all flex items-center gap-2 cursor-pointer"
+                className="px-4 py-2.5 rounded-xl bg-[#FFFFFF] hover:bg-[#FAF8F5] text-[#151515] border border-[#E5E0D8] font-mono text-xs font-semibold transition-all flex items-center gap-2 cursor-pointer"
               >
                 <Printer className="w-4 h-4" />
                 <span>PRINT / SAVE AS PDF</span>
@@ -458,14 +454,14 @@ Core Scientific Lesson: Fixed-size recurrent states maintain O(1) memory at the 
 
               <button
                 onClick={handleCopySummary}
-                className="px-4 py-2.5 rounded-xl bg-[#182132] hover:bg-[#202B40] text-slate-300 hover:text-white border border-[#2B3852] font-mono text-xs font-semibold transition-all flex items-center gap-2 cursor-pointer"
+                className="px-4 py-2.5 rounded-xl bg-[#FFFFFF] hover:bg-[#FAF8F5] text-[#151515] border border-[#E5E0D8] font-mono text-xs font-semibold transition-all flex items-center gap-2 cursor-pointer"
               >
-                {copyStatus ? <CheckCircle2 className="w-4 h-4 text-emerald-400" /> : <Copy className="w-4 h-4" />}
+                {copyStatus ? <CheckCircle2 className="w-4 h-4 text-[#247A4B]" /> : <Copy className="w-4 h-4" />}
                 <span>{copyStatus ? 'COPIED TO CLIPBOARD' : 'COPY SUMMARY'}</span>
               </button>
             </div>
 
-            <div className="text-[11px] font-sans text-slate-400 italic">
+            <div className="text-[11px] font-sans text-[#716F68] italic">
               Educational completion certificate — not an institutional or university accredited degree.
             </div>
           </div>

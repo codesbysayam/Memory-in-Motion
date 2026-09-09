@@ -68,38 +68,38 @@ export const StateInspector: React.FC<StateInspectorProps> = ({
   const getCellColor = (val: number) => {
     const clamped = Math.max(-1, Math.min(1, val));
     if (clamped > 0) {
-      const alpha = Math.min(1, Math.max(0.12, clamped * 0.9));
-      return `rgba(59, 130, 246, ${alpha})`;
+      const alpha = Math.min(1, Math.max(0.15, clamped * 0.9));
+      return `rgba(22, 124, 128, ${alpha * 0.75})`;
     } else if (clamped < 0) {
-      const alpha = Math.min(1, Math.max(0.12, Math.abs(clamped) * 0.9));
-      return `rgba(239, 68, 68, ${alpha})`;
+      const alpha = Math.min(1, Math.max(0.15, Math.abs(clamped) * 0.9));
+      return `rgba(182, 66, 53, ${alpha * 0.75})`;
     }
-    return '#1A2130';
+    return '#FAF8F5';
   };
 
   return (
-    <div id={id} className="rounded-xl border border-[#252C3D] bg-[#0B0F19] p-4 sm:p-5 text-slate-200">
-      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[#1E2638] pb-3 mb-4">
-        <div className="flex items-center gap-2">
-          <div className="p-1.5 rounded-lg bg-blue-950/60 border border-blue-800/60 text-blue-400">
+    <div id={id} className="rounded-2xl border border-[#E5E0D8] bg-[#FFFFFF] p-5 sm:p-6 text-[#151515] shadow-xs">
+      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[#EAE6DF] pb-3.5 mb-4">
+        <div className="flex items-center gap-2.5">
+          <div className="p-2 rounded-lg bg-[#EDF7F7] border border-[#CFE8E8] text-[#167C80]">
             <Activity className="w-4 h-4" />
           </div>
           <div>
-            <h4 className="text-sm font-semibold text-slate-100 font-mono tracking-tight">
+            <h4 className="text-sm font-serif font-bold text-[#151515] tracking-tight">
               Memory State Vector Heatmap
             </h4>
-            <p className="text-xs text-slate-400 font-mono">
+            <p className="text-xs text-[#716F68] font-mono">
               Dimension D = {activeVector.length} · Timestep t = {currentStep ?? history.length}
             </p>
           </div>
         </div>
 
         <div className="flex items-center gap-3 text-xs font-mono">
-          <span className="flex items-center gap-1.5 text-slate-400">
-            <span className="w-2.5 h-2.5 rounded-sm bg-blue-500 inline-block" /> Positive (+)
+          <span className="flex items-center gap-1.5 text-[#716F68]">
+            <span className="w-2.5 h-2.5 rounded-sm bg-[#167C80] inline-block" /> Positive (+)
           </span>
-          <span className="flex items-center gap-1.5 text-slate-400">
-            <span className="w-2.5 h-2.5 rounded-sm bg-rose-500 inline-block" /> Negative (−)
+          <span className="flex items-center gap-1.5 text-[#716F68]">
+            <span className="w-2.5 h-2.5 rounded-sm bg-[#B64235] inline-block" /> Negative (−)
           </span>
         </div>
       </div>
@@ -109,6 +109,7 @@ export const StateInspector: React.FC<StateInspectorProps> = ({
         <div className="grid grid-cols-4 sm:grid-cols-8 md:grid-cols-16 gap-1.5">
           {activeVector.map((val, idx) => {
             const isHovered = hoveredDim === idx;
+            const hasStrongColor = Math.abs(val) > 0.4;
             return (
               <div
                 key={idx}
@@ -123,14 +124,14 @@ export const StateInspector: React.FC<StateInspectorProps> = ({
                 style={{ backgroundColor: getCellColor(val) }}
                 className={`h-11 rounded-lg flex flex-col items-center justify-center p-1 cursor-pointer transition-all duration-150 border ${
                   isHovered
-                    ? 'border-amber-400 ring-2 ring-amber-400/50 scale-105 z-10'
-                    : 'border-[#263147] hover:border-blue-400'
+                    ? 'border-[#6842C2] ring-2 ring-[#6842C2]/40 scale-105 z-10'
+                    : 'border-[#EAE6DF] hover:border-[#167C80]'
                 }`}
               >
-                <span className="text-[9px] font-mono text-slate-300/80">
+                <span className={`text-[9px] font-mono ${hasStrongColor ? 'text-white/80' : 'text-[#716F68]'}`}>
                   d{String(idx).padStart(2, '0')}
                 </span>
-                <span className="text-[11px] font-mono font-bold text-white leading-none mt-0.5">
+                <span className={`text-[11px] font-mono font-bold leading-none mt-0.5 ${hasStrongColor ? 'text-white' : 'text-[#151515]'}`}>
                   {val.toFixed(2)}
                 </span>
               </div>
@@ -140,59 +141,59 @@ export const StateInspector: React.FC<StateInspectorProps> = ({
       </div>
 
       {/* Technical Detail Telemetry Panel */}
-      <div className="space-y-2 pt-3 border-t border-[#1E2638] text-xs font-mono">
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
-          <div className="bg-[#111726] p-2.5 rounded-lg border border-[#20293D] flex flex-col justify-between">
-            <span className="text-slate-400 text-[10px] uppercase font-bold tracking-wider">MEAN ABS</span>
-            <span className="text-purple-300 font-bold text-sm mt-0.5">{stats.meanAbsoluteActivation.toFixed(4)}</span>
+      <div className="space-y-2.5 pt-3.5 border-t border-[#EAE6DF] text-xs font-mono">
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
+          <div className="bg-[#FAF8F5] p-3 rounded-xl border border-[#EAE6DF] flex flex-col justify-between">
+            <span className="text-[#716F68] text-[10px] uppercase font-bold tracking-wider">MEAN ABS</span>
+            <span className="text-[#6842C2] font-bold text-sm mt-1">{stats.meanAbsoluteActivation.toFixed(4)}</span>
           </div>
 
-          <div className="bg-[#111726] p-2.5 rounded-lg border border-[#20293D] flex flex-col justify-between">
-            <span className="text-slate-400 text-[10px] uppercase font-bold tracking-wider">MAX ABS</span>
-            <span className="text-cyan-300 font-bold text-sm mt-0.5">{stats.maxAbsoluteActivation.toFixed(4)}</span>
+          <div className="bg-[#FAF8F5] p-3 rounded-xl border border-[#EAE6DF] flex flex-col justify-between">
+            <span className="text-[#716F68] text-[10px] uppercase font-bold tracking-wider">MAX ABS</span>
+            <span className="text-[#167C80] font-bold text-sm mt-1">{stats.maxAbsoluteActivation.toFixed(4)}</span>
           </div>
 
-          <div className="bg-[#111726] p-2.5 rounded-lg border border-[#20293D] flex flex-col justify-between">
-            <span className="text-slate-400 text-[10px] uppercase font-bold tracking-wider">ACTIVE DIMENSIONS</span>
-            <span className="text-emerald-300 font-bold text-sm mt-0.5">{stats.activeDimensionCount} / {stats.dimension}</span>
+          <div className="bg-[#FAF8F5] p-3 rounded-xl border border-[#EAE6DF] flex flex-col justify-between">
+            <span className="text-[#716F68] text-[10px] uppercase font-bold tracking-wider">ACTIVE DIMENSIONS</span>
+            <span className="text-[#247A4B] font-bold text-sm mt-1">{stats.activeDimensionCount} / {stats.dimension}</span>
           </div>
 
-          <div className="bg-[#111726] p-2.5 rounded-lg border border-[#20293D] flex flex-col justify-between">
-            <span className="text-slate-400 text-[10px] uppercase font-bold tracking-wider">L2 STATE NORM</span>
-            <span className="text-blue-300 font-bold text-sm mt-0.5">{stats.L2Norm.toFixed(4)}</span>
+          <div className="bg-[#FAF8F5] p-3 rounded-xl border border-[#EAE6DF] flex flex-col justify-between">
+            <span className="text-[#716F68] text-[10px] uppercase font-bold tracking-wider">L2 STATE NORM</span>
+            <span className="text-[#151515] font-bold text-sm mt-1">{stats.L2Norm.toFixed(4)}</span>
           </div>
         </div>
 
         {/* Epistemic Transparency Tooltip Note */}
-        <div className="flex items-center gap-1.5 text-[10px] text-slate-400 bg-[#0E131E] px-2.5 py-1 rounded border border-[#1A2234]">
-          <HelpCircle className="w-3 h-3 text-cyan-400 shrink-0" />
-          <span>These are mathematical statistics of the toy state, not measurements of information content.</span>
+        <div className="flex items-center gap-2 text-[10px] text-[#716F68] bg-[#FAF8F5] px-3 py-1.5 rounded-lg border border-[#EAE6DF]">
+          <HelpCircle className="w-3.5 h-3.5 text-[#167C80] shrink-0" />
+          <span>These are mathematical statistics of the toy state vector, demonstrating coordinate dispersion.</span>
         </div>
       </div>
 
       {/* Hover Dimension Inspector Banner */}
-      <div className="mt-3 p-2.5 rounded-lg bg-[#111726]/80 border border-[#20293D] flex items-center justify-between text-xs font-mono">
+      <div className="mt-3 p-3 rounded-xl bg-[#FAF8F5] border border-[#EAE6DF] flex items-center justify-between text-xs font-mono">
         {hoveredDim !== null && hoveredDelta ? (
-          <div className="flex flex-wrap items-center gap-4 text-slate-300">
+          <div className="flex flex-wrap items-center gap-4 text-[#52504A]">
             <span>
-              Latent Dimension: <strong className="text-amber-300">d{String(hoveredDim).padStart(2, '0')}</strong>
+              Latent Dimension: <strong className="text-[#6842C2]">d{String(hoveredDim).padStart(2, '0')}</strong>
             </span>
             <span>
-              Value [t]: <strong className="text-white">{hoveredDelta.curr.toFixed(3)}</strong>
+              Value [t]: <strong className="text-[#151515]">{hoveredDelta.curr.toFixed(3)}</strong>
             </span>
             <span>
-              Value [t-1]: <span className="text-slate-400">{hoveredDelta.prev.toFixed(3)}</span>
+              Value [t-1]: <span className="text-[#716F68]">{hoveredDelta.prev.toFixed(3)}</span>
             </span>
             <span>
               Δ Change:{' '}
-              <strong className={hoveredDelta.delta >= 0 ? 'text-emerald-400' : 'text-rose-400'}>
+              <strong className={hoveredDelta.delta >= 0 ? 'text-[#247A4B]' : 'text-[#B64235]'}>
                 {hoveredDelta.delta >= 0 ? `+${hoveredDelta.delta.toFixed(3)}` : hoveredDelta.delta.toFixed(3)}
               </strong>
             </span>
           </div>
         ) : (
-          <div className="flex items-center gap-2 text-slate-500">
-            <Info className="w-3.5 h-3.5 text-slate-500" />
+          <div className="flex items-center gap-2 text-[#716F68]">
+            <Info className="w-3.5 h-3.5 text-[#716F68]" />
             <span>Hover over any latent dimension cell to view its value and step delta.</span>
           </div>
         )}

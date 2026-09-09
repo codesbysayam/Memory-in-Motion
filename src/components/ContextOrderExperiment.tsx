@@ -1,13 +1,12 @@
 import React, { useState, useMemo } from 'react';
-import { ArrowRight, ArrowLeftRight, CheckCircle2, AlertTriangle, HelpCircle, Layers, Sliders } from 'lucide-react';
-import { Fact, CANONICAL_FACTS, createAssociativeMemory } from '../models/associativeMemory';
+import { ArrowRight, ArrowLeftRight, HelpCircle } from 'lucide-react';
+import { Fact, createAssociativeMemory } from '../models/associativeMemory';
 import { MathView } from './ui/MathView';
 
 export const ContextOrderExperiment: React.FC = () => {
-  const [dimension, setDimension] = useState<number>(16);
-  const [retention, setRetention] = useState<number>(0.95);
-  const [writeStrength, setWriteStrength] = useState<number>(0.8);
-  const [customQuery, setCustomQuery] = useState<string>('Japan');
+  const [dimension] = useState<number>(16);
+  const [retention] = useState<number>(0.95);
+  const [writeStrength] = useState<number>(0.8);
 
   // Base set of 4 facts
   const baseFacts: Fact[] = useMemo(() => [
@@ -91,26 +90,26 @@ export const ContextOrderExperiment: React.FC = () => {
   }, [baseFacts, sequenceA, sequenceB, dimension, retention, writeStrength]);
 
   return (
-    <div className="rounded-2xl border border-[#252A35] bg-[#0A0E18] p-5 sm:p-6 text-slate-100 space-y-5 font-mono">
+    <div className="rounded-2xl border border-[#E5E0D8] bg-[#FFFFFF] p-5 sm:p-6 text-[#151515] space-y-5 font-mono shadow-xs">
       {/* Header */}
-      <div className="flex flex-wrap items-center justify-between gap-2 border-b border-[#1E2536] pb-3">
+      <div className="flex flex-wrap items-center justify-between gap-2 border-b border-[#EAE6DF] pb-3">
         <div>
           <div className="flex items-center gap-2">
-            <ArrowLeftRight className="w-4 h-4 text-cyan-400" />
-            <h4 className="text-sm font-bold text-white uppercase tracking-wider">
+            <ArrowLeftRight className="w-4 h-4 text-[#167C80]" />
+            <h4 className="text-sm font-bold text-[#151515] uppercase tracking-wider">
               Context Order Experiment · Same Information, Different Order
             </h4>
           </div>
-          <p className="text-xs text-slate-400 mt-1 font-sans">
+          <p className="text-xs text-[#716F68] mt-1 font-sans">
             Does the sequential presentation order of identical facts alter the final recurrent state and retrieval accuracy?
           </p>
         </div>
 
         <div className="flex items-center gap-2">
-          <span className="text-[10px] px-2.5 py-0.5 rounded bg-cyan-950/80 border border-cyan-800 text-cyan-300 font-bold">
+          <span className="text-[10px] px-2.5 py-0.5 rounded bg-[#EDF7F7] border border-[#CFE8E8] text-[#167C80] font-bold">
             CONTROLLED TOY EXPERIMENT
           </span>
-          <span className="text-[10px] px-2 py-0.5 rounded bg-zinc-900 border border-zinc-800 text-slate-400">
+          <span className="text-[10px] px-2 py-0.5 rounded bg-[#FAF8F5] border border-[#EAE6DF] text-[#716F68]">
             D={dimension}
           </span>
         </div>
@@ -119,64 +118,64 @@ export const ContextOrderExperiment: React.FC = () => {
       {/* Side-by-Side Order Representation */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
         {/* Sequence A */}
-        <div className="p-4 rounded-xl bg-[#111726] border border-[#202C44] space-y-3">
-          <div className="flex justify-between items-center text-[10px] text-slate-400 font-bold uppercase">
+        <div className="p-4 rounded-xl bg-[#FAF8F5] border border-[#EAE6DF] space-y-3">
+          <div className="flex justify-between items-center text-[10px] text-[#716F68] font-bold uppercase">
             <span>SEQUENCE A (FORWARD ORDER)</span>
-            <span className="text-cyan-400">{sequenceA.length} Facts</span>
+            <span className="text-[#167C80]">{sequenceA.length} Facts</span>
           </div>
 
           <div className="space-y-1.5">
             {sequenceA.map((f, i) => (
-              <div key={f.key} className="flex items-center justify-between p-2 rounded bg-[#0B0F19] border border-[#1A2234]">
-                <span className="text-slate-500 font-mono text-[10px]">Step {i + 1}</span>
-                <span className="font-bold text-white">{f.key}</span>
-                <ArrowRight className="w-3 h-3 text-slate-600" />
-                <span className="text-cyan-300 font-bold">{f.value}</span>
+              <div key={f.key} className="flex items-center justify-between p-2.5 rounded-lg bg-[#FFFFFF] border border-[#E5E0D8]">
+                <span className="text-[#716F68] font-mono text-[10px]">Step {i + 1}</span>
+                <span className="font-bold text-[#151515]">{f.key}</span>
+                <ArrowRight className="w-3.5 h-3.5 text-[#BDB7AB]" />
+                <span className="text-[#167C80] font-bold">{f.value}</span>
               </div>
             ))}
           </div>
 
-          <div className="pt-2 border-t border-[#1C2538] flex justify-between text-xs">
-            <span>Accuracy: <strong className="text-white">{evalResults.accA.toFixed(0)}%</strong></span>
-            <span>Avg Retrieval Score: <strong className="text-cyan-300">{evalResults.meanScoreA.toFixed(3)}</strong></span>
+          <div className="pt-2 border-t border-[#EAE6DF] flex justify-between text-xs">
+            <span className="text-[#716F68]">Accuracy: <strong className="text-[#151515]">{evalResults.accA.toFixed(0)}%</strong></span>
+            <span className="text-[#716F68]">Avg Retrieval Score: <strong className="text-[#167C80]">{evalResults.meanScoreA.toFixed(3)}</strong></span>
           </div>
         </div>
 
         {/* Sequence B */}
-        <div className="p-4 rounded-xl bg-[#111726] border border-[#202C44] space-y-3">
-          <div className="flex justify-between items-center text-[10px] text-slate-400 font-bold uppercase">
+        <div className="p-4 rounded-xl bg-[#FAF8F5] border border-[#EAE6DF] space-y-3">
+          <div className="flex justify-between items-center text-[10px] text-[#716F68] font-bold uppercase">
             <span>SEQUENCE B (REVERSED ORDER)</span>
-            <span className="text-amber-400">{sequenceB.length} Facts</span>
+            <span className="text-[#6842C2]">{sequenceB.length} Facts</span>
           </div>
 
           <div className="space-y-1.5">
             {sequenceB.map((f, i) => (
-              <div key={f.key} className="flex items-center justify-between p-2 rounded bg-[#0B0F19] border border-[#1A2234]">
-                <span className="text-slate-500 font-mono text-[10px]">Step {i + 1}</span>
-                <span className="font-bold text-white">{f.key}</span>
-                <ArrowRight className="w-3 h-3 text-slate-600" />
-                <span className="text-amber-300 font-bold">{f.value}</span>
+              <div key={f.key} className="flex items-center justify-between p-2.5 rounded-lg bg-[#FFFFFF] border border-[#E5E0D8]">
+                <span className="text-[#716F68] font-mono text-[10px]">Step {i + 1}</span>
+                <span className="font-bold text-[#151515]">{f.key}</span>
+                <ArrowRight className="w-3.5 h-3.5 text-[#BDB7AB]" />
+                <span className="text-[#6842C2] font-bold">{f.value}</span>
               </div>
             ))}
           </div>
 
-          <div className="pt-2 border-t border-[#1C2538] flex justify-between text-xs">
-            <span>Accuracy: <strong className="text-white">{evalResults.accB.toFixed(0)}%</strong></span>
-            <span>Avg Retrieval Score: <strong className="text-amber-300">{evalResults.meanScoreB.toFixed(3)}</strong></span>
+          <div className="pt-2 border-t border-[#EAE6DF] flex justify-between text-xs">
+            <span className="text-[#716F68]">Accuracy: <strong className="text-[#151515]">{evalResults.accB.toFixed(0)}%</strong></span>
+            <span className="text-[#716F68]">Avg Retrieval Score: <strong className="text-[#6842C2]">{evalResults.meanScoreB.toFixed(3)}</strong></span>
           </div>
         </div>
       </div>
 
       {/* Query Breakdown Table */}
-      <div className="rounded-xl bg-[#0D121F] border border-[#1E273A] p-4 space-y-3 text-xs">
-        <span className="font-bold text-slate-300 uppercase text-[11px] block">
+      <div className="rounded-xl bg-[#FAF8F5] border border-[#EAE6DF] p-4 space-y-3 text-xs">
+        <span className="font-bold text-[#151515] uppercase text-[11px] block">
           QUERY-BY-QUERY COMPARISON
         </span>
 
         <div className="overflow-x-auto">
           <table className="w-full text-left text-xs">
             <thead>
-              <tr className="border-b border-[#1C2538] text-[10px] text-slate-400 uppercase">
+              <tr className="border-b border-[#EAE6DF] text-[10px] text-[#716F68] uppercase">
                 <th className="pb-2">PROBE KEY</th>
                 <th className="pb-2">GROUND TRUTH</th>
                 <th className="pb-2">ORDER A (PRED / SCORE)</th>
@@ -184,28 +183,28 @@ export const ContextOrderExperiment: React.FC = () => {
                 <th className="pb-2 text-right">EFFECT</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-[#151C2C]">
+            <tbody className="divide-y divide-[#EAE6DF]">
               {evalResults.queryBreakdown.map((row) => (
-                <tr key={row.key} className="hover:bg-[#121826]">
-                  <td className="py-2 font-bold text-white">{row.key}</td>
-                  <td className="py-2 text-slate-400">{row.groundTruth}</td>
-                  <td className="py-2">
-                    <span className={row.corrA ? 'text-emerald-400' : 'text-rose-400'}>
+                <tr key={row.key} className="hover:bg-[#FFFFFF]/60">
+                  <td className="py-2.5 font-bold text-[#151515]">{row.key}</td>
+                  <td className="py-2.5 text-[#716F68]">{row.groundTruth}</td>
+                  <td className="py-2.5">
+                    <span className={`font-semibold ${row.corrA ? 'text-[#247A4B]' : 'text-[#B64235]'}`}>
                       {row.predA} ({row.scoreA.toFixed(2)})
                     </span>
                   </td>
-                  <td className="py-2">
-                    <span className={row.corrB ? 'text-emerald-400' : 'text-rose-400'}>
+                  <td className="py-2.5">
+                    <span className={`font-semibold ${row.corrB ? 'text-[#247A4B]' : 'text-[#B64235]'}`}>
                       {row.predB} ({row.scoreB.toFixed(2)})
                     </span>
                   </td>
-                  <td className="py-2 text-right font-mono">
+                  <td className="py-2.5 text-right font-mono">
                     {Math.abs(row.scoreA - row.scoreB) < 0.01 ? (
-                      <span className="text-slate-500 text-[10px]">Equivalent</span>
+                      <span className="text-[#716F68] text-[10px]">Equivalent</span>
                     ) : row.scoreA > row.scoreB ? (
-                      <span className="text-cyan-400 text-[10px]">A stronger (+{(row.scoreA - row.scoreB).toFixed(2)})</span>
+                      <span className="text-[#167C80] font-bold text-[10px]">A stronger (+{(row.scoreA - row.scoreB).toFixed(2)})</span>
                     ) : (
-                      <span className="text-amber-400 text-[10px]">B stronger (+{(row.scoreB - row.scoreA).toFixed(2)})</span>
+                      <span className="text-[#6842C2] font-bold text-[10px]">B stronger (+{(row.scoreB - row.scoreA).toFixed(2)})</span>
                     )}
                   </td>
                 </tr>
@@ -216,14 +215,14 @@ export const ContextOrderExperiment: React.FC = () => {
       </div>
 
       {/* Measured Matrix Frobenius Difference */}
-      <div className="p-3 rounded-lg bg-[#0E131F] border border-[#1C2538] flex flex-wrap items-center justify-between gap-2 text-xs">
+      <div className="p-3.5 rounded-xl bg-[#FAF8F5] border border-[#EAE6DF] flex flex-wrap items-center justify-between gap-2 text-xs">
         <div>
-          <span className="text-slate-400">Final State Matrix L2 Difference: </span>
-          <strong className="text-cyan-300 font-mono">
+          <span className="text-[#716F68]">Final State Matrix L2 Difference: </span>
+          <strong className="text-[#6842C2] font-mono">
             <MathView math={`\\|M_A - M_B\\|_F = ${evalResults.matrixDiffNorm.toFixed(4)}`} />
           </strong>
         </div>
-        <div className="text-[11px] text-slate-400 font-sans">
+        <div className="text-[11px] text-[#716F68] font-sans">
           {evalResults.matrixDiffNorm > 0.001
             ? <span>Because retention <MathView math="\lambda < 1.0" />, earlier updates decay exponentially more than later updates, breaking commutativity.</span>
             : 'Order did not affect retrieval under this configuration.'}
@@ -231,10 +230,10 @@ export const ContextOrderExperiment: React.FC = () => {
       </div>
 
       {/* Explanation Box */}
-      <div className="p-3 rounded-xl bg-[#080B14] border border-[#182132] text-xs text-slate-300 font-sans flex items-start gap-2">
-        <HelpCircle className="w-4 h-4 text-cyan-400 shrink-0 mt-0.5" />
+      <div className="p-3.5 rounded-xl bg-[#FAF8F5] border border-[#EAE6DF] text-xs text-[#52504A] font-sans flex items-start gap-2">
+        <HelpCircle className="w-4 h-4 text-[#167C80] shrink-0 mt-0.5" />
         <div>
-          <strong>Scientific Principle:</strong> In recurrent memory with decay factor <MathView math="\lambda < 1" />, memory is not commutative. The most recently seen facts undergo fewer decay cycles than facts presented earlier in the sequence.
+          <strong className="text-[#151515]">Scientific Principle:</strong> In recurrent memory with decay factor <MathView math="\lambda < 1" />, memory is not commutative. The most recently seen facts undergo fewer decay cycles than facts presented earlier in the sequence.
         </div>
       </div>
     </div>

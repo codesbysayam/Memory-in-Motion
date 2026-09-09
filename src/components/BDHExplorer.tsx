@@ -1,14 +1,10 @@
 import React, { useState, useMemo } from 'react';
 import {
-  Network,
-  Cpu,
   Layers,
   ChevronDown,
   ChevronUp,
   ExternalLink,
   BookOpen,
-  HelpCircle,
-  Zap,
 } from 'lucide-react';
 import { createToyNetwork, BDHToyNeuron, BDHToySynapse } from '../models/bdhToyModel';
 import { ScientificHonestyPanel } from './ScientificHonestyPanel';
@@ -18,7 +14,6 @@ interface BDHExplorerProps {
 }
 
 export const BDHExplorer: React.FC<BDHExplorerProps> = ({ id = 'bdh-explorer' }) => {
-  const [numNeurons, setNumNeurons] = useState<24 | 32>(28 as 24 | 32);
   const [activeInput, setActiveInput] = useState<'Alpha' | 'Beta' | 'Gamma'>('Alpha');
   const [reasoningRound, setReasoningRound] = useState<number>(2);
   const [selectedRound, setSelectedRound] = useState<number | null>(null);
@@ -68,22 +63,23 @@ export const BDHExplorer: React.FC<BDHExplorerProps> = ({ id = 'bdh-explorer' })
             const effWeight = s.weight + s.state * 0.5;
             return sum + effWeight * net.neurons[s.source].activation;
           }, 0);
-
-          const raw = 0.4 * nr.activation + 0.6 * incomingSignal;
-          return raw > topKThreshold ? raw - topKThreshold : 0;
+          // ReLU activation with threshold
+          const raw = Math.max(0, incomingSignal * 0.7 - topKThreshold);
+          return Math.min(1.0, raw);
         });
 
-        net.neurons.forEach((nr, i) => {
-          nr.activation = Number(nextActs[i].toFixed(3));
+        // Apply non-negative activations back
+        net.neurons.forEach((nr, idx) => {
+          nr.activation = Number(nextActs[idx].toFixed(3));
         });
       }
     }
 
     const stageNames = [
-      'Round 4l: Memory Read',
-      'Round 4l+1: Synaptic Reweighting',
-      'Round 4l+2: Neuron Update',
-      'Round 4l+3: Recurrent Propagation',
+      'Round 4l: Memory Read (σ · x)',
+      'Round 4l+1: Synaptic Update (Plasticity σ)',
+      'Round 4l+2: Neuron Update (ReLU / Sparsity)',
+      'Round 4l+3: Recurrent Graph Propagation',
     ];
 
     return {
@@ -94,42 +90,34 @@ export const BDHExplorer: React.FC<BDHExplorerProps> = ({ id = 'bdh-explorer' })
   }, [activeInput, reasoningRound, topKThreshold]);
 
   return (
-    <div id={id} className="rounded-2xl border border-[#252A35] bg-[#0E1117] p-6 space-y-6">
-      {/* Prominent Educational Notice Header */}
-      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[#252A35] pb-4">
+    <div id={id} className="rounded-2xl border border-[#E5E0D8] bg-[#FFFFFF] p-6 sm:p-8 space-y-7 shadow-xs text-[#151515]">
+      {/* Title & Badge */}
+      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[#EAE6DF] pb-4">
         <div>
-          <div className="flex items-center gap-2">
-            <Network className="w-5 h-5 text-[#22D3EE]" />
-            <h3 className="font-mono text-base font-bold text-white uppercase tracking-wider">
-              BDH Microscope: Synaptic Working Memory
-            </h3>
-            <span className="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-amber-500/10 border border-amber-500/30 text-amber-300">
-              SIMPLIFIED EDUCATIONAL TOY — NOT THE OFFICIAL BDH IMPLEMENTATION
+          <div className="flex items-center gap-2 mb-1">
+            <span className="text-xs font-mono uppercase tracking-wider text-[#6842C2] bg-[#F3EFFF] border border-[#E2D8FA] px-2.5 py-0.5 rounded font-bold">
+              EDUCATIONAL MICROSCOPE
+            </span>
+            <span className="text-xs font-mono text-[#167C80] bg-[#EDF7F7] border border-[#CFE8E8] px-2.5 py-0.5 rounded font-bold">
+              PATHWAY BDH ABSTRACTION
             </span>
           </div>
-          <p className="text-xs text-[#8F96A3] mt-1">
-            Explore how memory can live in plastic connection weights σ(i,j) rather than an expanding KV cache.
+          <h3 className="text-xl font-serif font-bold text-[#151515] tracking-tight">
+            Microscopic BDH graph explorer
+          </h3>
+          <p className="text-xs text-[#716F68] mt-1 font-sans max-w-2xl">
+            Inspect the internal synaptic substrate of a scale-free particle graph during 4-phase reasoning relaxation rounds.
           </p>
-        </div>
-
-        <div className="flex items-center gap-2">
-          <span className="px-2 py-1 rounded bg-violet-950/40 border border-violet-500/30 text-violet-300 text-[11px] font-mono">
-            [EDUCATIONAL TOY]
-          </span>
-          <span className="px-2 py-1 rounded bg-cyan-950/40 border border-[#22D3EE]/30 text-[#22D3EE] text-[11px] font-mono">
-            [PUBLISHED CONCEPT]
-          </span>
         </div>
       </div>
 
-      {/* 4-Step BDH Reasoning Pipeline Indicator */}
-      <div className="rounded-xl border border-[#252A35] bg-[#151922] p-4 space-y-2.5">
-        <div className="flex items-center justify-between text-xs font-mono">
-          <span className="text-white font-semibold flex items-center gap-1.5">
-            <Cpu className="w-3.5 h-3.5 text-violet-400" />
+      {/* 6-Step Educational Reasoning Pipeline Bar */}
+      <div className="rounded-2xl border border-[#E5E0D8] bg-[#FAF8F5] p-4 space-y-3 shadow-xs">
+        <div className="flex flex-wrap items-center justify-between gap-2 text-xs font-mono">
+          <span className="text-[#716F68] uppercase font-bold">
             EDUCATIONAL REASONING PIPELINE (ROUND {reasoningRound})
           </span>
-          <span className="text-[#22D3EE] font-bold">{activePipelineStage}</span>
+          <span className="text-[#167C80] font-bold">{activePipelineStage}</span>
         </div>
 
         <div className="grid grid-cols-2 sm:grid-cols-6 gap-2 text-center text-[10px] font-mono">
@@ -148,13 +136,13 @@ export const BDHExplorer: React.FC<BDHExplorerProps> = ({ id = 'bdh-explorer' })
                 setSelectedNeuron(null);
                 setSelectedSynapse(null);
               }}
-              className={`p-2 rounded border transition-colors text-left cursor-pointer ${
+              className={`p-2.5 rounded-xl border transition-colors text-left cursor-pointer ${
                 selectedRound === sIdx + 1 || ((reasoningRound % 4) + 2 === sIdx && !selectedRound && !selectedNeuron && !selectedSynapse)
-                  ? 'border-[#22D3EE] bg-cyan-950/50 text-white font-bold ring-1 ring-[#22D3EE]'
-                  : 'border-[#252A35] bg-[#11141A] text-[#8F96A3] hover:text-white hover:bg-[#161C26]'
+                  ? 'border-[#167C80] bg-[#EDF7F7] text-[#167C80] font-bold ring-1 ring-[#167C80]'
+                  : 'border-[#E5E0D8] bg-[#FFFFFF] text-[#716F68] hover:text-[#151515] hover:bg-[#FAF8F5]'
               }`}
             >
-              <div className="text-white font-semibold">{step.label}</div>
+              <div className="text-[#151515] font-semibold">{step.label}</div>
               <div className="text-[9px] opacity-70 mt-0.5">{step.desc}</div>
             </button>
           ))}
@@ -164,8 +152,8 @@ export const BDHExplorer: React.FC<BDHExplorerProps> = ({ id = 'bdh-explorer' })
       {/* Interactive Graph Canvas + Inspector Panel */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
         {/* Left (7 cols): Interactive Graph SVG */}
-        <div className="lg:col-span-7 rounded-xl border border-[#252A35] bg-[#07080B] p-4 flex flex-col items-center justify-center relative">
-          <div className="w-full flex items-center justify-between text-[11px] font-mono text-[#8F96A3] mb-2">
+        <div className="lg:col-span-7 rounded-2xl border border-[#E5E0D8] bg-[#FAF8F5] p-5 flex flex-col items-center justify-center relative shadow-xs">
+          <div className="w-full flex items-center justify-between text-[11px] font-mono text-[#716F68] mb-3">
             <span>Scale-free graph (28 neurons, {synapses.length} synapses)</span>
             <span>Click any node or link to inspect</span>
           </div>
@@ -178,11 +166,11 @@ export const BDHExplorer: React.FC<BDHExplorerProps> = ({ id = 'bdh-explorer' })
               const isSelected = selectedSynapse?.id === syn.id;
               const hasPlasticity = syn.state > 0.05;
               const strokeColor = isSelected
-                ? '#22D3EE'
+                ? '#167C80'
                 : hasPlasticity
-                ? `rgba(168, 85, 247, ${Math.min(1, Math.max(0.2, syn.state * 1.2))})`
-                : 'rgba(55, 65, 81, 0.4)';
-              const strokeWidth = isSelected ? 3 : hasPlasticity ? 1.8 : 0.8;
+                ? `rgba(104, 66, 194, ${Math.min(1, Math.max(0.3, syn.state * 1.2))})`
+                : 'rgba(216, 212, 203, 0.6)';
+              const strokeWidth = isSelected ? 3 : hasPlasticity ? 2 : 1;
 
               return (
                 <line
@@ -197,7 +185,7 @@ export const BDHExplorer: React.FC<BDHExplorerProps> = ({ id = 'bdh-explorer' })
                     setSelectedSynapse(syn);
                     setSelectedNeuron(null);
                   }}
-                  className="cursor-pointer hover:stroke-cyan-300 transition-colors"
+                  className="cursor-pointer hover:stroke-[#167C80] transition-colors"
                 />
               );
             })}
@@ -208,10 +196,10 @@ export const BDHExplorer: React.FC<BDHExplorerProps> = ({ id = 'bdh-explorer' })
               const isActive = nr.activation > 0.05;
               const radius = isSelected ? 9 : isActive ? 7.5 : 5.5;
               const fillColor = isSelected
-                ? '#22D3EE'
+                ? '#167C80'
                 : isActive
-                ? `rgba(34, 211, 238, ${Math.min(1, Math.max(0.4, nr.activation * 1.3))})`
-                : '#1F2937';
+                ? `rgba(22, 124, 128, ${Math.min(1, Math.max(0.4, nr.activation * 1.3))})`
+                : '#E5E0D8';
 
               return (
                 <g
@@ -227,9 +215,9 @@ export const BDHExplorer: React.FC<BDHExplorerProps> = ({ id = 'bdh-explorer' })
                     cy={nr.y}
                     r={radius}
                     fill={fillColor}
-                    stroke={isSelected ? '#FFFFFF' : '#374151'}
+                    stroke={isSelected ? '#151515' : '#D8D4CB'}
                     strokeWidth={isSelected ? 2 : 1}
-                    className="transition-all hover:r-8 hover:stroke-white"
+                    className="transition-all hover:r-8 hover:stroke-[#151515]"
                   />
                   <text
                     x={nr.x}
@@ -237,7 +225,7 @@ export const BDHExplorer: React.FC<BDHExplorerProps> = ({ id = 'bdh-explorer' })
                     textAnchor="middle"
                     fontSize="7"
                     fontFamily="monospace"
-                    fill={isActive || isSelected ? '#07080B' : '#9CA3AF'}
+                    fill={isActive || isSelected ? '#FFFFFF' : '#716F68'}
                     fontWeight="bold"
                     pointerEvents="none"
                   >
@@ -249,13 +237,13 @@ export const BDHExplorer: React.FC<BDHExplorerProps> = ({ id = 'bdh-explorer' })
           </svg>
 
           {/* Graph Legend */}
-          <div className="w-full flex items-center justify-between text-[10px] font-mono text-[#8F96A3] mt-2 pt-2 border-t border-[#252A35]">
+          <div className="w-full flex items-center justify-between text-[10px] font-mono text-[#716F68] mt-3 pt-3 border-t border-[#EAE6DF]">
             <div className="flex items-center gap-3">
               <span className="flex items-center gap-1">
-                <span className="w-2.5 h-2.5 rounded-full bg-[#22D3EE] inline-block" /> Active Neuron
+                <span className="w-2.5 h-2.5 rounded-full bg-[#167C80] inline-block" /> Active Neuron
               </span>
               <span className="flex items-center gap-1">
-                <span className="w-3 h-0.5 bg-violet-400 inline-block" /> Plastic Synapse σ
+                <span className="w-3 h-0.5 bg-[#6842C2] inline-block" /> Plastic Synapse σ
               </span>
             </div>
             <span>Selected: {selectedNeuron ? `Neuron #${selectedNeuron.id}` : selectedSynapse ? `Synapse #${selectedSynapse.id}` : 'None'}</span>
@@ -265,23 +253,23 @@ export const BDHExplorer: React.FC<BDHExplorerProps> = ({ id = 'bdh-explorer' })
         {/* Right (5 cols): Controls & Inspector Details */}
         <div className="lg:col-span-5 space-y-4 font-mono text-xs">
           {/* Controls Panel */}
-          <div className="rounded-xl border border-[#252A35] bg-[#151922] p-4 space-y-3">
-            <span className="text-white font-semibold text-xs uppercase tracking-wider block">
+          <div className="rounded-2xl border border-[#E5E0D8] bg-[#FAF8F5] p-5 space-y-4 shadow-xs">
+            <span className="text-[#151515] font-semibold text-xs uppercase tracking-wider block">
               Simulation Controls
             </span>
 
             {/* Input Pattern Selector */}
-            <div className="space-y-1">
-              <label className="text-[#8F96A3] text-[11px] block">Input Pattern:</label>
+            <div className="space-y-1.5">
+              <label className="text-[#716F68] text-[11px] block">Input Pattern:</label>
               <div className="flex gap-2">
                 {(['Alpha', 'Beta', 'Gamma'] as const).map((pat) => (
                   <button
                     key={pat}
                     onClick={() => setActiveInput(pat)}
-                    className={`flex-1 py-1 px-2 rounded border transition-colors ${
+                    className={`flex-1 py-1.5 px-2.5 rounded-xl border transition-colors cursor-pointer ${
                       activeInput === pat
-                        ? 'border-[#22D3EE] bg-cyan-950/60 text-[#22D3EE] font-bold'
-                        : 'border-[#252A35] bg-[#11141A] text-[#8F96A3] hover:text-white'
+                        ? 'border-[#167C80] bg-[#EDF7F7] text-[#167C80] font-bold'
+                        : 'border-[#E5E0D8] bg-[#FFFFFF] text-[#716F68] hover:text-[#151515]'
                     }`}
                   >
                     {pat}
@@ -293,8 +281,8 @@ export const BDHExplorer: React.FC<BDHExplorerProps> = ({ id = 'bdh-explorer' })
             {/* Reasoning Rounds */}
             <div className="space-y-1 pt-1">
               <div className="flex justify-between text-[11px]">
-                <span className="text-[#8F96A3]">Reasoning Rounds:</span>
-                <span className="text-[#22D3EE] font-bold">{reasoningRound}</span>
+                <span className="text-[#716F68]">Reasoning Rounds:</span>
+                <span className="text-[#167C80] font-bold">{reasoningRound}</span>
               </div>
               <input
                 type="range"
@@ -303,15 +291,15 @@ export const BDHExplorer: React.FC<BDHExplorerProps> = ({ id = 'bdh-explorer' })
                 step="1"
                 value={reasoningRound}
                 onChange={(e) => setReasoningRound(Number(e.target.value))}
-                className="w-full accent-[#22D3EE] bg-zinc-700 h-1.5 rounded cursor-pointer"
+                className="w-full accent-[#167C80] bg-[#EAE6DF] h-1.5 rounded cursor-pointer"
               />
             </div>
 
             {/* Sparsity Threshold */}
             <div className="space-y-1 pt-1">
               <div className="flex justify-between text-[11px]">
-                <span className="text-[#8F96A3]">Top-K Sparsity Cutoff:</span>
-                <span className="text-white">{topKThreshold.toFixed(2)}</span>
+                <span className="text-[#716F68]">Top-K Sparsity Cutoff:</span>
+                <span className="text-[#151515] font-semibold">{topKThreshold.toFixed(2)}</span>
               </div>
               <input
                 type="range"
@@ -320,100 +308,100 @@ export const BDHExplorer: React.FC<BDHExplorerProps> = ({ id = 'bdh-explorer' })
                 step="0.05"
                 value={topKThreshold}
                 onChange={(e) => setTopKThreshold(Number(e.target.value))}
-                className="w-full accent-violet-400 bg-zinc-700 h-1.5 rounded cursor-pointer"
+                className="w-full accent-[#6842C2] bg-[#EAE6DF] h-1.5 rounded cursor-pointer"
               />
             </div>
           </div>
 
           {/* Inspector Card (Neuron or Synapse) */}
-          <div className="rounded-xl border border-[#252A35] bg-[#151922] p-4 space-y-2">
-            <span className="text-[#22D3EE] font-semibold text-xs uppercase tracking-wider block">
+          <div className="rounded-2xl border border-[#E5E0D8] bg-[#FAF8F5] p-5 space-y-3 shadow-xs">
+            <span className="text-[#167C80] font-semibold text-xs uppercase tracking-wider block">
               MICROSCOPE TELEMETRY
             </span>
 
             {selectedNeuron ? (
-              <div className="space-y-2 text-zinc-300 text-[11px]">
-                <div className="flex justify-between border-b border-[#252A35] pb-1">
-                  <span className="text-[#8F96A3]">NEURON:</span>
-                  <strong className="text-white">N{String(selectedNeuron.id).padStart(2, '0')}</strong>
+              <div className="space-y-2 text-[#52504A] text-[11px]">
+                <div className="flex justify-between border-b border-[#EAE6DF] pb-1.5">
+                  <span className="text-[#716F68]">NEURON:</span>
+                  <strong className="text-[#151515]">N{String(selectedNeuron.id).padStart(2, '0')}</strong>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-[#8F96A3]">Activation:</span>
-                  <strong className="text-emerald-300">{selectedNeuron.activation.toFixed(2)}</strong>
+                  <span className="text-[#716F68]">Activation:</span>
+                  <strong className="text-[#247A4B]">{selectedNeuron.activation.toFixed(2)}</strong>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-[#8F96A3]">Status:</span>
-                  <span className={`font-bold ${selectedNeuron.activation > 0.05 ? 'text-[#22D3EE]' : 'text-slate-500'}`}>
+                  <span className="text-[#716F68]">Status:</span>
+                  <span className={`font-bold ${selectedNeuron.activation > 0.05 ? 'text-[#167C80]' : 'text-[#A8A29E]'}`}>
                     {selectedNeuron.activation > 0.05 ? 'ACTIVE' : 'QUIESCENT'}
                   </span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-[#8F96A3]">Connected synapses:</span>
-                  <span className="text-zinc-200">
+                  <span className="text-[#716F68]">Connected synapses:</span>
+                  <span className="text-[#151515]">
                     {selectedNeuron.incoming.length + selectedNeuron.outgoing.length}
                   </span>
                 </div>
-                <div className="pt-1 text-[10px] text-amber-300/90 bg-amber-950/20 p-2 rounded border border-amber-500/20 flex justify-between items-center">
+                <div className="pt-2 text-[10px] text-[#A46622] bg-[#FFF8EE] p-2.5 rounded-xl border border-[#F5E2C4] flex justify-between items-center">
                   <span>ROLE: Graph Activation Node</span>
-                  <span className="font-bold text-[9px] uppercase px-1.5 py-0.5 rounded bg-amber-900/40">EDUCATIONAL ABSTRACTION</span>
+                  <span className="font-bold text-[9px] uppercase px-1.5 py-0.5 rounded bg-[#FAF0DC]">EDUCATIONAL ABSTRACTION</span>
                 </div>
               </div>
             ) : selectedSynapse ? (
-              <div className="space-y-2 text-zinc-300 text-[11px]">
-                <div className="flex justify-between border-b border-[#252A35] pb-1">
-                  <span className="text-[#8F96A3]">SYNAPSE:</span>
-                  <strong className="text-white">
+              <div className="space-y-2 text-[#52504A] text-[11px]">
+                <div className="flex justify-between border-b border-[#EAE6DF] pb-1.5">
+                  <span className="text-[#716F68]">SYNAPSE:</span>
+                  <strong className="text-[#151515]">
                     N{String(selectedSynapse.source).padStart(2, '0')} → N{String(selectedSynapse.target).padStart(2, '0')}
                   </strong>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-[#8F96A3]">Weight:</span>
-                  <span className="text-white">{selectedSynapse.weight.toFixed(2)}</span>
+                  <span className="text-[#716F68]">Weight:</span>
+                  <span className="text-[#151515]">{selectedSynapse.weight.toFixed(2)}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-[#8F96A3]">Synaptic state:</span>
-                  <strong className="text-violet-300">{selectedSynapse.state.toFixed(2)}</strong>
+                  <span className="text-[#716F68]">Synaptic state:</span>
+                  <strong className="text-[#6842C2]">{selectedSynapse.state.toFixed(2)}</strong>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-[#8F96A3]">Memory-bearing connection</span>
-                  <span className="text-cyan-300 text-[10px]">Δ = +{selectedSynapse.delta.toFixed(2)}</span>
+                  <span className="text-[#716F68]">Memory-bearing connection</span>
+                  <span className="text-[#167C80] text-[10px]">Δ = +{selectedSynapse.delta.toFixed(2)}</span>
                 </div>
-                <div className="pt-1 text-[10px] text-amber-300/90 bg-amber-950/20 p-2 rounded border border-amber-500/20 flex justify-between items-center">
+                <div className="pt-2 text-[10px] text-[#A46622] bg-[#FFF8EE] p-2.5 rounded-xl border border-[#F5E2C4] flex justify-between items-center">
                   <span>PLASTIC CONNECTION</span>
-                  <span className="font-bold text-[9px] uppercase px-1.5 py-0.5 rounded bg-amber-900/40">EDUCATIONAL ABSTRACTION</span>
+                  <span className="font-bold text-[9px] uppercase px-1.5 py-0.5 rounded bg-[#FAF0DC]">EDUCATIONAL ABSTRACTION</span>
                 </div>
               </div>
             ) : selectedRound ? (
-              <div className="space-y-2 text-zinc-300 text-[11px]">
-                <div className="flex justify-between border-b border-[#252A35] pb-1">
-                  <span className="text-[#8F96A3]">INSPECTED ROUND:</span>
-                  <strong className="text-white">ROUND {selectedRound}</strong>
+              <div className="space-y-2 text-[#52504A] text-[11px]">
+                <div className="flex justify-between border-b border-[#EAE6DF] pb-1.5">
+                  <span className="text-[#716F68]">INSPECTED ROUND:</span>
+                  <strong className="text-[#151515]">ROUND {selectedRound}</strong>
                 </div>
                 <div className="space-y-1 font-mono text-xs">
-                  <div className="flex items-center justify-between text-slate-300">
+                  <div className="flex items-center justify-between text-[#52504A]">
                     <span>Memory read</span>
-                    <span className="text-emerald-400 font-bold">✓</span>
+                    <span className="text-[#247A4B] font-bold">✓</span>
                   </div>
-                  <div className="flex items-center justify-between text-slate-300">
+                  <div className="flex items-center justify-between text-[#52504A]">
                     <span>Synaptic update</span>
-                    <span className="text-emerald-400 font-bold">✓</span>
+                    <span className="text-[#247A4B] font-bold">✓</span>
                   </div>
-                  <div className="flex items-center justify-between text-slate-300">
+                  <div className="flex items-center justify-between text-[#52504A]">
                     <span>Neuron update</span>
-                    <span className="text-emerald-400 font-bold">✓</span>
+                    <span className="text-[#247A4B] font-bold">✓</span>
                   </div>
-                  <div className="flex items-center justify-between text-slate-300">
+                  <div className="flex items-center justify-between text-[#52504A]">
                     <span>Recurrent propagation</span>
-                    <span className="text-emerald-400 font-bold">✓</span>
+                    <span className="text-[#247A4B] font-bold">✓</span>
                   </div>
                 </div>
-                <div className="pt-1 text-[10px] text-amber-300/90 bg-amber-950/20 p-2 rounded border border-amber-500/20 flex justify-between items-center">
+                <div className="pt-2 text-[10px] text-[#A46622] bg-[#FFF8EE] p-2.5 rounded-xl border border-[#F5E2C4] flex justify-between items-center">
                   <span>4-PHASE RELAXATION</span>
-                  <span className="font-bold text-[9px] uppercase px-1.5 py-0.5 rounded bg-amber-900/40">EDUCATIONAL ABSTRACTION</span>
+                  <span className="font-bold text-[9px] uppercase px-1.5 py-0.5 rounded bg-[#FAF0DC]">EDUCATIONAL ABSTRACTION</span>
                 </div>
               </div>
             ) : (
-              <p className="text-[11px] text-[#8F96A3]">
+              <p className="text-[11px] text-[#716F68]">
                 Click on any neuron node, connecting synapse, or reasoning round to inspect localized weights, plasticity states, and activation values.
               </p>
             )}
@@ -422,66 +410,66 @@ export const BDHExplorer: React.FC<BDHExplorerProps> = ({ id = 'bdh-explorer' })
       </div>
 
       {/* "Open the Mathematics" Accordion */}
-      <div className="rounded-xl border border-[#252A35] bg-[#11141A] overflow-hidden">
+      <div className="rounded-2xl border border-[#E5E0D8] bg-[#FFFFFF] overflow-hidden shadow-xs">
         <button
           onClick={() => setMathOpen(!mathOpen)}
-          className="w-full flex items-center justify-between p-4 text-left font-mono text-xs font-semibold text-white hover:bg-[#151922] transition-colors"
+          className="w-full flex items-center justify-between p-5 text-left font-mono text-xs font-semibold text-[#151515] hover:bg-[#FAF8F5] transition-colors cursor-pointer"
         >
           <span className="flex items-center gap-2">
-            <BookOpen className="w-4 h-4 text-[#22D3EE]" />
-            OPEN THE MATHEMATICS: 4-ROUND REASONING FORMULATION
-            <span className="text-[10px] text-zinc-400 font-normal">[PUBLISHED BDH CONCEPT]</span>
+            <BookOpen className="w-4 h-4 text-[#167C80]" />
+            <span>OPEN THE MATHEMATICS: 4-ROUND REASONING FORMULATION</span>
+            <span className="text-[10px] text-[#716F68] font-normal">[PUBLISHED BDH CONCEPT]</span>
           </span>
-          {mathOpen ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
+          {mathOpen ? <ChevronUp className="w-4 h-4 text-[#716F68]" /> : <ChevronDown className="w-4 h-4 text-[#716F68]" />}
         </button>
 
         {mathOpen && (
-          <div className="p-4 border-t border-[#252A35] space-y-4 font-mono text-xs text-zinc-300 bg-[#0E1117]">
-            <p className="text-[#8F96A3] text-xs">
-              Pathway's "The Equations of Reasoning" describes BDH's recurrent dynamics in quadruplets of rounds (4l..4l+3). Below is the beginner-friendly conceptual structure:
+          <div className="p-5 border-t border-[#EAE6DF] space-y-4 font-mono text-xs text-[#52504A] bg-[#FAF8F5]">
+            <p className="text-[#716F68] text-xs">
+              Pathway&apos;s &ldquo;The Equations of Reasoning&rdquo; describes BDH&apos;s recurrent dynamics in quadruplets of rounds (4l..4l+3). Below is the beginner-friendly conceptual structure:
             </p>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              <div className="p-3 rounded-lg border border-[#252A35] bg-[#151922] space-y-1">
-                <span className="text-emerald-400 font-bold block">ROUND 4l: MEMORY READ</span>
-                <code className="text-white text-[11px] block">read = σ_old ⊙ x_t</code>
-                <p className="text-[11px] text-[#8F96A3]">
+              <div className="p-4 rounded-xl border border-[#CDEEDB] bg-[#EDF8F2] space-y-1.5">
+                <span className="text-[#247A4B] font-bold block">ROUND 4l: MEMORY READ</span>
+                <code className="text-[#151515] text-[11px] block font-bold">read = σ_old ⊙ x_t</code>
+                <p className="text-[11px] text-[#52504A] font-sans">
                   Plastic states stored on connections are queried by incoming activation signals, reading associative context.
                 </p>
               </div>
 
-              <div className="p-3 rounded-lg border border-[#252A35] bg-[#151922] space-y-1">
-                <span className="text-violet-400 font-bold block">ROUND 4l+1: SYNAPTIC REWEIGHTING</span>
-                <code className="text-white text-[11px] block">σ_new = λ σ_old + η (x_i · y_j)</code>
-                <p className="text-[11px] text-[#8F96A3]">
+              <div className="p-4 rounded-xl border border-[#E2D8FA] bg-[#FAF8FD] space-y-1.5">
+                <span className="text-[#6842C2] font-bold block">ROUND 4l+1: SYNAPTIC REWEIGHTING</span>
+                <code className="text-[#151515] text-[11px] block font-bold">σ_new = λ σ_old + η (x_i · y_j)</code>
+                <p className="text-[11px] text-[#52504A] font-sans">
                   Synapses dynamically adjust their state based on correlated pre- and post-synaptic activity (local plasticity).
                 </p>
               </div>
 
-              <div className="p-3 rounded-lg border border-[#252A35] bg-[#151922] space-y-1">
-                <span className="text-cyan-400 font-bold block">ROUND 4l+2: NEURON UPDATE</span>
-                <code className="text-white text-[11px] block">x_new = ReLU(W · x + bias - θ)</code>
-                <p className="text-[11px] text-[#8F96A3]">
+              <div className="p-4 rounded-xl border border-[#CFE8E8] bg-[#EDF7F7] space-y-1.5">
+                <span className="text-[#167C80] font-bold block">ROUND 4l+2: NEURON UPDATE</span>
+                <code className="text-[#151515] text-[11px] block font-bold">x_new = ReLU(W · x + bias - θ)</code>
+                <p className="text-[11px] text-[#52504A] font-sans">
                   Neuron states update non-linearly with competitive thresholding (top-k sparsity) to retain sharp representations.
                 </p>
               </div>
 
-              <div className="p-3 rounded-lg border border-[#252A35] bg-[#151922] space-y-1">
-                <span className="text-amber-400 font-bold block">ROUND 4l+3: RECURRENT PROPAGATION</span>
-                <code className="text-white text-[11px] block">h_(l+1) = propagate(x_new, graph)</code>
-                <p className="text-[11px] text-[#8F96A3]">
+              <div className="p-4 rounded-xl border border-[#F5E2C4] bg-[#FFF8EE] space-y-1.5">
+                <span className="text-[#A46622] font-bold block">ROUND 4l+3: RECURRENT PROPAGATION</span>
+                <code className="text-[#151515] text-[11px] block font-bold">h_(l+1) = propagate(x_new, graph)</code>
+                <p className="text-[11px] text-[#52504A] font-sans">
                   Signals diffuse through the scale-free topology to next neighbor hops for the subsequent reasoning cycle.
                 </p>
               </div>
             </div>
 
-            <div className="text-[10px] text-[#8F96A3] pt-2 border-t border-[#252A35] flex items-center justify-between">
-              <span>Citations: Kosowski et al. (2025), Pathway "Equations of Reasoning"</span>
+            <div className="text-[10px] text-[#716F68] pt-3 border-t border-[#EAE6DF] flex items-center justify-between">
+              <span>Citations: Kosowski et al. (2025), Pathway &ldquo;Equations of Reasoning&rdquo;</span>
               <a
                 href="https://pathway.com/research/equations-of-reasoning"
                 target="_blank"
                 rel="noreferrer"
-                className="text-[#22D3EE] hover:underline flex items-center gap-1"
+                className="text-[#167C80] hover:underline flex items-center gap-1 font-semibold"
               >
                 Read Official Pathway Documentation <ExternalLink className="w-3 h-3" />
               </a>
@@ -491,64 +479,64 @@ export const BDHExplorer: React.FC<BDHExplorerProps> = ({ id = 'bdh-explorer' })
       </div>
 
       {/* "Same Problem, Different Memory Substrate" Comparison Table */}
-      <div className="rounded-xl border border-[#252A35] bg-[#11141A] overflow-hidden">
+      <div className="rounded-2xl border border-[#E5E0D8] bg-[#FFFFFF] overflow-hidden shadow-xs">
         <button
           onClick={() => setComparisonOpen(!comparisonOpen)}
-          className="w-full flex items-center justify-between p-4 text-left font-mono text-xs font-semibold text-white hover:bg-[#151922] transition-colors"
+          className="w-full flex items-center justify-between p-5 text-left font-mono text-xs font-semibold text-[#151515] hover:bg-[#FAF8F5] transition-colors cursor-pointer"
         >
           <span className="flex items-center gap-2">
-            <Layers className="w-4 h-4 text-violet-400" />
-            SAME PROBLEM, DIFFERENT MEMORY SUBSTRATE: RECURRENT TOY VS BDH
-            <span className="text-[10px] text-zinc-400 font-normal">[ARCHITECTURE COMPARISON]</span>
+            <Layers className="w-4 h-4 text-[#6842C2]" />
+            <span>SAME PROBLEM, DIFFERENT MEMORY SUBSTRATE: RECURRENT TOY VS BDH</span>
+            <span className="text-[10px] text-[#716F68] font-normal">[ARCHITECTURE COMPARISON]</span>
           </span>
-          {comparisonOpen ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
+          {comparisonOpen ? <ChevronUp className="w-4 h-4 text-[#716F68]" /> : <ChevronDown className="w-4 h-4 text-[#716F68]" />}
         </button>
 
         {comparisonOpen && (
-          <div className="p-4 border-t border-[#252A35] overflow-x-auto">
+          <div className="p-5 border-t border-[#EAE6DF] overflow-x-auto">
             <table className="w-full text-left font-mono text-xs">
               <thead>
-                <tr className="border-b border-[#252A35] text-[#8F96A3] text-[11px]">
-                  <th className="pb-2.5 font-semibold">DIMENSION / PROPERTY</th>
-                  <th className="pb-2.5 font-semibold text-[#22D3EE]">OUR RECURRENT TOY MODEL</th>
-                  <th className="pb-2.5 font-semibold text-violet-400">PUBLISHED BDH (PATHWAY)</th>
+                <tr className="border-b border-[#EAE6DF] text-[#716F68] text-[11px]">
+                  <th className="pb-3 font-semibold">DIMENSION / PROPERTY</th>
+                  <th className="pb-3 font-semibold text-[#167C80]">OUR RECURRENT TOY MODEL</th>
+                  <th className="pb-3 font-semibold text-[#6842C2]">PUBLISHED BDH (PATHWAY)</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-[#252A35]/60 text-zinc-300">
+              <tbody className="divide-y divide-[#EAE6DF] text-[#52504A]">
                 <tr>
-                  <td className="py-2.5 font-medium text-white">State Location</td>
-                  <td className="py-2.5 text-zinc-300">Fixed-size state vector h_t / matrix M</td>
-                  <td className="py-2.5 text-zinc-300">Neuron activations + synaptic states σ(i,j)</td>
+                  <td className="py-3 font-medium text-[#151515]">State Location</td>
+                  <td className="py-3 text-[#52504A]">Fixed-size state vector h_t / matrix M</td>
+                  <td className="py-3 text-[#52504A]">Neuron activations + synaptic states σ(i,j)</td>
                 </tr>
                 <tr>
-                  <td className="py-2.5 font-medium text-white">Update Mechanism</td>
-                  <td className="py-2.5 text-zinc-300">Global mathematical outer-product / tanh</td>
-                  <td className="py-2.5 text-zinc-300">Local neuron/synapse interactions on graph</td>
+                  <td className="py-3 font-medium text-[#151515]">Update Mechanism</td>
+                  <td className="py-3 text-[#52504A]">Global mathematical outer-product / tanh</td>
+                  <td className="py-3 text-[#52504A]">Local neuron/synapse interactions on graph</td>
                 </tr>
                 <tr>
-                  <td className="py-2.5 font-medium text-white">Memory Form</td>
-                  <td className="py-2.5 text-zinc-300">Continuous coordinate superposition</td>
-                  <td className="py-2.5 text-zinc-300">Plastic synaptic connection weights</td>
+                  <td className="py-3 font-medium text-[#151515]">Memory Form</td>
+                  <td className="py-3 text-[#52504A]">Continuous coordinate superposition</td>
+                  <td className="py-3 text-[#52504A]">Plastic synaptic connection weights</td>
                 </tr>
                 <tr>
-                  <td className="py-2.5 font-medium text-white">Computation</td>
-                  <td className="py-2.5 text-zinc-300">Step-by-step vector linear algebra in browser</td>
-                  <td className="py-2.5 text-zinc-300">Scale-free local relaxation on accelerators</td>
+                  <td className="py-3 font-medium text-[#151515]">Computation</td>
+                  <td className="py-3 text-[#52504A]">Step-by-step vector linear algebra in browser</td>
+                  <td className="py-3 text-[#52504A]">Scale-free local relaxation on accelerators</td>
                 </tr>
                 <tr>
-                  <td className="py-2.5 font-medium text-white">Interpretability</td>
-                  <td className="py-2.5 text-zinc-300">Direct matrix heatmap & cosine decoding</td>
-                  <td className="py-2.5 text-zinc-300">Sparse activation patterns & localized attractors</td>
+                  <td className="py-3 font-medium text-[#151515]">Interpretability</td>
+                  <td className="py-3 text-[#52504A]">Direct matrix heatmap & cosine decoding</td>
+                  <td className="py-3 text-[#52504A]">Sparse activation patterns & localized attractors</td>
                 </tr>
                 <tr>
-                  <td className="py-2.5 font-medium text-white">Failure Mode</td>
-                  <td className="py-2.5 text-zinc-300">Coordinate overlap & cosine interference</td>
-                  <td className="py-2.5 text-zinc-300">Synaptic saturation & attractor crosstalk</td>
+                  <td className="py-3 font-medium text-[#151515]">Failure Mode</td>
+                  <td className="py-3 text-[#52504A]">Coordinate overlap & cosine interference</td>
+                  <td className="py-3 text-[#52504A]">Synaptic saturation & attractor crosstalk</td>
                 </tr>
                 <tr>
-                  <td className="py-2.5 font-medium text-white">Purpose</td>
-                  <td className="py-2.5 text-[#22D3EE]">Educational visual demonstration of compression</td>
-                  <td className="py-2.5 text-violet-300">Production recurrent in-context learning architecture</td>
+                  <td className="py-3 font-medium text-[#151515]">Purpose</td>
+                  <td className="py-3 text-[#167C80] font-semibold">Educational visual demonstration of compression</td>
+                  <td className="py-3 text-[#6842C2] font-semibold">Production recurrent in-context learning architecture</td>
                 </tr>
               </tbody>
             </table>

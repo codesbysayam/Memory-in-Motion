@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Scale, Check, X, ArrowRight, Sparkles, Cpu, Layers } from 'lucide-react';
+import { Check, X, Sparkles } from 'lucide-react';
 import { SectionHeader } from './ui/SectionHeader';
 
 export const Section06WhyThisMatters: React.FC = () => {
@@ -29,12 +29,12 @@ export const Section06WhyThisMatters: React.FC = () => {
   const activeWorkload = workloadScenarios[selectedWorkload];
 
   return (
-    <section id="section-06" className="scroll-mt-20 border-b border-[#252A35] bg-[#07080B] py-14">
-      <div className="max-w-[1400px] mx-auto px-4 sm:px-6">
+    <section id="section-06" className="scroll-mt-20 border-b border-[#E5E0D8] bg-[#FBF9F5] py-20 text-[#151515]">
+      <div className="max-w-[1400px] mx-auto px-4 sm:px-6 space-y-12">
         <SectionHeader
           number="06"
           category="THE FOUNDATIONAL TRADE-OFF"
-          title="Why This Matters: No Free Lunch in Memory"
+          title="Why this matters: No free lunch in memory"
           subtitle="Neither growing token context nor fixed-size recurrent state is universally superior. They occupy opposite poles of an information-theoretic trade-off between bounded hardware physical cost and exact addressability."
           discovery="Memory design is fundamentally a Pareto frontier: you can bound RAM to O(1) or guarantee exact lossless token retrieval, but classical vector superposition cannot achieve both simultaneously."
         />
@@ -42,58 +42,60 @@ export const Section06WhyThisMatters: React.FC = () => {
         {/* 12-Column Responsive Layout */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
           {/* Left Column: Workload Analysis Simulator */}
-          <div className="lg:col-span-5 space-y-5">
-            <div className="rounded-xl border border-[#252A35] bg-[#11141A] p-5 space-y-4">
-              <div className="flex items-center justify-between border-b border-[#252A35] pb-2">
-                <span className="text-xs font-mono uppercase tracking-widest text-[#22D3EE] font-semibold">
+          <div className="lg:col-span-5 space-y-6">
+            <div className="rounded-2xl border border-[#E5E0D8] bg-[#FFFFFF] p-6 space-y-5 shadow-xs">
+              <div className="flex items-center justify-between border-b border-[#EAE6DF] pb-3">
+                <span className="text-xs font-mono uppercase tracking-widest text-[#167C80] font-bold">
                   SYSTEM SCENARIO SELECTOR
                 </span>
-                <span className="text-[10px] font-mono text-[#8F96A3]">PARETO EVALUATION</span>
+                <span className="text-[10px] font-mono text-[#716F68] bg-[#FAF8F5] px-2 py-0.5 rounded border border-[#E5E0D8]">
+                  PARETO EVALUATION
+                </span>
               </div>
 
-              <p className="text-xs text-[#8F96A3] leading-relaxed">
+              <p className="text-xs text-[#52504A] font-sans leading-relaxed">
                 Select an architectural deployment environment to examine which side of the trade-off dominates:
               </p>
 
-              <div className="grid grid-cols-1 gap-2">
+              <div className="grid grid-cols-1 gap-2.5">
                 {(['streaming', 'document', 'dialogue'] as const).map((key) => (
                   <button
                     key={key}
                     onClick={() => setSelectedWorkload(key)}
-                    className={`p-3 rounded-lg border text-left font-mono text-xs transition-all ${
+                    className={`p-3.5 rounded-xl border text-left font-mono text-xs transition-all cursor-pointer ${
                       selectedWorkload === key
-                        ? 'bg-[#151922] border-[#8B5CF6] text-white shadow-sm'
-                        : 'bg-[#07080B] border-[#252A35] text-[#8F96A3] hover:text-white hover:border-[#3A4150]'
+                        ? 'bg-[#F3EFFF] border-[#E2D8FA] text-[#151515] shadow-xs'
+                        : 'bg-[#FAF8F5] border-[#E5E0D8] text-[#716F68] hover:text-[#151515] hover:bg-[#FFFFFF]'
                     }`}
                   >
-                    <div className="font-semibold">{workloadScenarios[key].name}</div>
-                    <div className="text-[11px] text-[#8F96A3] mt-0.5">{workloadScenarios[key].constraint}</div>
+                    <div className="font-bold text-[#151515]">{workloadScenarios[key].name}</div>
+                    <div className="text-[11px] text-[#716F68] mt-0.5">{workloadScenarios[key].constraint}</div>
                   </button>
                 ))}
               </div>
 
               {/* Workload evaluation card */}
-              <div className="rounded-lg border border-[#252A35] bg-[#151922] p-3 text-xs space-y-2">
+              <div className="rounded-xl border border-[#CFE8E8] bg-[#FAFDFD] p-4 text-xs space-y-2">
                 <div className="flex items-center justify-between font-mono">
-                  <span className="text-[10px] text-[#8F96A3] uppercase">ARCHITECTURAL CHOICE:</span>
-                  <span className="text-[#22D3EE] font-semibold">{activeWorkload.recommendation}</span>
+                  <span className="text-[10px] text-[#716F68] uppercase font-bold">ARCHITECTURAL CHOICE:</span>
+                  <span className="text-[#167C80] font-bold">{activeWorkload.recommendation}</span>
                 </div>
-                <p className="text-[#8F96A3] text-[11px] leading-relaxed">
+                <p className="text-[#52504A] text-[11px] font-sans leading-relaxed">
                   {activeWorkload.reasoning}
                 </p>
               </div>
             </div>
 
             {/* Gateway Callout to BDH (Part II) */}
-            <div className="rounded-xl border border-violet-500/30 bg-violet-950/20 p-5 space-y-2.5">
-              <div className="flex items-center gap-2 text-violet-300 font-mono text-xs uppercase tracking-wider font-semibold">
-                <Sparkles className="w-4 h-4 text-[#22D3EE]" />
+            <div className="rounded-2xl border border-[#E2D8FA] bg-[#FAF8FD] p-6 space-y-3 shadow-xs">
+              <div className="flex items-center gap-2 text-[#6842C2] font-mono text-xs uppercase tracking-wider font-bold">
+                <Sparkles className="w-4 h-4 text-[#6842C2]" />
                 <span>The Gateway to Part II</span>
               </div>
-              <p className="text-sm font-medium text-white leading-snug">
-                "If dense vectors suffer from interference, can memory live inside a sparse graph of synaptic weights?"
+              <p className="text-sm font-serif font-bold text-[#151515] leading-snug">
+                &ldquo;If dense vectors suffer from interference, can memory live inside a sparse graph of synaptic weights?&rdquo;
               </p>
-              <p className="text-xs text-[#8F96A3] leading-relaxed">
+              <p className="text-xs text-[#52504A] font-sans leading-relaxed">
                 In the next sections, we leave simple vector arithmetic and enter the <strong>Dragon Hatchling (BDH)</strong> architecture: sparse recurrent graph connectivity with Hebbian synaptic memory.
               </p>
             </div>
@@ -102,87 +104,91 @@ export const Section06WhyThisMatters: React.FC = () => {
           {/* Right Column: Side-by-Side Trade-off Grid */}
           <div className="lg:col-span-7 grid grid-cols-1 md:grid-cols-2 gap-4">
             {/* Card 1: Growing Token History */}
-            <div className="rounded-xl border border-[#252A35] bg-[#11141A] p-5 space-y-4 flex flex-col justify-between">
-              <div>
-                <div className="flex items-center justify-between border-b border-[#252A35] pb-2.5">
-                  <span className="font-mono text-xs font-semibold uppercase text-amber-400">
+            <div className="rounded-2xl border border-[#F5E2C4] bg-[#FFFDF8] p-6 space-y-5 flex flex-col justify-between shadow-xs">
+              <div className="space-y-4">
+                <div className="flex items-center justify-between border-b border-[#F5E2C4] pb-3">
+                  <span className="font-mono text-xs font-bold uppercase text-[#A46622]">
                     Growing Token History
                   </span>
-                  <span className="text-[10px] font-mono text-[#8F96A3]">KV Cache</span>
+                  <span className="text-[10px] font-mono text-[#A46622] bg-[#FFF8EE] px-2 py-0.5 rounded border border-[#F5E2C4] font-semibold">
+                    KV Cache
+                  </span>
                 </div>
 
-                <div className="space-y-3 pt-3 text-xs">
-                  <div className="flex items-start gap-2">
-                    <Check className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
-                    <span className="text-[#F4F5F7]">
-                      <strong className="text-white">Zero Loss:</strong> Perfect preservation of past verbatim tokens without compression artifacts.
+                <div className="space-y-3 text-xs">
+                  <div className="flex items-start gap-2.5">
+                    <Check className="w-4 h-4 text-[#247A4B] shrink-0 mt-0.5" />
+                    <span className="text-[#2A2926] font-sans">
+                      <strong className="text-[#151515]">Zero Loss:</strong> Perfect preservation of past verbatim tokens without compression artifacts.
                     </span>
                   </div>
-                  <div className="flex items-start gap-2">
-                    <Check className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
-                    <span className="text-[#F4F5F7]">
-                      <strong className="text-white">Direct Attention:</strong> Every token pair can form direct query-key affinities at any distance.
+                  <div className="flex items-start gap-2.5">
+                    <Check className="w-4 h-4 text-[#247A4B] shrink-0 mt-0.5" />
+                    <span className="text-[#2A2926] font-sans">
+                      <strong className="text-[#151515]">Direct Attention:</strong> Every token pair can form direct query-key affinities at any distance.
                     </span>
                   </div>
-                  <div className="flex items-start gap-2">
-                    <X className="w-4 h-4 text-rose-400 shrink-0 mt-0.5" />
-                    <span className="text-[#8F96A3]">
-                      <strong className="text-rose-400">O(T) RAM Footprint:</strong> Unbounded linear growth inevitably overflows GPU VRAM.
+                  <div className="flex items-start gap-2.5">
+                    <X className="w-4 h-4 text-[#C53030] shrink-0 mt-0.5" />
+                    <span className="text-[#52504A] font-sans">
+                      <strong className="text-[#C53030]">O(T) RAM Footprint:</strong> Unbounded linear growth inevitably overflows GPU VRAM.
                     </span>
                   </div>
-                  <div className="flex items-start gap-2">
-                    <X className="w-4 h-4 text-rose-400 shrink-0 mt-0.5" />
-                    <span className="text-[#8F96A3]">
-                      <strong className="text-rose-400">Throughput Bottleneck:</strong> Memory bandwidth transfer of massive KV caches limits inference speed.
+                  <div className="flex items-start gap-2.5">
+                    <X className="w-4 h-4 text-[#C53030] shrink-0 mt-0.5" />
+                    <span className="text-[#52504A] font-sans">
+                      <strong className="text-[#C53030]">Throughput Bottleneck:</strong> Memory bandwidth transfer of massive KV caches limits inference speed.
                     </span>
                   </div>
                 </div>
               </div>
 
-              <div className="rounded-lg bg-[#151922] p-2.5 border border-[#252A35] text-[10px] font-mono text-[#8F96A3]">
+              <div className="rounded-xl bg-[#FAF8F5] p-3 border border-[#EAE6DF] text-[10px] font-mono text-[#716F68]">
                 Core domain: Large context document analysis, short-session generation.
               </div>
             </div>
 
             {/* Card 2: Fixed-Size Recurrent State */}
-            <div className="rounded-xl border border-[#252A35] bg-[#11141A] p-5 space-y-4 flex flex-col justify-between">
-              <div>
-                <div className="flex items-center justify-between border-b border-[#252A35] pb-2.5">
-                  <span className="font-mono text-xs font-semibold uppercase text-cyan-400">
+            <div className="rounded-2xl border border-[#CFE8E8] bg-[#FAFDFD] p-6 space-y-5 flex flex-col justify-between shadow-xs">
+              <div className="space-y-4">
+                <div className="flex items-center justify-between border-b border-[#E0F0F0] pb-3">
+                  <span className="font-mono text-xs font-bold uppercase text-[#167C80]">
                     Fixed Recurrent State
                   </span>
-                  <span className="text-[10px] font-mono text-[#8F96A3]">RNN / SSM</span>
+                  <span className="text-[10px] font-mono text-[#167C80] bg-[#EDF7F7] px-2 py-0.5 rounded border border-[#CFE8E8] font-semibold">
+                    RNN / SSM
+                  </span>
                 </div>
 
-                <div className="space-y-3 pt-3 text-xs">
-                  <div className="flex items-start gap-2">
-                    <Check className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
-                    <span className="text-[#F4F5F7]">
-                      <strong className="text-white">Constant O(1) RAM:</strong> State remains strictly fixed regardless of running for 10 or 10,000,000 steps.
+                <div className="space-y-3 text-xs">
+                  <div className="flex items-start gap-2.5">
+                    <Check className="w-4 h-4 text-[#247A4B] shrink-0 mt-0.5" />
+                    <span className="text-[#2A2926] font-sans">
+                      <strong className="text-[#151515]">Constant O(1) RAM:</strong> State remains strictly fixed regardless of running for 10 or 10,000,000 steps.
                     </span>
                   </div>
-                  <div className="flex items-start gap-2">
-                    <Check className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
-                    <span className="text-[#F4F5F7]">
-                      <strong className="text-white">Constant Step Time:</strong> Fixed latency per token update; ideal for streaming robotics and real-time audio.
+                  <div className="flex items-start gap-2.5">
+                    <Check className="w-4 h-4 text-[#247A4B] shrink-0 mt-0.5" />
+                    <span className="text-[#2A2926] font-sans">
+                      <strong className="text-[#151515]">Constant Step Time:</strong> Fixed latency per token update; ideal for streaming robotics and real-time audio.
                     </span>
                   </div>
-                  <div className="flex items-start gap-2">
-                    <X className="w-4 h-4 text-rose-400 shrink-0 mt-0.5" />
-                    <span className="text-[#8F96A3]">
-                      <strong className="text-rose-400">Lossy Superposition:</strong> All facts must be squashed into bounded geometric dimensions.
+                  <div className="flex items-start gap-2.5">
+                    <X className="w-4 h-4 text-[#C53030] shrink-0 mt-0.5" />
+                    <span className="text-[#52504A] font-sans">
+                      <strong className="text-[#C53030]">Lossy Superposition:</strong> All facts must be squashed into bounded geometric dimensions.
                     </span>
                   </div>
-                  <div className="flex items-start gap-2">
-                    <X className="w-4 h-4 text-rose-400 shrink-0 mt-0.5" />
-                    <span className="text-[#8F96A3]">
-                      <strong className="text-rose-400">Interference & Forgetting:</strong> Unrelated inputs rotate state coordinates, corrupting earlier traces.
+                  <div className="flex items-start gap-2.5">
+                    <X className="w-4 h-4 text-[#C53030] shrink-0 mt-0.5" />
+                    <span className="text-[#52504A] font-sans">
+                      <strong className="text-[#C53030]">Interference & Forgetting:</strong> Unrelated inputs rotate state coordinates, corrupting earlier traces.
                     </span>
                   </div>
                 </div>
               </div>
 
-              <div className="rounded-lg bg-[#151922] p-2.5 border border-[#252A35] text-[10px] font-mono text-[#8F96A3]">
+              <div className="rounded-xl bg-[#FAF8F5] p-3 border border-[#EAE6DF] text-[10px] font-mono text-[#716F68]">
                 Core domain: Continuous edge robotics, lifelong sensory streaming.
               </div>
             </div>

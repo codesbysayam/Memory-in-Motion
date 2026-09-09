@@ -87,7 +87,7 @@ export default function App() {
 
   return (
     <MemoryLensProvider>
-      <div className="min-h-screen bg-[#07080B] text-[#F4F5F7] font-sans selection:bg-violet-500/30 selection:text-white">
+      <div className="min-h-screen bg-[#FBF9F5] text-[#151515] font-sans selection:bg-purple-100 selection:text-[#6842C2]">
         {/* Persistent Research Navigation Bar with Dedicated Index button */}
         <ResearchNav
           currentSectionId={activeSection}
@@ -160,7 +160,7 @@ export default function App() {
           <EvidenceAndSources />
 
           {/* Step 14: The 60-Second Test & Final Challenge */}
-          <section id="final-eval" className="scroll-mt-20 border-b border-[#252A35] bg-[#07080B] py-14">
+          <section id="final-eval" className="scroll-mt-20 border-b border-[#E5E0D8] bg-[#FBF9F5] py-14">
             <div className="max-w-[1400px] mx-auto px-4 sm:px-6 space-y-10">
               <SixtySecondTest />
               <FinalChallenge />

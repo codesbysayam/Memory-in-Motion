@@ -1,16 +1,12 @@
 import React, { useEffect } from 'react';
 import {
   X,
+  ArrowRight,
+  Sparkles,
   BookOpen,
   FlaskConical,
   Cpu,
-  FileText,
-  ArrowRight,
-  Sparkles,
-  Layers,
-  Activity,
-  AlertTriangle,
-  Award,
+  FileCheck2,
 } from 'lucide-react';
 import { FormattedMathText } from '../ui/MathView';
 
@@ -31,7 +27,7 @@ export const CHAPTER_DIRECTORY: ChapterInfo[] = [
     title: 'Where Does Memory Live?',
     category: 'Foundation',
     shortDesc: 'The three fundamental memory paradigms: KV-caches, static weights, and continuous recurrent states.',
-    keyFormulaOrConcept: 'Memory taxonomy: Ephemeral KV vs Parametric W vs Recurrent State S',
+    keyFormulaOrConcept: 'Ephemeral KV vs Parametric W vs Recurrent State S',
     sectionElementId: 'section-01',
   },
   {
@@ -39,7 +35,7 @@ export const CHAPTER_DIRECTORY: ChapterInfo[] = [
     num: '02',
     title: 'The Memory Problem: Growing Context',
     category: 'Foundation',
-    shortDesc: 'Why Transformers hit memory limits: O(N) linear context growth and quadratic KV attention buffers.',
+    shortDesc: 'Why Transformers hit memory limits: linear context growth and quadratic KV attention buffers.',
     keyFormulaOrConcept: 'RAM cost = 2 · b · L · h · s · bytes per token',
     sectionElementId: 'section-02',
   },
@@ -48,7 +44,7 @@ export const CHAPTER_DIRECTORY: ChapterInfo[] = [
     num: '03',
     title: 'Fixed-Size Recurrent Memory',
     category: 'Laboratory',
-    shortDesc: 'Interactive fast-weight matrix: Ingesting key-value facts through rank-1 outer product updates.',
+    shortDesc: 'Interactive fast-weight matrix: ingesting key-value facts through rank-1 outer product updates.',
     keyFormulaOrConcept: 'M_(t+1) = λ M_t + η k_t v_t^T',
     sectionElementId: 'section-03',
   },
@@ -57,16 +53,16 @@ export const CHAPTER_DIRECTORY: ChapterInfo[] = [
     num: '04',
     title: 'Watch Memory Update: State Difference',
     category: 'Laboratory',
-    shortDesc: 'Real-time state coordinate inspector: Inspecting deltas, coordinate drift, and superposition.',
-    keyFormulaOrConcept: 'ΔM_t = M_t - M_(t-1) · Vector Readout v̂ = q^T M',
-    sectionElementId: 'section-04',
+    shortDesc: 'Empirical state coordinate analytics: inspecting coordinate deltas, drift, and superposition.',
+    keyFormulaOrConcept: 'ΔM_t = M_t - M_(t-1) · Readout v̂ = q^T M',
+    sectionElementId: 'section-measure',
   },
   {
     id: 'chapter-05',
     num: '05',
-    title: 'Break the Memory: Hero Experience',
+    title: 'Break the Memory: Induction of Forgetting',
     category: 'Laboratory',
-    shortDesc: 'Hypothesis testing: Adjusting capacity, retention, and distractors to systematically induce forgetting.',
+    shortDesc: 'Hypothesis testing: adjusting capacity, retention, and distractors to systematically induce forgetting.',
     keyFormulaOrConcept: 'Challenge: Induce Japan → Paris retrieval failure',
     sectionElementId: 'section-05',
   },
@@ -75,9 +71,9 @@ export const CHAPTER_DIRECTORY: ChapterInfo[] = [
     num: '06',
     title: 'Trace the Failure: Step-by-Step Replay',
     category: 'Laboratory',
-    shortDesc: 'Exact deterministic replay of the state matrix: Pinpointing the moment cross-talk destroys the target trace.',
+    shortDesc: 'Exact deterministic replay of the state matrix: pinpointing where cross-talk destroys the target trace.',
     keyFormulaOrConcept: 'Deterministic operation trace: WRITE → WRITE → READ',
-    sectionElementId: 'section-05',
+    sectionElementId: 'section-04',
   },
   {
     id: 'chapter-07',
@@ -93,7 +89,7 @@ export const CHAPTER_DIRECTORY: ChapterInfo[] = [
     num: '08',
     title: 'Memory vs Computation: Trade-Offs & Decay',
     category: 'Laboratory',
-    shortDesc: '2D Interference Phase Maps, exponential retention decay, and side-by-side A/B memory comparisons.',
+    shortDesc: '2D Interference Phase Maps, exponential retention decay, and side-by-side memory comparisons.',
     keyFormulaOrConcept: 'Retention decay: M_t = λ^t M_0 + Σ λ^(t-i) η k_i v_i^T',
     sectionElementId: 'section-06',
   },
@@ -103,7 +99,7 @@ export const CHAPTER_DIRECTORY: ChapterInfo[] = [
     title: 'Meet BDH: Beyond Monolithic States',
     category: 'BDH',
     shortDesc: 'Pathway’s Baby Dragon Hatchling: replacing dense single-vector state with a decentralized neuronal graph.',
-    keyFormulaOrConcept: 'Local Hebbian updates without global backpropagation',
+    keyFormulaOrConcept: 'Local Hebbian plasticity without global backpropagation',
     sectionElementId: 'section-07',
   },
   {
@@ -111,7 +107,7 @@ export const CHAPTER_DIRECTORY: ChapterInfo[] = [
     num: '10',
     title: 'BDH Microscope: Synaptic Plasticity',
     category: 'BDH',
-    shortDesc: 'Interactive 28-neuron network microscope: Fast activations (x, y) and plastic synaptic weights (σ_ij).',
+    shortDesc: 'Interactive 28-neuron network microscope: fast activations (x, y) and plastic synaptic weights (σ_ij).',
     keyFormulaOrConcept: 'σ_(ij, t+1) = λ σ_(ij, t) + η x_i y_j',
     sectionElementId: 'section-08',
   },
@@ -138,9 +134,18 @@ export const CHAPTER_DIRECTORY: ChapterInfo[] = [
     num: '13',
     title: 'Capstone Challenge & Primary Sources',
     category: 'Evaluation',
-    shortDesc: 'The 60-Second Challenge, 3-round capstone evaluation, and verified literature citations (Kosowski 2025).',
+    shortDesc: 'The 60-Second Challenge, capstone evaluation, and verified literature citations (Kosowski 2025).',
     keyFormulaOrConcept: 'Final evaluation + Research archive & Model contract',
     sectionElementId: 'final-eval',
+  },
+  {
+    id: 'chapter-14',
+    num: '14',
+    title: 'You Made It: Certificate of Completion',
+    category: 'Evaluation',
+    shortDesc: 'Review milestone progress, test foundational understanding, and generate a downloadable PDF certificate.',
+    keyFormulaOrConcept: 'Empirical Laboratory Attestation & Provenance Record',
+    sectionElementId: 'you-made-it',
   },
 ];
 
@@ -182,16 +187,16 @@ export const ChapterIndexModal: React.FC<ChapterIndexModalProps> = ({
     onClose();
   };
 
-  const getCategoryColor = (cat: ChapterInfo['category']) => {
+  const getCategoryBadge = (cat: ChapterInfo['category']) => {
     switch (cat) {
       case 'Foundation':
-        return 'text-violet-400 bg-violet-950/60 border-violet-800/60';
+        return 'text-[#6842C2] bg-[#F3EFFF] border-[#E2D8FA]';
       case 'Laboratory':
-        return 'text-cyan-400 bg-cyan-950/60 border-cyan-800/60';
+        return 'text-[#167C80] bg-[#EDF7F7] border-[#CFE8E8]';
       case 'BDH':
-        return 'text-purple-400 bg-purple-950/60 border-purple-800/60';
+        return 'text-[#84387E] bg-[#FAEFF8] border-[#F0D5ED]';
       case 'Evaluation':
-        return 'text-emerald-400 bg-emerald-950/60 border-emerald-800/60';
+        return 'text-[#247A4B] bg-[#EDF8F2] border-[#CDEEDB]';
     }
   };
 
@@ -200,64 +205,75 @@ export const ChapterIndexModal: React.FC<ChapterIndexModalProps> = ({
       role="dialog"
       aria-modal="true"
       aria-labelledby="index-modal-title"
-      className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-black/80 backdrop-blur-md animate-in fade-in duration-200"
+      className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-stone-900/40 backdrop-blur-sm animate-in fade-in duration-200"
       onClick={onClose}
     >
       <div
-        className="w-full max-w-5xl max-h-[90vh] flex flex-col rounded-2xl border border-[#252A35] bg-[#0A0D14] shadow-2xl overflow-hidden"
+        className="w-full max-w-5xl max-h-[85vh] flex flex-col rounded-2xl border border-[#E2DDD5] bg-[#FBF9F5] shadow-2xl overflow-hidden text-[#151515]"
         onClick={(e) => e.stopPropagation()}
       >
-        {/* Header */}
-        <div className="p-5 sm:p-6 border-b border-[#1E2536] bg-[#0E121C] flex items-center justify-between">
+        {/* 1. Header */}
+        <div className="px-6 py-5 border-b border-[#EAE6DF] bg-[#FAF8F3] flex items-start justify-between gap-4 shrink-0">
           <div className="space-y-1">
             <div className="flex items-center gap-2">
-              <span className="text-[10px] font-mono uppercase tracking-widest text-[#22D3EE] bg-cyan-950/60 border border-[#22D3EE]/30 px-2 py-0.5 rounded font-bold">
+              <span className="text-[10px] font-mono uppercase tracking-widest text-[#716F68] font-bold">
                 TABLE OF CONTENTS
               </span>
-              <span className="text-xs font-mono text-[#8F96A3]">12 SCIENTIFIC CHAPTERS</span>
+              <span className="text-[#BDB7AB]">·</span>
+              <span className="text-xs font-mono text-[#716F68]">
+                {CHAPTER_DIRECTORY.length} SCIENTIFIC CHAPTERS
+              </span>
             </div>
-            <h2 id="index-modal-title" className="text-xl sm:text-2xl font-bold font-mono text-white tracking-wide">
-              Investigation Roadmap & Chapter Index
+
+            <h2
+              id="index-modal-title"
+              className="text-2xl sm:text-3xl font-serif font-normal text-[#151515] tracking-tight"
+            >
+              Investigation Roadmap
             </h2>
-            <p className="text-xs text-[#8F96A3]">
-              Select any chapter to navigate directly to its interactive models, experiments, and mathematical proofs.
+
+            <p className="text-xs sm:text-sm text-[#52504A] font-sans">
+              Follow the investigation from first principles, or jump straight into an experiment.
             </p>
           </div>
 
           <button
             onClick={onClose}
-            className="p-2 rounded-xl bg-[#151922] border border-[#252A35] text-[#8F96A3] hover:text-white hover:border-slate-500 transition-colors"
+            className="p-2 rounded-xl border border-[#E2DDD5] bg-[#FFFFFF] hover:bg-[#F4F1EA] text-[#716F68] hover:text-[#151515] transition-colors cursor-pointer shrink-0"
             aria-label="Close chapter index"
           >
-            <X className="w-5 h-5" />
+            <X className="w-4 h-4" />
           </button>
         </div>
 
-        {/* Filter Pills Bar */}
-        <div className="px-5 py-3 border-b border-[#1A2130] bg-[#080B12] flex flex-wrap items-center justify-between gap-2">
-          <div className="flex items-center gap-1.5 text-xs font-mono">
-            {['All', 'Foundation', 'Laboratory', 'BDH', 'Evaluation'].map((cat) => (
-              <button
-                key={cat}
-                onClick={() => setActiveCategoryFilter(cat)}
-                className={`px-3 py-1 rounded-lg border transition-all ${
-                  activeCategoryFilter === cat
-                    ? 'border-[#22D3EE] bg-cyan-950/60 text-[#22D3EE] font-bold'
-                    : 'border-[#252A35] bg-[#121622] text-[#8F96A3] hover:text-white hover:bg-[#182030]'
-                }`}
-              >
-                {cat === 'All' ? 'All (12)' : cat}
-              </button>
-            ))}
+        {/* 2. Category Filters (Segmented Control) */}
+        <div className="px-6 py-3 border-b border-[#EAE6DF] bg-[#F7F5EE] flex flex-wrap items-center justify-between gap-2 shrink-0">
+          <div className="flex items-center gap-1.5 p-1 rounded-xl bg-[#EFECE6] border border-[#E2DDD5] text-xs font-mono">
+            {['All', 'Foundation', 'Laboratory', 'BDH', 'Evaluation'].map((cat) => {
+              const isActive = activeCategoryFilter === cat;
+              return (
+                <button
+                  key={cat}
+                  onClick={() => setActiveCategoryFilter(cat)}
+                  className={`px-3 py-1 rounded-lg transition-all cursor-pointer ${
+                    isActive
+                      ? 'bg-[#FFFFFF] text-[#151515] font-bold shadow-xs border border-[#D8D4CB]'
+                      : 'text-[#716F68] hover:text-[#151515] hover:bg-[#FAF8F5]'
+                  }`}
+                >
+                  {cat === 'All' ? `All (${CHAPTER_DIRECTORY.length})` : cat}
+                </button>
+              );
+            })}
           </div>
 
-          <span className="text-[11px] font-mono text-[#8F96A3] hidden sm:inline-block">
-            Press <kbd className="px-1.5 py-0.5 bg-[#151922] border border-[#252A35] rounded text-white">ESC</kbd> to close
+          <span className="text-[11px] font-mono text-[#8C887E] hidden sm:inline-block">
+            Press <kbd className="px-1.5 py-0.5 bg-[#FFFFFF] border border-[#D8D4CB] rounded text-[#151515]">ESC</kbd> to close
           </span>
         </div>
 
-        {/* Chapter Grid */}
-        <div className="flex-1 overflow-y-auto p-5 sm:p-6 grid grid-cols-1 md:grid-cols-2 gap-3.5 custom-scrollbar">
+        {/* 3. Scrollable Chapter Grid (Guaranteed Never Clipped) */}
+        <div className="flex-1 min-h-0 overflow-y-auto p-5 sm:p-6 grid grid-cols-1 md:grid-cols-2 gap-4 custom-scrollbar bg-[#FBF9F5]">
           {filteredChapters.map((ch) => {
             const isCurrent = currentSectionId === ch.sectionElementId;
 
@@ -265,46 +281,50 @@ export const ChapterIndexModal: React.FC<ChapterIndexModalProps> = ({
               <div
                 key={ch.id}
                 onClick={() => handleSelectChapter(ch)}
-                className={`group p-4 rounded-xl border transition-all cursor-pointer text-left flex flex-col justify-between ${
+                className={`group p-4 sm:p-5 rounded-xl border transition-all cursor-pointer flex flex-col justify-between hover:-translate-y-0.5 ${
                   isCurrent
-                    ? 'border-[#22D3EE] bg-[#0F1726] ring-1 ring-[#22D3EE]/60 shadow-lg shadow-cyan-950/40'
-                    : 'border-[#1E2536] bg-[#0D121D] hover:border-[#35405A] hover:bg-[#121826]'
+                    ? 'border-[#6842C2] bg-[#FFFFFF] ring-1 ring-[#6842C2]/40 shadow-sm'
+                    : 'border-[#E5E0D8] bg-[#FFFFFF] hover:border-[#C8C3B8] hover:shadow-xs'
                 }`}
               >
-                <div>
-                  <div className="flex items-center justify-between gap-2 mb-2">
+                <div className="space-y-2">
+                  <div className="flex items-center justify-between gap-2">
                     <div className="flex items-center gap-2">
-                      <span className="text-sm font-bold font-mono text-white bg-[#171E2E] border border-[#2B354D] px-2 py-0.5 rounded">
+                      <span className="text-base font-serif font-bold text-[#6842C2]">
                         {ch.num}
                       </span>
-                      <span className={`text-[10px] font-mono uppercase px-2 py-0.5 rounded border font-semibold ${getCategoryColor(ch.category)}`}>
+                      <span
+                        className={`text-[9px] font-mono uppercase tracking-wider px-2 py-0.5 rounded-full border font-bold ${getCategoryBadge(
+                          ch.category
+                        )}`}
+                      >
                         {ch.category}
                       </span>
                     </div>
 
                     {isCurrent && (
-                      <span className="flex items-center gap-1 text-[10px] font-mono text-[#22D3EE] bg-cyan-950/70 border border-cyan-700/50 px-2 py-0.5 rounded font-bold">
-                        <span className="w-1.5 h-1.5 rounded-full bg-[#22D3EE] animate-pulse" />
+                      <span className="flex items-center gap-1 text-[10px] font-mono text-[#6842C2] bg-[#F3EFFF] border border-[#E2D8FA] px-2 py-0.5 rounded-full font-bold">
+                        <span className="w-1.5 h-1.5 rounded-full bg-[#6842C2]" />
                         ACTIVE
                       </span>
                     )}
                   </div>
 
-                  <h3 className="font-mono text-sm font-bold text-white group-hover:text-[#22D3EE] transition-colors leading-snug">
+                  <h3 className="font-serif text-base font-bold text-[#151515] group-hover:text-[#6842C2] transition-colors leading-snug">
                     {ch.title}
                   </h3>
 
-                  <p className="text-xs text-[#8F96A3] mt-1.5 leading-relaxed font-sans line-clamp-2">
+                  <p className="text-xs text-[#52504A] font-sans leading-relaxed line-clamp-2">
                     {ch.shortDesc}
                   </p>
                 </div>
 
-                <div className="mt-3 pt-2.5 border-t border-[#1C2436] flex items-center justify-between text-[11px] font-mono text-slate-400">
-                  <span className="truncate max-w-[80%] text-[10px] text-zinc-400">
+                <div className="mt-4 pt-3 border-t border-[#F0ECE4] flex items-center justify-between text-xs font-mono">
+                  <span className="truncate max-w-[72%] text-[10px] text-[#716F68]">
                     <FormattedMathText text={ch.keyFormulaOrConcept} />
                   </span>
-                  <span className="flex items-center gap-1 text-[#22D3EE] font-semibold group-hover:translate-x-0.5 transition-transform shrink-0">
-                    Jump <ArrowRight className="w-3 h-3" />
+                  <span className="flex items-center gap-1 text-xs font-serif italic text-[#6842C2] group-hover:translate-x-0.5 transition-transform shrink-0 font-medium">
+                    Explore <ArrowRight className="w-3.5 h-3.5" />
                   </span>
                 </div>
               </div>
@@ -312,15 +332,16 @@ export const ChapterIndexModal: React.FC<ChapterIndexModalProps> = ({
           })}
         </div>
 
-        {/* Footer */}
-        <div className="p-4 border-t border-[#1E2536] bg-[#090C14] flex flex-wrap items-center justify-between gap-2 text-xs font-mono text-[#8F96A3]">
+        {/* 4. Footer */}
+        <div className="px-6 py-3.5 border-t border-[#EAE6DF] bg-[#FAF8F3] flex flex-wrap items-center justify-between gap-2 text-xs font-mono text-[#716F68] shrink-0">
           <div className="flex items-center gap-2">
-            <span className="w-2 h-2 rounded-full bg-emerald-400" />
-            <span>Deterministic Educational Computation · Verified Against Kosowski et al. (2025)</span>
+            <span className="w-2 h-2 rounded-full bg-[#247A4B]" />
+            <span>Educational computation · Sources and methodology</span>
           </div>
+
           <button
             onClick={onClose}
-            className="px-4 py-1.5 rounded-lg bg-[#151922] hover:bg-[#1E2536] text-white border border-[#252A35] transition-colors"
+            className="px-4 py-1.5 rounded-lg bg-[#FFFFFF] hover:bg-[#F4F1EA] text-[#151515] border border-[#D8D4CB] transition-colors cursor-pointer font-sans text-xs font-medium"
           >
             Close Index
           </button>

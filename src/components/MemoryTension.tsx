@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { Scale, ArrowLeftRight, HelpCircle, ShieldAlert } from 'lucide-react';
+import { Scale, ArrowLeftRight, HelpCircle } from 'lucide-react';
 
 interface MemoryTensionProps {
   dimension: number;
@@ -39,47 +39,47 @@ export const MemoryTension: React.FC<MemoryTensionProps> = ({
       return {
         stance: 'High-Fidelity Regime',
         detail: 'Generous coordinates per fact. Recall is protected, but memory footprint per step is relatively elevated.',
-        tagColor: 'text-blue-400 bg-blue-950/60 border-blue-800',
+        tagColor: 'text-[#167C80] bg-[#EDF7F7] border-[#CFE8E8]',
       };
     }
     if (balanceOffset < -0.3) {
       return {
         stance: 'High-Compression Regime',
         detail: 'Extreme geometric packaging into bounded coordinates. Storage is bounded, but superposition crosstalk increases.',
-        tagColor: 'text-amber-400 bg-amber-950/60 border-amber-800',
+        tagColor: 'text-[#A46622] bg-[#FDF8EE] border-[#F5E2C4]',
       };
     }
     return {
       stance: 'Critical Boundary Zone',
       detail: 'State capacity is balanced near the retrieval threshold. Small perturbations can trigger recall bifurcation.',
-      tagColor: 'text-cyan-400 bg-cyan-950/60 border-cyan-800',
+      tagColor: 'text-[#6842C2] bg-[#F3EFFF] border-[#E2D8FA]',
     };
   }, [balanceOffset]);
 
   return (
-    <div className={`rounded-2xl border border-[#252A35] bg-[#0E121A] p-6 space-y-6 ${className}`}>
+    <div className={`rounded-2xl border border-[#E5E0D8] bg-[#FFFFFF] p-6 space-y-6 shadow-xs ${className}`}>
       {/* Header */}
-      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[#1E2536] pb-4">
-        <div className="flex items-center gap-2.5">
-          <div className="p-2 rounded-xl bg-violet-950/60 text-violet-400 border border-violet-800/60">
+      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[#EAE6DF] pb-4">
+        <div className="flex items-center gap-3">
+          <div className="p-2.5 rounded-xl bg-[#F3EFFF] text-[#6842C2] border border-[#E2D8FA]">
             <Scale className="w-5 h-5" />
           </div>
           <div>
             <div className="flex items-center gap-2">
-              <span className="text-xs font-mono font-bold tracking-widest text-violet-300 uppercase">
+              <span className="text-xs font-mono font-bold tracking-widest text-[#6842C2] uppercase">
                 CONCEPTUAL DESIGN PRESSURE
               </span>
-              <span className="text-[10px] font-mono text-slate-500 bg-[#151922] px-2 py-0.5 rounded border border-[#252A35]">
+              <span className="text-[10px] font-mono text-[#716F68] bg-[#FAF8F5] px-2 py-0.5 rounded border border-[#EAE6DF]">
                 THE TWO EXTREMES
               </span>
             </div>
-            <h3 className="text-base font-semibold text-white">
+            <h3 className="text-lg font-serif font-bold text-[#151515] mt-0.5">
               The Fundamental Memory Tension
             </h3>
           </div>
         </div>
 
-        <div className={`px-3 py-1 rounded-full text-xs font-mono font-semibold border ${tensionStateDescription.tagColor}`}>
+        <div className={`px-3 py-1 rounded-full text-xs font-mono font-bold border ${tensionStateDescription.tagColor}`}>
           {tensionStateDescription.stance}
         </div>
       </div>
@@ -87,60 +87,58 @@ export const MemoryTension: React.FC<MemoryTensionProps> = ({
       {/* Conceptual Diagram & The Two Extremes */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs font-mono">
         {/* Left Column: KEEP EVERYTHING */}
-        <div className="p-4 rounded-xl bg-[#121622] border border-[#232B3C] space-y-3 relative overflow-hidden">
-          <div className="absolute top-0 right-0 w-24 h-24 bg-blue-500/5 rounded-full blur-xl pointer-events-none" />
+        <div className="p-4 rounded-xl bg-[#FAF8F5] border border-[#EAE6DF] space-y-3">
           <div className="flex items-center justify-between">
-            <span className="font-bold text-blue-400 uppercase tracking-wider text-[11px]">
+            <span className="font-bold text-[#167C80] uppercase tracking-wider text-[11px]">
               KEEP EVERYTHING
             </span>
-            <span className="text-[10px] text-slate-500">Transformer KV Cache</span>
+            <span className="text-[10px] text-[#716F68]">Transformer KV Cache</span>
           </div>
-          <div className="space-y-1.5 text-slate-300 text-[11px]">
-            <div className="flex items-center gap-2 text-slate-400">
-              <span className="text-blue-400">▼</span> Growing context window
+          <div className="space-y-1.5 text-[#52504A] text-[11px]">
+            <div className="flex items-center gap-2">
+              <span className="text-[#167C80]">▼</span> Growing context window
             </div>
-            <div className="flex items-center gap-2 text-slate-400">
-              <span className="text-blue-400">▼</span> Exact token retention / high recall
+            <div className="flex items-center gap-2">
+              <span className="text-[#167C80]">▼</span> Exact token retention / high recall
             </div>
-            <div className="pt-2 border-t border-[#1C2333] flex flex-col gap-1 text-[10px]">
-              <span className="text-rose-400 font-semibold">↑ O(N) storage expansion</span>
-              <span className="text-rose-400 font-semibold">↑ O(N²) quadratic attention compute</span>
+            <div className="pt-2 border-t border-[#EAE6DF] flex flex-col gap-1 text-[10px]">
+              <span className="text-[#B64235] font-semibold">↑ O(N) storage expansion</span>
+              <span className="text-[#B64235] font-semibold">↑ O(N²) quadratic attention compute</span>
             </div>
           </div>
         </div>
 
         {/* Right Column: COMPRESS EVERYTHING */}
-        <div className="p-4 rounded-xl bg-[#121622] border border-[#232B3C] space-y-3 relative overflow-hidden">
-          <div className="absolute top-0 right-0 w-24 h-24 bg-purple-500/5 rounded-full blur-xl pointer-events-none" />
+        <div className="p-4 rounded-xl bg-[#FAF8F5] border border-[#EAE6DF] space-y-3">
           <div className="flex items-center justify-between">
-            <span className="font-bold text-purple-400 uppercase tracking-wider text-[11px]">
+            <span className="font-bold text-[#6842C2] uppercase tracking-wider text-[11px]">
               COMPRESS EVERYTHING
             </span>
-            <span className="text-[10px] text-slate-500">Recurrent State / BDH</span>
+            <span className="text-[10px] text-[#716F68]">Recurrent State / BDH</span>
           </div>
-          <div className="space-y-1.5 text-slate-300 text-[11px]">
-            <div className="flex items-center gap-2 text-slate-400">
-              <span className="text-purple-400">▼</span> Fixed-size bounded internal state
+          <div className="space-y-1.5 text-[#52504A] text-[11px]">
+            <div className="flex items-center gap-2">
+              <span className="text-[#6842C2]">▼</span> Fixed-size bounded internal state
             </div>
-            <div className="flex items-center gap-2 text-slate-400">
-              <span className="text-purple-400">▼</span> O(1) constant generation cost
+            <div className="flex items-center gap-2">
+              <span className="text-[#6842C2]">▼</span> O(1) constant generation cost
             </div>
-            <div className="pt-2 border-t border-[#1C2333] flex flex-col gap-1 text-[10px]">
-              <span className="text-amber-400 font-semibold">↑ Coordinate interference</span>
-              <span className="text-amber-400 font-semibold">↑ Forgetting / crosstalk risk</span>
+            <div className="pt-2 border-t border-[#EAE6DF] flex flex-col gap-1 text-[10px]">
+              <span className="text-[#A46622] font-semibold">↑ Coordinate interference</span>
+              <span className="text-[#A46622] font-semibold">↑ Forgetting / crosstalk risk</span>
             </div>
           </div>
         </div>
       </div>
 
       {/* The Live Interactive Fulcrum */}
-      <div className="p-5 rounded-xl bg-[#090C12] border border-[#1E2536] space-y-4">
+      <div className="p-5 rounded-xl bg-[#FAF8F5] border border-[#EAE6DF] space-y-4">
         <div className="flex items-center justify-between text-xs font-mono">
-          <span className="text-slate-400 flex items-center gap-1.5">
-            <ArrowLeftRight className="w-3.5 h-3.5 text-[#22D3EE]" />
+          <span className="text-[#716F68] flex items-center gap-1.5 font-medium">
+            <ArrowLeftRight className="w-3.5 h-3.5 text-[#167C80]" />
             YOUR EXPERIMENT OPERATING POINT:
           </span>
-          <span className="text-[11px] text-[#22D3EE] font-bold">
+          <span className="text-[11px] text-[#167C80] font-bold">
             D={dimension} · Seq={sequenceLength} · λ={retention.toFixed(2)}
           </span>
         </div>
@@ -148,19 +146,19 @@ export const MemoryTension: React.FC<MemoryTensionProps> = ({
         {/* Live Fulcrum Bar */}
         <div className="relative pt-6 pb-2">
           {/* Track Line */}
-          <div className="h-2 w-full rounded-full bg-gradient-to-r from-blue-900/60 via-cyan-950 to-purple-900/60 border border-[#252A35]" />
+          <div className="h-2 w-full rounded-full bg-[#E5E0D8]" />
 
           {/* Fulcrum labels on ends */}
-          <div className="flex justify-between text-[10px] font-mono text-slate-400 mt-2">
+          <div className="flex justify-between text-[10px] font-mono text-[#716F68] mt-2">
             <div className="text-left">
-              <span className="text-blue-400 font-bold block">RECALL FOCUS</span>
+              <span className="text-[#167C80] font-bold block">RECALL FOCUS</span>
               <span>Generous coordinates</span>
             </div>
             <div className="text-center">
-              <span className="text-slate-500">Balanced Design Pivot</span>
+              <span className="text-[#716F68]">Balanced Design Pivot</span>
             </div>
             <div className="text-right">
-              <span className="text-purple-400 font-bold block">EFFICIENCY FOCUS</span>
+              <span className="text-[#6842C2] font-bold block">EFFICIENCY FOCUS</span>
               <span>Bounded footprint</span>
             </div>
           </div>
@@ -170,26 +168,26 @@ export const MemoryTension: React.FC<MemoryTensionProps> = ({
             className="absolute top-0 transition-all duration-300 -translate-x-1/2 flex flex-col items-center pointer-events-none"
             style={{ left: `${indicatorPercent}%` }}
           >
-            <div className="px-2 py-0.5 rounded bg-cyan-400 text-black text-[10px] font-mono font-bold shadow-lg flex items-center gap-1">
-              <span>EXPERIMENT</span>
+            <div className="px-2.5 py-0.5 rounded-full bg-[#151515] text-[#FFFFFF] text-[10px] font-mono font-bold shadow-sm flex items-center gap-1">
+              <span>OPERATING POINT</span>
             </div>
-            <div className="w-0.5 h-6 bg-cyan-400 mt-0.5 shadow-sm" />
-            <div className="w-3 h-3 rounded-full bg-cyan-400 ring-4 ring-cyan-500/20 shadow-md" />
+            <div className="w-0.5 h-6 bg-[#151515] mt-0.5" />
+            <div className="w-3 h-3 rounded-full bg-[#151515] ring-4 ring-[#151515]/10 shadow-xs" />
           </div>
         </div>
 
-        <p className="text-xs text-slate-300 font-sans leading-relaxed pt-1">
+        <p className="text-xs text-[#52504A] font-sans leading-relaxed pt-1">
           {tensionStateDescription.detail}
         </p>
       </div>
 
       {/* Pathway BDH Framing Note */}
-      <div className="rounded-xl border border-violet-800/40 bg-violet-950/20 p-4 text-xs font-mono text-violet-200/90 space-y-1.5">
-        <div className="flex items-center gap-2 font-bold text-violet-300">
-          <HelpCircle className="w-4 h-4 text-violet-400 shrink-0" />
+      <div className="rounded-xl border border-[#E2D8FA] bg-[#F3EFFF] p-4 text-xs font-mono text-[#52504A] space-y-1.5">
+        <div className="flex items-center gap-2 font-bold text-[#6842C2]">
+          <HelpCircle className="w-4 h-4 text-[#6842C2] shrink-0" />
           <span>RESEARCH CONNECTION · PATHWAY BDH EXPLAINER</span>
         </div>
-        <p className="text-[11px] leading-relaxed text-slate-300 font-sans">
+        <p className="text-[11px] leading-relaxed text-[#52504A] font-sans">
           &ldquo;Your experiment shows one concrete instance of this trade-off.&rdquo; This is consistent with Pathway&apos;s current BDH explainer, which contrasts growing Transformer KV-cache state with compact recurrent states and frames BDH as trying to balance long-context performance with token-generation complexity.
         </p>
       </div>
