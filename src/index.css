@@ -79,3 +79,33 @@
     scroll-behavior: auto !important;
   }
 }
+
+/* Publication-Grade Print Styles for A4 Portrait Certificate */
+@media print {
+  @page {
+    size: A4 portrait;
+    margin: 0;
+  }
+  body {
+    background: #FFFFFF !important;
+    color: #151515 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+  header, nav, aside, footer, button, .no-print, [data-no-print="true"] {
+    display: none !important;
+  }
+  .print-only {
+    display: block !important;
+  }
+  .certificate-print-wrapper {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 210mm !important;
+    height: 297mm !important;
+    margin: 0 auto !important;
+    page-break-after: avoid !important;
+    page-break-inside: avoid !important;
+  }
+}

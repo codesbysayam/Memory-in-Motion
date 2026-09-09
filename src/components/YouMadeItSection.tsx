@@ -11,8 +11,9 @@ import {
   FileCheck,
   Check,
 } from 'lucide-react';
-import { jsPDF } from 'jspdf';
 import { MILESTONES, getCompletedMilestones } from '../utils/progressTracker';
+import { CertificateDocument } from './CertificateDocument';
+import { downloadCertificatePDF } from '../utils/certificatePdf';
 
 export const YouMadeItSection: React.FC = () => {
   const [completedMilestones, setCompletedMilestones] = useState<string[]>([]);
@@ -90,130 +91,15 @@ export const YouMadeItSection: React.FC = () => {
     },
   ];
 
-  // Browser-side PDF Generation with jsPDF
-  const generatePDFCertificate = () => {
-    const doc = new jsPDF({
-      orientation: 'landscape',
-      unit: 'mm',
-      format: 'a4',
+  // Download Publication-Grade A4 Portrait PDF
+  const handleDownloadPDF = () => {
+    downloadCertificatePDF({
+      learnerName,
+      certificateId,
+      milestonesCount: completedMilestones.length,
+      totalMilestones: MILESTONES.length,
+      completionPercentage,
     });
-
-    const today = new Date().toLocaleDateString('en-US', {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric',
-    });
-
-    // Elegant paper background: #FBF9F5
-    doc.setFillColor(251, 249, 245);
-    doc.rect(0, 0, 297, 210, 'F');
-
-    // Outer subtle double border: #D8D4CB & #151515
-    doc.setDrawColor(216, 212, 203);
-    doc.setLineWidth(1.2);
-    doc.rect(12, 12, 273, 186);
-
-    doc.setDrawColor(104, 66, 194); // Memory Purple Accent line
-    doc.setLineWidth(0.4);
-    doc.rect(14, 14, 269, 182);
-
-    // Header metadata
-    doc.setFont('courier', 'bold');
-    doc.setFontSize(9);
-    doc.setTextColor(113, 111, 104);
-    doc.text('MEMORY IN MOTION · RESEARCH LABORATORY · SCIENTIFIC RECORD', 148.5, 30, { align: 'center' });
-
-    // Main Certificate Heading
-    doc.setFont('times', 'bold');
-    doc.setFontSize(26);
-    doc.setTextColor(21, 21, 21);
-    doc.text('CERTIFICATE OF SCIENTIFIC COMPLETION', 148.5, 46, { align: 'center' });
-
-    // Subtitle
-    doc.setFont('helvetica', 'normal');
-    doc.setFontSize(11);
-    doc.setTextColor(42, 41, 38);
-    doc.text('In-Context Learning with Recurrent Memory & Latent Dynamics', 148.5, 54, { align: 'center' });
-
-    // Divider line
-    doc.setDrawColor(216, 212, 203);
-    doc.setLineWidth(0.5);
-    doc.line(60, 60, 237, 60);
-
-    // Presentation text
-    doc.setFont('times', 'italic');
-    doc.setFontSize(13);
-    doc.setTextColor(113, 111, 104);
-    doc.text('This certifies that', 148.5, 75, { align: 'center' });
-
-    // Recipient Name
-    doc.setFont('times', 'bold');
-    doc.setFontSize(24);
-    doc.setTextColor(21, 21, 21);
-    doc.text(learnerName.trim() || 'Learner', 148.5, 90, { align: 'center' });
-
-    // Accomplishment paragraph
-    doc.setFont('helvetica', 'normal');
-    doc.setFontSize(10);
-    doc.setTextColor(42, 41, 38);
-    const summaryLines = [
-      'has successfully completed the interactive research laboratory on Recurrent State Memory,',
-      'systematically investigated representational capacity bounds, induced and diagnosed retrieval interference,',
-      'examined continuous coordinate deltas (ΔM_t), and evaluated the Dragon Hatchling (BDH) synaptic architecture.',
-    ];
-    doc.text(summaryLines, 148.5, 106, { align: 'center', lineHeightFactor: 1.5 });
-
-    // Technical Metrics Badge
-    doc.setFillColor(243, 239, 255);
-    doc.roundedRect(65, 126, 167, 18, 2, 2, 'F');
-    doc.setFont('courier', 'bold');
-    doc.setFontSize(8.5);
-    doc.setTextColor(104, 66, 194);
-    doc.text(
-      `MILESTONES: ${completedMilestones.length}/${MILESTONES.length} COMPLETED   |   COMPLETION RATE: ${completionPercentage}%   |   VERIFICATION ID: ${certificateId}`,
-      148.5,
-      137,
-      { align: 'center' }
-    );
-
-    // Core Formula Stamp
-    doc.setFont('times', 'italic');
-    doc.setFontSize(10);
-    doc.setTextColor(113, 111, 104);
-    doc.text('State Update Law: M_(t+1) = λ M_t + η k_t v_t^T   ·   Readout: v̂ = q^T M', 148.5, 154, { align: 'center' });
-
-    // Signatures / Date block
-    doc.setDrawColor(216, 212, 203);
-    doc.setLineWidth(0.4);
-    doc.line(35, 178, 100, 178);
-    doc.line(197, 178, 262, 178);
-
-    doc.setFont('helvetica', 'bold');
-    doc.setFontSize(8.5);
-    doc.setTextColor(42, 41, 38);
-    doc.text('DATE ISSUED', 67.5, 183, { align: 'center' });
-    doc.text('LABORATORY ATTESTATION', 229.5, 183, { align: 'center' });
-
-    doc.setFont('courier', 'normal');
-    doc.setFontSize(8);
-    doc.setTextColor(113, 111, 104);
-    doc.text(today, 67.5, 188, { align: 'center' });
-    doc.text('Deterministic In-Browser Engine', 229.5, 188, { align: 'center' });
-
-    // Bottom honest disclaimer
-    doc.setFont('helvetica', 'italic');
-    doc.setFontSize(7.5);
-    doc.setTextColor(140, 137, 130);
-    doc.text(
-      'Educational completion certificate — not an institutional or university accredited degree.',
-      148.5,
-      198,
-      { align: 'center' }
-    );
-
-    // Save PDF
-    const cleanName = learnerName.toLowerCase().replace(/[^a-z0-9]/g, '-');
-    doc.save(`memory-in-motion-certificate-${cleanName || 'learner'}.pdf`);
   };
 
   const handlePrint = () => {
@@ -369,95 +255,56 @@ Core Scientific Lesson: Fixed-size recurrent states maintain O(1) memory at the 
             </div>
 
             {/* Learner Name Input */}
-            <div className="flex items-center gap-2 font-mono text-xs">
-              <span className="text-[#716F68] font-bold">YOUR NAME:</span>
+            <div className="flex items-center gap-2 font-sans text-xs">
+              <span className="text-[#716F68] font-bold">Your name:</span>
               <input
                 type="text"
                 value={learnerName}
                 onChange={(e) => handleNameChange(e.target.value)}
-                placeholder="Enter your name"
-                className="px-3.5 py-1.5 rounded-xl bg-[#FAF8F5] border border-[#E5E0D8] text-[#151515] focus:outline-none focus:border-[#6842C2] font-mono text-xs w-48"
+                placeholder="e.g. Alexandra Montgomery"
+                className="px-3.5 py-1.5 rounded-xl bg-[#FAF8F5] border border-[#E5E0D8] text-[#151515] focus:outline-none focus:border-[#6842C2] font-sans text-xs w-56"
               />
             </div>
           </div>
 
-          {/* Certificate Live Paper Preview */}
-          <div className="rounded-2xl border-2 border-[#D8D4CB] bg-[#FAF8F5] text-[#151515] p-6 sm:p-10 shadow-md relative overflow-hidden select-none">
-            {/* Inner Border */}
-            <div className="border border-[#D8D4CB] p-6 sm:p-8 space-y-6 text-center bg-[#FBF9F5] rounded-xl">
-              <div className="space-y-1">
-                <span className="text-[10px] font-mono tracking-widest uppercase text-[#716F68] block">
-                  MEMORY IN MOTION · RESEARCH LABORATORY · SCIENTIFIC RECORD
-                </span>
-                <h4 className="text-xl sm:text-3xl font-serif font-bold tracking-tight text-[#151515]">
-                  CERTIFICATE OF SCIENTIFIC COMPLETION
-                </h4>
-                <p className="text-xs font-sans text-[#52504A]">
-                  In-Context Learning with Recurrent Memory & Latent Dynamics
-                </p>
-              </div>
-
-              <div className="w-24 h-px bg-[#D8D4CB] mx-auto" />
-
-              <div className="space-y-1">
-                <span className="text-xs font-serif italic text-[#716F68]">
-                  This certifies that
-                </span>
-                <div className="text-xl sm:text-2xl font-serif font-bold text-[#151515] tracking-wide">
-                  {learnerName.trim() || 'Learner'}
-                </div>
-              </div>
-
-              <p className="text-xs font-sans text-[#52504A] max-w-xl mx-auto leading-relaxed">
-                has successfully completed the interactive research laboratory on Recurrent State Memory, systematically investigated representational capacity bounds, induced retrieval interference, and evaluated the Dragon Hatchling (BDH) synaptic architecture.
-              </p>
-
-              <div className="inline-flex items-center gap-3 px-4 py-1.5 rounded-xl bg-[#F3EFFF] text-[10px] font-mono text-[#6842C2] font-bold border border-[#E2D8FA]">
-                <span>MILESTONES: {completedMilestones.length}/{MILESTONES.length}</span>
-                <span>·</span>
-                <span>RATE: {completionPercentage}%</span>
-                <span>·</span>
-                <span>ID: {certificateId}</span>
-              </div>
-
-              <div className="flex items-center justify-between pt-6 border-t border-[#D8D4CB] text-[10px] font-mono text-[#716F68]">
-                <div>
-                  <span className="block font-bold text-[#151515]">DATE ISSUED</span>
-                  <span>{new Date().toLocaleDateString()}</span>
-                </div>
-                <div className="text-right">
-                  <span className="block font-bold text-[#151515]">LABORATORY ATTESTATION</span>
-                  <span>Deterministic In-Browser Engine</span>
-                </div>
-              </div>
-            </div>
+          {/* Certificate Live Paper Preview (Single Source of Truth) */}
+          <div className="rounded-2xl border border-[#D8D4CB] bg-[#F4F1EA] p-4 sm:p-8 flex justify-center overflow-x-auto shadow-inner">
+            <CertificateDocument
+              data={{
+                learnerName,
+                certificateId,
+                milestonesCount: completedMilestones.length,
+                totalMilestones: MILESTONES.length,
+                completionPercentage,
+              }}
+            />
           </div>
 
           {/* Action Buttons */}
           <div className="flex flex-wrap items-center justify-between gap-4 pt-2">
-            <div className="flex items-center gap-2">
+            <div className="flex flex-wrap items-center gap-2.5">
               <button
-                onClick={generatePDFCertificate}
-                className="px-5 py-2.5 rounded-xl bg-[#167C80] hover:bg-[#136B6F] text-white font-mono text-xs font-bold transition-all flex items-center gap-2 shadow-xs cursor-pointer"
+                onClick={handleDownloadPDF}
+                className="px-5 py-2.5 rounded-xl bg-[#167C80] hover:bg-[#136B6F] text-white font-sans text-xs font-bold transition-all flex items-center gap-2 shadow-xs cursor-pointer"
               >
                 <Download className="w-4 h-4" />
-                <span>DOWNLOAD CERTIFICATE (PDF)</span>
+                <span>Download certificate (A4 PDF)</span>
               </button>
 
               <button
                 onClick={handlePrint}
-                className="px-4 py-2.5 rounded-xl bg-[#FFFFFF] hover:bg-[#FAF8F5] text-[#151515] border border-[#E5E0D8] font-mono text-xs font-semibold transition-all flex items-center gap-2 cursor-pointer"
+                className="px-4 py-2.5 rounded-xl bg-[#FFFFFF] hover:bg-[#FAF8F5] text-[#151515] border border-[#E5E0D8] font-sans text-xs font-semibold transition-all flex items-center gap-2 cursor-pointer"
               >
-                <Printer className="w-4 h-4" />
-                <span>PRINT / SAVE AS PDF</span>
+                <Printer className="w-4 h-4 text-[#716F68]" />
+                <span>Print / Save as PDF</span>
               </button>
 
               <button
                 onClick={handleCopySummary}
-                className="px-4 py-2.5 rounded-xl bg-[#FFFFFF] hover:bg-[#FAF8F5] text-[#151515] border border-[#E5E0D8] font-mono text-xs font-semibold transition-all flex items-center gap-2 cursor-pointer"
+                className="px-4 py-2.5 rounded-xl bg-[#FFFFFF] hover:bg-[#FAF8F5] text-[#151515] border border-[#E5E0D8] font-sans text-xs font-semibold transition-all flex items-center gap-2 cursor-pointer"
               >
-                {copyStatus ? <CheckCircle2 className="w-4 h-4 text-[#247A4B]" /> : <Copy className="w-4 h-4" />}
-                <span>{copyStatus ? 'COPIED TO CLIPBOARD' : 'COPY SUMMARY'}</span>
+                {copyStatus ? <CheckCircle2 className="w-4 h-4 text-[#247A4B]" /> : <Copy className="w-4 h-4 text-[#716F68]" />}
+                <span>{copyStatus ? 'Copied to clipboard' : 'Copy verification summary'}</span>
               </button>
             </div>
 
