@@ -13,8 +13,10 @@ import {
   Cpu,
   ShieldCheck,
   Brain,
+  Award,
 } from 'lucide-react';
 import { CANONICAL_FACTS, Fact, vector, cosine, norm } from '../models/associativeMemory';
+import { markMilestoneCompleted } from '../utils/progressTracker';
 
 export const FinalChallenge: React.FC = () => {
   const [currentRound, setCurrentRound] = useState<number>(1);
@@ -460,7 +462,17 @@ export const FinalChallenge: React.FC = () => {
               ].map((opt) => (
                 <button
                   key={opt.id}
-                  onClick={() => setRound3SelectedAction(opt.id)}
+                  onClick={() => {
+                    setRound3SelectedAction(opt.id);
+                    if (opt.correct) {
+                      markMilestoneCompleted('verify_knowledge');
+                      try {
+                        localStorage.setItem('memory_final_challenge_completed', 'true');
+                      } catch {
+                        // ignore
+                      }
+                    }
+                  }}
                   className={`w-full p-3 rounded-lg border text-left transition flex items-center justify-between ${
                     round3SelectedAction === opt.id
                       ? opt.correct

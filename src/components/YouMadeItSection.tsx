@@ -10,6 +10,7 @@ import {
   ChevronUp,
   FileCheck,
   Check,
+  Lock,
 } from 'lucide-react';
 import { MILESTONES, getCompletedMilestones } from '../utils/progressTracker';
 import { CertificateDocument } from './CertificateDocument';
@@ -21,6 +22,13 @@ export const YouMadeItSection: React.FC = () => {
   const [activeQuestion, setActiveQuestion] = useState<number | null>(null);
   const [copyStatus, setCopyStatus] = useState<boolean>(false);
   const [certificateId, setCertificateId] = useState<string>('MEM-2026-A8F29D');
+  const [certificateGenerated, setCertificateGenerated] = useState<boolean>(() => {
+    return localStorage.getItem('memory_lab_cert_generated') === 'true';
+  });
+
+  const isCertificateUnlocked =
+    completedMilestones.includes('verify_knowledge') ||
+    localStorage.getItem('memory_final_challenge_completed') === 'true';
 
   // Load progress and name from localStorage
   useEffect(() => {
@@ -242,76 +250,171 @@ Core Scientific Lesson: Fixed-size recurrent states maintain O(1) memory at the 
         </div>
 
         {/* Certificate of Completion Preview & Download */}
-        <div className="p-6 sm:p-8 rounded-2xl border border-[#E5E0D8] bg-[#FFFFFF] space-y-6 shadow-xs">
+        <div id="you-made-it-certificate" className="p-6 sm:p-8 rounded-2xl border border-[#E5E0D8] bg-[#FFFFFF] space-y-6 shadow-xs">
           <div className="flex flex-wrap items-center justify-between gap-4 border-b border-[#EAE6DF] pb-4">
             <div>
               <h3 className="text-lg sm:text-xl font-serif font-bold text-[#151515] flex items-center gap-2">
-                <Award className="w-5 h-5 text-[#A46622]" />
+                <Award className="w-5 h-5 text-[#6842C2]" />
                 <span>Certificate of Completion</span>
               </h3>
               <p className="text-xs text-[#716F68] font-sans mt-0.5">
-                Download a personalized, publication-grade PDF certificate of your work.
+                Official attestation for completing the interactive laboratory on In-Context Learning with Recurrent Memory.
               </p>
             </div>
 
-            {/* Learner Name Input */}
-            <div className="flex items-center gap-2 font-sans text-xs">
-              <span className="text-[#716F68] font-bold">Your name:</span>
-              <input
-                type="text"
-                value={learnerName}
-                onChange={(e) => handleNameChange(e.target.value)}
-                placeholder="e.g. Alexandra Montgomery"
-                className="px-3.5 py-1.5 rounded-xl bg-[#FAF8F5] border border-[#E5E0D8] text-[#151515] focus:outline-none focus:border-[#6842C2] font-sans text-xs w-56"
-              />
+            <div className="flex items-center gap-2 font-mono text-xs">
+              <span className="text-[#716F68]">Status:</span>
+              <span
+                className={`px-2.5 py-0.5 rounded-md font-bold ${
+                  isCertificateUnlocked
+                    ? 'bg-[#EAF5EF] text-[#247A4B] border border-[#CDEEDB]'
+                    : 'bg-[#F4F1EA] text-[#716F68] border border-[#E5E0D8]'
+                }`}
+              >
+                {isCertificateUnlocked ? 'UNLOCKED' : 'LOCKED (REQUIRES PROVE STAGE)'}
+              </span>
             </div>
           </div>
 
-          {/* Certificate Live Paper Preview (Single Source of Truth) */}
-          <div className="rounded-2xl border border-[#D8D4CB] bg-[#F4F1EA] p-4 sm:p-8 flex justify-center overflow-x-auto shadow-inner">
-            <CertificateDocument
-              data={{
-                learnerName,
-                certificateId,
-                milestonesCount: completedMilestones.length,
-                totalMilestones: MILESTONES.length,
-                completionPercentage,
-              }}
-            />
-          </div>
+          {/* LOCKED STATE: When learner has not completed Final Challenge in Stage 07 */}
+          {!isCertificateUnlocked && (
+            <div className="p-6 sm:p-8 rounded-xl bg-[#FAF8F5] border border-[#E5E0D8] text-center space-y-4">
+              <div className="w-12 h-12 rounded-full bg-[#FFFFFF] border border-[#D8D4CB] flex items-center justify-center mx-auto text-[#716F68] shadow-xs">
+                <Lock className="w-5 h-5 text-[#716F68]" />
+              </div>
+              <div className="space-y-1.5 max-w-lg mx-auto">
+                <h4 className="font-serif font-bold text-base text-[#151515]">
+                  Certificate Locked — Complete Stage 07 Final Challenge
+                </h4>
+                <p className="text-xs text-[#716F68] font-sans leading-relaxed">
+                  To ensure genuine learning, the Certificate of Completion unlocks after completing the Final Challenge in Stage 07 above.
+                </p>
+              </div>
 
-          {/* Action Buttons */}
-          <div className="flex flex-wrap items-center justify-between gap-4 pt-2">
-            <div className="flex flex-wrap items-center gap-2.5">
-              <button
-                onClick={handleDownloadPDF}
-                className="px-5 py-2.5 rounded-xl bg-[#167C80] hover:bg-[#136B6F] text-white font-sans text-xs font-bold transition-all flex items-center gap-2 shadow-xs cursor-pointer"
-              >
-                <Download className="w-4 h-4" />
-                <span>Download certificate (A4 PDF)</span>
-              </button>
-
-              <button
-                onClick={handlePrint}
-                className="px-4 py-2.5 rounded-xl bg-[#FFFFFF] hover:bg-[#FAF8F5] text-[#151515] border border-[#E5E0D8] font-sans text-xs font-semibold transition-all flex items-center gap-2 cursor-pointer"
-              >
-                <Printer className="w-4 h-4 text-[#716F68]" />
-                <span>Print / Save as PDF</span>
-              </button>
-
-              <button
-                onClick={handleCopySummary}
-                className="px-4 py-2.5 rounded-xl bg-[#FFFFFF] hover:bg-[#FAF8F5] text-[#151515] border border-[#E5E0D8] font-sans text-xs font-semibold transition-all flex items-center gap-2 cursor-pointer"
-              >
-                {copyStatus ? <CheckCircle2 className="w-4 h-4 text-[#247A4B]" /> : <Copy className="w-4 h-4 text-[#716F68]" />}
-                <span>{copyStatus ? 'Copied to clipboard' : 'Copy verification summary'}</span>
-              </button>
+              <div className="pt-2">
+                <button
+                  onClick={() => {
+                    const el = document.getElementById('final-challenge');
+                    if (el) el.scrollIntoView({ behavior: 'smooth' });
+                  }}
+                  className="px-4 py-2 rounded-xl bg-[#6842C2] hover:bg-[#5835AC] text-white font-sans text-xs font-semibold transition-all shadow-xs cursor-pointer"
+                >
+                  Go to Final Challenge Above
+                </button>
+              </div>
             </div>
+          )}
 
-            <div className="text-[11px] font-sans text-[#716F68] italic">
-              Educational completion certificate — not an institutional or university accredited degree.
+          {/* UNLOCKED BUT NOT YET GENERATED */}
+          {isCertificateUnlocked && !certificateGenerated && (
+            <div className="p-6 sm:p-8 rounded-xl bg-[#FAF8F5] border border-[#D8D4CB] space-y-4">
+              <div className="space-y-1">
+                <span className="text-[11px] font-mono uppercase tracking-widest text-[#247A4B] font-bold block">
+                  Evaluation Verified
+                </span>
+                <h4 className="font-serif font-bold text-lg text-[#151515]">
+                  Claim Your Certificate of Completion
+                </h4>
+                <p className="text-xs text-[#716F68] font-sans">
+                  Enter your full name exactly as you wish it to appear on your verified scientific certificate document.
+                </p>
+              </div>
+
+              <div className="flex flex-col sm:flex-row gap-3 pt-2 max-w-xl">
+                <input
+                  type="text"
+                  value={learnerName}
+                  onChange={(e) => handleNameChange(e.target.value)}
+                  placeholder="e.g. Alexandra Elizabeth Johnson"
+                  className="flex-1 px-4 py-2.5 rounded-xl bg-[#FFFFFF] border border-[#D8D4CB] text-[#151515] focus:outline-none focus:border-[#6842C2] font-sans text-sm"
+                />
+                <button
+                  onClick={() => {
+                    if (!learnerName.trim()) {
+                      handleNameChange('Learner');
+                    }
+                    setCertificateGenerated(true);
+                    localStorage.setItem('memory_lab_cert_generated', 'true');
+                  }}
+                  className="px-5 py-2.5 rounded-xl bg-[#6842C2] hover:bg-[#5835AC] text-white font-sans text-xs font-bold transition-all shadow-xs cursor-pointer shrink-0"
+                >
+                  Generate Certificate
+                </button>
+              </div>
             </div>
-          </div>
+          )}
+
+          {/* UNLOCKED & GENERATED: Live Certificate Document and Export Controls */}
+          {isCertificateUnlocked && certificateGenerated && (
+            <>
+              {/* Adjust Name Row */}
+              <div className="flex flex-wrap items-center justify-between gap-4 p-4 rounded-xl bg-[#FAF8F5] border border-[#E5E0D8]">
+                <div className="space-y-0.5">
+                  <label className="text-xs font-sans font-bold text-[#151515] block">
+                    Recipient Name on Certificate
+                  </label>
+                  <p className="text-[11px] text-[#716F68] font-sans">
+                    Need to adjust your name? Update here to refresh the document.
+                  </p>
+                </div>
+
+                <input
+                  type="text"
+                  value={learnerName}
+                  onChange={(e) => handleNameChange(e.target.value)}
+                  placeholder="e.g. Alexandra Elizabeth Johnson"
+                  className="px-3.5 py-1.5 rounded-xl bg-[#FFFFFF] border border-[#D8D4CB] text-[#151515] focus:outline-none focus:border-[#6842C2] font-sans text-xs w-64"
+                />
+              </div>
+
+              {/* Certificate Live Paper Preview (Single Source of Truth) */}
+              <div className="rounded-2xl border border-[#D8D4CB] bg-[#F4F1EA] p-4 sm:p-8 flex justify-center overflow-x-auto shadow-inner">
+                <CertificateDocument
+                  data={{
+                    learnerName,
+                    certificateId,
+                    milestonesCount: completedMilestones.length,
+                    totalMilestones: MILESTONES.length,
+                    completionPercentage,
+                    finalChallengeStatus: 'Verified & Completed',
+                  }}
+                />
+              </div>
+
+              {/* Action Buttons */}
+              <div className="flex flex-wrap items-center justify-between gap-4 pt-2">
+                <div className="flex flex-wrap items-center gap-2.5">
+                  <button
+                    onClick={handleDownloadPDF}
+                    className="px-5 py-2.5 rounded-xl bg-[#167C80] hover:bg-[#136B6F] text-white font-sans text-xs font-bold transition-all flex items-center gap-2 shadow-xs cursor-pointer"
+                  >
+                    <Download className="w-4 h-4" />
+                    <span>Download certificate (A4 PDF)</span>
+                  </button>
+
+                  <button
+                    onClick={handlePrint}
+                    className="px-4 py-2.5 rounded-xl bg-[#FFFFFF] hover:bg-[#FAF8F5] text-[#151515] border border-[#E5E0D8] font-sans text-xs font-semibold transition-all flex items-center gap-2 cursor-pointer"
+                  >
+                    <Printer className="w-4 h-4 text-[#716F68]" />
+                    <span>Print / Save as PDF</span>
+                  </button>
+
+                  <button
+                    onClick={handleCopySummary}
+                    className="px-4 py-2.5 rounded-xl bg-[#FFFFFF] hover:bg-[#FAF8F5] text-[#151515] border border-[#E5E0D8] font-sans text-xs font-semibold transition-all flex items-center gap-2 cursor-pointer"
+                  >
+                    {copyStatus ? <CheckCircle2 className="w-4 h-4 text-[#247A4B]" /> : <Copy className="w-4 h-4 text-[#716F68]" />}
+                    <span>{copyStatus ? 'Copied to clipboard' : 'Copy verification summary'}</span>
+                  </button>
+                </div>
+
+                <div className="text-[11px] font-sans text-[#716F68] italic">
+                  Educational completion certificate — not an institutional or professional certification.
+                </div>
+              </div>
+            </>
+          )}
         </div>
       </div>
     </section>

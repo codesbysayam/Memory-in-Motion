@@ -1,5 +1,6 @@
 import React from 'react';
-import { Cpu, ShieldCheck, Eye } from 'lucide-react';
+import { ShieldCheck, Eye } from 'lucide-react';
+import { LogoMark } from './ui/LogoMark';
 
 interface HeaderProps {
   reducedMotion: boolean;
@@ -53,9 +54,7 @@ export const Header: React.FC<HeaderProps> = ({
         <div className="flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
           <div>
             <div className="flex items-center gap-2">
-              <div className="flex h-7 w-7 items-center justify-center rounded-lg border border-[#E2D8FA] bg-[#F3EFFF] text-[#6842C2]">
-                <Cpu className="h-4 w-4" />
-              </div>
+              <LogoMark size={28} variant="purple" />
               <h1 className="font-serif text-lg font-bold tracking-tight text-[#151515] sm:text-xl">
                 Memory in Motion
               </h1>

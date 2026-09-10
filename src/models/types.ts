@@ -15,6 +15,8 @@ export interface AssociativeQueryResult {
   vector: number[];
   prediction: string;
   confidence: number;
+  retrievalScore: number;
+  top1Margin: number;
   candidates: CandidateScore[];
 }
 

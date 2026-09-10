@@ -127,12 +127,12 @@ export const SixtySecondTest: React.FC = () => {
       <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[#252A35] pb-4">
         <div>
           <div className="flex items-center gap-2">
-            <HelpCircle className="w-5 h-5 text-[#8B5CF6]" />
-            <h3 className="font-mono text-base font-bold text-white uppercase tracking-wider">
-              SCIENTIFIC CHALLENGE: WHAT DID YOU LEARN?
+            <HelpCircle className="w-5 h-5 text-[#6842C2]" />
+            <h3 className="font-serif text-lg font-bold text-white tracking-tight">
+              Scientific Challenge: What Did You Learn?
             </h3>
           </div>
-          <p className="text-xs text-[#8F96A3] mt-0.5">
+          <p className="text-xs text-[#9E9A92] font-sans mt-0.5">
             Test your scientific mental model against the 3 core principles of recurrent working memory.
           </p>
         </div>
@@ -140,10 +140,10 @@ export const SixtySecondTest: React.FC = () => {
         {submitted && (
           <button
             onClick={handleReset}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-[#252A35] bg-[#151922] text-xs font-mono text-[#8F96A3] hover:text-white transition-colors"
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-[#252A35] bg-[#151922] text-xs font-sans font-medium text-[#C8C4BC] hover:text-white transition-colors cursor-pointer"
           >
             <RotateCcw className="w-3.5 h-3.5" />
-            <span>RETRY CHALLENGE</span>
+            <span>Retry Challenge</span>
           </button>
         )}
       </div>
@@ -155,8 +155,8 @@ export const SixtySecondTest: React.FC = () => {
           const selectedOption = selectedIdx !== undefined ? q.options[selectedIdx] : null;
 
           return (
-            <div key={q.id} className="rounded-xl border border-[#252A35] bg-[#11141A] p-5 space-y-3 font-mono text-xs">
-              <h4 className="text-white font-bold text-sm leading-snug">{q.question}</h4>
+            <div key={q.id} className="rounded-xl border border-[#252A35] bg-[#11141A] p-5 space-y-3 font-sans text-xs">
+              <h4 className="text-white font-serif font-bold text-sm leading-snug">{q.question}</h4>
 
               <div className="space-y-2">
                 {q.options.map((opt, optIdx) => {
@@ -172,7 +172,7 @@ export const SixtySecondTest: React.FC = () => {
                       borderClass = 'border-[#252A35]/50 bg-[#151922]/50 text-zinc-500 opacity-60';
                     }
                   } else if (isSelected) {
-                    borderClass = 'border-[#22D3EE] bg-cyan-950/40 text-[#22D3EE] font-bold ring-1 ring-[#22D3EE]';
+                    borderClass = 'border-[#287C7C] bg-teal-950/40 text-teal-200 font-bold ring-1 ring-[#287C7C]';
                   }
 
                   return (
@@ -180,12 +180,12 @@ export const SixtySecondTest: React.FC = () => {
                       key={opt.label}
                       onClick={() => handleSelect(q.id, optIdx)}
                       disabled={submitted}
-                      className={`w-full text-left p-3 rounded-lg border transition-all flex items-start gap-3 ${borderClass}`}
+                      className={`w-full text-left p-3 rounded-lg border transition-all flex items-start gap-3 cursor-pointer ${borderClass}`}
                     >
-                      <span className="w-5 h-5 rounded-md bg-[#07080B] border border-[#252A35] flex items-center justify-center font-bold text-[11px] shrink-0">
+                      <span className="w-5 h-5 rounded-md bg-[#07080B] border border-[#252A35] flex items-center justify-center font-mono font-bold text-[11px] shrink-0">
                         {opt.label}
                       </span>
-                      <span className="text-[12px] leading-relaxed flex-1">{opt.text}</span>
+                      <span className="text-[12px] leading-relaxed flex-1 font-sans">{opt.text}</span>
                     </button>
                   );
                 })}
@@ -194,22 +194,22 @@ export const SixtySecondTest: React.FC = () => {
               {/* Immediate explanation if submitted */}
               {submitted && selectedOption && (
                 <div
-                  className={`p-3 rounded-lg text-[11px] leading-relaxed border ${
+                  className={`p-3 rounded-lg text-[11px] leading-relaxed border font-sans ${
                     selectedOption.isCorrect
                       ? 'bg-emerald-950/30 border-emerald-500/30 text-emerald-200'
                       : 'bg-rose-950/30 border-rose-500/30 text-rose-200'
                   }`}
                 >
-                  <div className="font-bold flex items-center gap-1.5 mb-1">
+                  <div className="font-bold flex items-center gap-1.5 mb-1 font-serif">
                     {selectedOption.isCorrect ? (
                       <>
                         <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
-                        <span>SCIENTIFIC INSIGHT:</span>
+                        <span>Scientific Insight:</span>
                       </>
                     ) : (
                       <>
                         <XCircle className="w-3.5 h-3.5 text-rose-400" />
-                        <span>CONCEPTUAL CORRECTION:</span>
+                        <span>Conceptual Correction:</span>
                       </>
                     )}
                   </div>
@@ -227,37 +227,37 @@ export const SixtySecondTest: React.FC = () => {
           <button
             onClick={() => setSubmitted(true)}
             disabled={!isComplete}
-            className={`w-full py-3 px-4 rounded-xl font-mono text-xs font-bold uppercase tracking-wider flex items-center justify-center gap-2 transition-all ${
+            className={`w-full py-3 px-4 rounded-xl font-sans text-xs font-bold flex items-center justify-center gap-2 transition-all ${
               isComplete
-                ? 'bg-[#22D3EE] text-[#07080B] hover:bg-cyan-300 shadow-lg shadow-cyan-950/40 cursor-pointer'
+                ? 'bg-[#287C7C] text-white hover:bg-[#206363] shadow-md cursor-pointer'
                 : 'bg-[#151922] text-[#8F96A3] border border-[#252A35] cursor-not-allowed'
             }`}
           >
-            <span>SUBMIT SCIENTIFIC VERDICT ({answeredCount}/3 ANSWERED)</span>
+            <span>Submit Scientific Verdict ({answeredCount}/3 Answered)</span>
             <ArrowRight className="w-4 h-4" />
           </button>
         ) : (
           <div
-            className={`rounded-xl border p-5 text-center font-mono space-y-2 ${
+            className={`rounded-xl border p-5 text-center font-sans space-y-2 ${
               isSuccess
                 ? 'border-emerald-500/60 bg-emerald-950/30 text-emerald-200'
                 : 'border-amber-500/60 bg-amber-950/30 text-amber-200'
             }`}
           >
-            <div className="flex items-center justify-center gap-2 text-base font-bold uppercase tracking-wider">
+            <div className="flex items-center justify-center gap-2 text-base font-serif font-bold">
               {isSuccess ? (
                 <>
                   <Award className="w-5 h-5 text-emerald-400" />
-                  <span>YOU UNDERSTOOD THE CLAIM ({score}/3)</span>
+                  <span>You Understood the Mechanism ({score}/3)</span>
                 </>
               ) : (
                 <>
                   <RotateCcw className="w-5 h-5 text-amber-400" />
-                  <span>RUN THE EXPERIMENT AGAIN ({score}/3 CORRECT)</span>
+                  <span>Run the Experiment Again ({score}/3 Correct)</span>
                 </>
               )}
             </div>
-            <p className="text-xs text-zinc-300 max-w-xl mx-auto leading-relaxed">
+            <p className="text-xs text-zinc-300 max-w-xl mx-auto leading-relaxed font-sans">
               {isSuccess
                 ? 'You have directly verified how fixed-size states carry information forward without expanding token-by-token caches, while experiencing how coordinate compression causes interference and forgetting.'
                 : 'Review the interference curves and capacity experiments in Section 04 and try the challenge again to solidify the physical intuitions.'}

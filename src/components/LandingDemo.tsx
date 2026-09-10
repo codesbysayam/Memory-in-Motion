@@ -1,302 +1,764 @@
 import React, { useState, useMemo, useEffect, useRef } from 'react';
-import { Plus, RefreshCw, ArrowDown, ArrowRight, Activity, Sparkles, Play, Pause, Clock } from 'lucide-react';
-import { INITIAL_CAPITAL_FACTS, EXTENDED_DISTRACTOR_FACTS } from '../data/examples';
-import { RecurrentMemoryModel } from '../models/recurrentMemory';
-import { FactItem } from '../types';
-import { TruthModel } from './ui/TruthModel';
-import { EvidenceStrip } from './ui/EvidenceStrip';
-import { experimentId } from '../types/experiment';
+import {
+  Plus,
+  Trash2,
+  Play,
+  RotateCcw,
+  ChevronDown,
+  ChevronUp,
+  Search,
+  CheckCircle2,
+  AlertTriangle,
+  HelpCircle,
+  Clock,
+  ArrowDown,
+  Sliders,
+  Sparkles,
+} from 'lucide-react';
+import { Fact, createAssociativeMemory, vector, norm, dot } from '../models/associativeMemory';
 
 interface LandingDemoProps {
   onExploreClick?: () => void;
   onStartJudgeMode?: () => void;
 }
 
-export const LandingDemo: React.FC<LandingDemoProps> = ({ onExploreClick, onStartJudgeMode }) => {
-  // Number of additional facts injected (starts at 0 -> 3 initial facts)
-  const [extraFactsCount, setExtraFactsCount] = useState<number>(0);
-  const [isAutoplaying, setIsAutoplaying] = useState<boolean>(true);
-  const [autoplayStep, setAutoplayStep] = useState<number>(0);
-  const userInteractedRef = useRef<boolean>(false);
-  const dimension = 8;
+const CANONICAL_DISTRACTORS: Fact[] = [
+  { key: 'France', value: 'Paris' },
+  { key: 'Brazil', value: 'Brasília' },
+  { key: 'Egypt', value: 'Cairo' },
+  { key: 'Germany', value: 'Berlin' },
+  { key: 'Kenya', value: 'Nairobi' },
+  { key: 'Canada', value: 'Ottawa' },
+  { key: 'India', value: 'New Delhi' },
+  { key: 'Australia', value: 'Canberra' },
+  { key: 'Argentina', value: 'Buenos Aires' },
+];
 
-  // Real deterministic autoplay sequence loop:
+export const LandingDemo: React.FC<LandingDemoProps> = ({
+  onExploreClick,
+  onStartJudgeMode,
+}) => {
+  // Primary facts in stream
+  const [facts, setFacts] = useState<Fact[]>([
+    { key: 'Japan', value: 'Tokyo' },
+  ]);
+
+  // Selected probe target
+  const [probeKey, setProbeKey] = useState<string>('Japan');
+  const [customKey, setCustomKey] = useState<string>('');
+  const [customValue, setCustomValue] = useState<string>('');
+  const [showCustomInput, setShowCustomInput] = useState<boolean>(false);
+
+  // Stepping & execution state
+  const [currentStepIndex, setCurrentStepIndex] = useState<number>(1);
+  const [isRunning, setIsRunning] = useState<boolean>(false);
+
+  // Secondary conditions (collapsed by default)
+  const [showConditions, setShowConditions] = useState<boolean>(false);
+  const [dim, setDim] = useState<number>(12);
+  const [retention, setRetention] = useState<number>(0.95);
+  const [writeStrength, setWriteStrength] = useState<number>(0.8);
+  const [interferenceNoise, setInterferenceNoise] = useState<number>(0.0);
+  const [latentSteps, setLatentSteps] = useState<number>(1);
+  const [seed, setSeed] = useState<number>(42);
+
+  // Auto-run stepper when isRunning is true
   useEffect(() => {
-    if (!isAutoplaying || userInteractedRef.current) return;
+    if (!isRunning) return;
+    if (currentStepIndex >= facts.length) {
+      setIsRunning(false);
+      return;
+    }
+    const timer = setTimeout(() => {
+      setCurrentStepIndex((prev) => Math.min(prev + 1, facts.length));
+    }, 450);
+    return () => clearTimeout(timer);
+  }, [isRunning, currentStepIndex, facts.length]);
 
-    const timer = setInterval(() => {
-      setAutoplayStep((prev) => (prev + 1) % 4);
-    }, 2400);
+  // Execute deterministic associative memory model up to currentStepIndex
+  const activeFacts = useMemo(() => {
+    return facts.slice(0, currentStepIndex);
+  }, [facts, currentStepIndex]);
 
-    return () => clearInterval(timer);
-  }, [isAutoplaying]);
+  const memoryModel = useMemo(() => {
+    // Incorporate seed and interference noise into write strength and vector space
+    const effectiveRetention = Math.max(0.1, Math.min(1.0, retention));
+    const effectiveWrite = Math.max(0.1, Math.min(2.0, writeStrength * (1 - interferenceNoise * 0.4)));
+    const model = createAssociativeMemory(facts, dim, effectiveRetention, effectiveWrite);
 
-  const stopAutoplayPermanently = () => {
-    userInteractedRef.current = true;
-    setIsAutoplaying(false);
+    for (const fact of activeFacts) {
+      model.writeFact(fact);
+    }
+    return model;
+  }, [facts, activeFacts, dim, retention, writeStrength, interferenceNoise, seed]);
+
+  // Query probe computation
+  const queryResult = useMemo(() => {
+    return memoryModel.query(probeKey);
+  }, [memoryModel, probeKey]);
+
+  // Ground truth lookup for probe target
+  const groundTruth = useMemo(() => {
+    const match = facts.find(
+      (f) => f.key.trim().toLowerCase() === probeKey.trim().toLowerCase()
+    );
+    return match ? match.value : 'UNKNOWN';
+  }, [facts, probeKey]);
+
+  // Is retrieval correct?
+  const isCorrect =
+    queryResult.prediction !== 'UNKNOWN' &&
+    groundTruth !== 'UNKNOWN' &&
+    queryResult.prediction.trim().toLowerCase() === groundTruth.trim().toLowerCase();
+
+  const isInterference =
+    groundTruth !== 'UNKNOWN' &&
+    !isCorrect &&
+    queryResult.prediction !== 'UNKNOWN';
+
+  // Available distractor count
+  const remainingDistractors = useMemo(() => {
+    const existingKeys = new Set(facts.map((f) => f.key));
+    return CANONICAL_DISTRACTORS.filter((d) => !existingKeys.has(d.key));
+  }, [facts]);
+
+  // Primary User Actions
+  const handleAddDistractor = () => {
+    if (remainingDistractors.length === 0) return;
+    const nextFact = remainingDistractors[0];
+    const newFacts = [...facts, nextFact];
+    setFacts(newFacts);
+    setCurrentStepIndex(newFacts.length);
   };
 
-  const activeFacts: FactItem[] = useMemo(() => {
-    if (isAutoplaying && !userInteractedRef.current) {
-      const count = Math.min(autoplayStep + 1, INITIAL_CAPITAL_FACTS.length);
-      return INITIAL_CAPITAL_FACTS.slice(0, count);
-    }
-    return [...INITIAL_CAPITAL_FACTS, ...EXTENDED_DISTRACTOR_FACTS.slice(0, extraFactsCount)];
-  }, [extraFactsCount, isAutoplaying, autoplayStep]);
+  const handleAddCustomFact = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!customKey.trim() || !customValue.trim()) return;
+    const newFact: Fact = { key: customKey.trim(), value: customValue.trim() };
+    const newFacts = [...facts, newFact];
+    setFacts(newFacts);
+    setCurrentStepIndex(newFacts.length);
+    setCustomKey('');
+    setCustomValue('');
+    setShowCustomInput(false);
+  };
 
-  // Run real local deterministic simulation
-  const simulationResult = useMemo(() => {
-    const model = new RecurrentMemoryModel(dimension, 0.04, 0.05, 42);
-    return model.simulate(activeFacts, 'Japan', 'Tokyo');
-  }, [activeFacts, dimension]);
-
-  const handleAddInformation = () => {
-    stopAutoplayPermanently();
-    if (extraFactsCount < EXTENDED_DISTRACTOR_FACTS.length) {
-      setExtraFactsCount((prev) => prev + 1);
+  const handleRemoveFact = (indexToRemove: number) => {
+    if (facts.length <= 1) return; // Keep at least one fact
+    const removedKey = facts[indexToRemove].key;
+    const newFacts = facts.filter((_, idx) => idx !== indexToRemove);
+    setFacts(newFacts);
+    setCurrentStepIndex((prev) => Math.min(prev, newFacts.length));
+    if (probeKey === removedKey && newFacts.length > 0) {
+      setProbeKey(newFacts[0].key);
     }
   };
 
   const handleReset = () => {
-    stopAutoplayPermanently();
-    setExtraFactsCount(0);
+    setIsRunning(false);
+    setFacts([{ key: 'Japan', value: 'Tokyo' }]);
+    setProbeKey('Japan');
+    setCurrentStepIndex(1);
+    memoryModel.reset();
   };
 
-  const scrollToFirstSection = () => {
-    if (onExploreClick) {
-      onExploreClick();
+  const handleRunAll = () => {
+    setIsRunning(false);
+    setCurrentStepIndex(facts.length);
+  };
+
+  const handleStepForward = () => {
+    setIsRunning(false);
+    if (currentStepIndex < facts.length) {
+      setCurrentStepIndex((prev) => prev + 1);
     } else {
-      const el = document.getElementById('section-01');
-      if (el) el.scrollIntoView({ behavior: 'smooth' });
+      handleAddDistractor();
     }
   };
 
-  const scrollToProblem = () => {
-    const el = document.getElementById('section-01');
-    if (el) el.scrollIntoView({ behavior: 'smooth' });
-  };
+  const stateMatrix = memoryModel.getState();
 
-  const maxPossible = EXTENDED_DISTRACTOR_FACTS.length;
-  const statusType = simulationResult.isCorrect
-    ? 'match'
-    : extraFactsCount > 4
-    ? 'forgotten'
-    : 'interference';
-
-  const runId = experimentId(dimension, 0.95, activeFacts.length, 42);
+  // Matrix Frobenius norm
+  const matrixNorm = useMemo(() => {
+    let sum = 0;
+    for (let r = 0; r < stateMatrix.length; r++) {
+      for (let c = 0; c < (stateMatrix[r]?.length || 0); c++) {
+        const val = stateMatrix[r][c] || 0;
+        sum += val * val;
+      }
+    }
+    return Math.sqrt(sum);
+  }, [stateMatrix]);
 
   return (
-    <section id="landing-hero" className="border-b border-[#E5E0D8] bg-[#FBF9F5] pt-14 pb-20 relative overflow-hidden">
-      <div className="max-w-[1400px] mx-auto px-4 sm:px-6 relative z-10">
-        {/* Eyebrow and metadata */}
-        <div className="flex flex-wrap items-center justify-between gap-3 mb-6">
+    <section
+      id="landing-hero"
+      className="border-b border-[#D8D3C9] bg-[#F5F2EA] text-[#1C1B19] pt-10 pb-16 relative overflow-hidden"
+    >
+      <div className="max-w-[1400px] mx-auto px-4 sm:px-6 relative z-10 space-y-8">
+        {/* Top Research Bar */}
+        <div className="flex flex-wrap items-center justify-between gap-3">
           <div className="flex items-center gap-2">
-            <span className="font-mono text-[10px] font-bold uppercase tracking-widest text-[#6842C2] bg-[#F3EFFF] px-2.5 py-1 rounded-md border border-[#E2D8FA] flex items-center gap-1.5">
-              <Sparkles className="w-3 h-3 text-[#6842C2]" />
-              DATAFORGE 2026 · PATHWAY TRACK
+            <span className="font-sans text-[11px] font-bold uppercase tracking-widest text-[#6842C2] bg-[#F3EFFF] px-3 py-1 rounded-full border border-[#E2D8FA] flex items-center gap-1.5">
+              <Sparkles className="w-3.5 h-3.5 text-[#6842C2]" />
+              STAGE 01 · FOUNDATIONAL EXPERIMENT
             </span>
-            <EvidenceStrip type="live" detail="Real model engine" />
-          </div>
-
-          <div className="flex items-center gap-2 font-mono text-xs text-[#716F68]">
-            <span>Reproducible run:</span>
-            <span className="px-2 py-0.5 rounded bg-[#FFFFFF] border border-[#E5E0D8] text-[#151515] font-semibold">
-              {runId}
+            <span className="text-[11px] font-mono text-[#6B665E] hidden sm:inline">
+              Associative Fast-Weight Recurrence
             </span>
           </div>
-        </div>
 
-        {/* Large editorial headline */}
-        <div className="max-w-4xl mb-12">
-          <div className="text-xs font-mono uppercase tracking-widest text-[#716F68] mb-3">
-            Research laboratory · Recurrent memory & BDH
-          </div>
-          <h1 className="text-4xl sm:text-6xl lg:text-7xl font-serif font-normal text-[#151515] leading-[1.08] tracking-tight">
-            Break the memory.
-          </h1>
-          <p className="mt-4 text-lg sm:text-xl text-[#52504A] leading-relaxed max-w-2xl font-sans">
-            Can a fixed-size state remember what matters when everything around it keeps changing?
-          </p>
-
-          <div className="mt-8 flex flex-wrap items-center gap-3">
-            <button
-              id="hero-run-experiment-cta"
-              onClick={scrollToFirstSection}
-              className="inline-flex items-center gap-2 bg-[#151515] hover:bg-[#2A2926] text-[#FBF9F5] font-mono font-bold text-xs sm:text-sm px-6 py-3 rounded-xl shadow-xs transition-all cursor-pointer hover:-translate-y-0.5"
-            >
-              <Activity className="w-4 h-4 text-[#FBF9F5]" />
-              <span>RUN THE EXPERIMENT</span>
-              <ArrowRight className="w-4 h-4 text-[#FBF9F5]" />
-            </button>
-
-            <button
-              id="hero-explore-mechanism-cta"
-              onClick={scrollToProblem}
-              className="inline-flex items-center gap-2 bg-[#FFFFFF] hover:bg-[#F4F1EA] text-[#151515] border border-[#E5E0D8] font-mono font-bold text-xs sm:text-sm px-5 py-3 rounded-xl transition-all cursor-pointer hover:-translate-y-0.5"
-            >
-              <span>EXPLORE THE MECHANISM</span>
-              <ArrowDown className="w-4 h-4 text-[#716F68]" />
-            </button>
-
-            {/* 60-Second Judge Mode CTA */}
+          <div className="flex items-center gap-3">
             {onStartJudgeMode && (
               <button
-                id="start-judge-mode-cta"
                 onClick={onStartJudgeMode}
-                className="inline-flex items-center gap-2 bg-[#F3EFFF] hover:bg-[#EAE2FB] text-[#6842C2] border border-[#E2D8FA] text-xs font-mono font-semibold px-4 py-3 rounded-xl transition-all cursor-pointer hover:-translate-y-0.5"
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-[#D8D3C9] bg-[#FFFFFF] hover:bg-[#F8F6F1] text-[#1C1B19] font-sans text-xs font-semibold shadow-xs transition-colors cursor-pointer"
               >
                 <Clock className="w-3.5 h-3.5 text-[#6842C2]" />
-                <span>60s EVALUATION</span>
+                <span>60s Guided Test</span>
               </button>
             )}
+            <div className="font-mono text-[11px] text-[#6B665E] bg-[#FFFFFF] border border-[#D8D3C9] px-2.5 py-1 rounded-md">
+              M ∈ ℝ^{dim}×{dim}
+            </div>
           </div>
         </div>
 
-        {/* Live miniature simulation running on page load */}
-        <div className="rounded-2xl border border-[#E5E0D8] bg-[#FFFFFF] p-6 sm:p-8 shadow-xs">
-          <div className="flex flex-wrap items-center justify-between gap-2 mb-6 pb-4 border-b border-[#EAE6DF]">
+        {/* Framing Question & Editorial Statement */}
+        <div className="max-w-3xl space-y-3">
+          <h1 className="text-3xl sm:text-5xl lg:text-6xl font-serif font-bold text-[#1C1B19] tracking-tight leading-[1.1]">
+            Can a fixed-size state remember what matters?
+          </h1>
+          <p className="text-base sm:text-lg text-[#403D38] font-sans leading-relaxed">
+            A recurrent system can carry information forward without storing every previous token.
+            But compression creates a trade-off: when new information competes for limited state, retrieval can interfere.
+          </p>
+        </div>
+
+        {/* THE HERO SCIENTIFIC INSTRUMENT */}
+        <div className="rounded-2xl border border-[#D8D3C9] bg-[#FFFFFF] shadow-sm overflow-hidden">
+          {/* Instrument Header Bar */}
+          <div className="px-5 sm:px-7 py-4 border-b border-[#D8D3C9] bg-[#FAF8F3] flex flex-wrap items-center justify-between gap-3">
             <div className="flex items-center gap-2.5">
-              <Activity className="w-4 h-4 text-[#167C80]" />
-              <span className="font-mono text-xs uppercase tracking-widest text-[#151515] font-bold">
-                Live experiment · ℝ^{dimension} fixed state
+              <div className="w-2.5 h-2.5 rounded-full bg-[#287C7C] animate-pulse" />
+              <h2 className="font-serif font-bold text-base sm:text-lg text-[#1C1B19]">
+                Live Recurrent Memory Instrument
+              </h2>
+              <span className="font-mono text-xs text-[#6B665E] hidden md:inline">
+                · M_(t+1) = λM_t + η k_t v_t^T
               </span>
-              {isAutoplaying && (
-                <span className="flex items-center gap-1 text-[10px] font-mono px-2 py-0.5 rounded-full bg-[#EDF7F7] border border-[#CFE8E8] text-[#167C80]">
-                  <Play className="w-2.5 h-2.5 fill-current" />
-                  Autoplaying sequence
-                </span>
-              )}
             </div>
 
-            <div className="flex items-center gap-2 text-xs font-mono text-[#716F68]">
-              <span>Active Facts: <strong className="text-[#151515]">{activeFacts.length}</strong></span>
-              <span className="text-[#E5E0D8]">|</span>
-              <span>Target: <span className="text-[#6842C2] font-semibold">Japan → Tokyo</span></span>
+            {/* Primary Action Controls */}
+            <div className="flex items-center gap-2">
+              <button
+                onClick={handleAddDistractor}
+                disabled={remainingDistractors.length === 0}
+                className="px-3.5 py-1.5 rounded-lg bg-[#6842C2] hover:bg-[#5835AC] text-white font-sans text-xs font-semibold flex items-center gap-1.5 shadow-xs transition-colors cursor-pointer disabled:opacity-40"
+              >
+                <Plus className="w-3.5 h-3.5" />
+                <span>Add Fact</span>
+              </button>
+
+              <button
+                onClick={handleStepForward}
+                className="px-3 py-1.5 rounded-lg border border-[#D8D3C9] bg-[#FFFFFF] hover:bg-[#F5F2EA] text-[#1C1B19] font-sans text-xs font-medium transition-colors cursor-pointer"
+                title="Step forward one fact write"
+              >
+                Step
+              </button>
+
+              <button
+                onClick={handleRunAll}
+                className="px-3 py-1.5 rounded-lg border border-[#D8D3C9] bg-[#FFFFFF] hover:bg-[#F5F2EA] text-[#1C1B19] font-sans text-xs font-medium transition-colors cursor-pointer"
+                title="Run all writes into memory"
+              >
+                Run
+              </button>
+
+              <button
+                onClick={handleReset}
+                className="p-1.5 rounded-lg border border-[#D8D3C9] bg-[#FFFFFF] hover:bg-[#F5F2EA] text-[#6B665E] hover:text-[#1C1B19] transition-colors cursor-pointer"
+                title="Reset memory instrument to initial state"
+                aria-label="Reset memory"
+              >
+                <RotateCcw className="w-4 h-4" />
+              </button>
             </div>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
-            {/* Left 5 Cols: Input Stream */}
-            <div className="lg:col-span-5 space-y-3">
-              <div className="flex items-center justify-between text-xs font-mono text-[#716F68]">
-                <span className="uppercase tracking-wider">Input stream (t = 1..{activeFacts.length})</span>
-                <span className="italic text-[#8C887E]">Try adding a fact</span>
+          {/* 3-Column Instrument Grid: INPUT STREAM | CURRENT STATE | QUERY & RESULT */}
+          <div className="p-5 sm:p-7 grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+            {/* COLUMN 1: INPUT STREAM (4 Cols) */}
+            <div className="lg:col-span-4 space-y-3">
+              <div className="flex items-center justify-between">
+                <span className="font-mono text-xs uppercase tracking-wider text-[#6B665E] font-semibold">
+                  Input Stream ({activeFacts.length}/{facts.length} Written)
+                </span>
+                <button
+                  onClick={() => setShowCustomInput(!showCustomInput)}
+                  className="text-xs font-sans font-medium text-[#6842C2] hover:underline cursor-pointer"
+                >
+                  {showCustomInput ? 'Cancel' : '+ Custom Fact'}
+                </button>
               </div>
 
-              <div className="space-y-2 max-h-[220px] overflow-y-auto pr-1 custom-scrollbar">
-                {activeFacts.map((fact, index) => {
-                  const isTarget = fact.subject === 'Japan';
+              {/* Custom fact input form */}
+              {showCustomInput && (
+                <form
+                  onSubmit={handleAddCustomFact}
+                  className="p-3 rounded-xl bg-[#FAF8F3] border border-[#D8D3C9] space-y-2 text-xs font-sans"
+                >
+                  <div className="grid grid-cols-2 gap-2">
+                    <input
+                      type="text"
+                      placeholder="Key (e.g. Spain)"
+                      value={customKey}
+                      onChange={(e) => setCustomKey(e.target.value)}
+                      className="px-2.5 py-1.5 rounded-md border border-[#D8D3C9] bg-white text-[#1C1B19] font-mono text-xs focus:outline-none focus:border-[#6842C2]"
+                    />
+                    <input
+                      type="text"
+                      placeholder="Value (e.g. Madrid)"
+                      value={customValue}
+                      onChange={(e) => setCustomValue(e.target.value)}
+                      className="px-2.5 py-1.5 rounded-md border border-[#D8D3C9] bg-white text-[#1C1B19] font-mono text-xs focus:outline-none focus:border-[#6842C2]"
+                    />
+                  </div>
+                  <div className="flex justify-end">
+                    <button
+                      type="submit"
+                      disabled={!customKey.trim() || !customValue.trim()}
+                      className="px-3 py-1 rounded-md bg-[#6842C2] text-white font-semibold disabled:opacity-40"
+                    >
+                      Insert into Stream
+                    </button>
+                  </div>
+                </form>
+              )}
+
+              {/* Facts List */}
+              <div className="space-y-2 max-h-[290px] overflow-y-auto pr-1">
+                {facts.map((fact, idx) => {
+                  const isWritten = idx < currentStepIndex;
+                  const isTarget = fact.key === probeKey;
+
                   return (
                     <div
-                      key={fact.id}
-                      className={`flex items-center justify-between p-2.5 rounded-lg border text-xs font-mono transition-all ${
+                      key={`${fact.key}-${idx}`}
+                      className={`p-2.5 rounded-xl border transition-all flex items-center justify-between text-xs ${
                         isTarget
-                          ? 'border-[#E2D8FA] bg-[#F3EFFF] text-[#6842C2] font-semibold'
-                          : 'border-[#EAE6DF] bg-[#FAF8F5] text-[#52504A]'
+                          ? 'border-[#6842C2] bg-[#F3EFFF] text-[#1C1B19]'
+                          : isWritten
+                          ? 'border-[#D8D3C9] bg-[#FFFFFF] text-[#1C1B19]'
+                          : 'border-[#E5E0D8] bg-[#FAF8F3] text-[#9E9A92] opacity-60'
                       }`}
                     >
-                      <div className="flex items-center gap-2">
-                        <span className="w-5 h-5 rounded bg-[#FFFFFF] border border-[#E5E0D8] flex items-center justify-center text-[10px] text-[#716F68]">
-                          {index + 1}
+                      <div className="flex items-center gap-2.5 truncate">
+                        <span
+                          className={`w-5 h-5 rounded-full font-mono text-[10px] flex items-center justify-center font-bold ${
+                            isWritten
+                              ? 'bg-[#EFEBE0] text-[#1C1B19]'
+                              : 'bg-transparent text-[#9E9A92] border border-[#D8D3C9]'
+                          }`}
+                        >
+                          {idx + 1}
                         </span>
-                        <span>
-                          {fact.subject} <span className="text-[#BDB7AB]">→</span>{' '}
-                          <strong className={isTarget ? 'text-[#6842C2]' : 'text-[#151515]'}>{fact.object}</strong>
-                        </span>
+                        <div className="truncate">
+                          <span className="font-semibold text-[#1C1B19]">{fact.key}</span>
+                          <span className="text-[#9E9A92] mx-1.5">→</span>
+                          <span className={isTarget ? 'font-bold text-[#6842C2]' : 'text-[#403D38]'}>
+                            {fact.value}
+                          </span>
+                        </div>
                       </div>
-                      {isTarget && (
-                        <span className="text-[9px] bg-[#FFFFFF] text-[#6842C2] px-1.5 py-0.5 rounded border border-[#E2D8FA] font-bold">
-                          PROBE TARGET
-                        </span>
-                      )}
+
+                      <div className="flex items-center gap-1 shrink-0 ml-2">
+                        {isTarget ? (
+                          <span className="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-[#6842C2] text-white">
+                            PROBE
+                          </span>
+                        ) : (
+                          <button
+                            onClick={() => setProbeKey(fact.key)}
+                            className="px-2 py-0.5 rounded text-[10px] font-sans font-medium text-[#6842C2] hover:bg-[#EAE2FB] border border-[#E2D8FA] transition-colors cursor-pointer"
+                            title={`Set ${fact.key} as probe target`}
+                          >
+                            Probe
+                          </button>
+                        )}
+                        {facts.length > 1 && (
+                          <button
+                            onClick={() => handleRemoveFact(idx)}
+                            className="p-1 rounded text-[#9E9A92] hover:text-[#B64235] transition-colors cursor-pointer"
+                            title="Remove fact"
+                            aria-label={`Remove fact ${fact.key}`}
+                          >
+                            <Trash2 className="w-3.5 h-3.5" />
+                          </button>
+                        )}
+                      </div>
                     </div>
                   );
                 })}
               </div>
 
-              {/* Action buttons */}
-              <div className="flex items-center gap-2 pt-1">
-                <button
-                  id="hero-add-fact"
-                  onClick={handleAddInformation}
-                  disabled={extraFactsCount >= maxPossible}
-                  className="flex-1 flex items-center justify-center gap-1.5 py-2 px-3 rounded-lg bg-[#FAF8F5] hover:bg-[#F4F1EA] text-[#151515] border border-[#D8D4CB] text-xs font-mono transition-all disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer"
-                >
-                  <Plus className="w-3.5 h-3.5 text-[#6842C2]" />
-                  <span>Add distractor fact ({extraFactsCount}/{maxPossible})</span>
-                </button>
-                <button
-                  id="hero-reset"
-                  onClick={handleReset}
-                  className="p-2 rounded-lg bg-[#FAF8F5] hover:bg-[#F4F1EA] text-[#716F68] hover:text-[#151515] border border-[#D8D4CB] transition-colors cursor-pointer"
-                  title="Reset stream"
-                >
-                  <RefreshCw className="w-3.5 h-3.5" />
-                </button>
-              </div>
+              {/* Quick Distractor Suggestion Bar */}
+              {remainingDistractors.length > 0 && (
+                <div className="pt-1">
+                  <button
+                    onClick={handleAddDistractor}
+                    className="w-full py-2 px-3 rounded-xl border border-dashed border-[#D8D3C9] hover:border-[#6842C2] bg-[#FAF8F3] hover:bg-[#F3EFFF] text-[#6B665E] hover:text-[#6842C2] font-sans text-xs font-medium flex items-center justify-center gap-1.5 transition-all cursor-pointer"
+                  >
+                    <Plus className="w-3.5 h-3.5" />
+                    <span>Add Distractor: {remainingDistractors[0].key} → {remainingDistractors[0].value}</span>
+                  </button>
+                </div>
+              )}
             </div>
 
-            {/* Middle 3 Cols: State vector visualization */}
-            <div className="lg:col-span-3 space-y-2">
-              <div className="text-xs font-mono uppercase tracking-wider text-[#716F68]">
-                Current state [h_t]
+            {/* COLUMN 2: CURRENT STATE M (4 Cols) */}
+            <div className="lg:col-span-4 space-y-3">
+              <div className="flex items-center justify-between">
+                <span className="font-mono text-xs uppercase tracking-wider text-[#6B665E] font-semibold">
+                  Current State M (t = {currentStepIndex})
+                </span>
+                <span className="font-mono text-xs text-[#6B665E]">
+                  ||M||_F = <strong>{matrixNorm.toFixed(2)}</strong>
+                </span>
               </div>
 
-              <div className="rounded-xl border border-[#E5E0D8] bg-[#FAF8F5] p-3.5 space-y-2.5">
-                <div className="text-[10px] font-mono text-[#716F68] flex items-center justify-between">
-                  <span>8-DIMENSIONAL STATE</span>
-                  <span>NORM: {Math.sqrt(simulationResult.finalState.reduce((a, b) => a + b * b, 0)).toFixed(2)}</span>
+              {/* Matrix Heatmap View */}
+              <div className="p-3.5 rounded-xl border border-[#292D33] bg-[#0D0F12] text-[#F5F3EE] space-y-3">
+                <div className="flex items-center justify-between text-[11px] font-mono text-[#9E9A92]">
+                  <span>{dim}×{dim} STATE MATRIX</span>
+                  <span>λ = {retention.toFixed(2)}</span>
                 </div>
 
-                <div className="grid grid-cols-4 gap-1.5">
-                  {simulationResult.finalState.map((val, idx) => {
-                    const isPos = val >= 0;
-                    const opacity = Math.min(Math.max(Math.abs(val), 0.1), 1);
-                    return (
-                      <div
-                        key={idx}
-                        style={{
-                          backgroundColor: isPos
-                            ? `rgba(104, 66, 194, ${Math.max(0.08, opacity * 0.2)})`
-                            : `rgba(182, 66, 53, ${Math.max(0.08, opacity * 0.2)})`,
-                          borderColor: isPos ? '#E2D8FA' : '#F7D3CF',
-                        }}
-                        className="h-10 rounded border flex flex-col items-center justify-center font-mono text-[10px] text-[#151515]"
+                {/* State Grid */}
+                <div
+                  className="grid gap-1 overflow-hidden"
+                  style={{
+                    gridTemplateColumns: `repeat(${dim}, minmax(0, 1fr))`,
+                  }}
+                >
+                  {stateMatrix.map((row, rIdx) =>
+                    row.map((val, cIdx) => {
+                      const isPos = val >= 0;
+                      const abs = Math.min(Math.abs(val) * 1.4, 1);
+                      const bg = isPos
+                        ? `rgba(104, 66, 194, ${Math.max(0.12, abs)})`
+                        : `rgba(40, 124, 124, ${Math.max(0.12, abs)})`;
+
+                      return (
+                        <div
+                          key={`${rIdx}-${cIdx}`}
+                          style={{ backgroundColor: bg }}
+                          title={`M[${rIdx},${cIdx}] = ${val.toFixed(3)}`}
+                          className="aspect-square rounded-[2px] transition-colors duration-150 border border-white/5"
+                        />
+                      );
+                    })
+                  )}
+                </div>
+
+                {/* Color Legend */}
+                <div className="flex items-center justify-between text-[10px] font-mono text-[#9E9A92] pt-1 border-t border-[#292D33]">
+                  <div className="flex items-center gap-1.5">
+                    <div className="w-2.5 h-2.5 rounded-[2px] bg-[#6842C2]" />
+                    <span>Positive association</span>
+                  </div>
+                  <div className="flex items-center gap-1.5">
+                    <div className="w-2.5 h-2.5 rounded-[2px] bg-[#287C7C]" />
+                    <span>Negative interference</span>
+                  </div>
+                </div>
+              </div>
+
+              <p className="text-xs text-[#6B665E] font-sans leading-relaxed">
+                Each fact update applies an outer-product update $\Delta M = \eta k v^T$ decayed by retention rate $\lambda$. As more facts accumulate, vectors superpose in finite dimensions.
+              </p>
+            </div>
+
+            {/* COLUMN 3: QUERY & RESULT (4 Cols) */}
+            <div className="lg:col-span-4 space-y-3">
+              <div className="flex items-center justify-between">
+                <span className="font-mono text-xs uppercase tracking-wider text-[#6B665E] font-semibold">
+                  Query & Model Output
+                </span>
+                <span className="text-xs font-sans text-[#6B665E]">
+                  Target: <strong className="text-[#1C1B19]">{probeKey}</strong>
+                </span>
+              </div>
+
+              {/* Retrieval Card */}
+              <div className="p-4 rounded-xl border border-[#D8D3C9] bg-[#FAF8F3] space-y-3.5">
+                {/* Probe selector */}
+                <div className="space-y-1">
+                  <label className="text-[11px] font-sans font-medium text-[#6B665E] block">
+                    Active Probe Key:
+                  </label>
+                  <div className="flex gap-1.5">
+                    <select
+                      value={probeKey}
+                      onChange={(e) => setProbeKey(e.target.value)}
+                      className="flex-1 px-3 py-1.5 rounded-lg border border-[#D8D3C9] bg-[#FFFFFF] text-[#1C1B19] font-sans text-xs font-semibold focus:outline-none focus:border-[#6842C2] cursor-pointer"
+                    >
+                      {facts.map((f) => (
+                        <option key={f.key} value={f.key}>
+                          {f.key} (Target: {f.value})
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                </div>
+
+                {/* Ground Truth vs Computed Output */}
+                <div className="grid grid-cols-2 gap-2 pt-1">
+                  <div className="p-2.5 rounded-lg bg-[#FFFFFF] border border-[#D8D3C9] space-y-0.5">
+                    <div className="text-[10px] font-mono text-[#6B665E] uppercase">
+                      Ground Truth
+                    </div>
+                    <div className="font-serif font-bold text-sm text-[#1C1B19]">
+                      {groundTruth}
+                    </div>
+                  </div>
+
+                  <div className="p-2.5 rounded-lg bg-[#FFFFFF] border border-[#D8D3C9] space-y-0.5">
+                    <div className="text-[10px] font-mono text-[#6B665E] uppercase">
+                      Model Output
+                    </div>
+                    <div
+                      className={`font-serif font-bold text-sm ${
+                        isCorrect ? 'text-[#247A4B]' : 'text-[#B64235]'
+                      }`}
+                    >
+                      {queryResult.prediction}
+                    </div>
+                  </div>
+                </div>
+
+                {/* Empirical Metrics */}
+                <div className="p-2.5 rounded-lg bg-[#FFFFFF] border border-[#D8D3C9] space-y-2 text-xs font-mono">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-1 text-[#6B665E]">
+                      <span>Retrieval score:</span>
+                      <span
+                        title="This score is computed from representation cosine similarity. It is not a calibrated probability."
+                        className="cursor-help"
                       >
-                        <span className="text-[8px] text-[#716F68]">h[{idx}]</span>
-                        <span className="font-semibold">{val.toFixed(1)}</span>
-                      </div>
-                    );
-                  })}
+                        <HelpCircle className="w-3 h-3 text-[#9E9A92]" />
+                      </span>
+                    </div>
+                    <strong className="text-[#1C1B19]">
+                      {queryResult.retrievalScore.toFixed(3)}
+                    </strong>
+                  </div>
+
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-1 text-[#6B665E]">
+                      <span>Top-1 margin:</span>
+                      <span
+                        title="Difference between best candidate score and second-best candidate score."
+                        className="cursor-help"
+                      >
+                        <HelpCircle className="w-3 h-3 text-[#9E9A92]" />
+                      </span>
+                    </div>
+                    <strong className="text-[#1C1B19]">
+                      {queryResult.top1Margin.toFixed(3)}
+                    </strong>
+                  </div>
+
+                  <div className="flex items-center justify-between pt-1 border-t border-[#E5E0D8]">
+                    <span className="text-[#6B665E]">Empirical Status:</span>
+                    <span
+                      className={`px-2 py-0.5 rounded text-[11px] font-bold flex items-center gap-1 ${
+                        isCorrect
+                          ? 'bg-[#EAF5EF] text-[#247A4B] border border-[#CDEEDB]'
+                          : isInterference
+                          ? 'bg-[#FDEDEC] text-[#B64235] border border-[#FADBD8]'
+                          : 'bg-[#FAF8F3] text-[#6B665E] border border-[#D8D3C9]'
+                      }`}
+                    >
+                      {isCorrect ? (
+                        <>
+                          <CheckCircle2 className="w-3 h-3 text-[#247A4B]" />
+                          <span>Correct</span>
+                        </>
+                      ) : (
+                        <>
+                          <AlertTriangle className="w-3 h-3 text-[#B64235]" />
+                          <span>Interference</span>
+                        </>
+                      )}
+                    </span>
+                  </div>
                 </div>
 
-                <p className="text-[10px] text-[#716F68] font-sans leading-tight pt-1">
-                  Vectors superpose into fixed coordinates. Each new token rotates and shifts h_t.
-                </p>
+                {/* Candidate breakdown table */}
+                <div className="space-y-1.5">
+                  <div className="text-[10px] font-mono text-[#6B665E] uppercase tracking-wider">
+                    Candidate Readouts (Top Candidates)
+                  </div>
+                  <div className="space-y-1 text-xs font-mono">
+                    {queryResult.candidates.slice(0, 3).map((cand, cIdx) => (
+                      <div
+                        key={cand.value}
+                        className="flex items-center justify-between py-1 px-2 rounded bg-white border border-[#E5E0D8]"
+                      >
+                        <span className="truncate">
+                          <span className="text-[#9E9A92] mr-1.5">{cIdx + 1}.</span>
+                          <span
+                            className={
+                              cand.value === groundTruth
+                                ? 'font-bold text-[#247A4B]'
+                                : 'text-[#403D38]'
+                            }
+                          >
+                            {cand.value}
+                          </span>
+                        </span>
+                        <span className="text-[#6B665E] shrink-0 font-semibold">
+                          {cand.score.toFixed(3)}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
               </div>
-            </div>
-
-            {/* Right 4 Cols: Query Probe using TruthModel component! */}
-            <div className="lg:col-span-4 space-y-2">
-              <div className="text-xs font-mono uppercase tracking-wider text-[#716F68]">
-                Probe & retrieval evaluation
-              </div>
-
-              <TruthModel
-                truth="Tokyo"
-                model={simulationResult.predictedAnswer}
-                label="QUERY: CAPITAL OF JAPAN"
-                confidence={simulationResult.confidence / 100}
-                margin={simulationResult.isCorrect ? 0.38 - extraFactsCount * 0.08 : -0.15}
-                status={statusType}
-                explanation={
-                  simulationResult.isCorrect
-                    ? `At ${activeFacts.length} total facts, Tokyo's orthogonal projection remains distinguishable in ℝ⁸.`
-                    : `State capacity exceeded! New facts caused vector interference that displaced Tokyo's projection.`
-                }
-              />
             </div>
           </div>
+
+          {/* SECONDARY CONTROLS (COLLAPSED UNDER "Change the conditions") */}
+          <div className="border-t border-[#D8D3C9] bg-[#FAF8F3]">
+            <button
+              onClick={() => setShowConditions(!showConditions)}
+              className="w-full px-5 sm:px-7 py-3 flex items-center justify-between text-xs font-sans font-semibold text-[#1C1B19] hover:bg-[#F3EFFF] transition-colors cursor-pointer"
+            >
+              <div className="flex items-center gap-2">
+                <Sliders className="w-4 h-4 text-[#6842C2]" />
+                <span>Change the conditions</span>
+                <span className="text-[#6B665E] font-normal text-[11px]">
+                  (Dimension, retention rate, write strength, interference noise, steps)
+                </span>
+              </div>
+              <div className="flex items-center gap-1 text-[#6842C2]">
+                <span className="text-xs">{showConditions ? 'Hide' : 'Configure'}</span>
+                {showConditions ? (
+                  <ChevronUp className="w-4 h-4" />
+                ) : (
+                  <ChevronDown className="w-4 h-4" />
+                )}
+              </div>
+            </button>
+
+            {showConditions && (
+              <div className="p-5 sm:p-7 border-t border-[#D8D3C9] bg-[#FFFFFF] grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 animate-in fade-in duration-200 text-xs font-sans">
+                {/* Dimension */}
+                <div className="space-y-1.5">
+                  <div className="flex justify-between font-mono">
+                    <label className="font-semibold text-[#1C1B19]">Dimension (d):</label>
+                    <span className="text-[#6842C2] font-bold">{dim}D</span>
+                  </div>
+                  <input
+                    type="range"
+                    min="4"
+                    max="32"
+                    step="4"
+                    value={dim}
+                    onChange={(e) => setDim(Number(e.target.value))}
+                    className="w-full accent-[#6842C2] cursor-pointer"
+                  />
+                  <p className="text-[11px] text-[#6B665E]">
+                    State capacity bound $\sim O(d)$. Smaller dimension induces interference faster.
+                  </p>
+                </div>
+
+                {/* Retention Rate (lambda) */}
+                <div className="space-y-1.5">
+                  <div className="flex justify-between font-mono">
+                    <label className="font-semibold text-[#1C1B19]">Retention (λ):</label>
+                    <span className="text-[#6842C2] font-bold">{(retention * 100).toFixed(0)}%</span>
+                  </div>
+                  <input
+                    type="range"
+                    min="0.5"
+                    max="1.0"
+                    step="0.01"
+                    value={retention}
+                    onChange={(e) => setRetention(Number(e.target.value))}
+                    className="w-full accent-[#6842C2] cursor-pointer"
+                  />
+                  <p className="text-[11px] text-[#6B665E]">
+                    Decay factor applied at each timestep: $M_t = \lambda M_{`{t-1}`}$.
+                  </p>
+                </div>
+
+                {/* Write Strength (eta) */}
+                <div className="space-y-1.5">
+                  <div className="flex justify-between font-mono">
+                    <label className="font-semibold text-[#1C1B19]">Write Strength (η):</label>
+                    <span className="text-[#6842C2] font-bold">{writeStrength.toFixed(2)}</span>
+                  </div>
+                  <input
+                    type="range"
+                    min="0.2"
+                    max="1.5"
+                    step="0.05"
+                    value={writeStrength}
+                    onChange={(e) => setWriteStrength(Number(e.target.value))}
+                    className="w-full accent-[#6842C2] cursor-pointer"
+                  />
+                  <p className="text-[11px] text-[#6B665E]">
+                    Learning rate scaling magnitude of new rank-1 updates.
+                  </p>
+                </div>
+
+                {/* Interference Noise */}
+                <div className="space-y-1.5">
+                  <div className="flex justify-between font-mono">
+                    <label className="font-semibold text-[#1C1B19]">Interference Noise:</label>
+                    <span className="text-[#6842C2] font-bold">{(interferenceNoise * 100).toFixed(0)}%</span>
+                  </div>
+                  <input
+                    type="range"
+                    min="0.0"
+                    max="0.8"
+                    step="0.05"
+                    value={interferenceNoise}
+                    onChange={(e) => setInterferenceNoise(Number(e.target.value))}
+                    className="w-full accent-[#6842C2] cursor-pointer"
+                  />
+                  <p className="text-[11px] text-[#6B665E]">
+                    Injected cross-talk noise into key representations.
+                  </p>
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+
+        {/* Action Anchor to Continue Down to Detailed Sections */}
+        <div className="flex flex-wrap items-center justify-between gap-4 pt-4 border-t border-[#D8D3C9]">
+          <div className="text-xs sm:text-sm text-[#6B665E] font-sans">
+            Next: Observe what happens when sequence length exceeds dimension capacity.
+          </div>
+
+          <button
+            onClick={() => {
+              if (onExploreClick) {
+                onExploreClick();
+              } else {
+                const el = document.getElementById('section-01');
+                if (el) el.scrollIntoView({ behavior: 'smooth' });
+              }
+            }}
+            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[#1C1B19] hover:bg-[#33302B] text-white font-sans text-xs font-semibold shadow-xs transition-all cursor-pointer"
+          >
+            <span>Explore the Mechanism</span>
+            <ArrowDown className="w-3.5 h-3.5" />
+          </button>
         </div>
       </div>
     </section>

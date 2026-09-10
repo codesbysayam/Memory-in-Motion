@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Menu, X, ChevronRight, Clock, Award } from 'lucide-react';
+import { LogoMark } from '../ui/LogoMark';
 
 export type PageId = 'memory' | 'break' | 'trace' | 'measure' | 'bdh' | 'reason' | 'prove';
 
@@ -55,9 +56,7 @@ export function ResearchNav({
             onClick={() => handleSelect('memory')}
             className="flex items-center gap-2.5 text-left group cursor-pointer"
           >
-            <div className="w-8 h-8 rounded-lg bg-[#6842C2] text-white flex items-center justify-center shadow-xs font-serif font-bold text-sm">
-              M
-            </div>
+            <LogoMark size={34} variant="purple" />
             <div className="flex flex-col">
               <span className="font-serif font-bold text-sm sm:text-base tracking-tight text-[#151515] group-hover:text-[#6842C2] transition-colors leading-tight">
                 Memory in Motion
@@ -188,6 +187,35 @@ export function ResearchNav({
                 </button>
               );
             })}
+          </div>
+
+          {/* Mobile Drawer Actions */}
+          <div className="pt-3 border-t border-[#EAE6DF] grid grid-cols-2 gap-2">
+            {onStartJudgeMode && (
+              <button
+                onClick={() => {
+                  setMobileMenuOpen(false);
+                  onStartJudgeMode();
+                }}
+                className="flex items-center justify-center gap-2 px-3 py-2.5 rounded-xl bg-[#F3EFFF] text-[#6842C2] border border-[#E2D8FA] font-sans text-xs font-semibold"
+              >
+                <Clock className="w-4 h-4" />
+                <span>60s Test</span>
+              </button>
+            )}
+
+            {onOpenCertificate && (
+              <button
+                onClick={() => {
+                  setMobileMenuOpen(false);
+                  onOpenCertificate();
+                }}
+                className="flex items-center justify-center gap-2 px-3 py-2.5 rounded-xl bg-[#FAF8F5] text-[#247A4B] border border-[#D8D4CB] font-sans text-xs font-semibold"
+              >
+                <Award className="w-4 h-4" />
+                <span>Certificate</span>
+              </button>
+            )}
           </div>
         </div>
       )}

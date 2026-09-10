@@ -105,7 +105,7 @@ export const JudgeMode: React.FC<JudgeModeProps> = ({
                 </span>
                 <EvidenceStrip type="live" detail="Real model engine" />
               </div>
-              <h2 className="text-base sm:text-lg font-bold font-mono text-white mt-0.5">
+              <h2 className="text-base sm:text-lg font-serif font-bold text-white mt-0.5">
                 {currentStepMeta.title} — {currentStepMeta.subtitle}
               </h2>
             </div>
@@ -401,7 +401,7 @@ export const JudgeMode: React.FC<JudgeModeProps> = ({
               {/* Finishing Calls to Action */}
               <div className="p-5 rounded-2xl bg-gradient-to-r from-cyan-950/50 via-purple-950/40 to-slate-900 border border-[#22D3EE]/40 flex flex-wrap items-center justify-between gap-4">
                 <div>
-                  <h4 className="font-mono text-sm font-bold text-white">
+                  <h4 className="font-serif text-base font-bold text-white">
                     Ready to Explore the Experiments?
                   </h4>
                   <p className="text-xs text-slate-300 font-sans mt-0.5">
@@ -415,9 +415,9 @@ export const JudgeMode: React.FC<JudgeModeProps> = ({
                       onClose();
                       onExploreFullLab();
                     }}
-                    className="px-4 py-2 rounded-xl bg-[#141B2A] hover:bg-[#1C253B] text-white border border-[#2B354D] font-mono text-xs font-semibold transition"
+                    className="px-4 py-2 rounded-xl bg-[#141B2A] hover:bg-[#1C253B] text-white border border-[#2B354D] font-sans text-xs font-semibold transition cursor-pointer"
                   >
-                    EXPLORE FULL LAB
+                    Explore Full Lab
                   </button>
 
                   <button
@@ -425,9 +425,9 @@ export const JudgeMode: React.FC<JudgeModeProps> = ({
                       onClose();
                       onEnterSandbox();
                     }}
-                    className="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-mono text-xs font-bold shadow-lg shadow-blue-500/20 transition"
+                    className="px-4 py-2 rounded-xl bg-[#6842C2] hover:bg-[#5835AC] text-white font-sans text-xs font-bold shadow-md transition cursor-pointer"
                   >
-                    ENTER SANDBOX
+                    Enter Sandbox
                   </button>
                 </div>
               </div>
@@ -436,17 +436,17 @@ export const JudgeMode: React.FC<JudgeModeProps> = ({
         </div>
 
         {/* Footer Navigation Controls */}
-        <div className="p-4 border-t border-[#1E2536] bg-[#0E121C] flex items-center justify-between text-xs font-mono">
+        <div className="p-4 border-t border-[#1E2536] bg-[#0E121C] flex items-center justify-between text-xs font-sans">
           <button
             onClick={() => setCurrentStep((s) => Math.max(1, s - 1))}
             disabled={currentStep === 1}
-            className="flex items-center gap-1.5 px-3 py-2 rounded-lg bg-[#141824] hover:bg-[#1C2336] text-slate-300 disabled:opacity-40 transition-colors"
+            className="flex items-center gap-1.5 px-3 py-2 rounded-lg bg-[#141824] hover:bg-[#1C2336] text-slate-300 disabled:opacity-40 transition-colors font-medium cursor-pointer"
           >
             <ArrowLeft className="w-4 h-4" />
-            <span>BACK</span>
+            <span>Back</span>
           </button>
 
-          <div className="text-slate-400 hidden sm:block">
+          <div className="text-slate-400 font-mono text-[11px] hidden sm:block">
             Use <kbd className="px-1.5 py-0.5 bg-[#141824] border border-[#252A35] rounded text-white">←</kbd>{' '}
             <kbd className="px-1.5 py-0.5 bg-[#141824] border border-[#252A35] rounded text-white">→</kbd> or{' '}
             <kbd className="px-1.5 py-0.5 bg-[#141824] border border-[#252A35] rounded text-white">ESC</kbd>
@@ -455,9 +455,9 @@ export const JudgeMode: React.FC<JudgeModeProps> = ({
           {currentStep < 5 ? (
             <button
               onClick={() => setCurrentStep((s) => Math.min(5, s + 1))}
-              className="flex items-center gap-1.5 px-5 py-2 rounded-lg bg-blue-600 hover:bg-blue-500 text-white font-bold shadow-md shadow-blue-500/20 transition-all hover:translate-x-0.5"
+              className="flex items-center gap-1.5 px-5 py-2 rounded-lg bg-[#287C7C] hover:bg-[#206363] text-white font-bold shadow-md transition-all hover:translate-x-0.5 cursor-pointer"
             >
-              <span>NEXT STEP</span>
+              <span>Next Step</span>
               <ArrowRight className="w-4 h-4" />
             </button>
           ) : (
@@ -466,9 +466,9 @@ export const JudgeMode: React.FC<JudgeModeProps> = ({
                 onClose();
                 onExploreFullLab();
               }}
-              className="flex items-center gap-1.5 px-5 py-2 rounded-lg bg-gradient-to-r from-emerald-600 to-cyan-600 hover:from-emerald-500 hover:to-cyan-500 text-white font-bold transition-all"
+              className="flex items-center gap-1.5 px-5 py-2 rounded-lg bg-[#247A4B] hover:bg-[#1F6840] text-white font-bold transition-all cursor-pointer"
             >
-              <span>FINISH TOUR</span>
+              <span>Finish Tour</span>
               <CheckCircle2 className="w-4 h-4" />
             </button>
           )}

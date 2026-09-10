@@ -4,6 +4,7 @@ import { ResearchNav, PageId, PAGES } from './components/navigation/ResearchNav'
 import { PageFooterCta } from './components/navigation/PageFooterCta';
 import { JudgeMode } from './components/JudgeMode';
 import { CertificateModal } from './components/CertificateModal';
+import { getCompletedMilestones } from './utils/progressTracker';
 
 // Components mapped to the 7 learning stages
 import { LandingDemo } from './components/LandingDemo';
@@ -37,6 +38,7 @@ export default function App() {
 
   const [isJudgeModeOpen, setIsJudgeModeOpen] = useState<boolean>(false);
   const [isCertificateModalOpen, setIsCertificateModalOpen] = useState<boolean>(false);
+  const [milestonesCount, setMilestonesCount] = useState<number>(() => getCompletedMilestones().length);
 
   // Sync current page with window location hash
   const handlePageChange = (page: PageId) => {
@@ -54,6 +56,16 @@ export default function App() {
     };
     window.addEventListener('hashchange', handleHashChange);
     return () => window.removeEventListener('hashchange', handleHashChange);
+  }, []);
+
+  useEffect(() => {
+    const handleMilestoneUpdate = (e: any) => {
+      if (e.detail?.all) {
+        setMilestonesCount(e.detail.all.length);
+      }
+    };
+    window.addEventListener('milestone_updated', handleMilestoneUpdate);
+    return () => window.removeEventListener('milestone_updated', handleMilestoneUpdate);
   }, []);
 
   return (
@@ -77,6 +89,13 @@ export default function App() {
         <CertificateModal
           isOpen={isCertificateModalOpen}
           onClose={() => setIsCertificateModalOpen(false)}
+          milestonesCount={milestonesCount}
+          totalMilestones={8}
+          isUnlocked={
+            milestonesCount >= 8 ||
+            localStorage.getItem('memory_final_challenge_completed') === 'true'
+          }
+          onNavigateToProve={() => handlePageChange('prove')}
         />
 
         {/* 7 Educational Stages */}

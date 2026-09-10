@@ -48,23 +48,20 @@ export const hash = (s: string) => {
 };
 
 export const vector = (s: string, n: number) => {
-  let x = hash(s);
-  return Array.from({ length: n }, () => {
-    x ^= x << 13;
-    x ^= x >>> 17;
-    x ^= x << 5;
-    return ((x >>> 0) / 4294967295) * 2 - 1;
-  });
+  const out = new Array(n).fill(0);
+  for (let i = 0; i < s.length; i++) {
+    const h = hash(`${s}:${i}`);
+    out[i % n] += ((h % 2000) / 1000) - 1;
+  }
+  const normVal = Math.sqrt(out.reduce((sum, x) => sum + x * x, 0)) || 1;
+  return out.map((x) => x / normVal);
 };
 
 export const dot = (a: number[], b: number[]) =>
   a.reduce((s, v, i) => s + (v || 0) * (b[i] || 0), 0);
 
-export const norm = (a: number[]) => {
-  const d = dot(a, a);
-  if (!isFinite(d) || d <= 0) return 1;
-  return Math.sqrt(d) || 1;
-};
+export const norm = (a: number[]) =>
+  Math.sqrt(dot(a, a)) || 1;
 
 export const cosine = (a: number[], b: number[]) => {
   const na = norm(a);
@@ -80,9 +77,12 @@ export interface AssociativeMemoryInstance {
     vector: number[];
     prediction: string;
     confidence: number;
+    retrievalScore: number;
+    top1Margin: number;
     candidates: CandidateScore[];
   };
   reset: () => void;
+  getState: () => number[][];
   getMatrix: () => number[][];
   getHistory: () => number[][][];
 }
@@ -128,8 +128,10 @@ export function createAssociativeMemory(
     if (!key) {
       return {
         vector: Array(safeDim).fill(0),
-        prediction: 'INSUFFICIENT MEMORY SIGNAL',
+        prediction: 'UNKNOWN',
         confidence: 0,
+        retrievalScore: 0,
+        top1Margin: 0,
         candidates: [],
       };
     }
@@ -143,16 +145,16 @@ export function createAssociativeMemory(
       }
     }
 
-    const retrievedNorm = Math.sqrt(dot(retrieved, retrieved));
-
     // Deduplicate candidate values
     const uniqueValues = Array.from(new Set(facts.map((f) => f.value))).filter(Boolean);
 
-    if (uniqueValues.length === 0 || retrievedNorm < 1e-4) {
+    if (uniqueValues.length === 0) {
       return {
         vector: retrieved,
-        prediction: 'INSUFFICIENT MEMORY SIGNAL',
+        prediction: 'UNKNOWN',
         confidence: 0,
+        retrievalScore: 0,
+        top1Margin: 0,
         candidates: [],
       };
     }
@@ -164,20 +166,20 @@ export function createAssociativeMemory(
       }))
       .sort((a, b) => b.score - a.score);
 
-    const topCandidate = candidates[0];
-    const topScore = topCandidate?.score ?? 0;
-    // Map cosine from [-1, 1] to a bounded positive confidence percentage [0, 1]
-    const normalizedConfidence = Math.max(0, Math.min(1, (topScore + 1) / 2));
+    const top = candidates[0];
+    const second = candidates[1];
+    const retrievalScore = top?.score ?? 0;
+    const top1Margin = top && second ? top.score - second.score : retrievalScore;
+    const normalizedConfidence = Math.max(0, Math.min(1, (retrievalScore + 1) / 2));
 
-    const prediction =
-      topScore > 0.05 && topCandidate
-        ? topCandidate.value
-        : 'INSUFFICIENT MEMORY SIGNAL';
+    const prediction = top?.value ?? 'UNKNOWN';
 
     return {
       vector: retrieved,
       prediction,
       confidence: normalizedConfidence,
+      retrievalScore,
+      top1Margin,
       candidates,
     };
   };
@@ -186,9 +188,10 @@ export function createAssociativeMemory(
     writeFact,
     query,
     reset: () => {
-      M = Array.from({ length: dim }, () => Array(dim).fill(0));
+      M = Array.from({ length: safeDim }, () => Array(safeDim).fill(0));
       history.length = 0;
     },
+    getState: () => M.map((r) => [...r]),
     getMatrix: () => M.map((r) => [...r]),
     getHistory: () => history.map((m) => m.map((r) => [...r])),
   };
