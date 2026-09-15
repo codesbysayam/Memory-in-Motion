@@ -3,6 +3,7 @@ import { Database, Cpu, AlertTriangle, CheckCircle, Sliders } from 'lucide-react
 import { SectionHeader } from './ui/SectionHeader';
 import { ControlSlider } from './ui/ControlSlider';
 import { calculateInterferenceIndex } from '../utils/metrics';
+import { InlineMath, FormattedMathText } from './ui/MathView';
 
 export const Section02GrowingContext: React.FC = () => {
   const [seqLength, setSeqLength] = useState<number>(18);
@@ -31,7 +32,11 @@ export const Section02GrowingContext: React.FC = () => {
           category="GROWING CONTEXT"
           title="Comparing the Two Memory Paradigms"
           subtitle="Manipulate sequence length, latent dimensionality, and channel noise to observe how state compression behaves compared to unbounded token caching."
-          discovery="Unbounded token memory preserves exact key addressability at the cost of O(T) RAM; bounded state bounds RAM to O(1) but forces vector superposition and interference when T > D."
+          discovery={
+            <span>
+              Unbounded token memory preserves exact key addressability at the cost of <InlineMath math="\mathcal{O}(T)" /> RAM; bounded state bounds RAM to <InlineMath math="\mathcal{O}(1)" /> but forces vector superposition and interference when <InlineMath math="T > D" />.
+            </span>
+          }
         />
 
         {/* 12-Column Responsive Layout */}
@@ -49,7 +54,12 @@ export const Section02GrowingContext: React.FC = () => {
 
               {/* Slider 1: Sequence Length */}
               <ControlSlider
-                label="Sequence Length (T facts)"
+                label={
+                  <span className="flex items-center gap-1">
+                    <span>Sequence Length</span>
+                    <InlineMath math="(T \text{ facts})" />
+                  </span>
+                }
                 value={seqLength}
                 min={4}
                 max={60}
@@ -61,13 +71,23 @@ export const Section02GrowingContext: React.FC = () => {
 
               {/* Slider 2: Capacity Dimension */}
               <ControlSlider
-                label="Recurrent Capacity (Dimension D)"
+                label={
+                  <span className="flex items-center gap-1">
+                    <span>Recurrent Capacity (Dimension</span>
+                    <InlineMath math="D" />)
+                  </span>
+                }
                 value={capacityDim}
                 min={4}
                 max={32}
                 step={2}
                 unit="dims"
-                description="Number of continuous floating-point coordinates in h_t."
+                description={
+                  <span className="flex items-center gap-1">
+                    <span>Number of continuous floating-point coordinates in</span>
+                    <InlineMath math="h_t" />.
+                  </span>
+                }
                 onChange={(val) => setCapacityDim(val)}
               />
 
@@ -89,7 +109,7 @@ export const Section02GrowingContext: React.FC = () => {
               <div className="font-mono text-[10px] uppercase tracking-wider text-[#6842C2] font-bold mb-1.5">
                 Mathematical Rule of Orthogonality
               </div>
-              In ℝ^{capacityDim}, at most <strong className="text-[#151515]">{capacityDim}</strong> mutually orthogonal vectors can coexist. Once the stream contains <strong className="text-[#151515]">{seqLength}</strong> facts, vectors must superpose into quasi-orthogonal angles, reducing retrieval margins.
+              In <InlineMath math={`\\mathbb{R}^{${capacityDim}}`} />, at most <strong className="text-[#151515]">{capacityDim}</strong> mutually orthogonal vectors can coexist. Once the stream contains <strong className="text-[#151515]">{seqLength}</strong> facts, vectors must superpose into quasi-orthogonal angles, reducing retrieval margins.
             </div>
           </div>
 
@@ -106,7 +126,7 @@ export const Section02GrowingContext: React.FC = () => {
                     </span>
                   </div>
                   <span className="text-[10px] font-mono text-[#A46622] bg-[#FDF8EE] px-2 py-0.5 rounded-full border border-[#F5E2C4] font-bold">
-                    O(T) KV-CACHE
+                    <InlineMath math="\mathcal{O}(T)" /> KV-CACHE
                   </span>
                 </div>
 
@@ -147,7 +167,7 @@ export const Section02GrowingContext: React.FC = () => {
                     </span>
                   </div>
                   <span className="text-[10px] font-mono text-[#6842C2] bg-[#F3EFFF] px-2 py-0.5 rounded-full border border-[#E2D8FA] font-bold">
-                    O(1) CONSTANT
+                    <InlineMath math="\mathcal{O}(1)" /> CONSTANT
                   </span>
                 </div>
 
@@ -159,7 +179,9 @@ export const Section02GrowingContext: React.FC = () => {
                     </span>
                   </div>
                   <div className="flex justify-between border-b border-[#EAE6DF] pb-2">
-                    <span className="text-[#716F68]">Input Load Ratio (T/D):</span>
+                    <span className="text-[#716F68]">
+                      Input Load Ratio (<InlineMath math="T/D" />):
+                    </span>
                     <span className={`font-mono font-bold ${isOverloaded ? 'text-[#B64235]' : 'text-[#167C80]'}`}>
                       {(seqLength / capacityDim).toFixed(2)}x
                     </span>
@@ -229,3 +251,4 @@ export const Section02GrowingContext: React.FC = () => {
     </section>
   );
 };
+

@@ -22,6 +22,7 @@ import {
 import { MatrixDiff } from './MatrixDiff';
 import { SourceBadge } from './ui/SourceBadge';
 import { EvidenceStrip } from './ui/EvidenceStrip';
+import { GlossaryTerm } from './GlossaryTerm';
 
 export const MemorySurgery: React.FC = () => {
   // Configurable parameters
@@ -210,7 +211,7 @@ export const MemorySurgery: React.FC = () => {
           What would have happened if a specific memory write had never occurred?
         </h3>
         <p className="text-sm text-slate-300 leading-relaxed max-w-4xl">
-          Rather than just observing memory degrade, conduct a controlled intervention. We take an identical sequence, configuration, and random seed, and execute two parallel runs: <strong>Run A (Original)</strong> with all writes, and <strong>Run B (Counterfactual)</strong> with exactly one write omitted. The measured difference isolates the exact causal footprint of that write on the final recurrent state and retrieval.
+          Rather than just observing memory degrade, conduct a controlled intervention. We take an identical sequence, configuration, and random seed, and execute two parallel runs: <strong>Run A (Original)</strong> with all writes, and <strong>Run B (Counterfactual)</strong> with exactly one write omitted. The measured difference isolates the exact causal footprint of that write on the final <GlossaryTerm term="recurrent state" className="text-slate-300 hover:text-cyan-300">recurrent state</GlossaryTerm> and retrieval.
         </p>
       </div>
 
@@ -760,7 +761,7 @@ export const MemorySurgery: React.FC = () => {
         {/* Connection to Central Claim */}
         <div className="pt-2 border-t border-indigo-900/40 space-y-2 font-sans text-xs">
           <div className="text-slate-300 leading-relaxed">
-            <strong className="text-white">Connection to Central Claim:</strong> Memory Surgery isolates the trade-off at the heart of recurrent memory. Because the recurrent state size is fixed ($D = {dim}$), writing a fact is not a discrete append; it adds an outer product directly into shared matrix coordinates. When you remove a write, you witness how that specific update either preserved, distorted, or decayed other representations.
+            <strong className="text-white">Connection to Central Claim:</strong> Memory Surgery isolates the trade-off at the heart of recurrent memory. Because the recurrent state size is fixed ($D = {dim}$), writing a fact is not a discrete append; it adds an <GlossaryTerm term="Hebbian plasticity" className="text-slate-300 hover:text-purple-300">outer product</GlossaryTerm> directly into shared matrix coordinates. When you remove a write, you witness how that specific update either preserved, distorted, or decayed other representations.
           </div>
           <p className="text-[11px] text-slate-400 italic">
             <strong>Limitation:</strong> Memory Surgery is a controlled counterfactual experiment inside this educational model. It changes one operation while holding the other experiment conditions fixed. The resulting difference shows how sensitive this particular toy memory is to that update. It is not a causal claim about all recurrent neural networks.

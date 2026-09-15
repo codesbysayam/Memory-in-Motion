@@ -14,7 +14,7 @@ import {
 } from 'lucide-react';
 import { MILESTONES, getCompletedMilestones } from '../utils/progressTracker';
 import { CertificateDocument } from './CertificateDocument';
-import { downloadCertificatePDF } from '../utils/certificatePdf';
+import { downloadCertificatePDF, printCertificatePDF } from '../utils/certificatePdf';
 
 export const YouMadeItSection: React.FC = () => {
   const [completedMilestones, setCompletedMilestones] = useState<string[]>([]);
@@ -99,8 +99,11 @@ export const YouMadeItSection: React.FC = () => {
     },
   ];
 
+  const [printStatus, setPrintStatus] = useState<string | null>(null);
+
   // Download Publication-Grade A4 Portrait PDF
   const handleDownloadPDF = () => {
+    setPrintStatus('Downloading certificate PDF...');
     downloadCertificatePDF({
       learnerName,
       certificateId,
@@ -108,10 +111,19 @@ export const YouMadeItSection: React.FC = () => {
       totalMilestones: MILESTONES.length,
       completionPercentage,
     });
+    setTimeout(() => setPrintStatus(null), 3000);
   };
 
   const handlePrint = () => {
-    window.print();
+    setPrintStatus('Opening Print / Save as PDF dialog...');
+    printCertificatePDF({
+      learnerName,
+      certificateId,
+      milestonesCount: completedMilestones.length,
+      totalMilestones: MILESTONES.length,
+      completionPercentage,
+    });
+    setTimeout(() => setPrintStatus(null), 3500);
   };
 
   const handleCopySummary = () => {
@@ -368,7 +380,7 @@ Core Scientific Lesson: Fixed-size recurrent states maintain O(1) memory at the 
               </div>
 
               {/* Certificate Live Paper Preview (Single Source of Truth) */}
-              <div className="rounded-2xl border border-[#D8D4CB] bg-[#F4F1EA] p-4 sm:p-8 flex justify-center overflow-x-auto shadow-inner">
+              <div className="certificate-print-wrapper rounded-2xl border border-[#D8D4CB] bg-[#F4F1EA] p-4 sm:p-8 flex justify-center overflow-x-auto shadow-inner">
                 <CertificateDocument
                   data={{
                     learnerName,
@@ -407,6 +419,13 @@ Core Scientific Lesson: Fixed-size recurrent states maintain O(1) memory at the 
                     {copyStatus ? <CheckCircle2 className="w-4 h-4 text-[#247A4B]" /> : <Copy className="w-4 h-4 text-[#716F68]" />}
                     <span>{copyStatus ? 'Copied to clipboard' : 'Copy verification summary'}</span>
                   </button>
+
+                  {printStatus && (
+                    <span className="px-3 py-1.5 rounded-lg bg-[#EDF8F2] border border-[#CDEEDB] text-[#247A4B] font-mono text-[11px] font-semibold animate-in fade-in flex items-center gap-1.5">
+                      <CheckCircle2 className="w-3.5 h-3.5" />
+                      <span>{printStatus}</span>
+                    </span>
+                  )}
                 </div>
 
                 <div className="text-[11px] font-sans text-[#716F68] italic">

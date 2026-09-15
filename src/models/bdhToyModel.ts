@@ -26,15 +26,22 @@ export interface BDHToyNetwork {
   synapses: BDHToySynapse[];
   recurrentStep: number;
   energy: number;
+  kineticEnergy: number;
   sparsityRatio: number;
   prediction: string;
   confidence: number;
   activeCount: number;
   updatedCount: number;
+  cycleHistory?: {
+    cycle: number;
+    activations: number[];
+    kineticEnergy: number;
+    activeCount: number;
+  }[];
 }
 
 export interface BDHSimulationConfig {
-  numNeurons: 16 | 24 | 32 | 64;
+  numNeurons: 8 | 16 | 24 | 32 | 64;
   sparsity: number; // 0.1 to 0.9 (active fraction control)
   recurrentSteps: number; // 1 to 16
   synapticUpdateStrength: number; // 0.0 to 1.0 (eta in Hebbian update)
@@ -139,103 +146,178 @@ export class BDHToyModel {
     const { numNeurons, sparsity, recurrentSteps, synapticUpdateStrength, inputPattern } = this.config;
     const { neurons, synapses } = createToyNetwork(numNeurons);
 
-    // 1. Inject input pattern
-    const inputVector = new Array(numNeurons).fill(0);
+    // 1. Inject input stimulus pattern based on archetype
+    const inputVector = new Array(numNeurons).fill(0.04); // tiny ambient background
     switch (inputPattern) {
       case 'Alpha':
-        inputVector[0] = 0.9;
-        inputVector[1] = 0.7;
-        inputVector[2] = 0.4;
+        // Dense head cluster (early nodes)
+        inputVector[0] = 1.0;
+        inputVector[1] = 0.86;
+        if (numNeurons > 2) inputVector[2] = 0.68;
+        if (numNeurons > 3) inputVector[3] = 0.45;
         break;
-      case 'Beta':
-        inputVector[Math.floor(numNeurons / 2)] = 0.95;
-        inputVector[(Math.floor(numNeurons / 2) + 1) % numNeurons] = 0.8;
+      case 'Beta': {
+        // Centered focal pulse
+        const mid = Math.floor(numNeurons / 2);
+        inputVector[mid] = 1.0;
+        inputVector[(mid - 1 + numNeurons) % numNeurons] = 0.82;
+        inputVector[(mid + 1) % numNeurons] = 0.82;
+        if (numNeurons > 8) {
+          inputVector[(mid - 2 + numNeurons) % numNeurons] = 0.48;
+          inputVector[(mid + 2) % numNeurons] = 0.48;
+        }
         break;
-      case 'Gamma':
-        inputVector[0] = 0.8;
-        inputVector[Math.floor(numNeurons / 4)] = 0.8;
-        inputVector[Math.floor((3 * numNeurons) / 4)] = 0.8;
+      }
+      case 'Gamma': {
+        // Distributed multi-pole
+        const p1 = 0;
+        const p2 = Math.floor(numNeurons / 3);
+        const p3 = Math.floor((2 * numNeurons) / 3);
+        inputVector[p1] = 0.95;
+        inputVector[p2] = 0.90;
+        inputVector[p3] = 0.88;
+        inputVector[(p1 + 1) % numNeurons] = 0.45;
+        inputVector[(p2 + 1) % numNeurons] = 0.45;
+        inputVector[(p3 + 1) % numNeurons] = 0.45;
         break;
+      }
       case 'Orthogonal':
-        for (let i = 0; i < numNeurons; i += 3) {
-          inputVector[i] = 0.75;
+        // Periodic comb lattice
+        for (let i = 0; i < numNeurons; i += (numNeurons >= 16 ? 3 : 2)) {
+          inputVector[i] = 0.88;
+          if (i + 1 < numNeurons) inputVector[i + 1] = 0.32;
         }
         break;
     }
 
-    // Initialize activations
-    for (let i = 0; i < numNeurons; i++) {
-      neurons[i].activation = inputVector[i];
-    }
-
-    let currentActivations = [...inputVector];
+    // Initialize membrane potential z and activations y
+    let zState = [...inputVector];
+    let currentActivations = zState.map((z) => Math.max(0, z - sparsity * 0.55));
     let updatedCount = 0;
+    let kineticEnergy = 0.45;
 
-    // 2. Recurrent relaxation steps
-    for (let step = 0; step < recurrentSteps; step++) {
-      const nextActivations = new Array(numNeurons).fill(0);
+    const cycleHistory: {
+      cycle: number;
+      activations: number[];
+      kineticEnergy: number;
+      activeCount: number;
+    }[] = [
+      {
+        cycle: 0,
+        activations: [...currentActivations],
+        kineticEnergy: 0.5,
+        activeCount: currentActivations.filter((v) => v > 0.01).length,
+      },
+    ];
 
-      // Synapse propagation: a_target = sum( (W_ij + s_ij * eta) * a_source )
+    // 2. Iterative Recurrent Relaxation Cycles (t_rec = 1..16)
+    for (let step = 1; step <= recurrentSteps; step++) {
+      const incomingDrive = new Array(numNeurons).fill(0);
+
+      // Synapse propagation: each target receives sum( (W_ij + S_ij * lambda_syn) * y_source )
       for (const syn of synapses) {
         const effectiveWeight = syn.weight + syn.state * synapticUpdateStrength;
-        nextActivations[syn.target] += effectiveWeight * currentActivations[syn.source];
+        incomingDrive[syn.target] += effectiveWeight * currentActivations[syn.source];
       }
 
-      // Add recurrent state mix and input injection
+      const nextZ = new Array(numNeurons).fill(0);
+      const nextActivations = new Array(numNeurons).fill(0);
+
       for (let i = 0; i < numNeurons; i++) {
-        const raw = 0.3 * currentActivations[i] + 0.7 * nextActivations[i] + 0.2 * inputVector[i];
-        // BDH Principle: Sparse Non-Negative Activations (ReLU with sparsity threshold)
-        const threshold = sparsity * 0.8;
-        const activated = raw > threshold ? raw - threshold : 0;
-        if (Math.abs(activated - currentActivations[i]) > 0.05) {
+        // In incoming normalization factor
+        const inDegree = Math.max(1, neurons[i].incoming.length);
+        const normalizedDrive = (incomingDrive[i] / Math.sqrt(inDegree)) * 1.35;
+
+        // Continuous state integration: combines internal memory, synaptic drive, and input drive
+        nextZ[i] = 0.28 * zState[i] + 0.44 * normalizedDrive + 0.38 * inputVector[i];
+
+        // BDH Non-Negative ReLU Sparsity Gate: y_i = ReLU(z_i - theta)
+        const threshold = sparsity * 0.72;
+        const activated = nextZ[i] > threshold ? (nextZ[i] - threshold) / (1 - threshold * 0.5) : 0;
+        const capped = Math.min(1.0, Math.max(0, activated));
+
+        if (Math.abs(capped - currentActivations[i]) > 0.04) {
           updatedCount++;
         }
-        nextActivations[i] = activated;
+        nextActivations[i] = Number(capped.toFixed(3));
       }
 
-      // Synaptic plasticity update: s_{ij, t+1} = s_{ij, t} + \eta \cdot x_i \cdot x_j
+      // Compute step kinetic energy: delta E = sum( (y_t - y_{t-1})^2 )
+      kineticEnergy = Number(
+        nextActivations
+          .reduce((sum, val, idx) => sum + (val - currentActivations[idx]) ** 2, 0)
+          .toFixed(3)
+      );
+
+      // Hebbian synaptic plasticity update: S_{ij, t+1} = S_{ij, t} + eta * y_i * y_j
       for (const syn of synapses) {
         const pre = currentActivations[syn.source];
         const post = nextActivations[syn.target];
-        const delta = pre * post * 0.5;
-        syn.delta = Number(delta.toFixed(4));
-        syn.state = Number(Math.min(1.5, syn.state * 0.85 + delta).toFixed(4));
+        const coActivation = pre * post;
+        syn.delta = Number((coActivation * synapticUpdateStrength * 0.4).toFixed(4));
+        // Saturated decay + Hebbian trace
+        syn.state = Number(
+          Math.min(1.8, syn.state * 0.92 + syn.delta).toFixed(4)
+        );
       }
 
+      zState = nextZ;
       currentActivations = nextActivations;
+
+      cycleHistory.push({
+        cycle: step,
+        activations: [...currentActivations],
+        kineticEnergy,
+        activeCount: currentActivations.filter((v) => v > 0.01).length,
+      });
     }
 
-    // Update final neuron activations
+    // Assign final activations to neurons
     for (let i = 0; i < numNeurons; i++) {
-      neurons[i].activation = Number(currentActivations[i].toFixed(3));
+      neurons[i].activation = currentActivations[i];
     }
 
     const nonZeroCount = neurons.filter((n) => n.activation > 0.01).length;
-    const actualSparsity = Number((1 - nonZeroCount / numNeurons).toFixed(2));
-    const energy = Number(neurons.reduce((acc, n) => acc + n.activation ** 2, 0).toFixed(2));
+    // Quiescent fraction: e.g. (16 - 4) / 16 = 0.75 (75% quiescent)
+    const quiescentRatio = Number(((numNeurons - nonZeroCount) / numNeurons).toFixed(2));
+    const totalEnergy = Number(
+      neurons.reduce((acc, n) => acc + n.activation ** 2, 0).toFixed(3)
+    );
 
+    // Identify dominant attractor cluster
     const maxNeuron = neurons.reduce(
       (prev, curr) => (curr.activation > prev.activation ? curr : prev),
       neurons[0]
     );
-    const patternLabels = [
-      'Cluster A (Associative Lock)',
-      'Cluster B (Distributed State)',
-      'Cluster C (Sparse Latent Path)',
-    ];
-    const prediction = patternLabels[maxNeuron.id % patternLabels.length];
-    const confidence = Math.min(99, Math.max(35, Math.round(maxNeuron.activation * 120)));
+
+    let prediction = 'Cluster A (Associative Lock)';
+    if (inputPattern === 'Beta' || (maxNeuron.id >= numNeurons / 3 && maxNeuron.id <= (2 * numNeurons) / 3)) {
+      prediction = 'Cluster B (Distributed State)';
+    } else if (inputPattern === 'Gamma') {
+      prediction = 'Cluster C (Sparse Latent Path)';
+    } else if (inputPattern === 'Orthogonal') {
+      prediction = 'Lattice Attractor (Orthogonal Lock)';
+    } else if (maxNeuron.id > (2 * numNeurons) / 3) {
+      prediction = 'Cluster C (Sparse Latent Path)';
+    }
+
+    // Confidence based on peak strength and cluster stability
+    const peakVal = maxNeuron.activation;
+    const baseConfidence = peakVal > 0.1 ? Math.round(55 + peakVal * 42) : 25;
+    const confidence = Math.min(99, Math.max(35, baseConfidence));
 
     return {
       neurons,
       synapses,
       recurrentStep: recurrentSteps,
-      energy,
-      sparsityRatio: actualSparsity,
+      energy: kineticEnergy,
+      kineticEnergy,
+      sparsityRatio: quiescentRatio,
       prediction,
       confidence,
       activeCount: nonZeroCount,
       updatedCount,
+      cycleHistory,
     };
   }
 }

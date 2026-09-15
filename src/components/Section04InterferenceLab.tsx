@@ -33,6 +33,7 @@ import { MemoryABComparison } from './MemoryABComparison';
 import { EvidenceStrip } from './ui/EvidenceStrip';
 import { MemoryWriteRead } from './MemoryWriteRead';
 import { MemorySurgery } from './MemorySurgery';
+import { InlineMath, FormattedMathText } from './ui/MathView';
 
 export const Section04InterferenceLab: React.FC = () => {
   const [activeExperiment, setActiveExperiment] = useState<
@@ -127,14 +128,17 @@ export const Section04InterferenceLab: React.FC = () => {
   }, [collisionResult.correct, effectiveRetention, sequenceLength, dim, interferencePct]);
 
   return (
-    <section id="section-04" className="scroll-mt-20 border-b border-[#252A35] bg-[#07080B] py-14">
-      <div className="max-w-[1400px] mx-auto px-4 sm:px-6 space-y-8">
+    <section id="section-04" className="w-full scroll-mt-20 border-b border-[#252A35] bg-[#07080B] text-slate-100 py-14">
+      <div id="section-04-limits" className="scroll-mt-24" />
+      <div id="section-interference-matrix" className="scroll-mt-24" />
+      <div className="w-full max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
         <SectionHeader
           number="04"
           category="WHEN MEMORY COLLIDES"
           title="Interference, Capacity Limits & Forgetting"
           subtitle="Explore the fundamental trade-off: fixed-size representations eliminate token-by-token KV cache expansion, but packing continuous information inevitably creates interference."
           discovery="As more information is compressed into the same fixed state, representations overlap or decay. Observed in this educational toy model."
+          theme="dark"
         />
 
         {/* Epistemic Evidence Classification */}
@@ -145,7 +149,11 @@ export const Section04InterferenceLab: React.FC = () => {
           />
           <EvidenceStrip
             type="published"
-            detail="Information capacity scaling O(D) under linear superposition"
+            detail={
+              <span>
+                Information capacity scaling <InlineMath math="\mathcal{O}(D)" /> under linear superposition
+              </span>
+            }
           />
         </div>
 
@@ -286,7 +294,9 @@ export const Section04InterferenceLab: React.FC = () => {
                 {/* Dimension selector */}
                 <div className="space-y-1.5">
                   <div className="flex justify-between text-[11px]">
-                    <span className="text-[#8F96A3]">State Dimension (D):</span>
+                    <span className="text-[#8F96A3] flex items-center gap-1">
+                      State Dimension (<InlineMath math="D" />):
+                    </span>
                     <span className="text-[#22D3EE] font-bold">{dim}</span>
                   </div>
                   <div className="grid grid-cols-4 gap-1.5">
@@ -316,11 +326,17 @@ export const Section04InterferenceLab: React.FC = () => {
                   unit=" facts"
                   onChange={setSequenceLength}
                   description="Total facts packed into state before testing Japan."
+                  theme="dark"
                 />
 
                 {/* Retention */}
                 <ControlSlider
-                  label="Retention (λ)"
+                  label={
+                    <span className="flex items-center gap-1">
+                      <span>Retention</span>
+                      <InlineMath math="(\lambda)" />
+                    </span>
+                  }
                   value={retentionPct}
                   min={20}
                   max={100}
@@ -328,6 +344,7 @@ export const Section04InterferenceLab: React.FC = () => {
                   unit="%"
                   onChange={setRetentionPct}
                   description="Memory decay coefficient per step."
+                  theme="dark"
                 />
 
                 {/* Interference */}
@@ -340,6 +357,7 @@ export const Section04InterferenceLab: React.FC = () => {
                   unit="%"
                   onChange={setInterferencePct}
                   description="Crosstalk noise between superimposed vectors."
+                  theme="dark"
                 />
 
                 {/* Experiment Metadata Strip */}
@@ -644,10 +662,16 @@ export const Section04InterferenceLab: React.FC = () => {
                   unit=" facts"
                   onChange={setDistractorNum}
                   description="Number of unrelated facts loaded between France and retrieval."
+                  theme="dark"
                 />
 
                 <ControlSlider
-                  label="Retention (λ)"
+                  label={
+                    <span className="flex items-center gap-1">
+                      <span>Retention</span>
+                      <InlineMath math="(\lambda)" />
+                    </span>
+                  }
                   value={distractorRetention}
                   min={40}
                   max={100}
@@ -655,10 +679,14 @@ export const Section04InterferenceLab: React.FC = () => {
                   unit="%"
                   onChange={setDistractorRetention}
                   description="State preservation rate per intervening step."
+                  theme="dark"
                 />
 
                 <div className="space-y-1.5">
-                  <label className="text-[11px] text-[#8F96A3] block">State Dimension:</label>
+                  <label className="text-[11px] text-[#8F96A3] flex items-center gap-1">
+                    <span>State Dimension</span>
+                    <InlineMath math="(D)" />:
+                  </label>
                   <div className="grid grid-cols-3 gap-1">
                     {[8, 16, 32].map((d) => (
                       <button

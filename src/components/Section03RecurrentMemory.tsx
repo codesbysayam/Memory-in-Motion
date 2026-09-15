@@ -11,8 +11,11 @@ import {
   Unlock,
   TrendingUp,
 } from 'lucide-react';
-import { CANONICAL_FACTS, Fact } from '../models/associativeMemory';
+import { CANONICAL_FACTS, Fact, vector } from '../models/associativeMemory';
 import { runMemoryExperiment } from '../models/experimentEngine';
+import { useExperiment } from '../context/ExperimentContext';
+import { InlineMath, BlockMath, FormattedMathText } from './ui/MathView';
+import { GlossaryTerm } from './GlossaryTerm';
 import { SectionHeader } from './ui/SectionHeader';
 import { SourceBadge } from './ui/SourceBadge';
 import { MemoryInspector } from './MemoryInspector';
@@ -39,13 +42,17 @@ interface RunSnapshot {
 }
 
 export const Section03RecurrentMemory: React.FC = () => {
-  // Fact Learning Laboratory Parameters
-  const [memoryDim, setMemoryDim] = useState<number>(16);
+  // Global Experiment Configuration (Single Source of Truth)
+  const { config, updateConfig } = useExperiment();
+
+  const memoryDim = config.dimension;
+  const retentionPct = Math.round(config.retention * 100);
+  const writeStrength = config.writeStrength;
+  const interferencePct = Math.round(config.interference * 100);
+  const distractorCount = config.distractors;
+
+  // Local Sequence & Probe Navigation State
   const [sequenceLength, setSequenceLength] = useState<number>(5);
-  const [retentionPct, setRetentionPct] = useState<number>(95);
-  const [writeStrength, setWriteStrength] = useState<number>(0.8);
-  const [interferencePct, setInterferencePct] = useState<number>(10);
-  const [distractorCount, setDistractorCount] = useState<number>(0);
   const [selectedQuery, setSelectedQuery] = useState<string>('Japan');
   const [activeStep, setActiveStep] = useState<number>(5);
 
@@ -102,21 +109,28 @@ export const Section03RecurrentMemory: React.FC = () => {
     if (typeof window !== 'undefined' && window.location.search) {
       try {
         const params = new URLSearchParams(window.location.search);
+        const updates: Partial<typeof config> = {};
         const d = parseInt(params.get('dim') || '', 10);
-        if ([4, 8, 16, 32].includes(d)) setMemoryDim(d);
+        if ([4, 8, 16, 32].includes(d)) updates.dimension = d;
         const seq = parseInt(params.get('facts') || '', 10);
         if (seq >= 1 && seq <= 15) setSequenceLength(seq);
         const ret = parseInt(params.get('retention') || '', 10);
-        if (ret >= 10 && ret <= 100) setRetentionPct(ret);
+        if (ret >= 10 && ret <= 100) updates.retention = ret / 100;
         const interf = parseInt(params.get('interference') || '', 10);
-        if (interf >= 0 && interf <= 60) setInterferencePct(interf);
+        if (interf >= 0 && interf <= 60) updates.interference = interf / 100;
+        const dist = parseInt(params.get('distractors') || '', 10);
+        if (dist >= 0 && dist <= 15) updates.distractors = dist;
         const q = params.get('query');
         if (q) setSelectedQuery(q);
+
+        if (Object.keys(updates).length > 0) {
+          updateConfig(updates);
+        }
       } catch (err) {
         console.warn('Could not parse experiment URL params', err);
       }
     }
-  }, []);
+  }, [updateConfig]);
 
   // Generate sequence of facts including distractors
   const activeFacts = useMemo(() => {
@@ -151,34 +165,34 @@ export const Section03RecurrentMemory: React.FC = () => {
 
   // Adjust effective retention based on interference
   const effectiveRetention = useMemo(() => {
-    const raw = retentionPct / 100;
-    const interferenceLoss = (interferencePct / 100) * 0.4;
+    const raw = config.retention;
+    const interferenceLoss = config.interference * 0.4;
     return Math.max(0.1, Number((raw - interferenceLoss).toFixed(3)));
-  }, [retentionPct, interferencePct]);
+  }, [config.retention, config.interference]);
 
-  // Run deterministic experiment
+  // Run deterministic associative memory experiment
   const experimentResult = useMemo(() => {
     return runMemoryExperiment(
       activeFacts,
       selectedQuery,
-      memoryDim,
+      config.dimension,
       effectiveRetention,
-      writeStrength
+      config.writeStrength
     );
-  }, [activeFacts, selectedQuery, memoryDim, effectiveRetention, writeStrength]);
+  }, [activeFacts, selectedQuery, config.dimension, effectiveRetention, config.writeStrength]);
 
   const groundTruth = activeFacts.find((f) => f.key === selectedQuery)?.value ?? 'UNKNOWN';
 
   // Snapshot tracking for before/after comparison
   const currentSnapshot: RunSnapshot = useMemo(() => ({
-    dimension: memoryDim,
+    dimension: config.dimension,
     factsCount: activeFacts.length,
     retention: retentionPct,
     interference: interferencePct,
     confidence: Number((experimentResult.confidence * 100).toFixed(1)),
     correct: experimentResult.correct,
     prediction: experimentResult.prediction,
-  }), [memoryDim, activeFacts.length, retentionPct, interferencePct, experimentResult]);
+  }), [config.dimension, activeFacts.length, retentionPct, interferencePct, experimentResult]);
 
   // Controlled Mode Logic: check which variables changed
   const controlledDeltas = useMemo(() => {
@@ -244,12 +258,14 @@ export const Section03RecurrentMemory: React.FC = () => {
 
   const resetBaseline = () => {
     if (baselineConfig) {
-      setMemoryDim(baselineConfig.memoryDim);
+      updateConfig({
+        dimension: baselineConfig.memoryDim,
+        retention: baselineConfig.retentionPct / 100,
+        writeStrength: baselineConfig.writeStrength,
+        interference: baselineConfig.interferencePct / 100,
+        distractors: baselineConfig.distractorCount,
+      });
       setSequenceLength(baselineConfig.sequenceLength);
-      setRetentionPct(baselineConfig.retentionPct);
-      setWriteStrength(baselineConfig.writeStrength);
-      setInterferencePct(baselineConfig.interferencePct);
-      setDistractorCount(baselineConfig.distractorCount);
       setSelectedQuery(baselineConfig.selectedQuery);
       setControlledWarning(null);
       addNotebookEntry({
@@ -260,21 +276,38 @@ export const Section03RecurrentMemory: React.FC = () => {
     }
   };
 
-  // Derive states for StateDiff and StateInspector
-  const { prevStateVector, currStateVector, currentInputDesc } = useMemo(() => {
+  // Compute the true mathematical state vector: v_j = sum_i q_i * M_ij for StateDiff & StateInspector
+  const qVec = useMemo(() => vector(selectedQuery, config.dimension), [selectedQuery, config.dimension]);
+
+  const { prevStateVector, currStateVector, currentInputDesc, stateVectorNorm } = useMemo(() => {
     const hist = experimentResult.history;
     const step = Math.min(activeStep, hist.length);
-    const currMat = step > 0 && hist[step - 1] ? hist[step - 1] : Array.from({ length: memoryDim }, () => Array(memoryDim).fill(0));
-    const prevMat = step > 1 && hist[step - 2] ? hist[step - 2] : Array.from({ length: memoryDim }, () => Array(memoryDim).fill(0));
+    const d = config.dimension;
 
-    const currSlice = currMat.map((row, idx) => row[idx % memoryDim] ?? 0);
-    const prevSlice = prevMat.map((row, idx) => row[idx % memoryDim] ?? 0);
+    const currMat = step > 0 && hist[step - 1] ? hist[step - 1] : Array.from({ length: d }, () => Array(d).fill(0));
+    const prevMat = step > 1 && hist[step - 2] ? hist[step - 2] : Array.from({ length: d }, () => Array(d).fill(0));
 
+    // True mathematical vector-matrix multiplication: v_hat = q^T * M
+    const currVec = Array(d).fill(0);
+    const prevVec = Array(d).fill(0);
+    for (let j = 0; j < d; j++) {
+      for (let i = 0; i < d; i++) {
+        currVec[j] += (qVec[i] || 0) * (currMat[i]?.[j] || 0);
+        prevVec[j] += (qVec[i] || 0) * (prevMat[i]?.[j] || 0);
+      }
+    }
+
+    const normVal = Math.sqrt(currVec.reduce((sum, val) => sum + val * val, 0));
     const factAtStep = activeFacts[step - 1];
-    const desc = factAtStep ? `${factAtStep.key} → ${factAtStep.value}` : 'Initial state';
+    const desc = factAtStep ? `${factAtStep.key} → ${factAtStep.value}` : 'Initial state M_0 = 0';
 
-    return { prevStateVector: prevSlice, currStateVector: currSlice, currentInputDesc: desc };
-  }, [experimentResult.history, activeStep, memoryDim, activeFacts]);
+    return {
+      prevStateVector: prevVec,
+      currStateVector: currVec,
+      currentInputDesc: desc,
+      stateVectorNorm: normVal,
+    };
+  }, [experimentResult.history, activeStep, config.dimension, qVec, activeFacts]);
 
   // Log parameter updates on commit
   const handleParamCommit = (paramName: string, fromVal: string | number, toVal: string | number) => {
@@ -373,52 +406,105 @@ export const Section03RecurrentMemory: React.FC = () => {
 
   return (
     <section id="section-03" className="scroll-mt-20 border-b border-[#E5E0D8] bg-[#FBF9F5] py-16 text-[#151515]">
+      <div id="section-hebbian-plasticity" className="scroll-mt-24" />
       <div className="max-w-[1400px] mx-auto px-4 sm:px-6 space-y-8">
         <SectionHeader
           number="03"
           category="THE FACT-LEARNING LABORATORY"
           title="Sequential Fast-Weight Ingestion & Readout"
-          subtitle="Feed facts into an educational associative matrix M_(t+1) = λM_t + η k_t v_t^T. Query the state and decode predictions via cosine similarity against candidate values."
-          discovery="A fixed-size state superimposes all past updates into coordinate superpositions. Changing retention, dimension, or distractors immediately shifts retrieval scores and margins."
+          subtitle={
+            <span>
+              Feed facts into an educational <GlossaryTerm term="associative-memory">associative matrix</GlossaryTerm> via <GlossaryTerm term="Hebbian plasticity">Hebbian updates</GlossaryTerm> <InlineMath math="M_{t+1} = \lambda M_t + \eta k_t v_t^\top" />.
+              Query the state via <InlineMath math="\hat{v} = q^\top M" /> and decode predictions via cosine similarity against candidate values.
+            </span>
+          }
+          discovery={
+            <span>
+              A <GlossaryTerm term="recurrent state">fixed-size recurrent state</GlossaryTerm> superimposes all past updates into <GlossaryTerm term="catastrophic-interference">coordinate superpositions</GlossaryTerm>. Changing <GlossaryTerm term="retention">retention</GlossaryTerm> <InlineMath math="\lambda" />, dimension <InlineMath math="d" />, or distractors immediately shifts retrieval scores <InlineMath math="s_1" /> and margins <InlineMath math="\Delta s" />.
+            </span>
+          }
         />
 
         {/* Global Memory Lens Strip */}
         <MemoryLens currentFocus="state" />
 
-        {/* 3. MEMORY AT A GLANCE (Computed real metrics, no invented labels) */}
+        {/* 3. MEMORY AT A GLANCE (Real-time computed metrics) */}
         <div className="rounded-2xl border border-[#E5E0D8] bg-[#FFFFFF] p-5 shadow-xs">
           <div className="text-[10px] font-mono uppercase tracking-wider text-[#716F68] mb-3 font-bold flex items-center justify-between">
-            <span>MEMORY AT A GLANCE · ACTUAL COMPUTED STATE</span>
-            <span className="text-[#167C80] font-normal">DETERMINISTIC EVALUATION</span>
+            <span className="flex items-center gap-1.5">
+              <span>MEMORY AT A GLANCE · ACTUAL COMPUTED STATE</span>
+              <span className="text-[#6842C2]">(<InlineMath math={`\\hat{v} \\in \\mathbb{R}^{${config.dimension}}`} />)</span>
+            </span>
+            <span className="text-[#167C80] font-semibold">
+              REAL-TIME RECOMPUTATION
+            </span>
           </div>
 
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 font-mono">
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 font-mono">
+            {/* DIMENSION */}
             <div className="p-3.5 rounded-xl bg-[#FAF8F5] border border-[#EAE6DF] flex flex-col justify-between">
-              <span className="text-[#716F68] text-xs font-bold uppercase tracking-wider">DIMENSION</span>
-              <span className="text-2xl font-bold text-[#151515] mt-1">{memoryDim}</span>
-              <span className="text-[10px] text-[#716F68] mt-0.5">Vector coordinates</span>
+              <span className="text-[#716F68] text-xs font-bold uppercase tracking-wider">
+                DIMENSION (<InlineMath math="d" />)
+              </span>
+              <span className="text-2xl font-bold text-[#151515] mt-1">{config.dimension}D</span>
+              <span className="text-[10px] text-[#716F68] mt-0.5">
+                <InlineMath math={`\\mathbb{R}^{${config.dimension} \\times ${config.dimension}}`} />
+              </span>
             </div>
 
+            {/* FACTS STORED */}
             <div className="p-3.5 rounded-xl bg-[#FAF8F5] border border-[#EAE6DF] flex flex-col justify-between">
               <span className="text-[#716F68] text-xs font-bold uppercase tracking-wider">FACTS STORED</span>
               <span className="text-2xl font-bold text-[#167C80] mt-1">{activeFacts.length}</span>
               <span className="text-[10px] text-[#716F68] mt-0.5">{distractorCount} distractors</span>
             </div>
 
-            <div className="p-3.5 rounded-xl bg-[#FAF8F5] border border-[#EAE6DF] flex flex-col justify-between" title="This score is based on representation similarity and is not a calibrated probability.">
-              <span className="text-[#716F68] text-xs font-bold uppercase tracking-wider">RETRIEVAL SCORE</span>
+            {/* STATE VECTOR NORM */}
+            <div className="p-3.5 rounded-xl bg-[#FAF8F5] border border-[#EAE6DF] flex flex-col justify-between" title="Euclidean norm of retrieved representation vector ||v_hat||">
+              <span className="text-[#716F68] text-xs font-bold uppercase tracking-wider">
+                NORM (<InlineMath math="\|\hat{v}\|" />)
+              </span>
+              <span className="text-2xl font-bold text-[#6842C2] mt-1">
+                {stateVectorNorm.toFixed(3)}
+              </span>
+              <span className="text-[10px] text-[#716F68] mt-0.5">Retrieved energy</span>
+            </div>
+
+            {/* RETRIEVAL SCORE */}
+            <div className="p-3.5 rounded-xl bg-[#FAF8F5] border border-[#EAE6DF] flex flex-col justify-between" title="Normalized cosine similarity between retrieved state vector and candidate value vector">
+              <span className="text-[#716F68] text-xs font-bold uppercase tracking-wider">
+                SCORE (<InlineMath math="s_1" />)
+              </span>
               <span className={`text-2xl font-bold mt-1 ${experimentResult.correct ? 'text-[#247A4B]' : 'text-[#B64235]'}`}>
-                {(experimentResult.confidence * 100).toFixed(0)}%
+                {experimentResult.retrievalScore.toFixed(3)}
               </span>
               <span className="text-[10px] text-[#716F68] mt-0.5">
-                {experimentResult.correct ? 'Decoded accurately' : 'Corrupted / Miss'}
+                <InlineMath math="s_1 = \cos(\hat{v}, v_c)" />
               </span>
             </div>
 
+            {/* TOP-1 MARGIN */}
+            <div className="p-3.5 rounded-xl bg-[#FAF8F5] border border-[#EAE6DF] flex flex-col justify-between" title="Margin between top candidate score and runner-up: Δs = s_1 - s_2">
+              <span className="text-[#716F68] text-xs font-bold uppercase tracking-wider">
+                MARGIN (<InlineMath math="\Delta s" />)
+              </span>
+              <span className={`text-2xl font-bold mt-1 ${experimentResult.top1Margin > 0.05 ? 'text-[#247A4B]' : 'text-[#B64235]'}`}>
+                {experimentResult.top1Margin.toFixed(3)}
+              </span>
+              <span className="text-[10px] text-[#716F68] mt-0.5">
+                <InlineMath math="\Delta s = s_1 - s_2" />
+              </span>
+            </div>
+
+            {/* PREDICTION STATUS */}
             <div className="p-3.5 rounded-xl bg-[#FAF8F5] border border-[#EAE6DF] flex flex-col justify-between">
-              <span className="text-[#716F68] text-xs font-bold uppercase tracking-wider">INTERFERENCE</span>
-              <span className="text-2xl font-bold text-[#A46622] mt-1">{interferencePct}%</span>
-              <span className="text-[10px] text-[#716F68] mt-0.5">Perturbation noise</span>
+              <span className="text-[#716F68] text-xs font-bold uppercase tracking-wider">PREDICTION</span>
+              <span className={`text-lg font-bold mt-1 truncate ${experimentResult.correct ? 'text-[#247A4B]' : 'text-[#B64235]'}`}>
+                {experimentResult.prediction}
+              </span>
+              <span className="text-[10px] text-[#716F68] mt-0.5 truncate">
+                Target: {groundTruth}
+              </span>
             </div>
           </div>
         </div>
@@ -492,19 +578,22 @@ export const Section03RecurrentMemory: React.FC = () => {
               {/* Memory Dimension Picker */}
               <div className="space-y-1.5">
                 <div className="flex justify-between text-[11px]">
-                  <span className="text-[#716F68] font-bold">Memory Dimension (D):</span>
-                  <span className="text-[#167C80] font-bold">{memoryDim}</span>
+                  <span className="text-[#716F68] font-bold flex items-center gap-1">
+                    <span>Memory Dimension</span>
+                    <InlineMath math="(d)" />:
+                  </span>
+                  <span className="text-[#167C80] font-bold">{config.dimension}</span>
                 </div>
                 <div className="grid grid-cols-4 gap-1.5">
                   {[4, 8, 16, 32].map((d) => (
                     <button
                       key={d}
                       onClick={() => {
-                        handleParamCommit('Dimension', memoryDim, d);
-                        setMemoryDim(d);
+                        handleParamCommit('Dimension', config.dimension, d);
+                        updateConfig({ dimension: d });
                       }}
                       className={`py-1.5 rounded-lg border text-center transition-all cursor-pointer ${
-                        memoryDim === d
+                        config.dimension === d
                           ? 'border-[#6842C2] bg-[#F3EFFF] text-[#6842C2] font-bold shadow-xs'
                           : 'border-[#E5E0D8] bg-[#FFFFFF] text-[#716F68] hover:text-[#151515]'
                       }`}
@@ -532,7 +621,7 @@ export const Section03RecurrentMemory: React.FC = () => {
 
               {/* Retention Slider */}
               <ControlSlider
-                label="Retention (λ)"
+                label={<span className="flex items-center gap-1"><span>Retention</span> <InlineMath math="(\lambda)" /></span>}
                 value={retentionPct}
                 min={10}
                 max={100}
@@ -540,14 +629,14 @@ export const Section03RecurrentMemory: React.FC = () => {
                 unit="%"
                 onChange={(v) => {
                   handleParamCommit('Retention', `${retentionPct}%`, `${v}%`);
-                  setRetentionPct(v);
+                  updateConfig({ retention: v / 100 });
                 }}
-                description="Fraction of prior state preserved at each step."
+                description={<FormattedMathText text="Fraction of prior state preserved at each step: $M_t = \lambda M_{t-1}$." />}
               />
 
               {/* Write Strength */}
               <ControlSlider
-                label="Write Strength (η)"
+                label={<span className="flex items-center gap-1"><span>Write Strength</span> <InlineMath math="(\eta)" /></span>}
                 value={Math.round(writeStrength * 100)}
                 min={10}
                 max={100}
@@ -556,14 +645,14 @@ export const Section03RecurrentMemory: React.FC = () => {
                 onChange={(val) => {
                   const ws = val / 100;
                   handleParamCommit('Write Strength', writeStrength, ws);
-                  setWriteStrength(ws);
+                  updateConfig({ writeStrength: ws });
                 }}
-                description="Magnitude of outer-product update injected."
+                description={<FormattedMathText text="Magnitude of outer-product update injected: $\eta k_t v_t^\top$." />}
               />
 
               {/* Interference */}
               <ControlSlider
-                label="Interference"
+                label={<span className="flex items-center gap-1"><span>Interference</span> <InlineMath math="(\sigma)" /></span>}
                 value={interferencePct}
                 min={0}
                 max={60}
@@ -571,7 +660,7 @@ export const Section03RecurrentMemory: React.FC = () => {
                 unit="%"
                 onChange={(v) => {
                   handleParamCommit('Interference', `${interferencePct}%`, `${v}%`);
-                  setInterferencePct(v);
+                  updateConfig({ interference: v / 100 });
                 }}
                 description="Perturbation noise added to state coordinates."
               />
@@ -586,7 +675,7 @@ export const Section03RecurrentMemory: React.FC = () => {
                 unit=" items"
                 onChange={(v) => {
                   handleParamCommit('Distractors', distractorCount, v);
-                  setDistractorCount(v);
+                  updateConfig({ distractors: v });
                 }}
                 description="Irrelevant variable bindings loaded into memory."
               />
@@ -596,7 +685,8 @@ export const Section03RecurrentMemory: React.FC = () => {
                 <div className="flex justify-between text-[11px]">
                   <span className="text-[#716F68] flex items-center gap-1 font-bold">
                     <Search className="w-3 h-3 text-[#6842C2]" />
-                    Probe Key Query (q):
+                    <span>Probe Key Query</span>
+                    <InlineMath math="(q)" />:
                   </span>
                   <span className="text-[#151515] font-bold">{selectedQuery}</span>
                 </div>
@@ -747,7 +837,7 @@ export const Section03RecurrentMemory: React.FC = () => {
             />
 
             {/* MECHANISTIC WORKBENCH SUITE */}
-            <div className="rounded-2xl border border-[#E5E0D8] bg-[#FFFFFF] p-5 sm:p-6 space-y-5 shadow-xs">
+            <div id="section-context-order" className="rounded-2xl border border-[#E5E0D8] bg-[#FFFFFF] p-5 sm:p-6 space-y-5 shadow-xs scroll-mt-24">
               <div className="flex flex-wrap items-center justify-between gap-2 border-b border-[#EAE6DF] pb-3">
                 <div>
                   <span className="text-xs font-mono uppercase tracking-wider text-[#167C80] font-bold block">

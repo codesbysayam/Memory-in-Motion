@@ -221,3 +221,47 @@ export function downloadCertificatePDF(data: CertificateData) {
     .replace(/[^a-z0-9]/g, '-');
   doc.save(`memory-in-motion-certificate-${cleanName}.pdf`);
 }
+
+/**
+ * Robust print or Save-as-PDF handler.
+ * Generates the clean A4 PDF document and triggers print/save,
+ * with fallbacks for sandboxed iframes and pop-up blockers.
+ */
+export function printCertificatePDF(data: CertificateData): boolean {
+  const doc = generateCertificatePDF(data);
+  const cleanName = (data.learnerName || 'learner')
+    .toLowerCase()
+    .replace(/[^a-z0-9]/g, '-');
+
+  // Check if running inside an iframe (where window.print is blocked by sandbox policy)
+  let isIframe = false;
+  try {
+    isIframe = typeof window !== 'undefined' && window.self !== window.top;
+  } catch {
+    isIframe = true;
+  }
+
+  let printAttempted = false;
+
+  // 1. Direct browser print if not in a restricted iframe
+  if (!isIframe) {
+    try {
+      if (typeof window !== 'undefined' && typeof window.print === 'function') {
+        window.print();
+        printAttempted = true;
+      }
+    } catch (err) {
+      console.warn('Browser print dialog could not be invoked:', err);
+    }
+  }
+
+  // 2. Always trigger PDF file generation & download so user receives their PDF file reliably
+  try {
+    doc.save(`memory-in-motion-certificate-${cleanName}.pdf`);
+    printAttempted = true;
+  } catch (saveErr) {
+    console.error('PDF save failed:', saveErr);
+  }
+
+  return printAttempted;
+}

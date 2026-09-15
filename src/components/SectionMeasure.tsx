@@ -12,10 +12,12 @@ import {
 } from 'lucide-react';
 import { Fact, CANONICAL_FACTS, createAssociativeMemory, cosine, vector } from '../models/associativeMemory';
 import { MathView } from './ui/MathView';
+import { GlossaryTerm } from './GlossaryTerm';
 import { markMilestoneCompleted } from '../utils/progressTracker';
+import { FrobeniusDriftExperiment } from './FrobeniusDriftExperiment';
 
 export const SectionMeasure: React.FC = () => {
-  const [activeView, setActiveView] = useState<'time' | 'outcome' | 'mechanism'>('time');
+  const [activeView, setActiveView] = useState<'time' | 'outcome' | 'mechanism' | 'frobenius'>('time');
   const [metricMode, setMetricMode] = useState<'retrievalScore' | 'top1Margin' | 'stateSimilarity'>('retrievalScore');
   const [retention, setRetention] = useState<number>(0.92);
   const [writeStrength, setWriteStrength] = useState<number>(0.85);
@@ -27,6 +29,18 @@ export const SectionMeasure: React.FC = () => {
   // Mark milestone on mount / interaction
   useEffect(() => {
     markMilestoneCompleted('inspect_state_diff');
+  }, []);
+
+  // Listen to hash changes for direct tab activation
+  useEffect(() => {
+    const handleHash = () => {
+      if (window.location.hash.includes('frobenius')) {
+        setActiveView('frobenius');
+      }
+    };
+    handleHash();
+    window.addEventListener('hashchange', handleHash);
+    return () => window.removeEventListener('hashchange', handleHash);
   }, []);
 
   // Canonical facts sequence (6 facts)
@@ -256,40 +270,41 @@ export const SectionMeasure: React.FC = () => {
   ];
 
   return (
-    <section id="section-measure" className="scroll-mt-20 border-b border-[#E5E0D8] bg-[#FBF9F5] py-16 text-[#151515]">
-      <div className="max-w-[1400px] mx-auto px-4 sm:px-6 space-y-10">
+    <section id="section-measure" className="scroll-mt-20 border-b border-[#D9DCD8] bg-[#F7F5EF] py-16 text-[#252525]">
+      <div id="section-measure-curves" className="scroll-mt-24" />
+      <div className="w-full max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
         {/* Editorial Section Header */}
         <div className="space-y-3">
           <div className="flex items-center gap-2">
-            <span className="text-[11px] font-mono uppercase tracking-widest px-2.5 py-0.5 rounded bg-[#F3EFFF] text-[#6842C2] border border-[#E2D8FA] font-bold">
+            <span className="text-[11px] font-mono uppercase tracking-widest px-2.5 py-0.5 rounded bg-[#E7F2FA] text-[#21445B] border border-[#CDE1F0] font-semibold">
               04 / MEASURE
             </span>
-            <span className="text-xs font-mono text-[#716F68]">
+            <span className="text-xs font-mono text-[#5F625F]">
               STATE PERSISTENCE & ANALYTICS
             </span>
           </div>
 
-          <h2 className="text-2xl sm:text-4xl font-serif tracking-tight text-[#151515] font-normal">
+          <h2 className="text-2xl sm:text-4xl font-serif tracking-tight text-[#252525] font-normal">
             Watch memory change.
           </h2>
 
-          <p className="text-sm sm:text-base text-[#52504A] font-sans max-w-3xl leading-relaxed">
-            The state is fixed in size (<MathView math={`D \\times D = ${dimension} \\times ${dimension}`} /> coordinates). What changes is what survives inside it. Follow the empirical trajectory of retained memories as new facts arrive.
+          <p className="text-sm sm:text-base text-[#5F625F] font-sans max-w-3xl leading-relaxed">
+            The <GlossaryTerm term="recurrent state">recurrent state</GlossaryTerm> is fixed in size (<MathView math={`D \\times D = ${dimension} \\times ${dimension}`} /> coordinates). What changes is what survives inside it. Follow the empirical trajectory of retained memories as new facts arrive.
           </p>
         </div>
 
         {/* View Selection Bar */}
-        <div className="flex flex-wrap items-center justify-between gap-4 p-2 rounded-2xl bg-[#FFFFFF] border border-[#E5E0D8] shadow-xs">
-          <div className="flex items-center gap-1.5 font-mono text-xs">
-            <span className="text-[#716F68] px-2 py-1 text-[11px] uppercase tracking-wider hidden sm:inline-block">
-              ONE EXPERIMENT — THREE VIEWS:
+        <div className="flex flex-wrap items-center justify-between gap-4 p-2 rounded-lg bg-[#FFFFFF] border border-[#D9DCD8] shadow-xs">
+          <div className="flex flex-wrap items-center gap-1.5 font-mono text-xs">
+            <span className="text-[#5F625F] px-2 py-1 text-[11px] uppercase tracking-wider hidden sm:inline-block">
+              ONE EXPERIMENT — FOUR VIEWS:
             </span>
             <button
               onClick={() => setActiveView('time')}
-              className={`px-3.5 py-1.5 rounded-xl font-medium transition-all flex items-center gap-2 cursor-pointer ${
+              className={`px-3 py-1.5 rounded-md font-medium transition-all flex items-center gap-2 cursor-pointer ${
                 activeView === 'time'
-                  ? 'bg-[#F3EFFF] text-[#6842C2] border border-[#E2D8FA] font-bold shadow-xs'
-                  : 'text-[#716F68] hover:text-[#151515] hover:bg-[#FAF8F5]'
+                  ? 'bg-[#DCEFE2] text-[#24452E] border border-[#C5DDCB] font-bold shadow-xs'
+                  : 'text-[#5F625F] hover:text-[#252525] hover:bg-[#F0F1EF]'
               }`}
             >
               <TrendingUp className="w-3.5 h-3.5" />
@@ -297,10 +312,10 @@ export const SectionMeasure: React.FC = () => {
             </button>
             <button
               onClick={() => setActiveView('outcome')}
-              className={`px-3.5 py-1.5 rounded-xl font-medium transition-all flex items-center gap-2 cursor-pointer ${
+              className={`px-3 py-1.5 rounded-md font-medium transition-all flex items-center gap-2 cursor-pointer ${
                 activeView === 'outcome'
-                  ? 'bg-[#F3EFFF] text-[#6842C2] border border-[#E2D8FA] font-bold shadow-xs'
-                  : 'text-[#716F68] hover:text-[#151515] hover:bg-[#FAF8F5]'
+                  ? 'bg-[#DCEFE2] text-[#24452E] border border-[#C5DDCB] font-bold shadow-xs'
+                  : 'text-[#5F625F] hover:text-[#252525] hover:bg-[#F0F1EF]'
               }`}
             >
               <PieChartIcon className="w-3.5 h-3.5" />
@@ -308,20 +323,31 @@ export const SectionMeasure: React.FC = () => {
             </button>
             <button
               onClick={() => setActiveView('mechanism')}
-              className={`px-3.5 py-1.5 rounded-xl font-medium transition-all flex items-center gap-2 cursor-pointer ${
+              className={`px-3 py-1.5 rounded-md font-medium transition-all flex items-center gap-2 cursor-pointer ${
                 activeView === 'mechanism'
-                  ? 'bg-[#F3EFFF] text-[#6842C2] border border-[#E2D8FA] font-bold shadow-xs'
-                  : 'text-[#716F68] hover:text-[#151515] hover:bg-[#FAF8F5]'
+                  ? 'bg-[#DCEFE2] text-[#24452E] border border-[#C5DDCB] font-bold shadow-xs'
+                  : 'text-[#5F625F] hover:text-[#252525] hover:bg-[#F0F1EF]'
               }`}
             >
               <GitCommit className="w-3.5 h-3.5" />
               <span>View 03: Mechanism (Flowchart)</span>
             </button>
+            <button
+              onClick={() => setActiveView('frobenius')}
+              className={`px-3 py-1.5 rounded-md font-medium transition-all flex items-center gap-2 cursor-pointer ${
+                activeView === 'frobenius'
+                  ? 'bg-[#FFF5D8] text-[#5A4716] border border-[#F0E3B8] font-bold shadow-xs'
+                  : 'text-[#5F625F] hover:text-[#252525] hover:bg-[#F0F1EF]'
+              }`}
+            >
+              <Activity className="w-3.5 h-3.5" />
+              <span>View 04: Frobenius Drift (Recharts)</span>
+            </button>
           </div>
 
           {/* Interactive Parameters Quick Bar */}
-          <div className="flex items-center gap-3 font-mono text-xs text-[#52504A] px-2">
-            <span className="text-[11px] text-[#716F68]">λ: {retention.toFixed(2)}</span>
+          <div className="flex items-center gap-3 font-mono text-xs text-[#5F625F] px-2">
+            <span className="text-[11px] text-[#5F625F]">λ: {retention.toFixed(2)}</span>
             <input
               type="range"
               min="0.70"
@@ -332,60 +358,60 @@ export const SectionMeasure: React.FC = () => {
                 setRetention(parseFloat(e.target.value));
                 markMilestoneCompleted('adjust_params');
               }}
-              className="w-20 sm:w-28 accent-[#6842C2] cursor-pointer"
+              className="w-20 sm:w-28 accent-[#2B6282] cursor-pointer"
               title="Retention attenuation factor λ"
             />
-            <span className="text-[11px] text-[#716F68]">D: {dimension}</span>
+            <span className="text-[11px] text-[#5F625F]">D: {dimension}</span>
           </div>
         </div>
 
         {/* VIEW 01: TIME (RETRIEVAL ACROSS SEQUENCE) */}
         {activeView === 'time' && (
-          <div className="rounded-2xl border border-[#E5E0D8] bg-[#FFFFFF] p-5 sm:p-7 space-y-6 shadow-xs">
-            <div className="flex flex-wrap items-center justify-between gap-4 border-b border-[#EAE6DF] pb-4">
+          <div className="rounded-xl border border-[#D9DCD8] bg-[#FFFFFF] p-5 sm:p-7 space-y-6 shadow-xs">
+            <div className="flex flex-wrap items-center justify-between gap-4 border-b border-[#D9DCD8] pb-4">
               <div>
-                <h3 className="text-base sm:text-lg font-serif font-bold text-[#151515] flex items-center gap-2">
+                <h3 className="text-base sm:text-lg font-serif font-bold text-[#252525] flex items-center gap-2">
                   <span>Retrieval Performance Across the Sequence</span>
-                  <span className="text-xs font-mono font-normal text-[#167C80] bg-[#EDF7F7] px-2.5 py-0.5 rounded border border-[#CFE8E8]">
+                  <span className="text-xs font-mono font-normal text-[#21445B] bg-[#E7F2FA] px-2.5 py-0.5 rounded border border-[#CDE1F0]">
                     Fact #1: France → Paris
                   </span>
                 </h3>
-                <p className="text-xs text-[#716F68] font-sans mt-0.5">
+                <p className="text-xs text-[#5F625F] font-sans mt-0.5">
                   Track how Fact #1 (&ldquo;France → Paris&rdquo;) decays and interferes as 5 subsequent facts are written.
                 </p>
               </div>
 
               {/* Metric Selector */}
-              <div className="flex items-center gap-1 bg-[#FAF8F5] p-1 rounded-xl border border-[#EAE6DF] text-xs font-mono">
+              <div className="flex items-center gap-1 bg-[#F7F5EF] p-1 rounded-md border border-[#D9DCD8] text-xs font-mono">
                 <button
                   onClick={() => setMetricMode('retrievalScore')}
-                  className={`px-3 py-1 rounded-lg transition-colors cursor-pointer ${
+                  className={`px-3 py-1 rounded-md transition-colors cursor-pointer ${
                     metricMode === 'retrievalScore'
-                      ? 'bg-[#FFFFFF] text-[#151515] border border-[#D8D4CB] font-bold shadow-xs'
-                      : 'text-[#716F68] hover:text-[#151515]'
+                      ? 'bg-[#FFFFFF] text-[#252525] border border-[#D9DCD8] font-bold shadow-xs'
+                      : 'text-[#5F625F] hover:text-[#252525]'
                   }`}
                 >
                   Retrieval Score
                 </button>
                 <button
                   onClick={() => setMetricMode('top1Margin')}
-                  className={`px-3 py-1 rounded-lg transition-colors cursor-pointer ${
+                  className={`px-3 py-1 rounded-md transition-colors cursor-pointer ${
                     metricMode === 'top1Margin'
-                      ? 'bg-[#FFFFFF] text-[#151515] border border-[#D8D4CB] font-bold shadow-xs'
-                      : 'text-[#716F68] hover:text-[#151515]'
+                      ? 'bg-[#FFFFFF] text-[#252525] border border-[#D9DCD8] font-bold shadow-xs'
+                      : 'text-[#5F625F] hover:text-[#252525]'
                   }`}
                 >
                   Top-1 Margin
                 </button>
                 <button
                   onClick={() => setMetricMode('stateSimilarity')}
-                  className={`px-3 py-1 rounded-lg transition-colors cursor-pointer ${
+                  className={`px-3 py-1 rounded-md transition-colors cursor-pointer ${
                     metricMode === 'stateSimilarity'
-                      ? 'bg-[#FFFFFF] text-[#151515] border border-[#D8D4CB] font-bold shadow-xs'
-                      : 'text-[#716F68] hover:text-[#151515]'
+                      ? 'bg-[#FFFFFF] text-[#252525] border border-[#D9DCD8] font-bold shadow-xs'
+                      : 'text-[#5F625F] hover:text-[#252525]'
                   }`}
                 >
-                  State Similarity
+                  State Overlap
                 </button>
               </div>
             </div>
@@ -549,6 +575,14 @@ export const SectionMeasure: React.FC = () => {
                     <div className="flex justify-between">
                       <span className="text-[#716F68]">Fact Written:</span>
                       <span className="text-[#151515] font-bold">+{hoveredDataPoint.factName}</span>
+                    </div>
+                    <div className="flex justify-between items-center pt-1 border-t border-[#EAE6DF]">
+                      <span className="text-[#716F68]">
+                        <GlossaryTerm term="Frobenius norm">State Norm ||M||_F:</GlossaryTerm>
+                      </span>
+                      <strong className="text-amber-700 font-mono">
+                        {measurementData.find((s) => s.step === hoveredDataPoint.step)?.matrixNorm.toFixed(4) || '—'}
+                      </strong>
                     </div>
                   </div>
                 ) : (
@@ -858,6 +892,18 @@ export const SectionMeasure: React.FC = () => {
           </div>
         )}
 
+        {/* VIEW 04: FROBENIUS DRIFT (RECHARTS DYNAMIC PLOT) */}
+        {activeView === 'frobenius' && (
+          <div className="animate-in fade-in duration-300">
+            <FrobeniusDriftExperiment
+              id="section-frobenius-drift"
+              defaultDimension={dimension as any}
+              defaultRetention={retention}
+              defaultWriteStrength={writeStrength}
+            />
+          </div>
+        )}
+
         {/* STATE CHANGE MINI-GRAPH: COORDINATE DELTAS ΔM_t */}
         <div className="p-5 sm:p-6 rounded-2xl border border-[#E5E0D8] bg-[#FFFFFF] space-y-4 font-mono text-xs shadow-xs">
           <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[#EAE6DF] pb-3">
@@ -914,6 +960,18 @@ export const SectionMeasure: React.FC = () => {
             <strong className="text-[#151515]">Scientific Note:</strong> Latent dimensions are continuous mathematical coordinates in <MathView math="\mathbb{R}^{D \times D}" /> without human-interpretable single-neuron labels. Interference happens because information is distributed across these superposed linear coordinates.
           </div>
         </div>
+
+        {/* SECTION 04.3: DEDICATED FROBENIUS NORM DRIFT (VISIBLE WHEN NOT ON VIEW 04 TAB) */}
+        {activeView !== 'frobenius' && (
+          <div className="pt-2">
+            <FrobeniusDriftExperiment
+              id="section-frobenius-drift"
+              defaultDimension={dimension as any}
+              defaultRetention={retention}
+              defaultWriteStrength={writeStrength}
+            />
+          </div>
+        )}
       </div>
     </section>
   );

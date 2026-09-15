@@ -3,6 +3,7 @@ import { ShieldAlert, BookOpen, GitFork, ArrowUpRight, Sparkles } from 'lucide-r
 import { SectionHeader } from './ui/SectionHeader';
 import { EvidenceBadge } from './ui/EvidenceBadge';
 import { MemoryBridge } from './MemoryBridge';
+import { GlossaryTerm } from './GlossaryTerm';
 
 export const Section07MeetBDH: React.FC = () => {
   return (
@@ -21,7 +22,11 @@ export const Section07MeetBDH: React.FC = () => {
           category="POST-TRANSFORMER FRONTIER"
           title="Now meet Dragon Hatchling (BDH)"
           subtitle="A brain-inspired post-transformer architecture introduced by Pathway that changes where memory and computation reside: moving from dense vector superpositions to sparse synaptic graph networks."
-          discovery="BDH abandons dense 1D vector states in favor of a scale-free particle graph with non-negative sparse activations and Hebbian synaptic memory."
+          discovery={
+            <span>
+              <GlossaryTerm term="bdh-architecture">BDH</GlossaryTerm> abandons dense 1D vector states in favor of a scale-free particle graph with non-negative sparse activations and <GlossaryTerm term="Hebbian plasticity">Hebbian synaptic memory</GlossaryTerm>.
+            </span>
+          }
         />
 
         {/* 12-Column Responsive Layout */}

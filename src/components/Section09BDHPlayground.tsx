@@ -12,6 +12,9 @@ export const Section09BDHPlayground: React.FC = () => {
   const [synapticStrength, setSynapticStrength] = useState<number>(0.5);
   const [inputPattern, setInputPattern] = useState<'Alpha' | 'Beta' | 'Gamma' | 'Orthogonal'>('Alpha');
 
+  // Selected neuron for deep inspection
+  const [selectedNeuronId, setSelectedNeuronId] = useState<number | null>(0);
+
   // Live in-browser computation of BDH toy model (<5ms response time)
   const simulation = useMemo(() => {
     const config: BDHSimulationConfig = {
@@ -25,9 +28,14 @@ export const Section09BDHPlayground: React.FC = () => {
     return model.runSimulation();
   }, [numNeurons, sparsity, recurrentSteps, synapticStrength, inputPattern]);
 
+  const selectedNeuron = useMemo(() => {
+    if (selectedNeuronId === null) return null;
+    return simulation.neurons.find((n) => n.id === selectedNeuronId) || null;
+  }, [selectedNeuronId, simulation.neurons]);
+
   return (
     <section id="section-09" className="scroll-mt-20 border-b border-[#E5E0D8] bg-[#FBF9F5] py-20 text-[#151515]">
-      <div className="max-w-[1400px] mx-auto px-4 sm:px-6 space-y-12">
+      <div className="w-full max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
         <SectionHeader
           number="09"
           category="BDH EXPERIMENTATION SANDBOX"
@@ -78,7 +86,12 @@ export const Section09BDHPlayground: React.FC = () => {
                   {([8, 16, 32] as const).map((n) => (
                     <button
                       key={n}
-                      onClick={() => setNumNeurons(n)}
+                      onClick={() => {
+                        setNumNeurons(n);
+                        if (selectedNeuronId && selectedNeuronId >= n) {
+                          setSelectedNeuronId(0);
+                        }
+                      }}
                       className={`py-2 rounded-xl border text-center transition-all cursor-pointer ${
                         numNeurons === n
                           ? 'border-[#6842C2] bg-[#F3EFFF] text-[#6842C2] font-bold'
@@ -105,9 +118,14 @@ export const Section09BDHPlayground: React.FC = () => {
 
               {/* Recurrent Relaxation Steps */}
               <div>
-                <label className="block text-xs font-mono text-[#716F68] mb-1.5 font-medium">
-                  Recurrent Relaxation Cycles (t_rec)
-                </label>
+                <div className="flex items-center justify-between mb-1.5">
+                  <label className="block text-xs font-mono text-[#716F68] font-medium">
+                    Recurrent Relaxation Cycles (t_rec)
+                  </label>
+                  <span className="text-[11px] font-mono text-[#167C80] font-semibold">
+                    {recurrentSteps} {recurrentSteps === 1 ? 'Cycle' : 'Cycles'}
+                  </span>
+                </div>
                 <div className="grid grid-cols-5 gap-1.5 font-mono text-xs">
                   {[1, 2, 4, 8, 16].map((steps) => (
                     <button
@@ -151,39 +169,93 @@ export const Section09BDHPlayground: React.FC = () => {
                 <span className="font-mono text-[10px] text-[#716F68]">y_i = ReLU(z_i - θ)</span>
               </div>
 
-              {/* Population Bar Grid */}
+              {/* Population Bar Grid (Exactly 8 columns per row, matching screenshot) */}
               <div className="grid gap-2 grid-cols-8">
                 {simulation.neurons.map((neuron) => {
                   const act = neuron.activation;
                   const isZero = act <= 0.001;
+                  const isSelected = selectedNeuronId === neuron.id;
                   return (
-                    <div
+                    <button
                       key={neuron.id}
-                      className="flex flex-col items-center rounded-xl border border-[#E5E0D8] bg-[#FAF8F5] p-2 text-center"
+                      onClick={() => setSelectedNeuronId(isSelected ? null : neuron.id)}
+                      className={`flex flex-col items-center rounded-xl border p-2 text-center transition-all cursor-pointer group ${
+                        isSelected
+                          ? 'border-[#6842C2] bg-[#F3EFFF] ring-1 ring-[#6842C2]'
+                          : 'border-[#E5E0D8] bg-[#FAF8F5] hover:border-[#D8D4CB] hover:bg-[#F4F1EA]'
+                      }`}
+                      title={`Neuron n_${neuron.id}: activation ${act.toFixed(2)} (Click to inspect)`}
                     >
-                      <span className="font-mono text-[9px] text-[#716F68]">n_{neuron.id}</span>
+                      <span
+                        className={`font-mono text-[9px] transition-colors ${
+                          isSelected
+                            ? 'text-[#6842C2] font-bold'
+                            : isZero
+                            ? 'text-[#8C8982]'
+                            : 'text-[#151515] font-semibold'
+                        }`}
+                      >
+                        n_{neuron.id}
+                      </span>
                       <div className="my-2 h-16 w-3.5 rounded bg-[#EAE6DF] relative flex items-end overflow-hidden">
                         <div
-                          className={`w-full transition-all duration-200 ${
-                            isZero ? 'bg-[#D8D4CB]' : 'bg-[#167C80]'
+                          className={`w-full transition-all duration-300 ${
+                            isZero
+                              ? 'bg-[#D8D4CB]'
+                              : isSelected
+                              ? 'bg-[#6842C2]'
+                              : 'bg-[#167C80]'
                           }`}
-                          style={{ height: `${Math.min(100, Math.round(act * 100))}%` }}
+                          style={{ height: `${Math.min(100, Math.max(isZero ? 0 : 4, Math.round(act * 100)))}%` }}
                         />
                       </div>
-                      <span className={`font-mono text-[10px] font-bold ${isZero ? 'text-[#A8A29E]' : 'text-[#151515]'}`}>
+                      <span
+                        className={`font-mono text-[10px] ${
+                          isZero
+                            ? 'text-[#A8A29E]'
+                            : isSelected
+                            ? 'text-[#6842C2] font-bold'
+                            : 'text-[#151515] font-bold'
+                        }`}
+                      >
                         {act.toFixed(2)}
                       </span>
-                    </div>
+                    </button>
                   );
                 })}
               </div>
+
+              {/* Selected Neuron Inspector Panel */}
+              {selectedNeuron && (
+                <div className="rounded-xl bg-[#FAF8F5] p-3 border border-[#E5E0D8] text-xs font-mono flex flex-wrap items-center justify-between gap-3 animate-in fade-in duration-200">
+                  <div className="flex items-center gap-2">
+                    <span className="px-2 py-0.5 rounded bg-[#6842C2] text-white font-bold text-[11px]">
+                      n_{selectedNeuron.id}
+                    </span>
+                    <span className="text-[#151515] font-sans font-medium">
+                      Activation: <strong className="font-mono text-[#6842C2]">{selectedNeuron.activation.toFixed(3)}</strong>
+                    </span>
+                    <span className="text-[#716F68]">·</span>
+                    <span className="text-[#716F68] font-sans">
+                      {selectedNeuron.activation > 0.01 ? (
+                        <span className="text-[#247A4B] font-semibold">Active Attractor Core</span>
+                      ) : (
+                        <span className="text-[#8C8982]">Sub-threshold (Squashed)</span>
+                      )}
+                    </span>
+                  </div>
+                  <div className="text-[11px] text-[#716F68]">
+                    In-degree: <strong className="text-[#151515]">{selectedNeuron.incoming.length} synapses</strong>
+                  </div>
+                </div>
+              )}
 
               {/* Metrics Readout */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 border-t border-[#EAE6DF] pt-4 font-mono text-xs">
                 <div className="rounded-xl bg-[#FAF8F5] p-4 border border-[#EAE6DF]">
                   <span className="text-[#716F68] block text-[10px]">ACTIVE NEURON SPARSITY</span>
                   <span className="text-[#151515] font-bold text-sm">
-                    {((1 - simulation.sparsityRatio) * 100).toFixed(0)}% Quiescent / Silent
+                    {(simulation.sparsityRatio * 100).toFixed(0)}% Quiescent ({simulation.activeCount}/{numNeurons} Active)
                   </span>
                   <p className="text-[11px] text-[#716F68] font-sans mt-1">
                     Cortical-like sparsity conserves energy and limits cross-talk.

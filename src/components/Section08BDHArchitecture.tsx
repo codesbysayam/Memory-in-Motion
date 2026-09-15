@@ -44,8 +44,8 @@ export const Section08BDHArchitecture: React.FC = () => {
   }, 0);
 
   return (
-    <section id="section-08" className="scroll-mt-20 border-b border-[#E5E0D8] bg-[#FBF9F5] py-20 text-[#151515]">
-      <div className="max-w-[1400px] mx-auto px-4 sm:px-6 space-y-12">
+    <section id="section-08" className="w-full scroll-mt-20 border-b border-[#E5E0D8] bg-[#FBF9F5] py-20 text-[#151515]">
+      <div className="w-full max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
         <SectionHeader
           number="08"
           category="BDH ARCHITECTURE & GRAPH PARTICLES"
@@ -89,7 +89,7 @@ export const Section08BDHArchitecture: React.FC = () => {
             </div>
 
             {/* Published BDH Formalism vs Simplified Update */}
-            <div className="space-y-2">
+            <div id="section-bdh-plasticity" className="space-y-2 scroll-mt-24">
               <div className="flex items-center justify-between">
                 <span className="text-[10px] font-mono uppercase text-[#716F68] font-bold">
                   SYNAPTIC UPDATE FORMALISM

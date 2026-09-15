@@ -7,6 +7,7 @@ import { normalizeVector, cosineSimilarity } from '../utils/metrics';
 import { DiscoveryMode } from './DiscoveryMode';
 import { ScientificHonestyPanel } from './ScientificHonestyPanel';
 import { EvidenceStrip } from './ui/EvidenceStrip';
+import { InlineMath, FormattedMathText } from './ui/MathView';
 
 interface TrialConfig {
   round: number;
@@ -161,14 +162,21 @@ export const Section05FindTheFailure: React.FC = () => {
       (userPrediction === 'forget' && !result.modelRemembers));
 
   return (
-    <section id="section-05" className="scroll-mt-20 border-b border-[#252A35] bg-[#07080B] py-14">
-      <div className="max-w-[1400px] mx-auto px-4 sm:px-6">
+    <section id="section-05" className="w-full scroll-mt-20 border-b border-[#252A35] bg-[#07080B] text-slate-100 py-14">
+      <div id="section-05-deltas" className="scroll-mt-24" />
+      <div id="debug-panel-section" className="scroll-mt-24" />
+      <div className="w-full max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
         <SectionHeader
           number="05"
           category="FIND THE FAILURE CHALLENGE"
           title="Predict the Boundary: Will it Remember or Forget?"
-          subtitle="Inspect the trial parameters (Capacity D, Stream Length T, Similarity). Before looking at the result, predict whether the continuous recurrent state will successfully retrieve B = 42 or suffer memory failure."
+          subtitle={
+            <span>
+              Inspect the trial parameters (Capacity <InlineMath math="D" />, Stream Length <InlineMath math="T" />, Similarity). Before looking at the result, predict whether the continuous recurrent state will successfully retrieve <InlineMath math="B = 42" /> or suffer memory failure.
+            </span>
+          }
           discovery="Human intuition often underestimates interference: adding just 2 distractor vectors in low dimensions can catastrophically corrupt prior memory associations."
+          theme="dark"
         />
 
         {/* Epistemic Evidence Classification */}
@@ -202,10 +210,10 @@ export const Section05FindTheFailure: React.FC = () => {
               <div className="grid grid-cols-3 gap-2 text-xs font-mono">
                 <div className="rounded-lg bg-[#151922] p-2.5 border border-[#252A35]">
                   <span className="text-[#8F96A3] block text-[10px]">CAPACITY</span>
-                  <span className="font-bold text-white">D = {trial.dim}</span>
+                  <span className="font-bold text-white"><InlineMath math={`D = ${trial.dim}`} /></span>
                 </div>
                 <div className="rounded-lg bg-[#151922] p-2.5 border border-[#252A35]">
-                  <span className="text-[#8F96A3] block text-[10px]">FACTS (T)</span>
+                  <span className="text-[#8F96A3] block text-[10px]">FACTS (<InlineMath math="T" />)</span>
                   <span className="font-bold text-white">{trial.factsCount} pairs</span>
                 </div>
                 <div className="rounded-lg bg-[#151922] p-2.5 border border-[#252A35]">
@@ -257,7 +265,10 @@ export const Section05FindTheFailure: React.FC = () => {
                         : 'border-emerald-500/40 bg-emerald-950/30 text-emerald-300 hover:bg-emerald-900/40 cursor-pointer'
                     }`}
                   >
-                    WILL REMEMBER (B=42)
+                    <span className="inline-flex items-center justify-center gap-1">
+                      <span>WILL REMEMBER</span>
+                      <InlineMath math="(B=42)" />
+                    </span>
                   </button>
 
                   <button

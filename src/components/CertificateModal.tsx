@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { X, Download, Printer, Copy, CheckCircle2, Award, Lock, ArrowRight, Sparkles } from 'lucide-react';
 import { CertificateDocument } from './CertificateDocument';
-import { downloadCertificatePDF, CertificateData } from '../utils/certificatePdf';
+import { downloadCertificatePDF, printCertificatePDF, CertificateData } from '../utils/certificatePdf';
 
 interface CertificateModalProps {
   isOpen: boolean;
@@ -31,6 +31,7 @@ export const CertificateModal: React.FC<CertificateModalProps> = ({
     return localStorage.getItem('memory_lab_cert_generated') === 'true';
   });
   const [copied, setCopied] = useState<boolean>(false);
+  const [modalStatus, setModalStatus] = useState<string | null>(null);
 
   if (!isOpen) return null;
 
@@ -69,11 +70,15 @@ export const CertificateModal: React.FC<CertificateModalProps> = ({
   };
 
   const handleDownload = () => {
+    setModalStatus('Downloading PDF...');
     downloadCertificatePDF(certData);
+    setTimeout(() => setModalStatus(null), 3000);
   };
 
   const handlePrint = () => {
-    window.print();
+    setModalStatus('Opening Print dialog / Saving PDF...');
+    printCertificatePDF(certData);
+    setTimeout(() => setModalStatus(null), 3500);
   };
 
   const handleCopy = () => {
@@ -91,27 +96,27 @@ Status: ${certData.milestonesCount}/${certData.totalMilestones} Experiments Veri
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-[#151515]/60 backdrop-blur-xs overflow-y-auto no-print">
-      <div className="relative w-full max-w-4xl bg-[#FFFFFF] rounded-2xl border border-[#D8D4CB] shadow-2xl p-5 sm:p-8 space-y-6 max-h-[92vh] overflow-y-auto text-[#151515]">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-[#252525]/45 backdrop-blur-xs overflow-y-auto no-print">
+      <div className="relative w-full max-w-4xl bg-[#FFFFFF] rounded-xl border border-[#D9DCD8] shadow-2xl p-5 sm:p-8 space-y-6 max-h-[92vh] overflow-y-auto text-[#252525]">
         {/* Modal Header */}
-        <div className="flex items-center justify-between border-b border-[#EAE6DF] pb-4">
+        <div className="flex items-center justify-between border-b border-[#D9DCD8] pb-4">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-[#F3EFFF] text-[#6842C2] border border-[#E2D8FA] flex items-center justify-center">
+            <div className="w-10 h-10 rounded-lg bg-[#DCEFE2] text-[#24452E] border border-[#C5DDCB] flex items-center justify-center">
               <Award className="w-5 h-5" />
             </div>
             <div>
-              <h3 className="text-lg sm:text-xl font-serif font-bold text-[#151515]">
+              <h3 className="text-lg sm:text-xl font-serif font-bold text-[#252525]">
                 Certificate of Completion
               </h3>
-              <p className="text-xs text-[#716F68] font-sans">
-                Official attestation for In-Context Learning with Recurrent Memory.
+              <p className="text-xs text-[#5F625F] font-sans">
+                Attestation for In-Context Learning with Recurrent Memory.
               </p>
             </div>
           </div>
 
           <button
             onClick={onClose}
-            className="p-2 rounded-xl text-[#716F68] hover:text-[#151515] hover:bg-[#FAF8F5] transition-all cursor-pointer"
+            className="p-2 rounded-md text-[#5F625F] hover:text-[#252525] hover:bg-[#F0F1EF] transition-all cursor-pointer"
             aria-label="Close modal"
           >
             <X className="w-5 h-5" />
@@ -120,15 +125,15 @@ Status: ${certData.milestonesCount}/${certData.totalMilestones} Experiments Veri
 
         {/* LOCKED STATE */}
         {!isUnlocked && (
-          <div className="p-6 rounded-2xl bg-[#FAF8F5] border border-[#E5E0D8] text-center space-y-4">
-            <div className="w-12 h-12 rounded-full bg-[#FAF8F5] border border-[#D8D4CB] flex items-center justify-center mx-auto text-[#716F68]">
+          <div className="p-6 rounded-lg bg-[#F7F5EF] border border-[#D9DCD8] text-center space-y-4">
+            <div className="w-12 h-12 rounded-full bg-[#FFFFFF] border border-[#D9DCD8] flex items-center justify-center mx-auto text-[#5F625F]">
               <Lock className="w-5 h-5" />
             </div>
             <div className="space-y-1 max-w-md mx-auto">
-              <h4 className="font-serif font-bold text-base text-[#151515]">
+              <h4 className="font-serif font-bold text-base text-[#252525]">
                 Complete Stage 07 (Prove) to Unlock
               </h4>
-              <p className="text-xs text-[#716F68] font-sans leading-relaxed">
+              <p className="text-xs text-[#5F625F] font-sans leading-relaxed">
                 The certificate is earned by completing the experimental challenges and the evaluation in Stage 07. You currently have {milestonesCount} of {totalMilestones} milestones recorded.
               </p>
             </div>
@@ -138,7 +143,7 @@ Status: ${certData.milestonesCount}/${certData.totalMilestones} Experiments Veri
                   onClose();
                   onNavigateToProve();
                 }}
-                className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-[#6842C2] hover:bg-[#5835AC] text-white font-sans text-xs font-semibold shadow-xs cursor-pointer"
+                className="btn btn-primary"
               >
                 <span>Go to Stage 07 (Prove)</span>
                 <ArrowRight className="w-3.5 h-3.5" />
@@ -149,16 +154,16 @@ Status: ${certData.milestonesCount}/${certData.totalMilestones} Experiments Veri
 
         {/* UNLOCKED BUT NOT YET GENERATED */}
         {isUnlocked && !isGenerated && (
-          <div className="p-6 rounded-2xl bg-[#FBF9F5] border border-[#E5E0D8] space-y-4">
+          <div className="p-6 rounded-lg bg-[#F7F5EF] border border-[#D9DCD8] space-y-4">
             <div className="flex items-center gap-3">
-              <div className="w-8 h-8 rounded-lg bg-[#EDF7F7] text-[#167C80] flex items-center justify-center font-bold">
+              <div className="w-8 h-8 rounded-md bg-[#E7F2FA] text-[#21445B] flex items-center justify-center font-bold">
                 <Sparkles className="w-4 h-4" />
               </div>
               <div>
-                <h4 className="font-serif font-bold text-base text-[#151515]">
+                <h4 className="font-serif font-bold text-base text-[#252525]">
                   Verification Complete — Ready to Generate
                 </h4>
-                <p className="text-xs text-[#716F68] font-sans">
+                <p className="text-xs text-[#5F625F] font-sans">
                   Enter your full name to generate your personalized Certificate of Completion.
                 </p>
               </div>
@@ -170,11 +175,11 @@ Status: ${certData.milestonesCount}/${certData.totalMilestones} Experiments Veri
                 value={learnerName}
                 onChange={(e) => handleNameChange(e.target.value)}
                 placeholder="Enter your full name (e.g. Alexandra Elizabeth Johnson)"
-                className="flex-1 px-4 py-2.5 rounded-xl bg-[#FFFFFF] border border-[#D8D4CB] text-[#151515] focus:outline-none focus:border-[#6842C2] font-sans text-sm"
+                className="flex-1 px-4 py-2.5 rounded-md bg-[#FFFFFF] border border-[#D9DCD8] text-[#252525] focus:outline-none focus:border-[#2B6282] font-sans text-sm"
               />
               <button
                 onClick={handleGenerate}
-                className="px-5 py-2.5 rounded-xl bg-[#6842C2] hover:bg-[#5835AC] text-white font-sans text-xs font-bold transition-all shadow-xs cursor-pointer shrink-0"
+                className="btn btn-primary"
               >
                 Generate Certificate
               </button>
@@ -186,12 +191,12 @@ Status: ${certData.milestonesCount}/${certData.totalMilestones} Experiments Veri
         {isUnlocked && isGenerated && (
           <>
             {/* Name Configuration Row */}
-            <div className="flex flex-wrap items-center justify-between gap-4 p-4 rounded-xl bg-[#FAF8F5] border border-[#E5E0D8]">
+            <div className="flex flex-wrap items-center justify-between gap-4 p-4 rounded-lg bg-[#F7F5EF] border border-[#D9DCD8]">
               <div className="space-y-0.5">
-                <label className="text-xs font-sans font-bold text-[#151515] block">
+                <label className="text-xs font-sans font-bold text-[#252525] block">
                   Recipient Name on Certificate
                 </label>
-                <p className="text-[11px] text-[#716F68] font-sans">
+                <p className="text-[11px] text-[#5F625F] font-sans">
                   Need to adjust your name? Update here to refresh the document.
                 </p>
               </div>
@@ -201,45 +206,51 @@ Status: ${certData.milestonesCount}/${certData.totalMilestones} Experiments Veri
                 value={learnerName}
                 onChange={(e) => handleNameChange(e.target.value)}
                 placeholder="e.g. Alexandra Elizabeth Johnson"
-                className="px-4 py-2 rounded-xl bg-[#FFFFFF] border border-[#D8D4CB] text-[#151515] focus:outline-none focus:border-[#6842C2] font-sans text-sm w-full sm:w-64"
+                className="px-4 py-2 rounded-md bg-[#FFFFFF] border border-[#D9DCD8] text-[#252525] focus:outline-none focus:border-[#2B6282] font-sans text-sm w-full sm:w-64"
               />
             </div>
 
             {/* Live A4 Portrait Certificate Document */}
-            <div className="py-2 overflow-x-auto flex justify-center bg-[#F4F1EA] rounded-xl p-4 sm:p-6 border border-[#E5E0D8]">
+            <div className="certificate-print-wrapper py-2 overflow-x-auto flex justify-center bg-[#F0F1EF] rounded-lg p-4 sm:p-6 border border-[#D9DCD8]">
               <CertificateDocument data={certData} />
             </div>
 
             {/* Action Controls */}
-            <div className="flex flex-wrap items-center justify-between gap-3 pt-2 border-t border-[#EAE6DF]">
-              <div className="text-xs text-[#716F68] font-sans">
-                Layout: Fixed A4 Portrait (210mm × 297mm) · 16mm safe margins
+            <div className="flex flex-wrap items-center justify-between gap-3 pt-2 border-t border-[#D9DCD8]">
+              <div className="flex items-center gap-3 text-xs text-[#5F625F] font-sans">
+                <span>Layout: Fixed A4 Portrait (210mm × 297mm) · 16mm safe margins</span>
+                {modalStatus && (
+                  <span className="px-2 py-0.5 rounded bg-[#DCEFE2] text-[#24452E] font-mono text-[10px] font-semibold flex items-center gap-1">
+                    <CheckCircle2 className="w-3 h-3" />
+                    <span>{modalStatus}</span>
+                  </span>
+                )}
               </div>
 
               <div className="flex items-center gap-2.5">
                 <button
                   onClick={handleCopy}
-                  className="px-3.5 py-2 rounded-xl bg-[#FFFFFF] hover:bg-[#FAF8F5] text-[#151515] border border-[#D8D4CB] font-sans text-xs font-semibold transition-all flex items-center gap-1.5 cursor-pointer"
+                  className="btn btn-secondary text-xs"
                 >
                   {copied ? (
-                    <CheckCircle2 className="w-4 h-4 text-[#247A4B]" />
+                    <CheckCircle2 className="w-4 h-4 text-[#24452E]" />
                   ) : (
-                    <Copy className="w-4 h-4 text-[#716F68]" />
+                    <Copy className="w-4 h-4 text-[#5F625F]" />
                   )}
                   <span>{copied ? 'Copied' : 'Copy Text'}</span>
                 </button>
 
                 <button
                   onClick={handlePrint}
-                  className="px-3.5 py-2 rounded-xl bg-[#FFFFFF] hover:bg-[#FAF8F5] text-[#151515] border border-[#D8D4CB] font-sans text-xs font-semibold transition-all flex items-center gap-1.5 cursor-pointer"
+                  className="btn btn-secondary text-xs"
                 >
-                  <Printer className="w-4 h-4 text-[#716F68]" />
+                  <Printer className="w-4 h-4 text-[#5F625F]" />
                   <span>Print / Save as PDF</span>
                 </button>
 
                 <button
                   onClick={handleDownload}
-                  className="px-4 py-2 rounded-xl bg-[#167C80] hover:bg-[#136B6F] text-white font-sans text-xs font-bold transition-all flex items-center gap-2 shadow-xs cursor-pointer"
+                  className="btn btn-primary text-xs"
                 >
                   <Download className="w-4 h-4" />
                   <span>Download PDF (A4)</span>

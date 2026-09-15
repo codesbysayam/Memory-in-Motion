@@ -3,6 +3,8 @@ import { Database, HardDrive, ArrowRight, Layers, Sparkles } from 'lucide-react'
 import { SectionHeader } from './ui/SectionHeader';
 import { ControlSlider } from './ui/ControlSlider';
 import { Tooltip } from './ui/Tooltip';
+import { InlineMath, FormattedMathText } from './ui/MathView';
+import { GlossaryTerm } from './GlossaryTerm';
 
 export const Section01MemoryProblem: React.FC = () => {
   const [tokenCount, setTokenCount] = useState<number>(12);
@@ -33,7 +35,11 @@ export const Section01MemoryProblem: React.FC = () => {
           category="THE MEMORY PROBLEM"
           title="Why does memory become a systems problem?"
           subtitle="Standard Transformer models remember past dialogue by storing every single token in an expanding Key-Value cache. As sequences grow, memory consumption scales uncontrollably."
-          discovery="Verbatim token retention scales linearly O(T) with context length, whereas recurrent memory compresses information into a constant O(1) state footprint."
+          discovery={
+            <span>
+              Verbatim token retention scales linearly <InlineMath math="\mathcal{O}(T)" /> with context length, whereas recurrent memory compresses information into a constant <InlineMath math="\mathcal{O}(1)" /> state footprint.
+            </span>
+          }
         />
 
         {/* 12-Column Responsive Layout: 5 Cols Left, 7 Cols Right */}
@@ -59,7 +65,12 @@ export const Section01MemoryProblem: React.FC = () => {
               {/* Slider for Sequence Length */}
               <div className="pt-3 border-t border-[#EAE6DF]">
                 <ControlSlider
-                  label="Sequence Length (T tokens)"
+                  label={
+                    <span className="flex items-center gap-1">
+                      <span>Sequence Length</span>
+                      <InlineMath math="(T \text{ tokens})" />
+                    </span>
+                  }
                   value={tokenCount}
                   min={4}
                   max={48}
@@ -80,7 +91,9 @@ export const Section01MemoryProblem: React.FC = () => {
                   <div className="font-serif text-lg font-bold text-[#A46622]">
                     {totalKVMemoryMB} MB
                   </div>
-                  <div className="text-[10px] font-mono text-[#A46622]/90 font-medium">O(T) linear growth</div>
+                  <div className="text-[10px] font-mono text-[#A46622]/90 font-medium">
+                    <InlineMath math="\mathcal{O}(T)" /> linear growth
+                  </div>
                 </div>
 
                 <div className="rounded-xl border border-[#CDEEDB] bg-[#EDF8F2] p-3.5 space-y-1">
@@ -91,7 +104,9 @@ export const Section01MemoryProblem: React.FC = () => {
                   <div className="font-serif text-lg font-bold text-[#247A4B]">
                     {fixedRecurrentSizeKB} KB
                   </div>
-                  <div className="text-[10px] font-mono text-[#247A4B]/90 font-medium">O(1) strictly constant</div>
+                  <div className="text-[10px] font-mono text-[#247A4B]/90 font-medium">
+                    <InlineMath math="\mathcal{O}(1)" /> strictly constant
+                  </div>
                 </div>
               </div>
             </div>
@@ -147,18 +162,22 @@ export const Section01MemoryProblem: React.FC = () => {
             {/* Recurrent State Comparison */}
             <div className="rounded-2xl border border-[#E5E0D8] bg-[#FFFFFF] p-6 space-y-4 shadow-xs">
               <div className="flex items-center justify-between">
-                <span className="font-mono text-xs uppercase tracking-widest text-[#716F68] font-bold">
-                  2. Recurrent compact state (Fixed vector h_t)
+                <span className="font-mono text-xs uppercase tracking-widest text-[#716F68] font-bold flex items-center gap-1.5">
+                  <span>2. Recurrent compact state</span>
+                  <span>(Fixed vector <InlineMath math="h_t" />)</span>
                 </span>
                 <span className="font-mono text-xs text-[#247A4B] bg-[#EDF8F2] px-2.5 py-0.5 rounded-full border border-[#CDEEDB] font-bold">
-                  FIXED ℝ⁸ VECTOR
+                  <InlineMath math="\text{FIXED } \mathbb{R}^8 \text{ VECTOR}" />
                 </span>
               </div>
 
               <div className="p-4 rounded-xl border border-[#EAE6DF] bg-[#FAF8F5]">
                 <div className="flex items-center justify-between text-xs font-mono text-[#716F68] mb-3">
-                  <span>LATENT COORDINATES (h_0 .. h_7)</span>
-                  <span className="text-[#247A4B] font-bold">CONSTANT SIZE AT ALL T</span>
+                  <span>LATENT COORDINATES (<InlineMath math="h_0 \dots h_7" />)</span>
+                  <span className="text-[#247A4B] font-bold flex items-center gap-1">
+                    <span>CONSTANT SIZE AT ALL</span>
+                    <InlineMath math="T" />
+                  </span>
                 </div>
 
                 <div className="grid grid-cols-8 gap-1.5">
@@ -169,7 +188,9 @@ export const Section01MemoryProblem: React.FC = () => {
                         key={i}
                         className="rounded-lg border border-[#E5E0D8] bg-[#FFFFFF] p-2 text-center flex flex-col items-center justify-center font-mono shadow-xs"
                       >
-                        <span className="text-[9px] text-[#716F68]">h_{i}</span>
+                        <span className="text-[9px] text-[#716F68]">
+                          <InlineMath math={`h_{${i}}`} />
+                        </span>
                         <span className="text-xs font-bold text-[#151515] mt-0.5">
                           {sampleVal.toFixed(2)}
                         </span>
@@ -180,7 +201,7 @@ export const Section01MemoryProblem: React.FC = () => {
               </div>
 
               <div className="text-xs text-[#52504A] font-sans leading-relaxed border-t border-[#EAE6DF] pt-3">
-                <strong className="text-[#151515]">The fundamental trade-off:</strong> While recurrent state bounds memory to O(1), folding {tokenCount} tokens into the same 8 numbers inevitably forces representations to overlap. Look closely as we inspect this in Section 02 and 03.
+                <strong className="text-[#151515]">The fundamental trade-off:</strong> While a <GlossaryTerm term="recurrent state">recurrent state</GlossaryTerm> bounds memory to <InlineMath math="\mathcal{O}(1)" />, folding {tokenCount} tokens into the same 8 numbers inevitably forces representations to overlap. Look closely as we inspect this in Section 02 and 03.
               </div>
             </div>
           </div>
