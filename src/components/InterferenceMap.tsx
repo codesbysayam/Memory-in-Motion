@@ -85,7 +85,7 @@ export const InterferenceMap: React.FC = () => {
           <button
             onClick={handleRunSweep}
             disabled={isRunning}
-            className="px-4 py-2 rounded-lg bg-cyan-600 hover:bg-cyan-500 text-white font-mono text-xs font-bold flex items-center gap-1.5 transition shadow-lg shadow-cyan-600/30 disabled:opacity-50"
+            className="btn btn-primary text-xs font-bold font-mono flex items-center gap-1.5 transition disabled:opacity-50 cursor-pointer"
           >
             <Play className="w-3.5 h-3.5 fill-current" />
             <span>{isRunning ? 'SWEEPING...' : 'RUN SWEEP'}</span>

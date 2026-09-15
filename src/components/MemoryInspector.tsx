@@ -174,46 +174,44 @@ export const MemoryInspector: React.FC<MemoryInspectorProps> = ({
         </div>
 
         {/* Playback Button Bar */}
-        <div className="flex flex-wrap items-center gap-2 font-mono text-xs">
+        <div className="flex flex-wrap items-center gap-2 text-xs">
           <button
             type="button"
             onClick={handleReset}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-[#D8D4CB] bg-[#FAF8F5] text-[#716F68] hover:text-[#151515] hover:bg-[#F4F1EA] transition-colors cursor-pointer"
+            className="btn btn-secondary text-xs py-1.5 px-3 min-h-[34px]"
             title="Reset to step 0 (empty matrix)"
           >
             <RotateCcw className="w-3.5 h-3.5" />
-            <span>RESET</span>
+            <span>Reset</span>
           </button>
 
           <button
             type="button"
             onClick={handleStep}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-[#D8D4CB] bg-[#FAF8F5] text-[#151515] hover:bg-[#F4F1EA] font-semibold transition-colors cursor-pointer"
+            className="btn btn-secondary text-xs py-1.5 px-3 min-h-[34px]"
             title={currentStep >= facts.length ? 'Restart from step 0' : 'Advance one fact step'}
           >
-            <SkipForward className="w-3.5 h-3.5 text-[#167C80]" />
-            <span>{currentStep >= facts.length ? 'STEP (RESTART)' : 'STEP'}</span>
+            <SkipForward className="w-3.5 h-3.5 text-[#31566E]" />
+            <span>{currentStep >= facts.length ? 'Step (Restart)' : 'Step'}</span>
           </button>
 
           <button
             type="button"
             onClick={handleTogglePlay}
-            className={`flex items-center gap-1.5 px-4 py-1.5 rounded-xl border font-bold transition-all cursor-pointer ${
-              isPlaying
-                ? 'border-[#F5E2C4] bg-[#FDF8EE] text-[#A46622]'
-                : 'border-[#151515] bg-[#151515] text-[#FFFFFF] hover:bg-[#2A2926]'
+            className={`btn text-xs py-1.5 px-4 min-h-[34px] font-semibold ${
+              isPlaying ? 'btn-warning' : 'btn-primary'
             }`}
             title={isPlaying ? 'Pause animation' : 'Play fact ingestion step-by-step'}
           >
             {isPlaying ? (
               <>
                 <Pause className="w-3.5 h-3.5 fill-current" />
-                <span>PAUSE</span>
+                <span>Pause</span>
               </>
             ) : (
               <>
                 <Play className="w-3.5 h-3.5 fill-current" />
-                <span>{currentStep >= facts.length ? 'REPLAY ALL' : 'PLAY'}</span>
+                <span>{currentStep >= facts.length ? 'Replay all' : 'Play'}</span>
               </>
             )}
           </button>
@@ -221,47 +219,64 @@ export const MemoryInspector: React.FC<MemoryInspectorProps> = ({
           <button
             type="button"
             onClick={handleReplay}
-            className="flex items-center gap-1 px-3 py-1.5 rounded-xl border border-[#D8D4CB] bg-[#FAF8F5] text-[#716F68] hover:text-[#151515] hover:bg-[#F4F1EA] transition-colors cursor-pointer"
+            className="btn btn-secondary text-xs py-1.5 px-3 min-h-[34px]"
             title="Start playback from step 0"
           >
-            <span>REPLAY</span>
+            <span>Replay</span>
           </button>
 
           <button
             type="button"
             onClick={() => setIsLooping(!isLooping)}
-            className={`flex items-center gap-1 px-3 py-1.5 rounded-xl border text-[11px] transition-colors cursor-pointer ${
-              isLooping
-                ? 'border-[#CFE8E8] bg-[#EDF7F7] text-[#167C80] font-bold'
-                : 'border-[#D8D4CB] bg-[#FAF8F5] text-[#716F68] hover:text-[#151515]'
+            className={`btn text-xs py-1.5 px-3 min-h-[34px] ${
+              isLooping ? 'btn-blue' : 'btn-secondary'
             }`}
             title="Loop playback continuously"
           >
-            <Repeat className="w-3 h-3" />
-            <span>LOOP</span>
+            <Repeat className="w-3.5 h-3.5" />
+            <span>Loop</span>
           </button>
 
-          <span className="ml-1 px-3 py-1.5 rounded-xl bg-[#FAF8F5] border border-[#EAE6DF] text-[#167C80] font-bold text-[11px]">
+          <span className="ml-1 px-3 py-1.5 rounded-lg bg-[#FAF8F5] border border-[#D9DCD8] text-[#31566E] font-mono font-bold text-xs">
             Step {currentStep} / {facts.length}
           </span>
         </div>
       </div>
 
-      {/* Interactive Step Scrubber Slider */}
-      <div className="p-4 rounded-xl bg-[#FAF8F5] border border-[#EAE6DF] space-y-2.5">
-        <div className="flex items-center justify-between text-xs font-mono">
-          <span className="text-[#151515] font-bold flex items-center gap-1.5">
-            <span>SCRUB INGESTION TIMELINE:</span>
-            <span className="text-[#167C80]">t = {currentStep}</span>
+      {/* Interactive Step Scrubber & Horizontal Segmented Timeline (Issue 8) */}
+      <div className="p-4 rounded-xl bg-[#FAF8F5] border border-[#EAE6DF] space-y-3">
+        <div className="flex items-center justify-between text-xs font-sans">
+          <span className="text-[#252525] font-bold flex items-center gap-1.5">
+            <span>Ingestion Timeline:</span>
+            <span className="font-mono text-[#31566E]">t = {currentStep}</span>
           </span>
-          <span className="text-[11px] text-[#716F68]">
+          <span className="text-xs text-[#70736F]">
             {currentStep === 0
-              ? 'Empty Initial State'
-              : `${currentStep} of ${facts.length} facts ingested into memory`}
+              ? 'Empty initial state'
+              : `${currentStep} of ${facts.length} facts ingested`}
           </span>
         </div>
-        <div className="flex items-center gap-3">
-          <span className="text-[10px] font-mono text-[#716F68]">t=0</span>
+
+        {/* Segmented Timeline (Audit Item 8) */}
+        <div className="timeline overflow-x-auto">
+          {Array.from({ length: facts.length + 1 }, (_, idx) => (
+            <button
+              key={`inspect-timeline-t${idx}`}
+              type="button"
+              onClick={() => {
+                setIsPlaying(false);
+                changeStep(idx);
+              }}
+              className={`timeline-step ${currentStep === idx ? 'active' : ''}`}
+              title={idx === 0 ? 'Empty matrix (t0)' : `Ingested fact ${idx} (${facts[idx - 1]?.key})`}
+            >
+              t{idx}
+            </button>
+          ))}
+        </div>
+
+        <div className="flex items-center gap-3 pt-0.5">
+          <span className="text-xs font-mono text-[#70736F]">t0</span>
           <input
             type="range"
             min={0}
@@ -272,9 +287,9 @@ export const MemoryInspector: React.FC<MemoryInspectorProps> = ({
               setIsPlaying(false);
               changeStep(val);
             }}
-            className="w-full accent-[#6842C2] h-2 bg-[#E5E0D8] rounded-lg cursor-pointer"
+            className="w-full accent-[#31566E] h-2 bg-[#D9DCD8] rounded-lg cursor-pointer"
           />
-          <span className="text-[10px] font-mono text-[#716F68]">t={facts.length}</span>
+          <span className="text-xs font-mono text-[#70736F]">t{facts.length}</span>
         </div>
       </div>
 

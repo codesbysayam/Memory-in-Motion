@@ -223,9 +223,9 @@ export const FinalChallenge: React.FC = () => {
                   <button
                     key={opt}
                     onClick={() => setUserPrediction(opt)}
-                    className={`p-3 rounded-lg border text-center transition font-bold ${
+                    className={`p-3 rounded-lg border text-center transition font-bold cursor-pointer ${
                       userPrediction === opt
-                        ? 'bg-cyan-600 border-cyan-400 text-white shadow-lg shadow-cyan-600/30'
+                        ? 'bg-[#E7F2FA] border-[#2B6282] text-[#21445B] ring-1 ring-[#2B6282]'
                         : 'bg-[#121828] border-[#202B40] text-slate-300 hover:text-white hover:bg-[#161F34]'
                     }`}
                   >
@@ -242,7 +242,7 @@ export const FinalChallenge: React.FC = () => {
                 <button
                   disabled={!userPrediction}
                   onClick={handleTestPrediction}
-                  className="px-5 py-2.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-mono text-xs font-bold flex items-center gap-2 transition shadow-lg shadow-emerald-600/30 disabled:opacity-40"
+                  className="btn btn-primary text-xs font-bold disabled:opacity-40 flex items-center gap-2 cursor-pointer"
                 >
                   <Play className="w-3.5 h-3.5 fill-current" />
                   <span>RUN EXPERIMENT & REVEAL</span>
@@ -304,7 +304,7 @@ export const FinalChallenge: React.FC = () => {
               <div className="flex justify-end">
                 <button
                   onClick={handleNextRound}
-                  className="px-4 py-2 rounded-lg bg-cyan-600 hover:bg-cyan-500 text-white font-mono text-xs font-bold flex items-center gap-1.5 transition"
+                  className="btn btn-secondary text-xs font-bold flex items-center gap-1.5 cursor-pointer"
                 >
                   <span>Proceed to Round 2</span>
                   <ArrowRight className="w-3.5 h-3.5" />
@@ -348,9 +348,9 @@ export const FinalChallenge: React.FC = () => {
                   <button
                     key={opt}
                     onClick={() => setUserPrediction(opt)}
-                    className={`p-3 rounded-lg border text-center transition font-bold ${
+                    className={`p-3 rounded-lg border text-center transition font-bold cursor-pointer ${
                       userPrediction === opt
-                        ? 'bg-purple-600 border-purple-400 text-white shadow-lg shadow-purple-600/30'
+                        ? 'bg-[#E7F2FA] border-[#2B6282] text-[#21445B] ring-1 ring-[#2B6282]'
                         : 'bg-[#121828] border-[#202B40] text-slate-300 hover:text-white hover:bg-[#161F34]'
                     }`}
                   >
@@ -367,7 +367,7 @@ export const FinalChallenge: React.FC = () => {
                 <button
                   disabled={!userPrediction}
                   onClick={handleTestPrediction}
-                  className="px-5 py-2.5 rounded-lg bg-purple-600 hover:bg-purple-500 text-white font-mono text-xs font-bold flex items-center gap-2 transition shadow-lg shadow-purple-600/30 disabled:opacity-40"
+                  className="btn btn-primary text-xs font-bold disabled:opacity-40 flex items-center gap-2 cursor-pointer"
                 >
                   <Play className="w-3.5 h-3.5 fill-current" />
                   <span>RUN EXPERIMENT & REVEAL</span>
@@ -419,7 +419,7 @@ export const FinalChallenge: React.FC = () => {
               <div className="flex justify-end">
                 <button
                   onClick={handleNextRound}
-                  className="px-4 py-2 rounded-lg bg-cyan-600 hover:bg-cyan-500 text-white font-mono text-xs font-bold flex items-center gap-1.5 transition"
+                  className="btn btn-secondary text-xs font-bold flex items-center gap-1.5 cursor-pointer"
                 >
                   <span>Proceed to Final Capstone</span>
                   <ArrowRight className="w-3.5 h-3.5" />
@@ -544,11 +544,11 @@ export const FinalChallenge: React.FC = () => {
                   <button
                     key={opt.id}
                     onClick={() => setSelectedBdhMemoryLocation(opt.id)}
-                    className={`p-3 rounded-lg border text-center transition font-bold ${
+                    className={`p-3 rounded-lg border text-center transition font-bold cursor-pointer ${
                       selectedBdhMemoryLocation === opt.id
                         ? opt.correct
-                          ? 'bg-purple-600 border-purple-400 text-white shadow-lg'
-                          : 'bg-rose-950 border-rose-500 text-rose-200'
+                          ? 'bg-[#DCEFE2] border-[#2E683D] text-[#24452E]'
+                          : 'bg-[#F9E9ED] border-[#9E372B] text-[#6B2835]'
                         : 'bg-[#121626] border-[#222B42] text-slate-400 hover:text-white'
                     }`}
                   >
@@ -558,13 +558,13 @@ export const FinalChallenge: React.FC = () => {
               </div>
 
               {selectedBdhMemoryLocation === 'synaptic' && (
-                <div className="p-3 rounded-lg bg-purple-950/40 border border-purple-500/40 text-purple-200 space-y-2 animate-in fade-in">
+                <div className="p-3 rounded-lg bg-[#E7F2FA] border border-[#2B6282] text-[#21445B] space-y-2 animate-in fade-in">
                   <p className="text-xs font-sans">
                     <strong>Exactly correct:</strong> Working memory lives in continuous synaptic edge plasticity ($\sigma$), updated in-place via 4-phase local particle relaxation.
                   </p>
                   <button
                     onClick={scrollToBdhExplorer}
-                    className="inline-flex items-center gap-2 text-xs font-mono font-bold text-cyan-300 hover:text-cyan-200 underline"
+                    className="inline-flex items-center gap-2 text-xs font-mono font-bold text-[#2B6282] hover:underline cursor-pointer"
                   >
                     <span>Inspect Synaptic Weights in the BDH Microscope (Section 08)</span>
                     <ArrowRight className="w-3.5 h-3.5" />

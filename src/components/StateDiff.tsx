@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { analyzeStateDiff } from '../models/stateAnalysis';
-import { HelpCircle, ChevronDown, ChevronUp, Activity, ArrowRight } from 'lucide-react';
+import { HelpCircle, ChevronDown, ChevronUp, Activity, ArrowRight, Search } from 'lucide-react';
 
 interface StateDiffProps {
   prevState: number[];
@@ -177,9 +177,9 @@ export const StateDiff: React.FC<StateDiffProps> = ({
 
         {/* Top Delta Drivers List */}
         <div className="bg-[#FAF8F5] p-4 rounded-xl border border-[#EAE6DF]">
-          <div className="text-xs text-[#716F68] font-mono mb-2.5 flex items-center justify-between">
-            <span className="font-bold">Dimension Deltas</span>
-            <span className="text-[10px] text-[#716F68]">Sorted by |Δ|</span>
+          <div className="text-xs text-[#716F68] font-sans mb-2.5 flex items-center justify-between">
+            <span className="font-bold text-[#151515]">Dimension Deltas</span>
+            <span className="text-[11px] text-[#716F68]">Click to inspect</span>
           </div>
 
           <div className="grid grid-cols-2 gap-1.5 max-h-36 overflow-y-auto pr-1 custom-scrollbar">
@@ -194,18 +194,17 @@ export const StateDiff: React.FC<StateDiffProps> = ({
                 return (
                   <button
                     key={d.index}
+                    type="button"
                     onClick={() => onSelectDim && onSelectDim(isSelected ? null : d.index)}
-                    className={`flex items-center justify-between px-2.5 py-1.5 rounded-lg text-xs font-mono transition text-left cursor-pointer ${
-                      isSelected
-                        ? 'bg-[#F3EFFF] border border-[#6842C2] text-[#6842C2]'
-                        : 'bg-[#FFFFFF] hover:bg-[#FAF8F5] text-[#151515] border border-[#E5E0D8]'
-                    }`}
+                    className={`dimension-delta ${isSelected ? 'active' : ''}`}
+                    title={`Inspect dimension ${d.label} in state vector`}
                   >
-                    <span className="flex items-center gap-1">
+                    <span className="flex items-center gap-1.5 font-mono text-xs">
+                      <Search className="w-3 h-3 text-[#70736F]" />
                       <span className="font-semibold text-[#151515]">{d.label}</span>
-                      {isStrongest && <span className="text-[9px] text-[#A46622]">★</span>}
+                      {isStrongest && <span className="text-[10px] text-[#705A1A]" title="Strongest delta">★</span>}
                     </span>
-                    <span className={`font-bold ${isPositive ? 'text-[#247A4B]' : 'text-[#B64235]'}`}>
+                    <span className={`font-mono text-xs font-bold ${isPositive ? 'text-[#245B38]' : 'text-[#8A352E]'}`}>
                       {isPositive ? `+${d.delta.toFixed(2)}` : d.delta.toFixed(2)}
                     </span>
                   </button>

@@ -80,6 +80,12 @@ export const Section03RecurrentMemory: React.FC = () => {
   // Mechanistic Workbench Sub-module Tab
   const [workbenchTab, setWorkbenchTab] = useState<'pipeline' | 'persistence' | 'order' | 'overwrite' | 'representations'>('pipeline');
 
+  // Progressive Disclosure: Active Instrument View (Audit Item 7)
+  const [activeInstrumentView, setActiveInstrumentView] = useState<'matrix' | 'analyze' | 'configure'>('matrix');
+
+  // Compact Parameter Sidebar: Collapsible secondary conditions (Audit Item 16)
+  const [showSecondaryParams, setShowSecondaryParams] = useState<boolean>(false);
+
   // Experiment Notebook Logs
   const [notebookEntries, setNotebookEntries] = useState<NotebookEntry[]>([
     {
@@ -430,172 +436,120 @@ export const Section03RecurrentMemory: React.FC = () => {
 
         {/* 3. MEMORY AT A GLANCE (Real-time computed metrics) */}
         <div className="rounded-2xl border border-[#E5E0D8] bg-[#FFFFFF] p-5 shadow-xs">
-          <div className="text-[10px] font-mono uppercase tracking-wider text-[#716F68] mb-3 font-bold flex items-center justify-between">
-            <span className="flex items-center gap-1.5">
-              <span>MEMORY AT A GLANCE · ACTUAL COMPUTED STATE</span>
-              <span className="text-[#6842C2]">(<InlineMath math={`\\hat{v} \\in \\mathbb{R}^{${config.dimension}}`} />)</span>
+          <div className="text-xs text-[#70736F] mb-3 font-semibold flex items-center justify-between">
+            <span className="flex items-center gap-1.5 text-[#252525]">
+              <span>Memory at a glance: actual computed state</span>
+              <span className="text-[#31566E] font-mono">(<InlineMath math={`\\hat{v} \\in \\mathbb{R}^{${config.dimension}}`} />)</span>
             </span>
-            <span className="text-[#167C80] font-semibold">
-              REAL-TIME RECOMPUTATION
+            <span className="text-[#245B38] font-mono text-xs">
+              Real-time recomputation
             </span>
           </div>
 
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 font-mono">
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
             {/* DIMENSION */}
             <div className="p-3.5 rounded-xl bg-[#FAF8F5] border border-[#EAE6DF] flex flex-col justify-between">
-              <span className="text-[#716F68] text-xs font-bold uppercase tracking-wider">
-                DIMENSION (<InlineMath math="d" />)
+              <span className="text-[#70736F] text-xs font-semibold">
+                Dimension (<InlineMath math="d" />)
               </span>
-              <span className="text-2xl font-bold text-[#151515] mt-1">{config.dimension}D</span>
-              <span className="text-[10px] text-[#716F68] mt-0.5">
+              <span className="text-2xl font-bold font-mono text-[#252525] mt-1">{config.dimension}D</span>
+              <span className="text-xs text-[#70736F] font-mono mt-0.5">
                 <InlineMath math={`\\mathbb{R}^{${config.dimension} \\times ${config.dimension}}`} />
               </span>
             </div>
 
             {/* FACTS STORED */}
             <div className="p-3.5 rounded-xl bg-[#FAF8F5] border border-[#EAE6DF] flex flex-col justify-between">
-              <span className="text-[#716F68] text-xs font-bold uppercase tracking-wider">FACTS STORED</span>
-              <span className="text-2xl font-bold text-[#167C80] mt-1">{activeFacts.length}</span>
-              <span className="text-[10px] text-[#716F68] mt-0.5">{distractorCount} distractors</span>
+              <span className="text-[#70736F] text-xs font-semibold">Facts stored</span>
+              <span className="text-2xl font-bold font-mono text-[#31566E] mt-1">{activeFacts.length}</span>
+              <span className="text-xs text-[#70736F] mt-0.5">{distractorCount} distractors</span>
             </div>
 
             {/* STATE VECTOR NORM */}
             <div className="p-3.5 rounded-xl bg-[#FAF8F5] border border-[#EAE6DF] flex flex-col justify-between" title="Euclidean norm of retrieved representation vector ||v_hat||">
-              <span className="text-[#716F68] text-xs font-bold uppercase tracking-wider">
-                NORM (<InlineMath math="\|\hat{v}\|" />)
+              <span className="text-[#70736F] text-xs font-semibold">
+                Norm (<InlineMath math="\|\hat{v}\|" />)
               </span>
-              <span className="text-2xl font-bold text-[#6842C2] mt-1">
+              <span className="text-2xl font-bold font-mono text-[#4F514E] mt-1">
                 {stateVectorNorm.toFixed(3)}
               </span>
-              <span className="text-[10px] text-[#716F68] mt-0.5">Retrieved energy</span>
+              <span className="text-xs text-[#70736F] mt-0.5">Retrieved energy</span>
             </div>
 
             {/* RETRIEVAL SCORE */}
             <div className="p-3.5 rounded-xl bg-[#FAF8F5] border border-[#EAE6DF] flex flex-col justify-between" title="Normalized cosine similarity between retrieved state vector and candidate value vector">
-              <span className="text-[#716F68] text-xs font-bold uppercase tracking-wider">
-                SCORE (<InlineMath math="s_1" />)
+              <span className="text-[#70736F] text-xs font-semibold">
+                Score (<InlineMath math="s_1" />)
               </span>
-              <span className={`text-2xl font-bold mt-1 ${experimentResult.correct ? 'text-[#247A4B]' : 'text-[#B64235]'}`}>
+              <span className={`text-2xl font-bold font-mono mt-1 ${experimentResult.correct ? 'text-[#245B38]' : 'text-[#8A352E]'}`}>
                 {experimentResult.retrievalScore.toFixed(3)}
               </span>
-              <span className="text-[10px] text-[#716F68] mt-0.5">
+              <span className="text-xs text-[#70736F] font-mono mt-0.5">
                 <InlineMath math="s_1 = \cos(\hat{v}, v_c)" />
               </span>
             </div>
 
             {/* TOP-1 MARGIN */}
             <div className="p-3.5 rounded-xl bg-[#FAF8F5] border border-[#EAE6DF] flex flex-col justify-between" title="Margin between top candidate score and runner-up: Δs = s_1 - s_2">
-              <span className="text-[#716F68] text-xs font-bold uppercase tracking-wider">
-                MARGIN (<InlineMath math="\Delta s" />)
+              <span className="text-[#70736F] text-xs font-semibold">
+                Margin (<InlineMath math="\Delta s" />)
               </span>
-              <span className={`text-2xl font-bold mt-1 ${experimentResult.top1Margin > 0.05 ? 'text-[#247A4B]' : 'text-[#B64235]'}`}>
+              <span className={`text-2xl font-bold font-mono mt-1 ${experimentResult.top1Margin > 0.05 ? 'text-[#245B38]' : 'text-[#8A352E]'}`}>
                 {experimentResult.top1Margin.toFixed(3)}
               </span>
-              <span className="text-[10px] text-[#716F68] mt-0.5">
+              <span className="text-xs text-[#70736F] font-mono mt-0.5">
                 <InlineMath math="\Delta s = s_1 - s_2" />
               </span>
             </div>
 
             {/* PREDICTION STATUS */}
             <div className="p-3.5 rounded-xl bg-[#FAF8F5] border border-[#EAE6DF] flex flex-col justify-between">
-              <span className="text-[#716F68] text-xs font-bold uppercase tracking-wider">PREDICTION</span>
-              <span className={`text-lg font-bold mt-1 truncate ${experimentResult.correct ? 'text-[#247A4B]' : 'text-[#B64235]'}`}>
+              <span className="text-[#70736F] text-xs font-semibold">Prediction</span>
+              <span className={`text-lg font-bold font-mono mt-1 truncate ${experimentResult.correct ? 'text-[#245B38]' : 'text-[#8A352E]'}`}>
                 {experimentResult.prediction}
               </span>
-              <span className="text-[10px] text-[#716F68] mt-0.5 truncate">
+              <span className="text-xs text-[#70736F] mt-0.5 truncate">
                 Target: {groundTruth}
               </span>
             </div>
           </div>
         </div>
 
-        {/* 12-Column Control Deck & Experiment Flow */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
-          {/* Left Column (4 cols): Control Deck */}
-          <div className="lg:col-span-4 space-y-4 font-mono text-xs">
-            <div className="rounded-2xl border border-[#E5E0D8] bg-[#FFFFFF] p-5 sm:p-6 space-y-4 shadow-xs">
-              <div className="flex items-center justify-between border-b border-[#EAE6DF] pb-3">
-                <span className="font-semibold text-[#151515] uppercase tracking-wider flex items-center gap-1.5">
-                  <Sliders className="w-3.5 h-3.5 text-[#167C80]" />
-                  EXPERIMENT PARAMETERS
-                </span>
+        {/* 12-Column Control Deck & Experiment Flow with Progressive Disclosure (Issues 7 & 16) */}
+        <div className="experiment-layout">
+          {/* Left Column: Compact Sticky Control Sidebar */}
+          <div className="experiment-sidebar space-y-4 text-xs">
+            <div className="rounded-2xl border border-[#E5E0D8] bg-[#FFFFFF] p-4 sm:p-5 space-y-4 shadow-xs">
+              <div className="flex items-center justify-between border-b border-[#D9DCD8] pb-3">
+                <h3 className="font-semibold text-sm text-[#252525] flex items-center gap-1.5">
+                  <Sliders className="w-4 h-4 text-[#31566E]" />
+                  <span>Experiment parameters</span>
+                </h3>
                 <SourceBadge type="toy" />
-              </div>
-
-              {/* 6. Controlled Mode (One Variable At A Time) Toggle */}
-              <div className="p-3 rounded-xl bg-[#FAF8F5] border border-[#EAE6DF] space-y-2">
-                <div className="flex items-center justify-between">
-                  <span className="font-bold text-[#151515] text-[11px] flex items-center gap-1.5">
-                    {isControlledMode ? <Lock className="w-3.5 h-3.5 text-[#6842C2]" /> : <Unlock className="w-3.5 h-3.5 text-[#716F68]" />}
-                    CONTROLLED MODE
-                  </span>
-                  <button
-                    onClick={toggleControlledMode}
-                    className={`px-2.5 py-1 rounded-lg text-[10px] font-bold transition border cursor-pointer ${
-                      isControlledMode
-                        ? 'bg-[#F3EFFF] text-[#6842C2] border-[#E2D8FA]'
-                        : 'bg-[#FFFFFF] text-[#716F68] border-[#E5E0D8] hover:text-[#151515]'
-                    }`}
-                  >
-                    {isControlledMode ? 'ACTIVE ✓' : 'ENABLE'}
-                  </button>
-                </div>
-
-                {isControlledMode && (
-                  <div className="text-[10px] space-y-1.5 pt-1 text-[#716F68] border-t border-[#EAE6DF]">
-                    <div className="flex items-center justify-between">
-                      <span>Baseline frozen. Test one variable:</span>
-                      <button
-                        onClick={resetBaseline}
-                        className="text-[#6842C2] hover:underline text-[10px] flex items-center gap-1 cursor-pointer font-bold"
-                      >
-                        <RotateCcw className="w-2.5 h-2.5" />
-                        RESET BASELINE
-                      </button>
-                    </div>
-
-                    {controlledDeltas && controlledDeltas.length > 0 && (
-                      <div className="p-2 rounded-lg bg-[#FFFFFF] border border-[#EAE6DF] space-y-1">
-                        {controlledDeltas.map((d, i) => (
-                          <div key={i} className="flex justify-between text-[#52504A]">
-                            <span className="text-[#6842C2] font-semibold">{d.name}:</span>
-                            <span>{d.base} → <strong className="text-[#151515]">{d.curr}</strong></span>
-                          </div>
-                        ))}
-                      </div>
-                    )}
-
-                    {controlledWarning && (
-                      <div className="p-2 rounded-lg bg-[#FDF8EE] border border-[#F5E2C4] text-[#A46622] text-[10px] leading-tight flex items-start gap-1">
-                        <AlertTriangle className="w-3.5 h-3.5 text-[#A46622] shrink-0 mt-0.5" />
-                        <span>{controlledWarning}</span>
-                      </div>
-                    )}
-                  </div>
-                )}
               </div>
 
               {/* Memory Dimension Picker */}
               <div className="space-y-1.5">
-                <div className="flex justify-between text-[11px]">
-                  <span className="text-[#716F68] font-bold flex items-center gap-1">
-                    <span>Memory Dimension</span>
+                <div className="flex justify-between text-xs">
+                  <span className="text-[#70736F] font-semibold flex items-center gap-1">
+                    <span>Memory dimension</span>
                     <InlineMath math="(d)" />:
                   </span>
-                  <span className="text-[#167C80] font-bold">{config.dimension}</span>
+                  <span className="text-[#31566E] font-mono font-bold">{config.dimension}</span>
                 </div>
                 <div className="grid grid-cols-4 gap-1.5">
                   {[4, 8, 16, 32].map((d) => (
                     <button
                       key={d}
+                      type="button"
                       onClick={() => {
                         handleParamCommit('Dimension', config.dimension, d);
                         updateConfig({ dimension: d });
                       }}
-                      className={`py-1.5 rounded-lg border text-center transition-all cursor-pointer ${
+                      className={`py-1.5 rounded-lg border text-center font-mono text-xs transition cursor-pointer ${
                         config.dimension === d
-                          ? 'border-[#6842C2] bg-[#F3EFFF] text-[#6842C2] font-bold shadow-xs'
-                          : 'border-[#E5E0D8] bg-[#FFFFFF] text-[#716F68] hover:text-[#151515]'
+                          ? 'border-[#31566E] bg-[#EBF1F5] text-[#31566E] font-bold shadow-xs'
+                          : 'border-[#D9DCD8] bg-[#FFFFFF] text-[#70736F] hover:text-[#252525] hover:bg-[#F7F5EF]'
                       }`}
                     >
                       D={d}
@@ -606,7 +560,7 @@ export const Section03RecurrentMemory: React.FC = () => {
 
               {/* Sequence Length Slider */}
               <ControlSlider
-                label="Sequence Length"
+                label="Sequence length"
                 value={sequenceLength}
                 min={1}
                 max={15}
@@ -634,74 +588,29 @@ export const Section03RecurrentMemory: React.FC = () => {
                 description={<FormattedMathText text="Fraction of prior state preserved at each step: $M_t = \lambda M_{t-1}$." />}
               />
 
-              {/* Write Strength */}
-              <ControlSlider
-                label={<span className="flex items-center gap-1"><span>Write Strength</span> <InlineMath math="(\eta)" /></span>}
-                value={Math.round(writeStrength * 100)}
-                min={10}
-                max={100}
-                step={5}
-                unit="%"
-                onChange={(val) => {
-                  const ws = val / 100;
-                  handleParamCommit('Write Strength', writeStrength, ws);
-                  updateConfig({ writeStrength: ws });
-                }}
-                description={<FormattedMathText text="Magnitude of outer-product update injected: $\eta k_t v_t^\top$." />}
-              />
-
-              {/* Interference */}
-              <ControlSlider
-                label={<span className="flex items-center gap-1"><span>Interference</span> <InlineMath math="(\sigma)" /></span>}
-                value={interferencePct}
-                min={0}
-                max={60}
-                step={5}
-                unit="%"
-                onChange={(v) => {
-                  handleParamCommit('Interference', `${interferencePct}%`, `${v}%`);
-                  updateConfig({ interference: v / 100 });
-                }}
-                description="Perturbation noise added to state coordinates."
-              />
-
-              {/* Distractor Count */}
-              <ControlSlider
-                label="Distractor Facts"
-                value={distractorCount}
-                min={0}
-                max={15}
-                step={1}
-                unit=" items"
-                onChange={(v) => {
-                  handleParamCommit('Distractors', distractorCount, v);
-                  updateConfig({ distractors: v });
-                }}
-                description="Irrelevant variable bindings loaded into memory."
-              />
-
               {/* Target Query Selection */}
               <div className="space-y-1.5 pt-2 border-t border-[#EAE6DF]">
-                <div className="flex justify-between text-[11px]">
-                  <span className="text-[#716F68] flex items-center gap-1 font-bold">
-                    <Search className="w-3 h-3 text-[#6842C2]" />
-                    <span>Probe Key Query</span>
+                <div className="flex justify-between text-xs">
+                  <span className="text-[#70736F] flex items-center gap-1 font-semibold">
+                    <Search className="w-3.5 h-3.5 text-[#31566E]" />
+                    <span>Probe key query</span>
                     <InlineMath math="(q)" />:
                   </span>
-                  <span className="text-[#151515] font-bold">{selectedQuery}</span>
+                  <span className="text-[#252525] font-bold">{selectedQuery}</span>
                 </div>
-                <div className="grid grid-cols-3 gap-1.5 text-[11px]">
+                <div className="grid grid-cols-3 gap-1.5 text-xs">
                   {CANONICAL_FACTS.slice(0, 6).map((f) => (
                     <button
                       key={f.key}
+                      type="button"
                       onClick={() => {
                         handleParamCommit('Query', selectedQuery, f.key);
                         setSelectedQuery(f.key);
                       }}
-                      className={`py-1.5 px-1.5 rounded-lg border truncate text-center cursor-pointer ${
+                      className={`py-1.5 px-1.5 rounded-lg border truncate text-center cursor-pointer transition ${
                         selectedQuery === f.key
-                          ? 'border-[#6842C2] bg-[#F3EFFF] text-[#6842C2] font-bold'
-                          : 'border-[#E5E0D8] bg-[#FFFFFF] text-[#716F68] hover:text-[#151515]'
+                          ? 'border-[#31566E] bg-[#EBF1F5] text-[#31566E] font-bold'
+                          : 'border-[#D9DCD8] bg-[#FFFFFF] text-[#70736F] hover:text-[#252525] hover:bg-[#F7F5EF]'
                       }`}
                     >
                       {f.key}
@@ -710,79 +619,195 @@ export const Section03RecurrentMemory: React.FC = () => {
                 </div>
               </div>
 
-              {/* 8. COPY CONFIG & COPY RESULT Buttons */}
-              <div className="grid grid-cols-2 gap-2 pt-2 border-t border-[#EAE6DF]">
-                <button
-                  onClick={handleCopyConfig}
-                  className="py-2 px-2 rounded-xl bg-[#FAF8F5] hover:bg-[#F3EFFF] text-[#52504A] hover:text-[#6842C2] border border-[#E5E0D8] text-[10px] font-mono flex items-center justify-center gap-1.5 transition cursor-pointer"
-                  title="Copy deterministic experiment configuration JSON"
-                >
-                  <Copy className="w-3 h-3 text-[#167C80]" />
-                  <span>{copiedConfig ? 'COPIED ✓' : 'COPY CONFIG'}</span>
-                </button>
-
-                <button
-                  onClick={handleCopyResult}
-                  className="py-2 px-2 rounded-xl bg-[#FAF8F5] hover:bg-[#EDF8F2] text-[#52504A] hover:text-[#247A4B] border border-[#E5E0D8] text-[10px] font-mono flex items-center justify-center gap-1.5 transition cursor-pointer"
-                  title="Copy full experiment outcome payload"
-                >
-                  <CheckCircle2 className="w-3 h-3 text-[#247A4B]" />
-                  <span>{copiedResult ? 'COPIED ✓' : 'COPY RESULT'}</span>
-                </button>
-              </div>
-
-              {/* 9. SHARE EXPERIMENT (URL Reproduction) */}
+              {/* Collapsible Secondary Conditions Button (Audit Item 16) */}
               <button
-                onClick={handleShareExperiment}
-                className="w-full py-2 px-2 rounded-xl bg-[#F3EFFF] hover:bg-[#ECE5FC] text-[#6842C2] border border-[#E2D8FA] text-[10px] font-mono flex items-center justify-center gap-1.5 transition cursor-pointer font-bold"
-                title="Copy shareable URL with parameters"
+                type="button"
+                onClick={() => setShowSecondaryParams(!showSecondaryParams)}
+                className="btn btn-secondary w-full text-xs py-2 mt-1 flex items-center justify-center gap-1.5"
               >
-                <Share2 className="w-3 h-3 text-[#6842C2]" />
-                <span>{copiedShare ? 'URL COPIED TO CLIPBOARD ✓' : 'SHARE EXPERIMENT (URL)'}</span>
+                <Sliders className="w-3.5 h-3.5 text-[#31566E]" />
+                <span>{showSecondaryParams ? 'Hide secondary conditions' : 'Change conditions'}</span>
               </button>
+
+              {/* Secondary Parameters (Collapsible to prevent dead whitespace) */}
+              {showSecondaryParams && (
+                <div className="space-y-3.5 pt-3 border-t border-[#EAE6DF]">
+                  {/* Controlled Mode Toggle */}
+                  <div className="p-3 rounded-xl bg-[#FAF8F5] border border-[#EAE6DF] space-y-2">
+                    <div className="flex items-center justify-between">
+                      <span className="font-semibold text-[#252525] text-xs flex items-center gap-1.5">
+                        {isControlledMode ? <Lock className="w-3.5 h-3.5 text-[#31566E]" /> : <Unlock className="w-3.5 h-3.5 text-[#70736F]" />}
+                        Controlled mode
+                      </span>
+                      <button
+                        type="button"
+                        onClick={toggleControlledMode}
+                        className={`px-2.5 py-1 rounded-lg text-xs font-semibold transition border cursor-pointer ${
+                          isControlledMode
+                            ? 'bg-[#EBF1F5] text-[#31566E] border-[#A8BAC7]'
+                            : 'bg-[#FFFFFF] text-[#70736F] border-[#D9DCD8] hover:text-[#252525]'
+                        }`}
+                      >
+                        {isControlledMode ? 'Active ✓' : 'Enable'}
+                      </button>
+                    </div>
+
+                    {isControlledMode && (
+                      <div className="text-xs space-y-1.5 pt-1 text-[#70736F] border-t border-[#EAE6DF]">
+                        <div className="flex items-center justify-between">
+                          <span>Baseline frozen:</span>
+                          <button
+                            type="button"
+                            onClick={resetBaseline}
+                            className="text-[#31566E] hover:underline text-xs flex items-center gap-1 cursor-pointer font-semibold"
+                          >
+                            <RotateCcw className="w-2.5 h-2.5" />
+                            Reset
+                          </button>
+                        </div>
+
+                        {controlledDeltas && controlledDeltas.length > 0 && (
+                          <div className="p-2 rounded-lg bg-[#FFFFFF] border border-[#EAE6DF] space-y-1">
+                            {controlledDeltas.map((d, i) => (
+                              <div key={i} className="flex justify-between text-[#4F514E]">
+                                <span className="text-[#31566E] font-semibold">{d.name}:</span>
+                                <span>{d.base} → <strong className="text-[#252525]">{d.curr}</strong></span>
+                              </div>
+                            ))}
+                          </div>
+                        )}
+
+                        {controlledWarning && (
+                          <div className="p-2 rounded-lg bg-[#FDF8EE] border border-[#F5E2C4] text-[#A46622] text-xs leading-tight flex items-start gap-1">
+                            <AlertTriangle className="w-3.5 h-3.5 text-[#A46622] shrink-0 mt-0.5" />
+                            <span>{controlledWarning}</span>
+                          </div>
+                        )}
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Write Strength */}
+                  <ControlSlider
+                    label={<span className="flex items-center gap-1"><span>Write strength</span> <InlineMath math="(\eta)" /></span>}
+                    value={Math.round(writeStrength * 100)}
+                    min={10}
+                    max={100}
+                    step={5}
+                    unit="%"
+                    onChange={(val) => {
+                      const ws = val / 100;
+                      handleParamCommit('Write Strength', writeStrength, ws);
+                      updateConfig({ writeStrength: ws });
+                    }}
+                    description={<FormattedMathText text="Magnitude of outer-product update injected: $\eta k_t v_t^\top$." />}
+                  />
+
+                  {/* Interference */}
+                  <ControlSlider
+                    label={<span className="flex items-center gap-1"><span>Interference</span> <InlineMath math="(\sigma)" /></span>}
+                    value={interferencePct}
+                    min={0}
+                    max={60}
+                    step={5}
+                    unit="%"
+                    onChange={(v) => {
+                      handleParamCommit('Interference', `${interferencePct}%`, `${v}%`);
+                      updateConfig({ interference: v / 100 });
+                    }}
+                    description="Perturbation noise added to state coordinates."
+                  />
+
+                  {/* Distractor Count */}
+                  <ControlSlider
+                    label="Distractor facts"
+                    value={distractorCount}
+                    min={0}
+                    max={15}
+                    step={1}
+                    unit=" items"
+                    onChange={(v) => {
+                      handleParamCommit('Distractors', distractorCount, v);
+                      updateConfig({ distractors: v });
+                    }}
+                    description="Irrelevant variable bindings loaded into memory."
+                  />
+
+                  {/* Copy Config & Copy Result Buttons */}
+                  <div className="grid grid-cols-2 gap-2 pt-2 border-t border-[#EAE6DF]">
+                    <button
+                      type="button"
+                      onClick={handleCopyConfig}
+                      className="btn btn-secondary text-xs py-1.5 px-2 flex items-center justify-center gap-1.5"
+                      title="Copy deterministic experiment configuration JSON"
+                    >
+                      <Copy className="w-3.5 h-3.5 text-[#31566E]" />
+                      <span>{copiedConfig ? 'Copied ✓' : 'Copy config'}</span>
+                    </button>
+
+                    <button
+                      type="button"
+                      onClick={handleCopyResult}
+                      className="btn btn-secondary text-xs py-1.5 px-2 flex items-center justify-center gap-1.5"
+                      title="Copy full experiment outcome payload"
+                    >
+                      <CheckCircle2 className="w-3.5 h-3.5 text-[#245B38]" />
+                      <span>{copiedResult ? 'Copied ✓' : 'Copy result'}</span>
+                    </button>
+                  </div>
+
+                  {/* Share Experiment Button */}
+                  <button
+                    type="button"
+                    onClick={handleShareExperiment}
+                    className="btn btn-blue w-full text-xs py-2 flex items-center justify-center gap-1.5"
+                    title="Copy shareable URL with parameters"
+                  >
+                    <Share2 className="w-3.5 h-3.5" />
+                    <span>{copiedShare ? 'URL copied to clipboard ✓' : 'Share experiment URL'}</span>
+                  </button>
+                </div>
+              )}
             </div>
 
-            {/* 5. COMPARE BEFORE / AFTER (Dynamically Calculated) */}
+            {/* Compare Before / After (Compact Card) */}
             {prevSnapshot && (
-              <div className="rounded-2xl border border-[#E5E0D8] bg-[#FFFFFF] p-4 text-xs font-mono space-y-3 shadow-xs">
-                <div className="flex items-center justify-between border-b border-[#EAE6DF] pb-2 text-[10px]">
-                  <span className="font-bold text-[#151515] uppercase tracking-wider flex items-center gap-1">
-                    <TrendingUp className="w-3 h-3 text-[#167C80]" />
-                    COMPARE BEFORE / AFTER
-                  </span>
-                  <span className="text-[#716F68]">LIVE DELTA</span>
+              <div className="rounded-2xl border border-[#E5E0D8] bg-[#FFFFFF] p-4 text-xs space-y-3 shadow-xs">
+                <div className="flex items-center justify-between border-b border-[#EAE6DF] pb-2">
+                  <h4 className="font-semibold text-xs text-[#252525] flex items-center gap-1">
+                    <TrendingUp className="w-3.5 h-3.5 text-[#31566E]" />
+                    <span>Compare before / after</span>
+                  </h4>
+                  <span className="text-[#70736F] text-xs font-mono">Live delta</span>
                 </div>
 
-                <div className="grid grid-cols-2 gap-3 text-[11px]">
-                  <div className="p-2.5 rounded-xl bg-[#FAF8F5] border border-[#EAE6DF] space-y-1">
-                    <span className="text-[10px] text-[#716F68] font-bold block">BEFORE</span>
-                    <div>Dim: <strong className="text-[#151515]">{prevSnapshot.dimension}</strong></div>
-                    <div>Score: <strong className="text-[#151515]">{prevSnapshot.confidence}%</strong></div>
-                    <div>State: <strong className={prevSnapshot.correct ? 'text-[#247A4B]' : 'text-[#B64235]'}>
+                <div className="grid grid-cols-2 gap-2.5 text-xs">
+                  <div className="p-2 rounded-xl bg-[#FAF8F5] border border-[#EAE6DF] space-y-1">
+                    <span className="text-xs text-[#70736F] font-semibold block">Before</span>
+                    <div>Dim: <strong className="text-[#252525] font-mono">{prevSnapshot.dimension}</strong></div>
+                    <div>Score: <strong className="text-[#252525] font-mono">{prevSnapshot.confidence}%</strong></div>
+                    <div>State: <strong className={prevSnapshot.correct ? 'text-[#245B38]' : 'text-[#8A352E]'}>
                       {prevSnapshot.correct ? 'Match' : 'Miss'}
                     </strong></div>
                   </div>
 
-                  <div className="p-2.5 rounded-xl bg-[#FAF8F5] border border-[#EAE6DF] space-y-1">
-                    <span className="text-[10px] text-[#167C80] font-bold block">AFTER</span>
-                    <div>Dim: <strong className="text-[#151515]">{currentSnapshot.dimension}</strong></div>
-                    <div>Score: <strong className="text-[#151515]">{currentSnapshot.confidence}%</strong></div>
-                    <div>State: <strong className={currentSnapshot.correct ? 'text-[#247A4B]' : 'text-[#B64235]'}>
+                  <div className="p-2 rounded-xl bg-[#FAF8F5] border border-[#EAE6DF] space-y-1">
+                    <span className="text-xs text-[#31566E] font-semibold block">After</span>
+                    <div>Dim: <strong className="text-[#252525] font-mono">{currentSnapshot.dimension}</strong></div>
+                    <div>Score: <strong className="text-[#252525] font-mono">{currentSnapshot.confidence}%</strong></div>
+                    <div>State: <strong className={currentSnapshot.correct ? 'text-[#245B38]' : 'text-[#8A352E]'}>
                       {currentSnapshot.correct ? 'Match' : 'Miss'}
                     </strong></div>
                   </div>
                 </div>
 
-                <div className="p-2.5 rounded-xl bg-[#FAF8F5] border border-[#EAE6DF] text-[10px] space-y-0.5">
-                  <span className="text-[#716F68] font-bold block uppercase">WHAT CHANGED?</span>
-                  <div className="text-[#151515] font-semibold">
+                <div className="p-2 rounded-xl bg-[#FAF8F5] border border-[#EAE6DF] text-xs space-y-0.5">
+                  <span className="text-[#70736F] font-semibold block">What changed?</span>
+                  <div className="text-[#252525] font-semibold font-mono">
                     {currentSnapshot.confidence - prevSnapshot.confidence >= 0 ? '+' : ''}
                     {(currentSnapshot.confidence - prevSnapshot.confidence).toFixed(1)} pp retrieval score
                   </div>
-                  <div className="text-[9px] text-[#716F68] font-sans">
-                    Note: Retrieval score indicates representation similarity in this toy model, not a calibrated probability.
-                  </div>
-                  <div className="text-[#52504A]">
+                  <div className="text-[11px] text-[#70736F]">
                     {currentSnapshot.correct !== prevSnapshot.correct
                       ? currentSnapshot.correct
                         ? 'Recovery observed: retrieved correct candidate.'
@@ -793,68 +818,151 @@ export const Section03RecurrentMemory: React.FC = () => {
               </div>
             )}
 
-            {/* 7. EXPERIMENT NOTEBOOK */}
+            {/* Experiment Notebook */}
             <ExperimentNotebook
               entries={notebookEntries}
               onClear={() => setNotebookEntries([])}
             />
           </div>
 
-          {/* Right Column (8 cols): Interactive Memory Inspector */}
-          <div className="lg:col-span-8 space-y-6">
-            <MemoryInspector
-              facts={activeFacts}
-              queryKey={selectedQuery}
-              dim={memoryDim}
-              retention={effectiveRetention}
-              writeStrength={writeStrength}
-              step={activeStep}
-              onStepChange={setActiveStep}
-            />
+          {/* Right Column: Progressive Disclosure Workspace (Audit Item 7) */}
+          <div className="space-y-6">
+            {/* Progressive Disclosure Segmented Switcher */}
+            <div className="flex items-center justify-between flex-wrap gap-2 p-1.5 bg-[#F0F1EF] border border-[#D9DCD8] rounded-xl">
+              <div className="flex items-center gap-1.5">
+                <button
+                  type="button"
+                  onClick={() => setActiveInstrumentView('matrix')}
+                  className={`px-3.5 py-2 rounded-lg text-xs font-semibold transition cursor-pointer ${
+                    activeInstrumentView === 'matrix'
+                      ? 'bg-[#FFFFFF] text-[#252525] shadow-xs border border-[#D9DCD8]'
+                      : 'text-[#4F514E] hover:text-[#252525] hover:bg-[#FFFFFF]/50'
+                  }`}
+                >
+                  Inspect Matrix
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setActiveInstrumentView('analyze')}
+                  className={`px-3.5 py-2 rounded-lg text-xs font-semibold transition cursor-pointer ${
+                    activeInstrumentView === 'analyze'
+                      ? 'bg-[#FFFFFF] text-[#252525] shadow-xs border border-[#D9DCD8]'
+                      : 'text-[#4F514E] hover:text-[#252525] hover:bg-[#FFFFFF]/50'
+                  }`}
+                >
+                  Analyze State
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setActiveInstrumentView('configure')}
+                  className={`px-3.5 py-2 rounded-lg text-xs font-semibold transition cursor-pointer ${
+                    activeInstrumentView === 'configure'
+                      ? 'bg-[#FFFFFF] text-[#252525] shadow-xs border border-[#D9DCD8]'
+                      : 'text-[#4F514E] hover:text-[#252525] hover:bg-[#FFFFFF]/50'
+                  }`}
+                >
+                  Configure
+                </button>
+              </div>
+              <div className="text-xs text-[#70736F] font-sans pr-2 hidden sm:block">
+                View: <strong className="text-[#252525]">{activeInstrumentView === 'matrix' ? 'Matrix & Ingestion Timeline' : activeInstrumentView === 'analyze' ? 'State Vectors & Dimension Deltas' : 'Experiment Conditions & Notebook'}</strong>
+              </div>
+            </div>
 
-            {/* Real-time State Difference Inspector */}
-            <StateDiff
-              prevState={prevStateVector}
-              currState={currStateVector}
-              stepIndex={activeStep}
-              inputDescription={currentInputDesc}
-            />
+            {/* VIEW 1: INSPECT MATRIX */}
+            {activeInstrumentView === 'matrix' && (
+              <div className="space-y-6">
+                <MemoryInspector
+                  facts={activeFacts}
+                  queryKey={selectedQuery}
+                  dim={memoryDim}
+                  retention={effectiveRetention}
+                  writeStrength={writeStrength}
+                  step={activeStep}
+                  onStepChange={setActiveStep}
+                />
 
-            {/* State Inspector Heatmap & Transparent Mathematical Telemetry */}
-            <StateInspector
-              history={experimentResult.history}
-              currentState={currStateVector}
-              dimension={memoryDim}
-              currentStep={activeStep}
-            />
+                <MemoryTension
+                  dimension={memoryDim}
+                  retention={effectiveRetention}
+                  sequenceLength={activeFacts.length}
+                  interference={interferencePct / 100}
+                />
+              </div>
+            )}
 
-            {/* 1. THE MEMORY TENSION VISUAL (Conceptual Design Pressure) */}
-            <MemoryTension
-              dimension={memoryDim}
-              retention={effectiveRetention}
-              sequenceLength={activeFacts.length}
-              interference={interferencePct / 100}
-            />
+            {/* VIEW 2: ANALYZE STATE */}
+            {activeInstrumentView === 'analyze' && (
+              <div className="space-y-6">
+                <StateDiff
+                  prevState={prevStateVector}
+                  currState={currStateVector}
+                  stepIndex={activeStep}
+                  inputDescription={currentInputDesc}
+                />
+
+                <StateInspector
+                  history={experimentResult.history}
+                  currentState={currStateVector}
+                  dimension={memoryDim}
+                  currentStep={activeStep}
+                />
+              </div>
+            )}
+
+            {/* VIEW 3: CONFIGURE */}
+            {activeInstrumentView === 'configure' && (
+              <div className="space-y-6">
+                <div className="rounded-2xl border border-[#E5E0D8] bg-[#FFFFFF] p-6 space-y-4 shadow-xs">
+                  <h3 className="text-base font-semibold text-[#252525]">Experiment Parameters & Conditions</h3>
+                  <p className="text-sm text-[#4F514E]">
+                    Adjust variables in the sticky sidebar or review the snapshot logs below. You can test retention factor, write strength, and noise interference under strictly controlled conditions.
+                  </p>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
+                    <div className="p-4 rounded-xl bg-[#FAF8F5] border border-[#EAE6DF]">
+                      <span className="text-xs font-semibold text-[#70736F] block">Active Matrix Configuration</span>
+                      <div className="mt-2 space-y-1 text-xs">
+                        <div>Dimension: <strong className="font-mono">{config.dimension}D</strong></div>
+                        <div>Sequence Length: <strong className="font-mono">{sequenceLength} facts</strong></div>
+                        <div>Retention: <strong className="font-mono">{retentionPct}%</strong></div>
+                        <div>Write Strength: <strong className="font-mono">{Math.round(writeStrength * 100)}%</strong></div>
+                        <div>Interference Noise: <strong className="font-mono">{interferencePct}%</strong></div>
+                      </div>
+                    </div>
+                    <div className="p-4 rounded-xl bg-[#FAF8F5] border border-[#EAE6DF]">
+                      <span className="text-xs font-semibold text-[#70736F] block">Retrieval Status</span>
+                      <div className="mt-2 space-y-1 text-xs">
+                        <div>Target Query: <strong className="font-mono">{selectedQuery}</strong></div>
+                        <div>Target Ground Truth: <strong className="font-mono">{groundTruth}</strong></div>
+                        <div>Model Prediction: <strong className={`font-mono ${experimentResult.correct ? 'text-[#245B38]' : 'text-[#8A352E]'}`}>{experimentResult.prediction}</strong></div>
+                        <div>Retrieval Score: <strong className="font-mono">{experimentResult.retrievalScore.toFixed(3)}</strong></div>
+                        <div>Top-1 Margin: <strong className="font-mono">{experimentResult.top1Margin.toFixed(3)}</strong></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
 
             {/* MECHANISTIC WORKBENCH SUITE */}
             <div id="section-context-order" className="rounded-2xl border border-[#E5E0D8] bg-[#FFFFFF] p-5 sm:p-6 space-y-5 shadow-xs scroll-mt-24">
               <div className="flex flex-wrap items-center justify-between gap-2 border-b border-[#EAE6DF] pb-3">
                 <div>
-                  <span className="text-xs font-mono uppercase tracking-wider text-[#167C80] font-bold block">
-                    MECHANISTIC INSPECTOR & EXPERIMENTAL SUITE
-                  </span>
-                  <p className="text-xs text-[#716F68] font-sans mt-0.5">
+                  <h3 className="text-sm font-semibold text-[#252525] block">
+                    Mechanistic inspector and experimental suite
+                  </h3>
+                  <p className="text-xs text-[#70736F] font-sans mt-0.5">
                     Step inside the internal algebra: inspect intermediate vectors, state persistence, ordering sensitivity, and overwrite mechanics.
                   </p>
                 </div>
 
-                <span className="text-[10px] font-mono px-2.5 py-0.5 rounded bg-[#EDF7F7] border border-[#CFE8E8] text-[#167C80] font-bold">
-                  DETERMINISTIC SUITE
+                <span className="text-xs font-mono px-2.5 py-1 rounded-md bg-[#EDF7F7] border border-[#CFE8E8] text-[#31566E] font-semibold">
+                  Deterministic suite
                 </span>
               </div>
 
               {/* Workbench Tab Navigation */}
-              <div className="flex flex-wrap gap-1.5 font-mono text-xs border-b border-[#EAE6DF] pb-3">
+              <div className="flex flex-wrap gap-1.5 text-xs border-b border-[#EAE6DF] pb-3">
                 {[
                   { id: 'pipeline', label: 'Write / Read Pipeline' },
                   { id: 'persistence', label: 'State Persistence' },
@@ -864,11 +972,12 @@ export const Section03RecurrentMemory: React.FC = () => {
                 ].map((tab) => (
                   <button
                     key={tab.id}
+                    type="button"
                     onClick={() => setWorkbenchTab(tab.id as any)}
-                    className={`px-3.5 py-1.5 rounded-xl border transition cursor-pointer ${
+                    className={`btn text-xs py-1.5 px-3 min-h-[34px] ${
                       workbenchTab === tab.id
-                        ? 'bg-[#F3EFFF] border-[#6842C2] text-[#6842C2] font-bold shadow-xs'
-                        : 'bg-[#FAF8F5] border-[#E5E0D8] text-[#716F68] hover:text-[#151515]'
+                        ? 'btn-blue font-semibold shadow-xs'
+                        : 'btn-secondary'
                     }`}
                   >
                     {tab.label}

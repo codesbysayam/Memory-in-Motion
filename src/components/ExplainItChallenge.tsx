@@ -115,7 +115,7 @@ export const ExplainItChallenge: React.FC = () => {
             {hasEvaluated && (
               <button
                 onClick={handleReset}
-                className="px-3 py-1.5 rounded-lg border border-[#252A35] bg-[#151922] hover:bg-[#1A202C] text-xs font-mono text-slate-300 flex items-center gap-1.5 transition"
+                className="btn btn-secondary text-xs flex items-center gap-1.5 transition cursor-pointer"
               >
                 <RotateCcw className="w-3.5 h-3.5" />
                 <span>TRY AGAIN</span>
@@ -124,16 +124,16 @@ export const ExplainItChallenge: React.FC = () => {
 
             <button
               onClick={() => setShowModelAnswer(!showModelAnswer)}
-              className="px-3 py-1.5 rounded-lg border border-purple-800/60 bg-purple-950/40 hover:bg-purple-900/60 text-xs font-mono text-purple-300 flex items-center gap-1.5 transition"
+              className="btn btn-secondary text-xs flex items-center gap-1.5 transition cursor-pointer"
             >
-              <Lightbulb className="w-3.5 h-3.5 text-purple-400" />
+              <Lightbulb className="w-3.5 h-3.5 text-[#5F625F]" />
               <span>{showModelAnswer ? 'HIDE MODEL EXPLANATION' : 'SHOW MODEL EXPLANATION'}</span>
             </button>
 
             <button
               onClick={handleCheck}
               disabled={userText.trim().length === 0}
-              className="px-4 py-1.5 rounded-lg bg-cyan-500 hover:bg-cyan-400 disabled:opacity-40 disabled:pointer-events-none text-black font-mono text-xs font-bold transition shadow-sm flex items-center gap-1.5"
+              className="btn btn-primary text-xs font-bold disabled:opacity-40 disabled:pointer-events-none transition flex items-center gap-1.5 cursor-pointer"
             >
               <span>CHECK MY EXPLANATION</span>
               <ArrowRight className="w-3.5 h-3.5" />

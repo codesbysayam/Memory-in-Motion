@@ -29,42 +29,62 @@
 }
 
 :root {
+  /* Typography */
   --font-display: "Newsreader", "Source Serif 4", serif;
   --font-body: "DM Sans", "Inter", sans-serif;
   --font-mono: "JetBrains Mono", monospace;
 
-  /* Natural Editorial Palette */
+  /* Surfaces */
+  --paper: #FFFFFF;
+  --paper-warm: #F7F5EF;
+  --surface: #F0F1EF;
+  --surface-blue: #E7F2FA;
+  --surface-green: #DCEFE2;
+  --surface-yellow: #FFF5D8;
+  --surface-pink: #F9E9ED;
+
+  /* Text */
+  --ink: #252525;
+  --ink-secondary: #4F514E;
+  --muted: #70736F;
+
+  /* Borders */
+  --border: #D9DCD8;
+  --border-strong: #BEC3BD;
+
+  /* Semantic */
+  --info: #DDEBF7;
+  --success: #DCEFE2;
+  --warning: #FFF5D8;
+  --failure: #F9E9ED;
+
+  --success-text: #245B38;
+  --warning-text: #705A1A;
+  --failure-text: #8A352E;
+  --info-text: #31566E;
+
+  /* Radius */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+
+  /* Spacing */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 48px;
+  --space-8: 64px;
+
+  /* Compatibility aliases */
   --bg-primary: #FFFFFF;
   --bg-editorial: #F7F5EF;
   --bg-grey: #F0F1EF;
   --border-grey: #D9DCD8;
   --text-main: #252525;
-  --text-secondary: #5F625F;
-
-  --soft-green: #DCEFE2;
-  --light-green: #CFE8D6;
-  --green-text: #24452E;
-  --green-border: #C5DDCB;
-
-  --soft-yellow: #F8EFCB;
-  --light-yellow: #FFF5D8;
-  --yellow-text: #5A4716;
-
-  --soft-blue: #DDEBF7;
-  --light-blue: #E7F2FA;
-  --blue-text: #21445B;
-
-  --soft-pink: #F5DDE3;
-  --light-pink: #F9E9ED;
-  --pink-text: #6B2835;
-
-  --bg: #FFFFFF;
-  --paper: #F7F5EF;
-  --surface: #FFFFFF;
-  --ink: #252525;
-  --secondary: #5F625F;
-  --border: #D9DCD8;
-
+  --text-secondary: #4F514E;
   --radius: 8px;
   --max: 1400px;
 }
@@ -82,7 +102,7 @@
     margin: 0;
     padding: 0;
     background-color: #FFFFFF;
-    color: var(--text-main);
+    color: var(--ink);
   }
 
   html,
@@ -102,9 +122,10 @@
   .hero-question,
   .font-display,
   .font-serif,
-  .editorial-heading {
+  .editorial-heading,
+  .editorial-title {
     font-family: var(--font-display);
-    color: var(--text-main);
+    color: var(--ink);
   }
 
   code,
@@ -114,6 +135,7 @@
   .vector,
   .numeric,
   .experiment-id,
+  .technical-data,
   .technical,
   .font-mono,
   .mono,
@@ -135,6 +157,16 @@
     font-family: var(--font-body);
   }
 
+  /* Accessibility focus visible state */
+  button:focus-visible,
+  [role="button"]:focus-visible,
+  input:focus-visible,
+  select:focus-visible,
+  textarea:focus-visible {
+    outline: 2px solid #7AA8C2;
+    outline-offset: 2px;
+  }
+
   #root {
     width: 100%;
     max-width: 100%;
@@ -146,68 +178,165 @@
   }
 }
 
-/* Tactile Editorial Buttons */
+/* Tactile Editorial Buttons (Audit Standard) */
 .btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+
+  min-height: 38px;
+  padding: 8px 14px;
+
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border);
+
   font-family: var(--font-body);
   font-size: 14px;
   font-weight: 600;
-  border-radius: 7px;
-  padding: 9px 14px;
-  border: 1px solid #D9DCD8;
-  transition: background-color 0.18s ease, border-color 0.18s ease, color 0.18s ease;
+
+  cursor: pointer;
+  transition:
+    background-color .16s ease,
+    border-color .16s ease,
+    transform .16s ease;
+}
+
+.btn-primary {
+  background: var(--surface-green);
+  color: var(--success-text);
+  border-color: #C4DDCB;
+}
+
+.btn-secondary {
+  background: var(--paper);
+  color: var(--ink);
+  border-color: var(--border);
+}
+
+.btn-ghost {
+  background: transparent;
+  color: var(--ink-secondary);
+  border-color: transparent;
+}
+
+.btn-blue {
+  background: var(--surface-blue);
+  color: var(--info-text);
+  border-color: #CDE1F0;
+}
+
+.btn-warning {
+  background: var(--surface-yellow);
+  color: var(--warning-text);
+  border-color: #F0E3B8;
+}
+
+.btn-failure {
+  background: var(--surface-pink);
+  color: var(--failure-text);
+  border-color: #ECD1D7;
+}
+
+.btn:hover {
+  border-color: var(--border-strong);
+}
+
+.btn:active {
+  transform: translateY(1px);
+}
+
+.btn:disabled {
+  opacity: .45;
+  cursor: not-allowed;
+}
+
+/* Horizontal Segmented Timeline (Audit Item 8) */
+.timeline {
+  display: flex;
+  gap: 4px;
+  padding: 4px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+}
+
+.timeline-step {
+  min-width: 52px;
+  min-height: 36px;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--ink-secondary);
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 600;
   cursor: pointer;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 6px;
+  transition: background-color 0.16s ease, border-color 0.16s ease, color 0.16s ease;
 }
 
-.btn-primary {
-  background: #DCEFE2;
-  color: #24452E;
-  border-color: #C5DDCB;
-}
-.btn-primary:hover {
-  background: #CFE8D6;
-  border-color: #B5D4BD;
+.timeline-step:hover {
+  background: var(--paper);
+  border-color: var(--border);
+  color: var(--ink);
 }
 
-.btn-secondary {
-  background: #FFFFFF;
-  color: #3F423F;
-  border-color: #D9DCD8;
-}
-.btn-secondary:hover {
-  background: #F7F5EF;
-  border-color: #C8CCC6;
+.timeline-step.active {
+  background: var(--surface-blue);
+  color: var(--ink);
+  border-color: #C5DCEB;
+  font-weight: 700;
 }
 
-.btn-blue {
-  background: #E7F2FA;
-  color: #21445B;
-  border-color: #CDE1F0;
-}
-.btn-blue:hover {
-  background: #DDEBF7;
-  border-color: #B9D4EB;
-}
-
-.btn-warning {
-  background: #FFF5D8;
-  color: #5A4716;
-  border-color: #F0E3B8;
-}
-.btn-warning:hover {
-  background: #F8EFCB;
+/* Interactive Dimension Delta Button (Audit Item 9) */
+.dimension-delta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 8px 10px;
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  text-align: left;
+  font-family: var(--font-body);
+  font-size: 13px;
+  transition: background-color 0.16s ease, border-color 0.16s ease;
 }
 
-.btn-failure {
-  background: #F9E9ED;
-  color: #6B2835;
-  border-color: #ECD1D7;
+.dimension-delta:hover {
+  background: var(--surface-blue);
+  border-color: #BFD8E8;
 }
-.btn-failure:hover {
-  background: #F5DDE3;
+
+.dimension-delta.active {
+  background: var(--surface-blue);
+  border-color: #7AA8C2;
+  box-shadow: 0 0 0 1px #7AA8C2;
+}
+
+/* Compact Experiment Layout (Audit Item 16) */
+.experiment-layout {
+  display: grid;
+  grid-template-columns: minmax(240px, 300px) minmax(0, 1fr);
+  gap: 24px;
+  align-items: start;
+}
+
+@media (max-width: 1024px) {
+  .experiment-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+.experiment-sidebar {
+  position: sticky;
+  top: 88px;
+  align-self: start;
 }
 
 /* Editorial Minimalist Cards */

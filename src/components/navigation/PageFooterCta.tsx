@@ -59,7 +59,7 @@ export const PageFooterCta: React.FC<PageFooterCtaProps> = ({
             )}
             <button
               onClick={handleNext}
-              className="inline-flex items-center gap-2.5 px-6 py-3 rounded-xl bg-[#6842C2] hover:bg-[#5735A8] text-white font-sans text-sm font-semibold transition-all shadow-sm hover:shadow-md cursor-pointer"
+              className="btn btn-primary px-5 py-2.5 text-sm font-semibold transition-all cursor-pointer"
             >
               <span>{ctaText}</span>
               <ArrowRight className="w-4 h-4" />

@@ -89,7 +89,7 @@ export const CapacityExperiment: React.FC<CapacityExperimentProps> = ({
           <button
             onClick={handleRunSweepAgain}
             disabled={isSweeping}
-            className="flex items-center gap-2 px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-500 disabled:opacity-50 text-white text-xs font-mono font-semibold shadow-lg shadow-blue-500/20 transition"
+            className="btn btn-primary text-xs font-semibold disabled:opacity-50 flex items-center gap-2 cursor-pointer"
           >
             {isSweeping ? (
               <RotateCcw className="w-3.5 h-3.5 animate-spin" />
@@ -103,12 +103,12 @@ export const CapacityExperiment: React.FC<CapacityExperimentProps> = ({
 
       {/* Metric Mode Toggle & Scientific Honesty Callout */}
       <div className="flex flex-wrap items-center justify-between gap-3 mb-4">
-        <div className="flex items-center bg-[#111726] p-1 rounded-xl border border-[#1E273A]">
+        <div className="flex items-center bg-[#111726] p-1 rounded-lg border border-[#1E273A]">
           <button
             onClick={() => setActiveTab('accuracy')}
-            className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg text-xs font-mono font-medium transition ${
+            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-mono font-medium transition cursor-pointer ${
               activeTab === 'accuracy'
-                ? 'bg-blue-600 text-white shadow'
+                ? 'btn-blue font-bold shadow-xs'
                 : 'text-slate-400 hover:text-slate-200'
             }`}
           >
@@ -117,9 +117,9 @@ export const CapacityExperiment: React.FC<CapacityExperimentProps> = ({
           </button>
           <button
             onClick={() => setActiveTab('confidence')}
-            className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg text-xs font-mono font-medium transition ${
+            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-mono font-medium transition cursor-pointer ${
               activeTab === 'confidence'
-                ? 'bg-purple-600 text-white shadow'
+                ? 'btn-blue font-bold shadow-xs'
                 : 'text-slate-400 hover:text-slate-200'
             }`}
           >

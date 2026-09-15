@@ -658,10 +658,11 @@ export const LandingDemo: React.FC<LandingDemoProps> = ({
           <div className="flex items-center gap-3">
             {onStartJudgeMode && (
               <button
+                type="button"
                 onClick={onStartJudgeMode}
-                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-[#D8D3C9] bg-[#FFFFFF] hover:bg-[#F8F6F1] text-[#1C1B19] font-sans text-xs font-semibold shadow-xs transition-colors cursor-pointer"
+                className="btn btn-secondary text-xs"
               >
-                <Clock className="w-3.5 h-3.5 text-[#6842C2]" />
+                <Clock className="w-3.5 h-3.5 text-[#31566E]" />
                 <span>60s Guided Test</span>
               </button>
             )}
@@ -700,11 +701,11 @@ export const LandingDemo: React.FC<LandingDemoProps> = ({
           mode="interactive"
         />
 
-        <div className="rounded-2xl border border-[#D8D3C9] bg-[#FFFFFF] shadow-sm overflow-hidden">
+        <div className="rounded-2xl border border-[#D8D3C9] bg-[#FFFFFF] shadow-xs overflow-hidden">
           {/* Instrument Header Bar */}
           <div className="px-5 sm:px-7 py-4 border-b border-[#D8D3C9] bg-[#FAF8F3] flex flex-wrap items-center justify-between gap-3">
             <div className="flex items-center gap-2.5">
-              <div className="w-2.5 h-2.5 rounded-full bg-[#287C7C] animate-pulse" />
+              <div className="w-2.5 h-2.5 rounded-full bg-[#245B38] animate-pulse" />
               <h2 className="font-serif font-bold text-base sm:text-lg text-[#1C1B19]">
                 Live Recurrent Memory Instrument
               </h2>
@@ -716,46 +717,46 @@ export const LandingDemo: React.FC<LandingDemoProps> = ({
             {/* Primary Action Controls */}
             <div className="flex items-center gap-2">
               <button
+                type="button"
                 onClick={() => setShowCustomInput((prev) => !prev)}
-                className="px-3.5 py-1.5 rounded-lg bg-[#6842C2] hover:bg-[#5835AC] text-white font-sans text-xs font-semibold flex items-center gap-1.5 shadow-xs transition-colors cursor-pointer"
+                className="btn btn-primary text-xs"
               >
                 <Plus className="w-3.5 h-3.5" />
-                <span>Add Fact</span>
+                <span>Add fact</span>
               </button>
 
               <button
+                type="button"
                 onClick={handleTogglePlay}
-                className={`px-3 py-1.5 rounded-lg border font-sans text-xs font-semibold flex items-center gap-1.5 transition-colors cursor-pointer ${
-                  isRunning
-                    ? 'border-[#6842C2] bg-[#F3EFFF] text-[#6842C2]'
-                    : 'border-[#D8D3C9] bg-[#FFFFFF] hover:bg-[#F5F2EA] text-[#1C1B19]'
-                }`}
+                className={`btn ${isRunning ? 'btn-primary' : 'btn-secondary'} text-xs`}
                 title={isRunning ? 'Pause playback' : 'Play sequence writes step-by-step'}
               >
                 {isRunning ? (
                   <>
-                    <Pause className="w-3.5 h-3.5 text-[#6842C2]" />
+                    <Pause className="w-3.5 h-3.5" />
                     <span>Pause</span>
                   </>
                 ) : (
                   <>
-                    <Play className="w-3.5 h-3.5 text-[#6842C2]" />
-                    <span>Auto-Play</span>
+                    <Play className="w-3.5 h-3.5" />
+                    <span>Auto-play</span>
                   </>
                 )}
               </button>
 
               <button
+                type="button"
                 onClick={handleStepForward}
-                className="px-3 py-1.5 rounded-lg border border-[#D8D3C9] bg-[#FFFFFF] hover:bg-[#F5F2EA] text-[#1C1B19] font-sans text-xs font-medium transition-colors cursor-pointer"
+                className="btn btn-secondary text-xs"
                 title="Step forward one fact write"
               >
                 Step
               </button>
 
               <button
+                type="button"
                 onClick={handleReset}
-                className="p-1.5 rounded-lg border border-[#D8D3C9] bg-[#FFFFFF] hover:bg-[#F5F2EA] text-[#6B665E] hover:text-[#1C1B19] transition-colors cursor-pointer"
+                className="btn btn-secondary p-1.5 min-h-[34px]"
                 title="Reset memory instrument to initial state"
                 aria-label="Reset memory"
               >
@@ -773,8 +774,9 @@ export const LandingDemo: React.FC<LandingDemoProps> = ({
                   Input Stream ({experiment.step}/{experiment.facts.length} Written)
                 </span>
                 <button
+                  type="button"
                   onClick={() => setShowCustomInput(!showCustomInput)}
-                  className="text-xs font-sans font-medium text-[#6842C2] hover:underline cursor-pointer"
+                  className="text-xs font-sans font-medium text-[#31566E] hover:underline cursor-pointer"
                 >
                   {showCustomInput ? 'Cancel' : '+ Custom Fact'}
                 </button>
@@ -790,30 +792,30 @@ export const LandingDemo: React.FC<LandingDemoProps> = ({
                         placeholder="Key (e.g. Spain)"
                         value={customKey}
                         onChange={(e) => setCustomKey(e.target.value)}
-                        className="px-2.5 py-1.5 rounded-md border border-[#D8D3C9] bg-white text-[#1C1B19] font-mono text-xs focus:outline-none focus:border-[#6842C2]"
+                        className="px-2.5 py-1.5 rounded-md border border-[#D8D3C9] bg-white text-[#1C1B19] font-mono text-xs focus:outline-none focus:border-[#31566E]"
                       />
                       <input
                         type="text"
                         placeholder="Value (e.g. Madrid)"
                         value={customValue}
                         onChange={(e) => setCustomValue(e.target.value)}
-                        className="px-2.5 py-1.5 rounded-md border border-[#D8D3C9] bg-white text-[#1C1B19] font-mono text-xs focus:outline-none focus:border-[#6842C2]"
+                        className="px-2.5 py-1.5 rounded-md border border-[#D8D3C9] bg-white text-[#1C1B19] font-mono text-xs focus:outline-none focus:border-[#31566E]"
                       />
                     </div>
                     <div className="flex justify-end">
                       <button
                         type="submit"
                         disabled={!customKey.trim() || !customValue.trim()}
-                        className="px-3 py-1 rounded-md bg-[#6842C2] text-white font-semibold disabled:opacity-40 cursor-pointer"
+                        className="btn btn-primary text-xs py-1 px-3"
                       >
-                        Insert into Stream
+                        Insert into stream
                       </button>
                     </div>
                   </form>
 
                   {/* Quick Preset Buttons */}
                   <div className="pt-1.5 border-t border-[#E5E0D8]">
-                    <span className="text-[10px] text-[#6B665E] block mb-1 font-mono uppercase">Quick Presets:</span>
+                    <span className="text-xs text-[#6B665E] block mb-1 font-mono">Quick presets:</span>
                     <div className="flex flex-wrap gap-1">
                       {QUICK_PRESETS.map((preset) => (
                         <button
@@ -821,7 +823,7 @@ export const LandingDemo: React.FC<LandingDemoProps> = ({
                           type="button"
                           onClick={() => handleQuickAdd(preset)}
                           disabled={experiment.facts.some((f) => f.key.toLowerCase() === preset.key.toLowerCase())}
-                          className="px-2 py-0.5 rounded text-[11px] bg-white border border-[#D8D3C9] hover:border-[#6842C2] text-[#403D38] hover:text-[#6842C2] disabled:opacity-40 transition-colors cursor-pointer"
+                          className="btn btn-secondary text-xs py-0.5 px-2 min-h-[26px]"
                         >
                           + {preset.key} → {preset.value}
                         </button>
@@ -843,9 +845,9 @@ export const LandingDemo: React.FC<LandingDemoProps> = ({
                       key={`${fact.key}-${idx}`}
                       className={`p-2.5 rounded-xl border transition-all flex items-center justify-between text-xs ${
                         isCurrentlyWriting
-                          ? 'border-[#287C7C] bg-[#EDF7F7] text-[#1C1B19] shadow-xs'
+                          ? 'border-[#245B38] bg-[#EBF7EE] text-[#1C1B19] shadow-xs'
                           : isTarget
-                          ? 'border-[#6842C2] bg-[#F3EFFF] text-[#1C1B19]'
+                          ? 'border-[#31566E] bg-[#F4F8FA] text-[#1C1B19]'
                           : isWritten
                           ? 'border-[#D8D3C9] bg-[#FFFFFF] text-[#1C1B19]'
                           : 'border-[#E5E0D8] bg-[#FAF8F3] text-[#9E9A92] opacity-60'
@@ -855,7 +857,7 @@ export const LandingDemo: React.FC<LandingDemoProps> = ({
                         <span
                           className={`w-5 h-5 rounded-full font-mono text-[10px] flex items-center justify-center font-bold ${
                             isCurrentlyWriting
-                              ? 'bg-[#287C7C] text-white animate-pulse'
+                              ? 'bg-[#245B38] text-white animate-pulse'
                               : isWritten
                               ? 'bg-[#EFEBE0] text-[#1C1B19]'
                               : 'bg-transparent text-[#9E9A92] border border-[#D8D3C9]'
@@ -866,7 +868,7 @@ export const LandingDemo: React.FC<LandingDemoProps> = ({
                         <div className="truncate">
                           <span className="font-semibold text-[#1C1B19]">{fact.key}</span>
                           <span className="text-[#9E9A92] mx-1.5">→</span>
-                          <span className={isTarget ? 'font-bold text-[#6842C2]' : 'text-[#403D38]'}>
+                          <span className={isTarget ? 'font-bold text-[#31566E]' : 'text-[#403D38]'}>
                             {fact.value}
                           </span>
                         </div>
@@ -874,13 +876,14 @@ export const LandingDemo: React.FC<LandingDemoProps> = ({
 
                       <div className="flex items-center gap-1 shrink-0 ml-2">
                         {isTarget ? (
-                          <span className="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-[#6842C2] text-white">
-                            PROBE
+                          <span className="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-[#31566E] text-white">
+                            Probe
                           </span>
                         ) : (
                           <button
+                            type="button"
                             onClick={() => handleSetProbe(fact.key)}
-                            className="px-2 py-0.5 rounded text-[10px] font-sans font-medium text-[#6842C2] hover:bg-[#EAE2FB] border border-[#E2D8FA] transition-colors cursor-pointer"
+                            className="btn btn-secondary text-xs py-0.5 px-2 min-h-[24px]"
                             title={`Set ${fact.key} as probe target`}
                           >
                             Probe
@@ -888,8 +891,9 @@ export const LandingDemo: React.FC<LandingDemoProps> = ({
                         )}
                         {experiment.facts.length > 1 && (
                           <button
+                            type="button"
                             onClick={() => handleRemoveFact(idx)}
-                            className="p-1 rounded text-[#9E9A92] hover:text-[#B64235] transition-colors cursor-pointer"
+                            className="p-1 rounded text-[#9E9A92] hover:text-[#8A352E] transition-colors cursor-pointer"
                             title="Remove fact"
                             aria-label={`Remove fact ${fact.key}`}
                           >
@@ -906,11 +910,12 @@ export const LandingDemo: React.FC<LandingDemoProps> = ({
               {nextDistractor && (
                 <div className="pt-1">
                   <button
+                    type="button"
                     onClick={handleAddDistractor}
-                    className="w-full py-2 px-3 rounded-xl border border-dashed border-[#D8D3C9] hover:border-[#6842C2] bg-[#FAF8F3] hover:bg-[#F3EFFF] text-[#6B665E] hover:text-[#6842C2] font-sans text-xs font-medium flex items-center justify-center gap-1.5 transition-all cursor-pointer"
+                    className="btn btn-secondary w-full py-2 px-3 flex items-center justify-center gap-1.5"
                   >
                     <Plus className="w-3.5 h-3.5" />
-                    <span>Add Distractor: {nextDistractor.key} → {nextDistractor.value}</span>
+                    <span>Add distractor: {nextDistractor.key} → {nextDistractor.value}</span>
                   </button>
                 </div>
               )}
@@ -1362,33 +1367,37 @@ export const LandingDemo: React.FC<LandingDemoProps> = ({
               <div className="p-5 sm:p-7 border-t border-[#D8D3C9] bg-[#FFFFFF] space-y-6 animate-in fade-in duration-200 text-xs font-sans">
                 {/* Preset Scenarios Toolbar */}
                 <div className="flex flex-wrap items-center justify-between gap-2 p-3 rounded-xl bg-[#FAF8F3] border border-[#D8D3C9]">
-                  <span className="font-mono text-[11px] text-[#6B665E] font-semibold uppercase">
-                    Test Scenarios:
+                  <span className="font-mono text-xs text-[#6B665E] font-semibold">
+                    Test scenarios:
                   </span>
                   <div className="flex flex-wrap gap-1.5">
                     <button
+                      type="button"
                       onClick={() => applyConditionPreset('balanced')}
-                      className="px-2.5 py-1 rounded-md bg-white border border-[#D8D3C9] hover:border-[#6842C2] text-[#403D38] hover:text-[#6842C2] font-medium transition-colors cursor-pointer"
+                      className="btn btn-secondary text-xs py-1 px-2.5 min-h-[30px]"
                     >
                       Balanced (<InlineMath math="d=12, \lambda=0.95" />)
                     </button>
                     <button
+                      type="button"
                       onClick={() => applyConditionPreset('capacity')}
-                      className="px-2.5 py-1 rounded-md bg-white border border-[#D8D3C9] hover:border-[#6842C2] text-[#403D38] hover:text-[#6842C2] font-medium transition-colors cursor-pointer"
+                      className="btn btn-secondary text-xs py-1 px-2.5 min-h-[30px]"
                     >
-                      High Capacity (<InlineMath math="d=24, \lambda=0.98" />)
+                      High capacity (<InlineMath math="d=24, \lambda=0.98" />)
                     </button>
                     <button
+                      type="button"
                       onClick={() => applyConditionPreset('interference')}
-                      className="px-2.5 py-1 rounded-md bg-white border border-rose-200 hover:border-rose-400 text-rose-700 font-medium transition-colors cursor-pointer"
+                      className="btn btn-secondary text-xs py-1 px-2.5 min-h-[30px] text-[#8A352E]"
                     >
-                      Interference Boundary (<InlineMath math="d=6, \sigma=0.25" />)
+                      Interference boundary (<InlineMath math="d=6, \sigma=0.25" />)
                     </button>
                     <button
+                      type="button"
                       onClick={() => applyConditionPreset('decay')}
-                      className="px-2.5 py-1 rounded-md bg-white border border-amber-200 hover:border-amber-400 text-amber-700 font-medium transition-colors cursor-pointer"
+                      className="btn btn-secondary text-xs py-1 px-2.5 min-h-[30px] text-[#B88728]"
                     >
-                      Rapid Decay (<InlineMath math="\lambda=0.55" />)
+                      Rapid decay (<InlineMath math="\lambda=0.55" />)
                     </button>
                   </div>
                 </div>
@@ -1458,6 +1467,7 @@ export const LandingDemo: React.FC<LandingDemoProps> = ({
           </div>
 
           <button
+            type="button"
             onClick={() => {
               if (onExploreClick) {
                 onExploreClick();
@@ -1466,9 +1476,9 @@ export const LandingDemo: React.FC<LandingDemoProps> = ({
                 if (el) el.scrollIntoView({ behavior: 'smooth' });
               }
             }}
-            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[#1C1B19] hover:bg-[#33302B] text-white font-sans text-xs font-semibold shadow-xs transition-all cursor-pointer"
+            className="btn btn-primary text-xs py-2.5 px-5"
           >
-            <span>Explore the Mechanism</span>
+            <span>Explore the mechanism</span>
             <ArrowDown className="w-3.5 h-3.5" />
           </button>
         </div>

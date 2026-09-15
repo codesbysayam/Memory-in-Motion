@@ -79,10 +79,10 @@ export const LatentReasoningDemo: React.FC<LatentReasoningDemoProps> = ({
           <div className="flex items-center gap-2 text-xs font-mono">
             <button
               onClick={() => setShowLatentState(!showLatentState)}
-              className={`px-3 py-1.5 rounded-lg border transition flex items-center gap-1.5 ${
+              className={`px-3 py-1.5 rounded-lg border transition flex items-center gap-1.5 cursor-pointer ${
                 showLatentState
-                  ? 'bg-purple-900/40 border-purple-500 text-purple-200'
-                  : 'bg-[#121622] border-[#222B3D] text-slate-400'
+                  ? 'bg-[#E7F2FA] border-[#2B6282] text-[#21445B] font-bold ring-1 ring-[#2B6282]'
+                  : 'bg-[#121622] border-[#222B3D] text-slate-400 hover:text-white'
               }`}
             >
               {showLatentState ? <Eye className="w-3.5 h-3.5" /> : <EyeOff className="w-3.5 h-3.5" />}
@@ -91,10 +91,10 @@ export const LatentReasoningDemo: React.FC<LatentReasoningDemoProps> = ({
 
             <button
               onClick={() => setShowVisibleTokens(!showVisibleTokens)}
-              className={`px-3 py-1.5 rounded-lg border transition flex items-center gap-1.5 ${
+              className={`px-3 py-1.5 rounded-lg border transition flex items-center gap-1.5 cursor-pointer ${
                 showVisibleTokens
-                  ? 'bg-blue-900/40 border-blue-500 text-blue-200'
-                  : 'bg-[#121622] border-[#222B3D] text-slate-400'
+                  ? 'bg-[#E7F2FA] border-[#2B6282] text-[#21445B] font-bold ring-1 ring-[#2B6282]'
+                  : 'bg-[#121622] border-[#222B3D] text-slate-400 hover:text-white'
               }`}
             >
               {showVisibleTokens ? <Eye className="w-3.5 h-3.5" /> : <EyeOff className="w-3.5 h-3.5" />}
@@ -190,9 +190,9 @@ export const LatentReasoningDemo: React.FC<LatentReasoningDemoProps> = ({
               <button
                 key={s}
                 onClick={() => setSteps(s)}
-                className={`px-2.5 py-1 rounded-lg font-mono text-xs font-bold transition border ${
+                className={`px-2.5 py-1 rounded-lg font-mono text-xs font-bold transition border cursor-pointer ${
                   steps === s
-                    ? 'bg-purple-600 border-purple-400 text-white shadow-md shadow-purple-600/30 ring-1 ring-purple-300'
+                    ? 'bg-[#E7F2FA] border-[#2B6282] text-[#21445B] ring-1 ring-[#2B6282]'
                     : 'bg-[#151C2C] border-[#222C42] text-slate-300 hover:text-white hover:bg-[#1A2438]'
                 }`}
               >

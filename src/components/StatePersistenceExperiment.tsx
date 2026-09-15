@@ -181,37 +181,62 @@ export const StatePersistenceExperiment: React.FC = () => {
           <span className="text-[10px] text-[#716F68]">Query: &ldquo;Japan&rdquo; → &ldquo;Tokyo&rdquo;</span>
         </div>
 
+        {/* Horizontal Segmented Timeline (Audit Item 8) */}
+        <div className="space-y-2">
+          <div className="flex items-center justify-between text-xs text-[#70736F] font-sans">
+            <span className="font-semibold text-[#252525]">Select Timestep Snapshot:</span>
+            <span className="text-[11px]">Active: t{currentInspection.step}</span>
+          </div>
+          <div className="timeline overflow-x-auto">
+            {simulationData.map((s, idx) => {
+              const isInspected = idx === activeStepInspection;
+              return (
+                <button
+                  key={`step-btn-${s.step}`}
+                  type="button"
+                  onClick={() => setActiveStepInspection(idx)}
+                  className={`timeline-step ${isInspected ? 'active' : ''}`}
+                  title={`Select snapshot t=${s.step}: ${(s.score * 100).toFixed(0)}% score`}
+                >
+                  t{s.step}
+                </button>
+              );
+            })}
+          </div>
+        </div>
+
         {/* Bar Timeline Visual */}
-        <div className="overflow-x-auto py-2">
-          <div className="flex gap-2 items-end min-w-[500px] h-32 pt-4 px-2 bg-[#FFFFFF] rounded-lg border border-[#E5E0D8]">
+        <div className="overflow-x-auto py-1">
+          <div className="flex gap-2 items-end min-w-[500px] h-28 pt-4 px-3 bg-[#FFFFFF] rounded-lg border border-[#E5E0D8]">
             {simulationData.map((s, idx) => {
               const scorePct = Math.max(8, Math.min(100, Math.round(s.score * 100)));
               const isInspected = idx === activeStepInspection;
 
               return (
-                <div
+                <button
                   key={s.step}
+                  type="button"
                   onClick={() => setActiveStepInspection(idx)}
-                  className={`flex-1 flex flex-col items-center justify-end h-full cursor-pointer p-1 rounded-lg transition-all ${
+                  className={`flex-1 flex flex-col items-center justify-end h-full cursor-pointer p-1 rounded-md transition-all ${
                     isInspected
-                      ? 'bg-[#F3EFFF] ring-2 ring-[#6842C2]'
+                      ? 'bg-[#E7F2FA] ring-1 ring-[#7AA8C2]'
                       : 'hover:bg-[#FAF8F5]'
                   }`}
                   title={`Step ${s.step}: Score ${(s.score * 100).toFixed(1)}%, Margin: ${s.margin.toFixed(3)}`}
                 >
-                  <span className="text-[9px] font-mono text-[#716F68] mb-1 font-bold">
+                  <span className="text-[10px] font-mono text-[#4F514E] mb-1 font-bold">
                     {(s.score * 100).toFixed(0)}%
                   </span>
                   <div
                     className={`w-full rounded-t transition-all ${
-                      s.isCorrect ? 'bg-[#167C80]' : 'bg-[#B64235]'
+                      s.isCorrect ? 'bg-[#167C80]' : 'bg-[#8A352E]'
                     }`}
                     style={{ height: `${scorePct}%` }}
                   />
-                  <span className="text-[8px] font-mono text-[#716F68] mt-1 font-semibold">
-                    t={s.step}
+                  <span className={`text-[11px] font-mono mt-1 font-semibold ${isInspected ? 'text-[#21445B] font-bold' : 'text-[#70736F]'}`}>
+                    t{s.step}
                   </span>
-                </div>
+                </button>
               );
             })}
           </div>

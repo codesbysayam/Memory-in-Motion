@@ -229,7 +229,7 @@ export const FailureExplanation: React.FC<FailureExplanationProps> = ({
               <button
                 onClick={handleRunTrace}
                 disabled={isTracing}
-                className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg bg-blue-600 hover:bg-blue-500 disabled:opacity-50 text-white text-xs font-mono font-semibold transition"
+                className="btn btn-primary text-xs font-semibold disabled:opacity-50 flex items-center gap-1.5 cursor-pointer"
               >
                 <Play className="w-3.5 h-3.5 fill-current" />
                 <span>{isTracing ? 'TRACING...' : 'TRACE THE FAILURE'}</span>
@@ -246,9 +246,9 @@ export const FailureExplanation: React.FC<FailureExplanationProps> = ({
                     key={stage.num}
                     className={`p-2.5 rounded-lg border text-center transition-all ${
                       isActive
-                        ? 'border-amber-400 bg-amber-950/60 ring-1 ring-amber-400/50'
+                        ? 'border-[#2B6282] bg-[#E7F2FA] text-[#21445B] ring-1 ring-[#2B6282]'
                         : isPassed
-                        ? 'border-blue-700 bg-blue-950/40'
+                        ? 'border-[#C5DDCB] bg-[#DCEFE2] text-[#24452E]'
                         : 'border-[#1E2536] bg-[#121724] opacity-60'
                     }`}
                   >
@@ -273,7 +273,7 @@ export const FailureExplanation: React.FC<FailureExplanationProps> = ({
           <div className="flex flex-wrap items-center justify-between gap-3 pt-3 border-t border-[#1C2538]">
             <button
               onClick={onTryAgain}
-              className="flex items-center gap-2 px-4 py-2 rounded-xl bg-[#192234] hover:bg-[#202B40] text-slate-200 text-xs font-mono font-semibold border border-slate-700 transition"
+              className="btn btn-secondary text-xs font-semibold flex items-center gap-2 cursor-pointer"
             >
               <RotateCcw className="w-3.5 h-3.5" />
               <span>TRY AGAIN (Change 1 Parameter)</span>
@@ -281,7 +281,7 @@ export const FailureExplanation: React.FC<FailureExplanationProps> = ({
 
             <button
               onClick={onCompleteDiscovery}
-              className="flex items-center gap-2 px-4 py-2 rounded-xl bg-gradient-to-r from-emerald-600 to-blue-600 hover:from-emerald-500 hover:to-blue-500 text-white text-xs font-mono font-bold shadow-lg shadow-blue-500/20 transition"
+              className="btn btn-primary text-xs font-bold flex items-center gap-2 cursor-pointer"
             >
               <Sparkles className="w-3.5 h-3.5" />
               <span>COMPLETE DISCOVERY</span>

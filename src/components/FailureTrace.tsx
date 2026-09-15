@@ -160,9 +160,9 @@ export const FailureTrace: React.FC<FailureTraceProps> = ({
 
             let borderClass = 'border-[#222A3D] bg-[#121723] text-slate-400';
             if (isSelected) {
-              borderClass = 'border-[#22D3EE] bg-cyan-950/80 text-white ring-1 ring-[#22D3EE] font-bold';
+              borderClass = 'border-[#2B6282] bg-[#E7F2FA] text-[#21445B] ring-1 ring-[#2B6282] font-bold';
             } else if (isFailurePoint) {
-              borderClass = 'border-rose-700/80 bg-rose-950/40 text-rose-300';
+              borderClass = 'border-[#9E372B] bg-[#F9E9ED] text-[#6B2835]';
             }
 
             return (
@@ -172,15 +172,15 @@ export const FailureTrace: React.FC<FailureTraceProps> = ({
                   setIsPlaying(false);
                   setCurrentStepIdx(idx);
                 }}
-                className={`p-2 rounded-lg border text-left font-mono text-xs transition-all flex flex-col justify-between h-14 ${borderClass}`}
+                className={`p-2 rounded-lg border text-left font-mono text-xs transition-all flex flex-col justify-between h-14 cursor-pointer ${borderClass}`}
               >
                 <div className="flex items-center justify-between">
                   <span className="text-[10px] text-[#8F96A3]">STEP {String(idx + 1).padStart(2, '0')}</span>
                   <span
                     className={`text-[9px] px-1 rounded uppercase font-bold ${
                       st.operation === 'WRITE'
-                        ? 'bg-amber-950/60 text-amber-300 border border-amber-800/40'
-                        : 'bg-violet-950/60 text-violet-300 border border-violet-800/40'
+                        ? 'bg-[#FFF5D8] text-[#5A4716] border border-[#F0E3B8]'
+                        : 'bg-[#DDEBF7] text-[#21445B] border border-[#CDE1F0]'
                     }`}
                   >
                     {st.operation}
@@ -200,7 +200,7 @@ export const FailureTrace: React.FC<FailureTraceProps> = ({
         <div className="flex items-center gap-2">
           <button
             onClick={handleReset}
-            className="p-2 rounded-lg border border-[#283248] bg-[#161C2C] text-slate-300 hover:text-white hover:bg-[#1E253A] transition"
+            className="btn btn-secondary p-2 text-xs"
             title="Reset to step 1"
           >
             <RotateCcw className="w-4 h-4" />
@@ -209,7 +209,7 @@ export const FailureTrace: React.FC<FailureTraceProps> = ({
           <button
             onClick={handleStepPrev}
             disabled={currentStepIdx === 0}
-            className="p-2 rounded-lg border border-[#283248] bg-[#161C2C] text-slate-300 hover:text-white disabled:opacity-40 transition"
+            className="btn btn-secondary p-2 text-xs disabled:opacity-40"
             title="Previous step"
           >
             <SkipBack className="w-4 h-4" />
@@ -217,7 +217,7 @@ export const FailureTrace: React.FC<FailureTraceProps> = ({
 
           <button
             onClick={handlePlayPause}
-            className="flex items-center gap-1.5 px-4 py-2 rounded-lg bg-blue-600 hover:bg-blue-500 text-white font-mono text-xs font-bold shadow-md shadow-blue-500/20 transition"
+            className="btn btn-primary px-4 py-2 text-xs font-bold font-mono cursor-pointer"
           >
             {isPlaying ? (
               <>
@@ -235,7 +235,7 @@ export const FailureTrace: React.FC<FailureTraceProps> = ({
           <button
             onClick={handleStepNext}
             disabled={currentStepIdx >= totalSteps - 1}
-            className="p-2 rounded-lg border border-[#283248] bg-[#161C2C] text-slate-300 hover:text-white disabled:opacity-40 transition"
+            className="btn btn-secondary p-2 text-xs disabled:opacity-40"
             title="Next step"
           >
             <SkipForward className="w-4 h-4" />
@@ -253,9 +253,9 @@ export const FailureTrace: React.FC<FailureTraceProps> = ({
             <button
               key={sp.label}
               onClick={() => setPlaybackSpeed(sp.ms)}
-              className={`px-2 py-1 rounded border text-[11px] ${
+              className={`px-2 py-1 rounded border text-[11px] transition-colors cursor-pointer ${
                 playbackSpeed === sp.ms
-                  ? 'border-[#22D3EE] bg-cyan-950/60 text-[#22D3EE] font-bold'
+                  ? 'btn-blue font-bold shadow-xs'
                   : 'border-[#252A35] bg-[#151922] text-[#8F96A3] hover:text-white'
               }`}
             >

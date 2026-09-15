@@ -1066,7 +1066,7 @@ export const DiscoveryMode: React.FC<DiscoveryModeProps> = ({
                 <button
                   id="sandbox-step-btn"
                   onClick={runStep}
-                  className="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-mono text-xs font-bold flex items-center gap-1.5 shadow-lg shadow-blue-600/20 cursor-pointer"
+                  className="btn btn-primary text-xs font-bold cursor-pointer"
                   title="Execute exactly one memory write transition"
                 >
                   <SkipForward className="w-3.5 h-3.5" />
@@ -1076,11 +1076,9 @@ export const DiscoveryMode: React.FC<DiscoveryModeProps> = ({
                 <button
                   id="sandbox-play-btn"
                   onClick={togglePlay}
-                  className={`px-4 py-2 rounded-xl border font-mono text-xs font-bold flex items-center gap-1.5 cursor-pointer ${
-                    isRunning
-                      ? 'bg-amber-600 text-white border-amber-500'
-                      : 'bg-[#141B2A] hover:bg-[#1C253B] text-slate-200 border-slate-700'
-                  }`}
+                  className={`btn ${
+                    isRunning ? 'btn-warning' : 'btn-secondary'
+                  } text-xs font-bold cursor-pointer`}
                 >
                   {isRunning ? <Pause className="w-3.5 h-3.5" /> : <Play className="w-3.5 h-3.5 fill-current" />}
                   <span>{isRunning ? 'PAUSE' : 'AUTO-PLAY'}</span>
@@ -1089,7 +1087,7 @@ export const DiscoveryMode: React.FC<DiscoveryModeProps> = ({
                 <button
                   id="sandbox-distractor-btn"
                   onClick={addDistractor}
-                  className="px-3.5 py-2 rounded-xl bg-[#141B2A] hover:bg-[#1C253B] text-amber-300 font-mono text-xs border border-amber-700/50 flex items-center gap-1.5 cursor-pointer"
+                  className="btn btn-warning text-xs font-medium cursor-pointer"
                 >
                   <Plus className="w-3.5 h-3.5" />
                   <span>ADD DISTRACTOR</span>
@@ -1098,7 +1096,7 @@ export const DiscoveryMode: React.FC<DiscoveryModeProps> = ({
                 <button
                   id="sandbox-reset-btn"
                   onClick={resetExperiment}
-                  className="px-3.5 py-2 rounded-xl bg-[#141B2A] hover:bg-[#1C253B] text-slate-300 font-mono text-xs border border-slate-700 flex items-center gap-1.5 cursor-pointer"
+                  className="btn btn-secondary text-xs cursor-pointer"
                 >
                   <RotateCcw className="w-3.5 h-3.5" />
                   <span>RESET</span>
@@ -1196,7 +1194,7 @@ export const DiscoveryMode: React.FC<DiscoveryModeProps> = ({
               <button
                 id="save-baseline-btn"
                 onClick={saveBaseline}
-                className="px-3.5 py-1.5 rounded-lg bg-cyan-600/20 hover:bg-cyan-600/30 border border-cyan-500/50 text-cyan-300 text-xs font-bold flex items-center gap-1.5 cursor-pointer"
+                className="btn btn-secondary text-xs font-bold flex items-center gap-1.5 cursor-pointer"
               >
                 <Bookmark className="w-3.5 h-3.5" />
                 <span>{baseline ? 'UPDATE BASELINE' : 'SAVE AS BASELINE'}</span>
