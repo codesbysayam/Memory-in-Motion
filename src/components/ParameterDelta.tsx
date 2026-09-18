@@ -104,18 +104,18 @@ export const ParameterDelta: React.FC<ParameterDeltaProps> = ({
       <div className="flex flex-wrap items-center justify-between gap-2 border-b border-[#1C2436] pb-2.5">
         <div className="flex items-center gap-2">
           <Activity className="w-4 h-4 text-[#22D3EE]" />
-          <span className="font-bold text-white uppercase tracking-wider text-[11px]">
+          <span className="font-bold text-white uppercase tracking-wider text-xs">
             WHAT CHANGED?
           </span>
         </div>
 
         {isSingleVariable ? (
-          <span className="px-2 py-0.5 rounded bg-emerald-950/70 border border-emerald-500/40 text-emerald-300 text-[10px] font-bold uppercase flex items-center gap-1">
+          <span className="px-2 py-0.5 rounded bg-emerald-950/70 border border-emerald-500/40 text-emerald-300 text-xs font-bold uppercase flex items-center gap-1">
             <CheckCircle2 className="w-3 h-3 text-emerald-400" />
             CONTROLLED COMPARISON (1 VARIABLE)
           </span>
         ) : (
-          <span className="px-2 py-0.5 rounded bg-amber-950/70 border border-amber-500/40 text-amber-300 text-[10px] font-bold uppercase flex items-center gap-1">
+          <span className="px-2 py-0.5 rounded bg-amber-950/70 border border-amber-500/40 text-amber-300 text-xs font-bold uppercase flex items-center gap-1">
             <AlertTriangle className="w-3 h-3 text-amber-400" />
             MULTI-VARIABLE CHANGE ({changedParams.length} VARIABLES)
           </span>
@@ -124,7 +124,7 @@ export const ParameterDelta: React.FC<ParameterDeltaProps> = ({
 
       {/* Parameter Delta Display */}
       <div className="space-y-1.5">
-        <span className="text-[10px] text-slate-400 uppercase">PARAMETER DELTA:</span>
+        <span className="text-xs text-slate-400 uppercase">PARAMETER DELTA:</span>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
           {changedParams.map((p) => (
             <div
@@ -145,11 +145,11 @@ export const ParameterDelta: React.FC<ParameterDeltaProps> = ({
       {/* Output Changes (Before vs After) */}
       {prevResult && currResult && (
         <div className="space-y-1.5 pt-1">
-          <span className="text-[10px] text-slate-400 uppercase">OUTPUT CHANGES FOR PROBE "{queryKey}":</span>
-          <div className="grid grid-cols-3 gap-2 text-center text-[11px]">
+          <span className="text-xs text-slate-400 uppercase">OUTPUT CHANGES FOR PROBE "{queryKey}":</span>
+          <div className="grid grid-cols-3 gap-2 text-center text-xs">
             {/* Prediction */}
             <div className="p-2 rounded bg-[#0E131E] border border-[#1E2536]">
-              <span className="text-[9px] text-slate-400 block uppercase">PREDICTION</span>
+              <span className="text-xs text-slate-400 block uppercase">PREDICTION</span>
               <div className="flex items-center justify-center gap-1 mt-0.5">
                 <span className={prevResult.isCorrect ? 'text-emerald-400' : 'text-rose-400'}>
                   {prevResult.prediction}
@@ -163,7 +163,7 @@ export const ParameterDelta: React.FC<ParameterDeltaProps> = ({
 
             {/* Retrieval Score */}
             <div className="p-2 rounded bg-[#0E131E] border border-[#1E2536]" title="This score is based on representation similarity and is not a calibrated probability.">
-              <span className="text-[9px] text-slate-400 block uppercase">RETRIEVAL SCORE</span>
+              <span className="text-xs text-slate-400 block uppercase">RETRIEVAL SCORE</span>
               <div className="flex items-center justify-center gap-1 mt-0.5">
                 <span className="text-slate-400">{Math.round(prevResult.confidence * 100)}%</span>
                 <ArrowRight className="w-2.5 h-2.5 text-slate-500" />
@@ -173,7 +173,7 @@ export const ParameterDelta: React.FC<ParameterDeltaProps> = ({
 
             {/* Accuracy / Status */}
             <div className="p-2 rounded bg-[#0E131E] border border-[#1E2536]">
-              <span className="text-[9px] text-slate-400 block uppercase">STATUS</span>
+              <span className="text-xs text-slate-400 block uppercase">STATUS</span>
               <div className="flex items-center justify-center gap-1 mt-0.5 font-bold">
                 <span className={prevResult.isCorrect ? 'text-emerald-400' : 'text-rose-400'}>
                   {prevResult.isCorrect ? 'PASS' : 'FAIL'}
@@ -189,7 +189,7 @@ export const ParameterDelta: React.FC<ParameterDeltaProps> = ({
       )}
 
       {/* What Stayed Fixed? */}
-      <div className="pt-2 border-t border-[#1C2436] flex flex-wrap items-center justify-between gap-2 text-[10px] text-slate-400">
+      <div className="pt-2 border-t border-[#1C2436] flex flex-wrap items-center justify-between gap-2 text-xs text-slate-400">
         <div>
           <span className="text-slate-300 font-bold">HELD CONSTANT: </span>
           <span>{constantParams.join(', ')} · Dataset (Canonical Facts) · Seed {currConfig.seed}</span>

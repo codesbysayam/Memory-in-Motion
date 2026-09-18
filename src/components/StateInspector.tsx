@@ -128,10 +128,10 @@ export const StateInspector: React.FC<StateInspectorProps> = ({
                     : 'border-[#EAE6DF] hover:border-[#167C80]'
                 }`}
               >
-                <span className={`text-[9px] font-mono ${hasStrongColor ? 'text-white/80' : 'text-[#716F68]'}`}>
+                <span className={`text-xs font-mono ${hasStrongColor ? 'text-white/80' : 'text-[#716F68]'}`}>
                   d{String(idx).padStart(2, '0')}
                 </span>
-                <span className={`text-[11px] font-mono font-bold leading-none mt-0.5 ${hasStrongColor ? 'text-white' : 'text-[#151515]'}`}>
+                <span className={`text-xs font-mono font-bold leading-none mt-0.5 ${hasStrongColor ? 'text-white' : 'text-[#151515]'}`}>
                   {val.toFixed(2)}
                 </span>
               </div>
@@ -144,28 +144,28 @@ export const StateInspector: React.FC<StateInspectorProps> = ({
       <div className="space-y-2.5 pt-3.5 border-t border-[#EAE6DF] text-xs font-mono">
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
           <div className="bg-[#FAF8F5] p-3 rounded-xl border border-[#EAE6DF] flex flex-col justify-between">
-            <span className="text-[#716F68] text-[10px] uppercase font-bold tracking-wider">MEAN ABS</span>
+            <span className="text-[#716F68] text-xs uppercase font-bold tracking-wider">MEAN ABS</span>
             <span className="text-[#6842C2] font-bold text-sm mt-1">{stats.meanAbsoluteActivation.toFixed(4)}</span>
           </div>
 
           <div className="bg-[#FAF8F5] p-3 rounded-xl border border-[#EAE6DF] flex flex-col justify-between">
-            <span className="text-[#716F68] text-[10px] uppercase font-bold tracking-wider">MAX ABS</span>
+            <span className="text-[#716F68] text-xs uppercase font-bold tracking-wider">MAX ABS</span>
             <span className="text-[#167C80] font-bold text-sm mt-1">{stats.maxAbsoluteActivation.toFixed(4)}</span>
           </div>
 
           <div className="bg-[#FAF8F5] p-3 rounded-xl border border-[#EAE6DF] flex flex-col justify-between">
-            <span className="text-[#716F68] text-[10px] uppercase font-bold tracking-wider">ACTIVE DIMENSIONS</span>
+            <span className="text-[#716F68] text-xs uppercase font-bold tracking-wider">ACTIVE DIMENSIONS</span>
             <span className="text-[#247A4B] font-bold text-sm mt-1">{stats.activeDimensionCount} / {stats.dimension}</span>
           </div>
 
           <div className="bg-[#FAF8F5] p-3 rounded-xl border border-[#EAE6DF] flex flex-col justify-between">
-            <span className="text-[#716F68] text-[10px] uppercase font-bold tracking-wider">L2 STATE NORM</span>
+            <span className="text-[#716F68] text-xs uppercase font-bold tracking-wider">L2 STATE NORM</span>
             <span className="text-[#151515] font-bold text-sm mt-1">{stats.L2Norm.toFixed(4)}</span>
           </div>
         </div>
 
         {/* Epistemic Transparency Tooltip Note */}
-        <div className="flex items-center gap-2 text-[10px] text-[#716F68] bg-[#FAF8F5] px-3 py-1.5 rounded-lg border border-[#EAE6DF]">
+        <div className="flex items-center gap-2 text-xs text-[#716F68] bg-[#FAF8F5] px-3 py-1.5 rounded-lg border border-[#EAE6DF]">
           <HelpCircle className="w-3.5 h-3.5 text-[#167C80] shrink-0" />
           <span>These are mathematical statistics of the toy state vector, demonstrating coordinate dispersion.</span>
         </div>

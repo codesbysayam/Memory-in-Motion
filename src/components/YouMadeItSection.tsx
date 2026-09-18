@@ -146,7 +146,7 @@ Core Scientific Lesson: Fixed-size recurrent states maintain O(1) memory at the 
         {/* Editorial Section Header */}
         <div className="space-y-3">
           <div className="flex items-center gap-2">
-            <span className="text-[11px] font-mono uppercase tracking-widest px-2.5 py-0.5 rounded bg-[#F3EFFF] text-[#6842C2] border border-[#E2D8FA] font-bold">
+            <span className="text-xs font-mono uppercase tracking-widest px-2.5 py-0.5 rounded bg-[#F3EFFF] text-[#6842C2] border border-[#E2D8FA] font-bold">
               FINAL CAPSTONE
             </span>
             <span className="text-xs font-mono text-[#716F68]">
@@ -210,7 +210,7 @@ Core Scientific Lesson: Fixed-size recurrent states maintain O(1) memory at the 
                       {isDone && <Check className="w-3 h-3 stroke-[3]" />}
                     </span>
                   </div>
-                  <p className="text-[10px] font-sans text-[#716F68] leading-normal">
+                  <p className="text-xs font-sans text-[#716F68] leading-normal">
                     {m.description}
                   </p>
                 </div>
@@ -321,7 +321,7 @@ Core Scientific Lesson: Fixed-size recurrent states maintain O(1) memory at the 
           {isCertificateUnlocked && !certificateGenerated && (
             <div className="p-6 sm:p-8 rounded-xl bg-[#FAF8F5] border border-[#D8D4CB] space-y-4">
               <div className="space-y-1">
-                <span className="text-[11px] font-mono uppercase tracking-widest text-[#247A4B] font-bold block">
+                <span className="text-xs font-mono uppercase tracking-widest text-[#247A4B] font-bold block">
                   Evaluation Verified
                 </span>
                 <h4 className="font-serif font-bold text-lg text-[#151515]">
@@ -365,7 +365,7 @@ Core Scientific Lesson: Fixed-size recurrent states maintain O(1) memory at the 
                   <label className="text-xs font-sans font-bold text-[#151515] block">
                     Recipient Name on Certificate
                   </label>
-                  <p className="text-[11px] text-[#716F68] font-sans">
+                  <p className="text-xs text-[#716F68] font-sans">
                     Need to adjust your name? Update here to refresh the document.
                   </p>
                 </div>
@@ -421,14 +421,14 @@ Core Scientific Lesson: Fixed-size recurrent states maintain O(1) memory at the 
                   </button>
 
                   {printStatus && (
-                    <span className="px-3 py-1.5 rounded-lg bg-[#EDF8F2] border border-[#CDEEDB] text-[#247A4B] font-mono text-[11px] font-semibold animate-in fade-in flex items-center gap-1.5">
+                    <span className="px-3 py-1.5 rounded-lg bg-[#EDF8F2] border border-[#CDEEDB] text-[#247A4B] font-mono text-xs font-semibold animate-in fade-in flex items-center gap-1.5">
                       <CheckCircle2 className="w-3.5 h-3.5" />
                       <span>{printStatus}</span>
                     </span>
                   )}
                 </div>
 
-                <div className="text-[11px] font-sans text-[#716F68] italic">
+                <div className="text-xs font-sans text-[#716F68] italic">
                   Educational completion certificate — not an institutional or professional certification.
                 </div>
               </div>

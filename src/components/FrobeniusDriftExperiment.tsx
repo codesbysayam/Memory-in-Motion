@@ -333,45 +333,10 @@ export const FrobeniusDriftExperiment: React.FC<FrobeniusDriftExperimentProps> =
           </p>
         </div>
 
-        {/* Action Controls */}
-        <div className="flex flex-wrap items-center gap-2 text-xs font-sans">
+        {/* Standardized Playback Controls */}
+        <div className="playback-controls">
           <button
-            onClick={handlePlaySimulation}
-            className={`px-3 py-1.5 rounded-md border flex items-center gap-1.5 transition-all cursor-pointer font-semibold ${
-              isPlaying
-                ? 'bg-[#24452E] text-white border-[#24452E]'
-                : 'bg-[#DCEFE2] border-[#C5DDCB] text-[#24452E] hover:bg-[#CFE8D6]'
-            }`}
-            title="Sequentially plot incoming facts to observe entry animation and drift"
-          >
-            {isPlaying ? <Pause className="w-3.5 h-3.5" /> : <Play className="w-3.5 h-3.5" />}
-            <span>{isPlaying ? 'Pause Sequence' : factCount >= 12 ? 'Replay Sequence' : 'Play Sequence'}</span>
-          </button>
-
-          <button
-            onClick={handleStepForward}
-            disabled={factCount >= 12}
-            className="px-2.5 py-1.5 rounded-md border border-[#D9DCD8] bg-[#FFFFFF] hover:bg-[#F7F5EF] disabled:opacity-40 disabled:cursor-not-allowed text-[#252525] font-medium cursor-pointer transition-colors flex items-center gap-1"
-            title="Step one fact forward"
-          >
-            <StepForward className="w-3.5 h-3.5 text-[#5F625F]" />
-            <span>Step +1</span>
-          </button>
-
-          <button
-            onClick={() => setBurstNoiseActive((prev) => !prev)}
-            className={`px-3 py-1.5 rounded-md border flex items-center gap-1.5 transition-all cursor-pointer ${
-              burstNoiseActive
-                ? 'bg-[#F9E9ED] border-[#ECD1D7] text-[#6B2835] font-semibold'
-                : 'bg-[#FFFFFF] border-[#D9DCD8] text-[#5F625F] hover:bg-[#F7F5EF]'
-            }`}
-            title="Inject dense cross-talk interference to simulate congested vector space"
-          >
-            <Zap className={`w-3.5 h-3.5 ${burstNoiseActive ? 'text-[#6B2835]' : 'text-[#8F4D0B]'}`} />
-            <span>{burstNoiseActive ? 'Interference Active' : 'Inject Burst'}</span>
-          </button>
-
-          <button
+            type="button"
             onClick={() => {
               setIsPlaying(false);
               setRetention(0.92);
@@ -380,10 +345,42 @@ export const FrobeniusDriftExperiment: React.FC<FrobeniusDriftExperimentProps> =
               setFactCount(8);
               setBurstNoiseActive(false);
             }}
-            className="p-1.5 rounded-md border border-[#D9DCD8] bg-[#FFFFFF] hover:bg-[#F7F5EF] text-[#5F625F] hover:text-[#252525] cursor-pointer transition-colors"
+            className="btn btn-secondary text-xs"
             title="Reset parameters to biological baseline"
           >
             <RotateCcw className="w-3.5 h-3.5" />
+            <span>Reset</span>
+          </button>
+
+          <button
+            type="button"
+            onClick={handleStepForward}
+            disabled={factCount >= 12}
+            className="btn btn-secondary text-xs"
+            title="Step one fact forward"
+          >
+            <StepForward className="w-3.5 h-3.5" />
+            <span>Step</span>
+          </button>
+
+          <button
+            type="button"
+            onClick={handlePlaySimulation}
+            className={`btn ${isPlaying ? 'btn-primary' : 'btn-secondary'} text-xs`}
+            title="Sequentially plot incoming facts to observe entry animation and drift"
+          >
+            {isPlaying ? <Pause className="w-3.5 h-3.5" /> : <Play className="w-3.5 h-3.5" />}
+            <span>{isPlaying ? 'Pause' : factCount >= 12 ? 'Replay' : 'Play'}</span>
+          </button>
+
+          <button
+            type="button"
+            onClick={() => setBurstNoiseActive((prev) => !prev)}
+            className={`btn ${burstNoiseActive ? 'btn-primary' : 'btn-secondary'} text-xs`}
+            title="Inject dense cross-talk interference to simulate congested vector space"
+          >
+            <Zap className="w-3.5 h-3.5" />
+            <span>{burstNoiseActive ? 'Burst active' : 'Inject burst'}</span>
           </button>
         </div>
       </div>
@@ -427,7 +424,7 @@ export const FrobeniusDriftExperiment: React.FC<FrobeniusDriftExperimentProps> =
             onChange={(e) => setFactCount(parseInt(e.target.value, 10))}
             className="w-full accent-[#24452E] cursor-pointer"
           />
-          <div className="flex justify-between text-[10px] text-[#5F625F] mt-0.5">
+          <div className="flex justify-between text-xs text-[#5F625F] mt-1">
             <span>4 Facts</span>
             <span>8 Facts</span>
             <span>12 Facts</span>
@@ -436,19 +433,16 @@ export const FrobeniusDriftExperiment: React.FC<FrobeniusDriftExperimentProps> =
 
         {/* Dimension D */}
         <div>
-          <span className="block text-[#5F625F] font-medium mb-1.5">Dimension (D):</span>
-          <div className="grid grid-cols-4 gap-1 font-mono">
+          <span className="block text-[#5F625F] font-medium text-xs mb-2">Dimension (d):</span>
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
             {([8, 16, 32, 64] as const).map((d) => (
               <button
                 key={d}
+                type="button"
                 onClick={() => setDimension(d)}
-                className={`py-1 rounded-md border text-center transition-all cursor-pointer text-xs ${
-                  dimension === d
-                    ? 'bg-[#E7F2FA] border-[#CDE1F0] text-[#21445B] font-bold'
-                    : 'bg-[#FFFFFF] border-[#D9DCD8] text-[#5F625F] hover:text-[#252525]'
-                }`}
+                className={`dimension-delta ${dimension === d ? 'active' : ''}`}
               >
-                D={d}
+                d = {d}
               </button>
             ))}
           </div>

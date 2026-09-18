@@ -60,16 +60,16 @@ export const GlossaryTerm: React.FC<GlossaryTermProps> = ({
           className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-64 p-3 bg-[#0B0F1C] border border-[#232E44] text-white rounded-xl shadow-2xl z-50 pointer-events-none text-left animate-in fade-in zoom-in-95 duration-150"
           role="tooltip"
         >
-          <span className="block text-[9px] font-mono uppercase tracking-wider text-[#A78BFA] font-bold mb-0.5">
+          <span className="block text-xs font-mono uppercase tracking-wider text-[#A78BFA] font-bold mb-0.5">
             {matched.category} · CONCEPT
           </span>
           <span className="block font-bold text-xs font-mono text-white mb-1">
             {matched.term}
           </span>
-          <span className="block text-[11px] text-slate-300 font-sans leading-relaxed line-clamp-3">
+          <span className="block text-xs text-slate-300 font-sans leading-relaxed line-clamp-3">
             {matched.shortDefinition}
           </span>
-          <span className="mt-2 pt-1.5 border-t border-[#1C2538] flex items-center justify-between text-[9px] text-[#93C5FD] font-mono">
+          <span className="mt-2 pt-1.5 border-t border-[#1C2538] flex items-center justify-between text-xs text-[#93C5FD] font-mono">
             <span>Click to inspect</span>
             <span className="text-slate-400">→</span>
           </span>

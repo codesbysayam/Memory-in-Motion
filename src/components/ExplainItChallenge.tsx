@@ -78,7 +78,7 @@ export const ExplainItChallenge: React.FC = () => {
               <span className="text-xs font-mono font-bold tracking-widest text-violet-400 uppercase">
                 CAN YOU EXPLAIN IT?
               </span>
-              <span className="text-[10px] font-mono text-cyan-300 bg-cyan-950/60 border border-cyan-800/60 px-2 py-0.5 rounded-full">
+              <span className="text-xs font-mono text-cyan-300 bg-cyan-950/60 border border-cyan-800/60 px-2 py-0.5 rounded-full">
                 LOCAL CONCEPT CHECK · NO AI GRADING
               </span>
             </div>
@@ -149,7 +149,7 @@ export const ExplainItChallenge: React.FC = () => {
             <span className="text-slate-300 font-bold uppercase tracking-wider">
               CONCEPT DETECTION SUMMARY ({matchedCount} / {CONCEPT_GROUPS.length} IDENTIFIED)
             </span>
-            <span className={`text-[11px] font-bold ${matchedCount >= 3 ? 'text-emerald-400' : 'text-amber-400'}`}>
+            <span className={`text-xs font-bold ${matchedCount >= 3 ? 'text-emerald-400' : 'text-amber-400'}`}>
               {matchedCount >= 3 ? 'STRONG SYNTHESIS ✓' : 'PARTIAL EXPLANATION'}
             </span>
           </div>
@@ -169,7 +169,7 @@ export const ExplainItChallenge: React.FC = () => {
                 ) : (
                   <XCircle className="w-4 h-4 text-slate-600 shrink-0" />
                 )}
-                <span className="text-[11px] truncate">{r.name}</span>
+                <span className="text-xs truncate">{r.name}</span>
               </div>
             ))}
           </div>

@@ -158,7 +158,7 @@ export const Section04InterferenceLab: React.FC = () => {
         </div>
 
         {/* Experiment Tab Selector */}
-        <div className="flex flex-wrap items-center gap-2 border-b border-[#252A35] pb-3 text-xs font-mono">
+        <div className="flex flex-wrap items-center gap-2 border-b border-[#252A35] pb-3 text-xs font-sans">
           <button
             onClick={() => setActiveExperiment('pipeline')}
             className={`flex items-center gap-2 px-4 py-2 rounded-lg border transition-all ${
@@ -168,7 +168,7 @@ export const Section04InterferenceLab: React.FC = () => {
             }`}
           >
             <Database className="w-4 h-4" />
-            <span>0. WRITE / READ PIPELINE</span>
+            <span>0. Write & read pipeline</span>
           </button>
 
           <button
@@ -180,7 +180,7 @@ export const Section04InterferenceLab: React.FC = () => {
             }`}
           >
             <TrendingDown className="w-4 h-4" />
-            <span>1. WHEN MEMORY COLLIDES</span>
+            <span>1. When memory collides</span>
           </button>
 
           <button
@@ -192,7 +192,7 @@ export const Section04InterferenceLab: React.FC = () => {
             }`}
           >
             <BarChart2 className="w-4 h-4" />
-            <span>2. HOW MUCH CAN THE STATE HOLD?</span>
+            <span>2. How much can the state hold?</span>
           </button>
 
           <button
@@ -204,7 +204,7 @@ export const Section04InterferenceLab: React.FC = () => {
             }`}
           >
             <AlertOctagon className="w-4 h-4" />
-            <span>3. CAN MEMORY SURVIVE DISTRACTION?</span>
+            <span>3. Can memory survive distraction?</span>
           </button>
 
           <button
@@ -216,7 +216,7 @@ export const Section04InterferenceLab: React.FC = () => {
             }`}
           >
             <Clock className="w-4 h-4" />
-            <span>4. DECAY & FORGETTING RATE</span>
+            <span>4. Decay & forgetting rate</span>
           </button>
 
           <button
@@ -228,7 +228,7 @@ export const Section04InterferenceLab: React.FC = () => {
             }`}
           >
             <Grid className="w-4 h-4" />
-            <span>5. INTERFERENCE 2D SWEEP MAP</span>
+            <span>5. Interference 2D sweep map</span>
           </button>
 
           <button
@@ -240,7 +240,7 @@ export const Section04InterferenceLab: React.FC = () => {
             }`}
           >
             <ArrowLeftRight className="w-4 h-4" />
-            <span>6. KV-CACHE VS RECURRENT A/B</span>
+            <span>6. KV-cache vs recurrent A/B</span>
           </button>
 
           <button
@@ -252,7 +252,7 @@ export const Section04InterferenceLab: React.FC = () => {
             }`}
           >
             <Scissors className="w-4 h-4" />
-            <span>7. MEMORY SURGERY (COUNTERFACTUAL)</span>
+            <span>7. Memory surgery (counterfactual)</span>
           </button>
         </div>
 
@@ -282,7 +282,7 @@ export const Section04InterferenceLab: React.FC = () => {
                 </div>
 
                 {/* 5-Step Scientific Procedure Box */}
-                <div className="rounded-lg bg-[#151922] p-3 text-[11px] text-[#8F96A3] space-y-1 border border-[#252A35]">
+                <div className="rounded-lg bg-[#151922] p-3 text-xs text-[#8F96A3] space-y-1 border border-[#252A35]">
                   <div className="text-white font-semibold mb-1">EXPERIMENTAL PROTOCOL:</div>
                   <div>1. Learn fact A ("Japan → Tokyo").</div>
                   <div>2. Learn {sequenceLength - 1} unrelated country-capital pairs.</div>
@@ -293,7 +293,7 @@ export const Section04InterferenceLab: React.FC = () => {
 
                 {/* Dimension selector */}
                 <div className="space-y-1.5">
-                  <div className="flex justify-between text-[11px]">
+                  <div className="flex justify-between text-xs">
                     <span className="text-[#8F96A3] flex items-center gap-1">
                       State Dimension (<InlineMath math="D" />):
                     </span>
@@ -361,7 +361,7 @@ export const Section04InterferenceLab: React.FC = () => {
                 />
 
                 {/* Experiment Metadata Strip */}
-                <div className="grid grid-cols-4 gap-2 pt-2 border-t border-[#252A35] text-[10px] text-center">
+                <div className="grid grid-cols-4 gap-2 pt-2 border-t border-[#252A35] text-xs text-center">
                   <div className="bg-[#151922] p-1.5 rounded border border-[#252A35]">
                     <span className="text-[#8F96A3] block">CAPACITY</span>
                     <strong className="text-white">D={dim}</strong>
@@ -390,10 +390,10 @@ export const Section04InterferenceLab: React.FC = () => {
                     <AlertOctagon className="w-4 h-4" />
                     <span>FAILURE EXPLANATION</span>
                   </div>
-                  <p className="text-[11px] text-rose-200/90 leading-relaxed">
+                  <p className="text-xs text-rose-200/90 leading-relaxed">
                     {failureExplanation}
                   </p>
-                  <span className="text-[10px] text-rose-400 font-mono block">
+                  <span className="text-xs text-rose-400 font-mono block">
                     Observed in this educational toy model.
                   </span>
                 </div>
@@ -416,7 +416,7 @@ export const Section04InterferenceLab: React.FC = () => {
                     <TrendingDown className="w-4 h-4 text-[#22D3EE]" />
                     LIVE CURVE: SEQUENCE LENGTH → RETRIEVAL ACCURACY
                   </span>
-                  <span className="text-[10px] text-zinc-400">Target: "Japan"</span>
+                  <span className="text-xs text-zinc-400">Target: "Japan"</span>
                 </div>
 
                 {/* Graph Bars */}
@@ -435,10 +435,10 @@ export const Section04InterferenceLab: React.FC = () => {
                             : 'border-[#252A35] bg-[#151922] hover:bg-[#1A202C]'
                         }`}
                       >
-                        <div className="flex items-center justify-between text-[11px] mb-1">
+                        <div className="flex items-center justify-between text-xs mb-1">
                           <span className="font-semibold text-white">
                             Length = {pt.length} facts{' '}
-                            {isSelected && <span className="text-[#22D3EE] text-[9px]">(Current)</span>}
+                            {isSelected && <span className="text-[#22D3EE] text-xs">(Current)</span>}
                           </span>
                           <span className="flex items-center gap-2">
                             <span className={pt.correct ? 'text-emerald-400' : 'text-rose-400'}>
@@ -446,7 +446,7 @@ export const Section04InterferenceLab: React.FC = () => {
                             </span>
                             <span className="text-zinc-400">({pct}%)</span>
                             <span
-                              className={`text-[9px] px-1.5 py-0.5 rounded ${
+                              className={`text-xs px-1.5 py-0.5 rounded ${
                                 pt.correct ? 'bg-emerald-950 text-emerald-300' : 'bg-rose-950 text-rose-300'
                               }`}
                             >
@@ -470,7 +470,7 @@ export const Section04InterferenceLab: React.FC = () => {
                 </div>
 
                 {/* Scientific Disclaimer Note */}
-                <div className="p-3 rounded bg-[#07080B] border border-[#252A35] text-[10px] text-[#8F96A3] space-y-1">
+                <div className="p-3 rounded bg-[#07080B] border border-[#252A35] text-xs text-[#8F96A3] space-y-1">
                   <span className="text-white font-semibold block">EDUCATIONAL MODEL PRINCIPLE:</span>
                   <p>
                     A fixed-size state must compress information. As more information is packed into the same state, representations can overlap or decay. This creates interference and forgetting.
@@ -492,7 +492,7 @@ export const Section04InterferenceLab: React.FC = () => {
                     <BarChart2 className="w-4 h-4 text-violet-400" />
                     CONTROLLED CAPACITY EXPERIMENT: D = 4, 8, 16, 32
                   </h4>
-                  <p className="text-[11px] text-[#8F96A3] mt-0.5">
+                  <p className="text-xs text-[#8F96A3] mt-0.5">
                     Click any data point to inspect the corresponding memory state and factual retrieval breakdown.
                   </p>
                 </div>
@@ -513,7 +513,7 @@ export const Section04InterferenceLab: React.FC = () => {
                         <span className="text-white font-bold text-sm text-[#22D3EE]">
                           Dimension D={dimVal}
                         </span>
-                        <span className="text-[10px] text-[#8F96A3]">
+                        <span className="text-xs text-[#8F96A3]">
                           Limit ≈ {Math.round(dimVal * 0.75)} facts
                         </span>
                       </div>
@@ -528,7 +528,7 @@ export const Section04InterferenceLab: React.FC = () => {
                             <button
                               key={pt.factCount}
                               onClick={() => setSelectedCapacityPoint(pt)}
-                              className={`w-full text-left p-2 rounded border transition-all text-[11px] ${
+                              className={`w-full text-left p-2 rounded border transition-all text-xs ${
                                 isSelected
                                   ? 'border-violet-400 bg-violet-950/60 ring-1 ring-violet-400 text-white'
                                   : 'border-[#252A35] bg-[#11141A] text-[#8F96A3] hover:text-white'
@@ -580,40 +580,40 @@ export const Section04InterferenceLab: React.FC = () => {
                       <Database className="w-3.5 h-3.5 text-[#22D3EE]" />
                       INSPECTING STATE: D={selectedCapacityPoint.dim}, {selectedCapacityPoint.factCount} FACTS
                     </span>
-                    <span className="text-[11px] text-emerald-300">
+                    <span className="text-xs text-emerald-300">
                       Accuracy: {selectedCapacityPoint.accuracy}% ({selectedCapacityPoint.correctCount}/{selectedCapacityPoint.factCount} correct)
                     </span>
                   </div>
 
-                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-[11px]">
+                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs">
                     <div className="bg-[#11141A] p-2 rounded border border-[#252A35]">
-                      <span className="text-[#8F96A3] block text-[10px]">COLLISIONS:</span>
+                      <span className="text-[#8F96A3] block text-xs">COLLISIONS:</span>
                       <strong className="text-rose-400">{selectedCapacityPoint.collisions}</strong>
                     </div>
                     <div className="bg-[#11141A] p-2 rounded border border-[#252A35]">
-                      <span className="text-[#8F96A3] block text-[10px]">MATRIX L2 NORM:</span>
+                      <span className="text-[#8F96A3] block text-xs">MATRIX L2 NORM:</span>
                       <strong className="text-white">{selectedCapacityPoint.finalMatrixNorm}</strong>
                     </div>
                     <div className="bg-[#11141A] p-2 rounded border border-[#252A35]">
-                      <span className="text-[#8F96A3] block text-[10px]">STORAGE FOOTPRINT:</span>
+                      <span className="text-[#8F96A3] block text-xs">STORAGE FOOTPRINT:</span>
                       <strong className="text-cyan-300">{selectedCapacityPoint.dim * selectedCapacityPoint.dim * 4} Bytes (Fixed)</strong>
                     </div>
                     <div className="bg-[#11141A] p-2 rounded border border-[#252A35]">
-                      <span className="text-[#8F96A3] block text-[10px]">TRANSFORMER KV EQUIV:</span>
+                      <span className="text-[#8F96A3] block text-xs">TRANSFORMER KV EQUIV:</span>
                       <strong className="text-amber-300">{selectedCapacityPoint.factCount * 64} Bytes (Growing)</strong>
                     </div>
                   </div>
 
                   {/* Fact by Fact Decoded Table */}
                   <div className="space-y-1 pt-1">
-                    <span className="text-[#8F96A3] text-[10px] uppercase block">
+                    <span className="text-[#8F96A3] text-xs uppercase block">
                       INDIVIDUAL FACT RETRIEVALS:
                     </span>
                     <div className="grid grid-cols-1 sm:grid-cols-3 gap-1.5">
                       {selectedCapacityPoint.samplePredictions.map((sp) => (
                         <div
                           key={sp.query}
-                          className={`p-1.5 rounded border text-[10px] flex items-center justify-between ${
+                          className={`p-1.5 rounded border text-xs flex items-center justify-between ${
                             sp.correct
                               ? 'border-emerald-500/30 bg-emerald-950/20 text-emerald-200'
                               : 'border-rose-500/30 bg-rose-950/20 text-rose-200'
@@ -683,7 +683,7 @@ export const Section04InterferenceLab: React.FC = () => {
                 />
 
                 <div className="space-y-1.5">
-                  <label className="text-[11px] text-[#8F96A3] flex items-center gap-1">
+                  <label className="text-xs text-[#8F96A3] flex items-center gap-1">
                     <span>State Dimension</span>
                     <InlineMath math="(D)" />:
                   </label>
@@ -706,14 +706,14 @@ export const Section04InterferenceLab: React.FC = () => {
               </div>
 
               {/* Dynamic Educational Cause */}
-              <div className="rounded-xl border border-[#252A35] bg-[#11141A] p-4 text-[11px] text-zinc-300 space-y-2">
+              <div className="rounded-xl border border-[#252A35] bg-[#11141A] p-4 text-xs text-zinc-300 space-y-2">
                 <span className="text-[#22D3EE] font-semibold block uppercase">
                   WHY DID THIS HAPPEN?
                 </span>
                 <p className="text-[#8F96A3] leading-relaxed">
                   {distractorResult.decayExplanation}
                 </p>
-                <span className="text-[10px] text-zinc-500 italic block">
+                <span className="text-xs text-zinc-500 italic block">
                   Observed in this educational toy model.
                 </span>
               </div>
@@ -724,7 +724,7 @@ export const Section04InterferenceLab: React.FC = () => {
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 {/* Before Distraction */}
                 <div className="rounded-xl border border-emerald-500/40 bg-[#11141A] p-4 space-y-3">
-                  <div className="flex justify-between items-center text-[11px] border-b border-[#252A35] pb-1.5">
+                  <div className="flex justify-between items-center text-xs border-b border-[#252A35] pb-1.5">
                     <span className="text-emerald-400 font-bold uppercase">1. BEFORE DISTRACTION</span>
                     <span className="text-zinc-400">t = 1</span>
                   </div>
@@ -744,7 +744,7 @@ export const Section04InterferenceLab: React.FC = () => {
                 <div className={`rounded-xl border p-4 space-y-3 bg-[#11141A] ${
                   distractorResult.afterDistraction.correct ? 'border-emerald-500/40' : 'border-rose-500/40'
                 }`}>
-                  <div className="flex justify-between items-center text-[11px] border-b border-[#252A35] pb-1.5">
+                  <div className="flex justify-between items-center text-xs border-b border-[#252A35] pb-1.5">
                     <span className={`font-bold uppercase ${
                       distractorResult.afterDistraction.correct ? 'text-emerald-400' : 'text-rose-400'
                     }`}>
@@ -776,15 +776,15 @@ export const Section04InterferenceLab: React.FC = () => {
                 <span className="text-white font-semibold text-xs uppercase block">
                   CHRONOLOGICAL STATE TIMELINE
                 </span>
-                <div className="flex items-center gap-2 overflow-x-auto p-2 bg-[#07080B] rounded border border-[#252A35] text-[11px]">
+                <div className="flex items-center gap-2 overflow-x-auto p-2 bg-[#07080B] rounded border border-[#252A35] text-xs">
                   <div className="p-2 rounded bg-emerald-950/40 border border-emerald-500/40 text-emerald-300 text-center shrink-0">
                     <div className="font-bold">t0: Target Fact</div>
-                    <div className="text-[10px]">France → Paris</div>
+                    <div className="text-xs">France → Paris</div>
                   </div>
                   <ArrowRight className="w-4 h-4 text-zinc-600 shrink-0" />
                   <div className="p-2 rounded bg-[#151922] border border-[#252A35] text-[#8F96A3] text-center shrink-0">
                     <div className="font-bold text-white">t1..t{distractorNum}: Distractors</div>
-                    <div className="text-[10px]">{distractorNum} unrelated bindings</div>
+                    <div className="text-xs">{distractorNum} unrelated bindings</div>
                   </div>
                   <ArrowRight className="w-4 h-4 text-zinc-600 shrink-0" />
                   <div className={`p-2 rounded border text-center shrink-0 ${
@@ -793,7 +793,7 @@ export const Section04InterferenceLab: React.FC = () => {
                       : 'bg-rose-950/40 border-rose-500/40 text-rose-300'
                   }`}>
                     <div className="font-bold">t_final: Probe</div>
-                    <div className="text-[10px]">"France" → {distractorResult.afterDistraction.prediction}</div>
+                    <div className="text-xs">"France" → {distractorResult.afterDistraction.prediction}</div>
                   </div>
                 </div>
               </div>

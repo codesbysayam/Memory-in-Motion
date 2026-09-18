@@ -10,7 +10,7 @@ export const FinalClaimCard: React.FC = () => {
             <ShieldCheck className="w-5 h-5" />
           </div>
           <div>
-            <div className="text-[10px] uppercase text-[#167C80] font-bold tracking-wider">
+            <div className="text-xs uppercase text-[#167C80] font-bold tracking-wider">
               EPISTEMIC CONTRACT
             </div>
             <h3 className="text-lg font-serif font-bold text-[#151515]">

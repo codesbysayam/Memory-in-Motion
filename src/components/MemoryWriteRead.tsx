@@ -133,10 +133,10 @@ export const MemoryWriteRead: React.FC<MemoryWriteReadProps> = ({
         </div>
 
         <div className="flex items-center gap-2">
-          <span className="text-[10px] px-2.5 py-1 rounded bg-[#EDF7F7] border border-[#CFE8E8] text-[#167C80] font-bold">
+          <span className="text-xs px-2.5 py-1 rounded bg-[#EDF7F7] border border-[#CFE8E8] text-[#167C80] font-bold">
             LIVE COMPUTATION
           </span>
-          <span className="text-[10px] px-2 py-0.5 rounded bg-[#FAF8F5] border border-[#EAE6DF] text-[#716F68]">
+          <span className="text-xs px-2 py-0.5 rounded bg-[#FAF8F5] border border-[#EAE6DF] text-[#716F68]">
             D={dimension}
           </span>
         </div>
@@ -148,7 +148,7 @@ export const MemoryWriteRead: React.FC<MemoryWriteReadProps> = ({
           <span className="text-[#716F68] font-bold uppercase">
             COMPUTATIONAL PIPELINE ({stage + 1}/7): <strong className="text-[#167C80]">{STAGES[stage].label}</strong>
           </span>
-          <span className="text-[11px] text-[#716F68]">{STAGES[stage].desc}</span>
+          <span className="text-xs text-[#716F68]">{STAGES[stage].desc}</span>
         </div>
 
         <div className="grid grid-cols-7 gap-1.5">
@@ -156,7 +156,7 @@ export const MemoryWriteRead: React.FC<MemoryWriteReadProps> = ({
             <button
               key={s.num}
               onClick={() => setStage(s.num)}
-              className={`py-2 px-1 text-center rounded-lg border text-[10px] font-bold transition-all cursor-pointer ${
+              className={`py-2 px-1 text-center rounded-lg border text-xs font-bold transition-all cursor-pointer ${
                 stage === s.num
                   ? 'bg-[#F3EFFF] border-[#6842C2] text-[#6842C2] shadow-xs ring-1 ring-[#6842C2]/40'
                   : stage > s.num
@@ -164,7 +164,7 @@ export const MemoryWriteRead: React.FC<MemoryWriteReadProps> = ({
                   : 'bg-[#FFFFFF] border-[#EAE6DF] text-[#716F68] hover:text-[#151515]'
               }`}
             >
-              <div className="hidden sm:block text-[9px] text-[#716F68] mb-0.5 font-normal">STEP {s.num + 1}</div>
+              <div className="hidden sm:block text-xs text-[#716F68] mb-0.5 font-normal">STEP {s.num + 1}</div>
               <div className="truncate">{s.label}</div>
             </button>
           ))}
@@ -191,7 +191,7 @@ export const MemoryWriteRead: React.FC<MemoryWriteReadProps> = ({
 
           <button
             onClick={resetStage}
-            className="flex items-center gap-1 text-[11px] text-[#716F68] hover:text-[#151515] transition cursor-pointer"
+            className="flex items-center gap-1 text-xs text-[#716F68] hover:text-[#151515] transition cursor-pointer"
           >
             <RotateCcw className="w-3 h-3" />
             <span>RESET PIPELINE</span>
@@ -208,12 +208,12 @@ export const MemoryWriteRead: React.FC<MemoryWriteReadProps> = ({
               <span className="text-xs font-bold text-[#167C80] uppercase">
                 STEP 1: HUMAN-READABLE INPUT
               </span>
-              <span className="text-[11px] text-[#716F68]">Select key-value pair to write into memory</span>
+              <span className="text-xs text-[#716F68]">Select key-value pair to write into memory</span>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
               <div className="p-3.5 rounded-xl bg-[#FFFFFF] border border-[#EAE6DF] space-y-2">
-                <span className="text-[10px] text-[#716F68] font-bold uppercase block">
+                <span className="text-xs text-[#716F68] font-bold uppercase block">
                   SELECTED FACT (KEY → VALUE)
                 </span>
                 <div className="text-base font-bold text-[#151515] flex items-center gap-2">
@@ -221,13 +221,13 @@ export const MemoryWriteRead: React.FC<MemoryWriteReadProps> = ({
                   <ArrowRight className="w-4 h-4 text-[#BDB7AB]" />
                   <span className="text-[#167C80]">{selectedFact.value}</span>
                 </div>
-                <p className="text-[11px] text-[#716F68] font-sans">
+                <p className="text-xs text-[#716F68] font-sans">
                   Human readers understand the semantic association between &ldquo;{selectedFact.key}&rdquo; and &ldquo;{selectedFact.value}&rdquo;. The computational model does not.
                 </p>
               </div>
 
               <div className="p-3.5 rounded-xl bg-[#FFFFFF] border border-[#EAE6DF] space-y-2">
-                <span className="text-[10px] text-[#716F68] font-bold uppercase block">
+                <span className="text-xs text-[#716F68] font-bold uppercase block">
                   CHOOSE A SAMPLE FACT
                 </span>
                 <div className="grid grid-cols-2 gap-1.5">
@@ -238,7 +238,7 @@ export const MemoryWriteRead: React.FC<MemoryWriteReadProps> = ({
                         setSelectedFact(f);
                         setQueryInput(f.key);
                       }}
-                      className={`py-1.5 px-2 rounded-lg text-[11px] border text-left truncate transition cursor-pointer ${
+                      className={`py-1.5 px-2 rounded-lg text-xs border text-left truncate transition cursor-pointer ${
                         selectedFact.key === f.key
                           ? 'bg-[#F3EFFF] border-[#6842C2] text-[#6842C2] font-bold'
                           : 'bg-[#FAF8F5] border-[#E5E0D8] text-[#716F68] hover:text-[#151515]'
@@ -264,19 +264,19 @@ export const MemoryWriteRead: React.FC<MemoryWriteReadProps> = ({
               <span className="text-xs font-bold text-[#167C80] uppercase">
                 STEP 2: ENCODE TEXT TO LATENT VECTORS
               </span>
-              <span className="text-[11px] text-[#716F68]">Deterministic representation mapping</span>
+              <span className="text-xs text-[#716F68]">Deterministic representation mapping</span>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
               <div className="p-3.5 rounded-xl bg-[#FFFFFF] border border-[#EAE6DF] space-y-2">
                 <div className="flex justify-between items-center">
                   <span className="font-bold text-[#A46622]">KEY VECTOR: k = &ldquo;{selectedFact.key}&rdquo;</span>
-                  <span className="text-[10px] text-[#716F68]">dim={dimension}</span>
+                  <span className="text-xs text-[#716F68]">dim={dimension}</span>
                 </div>
-                <div className="p-2 bg-[#FAF8F5] rounded-lg border border-[#EAE6DF] text-[10px] text-[#52504A] overflow-x-auto">
+                <div className="p-2 bg-[#FAF8F5] rounded-lg border border-[#EAE6DF] text-xs text-[#52504A] overflow-x-auto">
                   [{keyVec.slice(0, 8).map((x) => x.toFixed(2)).join(', ')} ... ]
                 </div>
-                <span className="text-[10px] text-[#716F68] font-sans block">
+                <span className="text-xs text-[#716F68] font-sans block">
                   Used as the associative addressing key for outer-product write and query retrieval.
                 </span>
               </div>
@@ -284,12 +284,12 @@ export const MemoryWriteRead: React.FC<MemoryWriteReadProps> = ({
               <div className="p-3.5 rounded-xl bg-[#FFFFFF] border border-[#EAE6DF] space-y-2">
                 <div className="flex justify-between items-center">
                   <span className="font-bold text-[#167C80]">VALUE VECTOR: v = &ldquo;{selectedFact.value}&rdquo;</span>
-                  <span className="text-[10px] text-[#716F68]">dim={dimension}</span>
+                  <span className="text-xs text-[#716F68]">dim={dimension}</span>
                 </div>
-                <div className="p-2 bg-[#FAF8F5] rounded-lg border border-[#EAE6DF] text-[10px] text-[#52504A] overflow-x-auto">
+                <div className="p-2 bg-[#FAF8F5] rounded-lg border border-[#EAE6DF] text-xs text-[#52504A] overflow-x-auto">
                   [{valVec.slice(0, 8).map((x) => x.toFixed(2)).join(', ')} ... ]
                 </div>
-                <span className="text-[10px] text-[#716F68] font-sans block">
+                <span className="text-xs text-[#716F68] font-sans block">
                   The target numerical pattern to be etched into the memory state matrix.
                 </span>
               </div>
@@ -308,7 +308,7 @@ export const MemoryWriteRead: React.FC<MemoryWriteReadProps> = ({
               <span className="text-xs font-bold text-[#167C80] uppercase">
                 STEP 3: WRITE UPDATE (M_(t+1) = λM_t + η k v^T)
               </span>
-              <span className="text-[11px] text-[#716F68]">Associative outer-product addition</span>
+              <span className="text-xs text-[#716F68]">Associative outer-product addition</span>
             </div>
 
             <p className="text-xs text-[#52504A] font-sans leading-relaxed">
@@ -327,7 +327,7 @@ export const MemoryWriteRead: React.FC<MemoryWriteReadProps> = ({
               <span className="text-xs font-bold text-[#167C80] uppercase">
                 STEP 4: CURRENT MEMORY STATE INSPECTION
               </span>
-              <span className="text-[11px] text-[#716F68]">Full {dimension}×{dimension} associative matrix</span>
+              <span className="text-xs text-[#716F68]">Full {dimension}×{dimension} associative matrix</span>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-12 gap-4 items-center">
@@ -359,15 +359,15 @@ export const MemoryWriteRead: React.FC<MemoryWriteReadProps> = ({
 
               <div className="md:col-span-4 space-y-3 text-xs">
                 <div className="p-3.5 rounded-xl bg-[#FFFFFF] border border-[#EAE6DF] space-y-1">
-                  <span className="text-[10px] text-[#716F68] font-bold uppercase">SUPERPOSITION STATE</span>
-                  <p className="text-[#52504A] font-sans text-[11px] leading-relaxed">
+                  <span className="text-xs text-[#716F68] font-bold uppercase">SUPERPOSITION STATE</span>
+                  <p className="text-[#52504A] font-sans text-xs leading-relaxed">
                     Notice that individual facts do not occupy separate memory slots or linear token lists. All past bindings are superimposed directly into these {dimension * dimension} matrix coordinates.
                   </p>
                 </div>
 
                 <div className="p-3.5 rounded-xl bg-[#FFFFFF] border border-[#EAE6DF] space-y-1">
-                  <span className="text-[10px] text-[#167C80] font-bold uppercase">CONSTANT MEMORY BOUND</span>
-                  <p className="text-[#52504A] font-sans text-[11px]">
+                  <span className="text-xs text-[#167C80] font-bold uppercase">CONSTANT MEMORY BOUND</span>
+                  <p className="text-[#52504A] font-sans text-xs">
                     Size remains exactly {dimension}×{dimension} floating-point values, regardless of whether 2 facts or 200 facts have been written.
                   </p>
                 </div>
@@ -383,12 +383,12 @@ export const MemoryWriteRead: React.FC<MemoryWriteReadProps> = ({
               <span className="text-xs font-bold text-[#167C80] uppercase">
                 STEP 5: QUERY PROBE
               </span>
-              <span className="text-[11px] text-[#716F68]">Generate query probe vector q</span>
+              <span className="text-xs text-[#716F68]">Generate query probe vector q</span>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
               <div className="p-3.5 rounded-xl bg-[#FFFFFF] border border-[#EAE6DF] space-y-2">
-                <span className="text-[10px] text-[#716F68] font-bold uppercase block">
+                <span className="text-xs text-[#716F68] font-bold uppercase block">
                   QUERY STRING
                 </span>
                 <div className="text-base font-bold text-[#151515] flex items-center gap-2">
@@ -400,7 +400,7 @@ export const MemoryWriteRead: React.FC<MemoryWriteReadProps> = ({
                     <button
                       key={f.key}
                       onClick={() => setQueryInput(f.key)}
-                      className={`px-2 py-1 rounded-lg text-[10px] border transition cursor-pointer ${
+                      className={`px-2 py-1 rounded-lg text-xs border transition cursor-pointer ${
                         queryInput === f.key
                           ? 'bg-[#F3EFFF] border-[#6842C2] text-[#6842C2] font-bold'
                           : 'bg-[#FAF8F5] border-[#E5E0D8] text-[#716F68] hover:text-[#151515]'
@@ -413,13 +413,13 @@ export const MemoryWriteRead: React.FC<MemoryWriteReadProps> = ({
               </div>
 
               <div className="p-3.5 rounded-xl bg-[#FFFFFF] border border-[#EAE6DF] space-y-2">
-                <span className="text-[10px] text-[#716F68] font-bold uppercase block">
+                <span className="text-xs text-[#716F68] font-bold uppercase block">
                   QUERY VECTOR q = vector(&ldquo;{queryInput}&rdquo;, {dimension})
                 </span>
-                <div className="p-2 bg-[#FAF8F5] rounded-lg border border-[#EAE6DF] text-[10px] text-[#52504A] overflow-x-auto">
+                <div className="p-2 bg-[#FAF8F5] rounded-lg border border-[#EAE6DF] text-xs text-[#52504A] overflow-x-auto">
                   [{queryVec.slice(0, 8).map((x) => x.toFixed(2)).join(', ')} ... ]
                 </div>
-                <p className="text-[10px] text-[#716F68] font-sans">
+                <p className="text-xs text-[#716F68] font-sans">
                   The query vector acts as an algebraic projection probe multiplying against columns of the matrix state.
                 </p>
               </div>
@@ -434,7 +434,7 @@ export const MemoryWriteRead: React.FC<MemoryWriteReadProps> = ({
               <span className="text-xs font-bold text-[#167C80] uppercase inline-flex items-center gap-1.5">
                 STEP 6: READ OPERATION (<MathView math="\hat{v} = q^T M" />)
               </span>
-              <span className="text-[11px] text-[#716F68]">Linear readout from continuous state</span>
+              <span className="text-xs text-[#716F68]">Linear readout from continuous state</span>
             </div>
 
             <p className="text-xs text-[#52504A] font-sans leading-relaxed">
@@ -443,19 +443,19 @@ export const MemoryWriteRead: React.FC<MemoryWriteReadProps> = ({
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
               <div className="p-3.5 rounded-xl bg-[#FFFFFF] border border-[#EAE6DF] space-y-2">
-                <span className="text-[10px] text-[#716F68] font-bold uppercase block">
+                <span className="text-xs text-[#716F68] font-bold uppercase block">
                   QUERY PROBE VECTOR (q)
                 </span>
-                <div className="p-2 bg-[#FAF8F5] rounded-lg border border-[#EAE6DF] text-[10px] text-[#52504A] overflow-x-auto">
+                <div className="p-2 bg-[#FAF8F5] rounded-lg border border-[#EAE6DF] text-xs text-[#52504A] overflow-x-auto">
                   [{queryVec.slice(0, 8).map((x) => x.toFixed(2)).join(', ')} ... ]
                 </div>
               </div>
 
               <div className="p-3.5 rounded-xl bg-[#FFFFFF] border border-[#EAE6DF] space-y-2">
-                <span className="text-[10px] text-[#167C80] font-bold uppercase block">
+                <span className="text-xs text-[#167C80] font-bold uppercase block">
                   RECONSTRUCTED VALUE VECTOR (\hat&#123;v&#125;)
                 </span>
-                <div className="p-2 bg-[#FAF8F5] rounded-lg border border-[#EAE6DF] text-[10px] text-[#167C80] overflow-x-auto font-bold">
+                <div className="p-2 bg-[#FAF8F5] rounded-lg border border-[#EAE6DF] text-xs text-[#167C80] overflow-x-auto font-bold">
                   [{retrievedVec.slice(0, 8).map((x) => x.toFixed(2)).join(', ')} ... ]
                 </div>
               </div>
@@ -474,17 +474,17 @@ export const MemoryWriteRead: React.FC<MemoryWriteReadProps> = ({
               <span className="text-xs font-bold text-[#167C80] uppercase">
                 STEP 7: RETRIEVAL DECODING & WHY THIS QUERY WON
               </span>
-              <span className="text-[10px] text-[#716F68]">Candidate ranking & Top-1 margin</span>
+              <span className="text-xs text-[#716F68]">Candidate ranking & Top-1 margin</span>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-12 gap-5 items-start">
               {/* Left side: Candidate Activation Bars */}
               <div className="md:col-span-7 space-y-3 text-xs">
                 <div className="flex justify-between items-center">
-                  <span className="text-[10px] text-[#716F68] uppercase font-bold">
+                  <span className="text-xs text-[#716F68] uppercase font-bold">
                     CANDIDATE ACTIVATION (COSINE SIMILARITY TO \hat&#123;v&#125;)
                   </span>
-                  <span className="text-[10px] text-[#716F68]">RETRIEVAL SCORE</span>
+                  <span className="text-xs text-[#716F68]">RETRIEVAL SCORE</span>
                 </div>
 
                 <div className="space-y-2">
@@ -505,15 +505,15 @@ export const MemoryWriteRead: React.FC<MemoryWriteReadProps> = ({
                       >
                         <div className="flex justify-between items-center text-xs mb-1">
                           <div className="flex items-center gap-2">
-                            <span className="text-[10px] font-bold text-[#716F68]">#{idx + 1}</span>
+                            <span className="text-xs font-bold text-[#716F68]">#{idx + 1}</span>
                             <span className="font-bold text-[#151515]">{c.value}</span>
                             {isTop && (
-                              <span className="text-[9px] px-1.5 py-0.2 rounded bg-[#EDF8F2] border border-[#CDEEDB] text-[#247A4B] font-bold">
+                              <span className="text-xs px-1.5 py-0.2 rounded bg-[#EDF8F2] border border-[#CDEEDB] text-[#247A4B] font-bold">
                                 PREDICTION
                               </span>
                             )}
                             {isTarget && (
-                              <span className="text-[9px] px-1.5 py-0.2 rounded bg-[#EDF7F7] border border-[#CFE8E8] text-[#167C80] font-bold">
+                              <span className="text-xs px-1.5 py-0.2 rounded bg-[#EDF7F7] border border-[#CFE8E8] text-[#167C80] font-bold">
                                 GROUND TRUTH
                               </span>
                             )}
@@ -546,7 +546,7 @@ export const MemoryWriteRead: React.FC<MemoryWriteReadProps> = ({
                     <span>WHY DID THE MODEL RETURN &ldquo;{prediction}&rdquo;?</span>
                   </div>
 
-                  <div className="space-y-2 text-[11px]">
+                  <div className="space-y-2 text-xs">
                     <div className="flex justify-between text-[#52504A]">
                       <span>Top Candidate:</span>
                       <strong className="text-[#151515]">{topCandidate?.value} ({topCandidate?.score.toFixed(3)})</strong>
@@ -561,11 +561,11 @@ export const MemoryWriteRead: React.FC<MemoryWriteReadProps> = ({
                     </div>
                   </div>
 
-                  <p className="text-[11px] text-[#52504A] font-sans leading-relaxed pt-1 border-t border-[#EAE6DF]">
+                  <p className="text-xs text-[#52504A] font-sans leading-relaxed pt-1 border-t border-[#EAE6DF]">
                     The retrieved representation <MathView math="\hat{v}" /> was more similar (higher cosine inner product) to the stored representation of &ldquo;{topCandidate?.value}&rdquo; than the other candidate values by a margin of <strong>{top1Margin.toFixed(3)}</strong>.
                   </p>
 
-                  <div className="p-2.5 rounded-lg bg-[#FAF8F5] border border-[#EAE6DF] text-[10px] text-[#716F68] font-sans flex items-start gap-1.5">
+                  <div className="p-2.5 rounded-lg bg-[#FAF8F5] border border-[#EAE6DF] text-xs text-[#716F68] font-sans flex items-start gap-1.5">
                     <HelpCircle className="w-3.5 h-3.5 text-[#167C80] shrink-0 mt-0.5" />
                     <span>
                       This score is computed from representation similarity in this toy&apos;s representation space. It is not a calibrated probability.
@@ -579,9 +579,9 @@ export const MemoryWriteRead: React.FC<MemoryWriteReadProps> = ({
       </div>
 
       {/* Epistemic Safety Notice Footer */}
-      <div className="p-3.5 rounded-xl bg-[#FAF8F5] border border-[#EAE6DF] text-[11px] text-[#716F68] flex flex-wrap items-center justify-between gap-2">
+      <div className="p-3.5 rounded-xl bg-[#FAF8F5] border border-[#EAE6DF] text-xs text-[#716F68] flex flex-wrap items-center justify-between gap-2">
         <span>Write changes internal memory representation; Read retrieves information from that representation.</span>
-        <span className="text-[#A46622] text-[10px] font-semibold">Educational model — does not claim to be the exact BDH production implementation.</span>
+        <span className="text-[#A46622] text-xs font-semibold">Educational model — does not claim to be the exact BDH production implementation.</span>
       </div>
     </div>
   );

@@ -1,31 +1,31 @@
 @import "tailwindcss";
 
 @theme {
-  --font-serif: 'Newsreader', 'Source Serif 4', Georgia, Cambria, serif;
-  --font-sans: 'DM Sans', 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  --font-serif: 'Newsreader', 'Source Serif 4', serif;
+  --font-sans: 'DM Sans', 'Inter', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
 
   --color-paper: #F7F5EF;
   --color-surface: #FFFFFF;
-  --color-grey: #F0F1EF;
-  --color-ink: #252525;
-  --color-secondary: #5F625F;
-  --color-border: #D9DCD8;
+  --color-grey: #F1F2F0;
+  --color-ink: #252725;
+  --color-secondary: #4F514E;
+  --color-border: #D2D6D1;
   --color-soft-green: #DCEFE2;
-  --color-light-green: #CFE8D6;
-  --color-soft-yellow: #F8EFCB;
+  --color-light-green: #DCEFE2;
+  --color-soft-yellow: #FFF5D8;
   --color-light-yellow: #FFF5D8;
-  --color-soft-blue: #DDEBF7;
+  --color-soft-blue: #E7F2FA;
   --color-light-blue: #E7F2FA;
-  --color-soft-pink: #F5DDE3;
+  --color-soft-pink: #F9E9ED;
   --color-light-pink: #F9E9ED;
 
-  --color-memory: #167C80;
-  --color-state: #2B6282;
-  --color-accent-amber: #8F4D0B;
-  --color-success: #24452E;
-  --color-failure: #9E372B;
-  --color-research: #5F625F;
+  --color-memory: #31566E;
+  --color-state: #31566E;
+  --color-accent-amber: #705A1A;
+  --color-success: #245B38;
+  --color-failure: #8A352E;
+  --color-research: #747873;
 }
 
 :root {
@@ -34,39 +34,43 @@
   --font-body: "DM Sans", "Inter", sans-serif;
   --font-mono: "JetBrains Mono", monospace;
 
-  /* Surfaces */
-  --paper: #FFFFFF;
-  --paper-warm: #F7F5EF;
-  --surface: #F0F1EF;
-  --surface-blue: #E7F2FA;
-  --surface-green: #DCEFE2;
-  --surface-yellow: #FFF5D8;
-  --surface-pink: #F9E9ED;
-
-  /* Text */
-  --ink: #252525;
+  /* Neutrals & Paper */
+  --white: #FFFFFF;
+  --paper: #F7F5EF;
+  --grey-50: #F1F2F0;
+  --grey-100: #E5E7E4;
+  --grey-300: #D2D6D1;
+  --grey-500: #747873;
+  --ink: #252725;
   --ink-secondary: #4F514E;
-  --muted: #70736F;
+  --muted: #747873;
 
-  /* Borders */
-  --border: #D9DCD8;
-  --border-strong: #BEC3BD;
+  /* Surfaces & Semantics */
+  --blue: #E7F2FA;
+  --green: #DCEFE2;
+  --yellow: #FFF5D8;
+  --pink: #F9E9ED;
 
-  /* Semantic */
-  --info: #DDEBF7;
-  --success: #DCEFE2;
-  --warning: #FFF5D8;
-  --failure: #F9E9ED;
+  --blue-text: #31566E;
+  --green-text: #245B38;
+  --yellow-text: #705A1A;
+  --pink-text: #8A352E;
 
-  --success-text: #245B38;
-  --warning-text: #705A1A;
-  --failure-text: #8A352E;
-  --info-text: #31566E;
-
-  /* Radius */
+  /* Corner Radii - 3 values only */
   --radius-sm: 4px;
   --radius-md: 8px;
   --radius-lg: 12px;
+
+  /* Controlled Font Sizes */
+  --text-metadata: 12px;
+  --text-compact: 14px;
+  --text-body: 16px;
+  --text-emphasized: 18px;
+  --text-card-h: 20px;
+  --text-section-h: 24px;
+  --text-major-h: 32px;
+  --text-hero-h: 40px;
+  --text-hero-lg: 48px;
 
   /* Spacing */
   --space-1: 4px;
@@ -78,20 +82,31 @@
   --space-7: 48px;
   --space-8: 64px;
 
-  /* Compatibility aliases */
+  /* Legacy aliases for compatibility */
+  --surface: #F1F2F0;
+  --surface-blue: #E7F2FA;
+  --surface-green: #DCEFE2;
+  --surface-yellow: #FFF5D8;
+  --surface-pink: #F9E9ED;
+  --border: #D2D6D1;
+  --border-strong: #AEB5AE;
+  --success-text: #245B38;
+  --warning-text: #705A1A;
+  --failure-text: #8A352E;
+  --info-text: #31566E;
   --bg-primary: #FFFFFF;
   --bg-editorial: #F7F5EF;
-  --bg-grey: #F0F1EF;
-  --border-grey: #D9DCD8;
-  --text-main: #252525;
+  --bg-grey: #F1F2F0;
+  --border-grey: #D2D6D1;
+  --text-main: #252725;
   --text-secondary: #4F514E;
   --radius: 8px;
   --max: 1400px;
 }
 
 ::selection {
-  background-color: #E7F2FA;
-  color: #21445B;
+  background-color: var(--blue);
+  color: var(--blue-text);
 }
 
 @layer base {
@@ -101,11 +116,10 @@
     overflow-x: hidden;
     margin: 0;
     padding: 0;
-    background-color: #FFFFFF;
+    background-color: var(--white);
     color: var(--ink);
   }
 
-  html,
   body,
   button,
   input,
@@ -118,6 +132,8 @@
   h2,
   h3,
   h4,
+  .display,
+  .hero-title,
   .display-title,
   .hero-question,
   .font-display,
@@ -137,8 +153,6 @@
   .experiment-id,
   .technical-data,
   .technical,
-  .font-mono,
-  .mono,
   .equation {
     font-family: var(--font-mono);
   }
@@ -162,7 +176,8 @@
   [role="button"]:focus-visible,
   input:focus-visible,
   select:focus-visible,
-  textarea:focus-visible {
+  textarea:focus-visible,
+  a:focus-visible {
     outline: 2px solid #7AA8C2;
     outline-offset: 2px;
   }
@@ -174,22 +189,23 @@
     overflow-x: hidden;
     display: flex;
     flex-direction: column;
-    background-color: #FFFFFF;
+    background-color: var(--white);
   }
 }
 
-/* Tactile Editorial Buttons (Audit Standard) */
+/* ==================================================
+   REUSABLE BUTTON SYSTEM (PRIMARY, SECONDARY, GHOST)
+   ================================================== */
 .btn {
+  min-height: 38px;
+  padding: 8px 14px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
 
-  min-height: 38px;
-  padding: 8px 14px;
-
   border-radius: var(--radius-md);
-  border: 1px solid var(--border);
+  border: 1px solid var(--grey-300);
 
   font-family: var(--font-body);
   font-size: 14px;
@@ -197,53 +213,40 @@
 
   cursor: pointer;
   transition:
-    background-color .16s ease,
+    background .16s ease,
     border-color .16s ease,
     transform .16s ease;
 }
 
 .btn-primary {
-  background: var(--surface-green);
-  color: var(--success-text);
-  border-color: #C4DDCB;
+  background: var(--green);
+  color: var(--green-text);
+  border-color: #C5DDCB;
 }
 
 .btn-secondary {
-  background: var(--paper);
+  background: var(--white);
   color: var(--ink);
-  border-color: var(--border);
+  border-color: var(--grey-300);
 }
 
 .btn-ghost {
   background: transparent;
-  color: var(--ink-secondary);
+  color: var(--grey-500);
   border-color: transparent;
 }
 
-.btn-blue {
-  background: var(--surface-blue);
-  color: var(--info-text);
-  border-color: #CDE1F0;
-}
-
-.btn-warning {
-  background: var(--surface-yellow);
-  color: var(--warning-text);
-  border-color: #F0E3B8;
-}
-
-.btn-failure {
-  background: var(--surface-pink);
-  color: var(--failure-text);
-  border-color: #ECD1D7;
-}
-
 .btn:hover {
-  border-color: var(--border-strong);
+  border-color: #AEB5AE;
 }
 
 .btn:active {
   transform: translateY(1px);
+}
+
+.btn:focus-visible {
+  outline: 2px solid #7AA8C2;
+  outline-offset: 2px;
 }
 
 .btn:disabled {
@@ -251,14 +254,130 @@
   cursor: not-allowed;
 }
 
-/* Horizontal Segmented Timeline (Audit Item 8) */
+/* Subtle semantic button variants for specific scientific states */
+.btn-blue {
+  background: var(--blue);
+  color: var(--blue-text);
+  border-color: #CDE1F0;
+}
+
+.btn-warning {
+  background: var(--yellow);
+  color: var(--yellow-text);
+  border-color: #F0E3B8;
+}
+
+.btn-failure {
+  background: var(--pink);
+  color: var(--pink-text);
+  border-color: #ECD1D7;
+}
+
+/* ==================================================
+   STANDARDIZED PLAYBACK CONTROLS
+   ================================================== */
+.playback-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.playback-controls .btn {
+  min-width: 76px;
+}
+
+.icon-button {
+  min-width: 36px;
+  min-height: 36px;
+  padding: 8px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--grey-300);
+  background: var(--white);
+  color: var(--ink);
+  cursor: pointer;
+  transition: background .16s ease, border-color .16s ease;
+}
+
+.icon-button:hover {
+  border-color: #AEB5AE;
+  background: var(--grey-50);
+}
+
+/* ==================================================
+   CHANGE CONDITIONS COMPACT AFFORDANCE
+   ================================================== */
+.change-conditions {
+  width: auto;
+  min-width: 150px;
+  min-height: 38px;
+  padding: 8px 14px;
+
+  background: var(--white);
+  color: var(--ink);
+
+  border: 1px solid var(--grey-300);
+  border-radius: var(--radius-md);
+
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 600;
+
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: background .16s ease, border-color .16s ease;
+}
+
+.change-conditions:hover {
+  background: var(--blue);
+  border-color: #BFD8E8;
+}
+
+/* ==================================================
+   UTILITY BUTTON (Export JSON, Collapse, etc.)
+   ================================================== */
+.utility-button {
+  min-height: 34px;
+  padding: 7px 11px;
+
+  background: var(--grey-50);
+  border: 1px solid var(--grey-300);
+  border-radius: 6px;
+
+  color: var(--ink-secondary);
+
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 600;
+
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: background .16s ease, color .16s ease, border-color .16s ease;
+}
+
+.utility-button:hover {
+  background: var(--blue);
+  color: var(--ink);
+  border-color: #BFD8E8;
+}
+
+/* ==================================================
+   HORIZONTAL SEGMENTED TIMELINE (t0 - t5)
+   ================================================== */
 .timeline {
   display: flex;
   gap: 4px;
   padding: 4px;
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-md);
+  background: var(--grey-50);
+  border: 1px solid var(--grey-300);
+  border-radius: 8px;
 }
 
 .timeline-step {
@@ -266,63 +385,115 @@
   min-height: 36px;
   border: 1px solid transparent;
   border-radius: 6px;
+
   background: transparent;
-  color: var(--ink-secondary);
+  color: var(--grey-500);
+
   font-family: var(--font-body);
   font-size: 13px;
   font-weight: 600;
+
   cursor: pointer;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  transition: background-color 0.16s ease, border-color 0.16s ease, color 0.16s ease;
+  transition: background .16s ease, border-color .16s ease, color .16s ease;
 }
 
 .timeline-step:hover {
-  background: var(--paper);
-  border-color: var(--border);
+  background: var(--white);
+  border-color: var(--grey-300);
   color: var(--ink);
 }
 
 .timeline-step.active {
-  background: var(--surface-blue);
+  background: var(--blue);
   color: var(--ink);
   border-color: #C5DCEB;
   font-weight: 700;
 }
 
-/* Interactive Dimension Delta Button (Audit Item 9) */
+/* ==================================================
+   INTERACTIVE DIMENSION DELTA BUTTON
+   ================================================== */
 .dimension-delta {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
   width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
   padding: 8px 10px;
-  background: var(--paper);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
+
+  background: var(--white);
+  border: 1px solid var(--grey-300);
+  border-radius: 4px;
+
   cursor: pointer;
-  text-align: left;
   font-family: var(--font-body);
   font-size: 13px;
-  transition: background-color 0.16s ease, border-color 0.16s ease;
+  transition: background .16s ease, border-color .16s ease;
 }
 
 .dimension-delta:hover {
-  background: var(--surface-blue);
+  background: var(--blue);
   border-color: #BFD8E8;
 }
 
 .dimension-delta.active {
-  background: var(--surface-blue);
+  background: var(--blue);
   border-color: #7AA8C2;
   box-shadow: 0 0 0 1px #7AA8C2;
 }
 
-/* Compact Experiment Layout (Audit Item 16) */
+/* ==================================================
+   PARAMETER GROUP & SPACING HIERARCHY
+   ================================================== */
+.parameter-group {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.dimension-selector {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding-bottom: 8px;
+  margin-bottom: 8px;
+  border-bottom: 1px solid var(--grey-100);
+}
+
+.slider-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* ==================================================
+   TYPOGRAPHY & RADIUS TOKENS
+   ================================================== */
+.body-text {
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+.small-text {
+  font-size: 14px;
+  line-height: 1.45;
+}
+
+.metadata {
+  font-size: 12px;
+}
+
+.radius-sm { border-radius: var(--radius-sm); }
+.radius-md { border-radius: var(--radius-md); }
+.radius-lg { border-radius: var(--radius-lg); }
+
+/* Compact Experiment Layout */
 .experiment-layout {
   display: grid;
-  grid-template-columns: minmax(240px, 300px) minmax(0, 1fr);
+  grid-template-columns: minmax(260px, 320px) minmax(0, 1fr);
   gap: 24px;
   align-items: start;
 }
@@ -342,21 +513,21 @@
 /* Editorial Minimalist Cards */
 .card {
   background: #FFFFFF;
-  border: 1px solid #D9DCD8;
-  border-radius: 10px;
-  box-shadow: 0 2px 8px rgba(30, 30, 30, 0.04);
+  border: 1px solid var(--grey-300);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 1px 3px rgba(30, 30, 30, 0.03);
 }
 
 .card-warm {
-  background: #F7F5EF;
-  border: 1px solid #D9DCD8;
-  border-radius: 10px;
+  background: var(--paper);
+  border: 1px solid var(--grey-300);
+  border-radius: var(--radius-lg);
 }
 
 .card-grey {
-  background: #F0F1EF;
-  border: 1px solid #D9DCD8;
-  border-radius: 10px;
+  background: var(--grey-50);
+  border: 1px solid var(--grey-300);
+  border-radius: var(--radius-lg);
 }
 
 /* Subtle Data point entry animations for scientific figures */

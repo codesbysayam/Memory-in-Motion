@@ -106,10 +106,10 @@ export const ContextOrderExperiment: React.FC = () => {
         </div>
 
         <div className="flex items-center gap-2">
-          <span className="text-[10px] px-2.5 py-0.5 rounded bg-[#EDF7F7] border border-[#CFE8E8] text-[#167C80] font-bold">
-            CONTROLLED TOY EXPERIMENT
+          <span className="text-xs px-2.5 py-0.5 rounded bg-[#EDF7F7] border border-[#CFE8E8] text-[#167C80] font-bold">
+            Controlled Toy Experiment
           </span>
-          <span className="text-[10px] px-2 py-0.5 rounded bg-[#FAF8F5] border border-[#EAE6DF] text-[#716F68]">
+          <span className="text-xs px-2 py-0.5 rounded bg-[#FAF8F5] border border-[#EAE6DF] text-[#716F68]">
             D={dimension}
           </span>
         </div>
@@ -119,7 +119,7 @@ export const ContextOrderExperiment: React.FC = () => {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
         {/* Sequence A */}
         <div className="p-4 rounded-xl bg-[#FAF8F5] border border-[#EAE6DF] space-y-3">
-          <div className="flex justify-between items-center text-[10px] text-[#716F68] font-bold uppercase">
+          <div className="flex justify-between items-center text-xs text-[#716F68] font-bold uppercase">
             <span>SEQUENCE A (FORWARD ORDER)</span>
             <span className="text-[#167C80]">{sequenceA.length} Facts</span>
           </div>
@@ -127,7 +127,7 @@ export const ContextOrderExperiment: React.FC = () => {
           <div className="space-y-1.5">
             {sequenceA.map((f, i) => (
               <div key={f.key} className="flex items-center justify-between p-2.5 rounded-lg bg-[#FFFFFF] border border-[#E5E0D8]">
-                <span className="text-[#716F68] font-mono text-[10px]">Step {i + 1}</span>
+                <span className="text-[#716F68] font-mono text-xs">Step {i + 1}</span>
                 <span className="font-bold text-[#151515]">{f.key}</span>
                 <ArrowRight className="w-3.5 h-3.5 text-[#BDB7AB]" />
                 <span className="text-[#167C80] font-bold">{f.value}</span>
@@ -143,7 +143,7 @@ export const ContextOrderExperiment: React.FC = () => {
 
         {/* Sequence B */}
         <div className="p-4 rounded-xl bg-[#FAF8F5] border border-[#EAE6DF] space-y-3">
-          <div className="flex justify-between items-center text-[10px] text-[#716F68] font-bold uppercase">
+          <div className="flex justify-between items-center text-xs text-[#716F68] font-bold uppercase">
             <span>SEQUENCE B (REVERSED ORDER)</span>
             <span className="text-[#6842C2]">{sequenceB.length} Facts</span>
           </div>
@@ -151,7 +151,7 @@ export const ContextOrderExperiment: React.FC = () => {
           <div className="space-y-1.5">
             {sequenceB.map((f, i) => (
               <div key={f.key} className="flex items-center justify-between p-2.5 rounded-lg bg-[#FFFFFF] border border-[#E5E0D8]">
-                <span className="text-[#716F68] font-mono text-[10px]">Step {i + 1}</span>
+                <span className="text-[#716F68] font-mono text-xs">Step {i + 1}</span>
                 <span className="font-bold text-[#151515]">{f.key}</span>
                 <ArrowRight className="w-3.5 h-3.5 text-[#BDB7AB]" />
                 <span className="text-[#6842C2] font-bold">{f.value}</span>
@@ -168,14 +168,14 @@ export const ContextOrderExperiment: React.FC = () => {
 
       {/* Query Breakdown Table */}
       <div className="rounded-xl bg-[#FAF8F5] border border-[#EAE6DF] p-4 space-y-3 text-xs">
-        <span className="font-bold text-[#151515] uppercase text-[11px] block">
+        <span className="font-bold text-[#151515] uppercase text-xs block">
           QUERY-BY-QUERY COMPARISON
         </span>
 
         <div className="overflow-x-auto">
           <table className="w-full text-left text-xs">
             <thead>
-              <tr className="border-b border-[#EAE6DF] text-[10px] text-[#716F68] uppercase">
+              <tr className="border-b border-[#EAE6DF] text-xs text-[#716F68] uppercase">
                 <th className="pb-2">PROBE KEY</th>
                 <th className="pb-2">GROUND TRUTH</th>
                 <th className="pb-2">ORDER A (PRED / SCORE)</th>
@@ -200,11 +200,11 @@ export const ContextOrderExperiment: React.FC = () => {
                   </td>
                   <td className="py-2.5 text-right font-mono">
                     {Math.abs(row.scoreA - row.scoreB) < 0.01 ? (
-                      <span className="text-[#716F68] text-[10px]">Equivalent</span>
+                      <span className="text-[#716F68] text-xs">Equivalent</span>
                     ) : row.scoreA > row.scoreB ? (
-                      <span className="text-[#167C80] font-bold text-[10px]">A stronger (+{(row.scoreA - row.scoreB).toFixed(2)})</span>
+                      <span className="text-[#167C80] font-bold text-xs">A stronger (+{(row.scoreA - row.scoreB).toFixed(2)})</span>
                     ) : (
-                      <span className="text-[#6842C2] font-bold text-[10px]">B stronger (+{(row.scoreB - row.scoreA).toFixed(2)})</span>
+                      <span className="text-[#6842C2] font-bold text-xs">B stronger (+{(row.scoreB - row.scoreA).toFixed(2)})</span>
                     )}
                   </td>
                 </tr>
@@ -222,7 +222,7 @@ export const ContextOrderExperiment: React.FC = () => {
             <MathView math={`\\|M_A - M_B\\|_F = ${evalResults.matrixDiffNorm.toFixed(4)}`} />
           </strong>
         </div>
-        <div className="text-[11px] text-[#716F68] font-sans">
+        <div className="text-xs text-[#716F68] font-sans">
           {evalResults.matrixDiffNorm > 0.001
             ? <span>Because retention <MathView math="\lambda < 1.0" />, earlier updates decay exponentially more than later updates, breaking commutativity.</span>
             : 'Order did not affect retrieval under this configuration.'}

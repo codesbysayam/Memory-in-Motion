@@ -149,11 +149,11 @@ export const ConceptGlossaryDrawer: React.FC<ConceptGlossaryDrawerProps> = ({
           <div className="flex items-start justify-between gap-4">
             <div className="space-y-1">
               <div className="flex items-center gap-2">
-                <span className="text-[11px] font-bold tracking-wider text-[#5F625F] uppercase font-sans">
+                <span className="text-xs font-bold tracking-wider text-[#5F625F] uppercase font-sans">
                   Theoretical Reference
                 </span>
-                <span className="text-[11px] text-[#5F625F]">·</span>
-                <span className="text-[11px] font-mono text-[#5F625F]">
+                <span className="text-xs text-[#5F625F]">·</span>
+                <span className="text-xs font-mono text-[#5F625F]">
                   {filteredTerms.length} concepts
                 </span>
               </div>
@@ -278,7 +278,7 @@ export const ConceptGlossaryDrawer: React.FC<ConceptGlossaryDrawerProps> = ({
                       <p className="flex-1 font-sans">
                         {item.shortDefinition}
                       </p>
-                      <div className="mt-4 pt-3 border-t border-[#E8EBE7] flex items-center justify-between text-[11px] text-[#5F625F] group-hover:text-[#2B6282] transition-colors">
+                      <div className="mt-4 pt-3 border-t border-[#E8EBE7] flex items-center justify-between text-xs text-[#5F625F] group-hover:text-[#2B6282] transition-colors">
                         <span>
                           {item.formula ? 'Includes tensor formulation' : 'Theoretical concept'}
                         </span>
@@ -380,7 +380,7 @@ export const ConceptGlossaryDrawer: React.FC<ConceptGlossaryDrawerProps> = ({
                       <Cpu className="w-3.5 h-3.5" />
                       <span>Mathematical Formulation</span>
                     </span>
-                    <span className="text-[11px] text-[#5F625F] lowercase font-mono">tensor law</span>
+                    <span className="text-xs text-[#5F625F] lowercase font-mono">tensor law</span>
                   </div>
 
                   <div className="p-3.5 rounded-lg bg-[#F0F1EF] border border-[#D9DCD8] text-[#252525] text-sm overflow-x-auto font-mono">

@@ -103,7 +103,7 @@ export const ConceptMap: React.FC<ConceptMapProps> = ({ onNavigate }) => {
             <Network className="w-5 h-5" />
           </div>
           <div>
-            <span className="text-[10px] font-mono uppercase tracking-widest text-purple-400 font-bold block">
+            <span className="text-xs font-mono uppercase tracking-widest text-purple-400 font-bold block">
               SYNTHESIS MAP
             </span>
             <h3 className="text-lg font-bold font-mono text-white mt-0.5">
@@ -130,7 +130,7 @@ export const ConceptMap: React.FC<ConceptMapProps> = ({ onNavigate }) => {
             }`}
           >
             <strong className="block text-sm">MEMORY IN INTELLIGENCE</strong>
-            <span className="text-[10px] text-slate-400">Fundamental Design Space</span>
+            <span className="text-xs text-slate-400">Fundamental Design Space</span>
           </button>
 
           {/* Fork into Growing vs Fixed */}
@@ -151,7 +151,7 @@ export const ConceptMap: React.FC<ConceptMapProps> = ({ onNavigate }) => {
                 }`}
               >
                 <strong className="text-xs block text-amber-400">GROWING CONTEXT</strong>
-                <span className="text-[10px] text-slate-400">Memory expands O(T) with tokens</span>
+                <span className="text-xs text-slate-400">Memory expands O(T) with tokens</span>
               </button>
 
               <div className="w-px h-3 bg-slate-700" />
@@ -165,7 +165,7 @@ export const ConceptMap: React.FC<ConceptMapProps> = ({ onNavigate }) => {
                 }`}
               >
                 <div className="font-bold text-amber-300">KV CACHE</div>
-                <div className="text-[9px] text-slate-500">Exhausts GPU VRAM</div>
+                <div className="text-xs text-slate-500">Exhausts GPU VRAM</div>
               </button>
             </div>
 
@@ -180,7 +180,7 @@ export const ConceptMap: React.FC<ConceptMapProps> = ({ onNavigate }) => {
                 }`}
               >
                 <strong className="text-xs block text-[#22D3EE]">FIXED-SIZE STATE</strong>
-                <span className="text-[10px] text-slate-400">Memory stays bounded O(1)</span>
+                <span className="text-xs text-slate-400">Memory stays bounded O(1)</span>
               </button>
 
               <div className="w-px h-3 bg-slate-700" />
@@ -194,7 +194,7 @@ export const ConceptMap: React.FC<ConceptMapProps> = ({ onNavigate }) => {
                 }`}
               >
                 <div className="font-bold text-cyan-300">RECURRENCE</div>
-                <div className="text-[9px] text-slate-500">Iterative State Folding</div>
+                <div className="text-xs text-slate-500">Iterative State Folding</div>
               </button>
 
               {/* Sub-fork: Toy vs BDH */}
@@ -214,8 +214,8 @@ export const ConceptMap: React.FC<ConceptMapProps> = ({ onNavigate }) => {
                         : 'border-[#222B3D] bg-[#0D121F] text-slate-400 hover:text-white'
                     }`}
                   >
-                    <div className="font-bold text-cyan-300 text-[11px]">OUR TOY</div>
-                    <div className="text-[9px] text-slate-500">Vector Matrix M</div>
+                    <div className="font-bold text-cyan-300 text-xs">OUR TOY</div>
+                    <div className="text-xs text-slate-500">Vector Matrix M</div>
                   </button>
 
                   <div className="w-px h-2 bg-slate-700" />
@@ -228,7 +228,7 @@ export const ConceptMap: React.FC<ConceptMapProps> = ({ onNavigate }) => {
                         : 'border-[#222B3D] bg-[#0A0D16] text-rose-400/70 hover:text-rose-300'
                     }`}
                   >
-                    <div className="text-[10px]">Interference</div>
+                    <div className="text-xs">Interference</div>
                   </button>
                 </div>
 
@@ -242,8 +242,8 @@ export const ConceptMap: React.FC<ConceptMapProps> = ({ onNavigate }) => {
                         : 'border-[#222B3D] bg-[#0D121F] text-slate-400 hover:text-white'
                     }`}
                   >
-                    <div className="font-bold text-purple-300 text-[11px]">BDH FAMILY</div>
-                    <div className="text-[9px] text-slate-500">Synaptic Plasticity σ_ij</div>
+                    <div className="font-bold text-purple-300 text-xs">BDH FAMILY</div>
+                    <div className="text-xs text-slate-500">Synaptic Plasticity σ_ij</div>
                   </button>
 
                   <div className="w-px h-2 bg-slate-700" />
@@ -256,7 +256,7 @@ export const ConceptMap: React.FC<ConceptMapProps> = ({ onNavigate }) => {
                         : 'border-[#222B3D] bg-[#0A0D16] text-purple-400/70 hover:text-purple-300'
                     }`}
                   >
-                    <div className="text-[10px]">Latent Dynamics</div>
+                    <div className="text-xs">Latent Dynamics</div>
                   </button>
                 </div>
               </div>
@@ -269,8 +269,8 @@ export const ConceptMap: React.FC<ConceptMapProps> = ({ onNavigate }) => {
       <div className="p-4 sm:p-5 rounded-xl bg-[#0D121F] border border-[#20293D] flex flex-wrap items-center justify-between gap-4">
         <div className="space-y-1 max-w-2xl font-mono">
           <div className="flex items-center gap-2">
-            <span className="text-[10px] uppercase font-bold text-[#22D3EE] bg-cyan-950/70 border border-cyan-800/60 px-2 py-0.5 rounded">
-              NODE INSPECTION
+            <span className="text-xs uppercase font-bold text-[#22D3EE] bg-cyan-950/70 border border-cyan-800/60 px-2 py-0.5 rounded">
+              Node Inspection
             </span>
             <h4 className="text-sm font-bold text-white">{selectedNode.title}</h4>
           </div>

@@ -110,7 +110,7 @@ export const InterferenceMap: React.FC = () => {
                 return (
                   <div key={interKey} className="flex items-center gap-2 mb-1.5">
                     {/* Y-axis label */}
-                    <div className="w-14 text-right font-mono text-[11px] text-slate-400 flex-shrink-0">
+                    <div className="w-14 text-right font-mono text-xs text-slate-400 flex-shrink-0">
                       {(inter * 100).toFixed(0)}%
                     </div>
 
@@ -126,7 +126,7 @@ export const InterferenceMap: React.FC = () => {
                           <button
                             key={cellKey}
                             onClick={() => setSelectedCellKey(cellKey)}
-                            className={`h-7 rounded text-[11px] font-mono font-bold flex items-center justify-center transition-all ${getCellColor(
+                            className={`h-7 rounded text-xs font-mono font-bold flex items-center justify-center transition-all ${getCellColor(
                               acc
                             )} ${
                               isSelected
@@ -148,7 +148,7 @@ export const InterferenceMap: React.FC = () => {
 
               {/* X-axis labels */}
               <div className="flex items-center gap-2 mt-3 pt-2 border-t border-[#1C2538]">
-                <div className="w-14 text-right font-mono text-[10px] text-slate-500 uppercase">
+                <div className="w-14 text-right font-mono text-xs text-slate-500 uppercase">
                   FACTS →
                 </div>
                 <div className="grid grid-cols-5 gap-2 flex-1 font-mono text-xs text-center text-slate-300 font-bold">
@@ -163,7 +163,7 @@ export const InterferenceMap: React.FC = () => {
           </div>
 
           {/* Color Scale Legend */}
-          <div className="flex flex-wrap items-center justify-between gap-2 p-2.5 rounded-lg bg-[#0C101A] border border-[#182132] text-[10px] font-mono">
+          <div className="flex flex-wrap items-center justify-between gap-2 p-2.5 rounded-lg bg-[#0C101A] border border-[#182132] text-xs font-mono">
             <span className="text-slate-400">LEGEND:</span>
             <div className="flex items-center gap-1.5">
               <span className="w-3.5 h-3.5 rounded bg-emerald-500 inline-block" />
@@ -196,7 +196,7 @@ export const InterferenceMap: React.FC = () => {
           {/* Key Metrics */}
           <div className="grid grid-cols-2 gap-3 font-mono text-xs">
             <div className="p-3 rounded-lg bg-[#111726] border border-[#1F2B42]">
-              <div className="text-slate-400 text-[10px]">RETRIEVAL ACCURACY</div>
+              <div className="text-slate-400 text-xs">RETRIEVAL ACCURACY</div>
               <div
                 className={`text-lg font-bold mt-0.5 ${
                   activeResult.accuracy >= 0.8
@@ -211,7 +211,7 @@ export const InterferenceMap: React.FC = () => {
             </div>
 
             <div className="p-3 rounded-lg bg-[#111726] border border-[#1F2B42]">
-              <div className="text-slate-400 text-[10px]">SUCCESSFUL / FAILED</div>
+              <div className="text-slate-400 text-xs">SUCCESSFUL / FAILED</div>
               <div className="text-lg font-bold mt-0.5 text-white">
                 <span className="text-emerald-400">{activeResult.correctCount}</span> /{' '}
                 <span className="text-rose-400">{activeResult.failedCount}</span>
@@ -221,17 +221,17 @@ export const InterferenceMap: React.FC = () => {
 
           {/* Failure Trace Example */}
           <div className="p-3.5 rounded-lg bg-[#080B14] border border-[#192336] space-y-2 font-mono text-xs">
-            <div className="text-slate-400 text-[11px] flex items-center justify-between">
+            <div className="text-slate-400 text-xs flex items-center justify-between">
               <span>FIRST FAILURE TRACE:</span>
               <span className="text-slate-500">Deterministic Key</span>
             </div>
 
             {activeResult.exampleFailure ? (
-              <div className="text-rose-300 text-[11px] bg-rose-950/40 p-2.5 rounded border border-rose-800/40 leading-relaxed">
+              <div className="text-rose-300 text-xs bg-rose-950/40 p-2.5 rounded border border-rose-800/40 leading-relaxed">
                 {activeResult.exampleFailure}
               </div>
             ) : (
-              <div className="text-emerald-300 text-[11px] bg-emerald-950/40 p-2.5 rounded border border-emerald-800/40 flex items-center gap-1.5">
+              <div className="text-emerald-300 text-xs bg-emerald-950/40 p-2.5 rounded border border-emerald-800/40 flex items-center gap-1.5">
                 <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
                 <span>Zero query failures in this cell. All facts resolved!</span>
               </div>
@@ -240,7 +240,7 @@ export const InterferenceMap: React.FC = () => {
 
           {/* Memory State Heatmap for this Cell */}
           <div className="space-y-2 font-mono text-xs">
-            <div className="flex justify-between items-center text-slate-400 text-[11px]">
+            <div className="flex justify-between items-center text-slate-400 text-xs">
               <span>FINAL STATE MATRIX M ({dim}x{dim}):</span>
               <span className="text-purple-300">Superposition Pattern</span>
             </div>
@@ -270,7 +270,7 @@ export const InterferenceMap: React.FC = () => {
       </div>
 
       {/* Epistemic Guardrail Notice */}
-      <div className="p-3 rounded-lg bg-[#0C101A] border border-[#1A2234] text-[11px] text-slate-400 font-sans leading-relaxed">
+      <div className="p-3 rounded-lg bg-[#0C101A] border border-[#1A2234] text-xs text-slate-400 font-sans leading-relaxed">
         <strong className="text-slate-200">Scientific Provenance:</strong> This 2D map illustrates the phase boundary in our educational associative matrix (M ∈ ℝ¹⁶ˣ¹⁶). Do not describe the resulting pattern as a universal law of all neural architectures.
       </div>
     </div>

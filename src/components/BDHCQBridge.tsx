@@ -82,7 +82,7 @@ export const BDHCQBridge: React.FC = () => {
         </div>
 
         {/* Epistemic Footer */}
-        <div className="p-3 rounded-lg bg-[#070A12] border border-[#182030] text-[11px] font-mono text-slate-400 flex items-center justify-between">
+        <div className="p-3 rounded-lg bg-[#070A12] border border-[#182030] text-xs font-mono text-slate-400 flex items-center justify-between">
           <span>SOURCE PROVENANCE: Kosowski et al. (2025) & Pathway (2026)</span>
           <span className="text-purple-400 font-semibold">ARC-AGI-1 In-Context Evaluation</span>
         </div>

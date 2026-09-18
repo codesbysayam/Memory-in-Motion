@@ -85,31 +85,31 @@ export const MemoryBridge: React.FC<MemoryBridgeProps> = ({
                   Our educational memory model
                 </h4>
               </div>
-              <span className="text-[10px] font-mono text-[#167C80] bg-[#EDF7F7] px-2 py-0.5 rounded border border-[#CFE8E8] font-bold">
-                FAST-WEIGHT MATRIX
+              <span className="text-xs font-mono text-[#167C80] bg-[#EDF7F7] px-2 py-0.5 rounded border border-[#CFE8E8] font-bold">
+                Fast-weight matrix
               </span>
             </div>
 
             {/* Pipeline Flow */}
             <div className="space-y-2 font-mono text-xs">
               <div className="p-3 rounded-xl bg-[#FFFFFF] border border-[#E5E0D8] flex items-center gap-2.5 text-[#151515]">
-                <span className="w-5 h-5 rounded bg-[#EDF7F7] text-[#167C80] flex items-center justify-center font-bold text-[10px]">1</span>
+                <span className="w-5 h-5 rounded bg-[#EDF7F7] text-[#167C80] flex items-center justify-center font-bold text-xs">1</span>
                 <span><strong>Input:</strong> Sequential key-value pairs (France → Paris)</span>
               </div>
               <div className="p-3 rounded-xl bg-[#FFFFFF] border border-[#E5E0D8] flex items-center gap-2.5 text-[#151515]">
-                <span className="w-5 h-5 rounded bg-[#EDF7F7] text-[#167C80] flex items-center justify-center font-bold text-[10px]">2</span>
+                <span className="w-5 h-5 rounded bg-[#EDF7F7] text-[#167C80] flex items-center justify-center font-bold text-xs">2</span>
                 <span><strong>State:</strong> Fixed D×D numerical matrix representation M[t]</span>
               </div>
               <div className="p-3 rounded-xl bg-[#FFFFFF] border border-[#E5E0D8] flex items-center gap-2.5 text-[#151515]">
-                <span className="w-5 h-5 rounded bg-[#EDF7F7] text-[#167C80] flex items-center justify-center font-bold text-[10px]">3</span>
+                <span className="w-5 h-5 rounded bg-[#EDF7F7] text-[#167C80] flex items-center justify-center font-bold text-xs">3</span>
                 <span><strong>Memory Update:</strong> M[t] = λ·M[t-1] + η·(k ⊗ v)</span>
               </div>
               <div className="p-3 rounded-xl bg-[#FFFFFF] border border-[#E5E0D8] flex items-center gap-2.5 text-[#151515]">
-                <span className="w-5 h-5 rounded bg-[#EDF7F7] text-[#167C80] flex items-center justify-center font-bold text-[10px]">4</span>
+                <span className="w-5 h-5 rounded bg-[#EDF7F7] text-[#167C80] flex items-center justify-center font-bold text-xs">4</span>
                 <span><strong>Query:</strong> Input probe vector q</span>
               </div>
               <div className="p-3 rounded-xl bg-[#FFFFFF] border border-[#E5E0D8] flex items-center gap-2.5 text-[#151515]">
-                <span className="w-5 h-5 rounded bg-[#EDF7F7] text-[#167C80] flex items-center justify-center font-bold text-[10px]">5</span>
+                <span className="w-5 h-5 rounded bg-[#EDF7F7] text-[#167C80] flex items-center justify-center font-bold text-xs">5</span>
                 <span><strong>Retrieval:</strong> Matrix projection v̂ = qᵀ · M[t]</span>
               </div>
             </div>
@@ -120,13 +120,13 @@ export const MemoryBridge: React.FC<MemoryBridgeProps> = ({
                 Where does memory live in this toy?
               </div>
               <div className="flex flex-wrap gap-2">
-                {['STATE / MEMORY MATRIX', 'ATTENTION CACHE', 'PROMPT TOKENS'].map((opt) => (
+                {['State / Memory Matrix', 'Attention Cache', 'Prompt Tokens'].map((opt) => (
                   <button
                     key={opt}
                     onClick={() => setSelectedToyLocation(opt)}
                     className={`px-3 py-1.5 rounded-lg text-xs font-mono transition border cursor-pointer ${
                       selectedToyLocation === opt
-                        ? opt === 'STATE / MEMORY MATRIX'
+                        ? opt === 'State / Memory Matrix'
                           ? 'bg-[#EDF8F2] border-[#CDEEDB] text-[#247A4B] font-bold'
                           : 'bg-[#FFF0F0] border-[#FBD5D5] text-[#C53030]'
                         : 'bg-[#FFFFFF] border-[#E5E0D8] text-[#52504A] hover:bg-[#FAF8F5]'
@@ -138,7 +138,7 @@ export const MemoryBridge: React.FC<MemoryBridgeProps> = ({
               </div>
               {selectedToyLocation && (
                 <div className="mt-3 text-xs font-sans leading-relaxed p-3 rounded-xl bg-[#FFFFFF] border border-[#E5E0D8]">
-                  {selectedToyLocation === 'STATE / MEMORY MATRIX' ? (
+                  {selectedToyLocation === 'State / Memory Matrix' ? (
                     <span className="text-[#247A4B] font-semibold">
                       ✓ Exactly right! Memory is stored entirely inside the evolving coordinates of the fixed-size matrix M.
                     </span>
@@ -163,31 +163,31 @@ export const MemoryBridge: React.FC<MemoryBridgeProps> = ({
                   Published BDH concept
                 </h4>
               </div>
-              <span className="text-[10px] font-mono text-[#6842C2] bg-[#F3EFFF] px-2 py-0.5 rounded border border-[#E2D8FA] font-bold">
-                SYNAPTIC SUBSTRATE
+              <span className="text-xs font-mono text-[#6842C2] bg-[#F3EFFF] px-2 py-0.5 rounded border border-[#E2D8FA] font-bold">
+                Synaptic substrate
               </span>
             </div>
 
             {/* Pipeline Flow */}
             <div className="space-y-2 font-mono text-xs">
               <div className="p-3 rounded-xl bg-[#FFFFFF] border border-[#E5E0D8] flex items-center gap-2.5 text-[#151515]">
-                <span className="w-5 h-5 rounded bg-[#F3EFFF] text-[#6842C2] flex items-center justify-center font-bold text-[10px]">1</span>
+                <span className="w-5 h-5 rounded bg-[#F3EFFF] text-[#6842C2] flex items-center justify-center font-bold text-xs">1</span>
                 <span><strong>Input:</strong> Token representations projected onto graph nodes</span>
               </div>
               <div className="p-3 rounded-xl bg-[#FFFFFF] border border-[#E5E0D8] flex items-center gap-2.5 text-[#151515]">
-                <span className="w-5 h-5 rounded bg-[#F3EFFF] text-[#6842C2] flex items-center justify-center font-bold text-[10px]">2</span>
+                <span className="w-5 h-5 rounded bg-[#F3EFFF] text-[#6842C2] flex items-center justify-center font-bold text-xs">2</span>
                 <span><strong>Neuron Activity:</strong> Sparse activation spikes across scale-free graph</span>
               </div>
               <div className="p-3 rounded-xl bg-[#FFFFFF] border border-[#E5E0D8] flex items-center gap-2.5 text-[#151515]">
-                <span className="w-5 h-5 rounded bg-[#F3EFFF] text-[#6842C2] flex items-center justify-center font-bold text-[10px]">3</span>
+                <span className="w-5 h-5 rounded bg-[#F3EFFF] text-[#6842C2] flex items-center justify-center font-bold text-xs">3</span>
                 <span><strong>Synaptic State:</strong> Plastic weights σ(i, j) updated via local Hebbian flow</span>
               </div>
               <div className="p-3 rounded-xl bg-[#FFFFFF] border border-[#E5E0D8] flex items-center gap-2.5 text-[#151515]">
-                <span className="w-5 h-5 rounded bg-[#F3EFFF] text-[#6842C2] flex items-center justify-center font-bold text-[10px]">4</span>
+                <span className="w-5 h-5 rounded bg-[#F3EFFF] text-[#6842C2] flex items-center justify-center font-bold text-xs">4</span>
                 <span><strong>Local Interaction:</strong> Communication through edge neighborhood</span>
               </div>
               <div className="p-3 rounded-xl bg-[#FFFFFF] border border-[#E5E0D8] flex items-center gap-2.5 text-[#151515]">
-                <span className="w-5 h-5 rounded bg-[#F3EFFF] text-[#6842C2] flex items-center justify-center font-bold text-[10px]">5</span>
+                <span className="w-5 h-5 rounded bg-[#F3EFFF] text-[#6842C2] flex items-center justify-center font-bold text-xs">5</span>
                 <span><strong>Next Reasoning Round:</strong> 4-phase relaxation without full sequence re-eval</span>
               </div>
             </div>
@@ -198,13 +198,13 @@ export const MemoryBridge: React.FC<MemoryBridgeProps> = ({
                 Where does contextual memory live in BDH?
               </div>
               <div className="flex flex-wrap gap-2">
-                {['SYNAPTIC STATE', 'KV CACHE', 'GPU RAM CONCATENATION'].map((opt) => (
+                {['Synaptic State', 'KV Cache', 'GPU RAM Concatenation'].map((opt) => (
                   <button
                     key={opt}
                     onClick={() => setSelectedBdhLocation(opt)}
                     className={`px-3 py-1.5 rounded-lg text-xs font-mono transition border cursor-pointer ${
                       selectedBdhLocation === opt
-                        ? opt === 'SYNAPTIC STATE'
+                        ? opt === 'Synaptic State'
                           ? 'bg-[#EDF8F2] border-[#CDEEDB] text-[#247A4B] font-bold'
                           : 'bg-[#FFF0F0] border-[#FBD5D5] text-[#C53030]'
                         : 'bg-[#FFFFFF] border-[#E5E0D8] text-[#52504A] hover:bg-[#FAF8F5]'
@@ -216,7 +216,7 @@ export const MemoryBridge: React.FC<MemoryBridgeProps> = ({
               </div>
               {selectedBdhLocation && (
                 <div className="mt-3 text-xs font-sans leading-relaxed p-3 rounded-xl bg-[#FFFFFF] border border-[#E5E0D8]">
-                  {selectedBdhLocation === 'SYNAPTIC STATE' ? (
+                  {selectedBdhLocation === 'Synaptic State' ? (
                     <span className="text-[#247A4B] font-semibold">
                       ✓ Correct! In BDH, working memory lives directly on the plastic connection states σ(i, j) connecting graph neurons.
                     </span>
@@ -305,7 +305,7 @@ export const MemoryBridge: React.FC<MemoryBridgeProps> = ({
                   }`}
                 >
                   <div className="font-bold text-[#151515]">{n.id}</div>
-                  <div className="text-[11px] text-[#716F68]">Act: {n.activation}</div>
+                  <div className="text-xs text-[#716F68]">Act: {n.activation}</div>
                 </button>
               ))}
             </div>
@@ -313,7 +313,7 @@ export const MemoryBridge: React.FC<MemoryBridgeProps> = ({
 
           {/* Pickable Synapses */}
           <div className="space-y-2">
-            <div className="text-xs font-mono text-[#716F68] uppercase font-semibold">Click Synapse:</div>
+            <div className="text-xs font-mono text-[#716F68] font-semibold">Click Synapse:</div>
             <div className="space-y-2">
               {sampleSynapses.map((s) => {
                 const sId = `${s.from} → ${s.to}`;
@@ -340,7 +340,7 @@ export const MemoryBridge: React.FC<MemoryBridgeProps> = ({
                     }`}
                   >
                     <span className="font-semibold text-[#151515]">{sId}</span>
-                    <span className="text-[#6842C2] text-[11px]">σ = {s.state}</span>
+                    <span className="text-[#6842C2] text-xs">σ = {s.state}</span>
                   </button>
                 );
               })}
@@ -351,10 +351,10 @@ export const MemoryBridge: React.FC<MemoryBridgeProps> = ({
           <div className="p-4 rounded-xl bg-[#FFFFFF] border border-[#E5E0D8] flex flex-col justify-between shadow-xs">
             <div>
               <div className="flex items-center justify-between border-b border-[#EAE6DF] pb-2 mb-3">
-                <span className="text-[11px] font-mono uppercase text-[#A46622] font-bold">
-                  {selectedItem.type.toUpperCase()} TELEMETRY
+                <span className="text-xs font-mono capitalize text-[#A46622] font-bold">
+                  {selectedItem.type} telemetry
                 </span>
-                <span className="text-[10px] font-mono text-[#716F68] bg-[#FAF8F5] px-2 py-0.5 rounded border border-[#E5E0D8]">
+                <span className="text-xs font-mono text-[#716F68] bg-[#FAF8F5] px-2 py-0.5 rounded border border-[#E5E0D8]">
                   {selectedItem.id}
                 </span>
               </div>
@@ -371,9 +371,9 @@ export const MemoryBridge: React.FC<MemoryBridgeProps> = ({
               </div>
             </div>
 
-            <div className="pt-3 mt-3 border-t border-[#EAE6DF] text-[10px] font-mono text-[#A46622] flex items-center gap-1.5">
+            <div className="pt-3 mt-3 border-t border-[#EAE6DF] text-xs font-mono text-[#A46622] flex items-center gap-1.5">
               <Info className="w-3.5 h-3.5" />
-              <span>EDUCATIONAL ABSTRACTION GROUNDED IN PUBLISHED EQUATIONS</span>
+              <span>Educational abstraction grounded in published equations</span>
             </div>
           </div>
         </div>

@@ -23,10 +23,10 @@ export const ResearchVsToySplit: React.FC = () => {
           <div className="flex items-center justify-between border-b border-[#1E2638] pb-2">
             <span className="text-xs font-bold text-[#22D3EE] uppercase flex items-center gap-1.5">
               <CheckCircle2 className="w-4 h-4 text-cyan-400" />
-              WHAT OUR TOY LAB SHOWS
+              What Our Toy Lab Shows
             </span>
-            <span className="text-[10px] px-2 py-0.5 rounded bg-cyan-950/60 border border-cyan-800 text-cyan-300 font-bold">
-              PROVEN IN BROWSER
+            <span className="text-xs px-2 py-0.5 rounded bg-cyan-950/60 border border-cyan-800 text-cyan-300 font-bold">
+              Proven in Browser
             </span>
           </div>
 
@@ -63,10 +63,10 @@ export const ResearchVsToySplit: React.FC = () => {
           <div className="flex items-center justify-between border-b border-[#1E2638] pb-2">
             <span className="text-xs font-bold text-purple-300 uppercase flex items-center gap-1.5">
               <Cpu className="w-4 h-4 text-purple-400" />
-              WHAT THE BDH PAPER CLAIMS
+              What the BDH Paper Claims
             </span>
-            <span className="text-[10px] px-2 py-0.5 rounded bg-purple-950/60 border border-purple-800 text-purple-300 font-bold">
-              PEER-REVIEWED RESEARCH
+            <span className="text-xs px-2 py-0.5 rounded bg-purple-950/60 border border-purple-800 text-purple-300 font-bold">
+              Peer-Reviewed Research
             </span>
           </div>
 

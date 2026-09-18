@@ -89,10 +89,10 @@ export const StatePersistenceExperiment: React.FC = () => {
         </div>
 
         <div className="flex items-center gap-2">
-          <span className="text-[10px] px-2.5 py-0.5 rounded bg-[#EDF7F7] border border-[#CFE8E8] text-[#167C80] font-bold">
+          <span className="text-xs px-2.5 py-0.5 rounded bg-[#EDF7F7] border border-[#CFE8E8] text-[#167C80] font-bold">
             LIVE COMPUTATION
           </span>
-          <span className="text-[10px] px-2 py-0.5 rounded bg-[#FAF8F5] border border-[#EAE6DF] text-[#716F68]">
+          <span className="text-xs px-2 py-0.5 rounded bg-[#FAF8F5] border border-[#EAE6DF] text-[#716F68]">
             D={dimension}
           </span>
         </div>
@@ -119,7 +119,7 @@ export const StatePersistenceExperiment: React.FC = () => {
             }}
             className="w-full accent-[#167C80] cursor-pointer"
           />
-          <span className="text-[10px] text-[#716F68] font-sans block">
+          <span className="text-xs text-[#716F68] font-sans block">
             Number of subsequent writes applied over the target fact.
           </span>
         </div>
@@ -139,7 +139,7 @@ export const StatePersistenceExperiment: React.FC = () => {
             onChange={(e) => setRetention(parseFloat(e.target.value))}
             className="w-full accent-[#A46622] cursor-pointer"
           />
-          <span className="text-[10px] text-[#716F68] font-sans block">
+          <span className="text-xs text-[#716F68] font-sans block">
             Memory decay rate per update step.
           </span>
         </div>
@@ -147,25 +147,22 @@ export const StatePersistenceExperiment: React.FC = () => {
         {/* Dimension */}
         <div className="p-3.5 rounded-xl bg-[#FAF8F5] border border-[#EAE6DF] space-y-1.5">
           <div className="flex justify-between">
-            <span className="text-[#716F68] font-bold">DIMENSION:</span>
-            <strong className="text-[#151515]">D={dimension}</strong>
+            <span className="text-[#716F68] font-semibold text-xs">Dimension:</span>
+            <strong className="text-[#151515] text-xs">d={dimension}</strong>
           </div>
-          <div className="grid grid-cols-3 gap-1.5 pt-1">
+          <div className="flex flex-wrap gap-2 pt-1">
             {[8, 16, 32].map((d) => (
               <button
                 key={d}
+                type="button"
                 onClick={() => setDimension(d)}
-                className={`py-1 rounded-lg text-[11px] border font-bold transition cursor-pointer ${
-                  dimension === d
-                    ? 'bg-[#F3EFFF] border-[#6842C2] text-[#6842C2]'
-                    : 'bg-[#FFFFFF] border-[#E5E0D8] text-[#716F68] hover:text-[#151515]'
-                }`}
+                className={`dimension-delta ${dimension === d ? 'active' : ''}`}
               >
-                D={d}
+                d = {d}
               </button>
             ))}
           </div>
-          <span className="text-[10px] text-[#716F68] font-sans block">
+          <span className="text-xs text-[#716F68] font-sans block pt-1">
             Capacity scaling in vector space.
           </span>
         </div>
@@ -174,18 +171,18 @@ export const StatePersistenceExperiment: React.FC = () => {
       {/* Persistence Trajectory Chart & Table */}
       <div className="rounded-xl bg-[#FAF8F5] border border-[#EAE6DF] p-4 space-y-3 text-xs">
         <div className="flex justify-between items-center border-b border-[#EAE6DF] pb-2">
-          <span className="font-bold text-[#151515] uppercase text-[11px] flex items-center gap-1.5">
+          <span className="font-bold text-[#151515] uppercase text-xs flex items-center gap-1.5">
             <TrendingDown className="w-3.5 h-3.5 text-[#167C80]" />
             MEASURED RETRIEVAL SCORE TRAJECTORY ACROSS TIME
           </span>
-          <span className="text-[10px] text-[#716F68]">Query: &ldquo;Japan&rdquo; → &ldquo;Tokyo&rdquo;</span>
+          <span className="text-xs text-[#716F68]">Query: &ldquo;Japan&rdquo; → &ldquo;Tokyo&rdquo;</span>
         </div>
 
         {/* Horizontal Segmented Timeline (Audit Item 8) */}
         <div className="space-y-2">
           <div className="flex items-center justify-between text-xs text-[#70736F] font-sans">
             <span className="font-semibold text-[#252525]">Select Timestep Snapshot:</span>
-            <span className="text-[11px]">Active: t{currentInspection.step}</span>
+            <span className="text-xs">Active: t{currentInspection.step}</span>
           </div>
           <div className="timeline overflow-x-auto">
             {simulationData.map((s, idx) => {
@@ -224,7 +221,7 @@ export const StatePersistenceExperiment: React.FC = () => {
                   }`}
                   title={`Step ${s.step}: Score ${(s.score * 100).toFixed(1)}%, Margin: ${s.margin.toFixed(3)}`}
                 >
-                  <span className="text-[10px] font-mono text-[#4F514E] mb-1 font-bold">
+                  <span className="text-xs font-mono text-[#4F514E] mb-1 font-bold">
                     {(s.score * 100).toFixed(0)}%
                   </span>
                   <div
@@ -233,7 +230,7 @@ export const StatePersistenceExperiment: React.FC = () => {
                     }`}
                     style={{ height: `${scorePct}%` }}
                   />
-                  <span className={`text-[11px] font-mono mt-1 font-semibold ${isInspected ? 'text-[#21445B] font-bold' : 'text-[#70736F]'}`}>
+                  <span className={`text-xs font-mono mt-1 font-semibold ${isInspected ? 'text-[#21445B] font-bold' : 'text-[#70736F]'}`}>
                     t{s.step}
                   </span>
                 </button>
@@ -245,7 +242,7 @@ export const StatePersistenceExperiment: React.FC = () => {
         {/* Inspected Step Telemetry */}
         <div className="p-3.5 rounded-xl bg-[#FFFFFF] border border-[#E5E0D8] text-xs flex flex-wrap items-center justify-between gap-3">
           <div>
-            <span className="text-[#716F68] text-[10px] uppercase block font-bold">
+            <span className="text-[#716F68] text-xs uppercase block font-bold">
               INSPECTED TIMESTEP t={currentInspection.step}:
             </span>
             <div className="text-sm font-bold text-[#151515] mt-0.5">
@@ -255,19 +252,19 @@ export const StatePersistenceExperiment: React.FC = () => {
 
           <div className="flex items-center gap-4 text-xs font-mono">
             <div>
-              <span className="text-[#716F68] text-[10px] block">RETRIEVAL SCORE:</span>
+              <span className="text-[#716F68] text-xs block">RETRIEVAL SCORE:</span>
               <strong className={currentInspection.isCorrect ? 'text-[#167C80]' : 'text-[#B64235]'}>
                 {(currentInspection.score * 100).toFixed(1)}%
               </strong>
             </div>
 
             <div>
-              <span className="text-[#716F68] text-[10px] block">TOP-1 MARGIN:</span>
+              <span className="text-[#716F68] text-xs block">TOP-1 MARGIN:</span>
               <strong className="text-[#A46622]">{currentInspection.margin.toFixed(3)}</strong>
             </div>
 
             <div>
-              <span className="text-[#716F68] text-[10px] block">PREDICTION:</span>
+              <span className="text-[#716F68] text-xs block">PREDICTION:</span>
               <strong className={currentInspection.isCorrect ? 'text-[#247A4B]' : 'text-[#B64235]'}>
                 &ldquo;{currentInspection.prediction}&rdquo;
               </strong>

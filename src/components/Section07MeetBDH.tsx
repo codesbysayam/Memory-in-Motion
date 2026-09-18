@@ -61,17 +61,17 @@ export const Section07MeetBDH: React.FC = () => {
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1 text-xs font-mono">
                 <div className="rounded-xl bg-[#FAF8F5] p-4 border border-[#EAE6DF] space-y-1">
-                  <span className="text-[10px] text-[#716F68] block uppercase">Mamba / Classical SSM</span>
+                  <span className="text-xs text-[#716F68] block font-semibold">Mamba / Classical SSM</span>
                   <div className="text-[#A46622] font-semibold">Continuous Linear ODE</div>
-                  <p className="text-[11px] text-[#716F68] leading-normal pt-1 font-sans">
+                  <p className="text-xs text-[#716F68] leading-normal pt-1 font-sans">
                     Discretized 1D Kalman-style filters tracking tokens along a single temporal axis.
                   </p>
                 </div>
 
                 <div className="rounded-xl bg-[#F3EFFF] p-4 border border-[#E2D8FA] space-y-1">
-                  <span className="text-[10px] text-[#6842C2] block uppercase">Dragon Hatchling (BDH)</span>
+                  <span className="text-xs text-[#6842C2] block font-semibold">Dragon Hatchling (BDH)</span>
                   <div className="text-[#6842C2] font-semibold">Scale-Free Particle Graph</div>
-                  <p className="text-[11px] text-[#716F68] leading-normal pt-1 font-sans">
+                  <p className="text-xs text-[#716F68] leading-normal pt-1 font-sans">
                     Discrete neuron particles communicating across a sparse graph, with non-negative activations and Hebbian synaptic updates.
                   </p>
                 </div>
@@ -81,7 +81,7 @@ export const Section07MeetBDH: React.FC = () => {
 
           {/* Right Column: The 5 Foundational Pillars of BDH */}
           <div className="lg:col-span-6 space-y-3">
-            <span className="font-mono text-xs uppercase tracking-widest text-[#716F68] block">
+            <span className="font-mono text-xs tracking-widest text-[#716F68] block">
               The Five Foundational Pillars of BDH:
             </span>
 
@@ -89,7 +89,7 @@ export const Section07MeetBDH: React.FC = () => {
               <div className="rounded-xl border border-[#E5E0D8] bg-[#FFFFFF] p-4 space-y-1 shadow-xs">
                 <div className="flex items-center justify-between">
                   <span className="font-mono text-xs font-bold text-[#6842C2]">01. Local Graph Interactions</span>
-                  <span className="text-[10px] font-mono text-[#716F68]">O(k) Sparse Edges</span>
+                  <span className="text-xs font-mono text-[#716F68]">O(k) Sparse Edges</span>
                 </div>
                 <p className="text-xs text-[#52504A] font-sans leading-relaxed">
                   Neurons only pass signals across neighbors on a sparse graph, eliminating the quadratic O(T²) all-to-all attention matrix of Transformers.
@@ -99,7 +99,7 @@ export const Section07MeetBDH: React.FC = () => {
               <div className="rounded-xl border border-[#E5E0D8] bg-[#FFFFFF] p-4 space-y-1 shadow-xs">
                 <div className="flex items-center justify-between">
                   <span className="font-mono text-xs font-bold text-[#167C80]">02. Non-Negative Activations</span>
-                  <span className="text-[10px] font-mono text-[#716F68]">y ≥ 0 (ReLU / Cortical)</span>
+                  <span className="text-xs font-mono text-[#716F68]">y ≥ 0 (ReLU / Cortical)</span>
                 </div>
                 <p className="text-xs text-[#52504A] font-sans leading-relaxed">
                   Neurons fire only positive signals or zero. Non-negativity enforces natural competition and prevents runaway negative feedback loops.
@@ -109,7 +109,7 @@ export const Section07MeetBDH: React.FC = () => {
               <div className="rounded-xl border border-[#E5E0D8] bg-[#FFFFFF] p-4 space-y-1 shadow-xs">
                 <div className="flex items-center justify-between">
                   <span className="font-mono text-xs font-bold text-[#247A4B]">03. Scale-Free Fractal Topology</span>
-                  <span className="text-[10px] font-mono text-[#716F68]">Hub & Community Nodes</span>
+                  <span className="text-xs font-mono text-[#716F68]">Hub & Community Nodes</span>
                 </div>
                 <p className="text-xs text-[#52504A] font-sans leading-relaxed">
                   Degree distributions follow a power law: most neurons have few connections, while specialized hub neurons rapidly route global signals.
@@ -119,7 +119,7 @@ export const Section07MeetBDH: React.FC = () => {
               <div className="rounded-xl border border-[#E5E0D8] bg-[#FFFFFF] p-4 space-y-1 shadow-xs">
                 <div className="flex items-center justify-between">
                   <span className="font-mono text-xs font-bold text-[#6842C2]">04. Synaptic Memory Weights</span>
-                  <span className="text-[10px] font-mono text-[#716F68]">Plasticity W_ij(t)</span>
+                  <span className="text-xs font-mono text-[#716F68]">Plasticity W_ij(t)</span>
                 </div>
                 <p className="text-xs text-[#52504A] font-sans leading-relaxed">
                   Information is stored in the connections (synaptic weights) between neurons, not purely inside a single transient state vector.
@@ -129,7 +129,7 @@ export const Section07MeetBDH: React.FC = () => {
               <div className="rounded-xl border border-[#E5E0D8] bg-[#FFFFFF] p-4 space-y-1 shadow-xs">
                 <div className="flex items-center justify-between">
                   <span className="font-mono text-xs font-bold text-[#A46622]">05. Recurrent Graph Relaxation</span>
-                  <span className="text-[10px] font-mono text-[#716F68]">Latent Multi-Hop Steps</span>
+                  <span className="text-xs font-mono text-[#716F68]">Latent Multi-Hop Steps</span>
                 </div>
                 <p className="text-xs text-[#52504A] font-sans leading-relaxed">
                   Before outputting a token, the network can perform multiple internal relaxation cycles, enabling deep reasoning per token.

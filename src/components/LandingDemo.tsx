@@ -646,12 +646,12 @@ export const LandingDemo: React.FC<LandingDemoProps> = ({
         {/* Top Research Bar */}
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div className="flex items-center gap-2">
-            <span className="font-sans text-[11px] font-bold uppercase tracking-widest text-[#6842C2] bg-[#F3EFFF] px-3 py-1 rounded-full border border-[#E2D8FA] flex items-center gap-1.5">
-              <Sparkles className="w-3.5 h-3.5 text-[#6842C2]" />
-              STAGE 01 · FOUNDATIONAL EXPERIMENT
+            <span className="font-sans text-xs font-semibold text-[#31566E] bg-[#E7F2FA] px-3 py-1 rounded-md border border-[#CDE1F0] flex items-center gap-1.5">
+              <Sparkles className="w-3.5 h-3.5 text-[#31566E]" />
+              Stage 01 · Foundational experiment
             </span>
-            <span className="text-[11px] font-mono text-[#6B665E] hidden sm:inline">
-              Associative Fast-Weight Recurrence
+            <span className="text-xs font-mono text-[#747873] hidden sm:inline">
+              Associative fast-weight recurrence
             </span>
           </div>
 
@@ -663,10 +663,10 @@ export const LandingDemo: React.FC<LandingDemoProps> = ({
                 className="btn btn-secondary text-xs"
               >
                 <Clock className="w-3.5 h-3.5 text-[#31566E]" />
-                <span>60s Guided Test</span>
+                <span>60s Guided test</span>
               </button>
             )}
-            <div className="font-mono text-[11px] text-[#403D38] bg-[#FFFFFF] border border-[#D8D3C9] px-2.5 py-1 rounded-md flex items-center gap-1">
+            <div className="font-mono text-xs text-[#252725] bg-[#FFFFFF] border border-[#D2D6D1] px-2.5 py-1 rounded-md flex items-center gap-1">
               <InlineMath math={`M \\in \\mathbb{R}^{${dim} \\times ${dim}}`} />
             </div>
           </div>
@@ -714,15 +714,26 @@ export const LandingDemo: React.FC<LandingDemoProps> = ({
               </span>
             </div>
 
-            {/* Primary Action Controls */}
-            <div className="flex items-center gap-2">
+            {/* Standardized Playback Controls Group */}
+            <div className="playback-controls">
               <button
                 type="button"
-                onClick={() => setShowCustomInput((prev) => !prev)}
-                className="btn btn-primary text-xs"
+                onClick={handleReset}
+                className="btn btn-secondary text-xs"
+                title="Reset memory instrument to initial state"
+                aria-label="Reset memory"
               >
-                <Plus className="w-3.5 h-3.5" />
-                <span>Add fact</span>
+                <RotateCcw className="w-3.5 h-3.5" />
+                <span>Reset</span>
+              </button>
+
+              <button
+                type="button"
+                onClick={handleStepForward}
+                className="btn btn-secondary text-xs"
+                title="Step forward one fact write"
+              >
+                Step
               </button>
 
               <button
@@ -739,28 +750,9 @@ export const LandingDemo: React.FC<LandingDemoProps> = ({
                 ) : (
                   <>
                     <Play className="w-3.5 h-3.5" />
-                    <span>Auto-play</span>
+                    <span>Play</span>
                   </>
                 )}
-              </button>
-
-              <button
-                type="button"
-                onClick={handleStepForward}
-                className="btn btn-secondary text-xs"
-                title="Step forward one fact write"
-              >
-                Step
-              </button>
-
-              <button
-                type="button"
-                onClick={handleReset}
-                className="btn btn-secondary p-1.5 min-h-[34px]"
-                title="Reset memory instrument to initial state"
-                aria-label="Reset memory"
-              >
-                <RotateCcw className="w-4 h-4" />
               </button>
             </div>
           </div>
@@ -769,16 +761,19 @@ export const LandingDemo: React.FC<LandingDemoProps> = ({
           <div className="p-5 sm:p-7 grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
             {/* COLUMN 1: INPUT STREAM (4 Cols) */}
             <div className="lg:col-span-4 space-y-3">
-              <div className="flex items-center justify-between">
-                <span className="font-mono text-xs uppercase tracking-wider text-[#6B665E] font-semibold">
-                  Input Stream ({experiment.step}/{experiment.facts.length} Written)
-                </span>
+              <div className="flex items-center justify-between pb-1 border-b border-[#EAE6DF]">
+                <div>
+                  <h3 className="font-sans text-xs uppercase tracking-wider text-[#6B665E] font-semibold">
+                    Input stream ({experiment.step}/{experiment.facts.length} written)
+                  </h3>
+                </div>
                 <button
                   type="button"
-                  onClick={() => setShowCustomInput(!showCustomInput)}
-                  className="text-xs font-sans font-medium text-[#31566E] hover:underline cursor-pointer"
+                  onClick={() => setShowCustomInput((prev) => !prev)}
+                  className="btn btn-primary text-xs py-1 px-2.5 min-h-[32px]"
                 >
-                  {showCustomInput ? 'Cancel' : '+ Custom Fact'}
+                  <Plus className="w-3.5 h-3.5" />
+                  <span>{showCustomInput ? 'Close' : 'Add fact'}</span>
                 </button>
               </div>
 
@@ -855,7 +850,7 @@ export const LandingDemo: React.FC<LandingDemoProps> = ({
                     >
                       <div className="flex items-center gap-2.5 truncate">
                         <span
-                          className={`w-5 h-5 rounded-full font-mono text-[10px] flex items-center justify-center font-bold ${
+                          className={`w-5 h-5 rounded-full font-mono text-xs flex items-center justify-center font-bold ${
                             isCurrentlyWriting
                               ? 'bg-[#245B38] text-white animate-pulse'
                               : isWritten
@@ -876,7 +871,7 @@ export const LandingDemo: React.FC<LandingDemoProps> = ({
 
                       <div className="flex items-center gap-1 shrink-0 ml-2">
                         {isTarget ? (
-                          <span className="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-[#31566E] text-white">
+                          <span className="px-2 py-0.5 rounded text-xs font-mono font-bold bg-[#31566E] text-white">
                             Probe
                           </span>
                         ) : (
@@ -935,7 +930,7 @@ export const LandingDemo: React.FC<LandingDemoProps> = ({
 
               {/* Matrix Heatmap View */}
               <div className="p-3.5 rounded-xl border border-[#292D33] bg-[#0D0F12] text-[#F5F3EE] space-y-3 shadow-inner">
-                <div className="flex items-center justify-between text-[11px] font-mono text-[#C8C4BC]">
+                <div className="flex items-center justify-between text-xs font-mono text-[#C8C4BC]">
                   <span className="flex items-center gap-1">
                     <InlineMath math={`${dim} \\times ${dim}`} /> STATE MATRIX
                   </span>
@@ -994,12 +989,12 @@ export const LandingDemo: React.FC<LandingDemoProps> = ({
 
                 {/* Interactive Cell Inspector Box */}
                 {activeInspectCell ? (
-                  <div className="p-2.5 rounded-lg bg-[#151922] border border-[#292D33] text-[11px] font-mono text-[#F5F3EE] space-y-1">
+                  <div className="p-2.5 rounded-lg bg-[#151922] border border-[#292D33] text-xs font-mono text-[#F5F3EE] space-y-1">
                     <div className="flex items-center justify-between">
                       <span className="text-[#A78BFA] font-bold">
                         <InlineMath math={`M[${activeInspectCell.r}, ${activeInspectCell.c}]`} />
                       </span>
-                      <span className="text-[10px] text-[#C8C4BC]">
+                      <span className="text-xs text-[#C8C4BC]">
                         {selectedCell ? '(Pinned)' : '(Hover)'}
                       </span>
                     </div>
@@ -1023,7 +1018,7 @@ export const LandingDemo: React.FC<LandingDemoProps> = ({
                         </strong>
                       </div>
                     </div>
-                    <div className="text-[10px] text-[#C8C4BC] font-sans">
+                    <div className="text-xs text-[#C8C4BC] font-sans">
                       {activeInspectCell.val > 0.05 ? (
                         <span className="text-emerald-300">Constructive associative weight strengthening key-value binding.</span>
                       ) : activeInspectCell.val < -0.05 ? (
@@ -1034,13 +1029,13 @@ export const LandingDemo: React.FC<LandingDemoProps> = ({
                     </div>
                   </div>
                 ) : (
-                  <div className="text-[10px] font-mono text-[#9E9A92] text-center py-1">
+                  <div className="text-xs font-mono text-[#9E9A92] text-center py-1">
                     Hover or click any matrix coordinate to inspect
                   </div>
                 )}
 
                 {/* Color Legend */}
-                <div className="flex items-center justify-between text-[10px] font-mono text-[#C8C4BC] pt-1.5 border-t border-[#292D33]">
+                <div className="flex items-center justify-between text-xs font-mono text-[#C8C4BC] pt-1.5 border-t border-[#292D33]">
                   <div className="flex items-center gap-1.5">
                     <div className="w-2.5 h-2.5 rounded-[2px] bg-[#6842C2]" />
                     <span>Positive association</span>
@@ -1054,7 +1049,7 @@ export const LandingDemo: React.FC<LandingDemoProps> = ({
 
               {/* Retrieved State Vector Strip: v_hat = q^T M in R^d */}
               <div className="p-3.5 rounded-xl border border-[#292D33] bg-[#0D0F12] text-[#F5F3EE] space-y-2.5 shadow-inner">
-                <div className="flex items-center justify-between text-[11px] font-mono text-[#C8C4BC]">
+                <div className="flex items-center justify-between text-xs font-mono text-[#C8C4BC]">
                   <span className="flex items-center gap-1.5 font-bold text-[#A78BFA]">
                     <Activity className="w-3.5 h-3.5 text-[#A78BFA]" />
                     STATE VECTOR <InlineMath math="\hat{v} = q^\top M" />
@@ -1109,11 +1104,11 @@ export const LandingDemo: React.FC<LandingDemoProps> = ({
 
                 {/* Vector coordinate inspector feedback */}
                 {activeVectorCoord ? (
-                  <div className="p-2 rounded-lg bg-[#151922] border border-[#292D33] text-[11px] font-mono text-[#F5F3EE] flex items-center justify-between">
+                  <div className="p-2 rounded-lg bg-[#151922] border border-[#292D33] text-xs font-mono text-[#F5F3EE] flex items-center justify-between">
                     <span className="text-[#A78BFA] font-bold">
                       <InlineMath math={`\\hat{v}_{${activeVectorCoord.idx}} = ${activeVectorCoord.val.toFixed(4)}`} />
                     </span>
-                    <span className="text-[10px] text-[#C8C4BC]">
+                    <span className="text-xs text-[#C8C4BC]">
                       {activeVectorCoord.val > 0.05 ? (
                         <span className="text-emerald-300">Aligned projection</span>
                       ) : activeVectorCoord.val < -0.05 ? (
@@ -1124,7 +1119,7 @@ export const LandingDemo: React.FC<LandingDemoProps> = ({
                     </span>
                   </div>
                 ) : (
-                  <div className="text-[10px] font-mono text-[#9E9A92] text-center py-0.5">
+                  <div className="text-xs font-mono text-[#9E9A92] text-center py-0.5">
                     Hover coordinate bar <InlineMath math="\hat{v}_j" /> (<InlineMath math={`j \\in [0, ${dim - 1}]`} />) to inspect
                   </div>
                 )}
@@ -1151,7 +1146,7 @@ export const LandingDemo: React.FC<LandingDemoProps> = ({
               <div className="p-4 rounded-xl border border-[#D8D3C9] bg-[#FAF8F3] space-y-3.5 shadow-xs">
                 {/* Probe selector */}
                 <div className="space-y-1">
-                  <label className="text-[11px] font-sans font-medium text-[#6B665E] block">
+                  <label className="text-xs font-sans font-medium text-[#6B665E] block">
                     Active Probe Key (<InlineMath math="q = k_{\text{probe}}" />):
                   </label>
                   <div className="flex gap-1.5">
@@ -1172,7 +1167,7 @@ export const LandingDemo: React.FC<LandingDemoProps> = ({
                 {/* Ground Truth vs Computed Output */}
                 <div className="grid grid-cols-2 gap-2 pt-1">
                   <div className="p-2.5 rounded-lg bg-[#FFFFFF] border border-[#D8D3C9] space-y-0.5">
-                    <div className="text-[10px] font-mono text-[#6B665E] uppercase font-semibold">
+                    <div className="text-xs font-mono text-[#6B665E] uppercase font-semibold">
                       Ground Truth
                     </div>
                     <div className="font-serif font-bold text-sm text-[#1C1B19]">
@@ -1181,7 +1176,7 @@ export const LandingDemo: React.FC<LandingDemoProps> = ({
                   </div>
 
                   <div className="p-2.5 rounded-lg bg-[#FFFFFF] border border-[#D8D3C9] space-y-0.5">
-                    <div className="text-[10px] font-mono text-[#6B665E] uppercase font-semibold">
+                    <div className="text-xs font-mono text-[#6B665E] uppercase font-semibold">
                       Model Output
                     </div>
                     <div
@@ -1267,7 +1262,7 @@ export const LandingDemo: React.FC<LandingDemoProps> = ({
                   <div className="flex items-center justify-between pt-1 border-t border-[#E5E0D8]">
                     <span className="text-[#6B665E]">Empirical Status:</span>
                     <span
-                      className={`px-2 py-0.5 rounded text-[11px] font-bold flex items-center gap-1 ${
+                      className={`px-2 py-0.5 rounded text-xs font-bold flex items-center gap-1 ${
                         experiment.evaluation.status === 'Correct'
                           ? 'bg-[#EAF5EF] text-[#247A4B] border border-[#CDEEDB]'
                           : experiment.evaluation.status === 'Interference'
@@ -1297,9 +1292,9 @@ export const LandingDemo: React.FC<LandingDemoProps> = ({
 
                 {/* Candidate breakdown table */}
                 <div className="space-y-1.5">
-                  <div className="text-[10px] font-mono text-[#6B665E] uppercase tracking-wider font-semibold flex items-center justify-between">
+                  <div className="text-xs font-mono text-[#6B665E] uppercase tracking-wider font-semibold flex items-center justify-between">
                     <span>Candidate Affinities (<InlineMath math="\text{sim}(\hat{v}, v_c)" />)</span>
-                    <span className="text-[9px] text-[#9E9A92]">{experiment.evaluation.candidates.length} candidates</span>
+                    <span className="text-xs text-[#9E9A92]">{experiment.evaluation.candidates.length} candidates</span>
                   </div>
                   <div className="space-y-1 text-xs font-mono">
                     {experiment.evaluation.candidates.map((cand, cIdx) => (
@@ -1340,28 +1335,31 @@ export const LandingDemo: React.FC<LandingDemoProps> = ({
             </div>
           </div>
 
-          {/* SECONDARY CONTROLS (COLLAPSED UNDER "Change the conditions") */}
-          <div className="border-t border-[#D8D3C9] bg-[#FAF8F3]">
+          {/* EXPERIMENT CONDITIONS ROW */}
+          <div className="border-t border-[#D2D6D1] bg-[#F1F2F0] px-5 sm:px-7 py-3 flex flex-wrap items-center justify-between gap-3">
+            <div className="flex items-center gap-2">
+              <span className="font-sans text-xs font-semibold text-[#252725]">
+                Experiment conditions:
+              </span>
+              <span className="text-[#747873] font-normal text-xs hidden sm:inline">
+                Dimension <InlineMath math="d" />, retention <InlineMath math="\lambda" />, write strength <InlineMath math="\eta" />, interference noise <InlineMath math="\sigma" />
+              </span>
+            </div>
+
             <button
+              type="button"
               onClick={() => setShowConditions(!showConditions)}
-              className="w-full px-5 sm:px-7 py-3.5 flex items-center justify-between text-xs font-sans font-semibold text-[#1C1B19] hover:bg-[#F3EFFF] transition-colors cursor-pointer"
+              className="change-conditions"
             >
-              <div className="flex items-center gap-2">
-                <Sliders className="w-4 h-4 text-[#6842C2]" />
-                <span>Change the conditions</span>
-                <span className="text-[#6B665E] font-normal text-[11px] hidden sm:inline">
-                  (Dimension <InlineMath math="d" />, retention <InlineMath math="\lambda" />, write strength <InlineMath math="\eta" />, interference noise <InlineMath math="\sigma" />)
-                </span>
-              </div>
-              <div className="flex items-center gap-1 text-[#6842C2]">
-                <span className="text-xs">{showConditions ? 'Hide' : 'Configure Parameters'}</span>
-                {showConditions ? (
-                  <ChevronUp className="w-4 h-4" />
-                ) : (
-                  <ChevronDown className="w-4 h-4" />
-                )}
-              </div>
+              <Sliders className="w-4 h-4 text-[#31566E]" />
+              <span>{showConditions ? 'Hide conditions' : 'Change conditions'}</span>
+              {showConditions ? (
+                <ChevronUp className="w-4 h-4 text-[#747873]" />
+              ) : (
+                <ChevronDown className="w-4 h-4 text-[#747873]" />
+              )}
             </button>
+          </div>
 
             {showConditions && (
               <div className="p-5 sm:p-7 border-t border-[#D8D3C9] bg-[#FFFFFF] space-y-6 animate-in fade-in duration-200 text-xs font-sans">
@@ -1457,7 +1455,6 @@ export const LandingDemo: React.FC<LandingDemoProps> = ({
                 </div>
               </div>
             )}
-          </div>
         </div>
 
         {/* Action Anchor to Continue Down to Detailed Sections */}

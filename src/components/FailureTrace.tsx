@@ -127,8 +127,8 @@ export const FailureTrace: React.FC<FailureTraceProps> = ({
               <span className="text-xs font-mono uppercase tracking-widest text-rose-400 font-bold">
                 FAILURE TRACE REPLAY ENGINE
               </span>
-              <span className="text-[10px] font-mono uppercase text-emerald-400 bg-emerald-950/70 border border-emerald-800/60 px-2 py-0.5 rounded font-semibold">
-                EXACT EXPERIMENT STATES
+              <span className="text-xs font-mono text-emerald-400 bg-emerald-950/70 border border-emerald-800/60 px-2 py-0.5 rounded font-semibold">
+                Exact experiment states
               </span>
             </div>
             <h3 className="text-lg font-bold font-mono text-white mt-0.5">
@@ -175,9 +175,9 @@ export const FailureTrace: React.FC<FailureTraceProps> = ({
                 className={`p-2 rounded-lg border text-left font-mono text-xs transition-all flex flex-col justify-between h-14 cursor-pointer ${borderClass}`}
               >
                 <div className="flex items-center justify-between">
-                  <span className="text-[10px] text-[#8F96A3]">STEP {String(idx + 1).padStart(2, '0')}</span>
+                  <span className="text-xs text-[#8F96A3]">Step {String(idx + 1).padStart(2, '0')}</span>
                   <span
-                    className={`text-[9px] px-1 rounded uppercase font-bold ${
+                    className={`text-xs px-1 rounded uppercase font-bold ${
                       st.operation === 'WRITE'
                         ? 'bg-[#FFF5D8] text-[#5A4716] border border-[#F0E3B8]'
                         : 'bg-[#DDEBF7] text-[#21445B] border border-[#CDE1F0]'
@@ -186,7 +186,7 @@ export const FailureTrace: React.FC<FailureTraceProps> = ({
                     {st.operation}
                   </span>
                 </div>
-                <div className="truncate font-semibold text-[11px] text-white">
+                <div className="truncate font-semibold text-xs text-white">
                   {st.label}
                 </div>
               </button>
@@ -253,7 +253,7 @@ export const FailureTrace: React.FC<FailureTraceProps> = ({
             <button
               key={sp.label}
               onClick={() => setPlaybackSpeed(sp.ms)}
-              className={`px-2 py-1 rounded border text-[11px] transition-colors cursor-pointer ${
+              className={`px-2 py-1 rounded border text-xs transition-colors cursor-pointer ${
                 playbackSpeed === sp.ms
                   ? 'btn-blue font-bold shadow-xs'
                   : 'border-[#252A35] bg-[#151922] text-[#8F96A3] hover:text-white'
@@ -336,18 +336,18 @@ export const FailureTrace: React.FC<FailureTraceProps> = ({
 
               <div className="grid grid-cols-2 gap-2 text-xs">
                 <div className="p-2.5 rounded bg-[#0E131E] border border-[#20283C]">
-                  <span className="text-[10px] text-slate-400 block uppercase">EXPECTED</span>
+                  <span className="text-xs text-slate-400 block font-medium">Expected</span>
                   <strong className="text-white text-sm block mt-0.5">{groundTruth}</strong>
                 </div>
 
                 <div className="p-2.5 rounded bg-[#0E131E] border border-rose-900/60">
-                  <span className="text-[10px] text-slate-400 block uppercase">RETRIEVED</span>
+                  <span className="text-xs text-slate-400 block font-medium">Retrieved</span>
                   <strong className="text-rose-400 text-sm block mt-0.5">{finalPrediction}</strong>
                 </div>
               </div>
 
               <div className="flex items-center justify-between text-xs pt-1 border-t border-rose-900/40" title="This score is based on representation similarity and is not a calibrated probability.">
-                <span className="text-slate-400">RETRIEVAL SCORE:</span>
+                <span className="text-slate-400">Retrieval score:</span>
                 <span className="text-[#22D3EE] font-bold text-sm">
                   {Math.round(finalConfidence * 100)}%
                 </span>
@@ -368,7 +368,7 @@ export const FailureTrace: React.FC<FailureTraceProps> = ({
                 <Database className="w-3.5 h-3.5 text-violet-400" />
                 RECORDED STATE MATRIX M ({dimension}×{dimension})
               </span>
-              <span className="text-[10px] text-slate-400">At Step {currentStepIdx + 1}</span>
+              <span className="text-xs text-slate-400">At step {currentStepIdx + 1}</span>
             </div>
 
             {/* Matrix Heatmap Grid */}
@@ -401,7 +401,7 @@ export const FailureTrace: React.FC<FailureTraceProps> = ({
               </div>
             </div>
 
-            <div className="flex flex-wrap items-center justify-between gap-2 text-[10px] font-mono text-slate-400 pt-1 border-t border-[#20283C]">
+            <div className="flex flex-wrap items-center justify-between gap-2 text-xs font-mono text-slate-400 pt-1 border-t border-[#20283C]">
               <div className="flex items-center gap-3">
                 <span className="flex items-center gap-1">
                   <span className="w-2.5 h-2.5 rounded bg-[#22D3EE] inline-block" /> Positive Weight
@@ -417,7 +417,7 @@ export const FailureTrace: React.FC<FailureTraceProps> = ({
           {/* Scientific Guarantee Label */}
           <div className="p-3.5 rounded-xl bg-[#0B0F19] border border-[#1C2336] text-xs font-sans text-slate-300 leading-relaxed">
             <strong className="text-white font-mono block mb-1">
-              PROVENANCE GUARANTEE:
+              Provenance guarantee:
             </strong>
             “Replay uses the exact states produced by the experiment. No random animation. No fabricated intermediate states.”
           </div>

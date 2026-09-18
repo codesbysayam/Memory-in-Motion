@@ -49,7 +49,7 @@ export const Section02GrowingContext: React.FC = () => {
                   <Sliders className="w-3.5 h-3.5" />
                   Laboratory parameters
                 </span>
-                <span className="text-[10px] font-mono text-[#716F68]">Adjust in real time</span>
+                <span className="text-xs font-mono text-[#716F68]">Adjust in real time</span>
               </div>
 
               {/* Slider 1: Sequence Length */}
@@ -106,7 +106,7 @@ export const Section02GrowingContext: React.FC = () => {
 
             {/* Scientific observation note */}
             <div className="rounded-2xl border border-[#E5E0D8] bg-[#FAF8F5] p-5 text-xs text-[#52504A] font-sans leading-relaxed">
-              <div className="font-mono text-[10px] uppercase tracking-wider text-[#6842C2] font-bold mb-1.5">
+              <div className="font-mono text-xs tracking-wider text-[#6842C2] font-bold mb-1.5">
                 Mathematical Rule of Orthogonality
               </div>
               In <InlineMath math={`\\mathbb{R}^{${capacityDim}}`} />, at most <strong className="text-[#151515]">{capacityDim}</strong> mutually orthogonal vectors can coexist. Once the stream contains <strong className="text-[#151515]">{seqLength}</strong> facts, vectors must superpose into quasi-orthogonal angles, reducing retrieval margins.
@@ -125,7 +125,7 @@ export const Section02GrowingContext: React.FC = () => {
                       Growing Token History
                     </span>
                   </div>
-                  <span className="text-[10px] font-mono text-[#A46622] bg-[#FDF8EE] px-2 py-0.5 rounded-full border border-[#F5E2C4] font-bold">
+                  <span className="text-xs font-mono text-[#A46622] bg-[#FDF8EE] px-2 py-0.5 rounded-full border border-[#F5E2C4] font-bold">
                     <InlineMath math="\mathcal{O}(T)" /> KV-CACHE
                   </span>
                 </div>
@@ -151,7 +151,7 @@ export const Section02GrowingContext: React.FC = () => {
                   </div>
                 </div>
 
-                <div className="rounded-xl bg-[#FAF8F5] p-3 border border-[#EAE6DF] text-[11px] text-[#52504A] font-sans leading-relaxed">
+                <div className="rounded-xl bg-[#FAF8F5] p-3 border border-[#EAE6DF] text-xs text-[#52504A] font-sans leading-relaxed">
                   <span className="text-[#A46622] font-bold block mb-0.5">Physical barrier:</span>
                   Hardware VRAM runs out on long conversations. Cannot operate in streaming robotics without eviction.
                 </div>
@@ -166,7 +166,7 @@ export const Section02GrowingContext: React.FC = () => {
                       Recurrent State Vector
                     </span>
                   </div>
-                  <span className="text-[10px] font-mono text-[#6842C2] bg-[#F3EFFF] px-2 py-0.5 rounded-full border border-[#E2D8FA] font-bold">
+                  <span className="text-xs font-mono text-[#6842C2] bg-[#F3EFFF] px-2 py-0.5 rounded-full border border-[#E2D8FA] font-bold">
                     <InlineMath math="\mathcal{O}(1)" /> CONSTANT
                   </span>
                 </div>
@@ -209,7 +209,7 @@ export const Section02GrowingContext: React.FC = () => {
                 </div>
 
                 <div
-                  className={`rounded-xl p-3 border text-[11px] font-sans leading-relaxed ${
+                  className={`rounded-xl p-3 border text-xs font-sans leading-relaxed ${
                     isOverloaded
                       ? 'bg-[#FDF2F0] border-[#F7D3CF] text-[#B64235]'
                       : 'bg-[#FAF8F5] border-[#EAE6DF] text-[#52504A]'

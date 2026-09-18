@@ -202,7 +202,7 @@ export const FailureExplanation: React.FC<FailureExplanationProps> = ({
               <span className="text-xs font-mono text-slate-300 font-semibold">
                 State Vector Displacement (Before vs. After Superposition)
               </span>
-              <span className="text-[11px] font-mono text-slate-400">
+              <span className="text-xs font-mono text-slate-400">
                 Highlighting highest delta dimensions
               </span>
             </div>
@@ -252,7 +252,7 @@ export const FailureExplanation: React.FC<FailureExplanationProps> = ({
                         : 'border-[#1E2536] bg-[#121724] opacity-60'
                     }`}
                   >
-                    <div className="text-[10px] font-mono text-slate-400">STAGE 0{stage.num}</div>
+                    <div className="text-xs font-mono text-slate-400">STAGE 0{stage.num}</div>
                     <div
                       className={`text-xs font-bold font-mono mt-0.5 ${
                         stage.num === 6 ? 'text-rose-400' : 'text-slate-200'
@@ -260,7 +260,7 @@ export const FailureExplanation: React.FC<FailureExplanationProps> = ({
                     >
                       {stage.title}
                     </div>
-                    <div className="text-[10px] text-slate-400 mt-1 truncate" title={stage.desc}>
+                    <div className="text-xs text-slate-400 mt-1 truncate" title={stage.desc}>
                       {stage.desc}
                     </div>
                   </div>

@@ -546,13 +546,9 @@ export const Section03RecurrentMemory: React.FC = () => {
                         handleParamCommit('Dimension', config.dimension, d);
                         updateConfig({ dimension: d });
                       }}
-                      className={`py-1.5 rounded-lg border text-center font-mono text-xs transition cursor-pointer ${
-                        config.dimension === d
-                          ? 'border-[#31566E] bg-[#EBF1F5] text-[#31566E] font-bold shadow-xs'
-                          : 'border-[#D9DCD8] bg-[#FFFFFF] text-[#70736F] hover:text-[#252525] hover:bg-[#F7F5EF]'
-                      }`}
+                      className={`dimension-delta ${config.dimension === d ? 'active' : ''}`}
                     >
-                      D={d}
+                      d={d}
                     </button>
                   ))}
                 </div>
@@ -807,7 +803,7 @@ export const Section03RecurrentMemory: React.FC = () => {
                     {currentSnapshot.confidence - prevSnapshot.confidence >= 0 ? '+' : ''}
                     {(currentSnapshot.confidence - prevSnapshot.confidence).toFixed(1)} pp retrieval score
                   </div>
-                  <div className="text-[11px] text-[#70736F]">
+                  <div className="text-xs text-[#70736F]">
                     {currentSnapshot.correct !== prevSnapshot.correct
                       ? currentSnapshot.correct
                         ? 'Recovery observed: retrieved correct candidate.'

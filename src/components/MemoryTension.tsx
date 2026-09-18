@@ -69,8 +69,8 @@ export const MemoryTension: React.FC<MemoryTensionProps> = ({
               <span className="text-xs font-mono font-bold tracking-widest text-[#6842C2] uppercase">
                 CONCEPTUAL DESIGN PRESSURE
               </span>
-              <span className="text-[10px] font-mono text-[#716F68] bg-[#FAF8F5] px-2 py-0.5 rounded border border-[#EAE6DF]">
-                THE TWO EXTREMES
+              <span className="text-xs font-mono text-[#716F68] bg-[#FAF8F5] px-2 py-0.5 rounded border border-[#EAE6DF]">
+                The Two Extremes
               </span>
             </div>
             <h3 className="text-lg font-serif font-bold text-[#151515] mt-0.5">
@@ -89,19 +89,19 @@ export const MemoryTension: React.FC<MemoryTensionProps> = ({
         {/* Left Column: KEEP EVERYTHING */}
         <div className="p-4 rounded-xl bg-[#FAF8F5] border border-[#EAE6DF] space-y-3">
           <div className="flex items-center justify-between">
-            <span className="font-bold text-[#167C80] uppercase tracking-wider text-[11px]">
+            <span className="font-bold text-[#167C80] uppercase tracking-wider text-xs">
               KEEP EVERYTHING
             </span>
-            <span className="text-[10px] text-[#716F68]">Transformer KV Cache</span>
+            <span className="text-xs text-[#716F68]">Transformer KV Cache</span>
           </div>
-          <div className="space-y-1.5 text-[#52504A] text-[11px]">
+          <div className="space-y-1.5 text-[#52504A] text-xs">
             <div className="flex items-center gap-2">
               <span className="text-[#167C80]">▼</span> Growing context window
             </div>
             <div className="flex items-center gap-2">
               <span className="text-[#167C80]">▼</span> Exact token retention / high recall
             </div>
-            <div className="pt-2 border-t border-[#EAE6DF] flex flex-col gap-1 text-[10px]">
+            <div className="pt-2 border-t border-[#EAE6DF] flex flex-col gap-1 text-xs">
               <span className="text-[#B64235] font-semibold">↑ O(N) storage expansion</span>
               <span className="text-[#B64235] font-semibold">↑ O(N²) quadratic attention compute</span>
             </div>
@@ -111,19 +111,19 @@ export const MemoryTension: React.FC<MemoryTensionProps> = ({
         {/* Right Column: COMPRESS EVERYTHING */}
         <div className="p-4 rounded-xl bg-[#FAF8F5] border border-[#EAE6DF] space-y-3">
           <div className="flex items-center justify-between">
-            <span className="font-bold text-[#6842C2] uppercase tracking-wider text-[11px]">
+            <span className="font-bold text-[#6842C2] uppercase tracking-wider text-xs">
               COMPRESS EVERYTHING
             </span>
-            <span className="text-[10px] text-[#716F68]">Recurrent State / BDH</span>
+            <span className="text-xs text-[#716F68]">Recurrent State / BDH</span>
           </div>
-          <div className="space-y-1.5 text-[#52504A] text-[11px]">
+          <div className="space-y-1.5 text-[#52504A] text-xs">
             <div className="flex items-center gap-2">
               <span className="text-[#6842C2]">▼</span> Fixed-size bounded internal state
             </div>
             <div className="flex items-center gap-2">
               <span className="text-[#6842C2]">▼</span> O(1) constant generation cost
             </div>
-            <div className="pt-2 border-t border-[#EAE6DF] flex flex-col gap-1 text-[10px]">
+            <div className="pt-2 border-t border-[#EAE6DF] flex flex-col gap-1 text-xs">
               <span className="text-[#A46622] font-semibold">↑ Coordinate interference</span>
               <span className="text-[#A46622] font-semibold">↑ Forgetting / crosstalk risk</span>
             </div>
@@ -138,7 +138,7 @@ export const MemoryTension: React.FC<MemoryTensionProps> = ({
             <ArrowLeftRight className="w-3.5 h-3.5 text-[#167C80]" />
             YOUR EXPERIMENT OPERATING POINT:
           </span>
-          <span className="text-[11px] text-[#167C80] font-bold">
+          <span className="text-xs text-[#167C80] font-bold">
             D={dimension} · Seq={sequenceLength} · λ={retention.toFixed(2)}
           </span>
         </div>
@@ -149,7 +149,7 @@ export const MemoryTension: React.FC<MemoryTensionProps> = ({
           <div className="h-2 w-full rounded-full bg-[#E5E0D8]" />
 
           {/* Fulcrum labels on ends */}
-          <div className="flex justify-between text-[10px] font-mono text-[#716F68] mt-2">
+          <div className="flex justify-between text-xs font-mono text-[#716F68] mt-2">
             <div className="text-left">
               <span className="text-[#167C80] font-bold block">RECALL FOCUS</span>
               <span>Generous coordinates</span>
@@ -168,7 +168,7 @@ export const MemoryTension: React.FC<MemoryTensionProps> = ({
             className="absolute top-0 transition-all duration-300 -translate-x-1/2 flex flex-col items-center pointer-events-none"
             style={{ left: `${indicatorPercent}%` }}
           >
-            <div className="px-2.5 py-0.5 rounded-full bg-[#151515] text-[#FFFFFF] text-[10px] font-mono font-bold shadow-sm flex items-center gap-1">
+            <div className="px-2.5 py-0.5 rounded-full bg-[#151515] text-[#FFFFFF] text-xs font-mono font-bold shadow-sm flex items-center gap-1">
               <span>OPERATING POINT</span>
             </div>
             <div className="w-0.5 h-6 bg-[#151515] mt-0.5" />
@@ -187,7 +187,7 @@ export const MemoryTension: React.FC<MemoryTensionProps> = ({
           <HelpCircle className="w-4 h-4 text-[#6842C2] shrink-0" />
           <span>RESEARCH CONNECTION · PATHWAY BDH EXPLAINER</span>
         </div>
-        <p className="text-[11px] leading-relaxed text-[#52504A] font-sans">
+        <p className="text-xs leading-relaxed text-[#52504A] font-sans">
           &ldquo;Your experiment shows one concrete instance of this trade-off.&rdquo; This is consistent with Pathway&apos;s current BDH explainer, which contrasts growing Transformer KV-cache state with compact recurrent states and frames BDH as trying to balance long-context performance with token-generation complexity.
         </p>
       </div>

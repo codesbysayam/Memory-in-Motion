@@ -30,7 +30,7 @@ export const TokenBudgetVisual: React.FC = () => {
         </div>
 
         <div className="flex items-center gap-2">
-          <span className="text-[11px] font-mono text-slate-400">Thinking Depth:</span>
+          <span className="text-xs font-mono text-slate-400">Thinking Depth:</span>
           <div className="flex items-center gap-1 bg-[#121724] border border-[#232D42] p-1 rounded-lg font-mono text-xs">
             {[2, 4, 6, 8, 12].map((s) => (
               <button
@@ -58,7 +58,7 @@ export const TokenBudgetVisual: React.FC = () => {
               <Zap className="w-3.5 h-3.5 text-amber-400" />
               CHAIN-OF-THOUGHT (CoT)
             </span>
-            <span className="text-[10px] text-slate-400">Standard LLMs</span>
+            <span className="text-xs text-slate-400">Standard LLMs</span>
           </div>
 
           <div className="space-y-3 text-xs">
@@ -73,7 +73,7 @@ export const TokenBudgetVisual: React.FC = () => {
                   style={{ width: `${Math.min(100, (cotTokens / 540) * 100)}%` }}
                 />
               </div>
-              <span className="text-[10px] text-slate-500 mt-0.5 block">High verbal footprint · Linear growth</span>
+              <span className="text-xs text-slate-500 mt-0.5 block">High verbal footprint · Linear growth</span>
             </div>
 
             <div>
@@ -87,15 +87,15 @@ export const TokenBudgetVisual: React.FC = () => {
                   style={{ width: `${Math.min(100, (cotMemoryMb / 7.2) * 100)}%` }}
                 />
               </div>
-              <span className="text-[10px] text-slate-500 mt-0.5 block">Accumulates with every reasoning token</span>
+              <span className="text-xs text-slate-500 mt-0.5 block">Accumulates with every reasoning token</span>
             </div>
 
-            <div className="p-2.5 rounded-lg bg-[#0C1019] border border-[#1A2336] text-[11px] space-y-1">
+            <div className="p-2.5 rounded-lg bg-[#0C1019] border border-[#1A2336] text-xs space-y-1">
               <div className="flex items-center gap-1.5 text-slate-300 font-semibold">
                 <Eye className="w-3 h-3 text-amber-400" />
                 <span>Thinking Visibility:</span>
               </div>
-              <p className="text-slate-400 text-[10px] font-sans">
+              <p className="text-slate-400 text-xs font-sans">
                 Visible directly in emitted text ("Step 1: First we compute... Step 2: Next we verify...").
               </p>
             </div>
@@ -109,7 +109,7 @@ export const TokenBudgetVisual: React.FC = () => {
               <Brain className="w-3.5 h-3.5 text-cyan-400" />
               BDH LATENT REASONING
             </span>
-            <span className="text-[10px] text-cyan-400 font-semibold">BDH-CQ Concept</span>
+            <span className="text-xs text-cyan-400 font-semibold">BDH-CQ Concept</span>
           </div>
 
           <div className="space-y-3 text-xs">
@@ -124,7 +124,7 @@ export const TokenBudgetVisual: React.FC = () => {
                   style={{ width: '4%' }}
                 />
               </div>
-              <span className="text-[10px] text-slate-500 mt-0.5 block">Minimal · Final answer only</span>
+              <span className="text-xs text-slate-500 mt-0.5 block">Minimal · Final answer only</span>
             </div>
 
             <div>
@@ -138,15 +138,15 @@ export const TokenBudgetVisual: React.FC = () => {
                   style={{ width: '12%' }}
                 />
               </div>
-              <span className="text-[10px] text-slate-500 mt-0.5 block">O(1) state space · Constant memory limit</span>
+              <span className="text-xs text-slate-500 mt-0.5 block">O(1) state space · Constant memory limit</span>
             </div>
 
-            <div className="p-2.5 rounded-lg bg-[#0C1019] border border-[#1A2336] text-[11px] space-y-1">
+            <div className="p-2.5 rounded-lg bg-[#0C1019] border border-[#1A2336] text-xs space-y-1">
               <div className="flex items-center gap-1.5 text-slate-300 font-semibold">
                 <Eye className="w-3 h-3 text-cyan-400" />
                 <span>Thinking Visibility:</span>
               </div>
-              <p className="text-slate-400 text-[10px] font-sans">
+              <p className="text-slate-400 text-xs font-sans">
                 Visible in the recurrent synaptic trajectory σ(t) across internal reasoning rounds.
               </p>
             </div>
@@ -162,7 +162,7 @@ export const TokenBudgetVisual: React.FC = () => {
             For {reasoningSteps} reasoning steps: BDH avoids generating {cotTokens - bdhTokens} scratchpad tokens while bounding working memory.
           </span>
         </div>
-        <span className="text-[10px] text-slate-500 hidden sm:inline">O(1) Memory Frontier</span>
+        <span className="text-xs text-slate-500 hidden sm:inline">O(1) Memory Frontier</span>
       </div>
     </div>
   );

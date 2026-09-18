@@ -87,12 +87,12 @@ export const EvidenceLadder: React.FC<{ theme?: 'dark' | 'light' }> = ({ theme =
           </p>
         </div>
 
-        <span className={`text-[10px] px-2.5 py-1 rounded border font-bold ${
+        <span className={`text-xs px-2.5 py-1 rounded border font-bold ${
           isLight
             ? 'bg-[#F4F1EA] border-[#D8D4CB] text-[#716F68]'
             : 'bg-zinc-900 border-zinc-800 text-slate-400'
         }`}>
-          4-LEVEL TAXONOMY
+          4-level taxonomy
         </span>
       </div>
 
@@ -111,11 +111,11 @@ export const EvidenceLadder: React.FC<{ theme?: 'dark' | 'light' }> = ({ theme =
           }`}
         >
           <div className="flex items-center justify-between mb-1.5">
-            <span className={`text-[10px] font-bold ${isLight ? 'text-[#167C80]' : 'text-cyan-400'}`}>LEVEL 1</span>
+            <span className={`text-xs font-bold ${isLight ? 'text-[#167C80]' : 'text-cyan-400'}`}>Level 1</span>
             <Cpu className={`w-3.5 h-3.5 ${isLight ? 'text-[#167C80]' : 'text-cyan-400'}`} />
           </div>
-          <strong className={`block text-[11px] ${isLight ? 'text-[#151515]' : 'text-white'}`}>LIVE TOY COMPUTATION</strong>
-          <span className={`text-[10px] font-sans mt-0.5 block ${isLight ? 'text-[#716F68]' : 'text-slate-400'}`}>
+          <strong className={`block text-xs ${isLight ? 'text-[#151515]' : 'text-white'}`}>Live toy computation</strong>
+          <span className={`text-xs font-sans mt-0.5 block ${isLight ? 'text-[#716F68]' : 'text-slate-400'}`}>
             Generated locally by this browser right now.
           </span>
         </button>
@@ -133,11 +133,11 @@ export const EvidenceLadder: React.FC<{ theme?: 'dark' | 'light' }> = ({ theme =
           }`}
         >
           <div className="flex items-center justify-between mb-1.5">
-            <span className={`text-[10px] font-bold ${isLight ? 'text-[#6842C2]' : 'text-purple-400'}`}>LEVEL 2</span>
+            <span className={`text-xs font-bold ${isLight ? 'text-[#6842C2]' : 'text-purple-400'}`}>Level 2</span>
             <BookOpen className={`w-3.5 h-3.5 ${isLight ? 'text-[#6842C2]' : 'text-purple-400'}`} />
           </div>
-          <strong className={`block text-[11px] ${isLight ? 'text-[#151515]' : 'text-white'}`}>PUBLISHED RESEARCH</strong>
-          <span className={`text-[10px] font-sans mt-0.5 block ${isLight ? 'text-[#716F68]' : 'text-slate-400'}`}>
+          <strong className={`block text-xs ${isLight ? 'text-[#151515]' : 'text-white'}`}>Published research</strong>
+          <span className={`text-xs font-sans mt-0.5 block ${isLight ? 'text-[#716F68]' : 'text-slate-400'}`}>
             From the primary paper and mathematical equations.
           </span>
         </button>
@@ -155,11 +155,11 @@ export const EvidenceLadder: React.FC<{ theme?: 'dark' | 'light' }> = ({ theme =
           }`}
         >
           <div className="flex items-center justify-between mb-1.5">
-            <span className={`text-[10px] font-bold ${isLight ? 'text-[#247A4B]' : 'text-emerald-400'}`}>LEVEL 3</span>
+            <span className={`text-xs font-bold ${isLight ? 'text-[#247A4B]' : 'text-emerald-400'}`}>Level 3</span>
             <BarChart3 className={`w-3.5 h-3.5 ${isLight ? 'text-[#247A4B]' : 'text-emerald-400'}`} />
           </div>
-          <strong className={`block text-[11px] ${isLight ? 'text-[#151515]' : 'text-white'}`}>PUBLISHED BENCHMARK</strong>
-          <span className={`text-[10px] font-sans mt-0.5 block ${isLight ? 'text-[#716F68]' : 'text-slate-400'}`}>
+          <strong className={`block text-xs ${isLight ? 'text-[#151515]' : 'text-white'}`}>Published benchmark</strong>
+          <span className={`text-xs font-sans mt-0.5 block ${isLight ? 'text-[#716F68]' : 'text-slate-400'}`}>
             Reported empirical research results.
           </span>
         </button>
@@ -177,11 +177,11 @@ export const EvidenceLadder: React.FC<{ theme?: 'dark' | 'light' }> = ({ theme =
           }`}
         >
           <div className="flex items-center justify-between mb-1.5">
-            <span className={`text-[10px] font-bold ${isLight ? 'text-[#A46622]' : 'text-amber-400'}`}>LEVEL 4</span>
+            <span className={`text-xs font-bold ${isLight ? 'text-[#A46622]' : 'text-amber-400'}`}>Level 4</span>
             <GraduationCap className={`w-3.5 h-3.5 ${isLight ? 'text-[#A46622]' : 'text-amber-400'}`} />
           </div>
-          <strong className={`block text-[11px] ${isLight ? 'text-[#151515]' : 'text-white'}`}>EDUCATIONAL INTERPRETATION</strong>
-          <span className={`text-[10px] font-sans mt-0.5 block ${isLight ? 'text-[#716F68]' : 'text-slate-400'}`}>
+          <strong className={`block text-xs ${isLight ? 'text-[#151515]' : 'text-white'}`}>Educational interpretation</strong>
+          <span className={`text-xs font-sans mt-0.5 block ${isLight ? 'text-[#716F68]' : 'text-slate-400'}`}>
             Pedagogical explanation for human intuition.
           </span>
         </button>
@@ -199,7 +199,7 @@ export const EvidenceLadder: React.FC<{ theme?: 'dark' | 'light' }> = ({ theme =
             }`}
           >
             <div className="flex flex-wrap items-center justify-between gap-2">
-              <span className={`px-2 py-0.5 rounded border text-[10px] font-bold ${
+              <span className={`px-2 py-0.5 rounded border text-xs font-bold ${
                 isLight
                   ? item.level === 1
                     ? 'border-[#167C80]/40 bg-[#167C80]/10 text-[#167C80]'
@@ -210,9 +210,9 @@ export const EvidenceLadder: React.FC<{ theme?: 'dark' | 'light' }> = ({ theme =
                     : 'border-[#A46622]/40 bg-[#A46622]/10 text-[#A46622]'
                   : item.color
               }`}>
-                LEVEL {item.level} · {item.badge}
+                Level {item.level} · {item.badge}
               </span>
-              <span className={`text-[10px] font-sans ${isLight ? 'text-[#716F68]' : 'text-slate-400'}`}>
+              <span className={`text-xs font-sans ${isLight ? 'text-[#716F68]' : 'text-slate-400'}`}>
                 Source: {item.sourceType}
               </span>
             </div>
@@ -221,18 +221,18 @@ export const EvidenceLadder: React.FC<{ theme?: 'dark' | 'light' }> = ({ theme =
               &ldquo;{item.claim}&rdquo;
             </div>
 
-            <div className={`pt-2 border-t grid grid-cols-1 sm:grid-cols-2 gap-2 text-[11px] font-sans ${
+            <div className={`pt-2 border-t grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs font-sans ${
               isLight ? 'border-[#D8D4CB] text-[#716F68]' : 'border-[#1A2234] text-slate-400'
             }`}>
               <div>
-                <strong className={`font-mono text-[10px] uppercase block ${isLight ? 'text-[#2A2926]' : 'text-slate-300'}`}>
-                  CITATION:
+                <strong className={`font-mono text-xs uppercase block ${isLight ? 'text-[#2A2926]' : 'text-slate-300'}`}>
+                  Citation:
                 </strong>
                 <span>{item.sourceCitation}</span>
               </div>
               <div>
-                <strong className={`font-mono text-[10px] uppercase block ${isLight ? 'text-[#2A2926]' : 'text-slate-300'}`}>
-                  VERIFICATION:
+                <strong className={`font-mono text-xs uppercase block ${isLight ? 'text-[#2A2926]' : 'text-slate-300'}`}>
+                  Verification:
                 </strong>
                 <span>{item.verificationMethod}</span>
               </div>

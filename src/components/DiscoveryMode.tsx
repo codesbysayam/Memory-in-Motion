@@ -298,7 +298,7 @@ export const DiscoveryMode: React.FC<DiscoveryModeProps> = ({
         </div>
 
         <div className="flex items-center gap-3">
-          <div className="text-[11px] font-sans text-slate-400 hidden lg:inline">
+          <div className="text-xs font-sans text-slate-400 hidden lg:inline">
             {mode === 'guided'
               ? 'Follow the experiment step by step.'
               : 'Change the system and test your own hypothesis.'}
@@ -320,7 +320,7 @@ export const DiscoveryMode: React.FC<DiscoveryModeProps> = ({
           {/* Progress Indicator: STEP 1 / 5 to STEP 5 / 5 */}
           <div className="rounded-2xl border border-purple-900/40 bg-[#0E0C18] p-4 sm:p-5 space-y-3 font-mono">
             <div className="flex flex-wrap items-center justify-between gap-2">
-              <span className="text-[11px] uppercase tracking-widest text-purple-400 font-bold flex items-center gap-1.5">
+              <span className="text-xs uppercase tracking-widest text-purple-400 font-bold flex items-center gap-1.5">
                 <Compass className="w-4 h-4 text-purple-400" />
                 SCIENTIFIC PROTOCOL · STEP {guidedStep} / 5
               </span>
@@ -361,7 +361,7 @@ export const DiscoveryMode: React.FC<DiscoveryModeProps> = ({
                         : 'border-[#222B3D] bg-[#121826] text-slate-400 hover:text-slate-200'
                     }`}
                   >
-                    <div className="flex items-center justify-between text-[10px]">
+                    <div className="flex items-center justify-between text-xs">
                       <span>0{st.num}</span>
                       {isDone ? (
                         <CheckCircle2 className="w-3 h-3 text-emerald-400" />
@@ -384,7 +384,7 @@ export const DiscoveryMode: React.FC<DiscoveryModeProps> = ({
           {guidedStep === 1 && (
             <div className="rounded-2xl border border-[#232B3E] bg-[#0C111C] p-5 sm:p-6 space-y-5">
               <div className="space-y-1">
-                <span className="text-[11px] font-mono uppercase text-purple-400 font-bold">
+                <span className="text-xs font-mono uppercase text-purple-400 font-bold">
                   STAGE 01 · WRITING INITIAL ASSOCIATIONS
                 </span>
                 <h3 className="font-serif text-xl sm:text-2xl font-bold text-white">
@@ -397,7 +397,7 @@ export const DiscoveryMode: React.FC<DiscoveryModeProps> = ({
 
               {/* Input stream preview */}
               <div className="p-4 rounded-xl bg-[#080C14] border border-[#1C263A] space-y-3 font-mono text-xs">
-                <div className="text-slate-400 text-[10px] uppercase font-bold">
+                <div className="text-slate-400 text-xs uppercase font-bold">
                   CANONICAL STREAM TO WRITE:
                 </div>
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
@@ -442,7 +442,7 @@ export const DiscoveryMode: React.FC<DiscoveryModeProps> = ({
           {guidedStep === 2 && (
             <div className="rounded-2xl border border-[#232B3E] bg-[#0C111C] p-5 sm:p-6 space-y-5">
               <div className="space-y-1">
-                <span className="text-[11px] font-mono uppercase text-purple-400 font-bold">
+                <span className="text-xs font-mono uppercase text-purple-400 font-bold">
                   STAGE 02 · COORDINATE SUPERPOSITION
                 </span>
                 <h3 className="font-serif text-xl sm:text-2xl font-bold text-white">
@@ -489,7 +489,7 @@ export const DiscoveryMode: React.FC<DiscoveryModeProps> = ({
           {guidedStep === 3 && (
             <div className="rounded-2xl border border-[#232B3E] bg-[#0C111C] p-5 sm:p-6 space-y-5">
               <div className="space-y-1">
-                <span className="text-[11px] font-mono uppercase text-purple-400 font-bold">
+                <span className="text-xs font-mono uppercase text-purple-400 font-bold">
                   STAGE 03 · HYPOTHESIS & PROBE EVALUATION
                 </span>
                 <h3 className="font-serif text-xl sm:text-2xl font-bold text-white">
@@ -504,7 +504,7 @@ export const DiscoveryMode: React.FC<DiscoveryModeProps> = ({
               <div className="p-4 sm:p-5 rounded-xl bg-[#0E1524] border border-[#1E293E] space-y-3 font-mono">
                 <div className="flex items-center justify-between text-xs">
                   <span className="text-slate-300 font-bold">QUESTION: Will current memory retrieve "Tokyo"?</span>
-                  <span className="text-[10px] text-amber-400 bg-amber-950/60 border border-amber-800/60 px-2 py-0.5 rounded">
+                  <span className="text-xs text-amber-400 bg-amber-950/60 border border-amber-800/60 px-2 py-0.5 rounded">
                     PREDICTION REQUIRED
                   </span>
                 </div>
@@ -538,7 +538,7 @@ export const DiscoveryMode: React.FC<DiscoveryModeProps> = ({
                 </div>
 
                 {!learnerPrediction && (
-                  <p className="text-[11px] text-amber-400/90 font-sans">
+                  <p className="text-xs text-amber-400/90 font-sans">
                     * Make your prediction to unlock probe execution.
                   </p>
                 )}
@@ -565,19 +565,19 @@ export const DiscoveryMode: React.FC<DiscoveryModeProps> = ({
                 <div className="space-y-4 pt-3 border-t border-[#1C263A] animate-in fade-in">
                   <div className="grid grid-cols-1 sm:grid-cols-4 gap-3 font-mono text-xs">
                     <div className="p-3 rounded-xl bg-[#0E1524] border border-[#1E293E]">
-                      <div className="text-[10px] text-slate-400 uppercase">GROUND TRUTH</div>
+                      <div className="text-xs text-slate-400 uppercase">GROUND TRUTH</div>
                       <div className="text-base font-bold text-white mt-0.5">{groundTruth}</div>
                     </div>
                     <div className="p-3 rounded-xl bg-emerald-950/30 border border-emerald-700/50">
-                      <div className="text-[10px] text-slate-400 uppercase">MODEL OUTPUT</div>
+                      <div className="text-xs text-slate-400 uppercase">MODEL OUTPUT</div>
                       <div className="text-base font-bold text-emerald-300 mt-0.5">{prediction}</div>
                     </div>
                     <div className="p-3 rounded-xl bg-[#0E1524] border border-[#1E293E]">
-                      <div className="text-[10px] text-slate-400 uppercase">RETRIEVAL SCORE</div>
+                      <div className="text-xs text-slate-400 uppercase">RETRIEVAL SCORE</div>
                       <div className="text-base font-bold text-purple-300 mt-0.5">{retrievalScore.toFixed(4)}</div>
                     </div>
                     <div className="p-3 rounded-xl bg-[#0E1524] border border-[#1E293E]">
-                      <div className="text-[10px] text-slate-400 uppercase">TOP-1 MARGIN</div>
+                      <div className="text-xs text-slate-400 uppercase">TOP-1 MARGIN</div>
                       <div className="text-base font-bold text-emerald-400 mt-0.5">{top1Margin.toFixed(4)}</div>
                     </div>
                   </div>
@@ -586,25 +586,25 @@ export const DiscoveryMode: React.FC<DiscoveryModeProps> = ({
                   <div className="p-4 rounded-xl bg-[#0D1420] border border-[#1E2A40] space-y-2 font-mono text-xs">
                     <div className="flex items-center justify-between">
                       <span className="text-slate-400 uppercase font-bold">PREDICTION vs ACTUAL:</span>
-                      <span className="px-2 py-0.5 rounded bg-emerald-950 border border-emerald-600 text-emerald-300 font-bold text-[10px]">
+                      <span className="px-2 py-0.5 rounded bg-emerald-950 border border-emerald-600 text-emerald-300 font-bold text-xs">
                         EVALUATION CONFIRMED
                       </span>
                     </div>
                     <div className="grid grid-cols-2 gap-3 text-xs">
                       <div className="p-2.5 rounded-lg bg-[#121A2A]">
-                        <span className="text-[10px] text-slate-500 uppercase block">YOUR PREDICTION</span>
+                        <span className="text-xs text-slate-500 uppercase block">YOUR PREDICTION</span>
                         <div className="text-white font-bold mt-0.5">
                           {learnerPrediction === 'correct' ? 'Correct Retrieval' : 'Interference'}
                         </div>
                       </div>
                       <div className="p-2.5 rounded-lg bg-[#121A2A]">
-                        <span className="text-[10px] text-slate-500 uppercase block">ACTUAL OUTCOME</span>
+                        <span className="text-xs text-slate-500 uppercase block">ACTUAL OUTCOME</span>
                         <div className="text-emerald-400 font-bold mt-0.5">
                           {status} ({prediction} with score {retrievalScore.toFixed(3)})
                         </div>
                       </div>
                     </div>
-                    <p className="text-[11px] text-slate-300 font-sans leading-relaxed pt-1">
+                    <p className="text-xs text-slate-300 font-sans leading-relaxed pt-1">
                       Because only 3 facts were written into a <span className="font-mono text-cyan-300">D=16</span> dimensional space, vector keys remain largely quasi-orthogonal, leaving ample representational room for clean readout.
                     </p>
                   </div>
@@ -630,7 +630,7 @@ export const DiscoveryMode: React.FC<DiscoveryModeProps> = ({
             <div className="rounded-2xl border border-rose-900/50 bg-[#0E0B14] p-5 sm:p-6 space-y-5">
               <div className="space-y-1">
                 <div className="flex items-center gap-2">
-                  <span className="text-[11px] font-mono uppercase tracking-wider text-rose-400 bg-rose-950/80 border border-rose-800/80 px-2.5 py-0.5 rounded font-bold flex items-center gap-1.5">
+                  <span className="text-xs font-mono uppercase tracking-wider text-rose-400 bg-rose-950/80 border border-rose-800/80 px-2.5 py-0.5 rounded font-bold flex items-center gap-1.5">
                     <Flame className="w-3.5 h-3.5 text-rose-400 fill-rose-400" />
                     STAGE 04 · BREAK THE MEMORY
                   </span>
@@ -668,14 +668,14 @@ export const DiscoveryMode: React.FC<DiscoveryModeProps> = ({
                     <span className="text-rose-300 font-bold uppercase">
                       INJECTED: {beforeAfterDistractor.distractor.key} → {beforeAfterDistractor.distractor.value}
                     </span>
-                    <span className="text-[10px] text-slate-400">
+                    <span className="text-xs text-slate-400">
                       Target probe: "{activeProbe || 'Japan'}"
                     </span>
                   </div>
 
                   <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 text-xs">
                     <div className="p-2.5 rounded-lg bg-[#1A1326] border border-rose-950">
-                      <span className="text-[10px] text-slate-400 block uppercase">PREDICTION</span>
+                      <span className="text-xs text-slate-400 block uppercase">PREDICTION</span>
                       <div className="font-bold mt-1">
                         <span className="text-slate-400">{beforeAfterDistractor.before.prediction}</span>
                         <span className="mx-1 text-slate-600">→</span>
@@ -686,7 +686,7 @@ export const DiscoveryMode: React.FC<DiscoveryModeProps> = ({
                     </div>
 
                     <div className="p-2.5 rounded-lg bg-[#1A1326] border border-rose-950">
-                      <span className="text-[10px] text-slate-400 block uppercase">SCORE GAP</span>
+                      <span className="text-xs text-slate-400 block uppercase">SCORE GAP</span>
                       <div className="font-bold mt-1">
                         <span className="text-slate-400">{beforeAfterDistractor.before.retrievalScore.toFixed(3)}</span>
                         <span className="mx-1 text-slate-600">→</span>
@@ -695,7 +695,7 @@ export const DiscoveryMode: React.FC<DiscoveryModeProps> = ({
                     </div>
 
                     <div className="p-2.5 rounded-lg bg-[#1A1326] border border-rose-950">
-                      <span className="text-[10px] text-slate-400 block uppercase">TOP-1 MARGIN</span>
+                      <span className="text-xs text-slate-400 block uppercase">TOP-1 MARGIN</span>
                       <div className="font-bold mt-1">
                         <span className="text-slate-400">{beforeAfterDistractor.before.top1Margin.toFixed(3)}</span>
                         <span className="mx-1 text-slate-600">→</span>
@@ -706,7 +706,7 @@ export const DiscoveryMode: React.FC<DiscoveryModeProps> = ({
                     </div>
 
                     <div className="p-2.5 rounded-lg bg-[#1A1326] border border-rose-950">
-                      <span className="text-[10px] text-slate-400 block uppercase">OUTCOME</span>
+                      <span className="text-xs text-slate-400 block uppercase">OUTCOME</span>
                       <div className="font-bold mt-1 text-xs">
                         {status === 'Correct' ? (
                           <span className="text-emerald-400">CORRECT (MARGIN REDUCED)</span>
@@ -747,7 +747,7 @@ export const DiscoveryMode: React.FC<DiscoveryModeProps> = ({
           {guidedStep === 5 && (
             <div className="rounded-2xl border border-purple-800/60 bg-[#0C101A] p-5 sm:p-6 space-y-6">
               <div className="space-y-1">
-                <span className="text-[11px] font-mono uppercase text-purple-400 font-bold">
+                <span className="text-xs font-mono uppercase text-purple-400 font-bold">
                   STAGE 05 · SCIENTIFIC INTERPRETATION & ISOLATED VARIABLES
                 </span>
                 <h3 className="font-serif text-xl sm:text-2xl font-bold text-white">
@@ -769,7 +769,7 @@ export const DiscoveryMode: React.FC<DiscoveryModeProps> = ({
                   }`}
                 >
                   <div className="font-bold">Increase Dimension (D)</div>
-                  <div className="text-[10px] opacity-75 mt-0.5">D={config.dimension} → D=32</div>
+                  <div className="text-xs opacity-75 mt-0.5">D={config.dimension} → D=32</div>
                 </button>
 
                 <button
@@ -781,7 +781,7 @@ export const DiscoveryMode: React.FC<DiscoveryModeProps> = ({
                   }`}
                 >
                   <div className="font-bold">Lower Retention (λ)</div>
-                  <div className="text-[10px] opacity-75 mt-0.5">λ={Math.round(config.retention * 100)}% → λ=50%</div>
+                  <div className="text-xs opacity-75 mt-0.5">λ={Math.round(config.retention * 100)}% → λ=50%</div>
                 </button>
 
                 <button
@@ -793,14 +793,14 @@ export const DiscoveryMode: React.FC<DiscoveryModeProps> = ({
                   }`}
                 >
                   <div className="font-bold">Clear Distractors</div>
-                  <div className="text-[10px] opacity-75 mt-0.5">N={facts.length} → N=3 base facts</div>
+                  <div className="text-xs opacity-75 mt-0.5">N={facts.length} → N=3 base facts</div>
                 </button>
               </div>
 
               {/* WHAT CHANGED? WHY IT MATTERS? OBSERVED RESULT? */}
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 font-mono text-xs">
                 <div className="p-3.5 rounded-xl bg-[#09101A] border border-[#1A263B] space-y-1">
-                  <span className="text-[10px] text-cyan-400 font-bold uppercase">WHAT CHANGED?</span>
+                  <span className="text-xs text-cyan-400 font-bold uppercase">WHAT CHANGED?</span>
                   <p className="text-xs text-slate-200 font-sans leading-relaxed">
                     {guidedIntervention === 'dim'
                       ? 'Expanded state capacity to D=32.'
@@ -811,7 +811,7 @@ export const DiscoveryMode: React.FC<DiscoveryModeProps> = ({
                 </div>
 
                 <div className="p-3.5 rounded-xl bg-[#09101A] border border-[#1A263B] space-y-1">
-                  <span className="text-[10px] text-purple-400 font-bold uppercase">WHY IT MATTERS</span>
+                  <span className="text-xs text-purple-400 font-bold uppercase">WHY IT MATTERS</span>
                   <p className="text-xs text-slate-200 font-sans leading-relaxed">
                     {guidedIntervention === 'dim'
                       ? 'Higher dimensions increase near-orthogonal vector capacity exponentially.'
@@ -822,7 +822,7 @@ export const DiscoveryMode: React.FC<DiscoveryModeProps> = ({
                 </div>
 
                 <div className="p-3.5 rounded-xl bg-[#09101A] border border-[#1A263B] space-y-1">
-                  <span className="text-[10px] text-emerald-400 font-bold uppercase">OBSERVED RESULT</span>
+                  <span className="text-xs text-emerald-400 font-bold uppercase">OBSERVED RESULT</span>
                   <p className="text-xs text-white font-bold font-mono mt-0.5">
                     {prediction} (Score: {retrievalScore.toFixed(3)}, Status: {status})
                   </p>
@@ -873,7 +873,7 @@ export const DiscoveryMode: React.FC<DiscoveryModeProps> = ({
                         className={`p-3.5 rounded-xl border text-left flex items-center justify-between transition-all cursor-pointer ${btnClass}`}
                       >
                         <div className="flex items-center gap-2.5">
-                          <span className="w-5 h-5 rounded-full bg-slate-800 flex items-center justify-center text-[10px] text-slate-300 font-bold shrink-0">
+                          <span className="w-5 h-5 rounded-full bg-slate-800 flex items-center justify-center text-xs text-slate-300 font-bold shrink-0">
                             {opt.id}
                           </span>
                           <span>{opt.text}</span>
@@ -934,7 +934,7 @@ export const DiscoveryMode: React.FC<DiscoveryModeProps> = ({
                 <Sliders className="w-3.5 h-3.5 text-blue-400" />
                 SANDBOX PRESETS
               </span>
-              <span className="text-[11px] text-slate-500">Real deterministic parameters</span>
+              <span className="text-xs text-slate-500">Real deterministic parameters</span>
             </div>
 
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 font-mono text-xs">
@@ -950,7 +950,7 @@ export const DiscoveryMode: React.FC<DiscoveryModeProps> = ({
                   className="p-3 rounded-xl bg-[#121827] hover:bg-[#1A2338] border border-[#232E45] text-left transition cursor-pointer"
                 >
                   <div className="font-bold text-white text-xs">{p.name}</div>
-                  <div className="text-[10px] text-slate-400 mt-0.5">{p.sub}</div>
+                  <div className="text-xs text-slate-400 mt-0.5">{p.sub}</div>
                 </button>
               ))}
             </div>
@@ -963,7 +963,7 @@ export const DiscoveryMode: React.FC<DiscoveryModeProps> = ({
                 <Sliders className="w-3.5 h-3.5 text-blue-400" />
                 SYSTEM PARAMETER CONTROLS
               </span>
-              <span className="text-[11px] font-sans text-slate-500">
+              <span className="text-xs font-sans text-slate-500">
                 Sliders directly trigger real-time recalculations
               </span>
             </div>
@@ -1000,7 +1000,7 @@ export const DiscoveryMode: React.FC<DiscoveryModeProps> = ({
                   onChange={(e) => handleConfigChange({ dimension: Number(e.target.value) })}
                   className="w-full h-2 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-cyan-400"
                 />
-                <div className="flex justify-between text-[10px] text-slate-500">
+                <div className="flex justify-between text-xs text-slate-500">
                   <span>4</span>
                   <span>16</span>
                   <span>32</span>
@@ -1026,7 +1026,7 @@ export const DiscoveryMode: React.FC<DiscoveryModeProps> = ({
                   onChange={(e) => handleConfigChange({ retention: Number(e.target.value) })}
                   className="w-full h-2 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-emerald-500"
                 />
-                <div className="flex justify-between text-[10px] text-slate-500">
+                <div className="flex justify-between text-xs text-slate-500">
                   <span>0%</span>
                   <span>50%</span>
                   <span>100%</span>
@@ -1052,7 +1052,7 @@ export const DiscoveryMode: React.FC<DiscoveryModeProps> = ({
                   onChange={(e) => handleConfigChange({ writeStrength: Number(e.target.value) })}
                   className="w-full h-2 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-purple-500"
                 />
-                <div className="flex justify-between text-[10px] text-slate-500">
+                <div className="flex justify-between text-xs text-slate-500">
                   <span>0.1</span>
                   <span>1.0</span>
                   <span>2.0</span>
@@ -1105,13 +1105,13 @@ export const DiscoveryMode: React.FC<DiscoveryModeProps> = ({
 
               {/* Probe Selector */}
               <div className="flex items-center gap-1.5 font-mono text-xs">
-                <span className="text-slate-500 text-[10px] uppercase">PROBE:</span>
+                <span className="text-slate-500 text-xs uppercase">PROBE:</span>
                 <div className="flex flex-wrap items-center gap-1">
                   {facts.slice(0, 4).map((f) => (
                     <button
                       key={f.key}
                       onClick={() => setActiveProbe(f.key)}
-                      className={`px-2.5 py-1 rounded-lg text-[11px] font-semibold transition cursor-pointer ${
+                      className={`px-2.5 py-1 rounded-lg text-xs font-semibold transition cursor-pointer ${
                         activeProbe === f.key
                           ? 'bg-cyan-500/20 border border-cyan-400 text-cyan-300 font-bold'
                           : 'bg-[#101624] border border-[#1E283E] text-slate-400 hover:text-slate-200'
@@ -1128,7 +1128,7 @@ export const DiscoveryMode: React.FC<DiscoveryModeProps> = ({
           {/* Real-Time Telemetry Cards */}
           <div className="grid grid-cols-1 sm:grid-cols-4 gap-3 font-mono text-xs">
             <div className="p-3.5 rounded-xl bg-[#0D121F] border border-[#1E2536]">
-              <div className="text-[10px] text-slate-400 uppercase">GROUND TRUTH</div>
+              <div className="text-xs text-slate-400 uppercase">GROUND TRUTH</div>
               <div className="text-lg font-bold text-white mt-0.5">
                 {groundTruth} ({activeProbe || 'Japan'})
               </div>
@@ -1141,7 +1141,7 @@ export const DiscoveryMode: React.FC<DiscoveryModeProps> = ({
                   : 'bg-rose-950/30 border-rose-700/60'
               }`}
             >
-              <div className="flex items-center justify-between text-[10px] text-slate-400 uppercase">
+              <div className="flex items-center justify-between text-xs text-slate-400 uppercase">
                 <span>MODEL OUTPUT</span>
                 {isCorrect ? (
                   <span className="text-emerald-400 font-bold">✓ CORRECT</span>
@@ -1158,14 +1158,14 @@ export const DiscoveryMode: React.FC<DiscoveryModeProps> = ({
               className="p-3.5 rounded-xl bg-[#0D121F] border border-[#1E2536]"
               title="This score is computed from representation similarity. It is not a calibrated probability."
             >
-              <div className="text-[10px] text-slate-400 uppercase">RETRIEVAL SCORE</div>
+              <div className="text-xs text-slate-400 uppercase">RETRIEVAL SCORE</div>
               <div className="text-lg font-bold text-purple-300 mt-0.5">
                 {retrievalScore.toFixed(4)}
               </div>
             </div>
 
             <div className="p-3.5 rounded-xl bg-[#0D121F] border border-[#1E2536]">
-              <div className="text-[10px] text-slate-400 uppercase">TOP-1 MARGIN</div>
+              <div className="text-xs text-slate-400 uppercase">TOP-1 MARGIN</div>
               <div className={`text-lg font-bold mt-0.5 ${top1Margin > 0.2 ? 'text-emerald-400' : 'text-rose-400'}`}>
                 {top1Margin.toFixed(4)}
               </div>
@@ -1204,15 +1204,15 @@ export const DiscoveryMode: React.FC<DiscoveryModeProps> = ({
             {comparisonDiff ? (
               <div className="grid grid-cols-2 sm:grid-cols-5 gap-2.5 text-xs">
                 <div className="p-3 rounded-xl bg-[#101726] border border-[#1C2840]">
-                  <span className="text-[10px] text-slate-500 uppercase block">COSINE SIMILARITY</span>
+                  <span className="text-xs text-slate-500 uppercase block">COSINE SIMILARITY</span>
                   <div className="text-base font-bold text-cyan-300 mt-0.5">
                     {comparisonDiff.stateCosineSimilarity.toFixed(4)}
                   </div>
-                  <div className="text-[9px] text-slate-500 mt-0.5">Vector alignment</div>
+                  <div className="text-xs text-slate-500 mt-0.5">Vector alignment</div>
                 </div>
 
                 <div className="p-3 rounded-xl bg-[#101726] border border-[#1C2840]">
-                  <span className="text-[10px] text-slate-500 uppercase block">Δ RETRIEVAL SCORE</span>
+                  <span className="text-xs text-slate-500 uppercase block">Δ RETRIEVAL SCORE</span>
                   <div
                     className={`text-base font-bold mt-0.5 flex items-center gap-1 ${
                       comparisonDiff.scoreDiff >= 0 ? 'text-emerald-400' : 'text-rose-400'
@@ -1221,11 +1221,11 @@ export const DiscoveryMode: React.FC<DiscoveryModeProps> = ({
                     {comparisonDiff.scoreDiff >= 0 ? <TrendingUp className="w-3.5 h-3.5" /> : <TrendingDown className="w-3.5 h-3.5" />}
                     <span>{comparisonDiff.scoreDiff >= 0 ? '+' : ''}{comparisonDiff.scoreDiff.toFixed(4)}</span>
                   </div>
-                  <div className="text-[9px] text-slate-500 mt-0.5">vs {comparisonDiff.baseScore.toFixed(3)}</div>
+                  <div className="text-xs text-slate-500 mt-0.5">vs {comparisonDiff.baseScore.toFixed(3)}</div>
                 </div>
 
                 <div className="p-3 rounded-xl bg-[#101726] border border-[#1C2840]">
-                  <span className="text-[10px] text-slate-500 uppercase block">Δ TOP-1 MARGIN</span>
+                  <span className="text-xs text-slate-500 uppercase block">Δ TOP-1 MARGIN</span>
                   <div
                     className={`text-base font-bold mt-0.5 flex items-center gap-1 ${
                       comparisonDiff.marginDiff >= 0 ? 'text-emerald-400' : 'text-rose-400'
@@ -1234,19 +1234,19 @@ export const DiscoveryMode: React.FC<DiscoveryModeProps> = ({
                     {comparisonDiff.marginDiff >= 0 ? <TrendingUp className="w-3.5 h-3.5" /> : <TrendingDown className="w-3.5 h-3.5" />}
                     <span>{comparisonDiff.marginDiff >= 0 ? '+' : ''}{comparisonDiff.marginDiff.toFixed(4)}</span>
                   </div>
-                  <div className="text-[9px] text-slate-500 mt-0.5">Confidence margin</div>
+                  <div className="text-xs text-slate-500 mt-0.5">Confidence margin</div>
                 </div>
 
                 <div className="p-3 rounded-xl bg-[#101726] border border-[#1C2840]">
-                  <span className="text-[10px] text-slate-500 uppercase block">Δ MATRIX NORM</span>
+                  <span className="text-xs text-slate-500 uppercase block">Δ MATRIX NORM</span>
                   <div className="text-base font-bold text-amber-300 mt-0.5">
                     {comparisonDiff.matrixNormDiff >= 0 ? '+' : ''}{comparisonDiff.matrixNormDiff.toFixed(4)}
                   </div>
-                  <div className="text-[9px] text-slate-500 mt-0.5">Frobenius energy</div>
+                  <div className="text-xs text-slate-500 mt-0.5">Frobenius energy</div>
                 </div>
 
                 <div className="p-3 rounded-xl bg-[#101726] border border-[#1C2840]">
-                  <span className="text-[10px] text-slate-500 uppercase block">PREDICTION SHIFT</span>
+                  <span className="text-xs text-slate-500 uppercase block">PREDICTION SHIFT</span>
                   <div className="text-xs font-bold mt-1 truncate">
                     {comparisonDiff.predictionChanged ? (
                       <span className="text-rose-400">
@@ -1256,7 +1256,7 @@ export const DiscoveryMode: React.FC<DiscoveryModeProps> = ({
                       <span className="text-emerald-400">Unchanged ({comparisonDiff.currPrediction})</span>
                     )}
                   </div>
-                  <div className="text-[9px] text-slate-500 mt-0.5">Argmax outcome</div>
+                  <div className="text-xs text-slate-500 mt-0.5">Argmax outcome</div>
                 </div>
               </div>
             ) : (
@@ -1276,7 +1276,7 @@ export const DiscoveryMode: React.FC<DiscoveryModeProps> = ({
                   <History className="w-3.5 h-3.5 text-purple-400" />
                   EXPERIMENT RUN HISTORY
                 </span>
-                <span className="text-[11px] text-slate-500">
+                <span className="text-xs text-slate-500">
                   {historyRuns.length} recorded snapshot{historyRuns.length > 1 ? 's' : ''}
                 </span>
               </div>
@@ -1290,17 +1290,17 @@ export const DiscoveryMode: React.FC<DiscoveryModeProps> = ({
                   >
                     <div className="flex items-center gap-2">
                       <span className="text-cyan-300 font-bold">{r.label}</span>
-                      <span className="text-slate-500 text-[10px]">({r.timestamp})</span>
-                      <span className="text-slate-400 text-[11px]">
+                      <span className="text-slate-500 text-xs">({r.timestamp})</span>
+                      <span className="text-slate-400 text-xs">
                         D={r.config.dimension} λ={Math.round(r.config.retention * 100)}%
                       </span>
                     </div>
 
                     <div className="flex items-center gap-3">
                       <span className="text-slate-300">"{r.probe}" → <strong className="text-white">{r.prediction}</strong></span>
-                      <span className="text-purple-300 text-[11px]">{r.retrievalScore.toFixed(3)}</span>
+                      <span className="text-purple-300 text-xs">{r.retrievalScore.toFixed(3)}</span>
                       <span
-                        className={`px-1.5 py-0.5 rounded text-[10px] font-bold ${
+                        className={`px-1.5 py-0.5 rounded text-xs font-bold ${
                           r.status === 'Correct'
                             ? 'bg-emerald-950 text-emerald-300'
                             : 'bg-rose-950 text-rose-300'
@@ -1337,7 +1337,7 @@ export const DiscoveryMode: React.FC<DiscoveryModeProps> = ({
                     <AlertOctagon className="w-5 h-5" />
                   </div>
                   <div>
-                    <div className="text-[10px] uppercase text-rose-400 font-bold tracking-wider">
+                    <div className="text-xs uppercase text-rose-400 font-bold tracking-wider">
                       OBSERVED ANOMALY
                     </div>
                     <h4 className="text-lg font-bold text-white">RECURRENT MEMORY FAILURE</h4>

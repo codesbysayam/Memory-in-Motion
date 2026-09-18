@@ -440,7 +440,7 @@ export function ResearchNav({
                     }`}
                   >
                     <span
-                      className={`font-mono text-[10px] ${
+                      className={`font-mono text-xs ${
                         isActive ? 'text-[#21445B] font-bold' : 'text-[#7D817D]'
                       }`}
                     >
@@ -477,13 +477,13 @@ export function ResearchNav({
                       {/* TOC Header */}
                       <div className="flex items-center justify-between pb-2 mb-2 border-b border-[#D9DCD8]">
                         <div className="flex items-center gap-1.5">
-                          <span className="font-mono text-[10px] uppercase font-bold text-[#21445B] bg-[#E7F2FA] px-2 py-0.5 rounded border border-[#CDE1F0]">
+                          <span className="font-mono text-xs uppercase font-bold text-[#21445B] bg-[#E7F2FA] px-2 py-0.5 rounded border border-[#CDE1F0]">
                             Stage {page.num} · Subsections
                           </span>
                         </div>
                         <button
                           onClick={() => handleSelect(page.id)}
-                          className="text-[11px] font-sans text-[#2B6282] hover:underline flex items-center gap-1 cursor-pointer"
+                          className="text-xs font-sans text-[#2B6282] hover:underline flex items-center gap-1 cursor-pointer"
                         >
                           <span>Overview Top</span>
                           <ArrowRight className="w-3 h-3" />
@@ -498,7 +498,7 @@ export function ResearchNav({
                             onClick={() => handleSubsectionSelect(page.id, sub.id)}
                             className="w-full text-left p-2 rounded-lg hover:bg-[#F7F5EF] border border-transparent hover:border-[#D9DCD8] transition-all group cursor-pointer flex items-start gap-2.5"
                           >
-                            <span className="font-mono text-[10px] font-semibold text-[#21445B] bg-[#F0F1EF] group-hover:bg-[#E7F2FA] px-1.5 py-0.5 rounded border border-[#D9DCD8] shrink-0 mt-0.5">
+                            <span className="font-mono text-xs font-semibold text-[#21445B] bg-[#F0F1EF] group-hover:bg-[#E7F2FA] px-1.5 py-0.5 rounded border border-[#D9DCD8] shrink-0 mt-0.5">
                               {sub.num}
                             </span>
                             <div className="flex-1 min-w-0">
@@ -507,12 +507,12 @@ export function ResearchNav({
                                   {sub.title}
                                 </span>
                                 {sub.badge && (
-                                  <span className="text-[9px] font-mono uppercase px-1.5 py-0.2 rounded bg-[#F0F1EF] border border-[#D9DCD8] text-[#5F625F] shrink-0">
+                                  <span className="text-xs font-mono uppercase px-1.5 py-0.5 rounded bg-[#F0F1EF] border border-[#D9DCD8] text-[#5F625F] shrink-0">
                                     {sub.badge}
                                   </span>
                                 )}
                               </div>
-                              <p className="text-[11px] text-[#5F625F] font-sans leading-snug line-clamp-1 mt-0.5">
+                              <p className="text-xs text-[#5F625F] font-sans leading-snug line-clamp-1 mt-0.5">
                                 {sub.description}
                               </p>
                             </div>
@@ -618,7 +618,7 @@ export function ResearchNav({
                           <div className={`font-semibold text-sm leading-tight ${isActive ? 'text-[#21445B]' : 'text-[#252525]'}`}>
                             {page.title}
                           </div>
-                          <div className="text-[11px] text-[#5F625F] font-normal">
+                          <div className="text-xs text-[#5F625F] font-normal">
                             {page.subtitle}
                           </div>
                         </div>
@@ -647,7 +647,7 @@ export function ResearchNav({
                     {/* Subsections Accordion for Mobile */}
                     {isExpanded && page.subsections && (
                       <div className="bg-[#F7F5EF] border-t border-[#D9DCD8] px-3 py-2 space-y-1.5">
-                        <div className="text-[10px] font-mono uppercase text-[#5F625F] font-bold px-1 pt-1">
+                        <div className="text-xs font-mono uppercase text-[#5F625F] font-bold px-1 pt-1">
                           Table of Contents ({page.subsections.length} topics)
                         </div>
                         {page.subsections.map((sub) => (
@@ -656,7 +656,7 @@ export function ResearchNav({
                             onClick={() => handleSubsectionSelect(page.id, sub.id)}
                             className="w-full text-left p-2 rounded-md bg-[#FFFFFF] hover:bg-[#E7F2FA] border border-[#D9DCD8] flex items-start gap-2.5 transition-colors cursor-pointer"
                           >
-                            <span className="font-mono text-[10px] font-semibold text-[#21445B] shrink-0 mt-0.5">
+                            <span className="font-mono text-xs font-semibold text-[#21445B] shrink-0 mt-0.5">
                               {sub.num}
                             </span>
                             <div className="flex-1 min-w-0">
@@ -804,7 +804,7 @@ export function ResearchNav({
 
                       <button
                         onClick={() => handleSelect(page.id)}
-                        className="text-[11px] font-sans text-[#2B6282] hover:underline flex items-center gap-1 cursor-pointer"
+                        className="text-xs font-sans text-[#2B6282] hover:underline flex items-center gap-1 cursor-pointer"
                       >
                         <span>Jump to Top</span>
                         <ArrowRight className="w-3 h-3" />
@@ -819,7 +819,7 @@ export function ResearchNav({
                             onClick={() => handleSubsectionSelect(page.id, sub.id)}
                             className="w-full text-left p-2.5 rounded-md hover:bg-[#F7F5EF] border border-transparent hover:border-[#D9DCD8] transition-all flex items-start gap-3 group cursor-pointer"
                           >
-                            <span className="font-mono text-[10px] font-bold text-[#21445B] bg-[#F0F1EF] group-hover:bg-[#E7F2FA] px-1.5 py-0.5 rounded border border-[#D9DCD8] shrink-0 mt-0.5">
+                            <span className="font-mono text-xs font-bold text-[#21445B] bg-[#F0F1EF] group-hover:bg-[#E7F2FA] px-1.5 py-0.5 rounded border border-[#D9DCD8] shrink-0 mt-0.5">
                               {sub.num}
                             </span>
                             <div className="flex-1 min-w-0">
@@ -828,12 +828,12 @@ export function ResearchNav({
                                   {sub.title}
                                 </span>
                                 {sub.badge && (
-                                  <span className="text-[9px] font-mono uppercase px-1.5 py-0.2 rounded bg-[#F0F1EF] border border-[#D9DCD8] text-[#5F625F] shrink-0">
+                                  <span className="text-xs font-mono uppercase px-1.5 py-0.5 rounded bg-[#F0F1EF] border border-[#D9DCD8] text-[#5F625F] shrink-0">
                                     {sub.badge}
                                   </span>
                                 )}
                               </div>
-                              <p className="text-[11px] text-[#5F625F] font-sans mt-0.5 leading-snug">
+                              <p className="text-xs text-[#5F625F] font-sans mt-0.5 leading-snug">
                                 {sub.description}
                               </p>
                             </div>

@@ -84,27 +84,27 @@ export const Section01MemoryProblem: React.FC = () => {
               {/* Dual Telemetry Cards */}
               <div className="grid grid-cols-2 gap-3 pt-2">
                 <div className="rounded-xl border border-[#F5E2C4] bg-[#FDF8EE] p-3.5 space-y-1">
-                  <div className="flex items-center gap-1.5 text-[10px] font-mono text-[#A46622] uppercase font-bold">
+                  <div className="flex items-center gap-1.5 text-xs font-mono text-[#A46622] uppercase font-bold">
                     <Database className="w-3 h-3 text-[#A46622]" />
                     <span>KV Cache RAM</span>
                   </div>
                   <div className="font-serif text-lg font-bold text-[#A46622]">
                     {totalKVMemoryMB} MB
                   </div>
-                  <div className="text-[10px] font-mono text-[#A46622]/90 font-medium">
+                  <div className="text-xs font-mono text-[#A46622]/90 font-medium">
                     <InlineMath math="\mathcal{O}(T)" /> linear growth
                   </div>
                 </div>
 
                 <div className="rounded-xl border border-[#CDEEDB] bg-[#EDF8F2] p-3.5 space-y-1">
-                  <div className="flex items-center gap-1.5 text-[10px] font-mono text-[#247A4B] uppercase font-bold">
+                  <div className="flex items-center gap-1.5 text-xs font-mono text-[#247A4B] uppercase font-bold">
                     <HardDrive className="w-3 h-3 text-[#247A4B]" />
                     <span>Recurrent State</span>
                   </div>
                   <div className="font-serif text-lg font-bold text-[#247A4B]">
                     {fixedRecurrentSizeKB} KB
                   </div>
-                  <div className="text-[10px] font-mono text-[#247A4B]/90 font-medium">
+                  <div className="text-xs font-mono text-[#247A4B]/90 font-medium">
                     <InlineMath math="\mathcal{O}(1)" /> strictly constant
                   </div>
                 </div>
@@ -146,7 +146,7 @@ export const Section01MemoryProblem: React.FC = () => {
                       key={i}
                       className="inline-flex items-center gap-1.5 rounded-md bg-[#FFFFFF] border border-[#E5E0D8] px-2 py-1 font-mono text-xs text-[#151515] shadow-xs"
                     >
-                      <span className="text-[10px] text-[#716F68]">{i + 1}</span>
+                      <span className="text-xs text-[#716F68]">{i + 1}</span>
                       <span>{token}</span>
                       {i < tokens.length - 1 && <ArrowRight className="w-2.5 h-2.5 text-[#BDB7AB]" />}
                     </div>
@@ -188,7 +188,7 @@ export const Section01MemoryProblem: React.FC = () => {
                         key={i}
                         className="rounded-lg border border-[#E5E0D8] bg-[#FFFFFF] p-2 text-center flex flex-col items-center justify-center font-mono shadow-xs"
                       >
-                        <span className="text-[9px] text-[#716F68]">
+                        <span className="text-xs text-[#716F68]">
                           <InlineMath math={`h_{${i}}`} />
                         </span>
                         <span className="text-xs font-bold text-[#151515] mt-0.5">

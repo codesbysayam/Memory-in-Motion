@@ -123,7 +123,7 @@ export const LatentReasoningDemo: React.FC<LatentReasoningDemoProps> = ({
               <span className="w-2 h-2 rounded-full bg-amber-400" />
               VERBAL REASONING (CHAIN-OF-THOUGHT)
             </span>
-            <span className="text-[10px] font-mono text-amber-500 bg-amber-950 px-2 py-0.5 rounded border border-amber-800">
+            <span className="text-xs font-mono text-amber-500 bg-amber-950 px-2 py-0.5 rounded border border-amber-800">
               O(T) KV-CACHE
             </span>
           </div>
@@ -138,7 +138,7 @@ export const LatentReasoningDemo: React.FC<LatentReasoningDemoProps> = ({
             <span className="px-2 py-1 rounded bg-amber-900/60 border border-amber-600 text-white font-bold">Answer Token</span>
           </div>
 
-          <p className="text-[11px] text-slate-400 leading-relaxed font-sans">
+          <p className="text-xs text-slate-400 leading-relaxed font-sans">
             Every reasoning step emits visible scratchpad tokens into the prompt buffer. GPU memory footprint grows linearly or quadratically with sequence length.
           </p>
         </div>
@@ -150,7 +150,7 @@ export const LatentReasoningDemo: React.FC<LatentReasoningDemoProps> = ({
               <span className="w-2 h-2 rounded-full bg-purple-400" />
               LATENT REASONING (RECURRENT DYNAMICS)
             </span>
-            <span className="text-[10px] font-mono text-purple-300 bg-purple-950 px-2 py-0.5 rounded border border-purple-800">
+            <span className="text-xs font-mono text-purple-300 bg-purple-950 px-2 py-0.5 rounded border border-purple-800">
               O(1) BOUNDED STATE
             </span>
           </div>
@@ -165,7 +165,7 @@ export const LatentReasoningDemo: React.FC<LatentReasoningDemoProps> = ({
             <span className="px-2 py-1 rounded bg-purple-900/60 border border-purple-600 text-white font-bold">Answer</span>
           </div>
 
-          <p className="text-[11px] text-slate-400 leading-relaxed font-sans">
+          <p className="text-xs text-slate-400 leading-relaxed font-sans">
             Deliberation is executed via recurrent updates on a fixed-size latent state vector without inflating the visible sequence length.
           </p>
         </div>
@@ -210,7 +210,7 @@ export const LatentReasoningDemo: React.FC<LatentReasoningDemoProps> = ({
               <MathView math="s_{t+1} = \tanh(\lambda \cdot s_t + x_t)" />
             </span>
           </div>
-          <span className="text-slate-400 text-[11px]">
+          <span className="text-slate-400 text-xs">
             Repeated latent steps update the internal state without emitting visible tokens.
           </span>
         </div>
@@ -267,7 +267,7 @@ export const LatentReasoningDemo: React.FC<LatentReasoningDemoProps> = ({
 
             <div className="overflow-x-auto pb-2 flex items-center gap-2 text-xs">
               <div className="flex-shrink-0 px-2.5 py-1.5 rounded-lg bg-[#111728] border border-blue-500/40 text-blue-300 text-center">
-                <div className="text-[10px] text-slate-500">INPUT</div>
+                <div className="text-xs text-slate-500">INPUT</div>
                 <div className="font-bold">x_0</div>
               </div>
 
@@ -275,7 +275,7 @@ export const LatentReasoningDemo: React.FC<LatentReasoningDemoProps> = ({
                 <React.Fragment key={i}>
                   <ArrowRight className="w-3.5 h-3.5 text-purple-500 flex-shrink-0" />
                   <div className="flex-shrink-0 px-2.5 py-1.5 rounded-lg bg-purple-950/40 border border-purple-500/50 text-purple-200 text-center">
-                    <div className="text-[9px] text-purple-400">LATENT STEP {i + 1}</div>
+                    <div className="text-xs text-purple-400">LATENT STEP {i + 1}</div>
                     <div className="font-bold font-mono">h_{i + 1}</div>
                   </div>
                 </React.Fragment>
@@ -286,7 +286,7 @@ export const LatentReasoningDemo: React.FC<LatentReasoningDemoProps> = ({
                   <span className="text-slate-500">···</span>
                   <ArrowRight className="w-3.5 h-3.5 text-purple-500 flex-shrink-0" />
                   <div className="flex-shrink-0 px-2.5 py-1.5 rounded-lg bg-purple-950/40 border border-purple-500/50 text-purple-200 text-center">
-                    <div className="text-[9px] text-purple-400">LATENT STEP {steps}</div>
+                    <div className="text-xs text-purple-400">LATENT STEP {steps}</div>
                     <div className="font-bold font-mono">h_{steps}</div>
                   </div>
                 </>
@@ -294,7 +294,7 @@ export const LatentReasoningDemo: React.FC<LatentReasoningDemoProps> = ({
 
               <ArrowRight className="w-3.5 h-3.5 text-emerald-500 flex-shrink-0" />
               <div className="flex-shrink-0 px-2.5 py-1.5 rounded-lg bg-emerald-950/60 border border-emerald-500 text-emerald-300 text-center">
-                <div className="text-[10px] text-emerald-500">OUTPUT</div>
+                <div className="text-xs text-emerald-500">OUTPUT</div>
                 <div className="font-bold">ŷ</div>
               </div>
             </div>
@@ -317,12 +317,12 @@ export const LatentReasoningDemo: React.FC<LatentReasoningDemoProps> = ({
                   return (
                     <div
                       key={idx}
-                      className="p-1.5 rounded bg-[#101422] border border-[#1A2234] text-center font-mono text-[10px]"
+                      className="p-1.5 rounded bg-[#101422] border border-[#1A2234] text-center font-mono text-xs"
                       title={`Dim ${idx}: ${val.toFixed(3)}`}
                     >
-                      <div className="text-slate-500 text-[9px] mb-1">{idx}</div>
+                      <div className="text-slate-500 text-xs mb-1">{idx}</div>
                       <div
-                        className={`h-4 rounded flex items-center justify-center font-bold text-[9px] ${
+                        className={`h-4 rounded flex items-center justify-center font-bold text-xs ${
                           isPositive
                             ? 'bg-purple-600 text-white'
                             : 'bg-cyan-600 text-white'
@@ -388,7 +388,7 @@ export const LatentReasoningDemo: React.FC<LatentReasoningDemoProps> = ({
               MEMORY
             </div>
             <div className="text-slate-300 font-semibold text-xs">What survives?</div>
-            <div className="text-[11px] text-slate-400 font-sans leading-relaxed">
+            <div className="text-xs text-slate-400 font-sans leading-relaxed">
               Information carried across successive updates. In our toy, it is the recurrent matrix $M_t$. In BDH, it is the plastic synaptic state $\sigma(i, j)$.
             </div>
           </div>
@@ -399,7 +399,7 @@ export const LatentReasoningDemo: React.FC<LatentReasoningDemoProps> = ({
               COMPUTATION
             </div>
             <div className="text-slate-300 font-semibold text-xs">What changes?</div>
-            <div className="text-[11px] text-slate-400 font-sans leading-relaxed">
+            <div className="text-xs text-slate-400 font-sans leading-relaxed">
               Transformations applied to the current state. In our toy, it is the non-linear recurrent update step. In BDH, it is the local graph relaxation cycle.
             </div>
           </div>

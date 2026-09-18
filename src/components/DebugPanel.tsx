@@ -104,29 +104,29 @@ export const DebugPanel: React.FC<DebugPanelProps> = ({
           </div>
         </div>
 
-        <div className="flex items-center gap-2 font-mono">
+        <div className="flex items-center gap-2">
           <button
             type="button"
             onClick={handleCopy}
             title="Copy current telemetry JSON"
-            className="btn btn-secondary text-xs py-1 px-2.5 min-h-[30px]"
+            className="utility-button"
           >
             {copied ? (
               <>
                 <Check className="w-3.5 h-3.5 text-[#245B38]" />
-                <span className="text-[#245B38] text-xs">Copied</span>
+                <span className="text-[#245B38]">Copied</span>
               </>
             ) : (
               <>
-                <Copy className="w-3.5 h-3.5 text-[#4F514E]" />
-                <span className="text-xs">Export JSON</span>
+                <Copy className="w-3.5 h-3.5" />
+                <span>Export JSON</span>
               </>
             )}
           </button>
           <button
             type="button"
             onClick={() => setIsExpanded(!isExpanded)}
-            className="btn btn-secondary text-xs py-1 px-2.5 min-h-[30px]"
+            className="utility-button"
           >
             {isExpanded ? 'Collapse' : 'Expand'}
           </button>

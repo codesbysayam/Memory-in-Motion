@@ -33,7 +33,7 @@ export const ResearchDrawer: React.FC<ResearchDrawerProps> = ({ isOpen, onClose 
               <BookOpen className="w-5 h-5" />
             </div>
             <div>
-              <div className="text-[10px] font-mono uppercase text-purple-400 font-bold">
+              <div className="text-xs font-mono uppercase text-purple-400 font-bold">
                 PRIMARY CITATIONS & CONTRACT
               </div>
               <h3 className="text-lg font-bold font-mono text-white">RESEARCH ARCHIVE</h3>
@@ -50,7 +50,7 @@ export const ResearchDrawer: React.FC<ResearchDrawerProps> = ({ isOpen, onClose 
 
         {/* Epistemic Disclaimer Box */}
         <div className="p-4 rounded-xl bg-purple-950/30 border border-purple-500/40 space-y-2 text-xs font-sans">
-          <div className="flex items-center gap-2 font-mono font-bold text-purple-300 text-[11px] uppercase">
+          <div className="flex items-center gap-2 font-mono font-bold text-purple-300 text-xs uppercase">
             <ShieldCheck className="w-4 h-4 text-purple-400" />
             EPISTEMIC DISCLAIMER
           </div>
@@ -61,7 +61,7 @@ export const ResearchDrawer: React.FC<ResearchDrawerProps> = ({ isOpen, onClose 
 
         {/* Model Contract Summary */}
         <div className="space-y-3 font-mono text-xs">
-          <div className="text-slate-400 uppercase text-[11px] font-bold flex items-center gap-2">
+          <div className="text-slate-400 uppercase text-xs font-bold flex items-center gap-2">
             <Layers className="w-4 h-4 text-cyan-400" />
             THE THREE-LAYER MODEL CONTRACT
           </div>
@@ -72,11 +72,11 @@ export const ResearchDrawer: React.FC<ResearchDrawerProps> = ({ isOpen, onClose 
                 key={l.num}
                 className="p-3 rounded-lg bg-[#0E1321] border border-[#1A2336] space-y-1"
               >
-                <div className="flex justify-between items-center text-[10px] text-slate-400">
+                <div className="flex justify-between items-center text-xs text-slate-400">
                   <span className="text-cyan-400 font-bold">{l.num} {l.title}</span>
                   <span>{l.scope}</span>
                 </div>
-                <p className="text-[11px] text-slate-300 font-sans">{l.description}</p>
+                <p className="text-xs text-slate-300 font-sans">{l.description}</p>
               </div>
             ))}
           </div>
@@ -84,7 +84,7 @@ export const ResearchDrawer: React.FC<ResearchDrawerProps> = ({ isOpen, onClose 
 
         {/* Primary Citations */}
         <div className="space-y-3 font-mono text-xs">
-          <div className="text-slate-400 uppercase text-[11px] font-bold flex items-center gap-2">
+          <div className="text-slate-400 uppercase text-xs font-bold flex items-center gap-2">
             <FileText className="w-4 h-4 text-purple-400" />
             PRIMARY SOURCES & BENCHMARKS
           </div>
@@ -108,12 +108,12 @@ export const ResearchDrawer: React.FC<ResearchDrawerProps> = ({ isOpen, onClose 
                   </a>
                 </div>
 
-                <div className="text-[11px] text-slate-400 font-sans">
+                <div className="text-xs text-slate-400 font-sans">
                   <span className="text-purple-300 font-mono">{src.authors}</span> ({src.year}) •{' '}
                   <span className="text-slate-300 font-mono">{src.venue}</span>
                 </div>
 
-                <p className="text-[11px] text-slate-400 font-sans leading-relaxed border-t border-[#161F32] pt-2">
+                <p className="text-xs text-slate-400 font-sans leading-relaxed border-t border-[#161F32] pt-2">
                   {src.keyContribution}
                 </p>
               </div>
@@ -123,11 +123,11 @@ export const ResearchDrawer: React.FC<ResearchDrawerProps> = ({ isOpen, onClose 
 
         {/* ARC-AGI Benchmark Context */}
         <div className="p-4 rounded-xl bg-[#090C16] border border-[#1A2234] space-y-2 font-mono text-xs">
-          <div className="flex items-center gap-2 text-cyan-400 font-bold uppercase text-[11px]">
+          <div className="flex items-center gap-2 text-cyan-400 font-bold uppercase text-xs">
             <Award className="w-4 h-4" />
             ARC-AGI BENCHMARK CONTEXT
           </div>
-          <p className="text-[11px] text-slate-300 font-sans leading-relaxed">
+          <p className="text-xs text-slate-300 font-sans leading-relaxed">
             BDH-CQ established competitive performance on the ARC-AGI-1 benchmark via pure in-context recurrent latent reasoning without external fine-tuning or tokenized test-time search generation.
           </p>
         </div>

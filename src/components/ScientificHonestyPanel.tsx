@@ -28,9 +28,9 @@ export const ScientificHonestyPanel: React.FC<ScientificHonestyPanelProps> = ({
         <div className="p-4 rounded-xl bg-[#EDF7F7] border border-[#CFE8E8] space-y-2">
           <div className="text-[#167C80] font-bold flex items-center gap-1.5">
             <Cpu className="w-3.5 h-3.5" />
-            <span>LIVE TOY COMPUTATION</span>
+            <span>Live Toy Computation</span>
           </div>
-          <p className="text-[11px] text-[#52504A] font-sans leading-relaxed">
+          <p className="text-xs text-[#52504A] font-sans leading-relaxed">
             The coordinates, matrix heatmaps, and retrieval scores were computed dynamically in your browser using deterministic linear algebra (<MathView math="M_{t+1} = \lambda M_t + \eta k_t v_t^T" />).
           </p>
         </div>
@@ -39,9 +39,9 @@ export const ScientificHonestyPanel: React.FC<ScientificHonestyPanelProps> = ({
         <div className="p-4 rounded-xl bg-[#FFF8EE] border border-[#F5E2C4] space-y-2">
           <div className="text-[#A46622] font-bold flex items-center gap-1.5">
             <Award className="w-3.5 h-3.5" />
-            <span>NOT A PUBLISHED BENCHMARK</span>
+            <span>Not a Published Benchmark</span>
           </div>
-          <p className="text-[11px] text-[#52504A] font-sans leading-relaxed">
+          <p className="text-xs text-[#52504A] font-sans leading-relaxed">
             This experiment is designed to expose a core theoretical concept (superposition & capacity bounds), not to establish a universal empirical scaling law for all neural systems.
           </p>
         </div>
@@ -50,15 +50,15 @@ export const ScientificHonestyPanel: React.FC<ScientificHonestyPanelProps> = ({
         <div className="p-4 rounded-xl bg-[#FAF8FD] border border-[#E2D8FA] space-y-2">
           <div className="text-[#6842C2] font-bold flex items-center gap-1.5">
             <BookOpen className="w-3.5 h-3.5" />
-            <span>BDH CONNECTION</span>
+            <span>BDH Connection</span>
           </div>
-          <p className="text-[11px] text-[#52504A] font-sans leading-relaxed">
+          <p className="text-xs text-[#52504A] font-sans leading-relaxed">
             The Dragon Hatchling section is an educational abstraction grounded directly in published literature (Kosowski et al., 2025) and official repository dynamics.
           </p>
         </div>
       </div>
 
-      <div className="pt-3 border-t border-[#EAE6DF] flex flex-wrap items-center justify-between gap-2 text-[11px] text-[#716F68]">
+      <div className="pt-3 border-t border-[#EAE6DF] flex flex-wrap items-center justify-between gap-2 text-xs text-[#716F68]">
         <span>Citation anchor: Kosowski et al. (2025) · arXiv:2509.26507</span>
         <a
           href={sources.bdhPaper.url}

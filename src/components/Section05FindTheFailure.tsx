@@ -209,15 +209,15 @@ export const Section05FindTheFailure: React.FC = () => {
               {/* Trial Specifications */}
               <div className="grid grid-cols-3 gap-2 text-xs font-mono">
                 <div className="rounded-lg bg-[#151922] p-2.5 border border-[#252A35]">
-                  <span className="text-[#8F96A3] block text-[10px]">CAPACITY</span>
+                  <span className="text-[#8F96A3] block text-xs">CAPACITY</span>
                   <span className="font-bold text-white"><InlineMath math={`D = ${trial.dim}`} /></span>
                 </div>
                 <div className="rounded-lg bg-[#151922] p-2.5 border border-[#252A35]">
-                  <span className="text-[#8F96A3] block text-[10px]">FACTS (<InlineMath math="T" />)</span>
+                  <span className="text-[#8F96A3] block text-xs">FACTS (<InlineMath math="T" />)</span>
                   <span className="font-bold text-white">{trial.factsCount} pairs</span>
                 </div>
                 <div className="rounded-lg bg-[#151922] p-2.5 border border-[#252A35]">
-                  <span className="text-[#8F96A3] block text-[10px]">CROSSTALK</span>
+                  <span className="text-[#8F96A3] block text-xs">CROSSTALK</span>
                   <span className={`font-bold ${trial.similarity === 'High' ? 'text-amber-400' : 'text-emerald-400'}`}>
                     {trial.similarity}
                   </span>
@@ -226,7 +226,7 @@ export const Section05FindTheFailure: React.FC = () => {
 
               {/* Variable stream tokens */}
               <div>
-                <span className="text-[11px] font-mono uppercase text-[#8F96A3] block mb-1.5">
+                <span className="text-xs font-mono uppercase text-[#8F96A3] block mb-1.5">
                   Stream Sequence (Target key is B):
                 </span>
                 <div className="flex flex-wrap gap-1.5">
@@ -309,7 +309,7 @@ export const Section05FindTheFailure: React.FC = () => {
                       </>
                     )}
                   </div>
-                  <p className="text-[11px] leading-relaxed text-[#F4F5F7]">
+                  <p className="text-xs leading-relaxed text-[#F4F5F7]">
                     {trial.explanation}
                   </p>
 

@@ -28,8 +28,8 @@ export function TruthModelComparison({
       } ${className}`}
     >
       <div className={`p-3 rounded-lg border ${isDark ? 'bg-[#151922] border-[#252A35]' : 'bg-[#FAF8F5] border-[#EAE6DF]'}`}>
-        <span className={`text-[10px] block tracking-wider uppercase font-bold ${isDark ? 'text-[#8F96A3]' : 'text-[#716F68]'}`}>
-          GROUND TRUTH
+        <span className={`text-xs block tracking-wider uppercase font-bold ${isDark ? 'text-[#8F96A3]' : 'text-[#716F68]'}`}>
+          Ground Truth
         </span>
         <strong className={`font-serif text-base tracking-wide block mt-1 ${isDark ? 'text-white' : 'text-[#151515]'}`}>
           {truth}
@@ -37,8 +37,8 @@ export function TruthModelComparison({
       </div>
 
       <div className={`p-3 rounded-lg border ${isDark ? 'bg-[#151922] border-[#252A35]' : 'bg-[#FAF8F5] border-[#EAE6DF]'}`}>
-        <span className={`text-[10px] block tracking-wider uppercase font-bold ${isDark ? 'text-[#8F96A3]' : 'text-[#716F68]'}`}>
-          MODEL OUTPUT
+        <span className={`text-xs block tracking-wider uppercase font-bold ${isDark ? 'text-[#8F96A3]' : 'text-[#716F68]'}`}>
+          Model Output
         </span>
         <strong className={`font-serif text-base tracking-wide block mt-1 ${
           correct
@@ -53,8 +53,8 @@ export function TruthModelComparison({
         className={`p-3 rounded-lg border ${isDark ? 'bg-[#151922] border-[#252A35]' : 'bg-[#FAF8F5] border-[#EAE6DF]'}`}
         title="This score is based on representation similarity and is not a calibrated probability."
       >
-        <span className={`text-[10px] block tracking-wider uppercase font-bold ${isDark ? 'text-[#8F96A3]' : 'text-[#716F68]'}`}>
-          RETRIEVAL SCORE
+        <span className={`text-xs block tracking-wider uppercase font-bold ${isDark ? 'text-[#8F96A3]' : 'text-[#716F68]'}`}>
+          Retrieval Score
         </span>
         <strong className={`font-serif text-base tracking-wide block mt-1 ${isDark ? 'text-[#22D3EE]' : 'text-[#167C80]'}`}>
           {Math.round(confidence * 100)}%

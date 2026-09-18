@@ -290,7 +290,7 @@ export const MemorySurgery: React.FC = () => {
             </span>
             <SourceBadge type="toy" />
           </div>
-          <span className="text-[11px] text-slate-400">
+          <span className="text-xs text-slate-400">
             Click any step to toggle which write is omitted in the counterfactual run.
           </span>
         </div>
@@ -314,14 +314,14 @@ export const MemorySurgery: React.FC = () => {
                 }`}
               >
                 <div className="flex items-center justify-between mb-1.5">
-                  <span className="text-[10px] text-slate-400">STEP {idx + 1}</span>
+                  <span className="text-xs text-slate-400">STEP {idx + 1}</span>
                   {isTarget && (
-                    <span className="text-[9px] bg-cyan-950/80 border border-cyan-700 text-cyan-300 px-1.5 py-0.5 rounded font-bold">
+                    <span className="text-xs bg-cyan-950/80 border border-cyan-700 text-cyan-300 px-1.5 py-0.5 rounded font-bold">
                       QUERY TARGET
                     </span>
                   )}
                   {isRemoved && (
-                    <span className="text-[9px] bg-rose-950/90 border border-rose-700 text-rose-300 px-1.5 py-0.5 rounded font-bold flex items-center gap-1">
+                    <span className="text-xs bg-rose-950/90 border border-rose-700 text-rose-300 px-1.5 py-0.5 rounded font-bold flex items-center gap-1">
                       <Scissors className="w-2.5 h-2.5" /> OMITTED
                     </span>
                   )}
@@ -337,7 +337,7 @@ export const MemorySurgery: React.FC = () => {
                   </span>
                 </div>
 
-                <div className="mt-2 pt-2 border-t border-[#1C2333] flex items-center justify-between text-[10px]">
+                <div className="mt-2 pt-2 border-t border-[#1C2333] flex items-center justify-between text-xs">
                   <span className="text-slate-400">Operation:</span>
                   <span className={isRemoved ? 'text-rose-400 font-bold' : 'text-slate-300'}>
                     {isRemoved ? 'Omit write in Run B' : 'Written in both runs'}
@@ -373,7 +373,7 @@ export const MemorySurgery: React.FC = () => {
             }`}
           >
             <div className="text-xs">Prediction will change</div>
-            <div className="text-[10px] text-slate-500 mt-0.5">Top-1 flips to a different city</div>
+            <div className="text-xs text-slate-500 mt-0.5">Top-1 flips to a different city</div>
           </button>
 
           <button
@@ -386,7 +386,7 @@ export const MemorySurgery: React.FC = () => {
             }`}
           >
             <div className="text-xs">Prediction will stay the same</div>
-            <div className="text-[10px] text-slate-500 mt-0.5">Top-1 remains identical</div>
+            <div className="text-xs text-slate-500 mt-0.5">Top-1 remains identical</div>
           </button>
 
           <button
@@ -399,7 +399,7 @@ export const MemorySurgery: React.FC = () => {
             }`}
           >
             <div className="text-xs">Not sure / Dependent</div>
-            <div className="text-[10px] text-slate-500 mt-0.5">Need to observe the difference</div>
+            <div className="text-xs text-slate-500 mt-0.5">Need to observe the difference</div>
           </button>
         </div>
       </div>
@@ -413,9 +413,9 @@ export const MemorySurgery: React.FC = () => {
               <span className="text-xs font-bold text-cyan-400 uppercase tracking-wider block">
                 RUN A: ORIGINAL
               </span>
-              <span className="text-[11px] text-slate-400">All {activeFacts.length} writes applied</span>
+              <span className="text-xs text-slate-400">All {activeFacts.length} writes applied</span>
             </div>
-            <span className="text-[10px] bg-cyan-950/60 border border-cyan-800 text-cyan-300 px-2 py-0.5 rounded">
+            <span className="text-xs bg-cyan-950/60 border border-cyan-800 text-cyan-300 px-2 py-0.5 rounded">
               CONTROL
             </span>
           </div>
@@ -423,7 +423,7 @@ export const MemorySurgery: React.FC = () => {
           <div className="space-y-3">
             <div className="p-3 rounded-xl bg-[#0E131F] border border-[#1F273B] flex items-center justify-between">
               <div>
-                <span className="text-[10px] text-slate-400 uppercase block">QUERY → GROUND TRUTH</span>
+                <span className="text-xs text-slate-400 uppercase block">QUERY → GROUND TRUTH</span>
                 <span className="text-sm font-bold text-white">
                   "{targetKey}" → <span className="text-cyan-300">{groundTruth}</span>
                 </span>
@@ -432,7 +432,7 @@ export const MemorySurgery: React.FC = () => {
 
             <div className="p-3 rounded-xl bg-[#0E131F] border border-[#1F273B] flex items-center justify-between">
               <div>
-                <span className="text-[10px] text-slate-400 uppercase block">MODEL PREDICTION</span>
+                <span className="text-xs text-slate-400 uppercase block">MODEL PREDICTION</span>
                 <span className="text-base font-bold text-white flex items-center gap-1.5 mt-0.5">
                   {originalRun.prediction}
                   {originalRun.isCorrect ? (
@@ -444,7 +444,7 @@ export const MemorySurgery: React.FC = () => {
               </div>
               <div className="text-right">
                 <span
-                  className="text-[10px] text-slate-400 uppercase block"
+                  className="text-xs text-slate-400 uppercase block"
                   title="This score is based on representation similarity and is not a calibrated probability."
                 >
                   RETRIEVAL SCORE
@@ -456,7 +456,7 @@ export const MemorySurgery: React.FC = () => {
             </div>
 
             <div className="p-3 rounded-xl bg-[#0E131F] border border-[#1F273B] flex items-center justify-between">
-              <span className="text-[11px] text-slate-400">TOP-1 MARGIN:</span>
+              <span className="text-xs text-slate-400">TOP-1 MARGIN:</span>
               <span className="text-xs font-bold text-white">
                 {originalRun.top1Margin.toFixed(3)}
               </span>
@@ -465,7 +465,7 @@ export const MemorySurgery: React.FC = () => {
 
           {/* Latent Vector Snapshot */}
           <div className="pt-2">
-            <div className="flex items-center justify-between text-[11px] text-slate-400 mb-1.5">
+            <div className="flex items-center justify-between text-xs text-slate-400 mb-1.5">
               <span>FINAL RETRIEVED VECTOR (1D)</span>
               <span>{dim} DIMENSIONS</span>
             </div>
@@ -476,8 +476,8 @@ export const MemorySurgery: React.FC = () => {
                   className="p-1 rounded bg-[#131929] border border-[#212B41] text-center"
                   title={`Dimension ${i + 1}: ${val.toFixed(3)}`}
                 >
-                  <div className="text-[8px] text-slate-400">D{i + 1}</div>
-                  <div className="text-[9px] text-cyan-300 font-bold truncate">
+                  <div className="text-xs text-slate-400">D{i + 1}</div>
+                  <div className="text-xs text-cyan-300 font-bold truncate">
                     {val.toFixed(2)}
                   </div>
                 </div>
@@ -493,11 +493,11 @@ export const MemorySurgery: React.FC = () => {
               <span className="text-xs font-bold text-rose-400 uppercase tracking-wider block">
                 RUN B: COUNTERFACTUAL
               </span>
-              <span className="text-[11px] text-slate-400">
+              <span className="text-xs text-slate-400">
                 Write #{removedIndex + 1} ({removedFact.key}) omitted
               </span>
             </div>
-            <span className="text-[10px] bg-rose-950/60 border border-rose-800 text-rose-300 px-2 py-0.5 rounded">
+            <span className="text-xs bg-rose-950/60 border border-rose-800 text-rose-300 px-2 py-0.5 rounded">
               INTERVENTION
             </span>
           </div>
@@ -505,7 +505,7 @@ export const MemorySurgery: React.FC = () => {
           <div className="space-y-3">
             <div className="p-3 rounded-xl bg-[#0E131F] border border-[#1F273B] flex items-center justify-between">
               <div>
-                <span className="text-[10px] text-slate-400 uppercase block">QUERY → GROUND TRUTH</span>
+                <span className="text-xs text-slate-400 uppercase block">QUERY → GROUND TRUTH</span>
                 <span className="text-sm font-bold text-white">
                   "{targetKey}" → <span className="text-cyan-300">{groundTruth}</span>
                 </span>
@@ -514,7 +514,7 @@ export const MemorySurgery: React.FC = () => {
 
             <div className="p-3 rounded-xl bg-[#0E131F] border border-[#1F273B] flex items-center justify-between">
               <div>
-                <span className="text-[10px] text-slate-400 uppercase block">MODEL PREDICTION</span>
+                <span className="text-xs text-slate-400 uppercase block">MODEL PREDICTION</span>
                 <span className="text-base font-bold text-white flex items-center gap-1.5 mt-0.5">
                   {counterfactualRun.prediction}
                   {counterfactualRun.isCorrect ? (
@@ -526,7 +526,7 @@ export const MemorySurgery: React.FC = () => {
               </div>
               <div className="text-right">
                 <span
-                  className="text-[10px] text-slate-400 uppercase block"
+                  className="text-xs text-slate-400 uppercase block"
                   title="This score is based on representation similarity and is not a calibrated probability."
                 >
                   RETRIEVAL SCORE
@@ -538,7 +538,7 @@ export const MemorySurgery: React.FC = () => {
             </div>
 
             <div className="p-3 rounded-xl bg-[#0E131F] border border-[#1F273B] flex items-center justify-between">
-              <span className="text-[11px] text-slate-400">TOP-1 MARGIN:</span>
+              <span className="text-xs text-slate-400">TOP-1 MARGIN:</span>
               <span className="text-xs font-bold text-white">
                 {counterfactualRun.top1Margin.toFixed(3)}
               </span>
@@ -547,7 +547,7 @@ export const MemorySurgery: React.FC = () => {
 
           {/* Latent Vector Snapshot */}
           <div className="pt-2">
-            <div className="flex items-center justify-between text-[11px] text-slate-400 mb-1.5">
+            <div className="flex items-center justify-between text-xs text-slate-400 mb-1.5">
               <span>FINAL RETRIEVED VECTOR (1D)</span>
               <span>{dim} DIMENSIONS</span>
             </div>
@@ -558,8 +558,8 @@ export const MemorySurgery: React.FC = () => {
                   className="p-1 rounded bg-[#131929] border border-[#212B41] text-center"
                   title={`Dimension ${i + 1}: ${val.toFixed(3)}`}
                 >
-                  <div className="text-[8px] text-slate-400">D{i + 1}</div>
-                  <div className="text-[9px] text-rose-300 font-bold truncate">
+                  <div className="text-xs text-slate-400">D{i + 1}</div>
+                  <div className="text-xs text-rose-300 font-bold truncate">
                     {val.toFixed(2)}
                   </div>
                 </div>
@@ -578,14 +578,14 @@ export const MemorySurgery: React.FC = () => {
               MEASURED COUNTERFACTUAL EFFECT (OBSERVED DIFFERENCE)
             </h4>
           </div>
-          <span className="text-[11px] text-slate-400">
+          <span className="text-xs text-slate-400">
             Observed counterfactual difference in this educational model.
           </span>
         </div>
 
         <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-3">
           <div className="p-3 rounded-xl bg-[#131929] border border-[#212B41]">
-            <div className="text-[10px] text-slate-400 uppercase">PREDICTION CHANGED?</div>
+            <div className="text-xs text-slate-400 uppercase">PREDICTION CHANGED?</div>
             <div
               className={`text-sm font-bold mt-1 ${
                 causalDelta.predictionChanged ? 'text-amber-400' : 'text-emerald-400'
@@ -596,7 +596,7 @@ export const MemorySurgery: React.FC = () => {
           </div>
 
           <div className="p-3 rounded-xl bg-[#131929] border border-[#212B41]">
-            <div className="text-[10px] text-slate-400 uppercase">SCORE DELTA</div>
+            <div className="text-xs text-slate-400 uppercase">SCORE DELTA</div>
             <div
               className={`text-sm font-bold mt-1 flex items-center gap-1 ${
                 causalDelta.scoreDelta > 0
@@ -616,7 +616,7 @@ export const MemorySurgery: React.FC = () => {
           </div>
 
           <div className="p-3 rounded-xl bg-[#131929] border border-[#212B41]">
-            <div className="text-[10px] text-slate-400 uppercase">TOP-1 MARGIN DELTA</div>
+            <div className="text-xs text-slate-400 uppercase">TOP-1 MARGIN DELTA</div>
             <div className="text-sm font-bold text-white mt-1">
               {causalDelta.marginDelta >= 0
                 ? `+${causalDelta.marginDelta.toFixed(3)}`
@@ -625,28 +625,28 @@ export const MemorySurgery: React.FC = () => {
           </div>
 
           <div className="p-3 rounded-xl bg-[#131929] border border-[#212B41]">
-            <div className="text-[10px] text-slate-400 uppercase">MEAN STATE DELTA</div>
+            <div className="text-xs text-slate-400 uppercase">MEAN STATE DELTA</div>
             <div className="text-sm font-bold text-cyan-300 mt-1">
               {causalDelta.meanAbsStateDiff.toFixed(3)}
             </div>
           </div>
 
           <div className="p-3 rounded-xl bg-[#131929] border border-[#212B41]">
-            <div className="text-[10px] text-slate-400 uppercase">MAX STATE DELTA</div>
+            <div className="text-xs text-slate-400 uppercase">MAX STATE DELTA</div>
             <div className="text-sm font-bold text-cyan-300 mt-1">
               {causalDelta.maxAbsStateDiff.toFixed(3)}
             </div>
           </div>
 
           <div className="p-3 rounded-xl bg-[#131929] border border-[#212B41]">
-            <div className="text-[10px] text-slate-400 uppercase">CHANGED CELLS</div>
+            <div className="text-xs text-slate-400 uppercase">CHANGED CELLS</div>
             <div className="text-sm font-bold text-purple-300 mt-1">
               {causalDelta.changedCells} / {causalDelta.totalCells}
             </div>
           </div>
 
           <div className="p-3 rounded-xl bg-[#131929] border border-[#212B41]">
-            <div className="text-[10px] text-slate-400 uppercase">MEAN MATRIX DELTA</div>
+            <div className="text-xs text-slate-400 uppercase">MEAN MATRIX DELTA</div>
             <div className="text-sm font-bold text-purple-300 mt-1">
               {causalDelta.meanAbsMatrixDiff.toFixed(4)}
             </div>
@@ -663,7 +663,7 @@ export const MemorySurgery: React.FC = () => {
               LATENT DIMENSION DIFFERENTIALS (Δs = s_cf − s_orig)
             </h4>
           </div>
-          <span className="text-[11px] text-slate-400">
+          <span className="text-xs text-slate-400">
             Labeled coordinates in shared recurrent space
           </span>
         </div>
@@ -678,7 +678,7 @@ export const MemorySurgery: React.FC = () => {
                 key={dIdx}
                 className="p-3 rounded-xl bg-[#0E131F] border border-[#1E2536] space-y-1.5"
               >
-                <div className="flex items-center justify-between text-[10px]">
+                <div className="flex items-center justify-between text-xs">
                   <span className="text-slate-400 font-bold">
                     LATENT DIMENSION {String(dIdx + 1).padStart(2, '0')}
                   </span>
@@ -694,7 +694,7 @@ export const MemorySurgery: React.FC = () => {
                     Δ {diff >= 0 ? `+${diff.toFixed(3)}` : diff.toFixed(3)}
                   </span>
                 </div>
-                <div className="flex items-center justify-between text-[11px] text-slate-300">
+                <div className="flex items-center justify-between text-xs text-slate-300">
                   <span className="text-slate-400">
                     Orig: <span className="text-cyan-300">{origVal.toFixed(2)}</span>
                   </span>
@@ -726,7 +726,7 @@ export const MemorySurgery: React.FC = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="p-3.5 rounded-xl bg-[#11162A] border border-indigo-900/40 space-y-1">
-            <span className="text-[10px] text-slate-400 uppercase block">YOUR HYPOTHESIS:</span>
+            <span className="text-xs text-slate-400 uppercase block">YOUR HYPOTHESIS:</span>
             <span className="text-sm font-bold text-indigo-200">
               {userPrediction === 'change'
                 ? 'Prediction would change'
@@ -739,7 +739,7 @@ export const MemorySurgery: React.FC = () => {
           </div>
 
           <div className="p-3.5 rounded-xl bg-[#11162A] border border-indigo-900/40 space-y-1">
-            <span className="text-[10px] text-slate-400 uppercase block">ACTUAL MEASURED OUTCOME:</span>
+            <span className="text-xs text-slate-400 uppercase block">ACTUAL MEASURED OUTCOME:</span>
             <span className="text-sm font-bold text-white">
               {causalDelta.predictionChanged
                 ? `Prediction changed from "${originalRun.prediction}" to "${counterfactualRun.prediction}"`
@@ -763,7 +763,7 @@ export const MemorySurgery: React.FC = () => {
           <div className="text-slate-300 leading-relaxed">
             <strong className="text-white">Connection to Central Claim:</strong> Memory Surgery isolates the trade-off at the heart of recurrent memory. Because the recurrent state size is fixed ($D = {dim}$), writing a fact is not a discrete append; it adds an <GlossaryTerm term="Hebbian plasticity" className="text-slate-300 hover:text-purple-300">outer product</GlossaryTerm> directly into shared matrix coordinates. When you remove a write, you witness how that specific update either preserved, distorted, or decayed other representations.
           </div>
-          <p className="text-[11px] text-slate-400 italic">
+          <p className="text-xs text-slate-400 italic">
             <strong>Limitation:</strong> Memory Surgery is a controlled counterfactual experiment inside this educational model. It changes one operation while holding the other experiment conditions fixed. The resulting difference shows how sensitive this particular toy memory is to that update. It is not a causal claim about all recurrent neural networks.
           </p>
         </div>

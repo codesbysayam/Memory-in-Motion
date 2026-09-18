@@ -34,10 +34,10 @@ export const JourneyNav: React.FC<JourneyNavProps> = ({ activeSection, onSelectS
     <div className="border-b border-zinc-800 bg-[#0c0e14] py-2">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between pb-1.5">
-          <span className="font-mono text-[11px] uppercase tracking-wider text-zinc-400">
+          <span className="font-mono text-xs uppercase tracking-wider text-zinc-400">
             Learning Journey · 12 Modules
           </span>
-          <span className="font-mono text-[11px] text-purple-400">
+          <span className="font-mono text-xs text-purple-400">
             Click step to navigate
           </span>
         </div>
@@ -58,7 +58,7 @@ export const JourneyNav: React.FC<JourneyNavProps> = ({ activeSection, onSelectS
                   }`}
                   title={`${step.title}: ${step.shortDesc}`}
                 >
-                  <span className="font-mono text-[10px] text-purple-400">{step.num}</span>
+                  <span className="font-mono text-xs text-purple-400">{step.num}</span>
                   <span className="whitespace-nowrap">{step.title}</span>
                 </button>
                 {idx < JOURNEY_STEPS.length - 1 && (

@@ -184,7 +184,7 @@ export const MemoryDecayExperiment: React.FC = () => {
             onChange={(e) => setRetentionPercent(Number(e.target.value))}
             className="w-full accent-cyan-400 cursor-pointer h-1.5 bg-slate-800 rounded-lg"
           />
-          <div className="flex justify-between text-[10px] font-mono text-slate-500">
+          <div className="flex justify-between text-xs font-mono text-slate-500">
             <span>0% (Instant Loss)</span>
             <span>100% (Lossless)</span>
           </div>
@@ -209,7 +209,7 @@ export const MemoryDecayExperiment: React.FC = () => {
             }}
             className="w-full accent-purple-400 cursor-pointer h-1.5 bg-slate-800 rounded-lg"
           />
-          <div className="flex justify-between text-[10px] font-mono text-slate-500">
+          <div className="flex justify-between text-xs font-mono text-slate-500">
             <span>3 Steps</span>
             <span>15 Steps</span>
           </div>
@@ -250,7 +250,7 @@ export const MemoryDecayExperiment: React.FC = () => {
             <Activity className="w-4 h-4 text-cyan-400" />
             PLOT: NUMBER OF UPDATES VS. RETRIEVAL SCORE
           </span>
-          <div className="flex items-center gap-3 text-[11px]">
+          <div className="flex items-center gap-3 text-xs">
             <span className="flex items-center gap-1 text-emerald-400">
               <span className="w-2.5 h-2.5 rounded-full bg-emerald-400" />
               Correct (Paris)
@@ -269,7 +269,7 @@ export const MemoryDecayExperiment: React.FC = () => {
             className="absolute left-0 right-0 border-b border-dashed border-amber-500/40 pointer-events-none flex items-center justify-end pr-2"
             style={{ bottom: '55%' }}
           >
-            <span className="text-[9px] font-mono text-amber-400/80 bg-[#070912] px-1 rounded">
+            <span className="text-xs font-mono text-amber-400/80 bg-[#070912] px-1 rounded">
               Reliability Threshold (55%)
             </span>
           </div>
@@ -287,7 +287,7 @@ export const MemoryDecayExperiment: React.FC = () => {
               >
                 {/* Unreliable Marker Banner */}
                 {isUnreliableMarker && (
-                  <div className="mb-1 bg-rose-950 border border-rose-500 text-rose-300 text-[8px] font-mono font-bold px-1 py-0.5 rounded whitespace-nowrap z-10 animate-bounce">
+                  <div className="mb-1 bg-rose-950 border border-rose-500 text-rose-300 text-xs font-mono font-bold px-1 py-0.5 rounded whitespace-nowrap z-10 animate-bounce">
                     UNRELIABLE
                   </div>
                 )}
@@ -306,7 +306,7 @@ export const MemoryDecayExperiment: React.FC = () => {
                 />
 
                 <span
-                  className={`text-[9px] font-mono mt-1 ${
+                  className={`text-xs font-mono mt-1 ${
                     isSelected ? 'text-white font-bold' : 'text-slate-500 group-hover:text-slate-300'
                   }`}
                 >
@@ -382,7 +382,7 @@ export const MemoryDecayExperiment: React.FC = () => {
         <div className="space-y-2 font-mono text-xs">
           <div className="flex justify-between items-center text-slate-400">
             <span>ACTUAL STATE MATRIX M_t ({dim}x{dim}):</span>
-            <span className="text-[10px] text-purple-300">Live In-Memory Tensor</span>
+            <span className="text-xs text-purple-300">Live In-Memory Tensor</span>
           </div>
 
           <div className="grid grid-cols-16 gap-[1.5px] p-2 bg-[#05070D] rounded-lg border border-[#151C2C]">
@@ -409,7 +409,7 @@ export const MemoryDecayExperiment: React.FC = () => {
       </div>
 
       {/* Explanatory Scientific Guardrail */}
-      <div className="p-3.5 rounded-lg bg-[#0C101C] border border-[#1C2538] text-[11px] text-slate-400 font-sans leading-relaxed">
+      <div className="p-3.5 rounded-lg bg-[#0C101C] border border-[#1C2538] text-xs text-slate-400 font-sans leading-relaxed">
         <strong className="text-slate-200">Scientific Clarification:</strong> In this educational model, repeated state updates with retention below 1 gradually reduce the influence of earlier information. Do not equate this toy directly with biological memory decay or claim a universal forgetting curve.
       </div>
     </div>

@@ -85,20 +85,20 @@ export const CertificateDocument: React.FC<CertificateDocumentProps> = ({ data, 
         </div>
 
         <div className="space-y-1 pt-1">
-          <p className="text-[11px] sm:text-xs text-[#5F625F] font-sans">
+          <p className="text-xs text-[#5F625F] font-sans">
             has completed
           </p>
           <p className="text-xs sm:text-sm font-sans font-bold text-[#252525] tracking-wide uppercase">
             IN-CONTEXT LEARNING WITH RECURRENT MEMORY
           </p>
-          <p className="text-[10.5px] sm:text-xs text-[#5F625F] font-serif italic max-w-[440px] mx-auto leading-relaxed pt-1">
+          <p className="text-xs text-[#5F625F] font-serif italic max-w-[440px] mx-auto leading-relaxed pt-1">
             "An interactive laboratory exploring recurrent state, retrieval, interference and its connection to BDH."
           </p>
         </div>
 
         {/* Verification Metadata Box */}
         <div className="bg-[#FFFFFF] border border-[#D9DCD8] rounded-lg py-2.5 px-3 sm:px-4 max-w-[460px] mx-auto space-y-1 text-center font-mono">
-          <div className="grid grid-cols-2 gap-1 text-[9px] sm:text-[10px] text-[#252525] text-left px-2">
+          <div className="grid grid-cols-2 gap-1 text-xs text-[#252525] text-left px-2">
             <div>
               <span className="text-[#5F625F]">Completion ID: </span>
               <strong className="text-[#2B6282]">{certId}</strong>
@@ -121,7 +121,7 @@ export const CertificateDocument: React.FC<CertificateDocumentProps> = ({ data, 
 
       {/* Footer Attestation & Honest Disclaimer */}
       <div className="pt-2 sm:pt-4 relative z-10 space-y-2">
-        <div className="flex items-center justify-between px-4 sm:px-10 pb-2 border-t border-[#D9DCD8] text-[9px] sm:text-[10px] pt-3 font-sans">
+        <div className="flex items-center justify-between px-4 sm:px-10 pb-2 border-t border-[#D9DCD8] text-xs pt-3 font-sans">
           <div className="text-left">
             <span className="block font-bold text-[#252525]">ISSUED DATE</span>
             <span className="font-mono text-[#5F625F]">{dateStr}</span>
@@ -133,7 +133,7 @@ export const CertificateDocument: React.FC<CertificateDocumentProps> = ({ data, 
         </div>
 
         {/* Honest Disclaimer */}
-        <p className="text-[8px] sm:text-[8.5px] font-sans italic text-[#5F625F] text-center pb-1">
+        <p className="text-xs font-sans italic text-[#5F625F] text-center pb-1">
           Educational completion certificate — not an institutional or professional certification.
         </p>
       </div>

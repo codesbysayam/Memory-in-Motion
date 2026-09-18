@@ -77,21 +77,21 @@ export const RepeatedInputBDHExperiment: React.FC = () => {
           </p>
         </div>
 
-        <span className="text-[10px] px-2.5 py-1 rounded-lg bg-[#F3EFFF] border border-[#E2D8FA] text-[#6842C2] font-bold">
-          TOY-COMPUTED SPARSITY
+        <span className="text-xs px-2.5 py-1 rounded-lg bg-[#F3EFFF] border border-[#E2D8FA] text-[#6842C2] font-bold">
+          Toy-computed sparsity
         </span>
       </div>
 
       {/* Controls */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
         <div className="p-4 rounded-xl bg-[#FAF8F5] border border-[#EAE6DF] space-y-2">
-          <span className="text-[#716F68] font-bold block text-[10px] uppercase">INPUT PATTERN</span>
+          <span className="text-[#716F68] font-bold block text-xs">Input pattern</span>
           <div className="grid grid-cols-2 gap-1.5 pt-1">
             {(['Alpha', 'Beta', 'Gamma', 'Orthogonal'] as const).map((p) => (
               <button
                 key={p}
                 onClick={() => setInputPattern(p)}
-                className={`py-1.5 px-2 rounded-lg text-[10px] border truncate cursor-pointer ${
+                className={`py-1.5 px-2 rounded-lg text-xs border truncate cursor-pointer ${
                   inputPattern === p
                     ? 'bg-[#F3EFFF] border-[#E2D8FA] text-[#6842C2] font-bold'
                     : 'bg-[#FFFFFF] border-[#E5E0D8] text-[#52504A] hover:bg-[#FAF8F5]'
@@ -105,7 +105,7 @@ export const RepeatedInputBDHExperiment: React.FC = () => {
 
         <div className="p-4 rounded-xl bg-[#FAF8F5] border border-[#EAE6DF] space-y-2">
           <div className="flex justify-between">
-            <span className="text-[#716F68] font-bold text-[10px] uppercase">SYNAPTIC STRENGTH (η):</span>
+            <span className="text-[#716F68] font-bold text-xs">Synaptic strength (η):</span>
             <strong className="text-[#6842C2]">{synapticStrength.toFixed(2)}</strong>
           </div>
           <input
@@ -120,13 +120,13 @@ export const RepeatedInputBDHExperiment: React.FC = () => {
         </div>
 
         <div className="p-4 rounded-xl bg-[#FAF8F5] border border-[#EAE6DF] space-y-2">
-          <span className="text-[#716F68] font-bold block text-[10px] uppercase">NEURON POPULATION</span>
+          <span className="text-[#716F68] font-bold block text-xs">Neuron population</span>
           <div className="grid grid-cols-3 gap-1.5 pt-1">
             {([16, 24, 32] as const).map((n) => (
               <button
                 key={n}
                 onClick={() => setNumNeurons(n)}
-                className={`py-1.5 rounded-lg text-[10px] border cursor-pointer ${
+                className={`py-1.5 rounded-lg text-xs border cursor-pointer ${
                   numNeurons === n
                     ? 'bg-[#EDF7F7] border-[#CFE8E8] text-[#167C80] font-bold'
                     : 'bg-[#FFFFFF] border-[#E5E0D8] text-[#52504A] hover:bg-[#FAF8F5]'
@@ -144,11 +144,11 @@ export const RepeatedInputBDHExperiment: React.FC = () => {
         {/* Pass 1 */}
         <div className="p-5 rounded-2xl bg-[#EDF7F7] border border-[#CFE8E8] space-y-3">
           <div className="flex justify-between items-center border-b border-[#E0F0F0] pb-2">
-            <span className="text-[#167C80] font-bold uppercase text-[11px]">PRESENTATION 1 (INITIAL EXPOSURE)</span>
-            <span className="text-[#716F68] text-[10px]">Unprimed state</span>
+            <span className="text-[#167C80] font-bold text-xs">Presentation 1 (initial exposure)</span>
+            <span className="text-[#716F68] text-xs">Unprimed state</span>
           </div>
 
-          <div className="space-y-2 text-[11px]">
+          <div className="space-y-2 text-xs">
             <div className="flex justify-between">
               <span className="text-[#52504A]">Active Neurons:</span>
               <strong className="text-[#151515]">{comparison.pass1.activeNeurons} / {numNeurons}</strong>
@@ -175,11 +175,11 @@ export const RepeatedInputBDHExperiment: React.FC = () => {
         {/* Pass 2 */}
         <div className="p-5 rounded-2xl bg-[#FAF8FD] border border-[#E2D8FA] space-y-3">
           <div className="flex justify-between items-center border-b border-[#EAE2FB] pb-2">
-            <span className="text-[#6842C2] font-bold uppercase text-[11px]">PRESENTATION 2 (REPEATED INPUT)</span>
-            <span className="text-[#6842C2] font-semibold text-[10px]">Primed Synapses</span>
+            <span className="text-[#6842C2] font-bold text-xs">Presentation 2 (repeated input)</span>
+            <span className="text-[#6842C2] font-semibold text-xs">Primed Synapses</span>
           </div>
 
-          <div className="space-y-2 text-[11px]">
+          <div className="space-y-2 text-xs">
             <div className="flex justify-between">
               <span className="text-[#52504A]">Active Neurons:</span>
               <strong className="text-[#6842C2]">{comparison.pass2.activeNeurons} / {numNeurons}</strong>
@@ -211,7 +211,7 @@ export const RepeatedInputBDHExperiment: React.FC = () => {
             ? '✓ Lower activity observed in this toy run.'
             : 'No lower-activity effect observed under this toy configuration.'}
         </span>
-        <span className="text-[#716F68] font-sans text-[11px]">
+        <span className="text-[#716F68] font-sans text-xs">
           Sparsity metric: sparsity = 1 - (active / total)
         </span>
       </div>

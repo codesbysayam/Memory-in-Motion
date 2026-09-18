@@ -50,12 +50,12 @@ export const Section09BDHPlayground: React.FC = () => {
           <div className="lg:col-span-5 space-y-6">
             <div className="rounded-2xl border border-[#E5E0D8] bg-[#FFFFFF] p-6 space-y-5 shadow-xs">
               <div className="flex items-center justify-between border-b border-[#EAE6DF] pb-3">
-                <span className="text-xs font-mono uppercase tracking-widest text-[#167C80] font-bold flex items-center gap-1.5">
+                <span className="text-xs font-mono tracking-widest text-[#167C80] font-bold flex items-center gap-1.5">
                   <Sliders className="w-3.5 h-3.5 text-[#167C80]" />
-                  SANDBOX CONTROLS
+                  <span>Sandbox controls</span>
                 </span>
-                <span className="text-[10px] font-mono text-[#247A4B] font-semibold bg-[#EDF8F2] px-2 py-0.5 rounded border border-[#CDEEDB]">
-                  LATENCY &lt; 5ms
+                <span className="text-xs font-mono text-[#247A4B] font-semibold bg-[#EDF8F2] px-2 py-0.5 rounded border border-[#CDEEDB]">
+                  Latency &lt; 5ms
                 </span>
               </div>
 
@@ -122,7 +122,7 @@ export const Section09BDHPlayground: React.FC = () => {
                   <label className="block text-xs font-mono text-[#716F68] font-medium">
                     Recurrent Relaxation Cycles (t_rec)
                   </label>
-                  <span className="text-[11px] font-mono text-[#167C80] font-semibold">
+                  <span className="text-xs font-mono text-[#167C80] font-semibold">
                     {recurrentSteps} {recurrentSteps === 1 ? 'Cycle' : 'Cycles'}
                   </span>
                 </div>
@@ -162,11 +162,11 @@ export const Section09BDHPlayground: React.FC = () => {
             {/* Population Activation Bars */}
             <div className="rounded-2xl border border-[#E5E0D8] bg-[#FFFFFF] p-6 space-y-5 shadow-xs">
               <div className="flex items-center justify-between border-b border-[#EAE6DF] pb-3">
-                <span className="font-mono text-xs uppercase tracking-wider text-[#151515] font-semibold flex items-center gap-1.5">
+                <span className="font-mono text-xs tracking-wider text-[#151515] font-semibold flex items-center gap-1.5">
                   <Activity className="w-3.5 h-3.5 text-[#167C80]" />
                   <span>Neuron activation profile ({recurrentSteps} relaxation cycles)</span>
                 </span>
-                <span className="font-mono text-[10px] text-[#716F68]">y_i = ReLU(z_i - θ)</span>
+                <span className="font-mono text-xs text-[#716F68]">y_i = ReLU(z_i - θ)</span>
               </div>
 
               {/* Population Bar Grid (Exactly 8 columns per row, matching screenshot) */}
@@ -187,7 +187,7 @@ export const Section09BDHPlayground: React.FC = () => {
                       title={`Neuron n_${neuron.id}: activation ${act.toFixed(2)} (Click to inspect)`}
                     >
                       <span
-                        className={`font-mono text-[9px] transition-colors ${
+                        className={`font-mono text-xs transition-colors ${
                           isSelected
                             ? 'text-[#6842C2] font-bold'
                             : isZero
@@ -210,7 +210,7 @@ export const Section09BDHPlayground: React.FC = () => {
                         />
                       </div>
                       <span
-                        className={`font-mono text-[10px] ${
+                        className={`font-mono text-xs ${
                           isZero
                             ? 'text-[#A8A29E]'
                             : isSelected
@@ -229,7 +229,7 @@ export const Section09BDHPlayground: React.FC = () => {
               {selectedNeuron && (
                 <div className="rounded-xl bg-[#FAF8F5] p-3 border border-[#E5E0D8] text-xs font-mono flex flex-wrap items-center justify-between gap-3 animate-in fade-in duration-200">
                   <div className="flex items-center gap-2">
-                    <span className="px-2 py-0.5 rounded bg-[#6842C2] text-white font-bold text-[11px]">
+                    <span className="px-2 py-0.5 rounded bg-[#6842C2] text-white font-bold text-xs">
                       n_{selectedNeuron.id}
                     </span>
                     <span className="text-[#151515] font-sans font-medium">
@@ -244,7 +244,7 @@ export const Section09BDHPlayground: React.FC = () => {
                       )}
                     </span>
                   </div>
-                  <div className="text-[11px] text-[#716F68]">
+                  <div className="text-xs text-[#716F68]">
                     In-degree: <strong className="text-[#151515]">{selectedNeuron.incoming.length} synapses</strong>
                   </div>
                 </div>
@@ -253,21 +253,21 @@ export const Section09BDHPlayground: React.FC = () => {
               {/* Metrics Readout */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 border-t border-[#EAE6DF] pt-4 font-mono text-xs">
                 <div className="rounded-xl bg-[#FAF8F5] p-4 border border-[#EAE6DF]">
-                  <span className="text-[#716F68] block text-[10px]">ACTIVE NEURON SPARSITY</span>
+                  <span className="text-[#716F68] block text-xs font-semibold">Active neuron sparsity</span>
                   <span className="text-[#151515] font-bold text-sm">
                     {(simulation.sparsityRatio * 100).toFixed(0)}% Quiescent ({simulation.activeCount}/{numNeurons} Active)
                   </span>
-                  <p className="text-[11px] text-[#716F68] font-sans mt-1">
+                  <p className="text-xs text-[#716F68] font-sans mt-1">
                     Cortical-like sparsity conserves energy and limits cross-talk.
                   </p>
                 </div>
 
                 <div className="rounded-xl bg-[#FAF8F5] p-4 border border-[#EAE6DF]">
-                  <span className="text-[#716F68] block text-[10px]">NETWORK KINETIC ENERGY</span>
+                  <span className="text-[#716F68] block text-xs font-semibold">Network kinetic energy</span>
                   <span className="text-[#167C80] font-bold text-sm">
                     {simulation.energy.toFixed(3)}
                   </span>
-                  <p className="text-[11px] text-[#716F68] font-sans mt-1">
+                  <p className="text-xs text-[#716F68] font-sans mt-1">
                     System settled into stable low-energy attractor after {recurrentSteps} cycles.
                   </p>
                 </div>
@@ -277,7 +277,7 @@ export const Section09BDHPlayground: React.FC = () => {
             {/* Latent Readout Probe */}
             <div className="rounded-2xl border border-[#E5E0D8] bg-[#FAF8F5] p-5 space-y-2 shadow-xs">
               <div className="flex items-center justify-between border-b border-[#EAE6DF] pb-2 font-mono text-xs">
-                <span className="text-[#716F68] uppercase font-medium">SETTLED LATENT ATTRACTOR:</span>
+                <span className="text-[#716F68] font-medium">Settled latent attractor:</span>
                 <span className="text-[#151515] font-bold" title="This score is based on representation similarity and is not a calibrated probability.">
                   {simulation.prediction} ({simulation.confidence}% retrieval score)
                 </span>
