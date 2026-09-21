@@ -15,7 +15,7 @@ import {
 } from 'lucide-react';
 import { LogoMark } from '../ui/LogoMark';
 
-export type PageId = 'memory' | 'break' | 'trace' | 'measure' | 'bdh' | 'reason' | 'prove';
+export type PageId = 'memory' | 'break' | 'trace' | 'measure' | 'bdh' | 'reason' | 'prove' | 'docs' | '404';
 
 export interface NavSubsection {
   id: string; // DOM element ID to scroll to
@@ -316,6 +316,7 @@ interface ResearchNavProps {
   onStartJudgeMode?: () => void;
   onOpenCertificate?: () => void;
   onOpenGlossary?: () => void;
+  onOpenDocs?: () => void;
 }
 
 export function ResearchNav({
@@ -325,6 +326,7 @@ export function ResearchNav({
   onStartJudgeMode,
   onOpenCertificate,
   onOpenGlossary,
+  onOpenDocs,
 }: ResearchNavProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [expandedMobileStages, setExpandedMobileStages] = useState<Record<string, boolean>>({
@@ -559,6 +561,18 @@ export function ResearchNav({
               >
                 <Clock className="w-3.5 h-3.5 text-[#5A4716]" />
                 <span className="hidden md:inline">60s Test</span>
+              </button>
+            )}
+
+            {/* Public Documentation Trigger */}
+            {onOpenDocs && (
+              <button
+                onClick={onOpenDocs}
+                className="flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-md bg-[#FAF8F5] hover:bg-[#F2EFE8] text-[#48453E] border border-[#D9DCD8] font-sans text-xs font-semibold transition-all cursor-pointer shrink-0"
+                title="Open Public Documentation Specs"
+              >
+                <BookOpen className="w-3.5 h-3.5 text-[#48453E]" />
+                <span className="hidden sm:inline">Docs</span>
               </button>
             )}
 

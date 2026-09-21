@@ -90,3 +90,49 @@ export function markMilestoneCompleted(id: string): string[] {
     return [];
   }
 }
+
+export interface StageResult {
+  stage: number;
+  correct: boolean;
+  points: number;
+  responseTimeMs: number;
+  userAnswer?: string;
+  expectedAnswer?: string;
+}
+
+export interface SixtySecondTestAttempt {
+  id: string;
+  startedAt: number;
+  completedAt: number | null;
+  elapsedMs: number;
+  score: number;
+  timedOut: boolean;
+  stages: StageResult[];
+}
+
+const ATTEMPTS_KEY = 'memory_in_motion_60s_attempts';
+
+export function getTestAttempts(): SixtySecondTestAttempt[] {
+  if (typeof window === 'undefined') return [];
+  try {
+    const raw = localStorage.getItem(ATTEMPTS_KEY);
+    if (!raw) return [];
+    const parsed = JSON.parse(raw);
+    return Array.isArray(parsed) ? parsed : [];
+  } catch {
+    return [];
+  }
+}
+
+export function saveTestAttempt(attempt: SixtySecondTestAttempt): void {
+  if (typeof window === 'undefined') return;
+  try {
+    const current = getTestAttempts();
+    const updated = [attempt, ...current].slice(0, 20); // keep last 20 attempts
+    localStorage.setItem(ATTEMPTS_KEY, JSON.stringify(updated));
+    window.dispatchEvent(new CustomEvent('test_attempt_saved', { detail: attempt }));
+  } catch (err) {
+    console.error('Failed to save test attempt', err);
+  }
+}
+

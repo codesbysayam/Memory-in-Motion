@@ -15,6 +15,7 @@ import {
 import { MILESTONES, getCompletedMilestones } from '../utils/progressTracker';
 import { CertificateDocument } from './CertificateDocument';
 import { downloadCertificatePDF, printCertificatePDF } from '../utils/certificatePdf';
+import { triggerConfettiExplosion } from '../utils/confettiExplosion';
 
 export const YouMadeItSection: React.FC = () => {
   const [completedMilestones, setCompletedMilestones] = useState<string[]>([]);
@@ -347,6 +348,7 @@ Core Scientific Lesson: Fixed-size recurrent states maintain O(1) memory at the 
                     }
                     setCertificateGenerated(true);
                     localStorage.setItem('memory_lab_cert_generated', 'true');
+                    triggerConfettiExplosion();
                   }}
                   className="px-5 py-2.5 rounded-xl bg-[#6842C2] hover:bg-[#5835AC] text-white font-sans text-xs font-bold transition-all shadow-xs cursor-pointer shrink-0"
                 >

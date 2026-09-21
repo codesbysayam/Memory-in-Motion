@@ -51,12 +51,12 @@ export function generateCertificatePDF(data: CertificateData): jsPDF {
 
   // 3. Inner restrained accent border (18.5mm margin)
   const innerMargin = SAFE_MARGIN + 2.5;
-  doc.setDrawColor(104, 66, 194);
+  doc.setDrawColor(217, 220, 216); // #D9DCD8
   doc.setLineWidth(0.3);
   doc.rect(innerMargin, innerMargin, PAGE_WIDTH - 2 * innerMargin, PAGE_HEIGHT - 2 * innerMargin);
 
   // 4. Corner tick accents
-  doc.setDrawColor(104, 66, 194);
+  doc.setDrawColor(37, 37, 37); // #252525
   doc.setLineWidth(0.6);
   // Top-left
   doc.line(innerMargin, innerMargin + 4, innerMargin + 4, innerMargin + 4);
@@ -73,13 +73,13 @@ export function generateCertificatePDF(data: CertificateData): jsPDF {
 
   // 5. Logo Mark (Memory + Recurrent loop + State node)
   const logoY = 24;
-  doc.setFillColor(243, 239, 255); // #F3EFFF
-  doc.setDrawColor(104, 66, 194); // #6842C2
+  doc.setFillColor(240, 241, 239); // #F0F1EF
+  doc.setDrawColor(217, 220, 216); // #D9DCD8
   doc.setLineWidth(0.3);
   doc.roundedRect(CENTER_X - 6, logoY, 12, 12, 2.5, 2.5, 'FD');
 
   // Recurrent M continuous line
-  doc.setDrawColor(104, 66, 194);
+  doc.setDrawColor(37, 37, 37); // #252525
   doc.setLineWidth(0.65);
   doc.line(CENTER_X - 3.5, logoY + 9.5, CENTER_X - 3.5, logoY + 4.5);
   doc.line(CENTER_X - 3.5, logoY + 4.5, CENTER_X - 1.2, logoY + 6.8);
@@ -87,7 +87,7 @@ export function generateCertificatePDF(data: CertificateData): jsPDF {
   doc.line(CENTER_X + 1.2, logoY + 4.5, CENTER_X + 3.5, logoY + 9.5);
 
   // Active state node
-  doc.setFillColor(40, 124, 124); // #287C7C
+  doc.setFillColor(43, 98, 130); // #2B6282
   doc.circle(CENTER_X, logoY + 6.8, 0.75, 'F');
 
   // 6. Header: Lab Name
@@ -166,16 +166,16 @@ export function generateCertificatePDF(data: CertificateData): jsPDF {
   doc.text('Final Challenge:', 108, 172);
 
   doc.setFont('helvetica', 'bold');
-  doc.setTextColor(104, 66, 194); // Violet for ID
+  doc.setTextColor(43, 98, 130); // #2B6282 for ID
   doc.text(certId, 68, 162);
 
-  doc.setTextColor(21, 21, 21);
+  doc.setTextColor(37, 37, 37); // #252525
   doc.text(dateStr, 127, 162);
 
-  doc.setTextColor(40, 124, 124); // Teal for experiments
+  doc.setTextColor(36, 69, 46); // #24452E for experiments
   doc.text(`${milestones} / ${total}`, 77, 172);
 
-  doc.setTextColor(36, 122, 75); // Forest green for verified
+  doc.setTextColor(36, 69, 46); // #24452E for verified
   doc.text(finalChallengeStatus, 131, 172);
 
   // 12. Attestation Row

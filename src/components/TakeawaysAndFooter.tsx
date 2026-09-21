@@ -1,8 +1,15 @@
-import React from 'react';
-import { ShieldCheck, Sparkles, ArrowUpRight } from 'lucide-react';
+import React, { useState } from 'react';
+import { ShieldCheck, Sparkles, ArrowUpRight, Shield, FileText } from 'lucide-react';
 import { FinalClaimCard } from './FinalClaimCard';
+import { LegalModal } from './LegalModals';
 
-export const TakeawaysAndFooter: React.FC = () => {
+interface TakeawaysAndFooterProps {
+  onNavigateDocs?: () => void;
+}
+
+export const TakeawaysAndFooter: React.FC<TakeawaysAndFooterProps> = ({ onNavigateDocs }) => {
+  const [activeLegalModal, setActiveLegalModal] = useState<'privacy' | 'terms' | null>(null);
+
   const takeaways = [
     {
       num: '01',
@@ -95,7 +102,34 @@ export const TakeawaysAndFooter: React.FC = () => {
           <div>
             DataForge 2026 — Pathway Track · <span className="text-[#151515] font-semibold">&ldquo;Explain the Frontier&rdquo;</span>
           </div>
-          <div className="flex items-center gap-4">
+          <div className="flex flex-wrap items-center gap-4">
+            <a
+              href="#docs"
+              onClick={(e) => {
+                e.preventDefault();
+                if (onNavigateDocs) onNavigateDocs();
+              }}
+              className="text-[#55524B] hover:text-[#1B4D7E] hover:underline cursor-pointer"
+            >
+              Documentation
+            </a>
+            <span className="text-[#D0CCC3]">·</span>
+            <button
+              type="button"
+              onClick={() => setActiveLegalModal('privacy')}
+              className="text-[#55524B] hover:text-[#1B4D7E] hover:underline cursor-pointer"
+            >
+              Privacy Policy
+            </button>
+            <span className="text-[#D0CCC3]">·</span>
+            <button
+              type="button"
+              onClick={() => setActiveLegalModal('terms')}
+              className="text-[#55524B] hover:text-[#1B4D7E] hover:underline cursor-pointer"
+            >
+              Terms of Use
+            </button>
+            <span className="text-[#D0CCC3]">·</span>
             <a
               href="https://github.com/pathwaycom/bdh"
               target="_blank"
@@ -117,6 +151,12 @@ export const TakeawaysAndFooter: React.FC = () => {
           </div>
         </div>
       </div>
+
+      {/* Legal Modals */}
+      <LegalModal
+        type={activeLegalModal}
+        onClose={() => setActiveLegalModal(null)}
+      />
     </footer>
   );
 };

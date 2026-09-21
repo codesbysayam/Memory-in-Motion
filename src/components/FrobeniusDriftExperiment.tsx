@@ -105,62 +105,44 @@ export const FrobeniusDriftExperiment: React.FC<FrobeniusDriftExperimentProps> =
     setFactCount((prev) => Math.min(12, prev + 1));
   };
 
-  // Custom animated dot renderers with entry pulse and fade-in
+  // Custom animated dot renderers with crisp high-contrast scientific points
   const renderRetentionDot = (dotProps: any) => {
     const { cx, cy, index = 0, payload } = dotProps;
     if (cx == null || cy == null) return null;
     const isLatest = index === driftData.length - 1;
     const isHovered = hoveredStep === payload?.step;
-    const delayMs = Math.min(index * 60, 600);
+    const delayMs = Math.min(index * 50, 400);
 
     return (
       <g
         key={`ret-dot-${index}-${payload?.step}`}
         style={{
-          animation: `dataPointEntry 600ms cubic-bezier(0.16, 1, 0.3, 1) ${delayMs}ms both`,
+          animation: `dataPointEntry 400ms cubic-bezier(0.16, 1, 0.3, 1) ${delayMs}ms both`,
           transformOrigin: `${cx}px ${cy}px`,
         }}
       >
-        {/* Subtle pulsing halo on latest point */}
-        {isLatest && (
+        {/* Subtle highlight ring on hover or latest */}
+        {(isLatest || isHovered) && (
           <circle
             cx={cx}
             cy={cy}
-            r={11}
+            r={10}
             fill="none"
             stroke="#2B6282"
             strokeWidth={1.5}
-            className="data-point-pulse-ring"
+            opacity={isHovered ? 0.6 : 0.35}
+            className={isLatest ? 'data-point-pulse-ring' : ''}
           />
         )}
-        {/* Outer highlight ring on hover */}
-        {isHovered && (
-          <circle
-            cx={cx}
-            cy={cy}
-            r={9}
-            fill="none"
-            stroke="#2B6282"
-            strokeWidth={2}
-            opacity={0.5}
-          />
-        )}
-        {/* Outer white halo border */}
+        {/* Clean, high-precision solid circle with crisp white outline */}
         <circle
           cx={cx}
           cy={cy}
           r={isLatest || isHovered ? 5.5 : 4}
-          fill="#FFFFFF"
-          stroke="#2B6282"
+          fill="#2B6282"
+          stroke="#FFFFFF"
           strokeWidth={2}
           className="transition-all duration-200"
-        />
-        {/* Center core dot */}
-        <circle
-          cx={cx}
-          cy={cy}
-          r={isLatest || isHovered ? 2.5 : 1.8}
-          fill="#2B6282"
         />
       </g>
     );
@@ -171,41 +153,36 @@ export const FrobeniusDriftExperiment: React.FC<FrobeniusDriftExperimentProps> =
     if (cx == null || cy == null) return null;
     const isLatest = index === driftData.length - 1;
     const isHovered = hoveredStep === payload?.step;
-    const delayMs = Math.min(index * 60, 600);
+    const delayMs = Math.min(index * 50, 400);
 
     return (
       <g
         key={`norm-dot-${index}-${payload?.step}`}
         style={{
-          animation: `dataPointEntry 600ms cubic-bezier(0.16, 1, 0.3, 1) ${delayMs}ms both`,
+          animation: `dataPointEntry 400ms cubic-bezier(0.16, 1, 0.3, 1) ${delayMs}ms both`,
           transformOrigin: `${cx}px ${cy}px`,
         }}
       >
-        {isLatest && (
+        {(isLatest || isHovered) && (
           <circle
             cx={cx}
             cy={cy}
-            r={10}
+            r={9}
             fill="none"
             stroke="#B86B1B"
             strokeWidth={1.5}
-            className="data-point-pulse-ring"
+            opacity={isHovered ? 0.6 : 0.35}
+            className={isLatest ? 'data-point-pulse-ring' : ''}
           />
         )}
         <circle
           cx={cx}
           cy={cy}
           r={isLatest || isHovered ? 5 : 3.5}
-          fill="#FFFFFF"
-          stroke="#B86B1B"
+          fill="#B86B1B"
+          stroke="#FFFFFF"
           strokeWidth={1.8}
           className="transition-all duration-200"
-        />
-        <circle
-          cx={cx}
-          cy={cy}
-          r={isLatest || isHovered ? 2.2 : 1.5}
-          fill="#8F4D0B"
         />
       </g>
     );
@@ -402,7 +379,7 @@ export const FrobeniusDriftExperiment: React.FC<FrobeniusDriftExperimentProps> =
             onChange={(e) => setRetention(parseFloat(e.target.value))}
             className="w-full accent-[#2B6282] cursor-pointer"
           />
-          <div className="flex justify-between text-[10px] text-[#5F625F] mt-0.5">
+          <div className="flex justify-between text-xs text-[#5F625F] mt-1">
             <span>0.70 (Rapid)</span>
             <span>0.92</span>
             <span>1.00 (No Decay)</span>
@@ -463,7 +440,7 @@ export const FrobeniusDriftExperiment: React.FC<FrobeniusDriftExperimentProps> =
             onChange={(e) => setWriteStrength(parseFloat(e.target.value))}
             className="w-full accent-[#B86B1B] cursor-pointer"
           />
-          <div className="flex justify-between text-[10px] text-[#5F625F] mt-0.5">
+          <div className="flex justify-between text-xs text-[#5F625F] mt-1">
             <span>0.40 (Soft)</span>
             <span>0.85</span>
             <span>1.00 (Hard)</span>
@@ -472,32 +449,37 @@ export const FrobeniusDriftExperiment: React.FC<FrobeniusDriftExperimentProps> =
       </div>
 
       {/* Main Dynamic Recharts Visualization */}
-      <div className="space-y-2">
-        <div className="flex flex-wrap items-center justify-between gap-3 text-xs font-sans">
-          <div className="flex items-center gap-4 text-[#5F625F]">
-            <span className="flex items-center gap-1.5">
-              <span className="w-3 h-3 rounded-xs bg-[#B86B1B] inline-block" />
-              <span>Frobenius Norm ||M||_F (Left Axis)</span>
+      <div className="space-y-3">
+        {/* Academic Legend & Metric Header */}
+        <div className="flex flex-wrap items-center justify-between gap-3 p-3 rounded-lg bg-[#FAF8F5] border border-[#D9DCD8] text-xs font-sans">
+          <div className="flex flex-wrap items-center gap-4 text-[#5F625F]">
+            <span className="flex items-center gap-2">
+              <span className="w-3.5 h-3.5 rounded-xs bg-[#B86B1B] border border-[#8F4D0B]/30 inline-block" />
+              <span className="text-[#8F4D0B] font-semibold">Frobenius Norm ‖M‖_F</span>
+              <span className="text-xs text-[#716F68]">(Left Axis)</span>
             </span>
-            <span className="flex items-center gap-1.5">
-              <span className="w-3 h-0.5 bg-[#2B6282] inline-block" />
-              <span>Fact #1 Retention % (Right Axis)</span>
+            <span className="flex items-center gap-2">
+              <span className="w-4 h-1 bg-[#2B6282] rounded-full inline-block" />
+              <span className="text-[#2B6282] font-semibold">Fact #1 Retention %</span>
+              <span className="text-xs text-[#716F68]">(Right Axis)</span>
             </span>
-            <span className="flex items-center gap-1.5 text-[#5F625F]">
-              <span className="w-3 h-0.5 border-t border-dashed border-[#A33B3B] inline-block" />
-              <span>Critical Retrieval Limit (30%)</span>
+            <span className="flex items-center gap-2">
+              <span className="w-4 h-0.5 border-t-2 border-dashed border-[#A33B3B] inline-block" />
+              <span className="text-[#A33B3B] font-semibold">Critical Limit (30%)</span>
             </span>
           </div>
-          <span className="text-[11px] text-[#5F625F]">
-            Theoretical Equilibrium ||M||_∞ ≈ <strong className="font-mono text-[#8F4D0B]">{asymptoticLimit}</strong>
-          </span>
+
+          <div className="flex items-center gap-2 text-xs font-mono bg-[#FFFFFF] px-3 py-1 rounded-md border border-[#D9DCD8]">
+            <span className="text-[#5F625F]">Equilibrium Bound:</span>
+            <strong className="text-[#8F4D0B] font-bold">‖M‖_∞ ≈ {asymptoticLimit}</strong>
+          </div>
         </div>
 
-        <div className="w-full h-72 sm:h-80 select-none bg-[#FFFFFF] rounded-lg border border-[#D9DCD8] p-2 sm:p-4">
+        <div className="w-full h-[390px] sm:h-[430px] select-none bg-[#FFFFFF] rounded-xl border border-[#D9DCD8] p-3 sm:p-5 shadow-xs">
           <ResponsiveContainer width="100%" height="100%">
             <ComposedChart
               data={driftData}
-              margin={{ top: 15, right: 25, bottom: 20, left: 10 }}
+              margin={{ top: 25, right: 55, bottom: 35, left: 45 }}
               onMouseMove={(e: any) => {
                 if (e?.activePayload && e.activePayload.length > 0) {
                   setHoveredStep(e.activePayload[0].payload.step);
@@ -507,38 +489,71 @@ export const FrobeniusDriftExperiment: React.FC<FrobeniusDriftExperimentProps> =
             >
               <defs>
                 <linearGradient id="frobeniusGrad" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="#B86B1B" stopOpacity={0.18} />
+                  <stop offset="5%" stopColor="#B86B1B" stopOpacity={0.16} />
                   <stop offset="95%" stopColor="#B86B1B" stopOpacity={0.01} />
                 </linearGradient>
               </defs>
 
-              <CartesianGrid strokeDasharray="3 3" stroke="#D9DCD8" vertical={false} />
+              <CartesianGrid strokeDasharray="3 3" stroke="#E8EAE6" vertical={false} />
 
-              {/* X Axis: Sequence Steps with Fact Names */}
+              {/* X Axis: Clean Two-Line Ticks (Step Number + Fact Name) */}
               <XAxis
                 dataKey="step"
-                tickFormatter={(step, idx) => {
-                  const fact = driftData[idx]?.factName;
-                  return `S${step} (+${fact || ''})`;
+                tick={({ x, y, payload }) => {
+                  const dataItem = driftData[payload.index];
+                  if (!dataItem) return null;
+                  const isHovered = hoveredStep === dataItem.step;
+                  return (
+                    <g transform={`translate(${x},${y})`}>
+                      <text
+                        x={0}
+                        y={0}
+                        dy={14}
+                        textAnchor="middle"
+                        fill={isHovered ? '#2B6282' : '#252525'}
+                        fontSize={11}
+                        fontFamily="monospace"
+                        fontWeight={isHovered ? 700 : 600}
+                      >
+                        {`S${dataItem.step}`}
+                      </text>
+                      <text
+                        x={0}
+                        y={0}
+                        dy={28}
+                        textAnchor="middle"
+                        fill={isHovered ? '#2B6282' : '#716F68'}
+                        fontSize={10}
+                        fontFamily="sans-serif"
+                      >
+                        {`+${dataItem.factName}`}
+                      </text>
+                    </g>
+                  );
                 }}
-                tick={{ fontSize: 11, fill: '#5F625F', fontFamily: 'monospace' }}
                 stroke="#D9DCD8"
+                tickLine={{ stroke: '#D9DCD8' }}
+                height={45}
               />
 
-              {/* Y Axis Left: Frobenius Norm ||M||_F */}
+              {/* Y Axis Left: Frobenius Norm ‖M‖_F */}
               <YAxis
                 yAxisId="left"
-                domain={[0, (dataMax: number) => Math.max(4, Math.ceil(dataMax * 1.2))]}
+                domain={[0, (dataMax: number) => Math.max(3.5, Math.ceil(dataMax * 1.25 * 2) / 2)]}
                 tick={{ fontSize: 11, fill: '#8F4D0B', fontFamily: 'monospace' }}
+                tickFormatter={(v) => Number(v).toFixed(1)}
                 stroke="#D9DCD8"
+                tickLine={{ stroke: '#D9DCD8' }}
                 label={{
-                  value: '||M||_F Matrix Norm',
+                  value: 'Frobenius Norm ‖M‖_F',
                   angle: -90,
                   position: 'insideLeft',
                   fill: '#8F4D0B',
-                  fontSize: 10,
-                  fontFamily: 'monospace',
-                  offset: 0,
+                  fontSize: 11,
+                  fontFamily: 'sans-serif',
+                  fontWeight: 600,
+                  offset: -32,
+                  style: { textAnchor: 'middle' },
                 }}
               />
 
@@ -547,17 +562,21 @@ export const FrobeniusDriftExperiment: React.FC<FrobeniusDriftExperimentProps> =
                 yAxisId="right"
                 orientation="right"
                 domain={[0, 100]}
+                ticks={[0, 25, 50, 75, 100]}
                 tickFormatter={(v) => `${v}%`}
                 tick={{ fontSize: 11, fill: '#2B6282', fontFamily: 'monospace' }}
                 stroke="#D9DCD8"
+                tickLine={{ stroke: '#D9DCD8' }}
                 label={{
-                  value: 'Fact #1 Retention %',
+                  value: 'Fact #1 Retention (%)',
                   angle: 90,
                   position: 'insideRight',
                   fill: '#2B6282',
-                  fontSize: 10,
-                  fontFamily: 'monospace',
-                  offset: 0,
+                  fontSize: 11,
+                  fontFamily: 'sans-serif',
+                  fontWeight: 600,
+                  offset: -38,
+                  style: { textAnchor: 'middle' },
                 }}
               />
 
@@ -568,12 +587,35 @@ export const FrobeniusDriftExperiment: React.FC<FrobeniusDriftExperimentProps> =
                 stroke="#A33B3B"
                 strokeDasharray="4 4"
                 strokeWidth={1.5}
-                label={{
-                  value: 'Forgetting Threshold',
-                  fill: '#A33B3B',
-                  fontSize: 10,
-                  fontFamily: 'monospace',
-                  position: 'insideBottomRight',
+                label={(props: any) => {
+                  const { viewBox } = props;
+                  if (!viewBox) return null;
+                  const { x, y, width } = viewBox;
+                  return (
+                    <g>
+                      <rect
+                        x={x + width - 175}
+                        y={y - 18}
+                        width={170}
+                        height={18}
+                        rx={4}
+                        fill="#FFF5F5"
+                        fillOpacity={0.95}
+                        stroke="#F5C6C6"
+                        strokeWidth={1}
+                      />
+                      <text
+                        x={x + width - 167}
+                        y={y - 5}
+                        fill="#A33B3B"
+                        fontSize={10}
+                        fontFamily="monospace"
+                        fontWeight={600}
+                      >
+                        Critical Limit (30% Recall)
+                      </text>
+                    </g>
+                  );
                 }}
               />
 
@@ -582,15 +624,38 @@ export const FrobeniusDriftExperiment: React.FC<FrobeniusDriftExperimentProps> =
                 <ReferenceLine
                   yAxisId="left"
                   y={parseFloat(asymptoticLimit)}
-                  stroke="#5F625F"
-                  strokeDasharray="2 2"
+                  stroke="#716F68"
+                  strokeDasharray="4 4"
                   strokeWidth={1.2}
-                  label={{
-                    value: `||M||_∞ = ${asymptoticLimit}`,
-                    fill: '#5F625F',
-                    fontSize: 10,
-                    fontFamily: 'monospace',
-                    position: 'insideTopLeft',
+                  label={(props: any) => {
+                    const { viewBox } = props;
+                    if (!viewBox) return null;
+                    const { x, y } = viewBox;
+                    return (
+                      <g>
+                        <rect
+                          x={x + 12}
+                          y={y - 18}
+                          width={145}
+                          height={18}
+                          rx={4}
+                          fill="#FFFFFF"
+                          fillOpacity={0.95}
+                          stroke="#D9DCD8"
+                          strokeWidth={1}
+                        />
+                        <text
+                          x={x + 18}
+                          y={y - 5}
+                          fill="#5F625F"
+                          fontSize={10}
+                          fontFamily="monospace"
+                          fontWeight={600}
+                        >
+                          Limit ‖M‖_∞ = {asymptoticLimit}
+                        </text>
+                      </g>
+                    );
                   }}
                 />
               )}
@@ -609,7 +674,7 @@ export const FrobeniusDriftExperiment: React.FC<FrobeniusDriftExperimentProps> =
                           Step {data.step}: +{data.factName} → {data.targetVal}
                         </span>
                         <span
-                          className={`px-1.5 py-0.5 rounded text-[10px] font-bold ${
+                          className={`px-1.5 py-0.5 rounded text-xs font-bold ${
                             isForgotten
                               ? 'bg-[#F9E9ED] text-[#6B2835]'
                               : isDegraded
@@ -623,7 +688,7 @@ export const FrobeniusDriftExperiment: React.FC<FrobeniusDriftExperimentProps> =
 
                       <div className="space-y-1">
                         <div className="flex justify-between items-center">
-                          <span className="text-[#5F625F]">State Norm ||M||_F:</span>
+                          <span className="text-[#5F625F]">State Norm ‖M‖_F:</span>
                           <strong className="text-[#8F4D0B] font-bold">{data.frobeniusNorm}</strong>
                         </div>
                         <div className="flex justify-between items-center">
@@ -635,7 +700,7 @@ export const FrobeniusDriftExperiment: React.FC<FrobeniusDriftExperimentProps> =
                           <span className="text-[#252525] font-semibold">{data.rawScore}</span>
                         </div>
                         <div className="flex justify-between items-center">
-                          <span className="text-[#5F625F]">Decay Factor λ^t:</span>
+                          <span className="text-[#5F625F]">Decay Factor λᵗ:</span>
                           <span className="text-[#252525]">{data.analyticalDecay}%</span>
                         </div>
                       </div>
@@ -649,7 +714,7 @@ export const FrobeniusDriftExperiment: React.FC<FrobeniusDriftExperimentProps> =
                 yAxisId="left"
                 type="monotone"
                 dataKey="frobeniusNorm"
-                name="Frobenius Norm ||M||_F"
+                name="Frobenius Norm ‖M‖_F"
                 stroke="#B86B1B"
                 strokeWidth={2}
                 fill="url(#frobeniusGrad)"
@@ -679,13 +744,13 @@ export const FrobeniusDriftExperiment: React.FC<FrobeniusDriftExperimentProps> =
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 border-t border-[#D9DCD8] pt-4 text-xs font-sans">
         {/* Metric 1: Current Frobenius Norm */}
         <div className="p-3.5 rounded-lg bg-[#F7F5EF] border border-[#D9DCD8] space-y-1">
-          <span className="text-[10px] text-[#5F625F] block uppercase tracking-wider font-medium">
-            Matrix Norm ||M_T||_F
+          <span className="text-xs text-[#5F625F] block uppercase tracking-wider font-semibold">
+            Matrix Norm ‖M_T‖_F
           </span>
           <div className="text-base font-bold font-mono text-[#8F4D0B] flex items-center gap-1.5">
             <span>{latestStep ? latestStep.frobeniusNorm.toFixed(3) : '—'}</span>
             <span
-              className={`text-[10px] font-mono font-normal px-1.5 py-0.5 rounded ${
+              className={`text-xs font-mono font-normal px-1.5 py-0.5 rounded ${
                 totalNormDrift > 0 ? 'bg-[#FFF5D8] text-[#5A4716]' : 'bg-[#F0F1EF] text-[#5F625F]'
               }`}
             >
@@ -693,20 +758,20 @@ export const FrobeniusDriftExperiment: React.FC<FrobeniusDriftExperimentProps> =
               {driftPercent.toFixed(0)}%)
             </span>
           </div>
-          <div className="text-[10px] text-[#5F625F]">
+          <div className="text-xs text-[#5F625F]">
             Associative energy accumulated in {dimension}×{dimension} state
           </div>
         </div>
 
         {/* Metric 2: Fact #1 Retention Score */}
         <div className="p-3.5 rounded-lg bg-[#F7F5EF] border border-[#D9DCD8] space-y-1">
-          <span className="text-[10px] text-[#5F625F] block uppercase tracking-wider font-medium">
+          <span className="text-xs text-[#5F625F] block uppercase tracking-wider font-semibold">
             Fact #1 Survival (France)
           </span>
           <div className="text-base font-bold font-mono text-[#2B6282] flex items-center gap-1.5">
             <span>{latestStep ? `${latestStep.fact1Retention}%` : '—'}</span>
             <span
-              className={`text-[10px] font-sans font-medium px-1.5 py-0.5 rounded ${
+              className={`text-xs font-sans font-medium px-1.5 py-0.5 rounded ${
                 latestStep && latestStep.fact1Retention >= 50
                   ? 'bg-[#DCEFE2] text-[#24452E]'
                   : latestStep && latestStep.fact1Retention >= 30
@@ -721,20 +786,20 @@ export const FrobeniusDriftExperiment: React.FC<FrobeniusDriftExperimentProps> =
                 : 'Loss'}
             </span>
           </div>
-          <div className="text-[10px] text-[#5F625F]">
+          <div className="text-xs text-[#5F625F]">
             Residual cosine similarity between decoded state and &ldquo;Paris&rdquo;
           </div>
         </div>
 
         {/* Metric 3: Asymptotic Saturation Bound */}
         <div className="p-3.5 rounded-lg bg-[#F7F5EF] border border-[#D9DCD8] space-y-1">
-          <span className="text-[10px] text-[#5F625F] block uppercase tracking-wider font-medium">
-            Theoretical Bound ||M||_∞
+          <span className="text-xs text-[#5F625F] block uppercase tracking-wider font-semibold">
+            Theoretical Bound ‖M‖_∞
           </span>
           <div className="text-base font-bold font-mono text-[#252525]">
             {asymptoticLimit}
           </div>
-          <div className="text-[10px] text-[#5F625F]">
+          <div className="text-xs text-[#5F625F]">
             {retention >= 0.999
               ? 'Infinite growth: no decay leads to unbounded matrix congestion'
               : `Steady-state limit where decay balances incoming writes`}
@@ -743,7 +808,7 @@ export const FrobeniusDriftExperiment: React.FC<FrobeniusDriftExperimentProps> =
 
         {/* Metric 4: Signal-to-Interference Ratio */}
         <div className="p-3.5 rounded-lg bg-[#F7F5EF] border border-[#D9DCD8] space-y-1">
-          <span className="text-[10px] text-[#5F625F] block uppercase tracking-wider font-medium">
+          <span className="text-xs text-[#5F625F] block uppercase tracking-wider font-semibold">
             Drift Behavior Regime
           </span>
           <div className="text-base font-bold text-[#252525]">
@@ -753,7 +818,7 @@ export const FrobeniusDriftExperiment: React.FC<FrobeniusDriftExperimentProps> =
               ? 'Fast Amnesic Decay'
               : 'Asymptotic Saturation'}
           </div>
-          <div className="text-[10px] text-[#5F625F]">
+          <div className="text-xs text-[#5F625F]">
             {retention >= 0.99
               ? 'Eigenvalues grow with sequence length'
               : 'Exponential forgetting curve stabilizes the matrix norm'}
@@ -769,7 +834,7 @@ export const FrobeniusDriftExperiment: React.FC<FrobeniusDriftExperimentProps> =
         </div>
         <p className="text-xs text-[#5F625F] font-sans leading-relaxed">
           The <GlossaryTerm term="Frobenius norm">Frobenius norm</GlossaryTerm>{' '}
-          <span className="font-mono font-semibold text-[#8F4D0B]">||M||_F = √(∑ M_ij²)</span> measures the total Euclidean coordinate energy packed into the matrix. When retention attenuation <span className="font-mono">λ = 1.0</span>, every newly ingested fact injects fresh energy <span className="font-mono">η</span> without dissipating prior coordinates, causing <span className="font-mono">||M||_F</span> to scale as <span className="font-mono">O(√T)</span> and causing geometric crosstalk to overpower older memories. When <span className="font-mono">λ &lt; 1.0</span>, the norm asymptotically saturates at <span className="font-mono">η / √(1 - λ²)</span>, keeping coordinates numerically stable at the expense of exponential memory decay.
+          <span className="font-mono font-semibold text-[#8F4D0B]">‖M‖_F = √(∑ M_ij²)</span> measures the total Euclidean coordinate energy packed into the matrix. When retention attenuation <span className="font-mono">λ = 1.0</span>, every newly ingested fact injects fresh energy <span className="font-mono">η</span> without dissipating prior coordinates, causing <span className="font-mono">‖M‖_F</span> to scale as <span className="font-mono">O(√T)</span> and causing geometric crosstalk to overpower older memories. When <span className="font-mono">λ &lt; 1.0</span>, the norm asymptotically saturates at <span className="font-mono">η / √(1 - λ²)</span>, keeping coordinates numerically stable at the expense of exponential memory decay.
         </p>
       </div>
     </div>

@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { X, Download, Printer, Copy, CheckCircle2, Award, Lock, ArrowRight, Sparkles } from 'lucide-react';
 import { CertificateDocument } from './CertificateDocument';
 import { downloadCertificatePDF, printCertificatePDF, CertificateData } from '../utils/certificatePdf';
+import { triggerConfettiExplosion } from '../utils/confettiExplosion';
 
 interface CertificateModalProps {
   isOpen: boolean;
@@ -32,6 +33,44 @@ export const CertificateModal: React.FC<CertificateModalProps> = ({
   });
   const [copied, setCopied] = useState<boolean>(false);
   const [modalStatus, setModalStatus] = useState<string | null>(null);
+  const hasTriggeredInitialConfetti = useRef<boolean>(false);
+
+  // Auto-trigger confetti explosion when user achieves final milestone or finishes the final challenge
+  useEffect(() => {
+    if (!isOpen) {
+      hasTriggeredInitialConfetti.current = false;
+      return;
+    }
+
+    const isFinalMilestoneOrChallengeDone =
+      isUnlocked ||
+      milestonesCount >= totalMilestones ||
+      localStorage.getItem('memory_final_challenge_completed') === 'true' ||
+      localStorage.getItem('memory_lab_cert_generated') === 'true';
+
+    if (isFinalMilestoneOrChallengeDone && !hasTriggeredInitialConfetti.current) {
+      hasTriggeredInitialConfetti.current = true;
+      const timer = setTimeout(() => {
+        triggerConfettiExplosion();
+      }, 120);
+      return () => clearTimeout(timer);
+    }
+  }, [isOpen, isUnlocked, milestonesCount, totalMilestones]);
+
+  // Listen for real-time final challenge completion or milestone updates while modal is active
+  useEffect(() => {
+    const handleConfettiEvent = () => {
+      if (isOpen) {
+        triggerConfettiExplosion();
+      }
+    };
+    window.addEventListener('final_challenge_completed', handleConfettiEvent);
+    window.addEventListener('trigger_certificate_confetti', handleConfettiEvent);
+    return () => {
+      window.removeEventListener('final_challenge_completed', handleConfettiEvent);
+      window.removeEventListener('trigger_certificate_confetti', handleConfettiEvent);
+    };
+  }, [isOpen]);
 
   if (!isOpen) return null;
 
@@ -67,6 +106,7 @@ export const CertificateModal: React.FC<CertificateModalProps> = ({
     } catch {
       // ignore
     }
+    triggerConfettiExplosion();
   };
 
   const handleDownload = () => {
@@ -114,13 +154,26 @@ Status: ${certData.milestonesCount}/${certData.totalMilestones} Experiments Veri
             </div>
           </div>
 
-          <button
-            onClick={onClose}
-            className="p-2 rounded-md text-[#5F625F] hover:text-[#252525] hover:bg-[#F0F1EF] transition-all cursor-pointer"
-            aria-label="Close modal"
-          >
-            <X className="w-5 h-5" />
-          </button>
+          <div className="flex items-center gap-2">
+            {isUnlocked && (
+              <button
+                onClick={() => triggerConfettiExplosion()}
+                className="px-3 py-1.5 rounded-lg bg-[#FAF8F5] hover:bg-[#F0EDE6] text-[#24452E] border border-[#C5DDCB] font-sans text-xs font-semibold flex items-center gap-1.5 transition-all shadow-2xs cursor-pointer"
+                title="Celebrate achievement again with confetti"
+              >
+                <Sparkles className="w-3.5 h-3.5 text-[#F59E0B]" />
+                <span className="hidden sm:inline">Celebrate</span>
+              </button>
+            )}
+
+            <button
+              onClick={onClose}
+              className="p-2 rounded-md text-[#5F625F] hover:text-[#252525] hover:bg-[#F0F1EF] transition-all cursor-pointer"
+              aria-label="Close modal"
+            >
+              <X className="w-5 h-5" />
+            </button>
+          </div>
         </div>
 
         {/* LOCKED STATE */}

@@ -451,7 +451,7 @@ export const SectionMeasure: React.FC = () => {
                           x={padding.left - 8}
                           y={y + 4}
                           textAnchor="end"
-                          className="fill-[#716F68] font-mono text-[10px]"
+                          className="fill-[#5F625F] font-mono text-xs"
                         >
                           {v.toFixed(2)}
                         </text>
@@ -501,17 +501,17 @@ export const SectionMeasure: React.FC = () => {
                       {/* X Axis Label */}
                       <text
                         x={p.x}
-                        y={chartHeight - 14}
+                        y={chartHeight - 16}
                         textAnchor="middle"
-                        className="fill-[#716F68] font-mono text-[10px]"
+                        className="fill-[#5F625F] font-mono text-xs"
                       >
                         Step {p.step}
                       </text>
                       <text
                         x={p.x}
-                        y={chartHeight - 2}
+                        y={chartHeight - 3}
                         textAnchor="middle"
-                        className="fill-[#151515] font-mono text-[9px] font-semibold"
+                        className="fill-[#252525] font-mono text-xs font-semibold"
                       >
                         +{p.factName}
                       </text>

@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { PageId, PAGES } from '../components/navigation/ResearchNav';
 
-const VALID_PAGES: PageId[] = ['memory', 'break', 'trace', 'measure', 'bdh', 'reason', 'prove'];
+const VALID_PAGES: PageId[] = ['memory', 'break', 'trace', 'measure', 'bdh', 'reason', 'prove', 'docs', '404'];
 
 export const STORAGE_PAGE_KEY = 'memory_in_motion_current_page';
 export const STORAGE_SCROLL_KEY = 'memory_in_motion_scroll_state';
@@ -38,12 +38,25 @@ function getStoredScrollData(): PersistentScrollData {
 
 /**
  * Safely resolve the initial PageId on load:
- * 1. URL Hash (e.g. #break or #break/section-04) takes first priority if explicitly present
- * 2. localStorage saved 'memory_in_motion_current_page'
- * 3. Default to 'memory'
+ * 1. Pathname (e.g. /docs, /404, /prove)
+ * 2. URL Hash (e.g. #docs, #break or #break/section-04)
+ * 3. localStorage saved 'memory_in_motion_current_page'
+ * 4. Default to 'memory'
  */
 function getInitialPage(): { page: PageId; subsectionId?: string } {
   try {
+    // 1. Pathname check
+    const path = window.location.pathname.replace(/^\/+|\/+$/g, '').trim().toLowerCase();
+    if (path === 'docs') return { page: 'docs' };
+    if (path === '404') return { page: '404' };
+    if (path && VALID_PAGES.includes(path as PageId)) {
+      return { page: path as PageId };
+    }
+    if (path && path !== '' && path !== 'index.html') {
+      return { page: '404' };
+    }
+
+    // 2. Hash check
     const rawHash = window.location.hash.replace('#', '').trim();
     if (rawHash) {
       const [pagePart, subsectionPart] = rawHash.split('/');
@@ -55,6 +68,7 @@ function getInitialPage(): { page: PageId; subsectionId?: string } {
       }
     }
 
+    // 3. Stored page in localStorage
     const storedPage = localStorage.getItem(STORAGE_PAGE_KEY);
     if (storedPage && VALID_PAGES.includes(storedPage as PageId)) {
       return { page: storedPage as PageId };

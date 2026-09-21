@@ -30,6 +30,9 @@ import { ConceptMap } from './components/ConceptMap';
 import { EvidenceAndSources } from './components/EvidenceAndSources';
 import { YouMadeItSection } from './components/YouMadeItSection';
 import { TakeawaysAndFooter } from './components/TakeawaysAndFooter';
+import { DocumentationViewer } from './components/DocumentationViewer';
+import { NotFoundPage } from './components/NotFoundPage';
+import { CookieConsentBanner } from './components/CookieConsentBanner';
 import { usePersistentNavigation } from './hooks/usePersistentNavigation';
 
 function AppContent() {
@@ -46,11 +49,32 @@ function AppContent() {
   useEffect(() => {
     const handleMilestoneUpdate = (e: any) => {
       if (e.detail?.all) {
-        setMilestonesCount(e.detail.all.length);
+        const newCount = e.detail.all.length;
+        setMilestonesCount(newCount);
+        // Automatically open the certificate modal when achieving the final milestone (8/8)
+        if (newCount >= 8) {
+          setIsCertificateModalOpen(true);
+        }
       }
     };
+
+    const handleFinalChallenge = () => {
+      setIsCertificateModalOpen(true);
+    };
+
+    const handleOpenCert = () => {
+      setIsCertificateModalOpen(true);
+    };
+
     window.addEventListener('milestone_updated', handleMilestoneUpdate);
-    return () => window.removeEventListener('milestone_updated', handleMilestoneUpdate);
+    window.addEventListener('final_challenge_completed', handleFinalChallenge);
+    window.addEventListener('open_certificate_modal', handleOpenCert);
+
+    return () => {
+      window.removeEventListener('milestone_updated', handleMilestoneUpdate);
+      window.removeEventListener('final_challenge_completed', handleFinalChallenge);
+      window.removeEventListener('open_certificate_modal', handleOpenCert);
+    };
   }, []);
 
   return (
@@ -62,6 +86,7 @@ function AppContent() {
         onStartJudgeMode={() => setIsJudgeModeOpen(true)}
         onOpenCertificate={() => setIsCertificateModalOpen(true)}
         onOpenGlossary={() => openGlossary()}
+        onOpenDocs={() => handlePageChange('docs')}
       />
 
       {/* Concept Glossary Drawer */}
@@ -81,6 +106,9 @@ function AppContent() {
       <JudgeMode
         isOpen={isJudgeModeOpen}
         onClose={() => setIsJudgeModeOpen(false)}
+        onExploreFullLab={() => handlePageChange('break')}
+        onEnterSandbox={() => handlePageChange('bdh')}
+        onNavigate={(pageId) => handlePageChange(pageId as PageId)}
       />
 
       {/* Certificate Modal */}
@@ -355,10 +383,33 @@ function AppContent() {
                 <YouMadeItSection />
               </div>
 
-              <TakeawaysAndFooter />
+              <TakeawaysAndFooter onNavigateDocs={() => handlePageChange('docs')} />
+            </div>
+          )}
+
+          {/* ============================================================ */}
+          {/* PUBLIC DOCUMENTATION SPECS: /docs                            */}
+          {/* ============================================================ */}
+          {currentPage === 'docs' && (
+            <div className="animate-in fade-in duration-300 w-full">
+              <DocumentationViewer onBackToLab={() => handlePageChange('memory')} />
+              <TakeawaysAndFooter onNavigateDocs={() => handlePageChange('docs')} />
+            </div>
+          )}
+
+          {/* ============================================================ */}
+          {/* CUSTOM 404 NOT FOUND PAGE                                    */}
+          {/* ============================================================ */}
+          {currentPage === '404' && (
+            <div className="animate-in fade-in duration-300 w-full">
+              <NotFoundPage onReturnToMemory={() => handlePageChange('memory')} />
+              <TakeawaysAndFooter onNavigateDocs={() => handlePageChange('docs')} />
             </div>
           )}
         </main>
+
+        {/* Client-Side Cookie & Privacy Preferences Banner */}
+        <CookieConsentBanner />
       </div>
   );
 }

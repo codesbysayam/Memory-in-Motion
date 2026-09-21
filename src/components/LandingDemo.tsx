@@ -20,6 +20,7 @@ import {
   Activity,
   Layers,
   Gauge,
+  BookOpen,
 } from 'lucide-react';
 import { Fact, createAssociativeMemory, vector, norm, dot, cosine } from '../models/associativeMemory';
 import { InlineMath, BlockMath, FormattedMathText } from './ui/MathView';
@@ -682,6 +683,46 @@ export const LandingDemo: React.FC<LandingDemoProps> = ({
             Instead of an unbounded KV cache, it stores facts in continuous state updates.
             Observe the live instrument below to see how superposition and decay govern retrieval.
           </p>
+          
+          {/* Requirement 20: ONE CLEAR CALL TO ACTION */}
+          <div className="flex flex-wrap items-center gap-3 pt-2">
+            <button
+              type="button"
+              onClick={() => {
+                const el = document.getElementById('live-experiment-instrument') || document.getElementById('live-experiment-debug-panel');
+                if (el) {
+                  el.scrollIntoView({ behavior: 'smooth' });
+                }
+                if (onExploreClick) onExploreClick();
+              }}
+              className="btn btn-primary hero-cta px-6 py-3 text-xs sm:text-sm font-bold shadow-sm flex items-center gap-2 cursor-pointer uppercase tracking-wider"
+            >
+              <span>Start the experiment →</span>
+            </button>
+
+            <button
+              type="button"
+              onClick={() => {
+                const el = document.getElementById('section-01') || document.getElementById('section-tradeoff');
+                if (el) el.scrollIntoView({ behavior: 'smooth' });
+              }}
+              className="btn btn-secondary px-4 py-2.5 text-xs font-semibold flex items-center gap-1.5 cursor-pointer text-[#48453E]"
+            >
+              <BookOpen className="w-3.5 h-3.5 text-[#31566E]" />
+              <span>Explore the research</span>
+            </button>
+
+            {onStartJudgeMode && (
+              <button
+                type="button"
+                onClick={onStartJudgeMode}
+                className="btn btn-secondary px-4 py-2.5 text-xs font-semibold flex items-center gap-1.5 cursor-pointer text-[#48453E]"
+              >
+                <Clock className="w-3.5 h-3.5 text-[#31566E]" />
+                <span>60-second test</span>
+              </button>
+            )}
+          </div>
         </div>
 
         {/* THE HERO SCIENTIFIC INSTRUMENT */}
