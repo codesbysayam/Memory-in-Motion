@@ -5,9 +5,15 @@ import { LegalModal } from './LegalModals';
 
 interface TakeawaysAndFooterProps {
   onNavigateDocs?: () => void;
+  onNavigatePrivacy?: () => void;
+  onNavigateTerms?: () => void;
 }
 
-export const TakeawaysAndFooter: React.FC<TakeawaysAndFooterProps> = ({ onNavigateDocs }) => {
+export const TakeawaysAndFooter: React.FC<TakeawaysAndFooterProps> = ({
+  onNavigateDocs,
+  onNavigatePrivacy,
+  onNavigateTerms,
+}) => {
   const [activeLegalModal, setActiveLegalModal] = useState<'privacy' | 'terms' | null>(null);
 
   const takeaways = [
@@ -104,7 +110,7 @@ export const TakeawaysAndFooter: React.FC<TakeawaysAndFooterProps> = ({ onNaviga
           </div>
           <div className="flex flex-wrap items-center gap-4">
             <a
-              href="#docs"
+              href="/docs"
               onClick={(e) => {
                 e.preventDefault();
                 if (onNavigateDocs) onNavigateDocs();
@@ -114,21 +120,35 @@ export const TakeawaysAndFooter: React.FC<TakeawaysAndFooterProps> = ({ onNaviga
               Documentation
             </a>
             <span className="text-[#D0CCC3]">·</span>
-            <button
-              type="button"
-              onClick={() => setActiveLegalModal('privacy')}
+            <a
+              href="/privacy"
+              onClick={(e) => {
+                e.preventDefault();
+                if (onNavigatePrivacy) {
+                  onNavigatePrivacy();
+                } else {
+                  setActiveLegalModal('privacy');
+                }
+              }}
               className="text-[#55524B] hover:text-[#1B4D7E] hover:underline cursor-pointer"
             >
               Privacy Policy
-            </button>
+            </a>
             <span className="text-[#D0CCC3]">·</span>
-            <button
-              type="button"
-              onClick={() => setActiveLegalModal('terms')}
+            <a
+              href="/terms"
+              onClick={(e) => {
+                e.preventDefault();
+                if (onNavigateTerms) {
+                  onNavigateTerms();
+                } else {
+                  setActiveLegalModal('terms');
+                }
+              }}
               className="text-[#55524B] hover:text-[#1B4D7E] hover:underline cursor-pointer"
             >
               Terms of Use
-            </button>
+            </a>
             <span className="text-[#D0CCC3]">·</span>
             <a
               href="https://github.com/pathwaycom/bdh"

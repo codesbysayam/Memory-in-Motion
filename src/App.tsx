@@ -31,6 +31,8 @@ import { EvidenceAndSources } from './components/EvidenceAndSources';
 import { YouMadeItSection } from './components/YouMadeItSection';
 import { TakeawaysAndFooter } from './components/TakeawaysAndFooter';
 import { DocumentationViewer } from './components/DocumentationViewer';
+import { PrivacyPage } from './components/PrivacyPage';
+import { TermsPage } from './components/TermsPage';
 import { NotFoundPage } from './components/NotFoundPage';
 import { CookieConsentBanner } from './components/CookieConsentBanner';
 import { usePersistentNavigation } from './hooks/usePersistentNavigation';
@@ -383,7 +385,11 @@ function AppContent() {
                 <YouMadeItSection />
               </div>
 
-              <TakeawaysAndFooter onNavigateDocs={() => handlePageChange('docs')} />
+              <TakeawaysAndFooter
+                onNavigateDocs={() => handlePageChange('docs')}
+                onNavigatePrivacy={() => handlePageChange('privacy')}
+                onNavigateTerms={() => handlePageChange('terms')}
+              />
             </div>
           )}
 
@@ -393,7 +399,39 @@ function AppContent() {
           {currentPage === 'docs' && (
             <div className="animate-in fade-in duration-300 w-full">
               <DocumentationViewer onBackToLab={() => handlePageChange('memory')} />
-              <TakeawaysAndFooter onNavigateDocs={() => handlePageChange('docs')} />
+              <TakeawaysAndFooter
+                onNavigateDocs={() => handlePageChange('docs')}
+                onNavigatePrivacy={() => handlePageChange('privacy')}
+                onNavigateTerms={() => handlePageChange('terms')}
+              />
+            </div>
+          )}
+
+          {/* ============================================================ */}
+          {/* PRIVACY POLICY PAGE: /privacy                                */}
+          {/* ============================================================ */}
+          {currentPage === 'privacy' && (
+            <div className="animate-in fade-in duration-300 w-full">
+              <PrivacyPage onBackToLab={() => handlePageChange('memory')} />
+              <TakeawaysAndFooter
+                onNavigateDocs={() => handlePageChange('docs')}
+                onNavigatePrivacy={() => handlePageChange('privacy')}
+                onNavigateTerms={() => handlePageChange('terms')}
+              />
+            </div>
+          )}
+
+          {/* ============================================================ */}
+          {/* TERMS OF SERVICE PAGE: /terms                                */}
+          {/* ============================================================ */}
+          {currentPage === 'terms' && (
+            <div className="animate-in fade-in duration-300 w-full">
+              <TermsPage onBackToLab={() => handlePageChange('memory')} />
+              <TakeawaysAndFooter
+                onNavigateDocs={() => handlePageChange('docs')}
+                onNavigatePrivacy={() => handlePageChange('privacy')}
+                onNavigateTerms={() => handlePageChange('terms')}
+              />
             </div>
           )}
 
@@ -403,7 +441,11 @@ function AppContent() {
           {currentPage === '404' && (
             <div className="animate-in fade-in duration-300 w-full">
               <NotFoundPage onReturnToMemory={() => handlePageChange('memory')} />
-              <TakeawaysAndFooter onNavigateDocs={() => handlePageChange('docs')} />
+              <TakeawaysAndFooter
+                onNavigateDocs={() => handlePageChange('docs')}
+                onNavigatePrivacy={() => handlePageChange('privacy')}
+                onNavigateTerms={() => handlePageChange('terms')}
+              />
             </div>
           )}
         </main>

@@ -34,38 +34,82 @@ export const PageFooterCta: React.FC<PageFooterCtaProps> = ({
   };
 
   return (
-    <div className="w-full border-t border-[#E5E0D8] bg-[#F4F1EA] py-10 px-4 sm:px-6 mt-12 no-print">
-      <div className="max-w-[1200px] mx-auto flex flex-col sm:flex-row items-center justify-between gap-6">
-        {/* Previous stage button */}
-        {prevPage ? (
-          <button
-            onClick={handlePrev}
-            className="flex items-center gap-2 text-xs font-sans text-[#716F68] hover:text-[#151515] py-2 px-3 rounded-lg hover:bg-[#FAF8F5] transition-all cursor-pointer"
-          >
-            <ArrowLeft className="w-4 h-4" />
-            <span>Previous stage</span>
-          </button>
-        ) : (
-          <div />
-        )}
-
-        {/* Next stage CTA */}
-        {nextPage && (
-          <div className="flex flex-col sm:flex-row items-center gap-3 sm:gap-4 text-center sm:text-right">
-            {subtext && (
-              <span className="text-xs text-[#716F68] font-sans">
-                {subtext}
-              </span>
-            )}
+    <div className="w-full border-t border-[#E5E0D8] bg-[#F4F1EA] py-8 px-4 sm:px-6 mt-12 no-print">
+      <div className="max-w-[1200px] mx-auto space-y-6">
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-6">
+          {/* Previous stage button */}
+          {prevPage ? (
             <button
-              onClick={handleNext}
-              className="btn btn-primary px-5 py-2.5 text-sm font-semibold transition-all cursor-pointer"
+              onClick={handlePrev}
+              className="flex items-center gap-2 text-xs font-sans text-[#716F68] hover:text-[#151515] py-2 px-3 rounded-lg hover:bg-[#FAF8F5] transition-all cursor-pointer"
             >
-              <span>{ctaText}</span>
-              <ArrowRight className="w-4 h-4" />
+              <ArrowLeft className="w-4 h-4" />
+              <span>Previous stage</span>
             </button>
+          ) : (
+            <div />
+          )}
+
+          {/* Next stage CTA */}
+          {nextPage && (
+            <div className="flex flex-col sm:flex-row items-center gap-3 sm:gap-4 text-center sm:text-right">
+              {subtext && (
+                <span className="text-xs text-[#716F68] font-sans">
+                  {subtext}
+                </span>
+              )}
+              <button
+                onClick={handleNext}
+                className="btn btn-primary px-5 py-2.5 text-sm font-semibold transition-all cursor-pointer"
+              >
+                <span>{ctaText}</span>
+                <ArrowRight className="w-4 h-4" />
+              </button>
+            </div>
+          )}
+        </div>
+
+        {/* Legal & Disclosures Sub-footer */}
+        <div className="border-t border-[#E5E0D8]/60 pt-4 flex flex-wrap items-center justify-between gap-3 text-xs font-mono text-[#716F68]">
+          <span>Memory in Motion · Interactive Research & Pedagogical Laboratory</span>
+          <div className="flex items-center gap-3 font-sans">
+            <a
+              href="/privacy"
+              onClick={(e) => {
+                e.preventDefault();
+                onNavigate('privacy');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+              }}
+              className="hover:text-[#151515] hover:underline cursor-pointer"
+            >
+              Privacy Policy
+            </a>
+            <span className="text-[#D0CCC3]">·</span>
+            <a
+              href="/terms"
+              onClick={(e) => {
+                e.preventDefault();
+                onNavigate('terms');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+              }}
+              className="hover:text-[#151515] hover:underline cursor-pointer"
+            >
+              Terms of Use
+            </a>
+            <span className="text-[#D0CCC3]">·</span>
+            <a
+              href="/docs"
+              onClick={(e) => {
+                e.preventDefault();
+                onNavigate('docs');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+              }}
+              className="hover:text-[#151515] hover:underline cursor-pointer"
+            >
+              Docs
+            </a>
           </div>
-        )}
+        </div>
       </div>
     </div>
   );

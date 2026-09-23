@@ -6,6 +6,8 @@ import { ControlSlider } from './ui/ControlSlider';
 import { EquationCard } from './ui/EquationCard';
 import { SourceBadge } from './ui/SourceBadge';
 import { BDHExplorer } from './BDHExplorer';
+import { SynapticHeatmap } from './synaptic/SynapticHeatmap';
+import { SynapticWeightHeatmap } from './synaptic/SynapticWeightHeatmap';
 import { ClaimEvidenceLimitation } from './ClaimEvidenceLimitation';
 
 export const Section08BDHArchitecture: React.FC = () => {
@@ -406,6 +408,26 @@ export const Section08BDHArchitecture: React.FC = () => {
         {/* Dedicated BDH Educational Microscope */}
         <div className="mt-12">
           <BDHExplorer id="bdh-microscope-explorer" />
+        </div>
+
+        {/* Recharts Synaptic Heatmap & Step-Progress Indicator During Memory Retrieval (t0 to tN) */}
+        <div className="mt-12" id="bdh-synaptic-heatmap">
+          <SynapticHeatmap
+            numNeurons={numNeurons}
+            inputPattern={inputPattern}
+            synapticStrength={synapticStrength}
+            recurrentSteps={recurrentSteps}
+          />
+        </div>
+
+        {/* Detailed Synaptic Tensor & Interactive Hebbian Inspection Matrix */}
+        <div className="mt-8">
+          <SynapticWeightHeatmap
+            numNeurons={numNeurons}
+            inputPattern={inputPattern}
+            synapticStrength={synapticStrength}
+            recurrentSteps={recurrentSteps}
+          />
         </div>
 
         {/* Epistemic Boundary */}

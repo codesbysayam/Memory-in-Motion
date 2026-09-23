@@ -15,7 +15,7 @@ import {
 } from 'lucide-react';
 import { LogoMark } from '../ui/LogoMark';
 
-export type PageId = 'memory' | 'break' | 'trace' | 'measure' | 'bdh' | 'reason' | 'prove' | 'docs' | '404';
+export type PageId = 'memory' | 'break' | 'trace' | 'measure' | 'bdh' | 'reason' | 'prove' | 'docs' | 'privacy' | 'terms' | '404';
 
 export interface NavSubsection {
   id: string; // DOM element ID to scroll to
@@ -225,6 +225,14 @@ export const PAGES: PageInfo[] = [
         description: 'Explore individual neurons, synapse activations, and topologies',
         badge: 'Interactive',
       },
+      {
+        id: 'bdh-synaptic-heatmap',
+        num: '05.5',
+        title: 'Synaptic Weight Activity Heatmap',
+        shortTitle: 'Synaptic Heatmap',
+        description: 'Matrix heatmap of synaptic weights during memory retrieval sequence',
+        badge: 'Heatmap',
+      },
     ],
   },
   {
@@ -394,52 +402,79 @@ export function ResearchNav({
     return null;
   }).filter(Boolean) as PageInfo[];
 
+  const [moreDropdownOpen, setMoreDropdownOpen] = useState(false);
+  const moreDropdownRef = useRef<HTMLDivElement | null>(null);
+
+  // Close "More" dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (moreDropdownRef.current && !moreDropdownRef.current.contains(event.target as Node)) {
+        setMoreDropdownOpen(false);
+      }
+    };
+    if (moreDropdownOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+    }
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [moreDropdownOpen]);
+
+  // Current page object for compact tablet/mobile display
+  const currentPageInfo = PAGES.find((p) => p.id === currentPage) || PAGES[0];
+
   return (
     <>
-      <header className="sticky top-0 z-40 w-full border-b border-[#D9DCD8] bg-[#FFFFFF]/95 backdrop-blur-md no-print">
-        <div className="w-full max-w-[1400px] mx-auto px-3 sm:px-4 lg:px-6 h-14 sm:h-15 flex items-center justify-between gap-2 sm:gap-3">
-          {/* Brand / Logo */}
-          <div className="flex items-center gap-2 shrink-0">
+      <header className="site-header no-print">
+        <div className="site-header-inner">
+          {/* LEFT: Brand / Logo Area */}
+          <div className="header-brand">
             <button
               onClick={() => handleSelect('memory')}
-              className="flex items-center gap-2.5 text-left group cursor-pointer"
+              className="flex items-center gap-2 sm:gap-2.5 text-left group cursor-pointer"
+              title="Return to Stage 01: Memory"
+              aria-label="Memory in Motion home"
             >
               <LogoMark size={28} variant="editorial" />
               <div className="flex flex-col">
-                <span className="font-serif font-bold text-sm sm:text-base tracking-tight text-[#252525] group-hover:text-[#2B6282] transition-colors leading-tight whitespace-nowrap">
+                <span className="header-brand-title group-hover:text-[#2B6282] transition-colors">
                   Memory in Motion
                 </span>
-                <span className="text-[10px] font-sans text-[#5F625F] leading-tight hidden 2xl:block whitespace-nowrap">
-                  Interactive Scientific Laboratory
+                <span className="text-[10px] font-sans text-[#716F68] leading-tight hidden xl:block whitespace-nowrap">
+                  Interactive Research Laboratory
                 </span>
               </div>
             </button>
           </div>
 
-          {/* 7-Page Navigation Tabs: clean, responsive unified pills */}
-          <nav className="hidden lg:flex items-center gap-1 xl:gap-1.5 relative shrink min-w-0">
+          {/* TABLET / MOBILE ONLY: Compact Current Stage Indicator (hidden on large desktop) */}
+          <div className="hidden md:flex lg:hidden items-center gap-1.5 px-2.5 py-1 rounded-md bg-[#FAF8F5] border border-[#D9DCD8] text-xs font-sans">
+            <span className="font-mono text-[11px] font-bold text-[#21445B] bg-[#E7F2FA] px-1.5 py-0.5 rounded">
+              {currentPageInfo.num}
+            </span>
+            <span className="font-semibold text-[#252525] max-w-[120px] truncate">
+              {currentPageInfo.title}
+            </span>
+          </div>
+
+          {/* CENTER: Primary Navigation (01–07 stages) - Visible >= 1024px */}
+          <nav className="primary-nav" aria-label="Primary stages navigation">
             {PAGES.map((page, index) => {
               const isActive = page.id === currentPage;
-              const isCompleted = index < currentIndex;
               const isDropdownOpen = activeDropdownPage === page.id;
               const hasSubsections = Boolean(page.subsections && page.subsections.length > 0);
 
               return (
                 <div
                   key={page.id}
-                  className="relative"
+                  className="relative shrink-0"
                   onMouseEnter={() => handleMouseEnterNav(page.id)}
                   onMouseLeave={handleMouseLeaveNav}
                 >
                   <button
                     onClick={() => handleSelect(page.id)}
-                    className={`px-2.5 xl:px-3 py-1.5 text-xs font-sans rounded-md transition-all cursor-pointer whitespace-nowrap flex items-center gap-1.5 ${
-                      isActive
-                        ? 'bg-[#E7F2FA] text-[#252525] border border-[#CDE1F0] font-semibold'
-                        : isCompleted
-                        ? 'text-[#252525] hover:bg-[#F0F1EF] hover:text-[#252525]'
-                        : 'text-[#5F625F] hover:bg-[#F0F1EF] hover:text-[#252525]'
-                    }`}
+                    className={`primary-nav-item ${isActive ? 'active' : ''}`}
+                    aria-current={isActive ? 'page' : undefined}
                   >
                     <span
                       className={`font-mono text-xs ${
@@ -448,7 +483,7 @@ export function ResearchNav({
                     >
                       {page.num}
                     </span>
-                    <span className={isActive ? 'inline font-semibold' : 'hidden xl:inline'}>
+                    <span className="font-semibold">
                       {page.title}
                     </span>
                     {hasSubsections && (
@@ -457,8 +492,9 @@ export function ResearchNav({
                           e.stopPropagation();
                           setActiveDropdownPage(isDropdownOpen ? null : page.id);
                         }}
-                        className="p-0.5 text-[#7D817D] hover:text-[#252525] cursor-pointer"
+                        className="p-0.5 text-[#7D817D] hover:text-[#252525] cursor-pointer ml-0.5"
                         title={`View Stage ${page.num} Subsections`}
+                        aria-label={`Toggle Stage ${page.num} subsections`}
                       >
                         <ChevronDown
                           className={`w-3 h-3 transition-transform duration-200 ${
@@ -472,7 +508,7 @@ export function ResearchNav({
                   {/* Table of Contents Popover for this Page */}
                   {isDropdownOpen && page.subsections && (
                     <div
-                      className="absolute top-full left-0 mt-1.5 w-84 sm:w-96 rounded-xl border border-[#D9DCD8] bg-[#FFFFFF] p-3 shadow-lg z-50 animate-in fade-in slide-in-from-top-2 duration-150"
+                      className="absolute top-full left-0 mt-1 w-84 sm:w-96 rounded-xl border border-[#D9DCD8] bg-[#FFFFFF] p-3 shadow-lg z-50 animate-in fade-in slide-in-from-top-1 duration-150"
                       onMouseEnter={() => handleMouseEnterNav(page.id)}
                       onMouseLeave={handleMouseLeaveNav}
                     >
@@ -528,70 +564,117 @@ export function ResearchNav({
             })}
           </nav>
 
-          {/* Right side: Action Triggers & Navigation Drawers */}
-          <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
-            {/* Global Table of Contents Drawer Trigger */}
+          {/* RIGHT: Secondary Actions Area */}
+          <div className="header-actions">
+            {/* Contents Trigger - ALWAYS visible on desktop and tablet */}
             <button
               onClick={() => setTocDrawerOpen(true)}
-              className="flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-md bg-[#FFFFFF] hover:bg-[#F7F5EF] text-[#252525] border border-[#D9DCD8] font-sans text-xs font-medium transition-all cursor-pointer shrink-0"
+              className="header-secondary-button"
               title="Open Complete Research Table of Contents"
+              aria-label="Open Table of Contents"
             >
-              <ListTree className="w-3.5 h-3.5 text-[#5F625F]" />
-              <span className="hidden sm:inline">Contents</span>
+              <ListTree className="w-3.5 h-3.5 text-[#5F625F] shrink-0" />
+              <span>Contents</span>
             </button>
 
-            {/* Concept Glossary Drawer Trigger */}
+            {/* Glossary Trigger - visible on large desktop (>= 1280px) */}
             {onOpenGlossary && (
               <button
                 onClick={onOpenGlossary}
-                className="flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-md bg-[#E7F2FA] hover:bg-[#DDEBF7] text-[#21445B] border border-[#CDE1F0] font-sans text-xs font-semibold transition-all cursor-pointer shrink-0"
+                className="header-secondary-button glossary hidden xl:inline-flex"
                 title="Open Concept Glossary"
+                aria-label="Open Concept Glossary"
               >
-                <BookOpen className="w-3.5 h-3.5 text-[#21445B]" />
-                <span className="hidden sm:inline">Glossary</span>
+                <BookOpen className="w-3.5 h-3.5 shrink-0" />
+                <span>Glossary</span>
               </button>
             )}
 
-            {/* 60s Fast Experiment CTA */}
+            {/* 60s Fast Experiment CTA - visible on extra-wide desktop (>= 1400px) */}
             {onStartJudgeMode && (
               <button
                 onClick={onStartJudgeMode}
-                className="flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-md bg-[#FFF5D8] hover:bg-[#F8EFCB] text-[#5A4716] border border-[#F0E3B8] font-sans text-xs font-semibold transition-all cursor-pointer shrink-0"
+                className="header-secondary-button hidden 2xl:inline-flex bg-[#FFF5D8] hover:bg-[#F8EFCB] text-[#5A4716] border-[#F0E3B8]"
                 title="Quick 60-Second Guided Verification"
               >
-                <Clock className="w-3.5 h-3.5 text-[#5A4716]" />
-                <span className="hidden md:inline">60s Test</span>
+                <Clock className="w-3.5 h-3.5 text-[#5A4716] shrink-0" />
+                <span>60s Test</span>
               </button>
             )}
 
-            {/* Public Documentation Trigger */}
-            {onOpenDocs && (
+            {/* Priority-Based "More ▾" Overflow Dropdown (compact & medium viewports) */}
+            <div className="relative hidden sm:block xl:hidden" ref={moreDropdownRef}>
               <button
-                onClick={onOpenDocs}
-                className="flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-md bg-[#FAF8F5] hover:bg-[#F2EFE8] text-[#48453E] border border-[#D9DCD8] font-sans text-xs font-semibold transition-all cursor-pointer shrink-0"
-                title="Open Public Documentation Specs"
+                onClick={() => setMoreDropdownOpen(!moreDropdownOpen)}
+                className="header-more-btn"
+                title="More Research Tools"
+                aria-expanded={moreDropdownOpen}
               >
-                <BookOpen className="w-3.5 h-3.5 text-[#48453E]" />
-                <span className="hidden sm:inline">Docs</span>
+                <span>More</span>
+                <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-200 ${moreDropdownOpen ? 'rotate-180' : ''}`} />
               </button>
-            )}
 
-            {/* Quick Certificate View (when available) */}
-            {onOpenCertificate && (
-              <button
-                onClick={onOpenCertificate}
-                className="hidden xl:flex items-center gap-1.5 px-2.5 py-1.5 rounded-md bg-[#DCEFE2] hover:bg-[#CFE8D6] text-[#24452E] border border-[#C5DDCB] font-sans text-xs font-semibold transition-all cursor-pointer shrink-0"
-                title="View Certificate of Completion"
-              >
-                <Award className="w-3.5 h-3.5 text-[#24452E]" />
-                <span className="hidden 2xl:inline">Certificate</span>
-              </button>
-            )}
+              {moreDropdownOpen && (
+                <div className="absolute right-0 top-full mt-1.5 w-52 rounded-xl border border-[#D9DCD8] bg-[#FFFFFF] p-2 shadow-lg z-50 animate-in fade-in slide-in-from-top-1 duration-150 space-y-1">
+                  {onOpenGlossary && (
+                    <button
+                      onClick={() => {
+                        setMoreDropdownOpen(false);
+                        onOpenGlossary();
+                      }}
+                      className="w-full flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-[#E7F2FA] text-xs font-sans font-semibold text-[#21445B] transition-colors text-left cursor-pointer"
+                    >
+                      <BookOpen className="w-4 h-4 text-[#21445B]" />
+                      <span>Concept Glossary</span>
+                    </button>
+                  )}
 
-            {/* Mobile Menu Toggle */}
+                  {onStartJudgeMode && (
+                    <button
+                      onClick={() => {
+                        setMoreDropdownOpen(false);
+                        onStartJudgeMode();
+                      }}
+                      className="w-full flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-[#FFF5D8] text-xs font-sans font-semibold text-[#5A4716] transition-colors text-left cursor-pointer"
+                    >
+                      <Clock className="w-4 h-4 text-[#5A4716]" />
+                      <span>60s Experiment</span>
+                    </button>
+                  )}
+
+                  {onOpenCertificate && (
+                    <button
+                      onClick={() => {
+                        setMoreDropdownOpen(false);
+                        onOpenCertificate();
+                      }}
+                      className="w-full flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-[#DCEFE2] text-xs font-sans font-semibold text-[#24452E] transition-colors text-left cursor-pointer"
+                    >
+                      <Award className="w-4 h-4 text-[#24452E]" />
+                      <span>Certificate</span>
+                    </button>
+                  )}
+
+                  {onOpenDocs && (
+                    <button
+                      onClick={() => {
+                        setMoreDropdownOpen(false);
+                        onOpenDocs();
+                      }}
+                      className="w-full flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-[#FAF8F5] text-xs font-sans font-semibold text-[#48453E] transition-colors text-left cursor-pointer"
+                    >
+                      <BookOpen className="w-4 h-4 text-[#48453E]" />
+                      <span>Documentation</span>
+                    </button>
+                  )}
+                </div>
+              )}
+            </div>
+
+            {/* Mobile / Tablet Menu Trigger (hidden on large desktop >= 1024px) */}
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="lg:hidden flex items-center justify-center w-8 h-8 rounded-md bg-[#FFFFFF] hover:bg-[#F0F1EF] text-[#252525] border border-[#D9DCD8] transition-all cursor-pointer"
+              className="lg:hidden flex items-center justify-center w-9 h-9 rounded-lg bg-[#FFFFFF] hover:bg-[#F0F1EF] text-[#252525] border border-[#D9DCD8] transition-all cursor-pointer shrink-0"
               aria-label="Toggle navigation menu"
             >
               {mobileMenuOpen ? <X className="w-4 h-4 text-[#252525]" /> : <Menu className="w-4 h-4 text-[#5F625F]" />}
@@ -741,6 +824,42 @@ export function ResearchNav({
                   <span>Certificate</span>
                 </button>
               )}
+            </div>
+
+            {/* Mobile Footer Disclosures */}
+            <div className="pt-3 border-t border-[#E8EBE7] flex items-center justify-between text-xs text-[#716F68] px-1 font-sans">
+              <button
+                onClick={() => {
+                  setMobileMenuOpen(false);
+                  onPageChange('privacy');
+                  window.scrollTo({ top: 0, behavior: 'smooth' });
+                }}
+                className="hover:text-[#21445B] hover:underline cursor-pointer"
+              >
+                Privacy Policy
+              </button>
+              <span>·</span>
+              <button
+                onClick={() => {
+                  setMobileMenuOpen(false);
+                  onPageChange('terms');
+                  window.scrollTo({ top: 0, behavior: 'smooth' });
+                }}
+                className="hover:text-[#21445B] hover:underline cursor-pointer"
+              >
+                Terms of Use
+              </button>
+              <span>·</span>
+              <button
+                onClick={() => {
+                  setMobileMenuOpen(false);
+                  onPageChange('docs');
+                  window.scrollTo({ top: 0, behavior: 'smooth' });
+                }}
+                className="hover:text-[#21445B] hover:underline cursor-pointer"
+              >
+                Documentation
+              </button>
             </div>
           </div>
         )}

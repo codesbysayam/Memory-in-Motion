@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { PageId, PAGES } from '../components/navigation/ResearchNav';
 
-const VALID_PAGES: PageId[] = ['memory', 'break', 'trace', 'measure', 'bdh', 'reason', 'prove', 'docs', '404'];
+const VALID_PAGES: PageId[] = ['memory', 'break', 'trace', 'measure', 'bdh', 'reason', 'prove', 'docs', 'privacy', 'terms', '404'];
 
 export const STORAGE_PAGE_KEY = 'memory_in_motion_current_page';
 export const STORAGE_SCROLL_KEY = 'memory_in_motion_scroll_state';
@@ -139,7 +139,17 @@ export function usePersistentNavigation() {
         console.warn('Failed to save current page to localStorage', err);
       }
 
-      window.location.hash = sectionId ? `${page}/${sectionId}` : page;
+      // Update URL: use pushState for clean pathname routing on top-level pages
+      const isCleanRoute = ['docs', 'privacy', 'terms'].includes(page);
+      if (isCleanRoute && !sectionId) {
+        try {
+          window.history.pushState({ page }, '', `/${page}`);
+        } catch {
+          window.location.hash = page;
+        }
+      } else {
+        window.location.hash = sectionId ? `${page}/${sectionId}` : page;
+      }
 
       if (sectionId) {
         if (currentPage === page) {
@@ -286,10 +296,24 @@ export function usePersistentNavigation() {
   }, [currentPage]);
 
   /**
-   * Listen to external hash changes (e.g. user clicking back/forward buttons)
+   * Listen to external hash and popstate changes (e.g. user clicking back/forward buttons)
    */
   useEffect(() => {
-    const handleHashChange = () => {
+    const handleUrlChange = () => {
+      // Check pathname first
+      const path = window.location.pathname.replace(/^\/+|\/+$/g, '').trim().toLowerCase();
+      if (path && VALID_PAGES.includes(path as PageId)) {
+        userHasScrolledManually.current = true;
+        setCurrentPage(path as PageId);
+        try {
+          localStorage.setItem(STORAGE_PAGE_KEY, path);
+        } catch {
+          // ignore
+        }
+        return;
+      }
+
+      // Check hash
       const raw = window.location.hash.replace('#', '');
       const [pagePart, sectionPart] = raw.split('/');
       if (VALID_PAGES.includes(pagePart as PageId)) {
@@ -297,7 +321,7 @@ export function usePersistentNavigation() {
         setCurrentPage(pagePart as PageId);
         try {
           localStorage.setItem(STORAGE_PAGE_KEY, pagePart);
-        } catch (e) {
+        } catch {
           // ignore
         }
         if (sectionPart) {
@@ -305,11 +329,17 @@ export function usePersistentNavigation() {
             scrollToSubsection(sectionPart);
           }, 120);
         }
+      } else if (!path || path === '' || path === 'index.html') {
+        setCurrentPage('memory');
       }
     };
 
-    window.addEventListener('hashchange', handleHashChange);
-    return () => window.removeEventListener('hashchange', handleHashChange);
+    window.addEventListener('hashchange', handleUrlChange);
+    window.addEventListener('popstate', handleUrlChange);
+    return () => {
+      window.removeEventListener('hashchange', handleUrlChange);
+      window.removeEventListener('popstate', handleUrlChange);
+    };
   }, [scrollToSubsection]);
 
   return {
