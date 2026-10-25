@@ -73,8 +73,8 @@ export const MemoryLens: React.FC<MemoryLensProps> = ({ currentFocus, className 
     <div
       className={`rounded-2xl border transition-all duration-300 ${
         isLensActive
-          ? 'border-[#CFE8E8] bg-[#F7FCFC] shadow-xs'
-          : 'border-[#E5E0D8] bg-[#FFFFFF] shadow-xs'
+          ? 'border-[var(--accent-blue-text)]/40 bg-[var(--surface)] shadow-xs'
+          : 'border-[var(--border)] bg-[var(--surface)] shadow-xs'
       } p-5 ${className}`}
     >
       <div className="flex flex-wrap items-center justify-between gap-4">
@@ -82,30 +82,30 @@ export const MemoryLens: React.FC<MemoryLensProps> = ({ currentFocus, className 
           <div
             className={`p-2.5 rounded-xl transition-all ${
               isLensActive
-                ? 'bg-[#EDF7F7] text-[#167C80] border border-[#CFE8E8]'
-                : 'bg-[#FAF8F5] text-[#716F68] border border-[#EAE6DF]'
+                ? 'bg-[var(--accent-blue)] text-[var(--accent-blue-text)] border border-[var(--border)]'
+                : 'bg-[var(--surface-soft)] text-[var(--text-secondary)] border border-[var(--border)]'
             }`}
           >
             <Eye className="w-4 h-4" />
           </div>
           <div>
             <div className="flex items-center gap-2">
-              <span className="text-xs font-mono font-bold tracking-wide text-[#151515] uppercase flex items-center gap-1.5">
+              <span className="text-xs font-mono font-bold tracking-wide text-[var(--text-primary)] uppercase flex items-center gap-1.5">
                 MEMORY LENS INSTRUMENT
-                {isLensActive && <Sparkles className="w-3 h-3 text-[#167C80]" />}
+                {isLensActive && <Sparkles className="w-3 h-3 text-[var(--accent-blue-text)]" />}
               </span>
               <span
                 className={`px-2 py-0.5 rounded-full text-[10px] font-mono font-bold transition-colors ${
                   isLensActive
-                    ? 'bg-[#EDF7F7] text-[#167C80] border border-[#CFE8E8]'
-                    : 'bg-[#FAF8F5] text-[#716F68] border border-[#EAE6DF]'
+                    ? 'bg-[var(--accent-blue)] text-[var(--accent-blue-text)] border border-[var(--border)]'
+                    : 'bg-[var(--surface-soft)] text-[var(--text-secondary)] border border-[var(--border)]'
                 }`}
               >
                 {isLensActive ? 'ACTIVE' : 'STANDBY'}
               </span>
             </div>
-            <p className="text-[11px] text-[#716F68] font-sans mt-0.5">
-              Probe: <span className="italic text-[#151515]">&ldquo;Where does information live at each step?&rdquo;</span>
+            <p className="text-[11px] text-[var(--text-secondary)] font-sans mt-0.5">
+              Probe: <span className="italic text-[var(--text-primary)]">&ldquo;Where does information live at each step?&rdquo;</span>
             </p>
           </div>
         </div>
@@ -115,8 +115,8 @@ export const MemoryLens: React.FC<MemoryLensProps> = ({ currentFocus, className 
           onClick={toggleLens}
           className={`px-4 py-2 rounded-xl text-xs font-mono font-bold transition-all border cursor-pointer ${
             isLensActive
-              ? 'bg-[#151515] text-[#FFFFFF] border-[#151515] shadow-xs hover:bg-[#2A2926]'
-              : 'bg-[#FAF8F5] text-[#151515] border-[#D8D4CB] hover:bg-[#F4F1EA]'
+              ? 'bg-[var(--surface)] text-[var(--text-primary)] border-[var(--accent-blue-text)] shadow-xs hover:bg-[var(--surface-soft)]'
+              : 'bg-[var(--surface-soft)] text-[var(--text-primary)] border-[var(--border)] hover:bg-[var(--surface)]'
           }`}
         >
           {isLensActive ? 'DISABLE LENS' : 'ENABLE MEMORY LENS'}
@@ -124,7 +124,7 @@ export const MemoryLens: React.FC<MemoryLensProps> = ({ currentFocus, className 
       </div>
 
       {isLensActive && (
-        <div className="mt-4 pt-4 border-t border-[#EAE6DF] space-y-3.5">
+        <div className="mt-4 pt-4 border-t border-[var(--border)] space-y-3.5">
           {/* Stage selection tabs */}
           <div className="grid grid-cols-1 sm:grid-cols-5 gap-2">
             {stages.map((st) => {
@@ -136,36 +136,36 @@ export const MemoryLens: React.FC<MemoryLensProps> = ({ currentFocus, className 
                   onClick={() => setActiveStage(st.id)}
                   className={`p-3 rounded-xl text-left transition-all border text-xs font-mono flex flex-col gap-1 cursor-pointer ${
                     isSelected
-                      ? 'bg-[#EDF7F7] border-[#167C80] text-[#167C80] shadow-xs'
-                      : 'bg-[#FAF8F5] border-[#EAE6DF] text-[#716F68] hover:text-[#151515] hover:border-[#D8D4CB]'
+                      ? 'bg-[var(--accent-blue)] border-[var(--accent-blue-text)] text-[var(--accent-blue-text)] shadow-xs'
+                      : 'bg-[var(--surface-soft)] border-[var(--border)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:border-[var(--accent-blue-text)]'
                   }`}
                 >
                   <div className="flex items-center gap-1.5 font-bold">
                     {st.icon}
                     <span>{st.label}</span>
                   </div>
-                  <span className="text-[10px] text-[#716F68] truncate font-sans">{st.sub}</span>
+                  <span className="text-[10px] text-[var(--text-muted)] truncate font-sans">{st.sub}</span>
                 </button>
               );
             })}
           </div>
 
           {/* Detailed Explanatory Telemetry for Selected Stage */}
-          <div className="p-4 rounded-xl bg-[#FAF8F5] border border-[#EAE6DF] text-xs font-mono flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+          <div className="p-4 rounded-xl bg-[var(--surface-soft)] border border-[var(--border)] text-xs font-mono flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
             <div className="space-y-1.5">
               <div className="flex items-center gap-2 flex-wrap">
-                <Info className="w-3.5 h-3.5 text-[#167C80] shrink-0" />
-                <span className="font-bold text-[#151515] uppercase">{currentStageInfo.label}:</span>
-                <span className="text-[#167C80] font-bold bg-[#FFFFFF] px-2.5 py-0.5 rounded border border-[#CFE8E8]">
+                <Info className="w-3.5 h-3.5 text-[var(--accent-blue-text)] shrink-0" />
+                <span className="font-bold text-[var(--text-primary)] uppercase">{currentStageInfo.label}:</span>
+                <span className="text-[var(--accent-blue-text)] font-bold bg-[var(--surface)] px-2.5 py-0.5 rounded border border-[var(--border)]">
                   <MathView math={currentStageInfo.math} />
                 </span>
               </div>
-              <p className="text-[11px] text-[#52504A] font-sans leading-relaxed">
+              <p className="text-[11px] text-[var(--text-secondary)] font-sans leading-relaxed">
                 {currentStageInfo.detail}
               </p>
             </div>
             <div className="shrink-0 flex items-center gap-2">
-              <span className="text-[10px] text-[#716F68] bg-[#FFFFFF] px-2 py-1 rounded border border-[#E5E0D8] font-bold">
+              <span className="text-[10px] text-[var(--text-muted)] bg-[var(--surface)] px-2 py-1 rounded border border-[var(--border)] font-bold">
                 Stage {stages.findIndex((s) => s.id === currentStageInfo.id) + 1} / 5
               </span>
             </div>

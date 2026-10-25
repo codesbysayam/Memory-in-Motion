@@ -411,7 +411,7 @@ export const Section03RecurrentMemory: React.FC = () => {
   }, [experimentResult.correct, experimentResult.prediction, selectedQuery, groundTruth]);
 
   return (
-    <section id="section-03" className="scroll-mt-20 border-b border-[#E5E0D8] bg-[#FBF9F5] py-16 text-[#151515]">
+    <section id="section-03" className="scroll-mt-20 border-b border-[var(--border)] bg-[var(--page-bg)] py-16 text-[var(--text-primary)]">
       <div id="section-hebbian-plasticity" className="scroll-mt-24" />
       <div className="max-w-[1400px] mx-auto px-4 sm:px-6 space-y-8">
         <SectionHeader

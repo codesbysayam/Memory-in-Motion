@@ -114,41 +114,41 @@ export const FailureTrace: React.FC<FailureTraceProps> = ({
   return (
     <div
       id={id}
-      className="rounded-2xl border border-rose-800/60 bg-[#0A0D15] p-5 sm:p-7 text-slate-100 shadow-2xl space-y-6 animate-in fade-in duration-300"
+      className="rounded-xl border border-[#D8DCD8] bg-[#FFFFFF] p-5 sm:p-7 text-[#252525] shadow-xs space-y-6 animate-in fade-in duration-300"
     >
       {/* Header */}
-      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[#20293D] pb-4">
+      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[#EAE6DF] pb-4">
         <div className="flex items-center gap-3">
-          <div className="p-2.5 rounded-xl bg-rose-950/80 border border-rose-700/80 text-rose-400 shadow-inner">
+          <div className="p-2.5 rounded-xl bg-[#F9E9ED] border border-[#F2CAD2] text-[#B64235]">
             <AlertOctagon className="w-5 h-5" />
           </div>
           <div>
             <div className="flex items-center gap-2">
-              <span className="text-xs font-mono uppercase tracking-widest text-rose-400 font-bold">
-                FAILURE TRACE REPLAY ENGINE
+              <span className="text-xs uppercase tracking-wider text-[#B64235] font-semibold">
+                Interference trace replay
               </span>
-              <span className="text-xs font-mono text-emerald-400 bg-emerald-950/70 border border-emerald-800/60 px-2 py-0.5 rounded font-semibold">
+              <span className="text-xs font-mono text-[#247A4B] bg-[#DCEFE2] border border-[#BCE2C9] px-2 py-0.5 rounded font-semibold">
                 Exact experiment states
               </span>
             </div>
-            <h3 className="text-lg font-bold font-mono text-white mt-0.5">
-              Step-by-Step Memory Degradation Trace
+            <h3 className="text-lg font-serif font-bold text-[#252525] mt-0.5">
+              Step-by-step memory degradation trace
             </h3>
           </div>
         </div>
 
         {/* Scientific Guarantee Badge */}
-        <div className="flex items-center gap-1.5 text-xs font-mono text-slate-400 bg-[#121622] border border-[#232A3D] px-3 py-1.5 rounded-xl">
-          <ShieldCheck className="w-4 h-4 text-[#22D3EE]" />
-          <span>Deterministic Replay · No Fake Animation</span>
+        <div className="flex items-center gap-1.5 text-xs text-[#5F625F] bg-[#F7F5EF] border border-[#D8DCD8] px-3 py-1.5 rounded-lg">
+          <ShieldCheck className="w-4 h-4 text-[#31566E]" />
+          <span>Deterministic replay · No synthetic animation</span>
         </div>
       </div>
 
       {/* Progress Stepper Pills */}
       <div className="space-y-2">
-        <div className="flex items-center justify-between text-xs font-mono text-slate-400">
-          <span>EXPERIMENT SEQUENCE TIMELINE</span>
-          <span>
+        <div className="flex items-center justify-between text-xs text-[#5F625F]">
+          <span className="font-semibold uppercase text-[11px]">Experiment sequence timeline</span>
+          <span className="font-mono">
             Step {currentStepIdx + 1} of {totalSteps}
           </span>
         </div>
@@ -158,11 +158,11 @@ export const FailureTrace: React.FC<FailureTraceProps> = ({
             const isSelected = idx === currentStepIdx;
             const isFailurePoint = idx === failureStepIndex;
 
-            let borderClass = 'border-[#222A3D] bg-[#121723] text-slate-400';
+            let borderClass = 'border-[#D8DCD8] bg-[#F7F5EF] text-[#5F625F]';
             if (isSelected) {
-              borderClass = 'border-[#2B6282] bg-[#E7F2FA] text-[#21445B] ring-1 ring-[#2B6282] font-bold';
+              borderClass = 'border-[#B8D7ED] bg-[#E7F2FA] text-[#31566E] ring-1 ring-[#31566E] font-semibold';
             } else if (isFailurePoint) {
-              borderClass = 'border-[#9E372B] bg-[#F9E9ED] text-[#6B2835]';
+              borderClass = 'border-[#F2CAD2] bg-[#F9E9ED] text-[#B64235] font-semibold';
             }
 
             return (
@@ -172,21 +172,21 @@ export const FailureTrace: React.FC<FailureTraceProps> = ({
                   setIsPlaying(false);
                   setCurrentStepIdx(idx);
                 }}
-                className={`p-2 rounded-lg border text-left font-mono text-xs transition-all flex flex-col justify-between h-14 cursor-pointer ${borderClass}`}
+                className={`p-2 rounded-lg border text-left text-xs transition-all flex flex-col justify-between h-14 cursor-pointer ${borderClass}`}
               >
                 <div className="flex items-center justify-between">
-                  <span className="text-xs text-[#8F96A3]">Step {String(idx + 1).padStart(2, '0')}</span>
+                  <span className="text-[10px] font-mono text-[#5F625F]">#{String(idx + 1).padStart(2, '0')}</span>
                   <span
-                    className={`text-xs px-1 rounded uppercase font-bold ${
+                    className={`text-[10px] px-1 rounded uppercase font-semibold ${
                       st.operation === 'WRITE'
-                        ? 'bg-[#FFF5D8] text-[#5A4716] border border-[#F0E3B8]'
-                        : 'bg-[#DDEBF7] text-[#21445B] border border-[#CDE1F0]'
+                        ? 'bg-[#FFF5D8] text-[#8C5D17] border border-[#E8D9A8]'
+                        : 'bg-[#E7F2FA] text-[#31566E] border border-[#B8D7ED]'
                     }`}
                   >
                     {st.operation}
                   </span>
                 </div>
-                <div className="truncate font-semibold text-xs text-white">
+                <div className="truncate font-medium text-xs text-[#252525]">
                   {st.label}
                 </div>
               </button>
@@ -196,11 +196,11 @@ export const FailureTrace: React.FC<FailureTraceProps> = ({
       </div>
 
       {/* Playback Controls & Status Callout */}
-      <div className="flex flex-wrap items-center justify-between gap-3 p-3.5 rounded-xl bg-[#101522] border border-[#20293D]">
+      <div className="flex flex-wrap items-center justify-between gap-3 p-3 rounded-xl bg-[#F7F5EF] border border-[#D8DCD8]">
         <div className="flex items-center gap-2">
           <button
             onClick={handleReset}
-            className="btn btn-secondary p-2 text-xs"
+            className="p-2 rounded-lg bg-[#FFFFFF] hover:bg-[#F1F2F0] border border-[#D8DCD8] text-[#5F625F] hover:text-[#252525] text-xs cursor-pointer transition"
             title="Reset to step 1"
           >
             <RotateCcw className="w-4 h-4" />
@@ -209,7 +209,7 @@ export const FailureTrace: React.FC<FailureTraceProps> = ({
           <button
             onClick={handleStepPrev}
             disabled={currentStepIdx === 0}
-            className="btn btn-secondary p-2 text-xs disabled:opacity-40"
+            className="p-2 rounded-lg bg-[#FFFFFF] hover:bg-[#F1F2F0] border border-[#D8DCD8] text-[#5F625F] hover:text-[#252525] text-xs disabled:opacity-40 cursor-pointer transition"
             title="Previous step"
           >
             <SkipBack className="w-4 h-4" />
@@ -217,17 +217,17 @@ export const FailureTrace: React.FC<FailureTraceProps> = ({
 
           <button
             onClick={handlePlayPause}
-            className="btn btn-primary px-4 py-2 text-xs font-bold font-mono cursor-pointer"
+            className="px-4 py-2 rounded-lg bg-[#DCEFE2] hover:bg-[#CDE8D5] text-[#245B38] border border-[#BCE2C9] text-xs font-semibold flex items-center gap-2 cursor-pointer transition"
           >
             {isPlaying ? (
               <>
                 <Pause className="w-4 h-4 fill-current" />
-                <span>PAUSE</span>
+                <span>Pause</span>
               </>
             ) : (
               <>
                 <Play className="w-4 h-4 fill-current" />
-                <span>PLAY REPLAY</span>
+                <span>Play trace</span>
               </>
             )}
           </button>
@@ -235,7 +235,7 @@ export const FailureTrace: React.FC<FailureTraceProps> = ({
           <button
             onClick={handleStepNext}
             disabled={currentStepIdx >= totalSteps - 1}
-            className="btn btn-secondary p-2 text-xs disabled:opacity-40"
+            className="p-2 rounded-lg bg-[#FFFFFF] hover:bg-[#F1F2F0] border border-[#D8DCD8] text-[#5F625F] hover:text-[#252525] text-xs disabled:opacity-40 cursor-pointer transition"
             title="Next step"
           >
             <SkipForward className="w-4 h-4" />
@@ -243,7 +243,7 @@ export const FailureTrace: React.FC<FailureTraceProps> = ({
         </div>
 
         {/* Speed Selector */}
-        <div className="flex items-center gap-1.5 text-xs font-mono text-slate-400">
+        <div className="flex items-center gap-1.5 text-xs text-[#5F625F]">
           <span>Speed:</span>
           {[
             { label: '0.5x', ms: 1400 },
@@ -255,8 +255,8 @@ export const FailureTrace: React.FC<FailureTraceProps> = ({
               onClick={() => setPlaybackSpeed(sp.ms)}
               className={`px-2 py-1 rounded border text-xs transition-colors cursor-pointer ${
                 playbackSpeed === sp.ms
-                  ? 'btn-blue font-bold shadow-xs'
-                  : 'border-[#252A35] bg-[#151922] text-[#8F96A3] hover:text-white'
+                  ? 'bg-[#E7F2FA] text-[#31566E] border-[#B8D7ED] font-semibold'
+                  : 'border-[#D8DCD8] bg-[#FFFFFF] text-[#5F625F] hover:text-[#252525]'
               }`}
             >
               {sp.label}
@@ -269,58 +269,58 @@ export const FailureTrace: React.FC<FailureTraceProps> = ({
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
         {/* Left Column (5 cols): Step Details */}
         <div className="lg:col-span-5 space-y-4">
-          <div className="rounded-xl border border-[#222A3D] bg-[#101420] p-4 space-y-3 font-mono">
-            <div className="flex items-center justify-between border-b border-[#20283C] pb-2">
-              <span className="text-xs text-slate-400 uppercase">STEP OPERATION</span>
+          <div className="rounded-xl border border-[#D8DCD8] bg-[#F7F5EF] p-4 space-y-3 text-xs">
+            <div className="flex items-center justify-between border-b border-[#EAE6DF] pb-2">
+              <span className="text-xs text-[#5F625F] uppercase font-medium">Step operation</span>
               <span
-                className={`text-xs px-2 py-0.5 rounded font-bold uppercase ${
+                className={`text-xs px-2 py-0.5 rounded font-semibold uppercase ${
                   currentStep.operation === 'WRITE'
-                    ? 'bg-amber-950/80 text-amber-300 border border-amber-800'
-                    : 'bg-violet-950/80 text-violet-300 border border-violet-800'
+                    ? 'bg-[#FFF5D8] text-[#8C5D17] border border-[#E8D9A8]'
+                    : 'bg-[#E7F2FA] text-[#31566E] border border-[#B8D7ED]'
                 }`}
               >
                 {currentStep.operation}
               </span>
             </div>
 
-            <div className="space-y-2">
-              <div className="text-sm font-bold text-white">
+            <div className="space-y-1">
+              <div className="text-sm font-semibold text-[#252525]">
                 {currentStep.label}
               </div>
-              <p className="text-xs text-slate-300 font-sans leading-relaxed">
+              <p className="text-xs text-[#5F625F] font-sans leading-relaxed">
                 {currentStep.notes}
               </p>
             </div>
 
             {/* Probe evaluation at this step */}
-            <div className="pt-2 border-t border-[#20283C] space-y-2">
+            <div className="pt-2 border-t border-[#EAE6DF] space-y-2">
               <div className="flex items-center justify-between text-xs">
-                <span className="text-slate-400">Target Key Probe:</span>
-                <span className="text-white font-bold">"{targetKey}"</span>
+                <span className="text-[#5F625F]">Target Key Probe:</span>
+                <span className="text-[#252525] font-semibold">"{targetKey}"</span>
               </div>
               <div className="flex items-center justify-between text-xs">
-                <span className="text-slate-400">Retrieved Output:</span>
+                <span className="text-[#5F625F]">Retrieved Output:</span>
                 <span
-                  className={`font-bold ${
-                    currentStep.isCorrectAtStep ? 'text-emerald-400' : 'text-rose-400'
+                  className={`font-semibold ${
+                    currentStep.isCorrectAtStep ? 'text-[#247A4B]' : 'text-[#B64235]'
                   }`}
                 >
                   {currentStep.predictionAtStep} {currentStep.isCorrectAtStep ? '✓' : '✕'}
                 </span>
               </div>
-              <div className="flex items-center justify-between text-xs" title="This score is based on representation similarity and is not a calibrated probability.">
-                <span className="text-slate-400">Retrieval Score:</span>
-                <span className="text-[#22D3EE] font-bold">
+              <div className="flex items-center justify-between text-xs" title="Cosine similarity between retrieved representation and candidate. This is not a calibrated probability.">
+                <span className="text-[#5F625F]">Retrieval score:</span>
+                <span className="text-[#31566E] font-mono font-bold">
                   {Math.round(currentStep.confidenceAtStep * 100)}%
                 </span>
               </div>
             </div>
 
             {isFailureTippingPoint && (
-              <div className="p-2.5 rounded-lg bg-rose-950/60 border border-rose-700 text-rose-200 text-xs font-sans flex items-start gap-2">
-                <AlertOctagon className="w-4 h-4 text-rose-400 shrink-0 mt-0.5" />
+              <div className="p-2.5 rounded-lg bg-[#F9E9ED] border border-[#F2CAD2] text-[#B64235] text-xs font-sans flex items-start gap-2">
+                <AlertOctagon className="w-4 h-4 shrink-0 mt-0.5" />
                 <span>
-                  <strong>CRITICAL TIPPING POINT:</strong> At this write step, cumulative coordinate superposition displaced the original vector projection below the classification boundary.
+                  <strong>Interference tipping point:</strong> At this write step, cumulative coordinate superposition displaced the original vector projection below the classification boundary.
                 </span>
               </div>
             )}
@@ -328,33 +328,33 @@ export const FailureTrace: React.FC<FailureTraceProps> = ({
 
           {/* Prompt-mandated Final Step Block */}
           {isFinalStep && (
-            <div className="rounded-xl border border-rose-600/60 bg-rose-950/30 p-4 space-y-3 font-mono">
-              <div className="text-xs font-bold text-rose-300 uppercase tracking-wide flex items-center gap-1.5">
-                <XCircle className="w-4 h-4 text-rose-400" />
-                <span>OBSERVED FINAL RESULT</span>
+            <div className="rounded-xl border border-[#F2CAD2] bg-[#F9E9ED] p-4 space-y-3 text-xs">
+              <div className="text-xs font-bold text-[#B64235] uppercase tracking-wide flex items-center gap-1.5">
+                <XCircle className="w-4 h-4 text-[#B64235]" />
+                <span>Observed final result</span>
               </div>
 
               <div className="grid grid-cols-2 gap-2 text-xs">
-                <div className="p-2.5 rounded bg-[#0E131E] border border-[#20283C]">
-                  <span className="text-xs text-slate-400 block font-medium">Expected</span>
-                  <strong className="text-white text-sm block mt-0.5">{groundTruth}</strong>
+                <div className="p-2.5 rounded bg-[#FFFFFF] border border-[#D8DCD8]">
+                  <span className="text-xs text-[#5F625F] block font-medium">Expected</span>
+                  <strong className="text-[#252525] text-sm block mt-0.5">{groundTruth}</strong>
                 </div>
 
-                <div className="p-2.5 rounded bg-[#0E131E] border border-rose-900/60">
-                  <span className="text-xs text-slate-400 block font-medium">Retrieved</span>
-                  <strong className="text-rose-400 text-sm block mt-0.5">{finalPrediction}</strong>
+                <div className="p-2.5 rounded bg-[#FFFFFF] border border-[#F2CAD2]">
+                  <span className="text-xs text-[#5F625F] block font-medium">Retrieved</span>
+                  <strong className="text-[#B64235] text-sm block mt-0.5">{finalPrediction}</strong>
                 </div>
               </div>
 
-              <div className="flex items-center justify-between text-xs pt-1 border-t border-rose-900/40" title="This score is based on representation similarity and is not a calibrated probability.">
-                <span className="text-slate-400">Retrieval score:</span>
-                <span className="text-[#22D3EE] font-bold text-sm">
+              <div className="flex items-center justify-between text-xs pt-1 border-t border-[#F2CAD2]" title="Cosine similarity between retrieved representation and candidate. This is not a calibrated probability.">
+                <span className="text-[#5F625F]">Retrieval score:</span>
+                <span className="text-[#31566E] font-mono font-bold text-sm">
                   {Math.round(finalConfidence * 100)}%
                 </span>
               </div>
 
-              <div className="p-2 rounded bg-rose-950/80 border border-rose-800 text-rose-300 text-center font-bold text-xs uppercase tracking-wider">
-                ✗ MEMORY INTERFERENCE
+              <div className="p-2 rounded bg-[#FFFFFF] border border-[#F2CAD2] text-[#B64235] text-center font-semibold text-xs uppercase tracking-wider">
+                Interference detected
               </div>
             </div>
           )}
@@ -362,17 +362,17 @@ export const FailureTrace: React.FC<FailureTraceProps> = ({
 
         {/* Right Column (7 cols): Exact Recorded State Heatmap */}
         <div className="lg:col-span-7 space-y-4">
-          <div className="rounded-xl border border-[#222A3D] bg-[#101420] p-4 space-y-3 font-mono">
+          <div className="rounded-xl border border-[#D8DCD8] bg-[#FFFFFF] p-4 space-y-3 text-xs shadow-2xs">
             <div className="flex items-center justify-between text-xs">
-              <span className="text-white font-semibold flex items-center gap-1.5">
-                <Database className="w-3.5 h-3.5 text-violet-400" />
-                RECORDED STATE MATRIX M ({dimension}×{dimension})
+              <span className="text-[#252525] font-semibold flex items-center gap-1.5">
+                <Database className="w-3.5 h-3.5 text-[#31566E]" />
+                Recorded state matrix M ({dimension}×{dimension})
               </span>
-              <span className="text-xs text-slate-400">At step {currentStepIdx + 1}</span>
+              <span className="text-xs text-[#5F625F]">At step {currentStepIdx + 1}</span>
             </div>
 
             {/* Matrix Heatmap Grid */}
-            <div className="overflow-x-auto p-3 bg-[#07090F] rounded-lg border border-[#1E2538]">
+            <div className="overflow-x-auto p-3 bg-[#F7F5EF] rounded-lg border border-[#D8DCD8]">
               <div
                 className="grid gap-[2px] mx-auto w-fit select-none"
                 style={{
@@ -385,14 +385,14 @@ export const FailureTrace: React.FC<FailureTraceProps> = ({
                     const isPositive = val >= 0;
                     const opacity = Math.min(1, absVal * 1.6);
                     const bgStyle = isPositive
-                      ? `rgba(34, 211, 238, ${Math.max(0.08, opacity)})`
-                      : `rgba(244, 63, 94, ${Math.max(0.08, opacity)})`;
+                      ? `rgba(220, 239, 226, ${Math.max(0.2, opacity)})`
+                      : `rgba(249, 233, 237, ${Math.max(0.2, opacity)})`;
 
                     return (
                       <div
                         key={`${rIdx}-${cIdx}`}
                         title={`M[${rIdx},${cIdx}] = ${val.toFixed(3)}`}
-                        className="w-4 h-4 sm:w-5 sm:h-5 rounded-[2px] transition-all hover:ring-2 hover:ring-white cursor-pointer"
+                        className="w-4 h-4 sm:w-5 sm:h-5 rounded-[2px] transition-all hover:ring-2 hover:ring-[#31566E] cursor-pointer"
                         style={{ backgroundColor: bgStyle }}
                       />
                     );
@@ -401,22 +401,22 @@ export const FailureTrace: React.FC<FailureTraceProps> = ({
               </div>
             </div>
 
-            <div className="flex flex-wrap items-center justify-between gap-2 text-xs font-mono text-slate-400 pt-1 border-t border-[#20283C]">
+            <div className="flex flex-wrap items-center justify-between gap-2 text-xs text-[#5F625F] pt-1 border-t border-[#EAE6DF]">
               <div className="flex items-center gap-3">
                 <span className="flex items-center gap-1">
-                  <span className="w-2.5 h-2.5 rounded bg-[#22D3EE] inline-block" /> Positive Weight
+                  <span className="w-2.5 h-2.5 rounded bg-[#DCEFE2] border border-[#BCE2C9] inline-block" /> Positive Weight
                 </span>
                 <span className="flex items-center gap-1">
-                  <span className="w-2.5 h-2.5 rounded bg-[#F43F5E] inline-block" /> Negative Weight
+                  <span className="w-2.5 h-2.5 rounded bg-[#F9E9ED] border border-[#F2CAD2] inline-block" /> Negative Weight
                 </span>
               </div>
-              <span className="text-zinc-500">Exact coordinates stored in memory</span>
+              <span className="text-[#5F625F]">Exact coordinates stored in memory</span>
             </div>
           </div>
 
           {/* Scientific Guarantee Label */}
-          <div className="p-3.5 rounded-xl bg-[#0B0F19] border border-[#1C2336] text-xs font-sans text-slate-300 leading-relaxed">
-            <strong className="text-white font-mono block mb-1">
+          <div className="p-3.5 rounded-lg bg-[#F7F5EF] border border-[#D8DCD8] text-xs font-sans text-[#5F625F] leading-relaxed">
+            <strong className="text-[#252525] block mb-0.5">
               Provenance guarantee:
             </strong>
             “Replay uses the exact states produced by the experiment. No random animation. No fabricated intermediate states.”

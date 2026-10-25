@@ -19,17 +19,17 @@ export const BDHCQBridge: React.FC = () => {
       <LatentReasoningDemo />
 
       {/* Official BDH-CQ Research Card & Epistemic Boundaries */}
-      <div className="rounded-2xl border border-[#252A35] bg-[#0C101A] p-6 space-y-6 text-slate-100 shadow-xl">
-        <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[#1D2536] pb-4">
+      <div className="rounded-xl border border-[#D8DCD8] bg-[#FFFFFF] p-6 space-y-6 text-[#252525] shadow-xs">
+        <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[#EAE6DF] pb-4">
           <div className="flex items-center gap-2.5">
-            <div className="p-2 rounded-lg bg-purple-950/80 border border-purple-800 text-purple-300">
+            <div className="p-2 rounded-lg bg-[#E7F2FA] border border-[#CDE1F0] text-[#21445B]">
               <Brain className="w-5 h-5" />
             </div>
             <div>
-              <div className="text-xs font-mono uppercase text-purple-400 font-bold">
-                PRIMARY RESEARCH CARD
+              <div className="text-xs font-sans text-[#21445B] font-semibold">
+                Published research reference
               </div>
-              <h4 className="text-lg font-bold font-mono text-white">
+              <h4 className="text-lg font-serif font-bold text-[#252525] tracking-tight">
                 BDH-CQ: “In-Context Learning with Recurrent Latent Reasoning”
               </h4>
             </div>
@@ -39,25 +39,25 @@ export const BDHCQBridge: React.FC = () => {
             href="https://pathway.com/research/introducing-bdh-cq"
             target="_blank"
             rel="noreferrer"
-            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-purple-600/20 hover:bg-purple-600/30 text-purple-300 border border-purple-500/40 text-xs font-mono font-semibold transition"
+            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#FAF8F5] hover:bg-[#F0EEEA] text-[#252525] border border-[#D8DCD8] text-xs font-sans font-semibold transition"
           >
-            <span>Open Official Article</span>
-            <ExternalLink className="w-3.5 h-3.5" />
+            <span>Official research article</span>
+            <ExternalLink className="w-3.5 h-3.5 text-[#5F625F]" />
           </a>
         </div>
 
         {/* What We Borrow vs What We Do Not Claim */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
           {/* What We Borrow */}
-          <div className="p-4 rounded-xl bg-[#090D18] border border-emerald-500/30 space-y-3">
-            <div className="flex items-center gap-2 text-xs font-mono font-bold text-emerald-400 uppercase">
-              <CheckCircle2 className="w-4 h-4 text-emerald-400" />
-              WHAT WE BORROW
+          <div className="p-4 rounded-xl bg-[#FAF8F5] border border-[#DCEFE2] space-y-3">
+            <div className="flex items-center gap-2 text-xs font-sans font-bold text-[#247A4B]">
+              <CheckCircle2 className="w-4 h-4 text-[#247A4B]" />
+              <span>What this educational lab adapts</span>
             </div>
-            <ul className="space-y-2 text-xs text-slate-300 font-sans">
+            <ul className="space-y-2 text-xs text-[#5F625F] font-sans">
               {MODEL_CONTRACT.whatWeBorrow.map((item, i) => (
                 <li key={i} className="flex items-start gap-2">
-                  <span className="text-emerald-400 font-bold mt-0.5">•</span>
+                  <span className="text-[#247A4B] font-bold mt-0.5">•</span>
                   <span>{item}</span>
                 </li>
               ))}
@@ -65,15 +65,15 @@ export const BDHCQBridge: React.FC = () => {
           </div>
 
           {/* What We Do Not Claim */}
-          <div className="p-4 rounded-xl bg-[#090D18] border border-amber-500/30 space-y-3">
-            <div className="flex items-center gap-2 text-xs font-mono font-bold text-amber-400 uppercase">
-              <XCircle className="w-4 h-4 text-amber-400" />
-              WHAT WE DO NOT CLAIM
+          <div className="p-4 rounded-xl bg-[#FAF8F5] border border-[#FFF5D8] space-y-3">
+            <div className="flex items-center gap-2 text-xs font-sans font-bold text-[#A46622]">
+              <XCircle className="w-4 h-4 text-[#A46622]" />
+              <span>Epistemic limits (What we do not claim)</span>
             </div>
-            <ul className="space-y-2 text-xs text-slate-300 font-sans">
+            <ul className="space-y-2 text-xs text-[#5F625F] font-sans">
               {MODEL_CONTRACT.whatWeDoNotClaim.map((item, i) => (
                 <li key={i} className="flex items-start gap-2">
-                  <span className="text-amber-400 font-bold mt-0.5">•</span>
+                  <span className="text-[#A46622] font-bold mt-0.5">•</span>
                   <span>{item}</span>
                 </li>
               ))}
@@ -82,9 +82,9 @@ export const BDHCQBridge: React.FC = () => {
         </div>
 
         {/* Epistemic Footer */}
-        <div className="p-3 rounded-lg bg-[#070A12] border border-[#182030] text-xs font-mono text-slate-400 flex items-center justify-between">
-          <span>SOURCE PROVENANCE: Kosowski et al. (2025) & Pathway (2026)</span>
-          <span className="text-purple-400 font-semibold">ARC-AGI-1 In-Context Evaluation</span>
+        <div className="p-3 rounded-lg bg-[#F7F5EF] border border-[#EAE6DF] text-xs font-sans text-[#5F625F] flex flex-wrap items-center justify-between gap-2">
+          <span>Source provenance: Kosowski et al. (2025) & Pathway (2026)</span>
+          <span className="text-[#21445B] font-medium">ARC-AGI-1 in-context evaluation</span>
         </div>
       </div>
     </div>

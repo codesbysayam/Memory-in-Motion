@@ -27,23 +27,17 @@ export function ControlSlider({
   hint,
   onChange,
   id,
-  theme = 'light'
 }: ControlSliderProps) {
   const textDesc = description || hint;
   const displayValue = formatValue ? formatValue(value) : `${value}${unit ? ` ${unit}` : ''}`;
-  const isDark = theme === 'dark';
 
   return (
     <div id={id} className="space-y-1.5">
       <div className="flex items-center justify-between text-xs">
-        <span className={`font-mono uppercase tracking-wider font-medium ${isDark ? 'text-slate-300' : 'text-[#716F68]'}`}>
+        <span className="font-mono uppercase tracking-wider font-medium text-[var(--text-secondary)]">
           {label}
         </span>
-        <span className={`font-mono font-semibold px-2 py-0.5 rounded border shadow-xs ${
-          isDark
-            ? 'text-white bg-[#151922] border-[#252A35]'
-            : 'text-[#151515] bg-[#FFFFFF] border-[#D8D4CB]'
-        }`}>
+        <span className="font-mono font-semibold px-2 py-0.5 rounded border shadow-2xs text-[var(--text-primary)] bg-[var(--surface)] border-[var(--border)]">
           {displayValue}
         </span>
       </div>
@@ -55,17 +49,14 @@ export function ControlSlider({
         step={step}
         value={value}
         onChange={(e) => onChange(parseFloat(e.target.value))}
-        className={`w-full h-1.5 rounded-lg appearance-none cursor-pointer accent-[#22D3EE] focus:outline-none ${
-          isDark ? 'bg-[#252A35]' : 'bg-[#E5E0D8]'
-        }`}
+        className="w-full h-1.5 rounded-lg appearance-none cursor-pointer accent-[var(--accent-blue-text)] focus:outline-none bg-[var(--surface-soft)] border border-[var(--border)]"
       />
 
       {textDesc && (
-        <div className={`text-[11px] leading-normal pt-0.5 font-sans ${isDark ? 'text-slate-400' : 'text-[#716F68]'}`}>
+        <div className="text-[11px] leading-relaxed font-sans text-[var(--text-muted)]">
           {textDesc}
         </div>
       )}
     </div>
   );
 }
-

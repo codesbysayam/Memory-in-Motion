@@ -145,34 +145,34 @@ export const ConceptGlossaryDrawer: React.FC<ConceptGlossaryDrawerProps> = ({
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header - Editorial Style */}
-        <div className="flex-shrink-0 px-5 sm:px-7 pt-5 sm:pt-6 pb-4 border-b border-[#D9DCD8] bg-[#FFFFFF]">
+        <div className="flex-shrink-0 px-5 sm:px-7 pt-5 sm:pt-6 pb-4 border-b border-[var(--border)] bg-[var(--surface)] text-[var(--text-primary)]">
           <div className="flex items-start justify-between gap-4">
             <div className="space-y-1">
               <div className="flex items-center gap-2">
-                <span className="text-xs font-bold tracking-wider text-[#5F625F] uppercase font-sans">
+                <span className="text-xs font-bold tracking-wider text-[var(--text-secondary)] uppercase font-sans">
                   Theoretical Reference
                 </span>
-                <span className="text-xs text-[#5F625F]">·</span>
-                <span className="text-xs font-mono text-[#5F625F]">
+                <span className="text-xs text-[var(--text-secondary)]">·</span>
+                <span className="text-xs font-mono text-[var(--text-secondary)]">
                   {filteredTerms.length} concepts
                 </span>
               </div>
-              <h2 className="text-2xl sm:text-3xl font-serif text-[#252525] tracking-tight m-0">
+              <h2 className="text-2xl sm:text-3xl font-serif text-[var(--text-primary)] tracking-tight m-0">
                 Concept Glossary
               </h2>
-              <p className="text-xs sm:text-sm text-[#5F625F] font-sans m-0 pt-0.5">
+              <p className="text-xs sm:text-sm text-[var(--text-secondary)] font-sans m-0 pt-0.5">
                 Mathematical foundations, state dynamics, and architectural principles.
               </p>
             </div>
 
             <div className="flex items-center gap-2">
-              <kbd className="hidden sm:inline-block px-2 py-1 rounded text-xs text-[#5F625F] border border-[#D9DCD8] bg-[#F7F5EF] font-mono">
+              <kbd className="hidden sm:inline-block px-2 py-1 rounded text-xs text-[var(--text-secondary)] border border-[var(--border)] bg-[var(--surface-soft)] font-mono">
                 ESC
               </kbd>
               <button
                 onClick={closeGlossary}
                 aria-label="Close glossary"
-                className="p-2 rounded-lg text-[#5F625F] hover:text-[#252525] hover:bg-[#F0F1EF] border border-[#D9DCD8] transition cursor-pointer"
+                className="p-2 rounded-lg text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--surface-soft)] border border-[var(--border)] transition cursor-pointer"
               >
                 <X className="w-4 h-4" />
               </button>
@@ -181,7 +181,7 @@ export const ConceptGlossaryDrawer: React.FC<ConceptGlossaryDrawerProps> = ({
 
           {/* Search Bar */}
           <div className="mt-4 relative">
-            <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[#5F625F]" />
+            <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[var(--text-secondary)]" />
             <input
               ref={searchInputRef}
               type="text"
@@ -198,7 +198,7 @@ export const ConceptGlossaryDrawer: React.FC<ConceptGlossaryDrawerProps> = ({
             {searchQuery && (
               <button
                 onClick={() => setSearchQuery('')}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-[#5F625F] hover:text-[#252525] cursor-pointer"
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-[var(--text-secondary)] hover:text-[var(--text-primary)] cursor-pointer"
               >
                 <X className="w-3.5 h-3.5" />
               </button>
@@ -239,7 +239,7 @@ export const ConceptGlossaryDrawer: React.FC<ConceptGlossaryDrawerProps> = ({
           {viewMode === 'grid' ? (
             /* Concept Grid */
             <div className="space-y-4">
-              <div className="flex items-center justify-between text-xs text-[#5F625F]">
+              <div className="flex items-center justify-between text-xs text-[var(--text-secondary)]">
                 <span>
                   Showing {filteredTerms.length} {filteredTerms.length === 1 ? 'concept' : 'concepts'}
                 </span>
@@ -248,7 +248,7 @@ export const ConceptGlossaryDrawer: React.FC<ConceptGlossaryDrawerProps> = ({
 
               {filteredTerms.length === 0 ? (
                 <div className="text-center py-16 space-y-3">
-                  <p className="text-[#5F625F] text-sm font-sans">
+                  <p className="text-[var(--text-secondary)] text-sm font-sans">
                     No matching concepts found for &ldquo;{searchQuery}&rdquo;.
                   </p>
                   <button
@@ -256,7 +256,7 @@ export const ConceptGlossaryDrawer: React.FC<ConceptGlossaryDrawerProps> = ({
                       setSearchQuery('');
                       setSelectedCategory('All');
                     }}
-                    className="px-4 py-2 rounded-lg bg-[#FFFFFF] hover:bg-[#F7F5EF] border border-[#D9DCD8] text-xs text-[#252525] transition cursor-pointer font-medium"
+                    className="px-4 py-2 rounded-lg bg-[var(--surface)] hover:bg-[var(--surface-soft)] border border-[var(--border)] text-xs text-[var(--text-primary)] transition cursor-pointer font-medium"
                   >
                     Reset Search & Filters
                   </button>
@@ -272,13 +272,13 @@ export const ConceptGlossaryDrawer: React.FC<ConceptGlossaryDrawerProps> = ({
                       <span className="category">
                         {item.category}
                       </span>
-                      <h3 className="group-hover:text-[#2B6282] transition-colors font-serif">
+                      <h3 className="group-hover:text-[var(--accent-blue-text)] transition-colors font-serif">
                         {item.term}
                       </h3>
                       <p className="flex-1 font-sans">
                         {item.shortDefinition}
                       </p>
-                      <div className="mt-4 pt-3 border-t border-[#E8EBE7] flex items-center justify-between text-xs text-[#5F625F] group-hover:text-[#2B6282] transition-colors">
+                      <div className="mt-4 pt-3 border-t border-[var(--border)] flex items-center justify-between text-xs text-[var(--text-secondary)] group-hover:text-[var(--accent-blue-text)] transition-colors">
                         <span>
                           {item.formula ? 'Includes tensor formulation' : 'Theoretical concept'}
                         </span>
@@ -298,17 +298,17 @@ export const ConceptGlossaryDrawer: React.FC<ConceptGlossaryDrawerProps> = ({
               <div className="flex items-center justify-between">
                 <button
                   onClick={() => setViewMode('grid')}
-                  className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-[#FFFFFF] hover:bg-[#F7F5EF] border border-[#D9DCD8] text-xs text-[#252525] transition cursor-pointer font-medium"
+                  className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-[var(--surface)] hover:bg-[var(--surface-soft)] border border-[var(--border)] text-xs text-[var(--text-primary)] transition cursor-pointer font-medium"
                 >
                   <ArrowLeft className="w-3.5 h-3.5" />
                   <span>Back to all concepts ({filteredTerms.length})</span>
                 </button>
 
-                <div className="flex items-center gap-2 text-xs text-[#5F625F]">
+                <div className="flex items-center gap-2 text-xs text-[var(--text-secondary)]">
                   {prevTerm && (
                     <button
                       onClick={() => selectTerm(prevTerm.id)}
-                      className="flex items-center gap-1 hover:text-[#252525] transition cursor-pointer px-2 py-1 rounded hover:bg-[#FFFFFF]"
+                      className="flex items-center gap-1 hover:text-[var(--text-primary)] transition cursor-pointer px-2 py-1 rounded hover:bg-[var(--surface-soft)]"
                     >
                       <ChevronLeft className="w-3.5 h-3.5" />
                       <span className="hidden sm:inline">{prevTerm.term}</span>
@@ -317,7 +317,7 @@ export const ConceptGlossaryDrawer: React.FC<ConceptGlossaryDrawerProps> = ({
                   {nextTerm && (
                     <button
                       onClick={() => selectTerm(nextTerm.id)}
-                      className="flex items-center gap-1 hover:text-[#252525] transition cursor-pointer px-2 py-1 rounded hover:bg-[#FFFFFF]"
+                      className="flex items-center gap-1 hover:text-[var(--text-primary)] transition cursor-pointer px-2 py-1 rounded hover:bg-[var(--surface-soft)]"
                     >
                       <span className="hidden sm:inline">{nextTerm.term}</span>
                       <ChevronRight className="w-3.5 h-3.5" />
@@ -327,32 +327,32 @@ export const ConceptGlossaryDrawer: React.FC<ConceptGlossaryDrawerProps> = ({
               </div>
 
               {/* Title & Category */}
-              <div className="space-y-2 border-b border-[#D9DCD8] pb-5">
+              <div className="space-y-2 border-b border-[var(--border)] pb-5">
                 <div className="flex items-center gap-2">
-                  <span className="text-xs font-bold uppercase tracking-wider text-[#2B6282] font-sans">
+                  <span className="text-xs font-bold uppercase tracking-wider text-[var(--accent-blue-text)] font-sans">
                     {activeTerm.category}
                   </span>
                   {activeTerm.targetPage && (
                     <>
-                      <span className="text-[#5F625F]">·</span>
-                      <span className="text-xs text-[#5F625F] font-sans">
+                      <span className="text-[var(--text-secondary)]">·</span>
+                      <span className="text-xs text-[var(--text-secondary)] font-sans">
                         Stage: {activeTerm.targetPage}
                       </span>
                     </>
                   )}
                 </div>
-                <h1 className="text-3xl sm:text-4xl font-serif text-[#252525] tracking-tight m-0">
+                <h1 className="text-3xl sm:text-4xl font-serif text-[var(--text-primary)] tracking-tight m-0">
                   {activeTerm.term}
                 </h1>
 
                 {/* Aliases */}
                 {activeTerm.aliases.length > 0 && (
-                  <div className="flex flex-wrap items-center gap-1.5 pt-1 text-xs text-[#5F625F]">
+                  <div className="flex flex-wrap items-center gap-1.5 pt-1 text-xs text-[var(--text-secondary)]">
                     <span>Also known as:</span>
                     {activeTerm.aliases.map((alias) => (
                       <span
                         key={alias}
-                        className="px-2 py-0.5 rounded bg-[#F0F1EF] border border-[#D9DCD8] text-[#252525]"
+                        className="px-2 py-0.5 rounded bg-[var(--surface-soft)] border border-[var(--border)] text-[var(--text-primary)]"
                       >
                         {alias}
                       </span>
@@ -362,34 +362,34 @@ export const ConceptGlossaryDrawer: React.FC<ConceptGlossaryDrawerProps> = ({
               </div>
 
               {/* Core Definition Callout */}
-              <div className="p-4 sm:p-5 rounded-xl bg-[#E7F2FA] border border-[#CDE1F0] space-y-2">
-                <div className="flex items-center gap-2 text-xs font-semibold text-[#21445B] uppercase tracking-wider font-sans">
+              <div className="p-4 sm:p-5 rounded-xl bg-[var(--accent-blue)] border border-[var(--border)] space-y-2">
+                <div className="flex items-center gap-2 text-xs font-semibold text-[var(--accent-blue-text)] uppercase tracking-wider font-sans">
                   <Sparkles className="w-3.5 h-3.5" />
                   <span>Core Definition</span>
                 </div>
-                <p className="text-sm sm:text-base text-[#252525] leading-relaxed m-0 font-sans">
+                <p className="text-sm sm:text-base text-[var(--text-primary)] leading-relaxed m-0 font-sans">
                   {activeTerm.shortDefinition}
                 </p>
               </div>
 
               {/* Mathematical Formulation (KaTeX) */}
               {activeTerm.formula && (
-                <div className="rounded-xl bg-[#FFFFFF] border border-[#D9DCD8] p-5 space-y-3">
-                  <div className="flex items-center justify-between text-xs font-semibold text-[#2B6282] uppercase tracking-wider font-sans">
+                <div className="rounded-xl bg-[var(--surface)] border border-[var(--border)] p-5 space-y-3">
+                  <div className="flex items-center justify-between text-xs font-semibold text-[var(--accent-blue-text)] uppercase tracking-wider font-sans">
                     <span className="flex items-center gap-2">
                       <Cpu className="w-3.5 h-3.5" />
                       <span>Mathematical Formulation</span>
                     </span>
-                    <span className="text-xs text-[#5F625F] lowercase font-mono">tensor law</span>
+                    <span className="text-xs text-[var(--text-secondary)] lowercase font-mono">tensor law</span>
                   </div>
 
-                  <div className="p-3.5 rounded-lg bg-[#F0F1EF] border border-[#D9DCD8] text-[#252525] text-sm overflow-x-auto font-mono">
+                  <div className="p-3.5 rounded-lg bg-[var(--surface-soft)] border border-[var(--border)] text-[var(--text-primary)] text-sm overflow-x-auto font-mono">
                     <FormattedMathText text={activeTerm.formula} />
                   </div>
 
                   {activeTerm.formulaExplanation && (
-                    <p className="text-xs text-[#5F625F] leading-relaxed m-0 font-sans">
-                      <span className="font-semibold text-[#252525]">Notation: </span>
+                    <p className="text-xs text-[var(--text-secondary)] leading-relaxed m-0 font-sans">
+                      <span className="font-semibold text-[var(--text-primary)]">Notation: </span>
                       {activeTerm.formulaExplanation}
                     </p>
                   )}
@@ -397,34 +397,34 @@ export const ConceptGlossaryDrawer: React.FC<ConceptGlossaryDrawerProps> = ({
               )}
 
               {/* Deep Dive Theory */}
-              <div className="space-y-2 bg-[#FFFFFF] border border-[#D9DCD8] rounded-xl p-5">
-                <div className="text-xs font-semibold uppercase tracking-wider text-[#5F625F] flex items-center gap-2 font-sans">
-                  <Layers className="w-3.5 h-3.5 text-[#2B6282]" />
+              <div className="space-y-2 bg-[var(--surface)] border border-[var(--border)] rounded-xl p-5">
+                <div className="text-xs font-semibold uppercase tracking-wider text-[var(--text-secondary)] flex items-center gap-2 font-sans">
+                  <Layers className="w-3.5 h-3.5 text-[var(--accent-blue-text)]" />
                   <span>Theoretical Foundation</span>
                 </div>
-                <p className="text-xs sm:text-sm text-[#252525] leading-relaxed m-0 font-sans">
+                <p className="text-xs sm:text-sm text-[var(--text-primary)] leading-relaxed m-0 font-sans">
                   {activeTerm.deepDive}
                 </p>
               </div>
 
               {/* Physical Intuition */}
-              <div className="rounded-xl bg-[#FFF5D8] border border-[#F0E3B8] p-4 sm:p-5 space-y-2">
-                <div className="flex items-center gap-2 text-xs font-semibold text-[#5A4716] uppercase tracking-wider font-sans">
+              <div className="rounded-xl bg-[var(--accent-yellow)] border border-[var(--border)] p-4 sm:p-5 space-y-2">
+                <div className="flex items-center gap-2 text-xs font-semibold text-[var(--accent-yellow-text)] uppercase tracking-wider font-sans">
                   <Lightbulb className="w-3.5 h-3.5" />
                   <span>Physical Analogy & Intuition</span>
                 </div>
-                <p className="text-xs sm:text-sm text-[#5A4716] leading-relaxed m-0 font-sans">
+                <p className="text-xs sm:text-sm text-[var(--accent-yellow-text)] leading-relaxed m-0 font-sans">
                   {activeTerm.intuition}
                 </p>
               </div>
 
               {/* Empirical Role in This Lab */}
-              <div className="rounded-xl bg-[#DCEFE2] border border-[#C5DDCB] p-4 sm:p-5 space-y-3">
-                <div className="flex items-center gap-2 text-xs font-semibold text-[#24452E] uppercase tracking-wider font-sans">
+              <div className="rounded-xl bg-[var(--accent-green)] border border-[var(--border)] p-4 sm:p-5 space-y-3">
+                <div className="flex items-center gap-2 text-xs font-semibold text-[var(--accent-green-text)] uppercase tracking-wider font-sans">
                   <Bookmark className="w-3.5 h-3.5" />
                   <span>How to Experiment in This Lab</span>
                 </div>
-                <p className="text-xs sm:text-sm text-[#24452E] leading-relaxed m-0 font-sans">
+                <p className="text-xs sm:text-sm text-[var(--accent-green-text)] leading-relaxed m-0 font-sans">
                   {activeTerm.empiricalRole}
                 </p>
 
@@ -443,8 +443,8 @@ export const ConceptGlossaryDrawer: React.FC<ConceptGlossaryDrawerProps> = ({
 
               {/* Related Concepts */}
               {activeTerm.relatedTerms.length > 0 && (
-                <div className="space-y-2 pt-2 border-t border-[#D9DCD8]">
-                  <div className="text-xs font-semibold uppercase tracking-wider text-[#5F625F] font-sans">
+                <div className="space-y-2 pt-2 border-t border-[var(--border)]">
+                  <div className="text-xs font-semibold uppercase tracking-wider text-[var(--text-secondary)] font-sans">
                     Related Concepts
                   </div>
                   <div className="flex flex-wrap gap-2">
@@ -455,10 +455,10 @@ export const ConceptGlossaryDrawer: React.FC<ConceptGlossaryDrawerProps> = ({
                         <button
                           key={rel.id}
                           onClick={() => selectTerm(rel.id)}
-                          className="px-3 py-1.5 rounded-lg bg-[#FFFFFF] border border-[#D9DCD8] hover:border-[#B5B9B3] hover:bg-[#F7F5EF] text-[#252525] text-xs transition flex items-center gap-1.5 cursor-pointer font-medium"
+                          className="px-3 py-1.5 rounded-lg bg-[var(--surface)] border border-[var(--border)] hover:border-[var(--accent-blue-text)] hover:bg-[var(--surface-soft)] text-[var(--text-primary)] text-xs transition flex items-center gap-1.5 cursor-pointer font-medium"
                         >
                           <span>{rel.term}</span>
-                          <ChevronRight className="w-3 h-3 text-[#5F625F]" />
+                          <ChevronRight className="w-3 h-3 text-[var(--text-secondary)]" />
                         </button>
                       );
                     })}

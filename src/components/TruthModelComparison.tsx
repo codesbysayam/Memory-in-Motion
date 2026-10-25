@@ -13,66 +13,56 @@ export function TruthModelComparison({
   truth,
   confidence,
   className = '',
-  theme = 'dark',
 }: TruthModelComparisonProps) {
   const correct =
     prediction.toLowerCase().trim() === truth.toLowerCase().trim() && prediction !== 'UNKNOWN';
-  const isDark = theme === 'dark';
 
   return (
     <div
-      className={`truth-grid grid grid-cols-2 sm:grid-cols-4 gap-3 rounded-xl border p-4 font-mono text-xs shadow-xs ${
-        isDark
-          ? 'border-[#252A35] bg-[#11141A]'
-          : 'border-[#E5E0D8] bg-[#FFFFFF]'
-      } ${className}`}
+      className={`truth-grid grid grid-cols-2 sm:grid-cols-4 gap-3 rounded-xl border border-[var(--border)] bg-[var(--surface)] text-[var(--text-primary)] p-4 text-xs shadow-xs ${className}`}
     >
-      <div className={`p-3 rounded-lg border ${isDark ? 'bg-[#151922] border-[#252A35]' : 'bg-[#FAF8F5] border-[#EAE6DF]'}`}>
-        <span className={`text-xs block tracking-wider uppercase font-bold ${isDark ? 'text-[#8F96A3]' : 'text-[#716F68]'}`}>
-          Ground Truth
+      <div className="p-3 rounded-lg border border-[var(--border)] bg-[var(--surface-soft)]">
+        <span className="text-xs block uppercase font-semibold text-[var(--text-secondary)]">
+          Ground truth
         </span>
-        <strong className={`font-serif text-base tracking-wide block mt-1 ${isDark ? 'text-white' : 'text-[#151515]'}`}>
+        <strong className="font-serif text-base font-bold block mt-1 text-[var(--text-primary)]">
           {truth}
         </strong>
       </div>
 
-      <div className={`p-3 rounded-lg border ${isDark ? 'bg-[#151922] border-[#252A35]' : 'bg-[#FAF8F5] border-[#EAE6DF]'}`}>
-        <span className={`text-xs block tracking-wider uppercase font-bold ${isDark ? 'text-[#8F96A3]' : 'text-[#716F68]'}`}>
-          Model Output
+      <div className="p-3 rounded-lg border border-[var(--border)] bg-[var(--surface-soft)]">
+        <span className="text-xs block uppercase font-semibold text-[var(--text-secondary)]">
+          Model output
         </span>
-        <strong className={`font-serif text-base tracking-wide block mt-1 ${
-          correct
-            ? isDark ? 'text-emerald-400' : 'text-[#247A4B]'
-            : isDark ? 'text-rose-400' : 'text-[#B64235]'
-        }`}>
+        <strong
+          className={`font-serif text-base font-bold block mt-1 ${
+            correct ? 'text-[var(--accent-green-text)]' : 'text-[var(--accent-pink-text)]'
+          }`}
+        >
           {prediction}
         </strong>
       </div>
 
       <div
-        className={`p-3 rounded-lg border ${isDark ? 'bg-[#151922] border-[#252A35]' : 'bg-[#FAF8F5] border-[#EAE6DF]'}`}
-        title="This score is based on representation similarity and is not a calibrated probability."
+        className="p-3 rounded-lg border border-[var(--border)] bg-[var(--surface-soft)]"
+        title="Cosine similarity between the retrieved representation and a candidate value representation. This is not a calibrated probability."
       >
-        <span className={`text-xs block tracking-wider uppercase font-bold ${isDark ? 'text-[#8F96A3]' : 'text-[#716F68]'}`}>
-          Retrieval Score
+        <span className="text-xs block uppercase font-semibold text-[var(--text-secondary)]">
+          Retrieval score
         </span>
-        <strong className={`font-serif text-base tracking-wide block mt-1 ${isDark ? 'text-[#22D3EE]' : 'text-[#167C80]'}`}>
+        <strong className="font-mono text-base font-bold block mt-1 text-[var(--accent-blue-text)]">
           {Math.round(confidence * 100)}%
         </strong>
       </div>
 
       <div
-        className={`p-3 rounded-lg border flex items-center justify-center font-bold text-xs tracking-wider uppercase transition-colors ${
+        className={`p-3 rounded-lg border flex items-center justify-center font-semibold text-xs tracking-wider transition-colors ${
           correct
-            ? isDark
-              ? 'bg-emerald-950/40 border-emerald-500/40 text-emerald-300'
-              : 'bg-[#EDF8F2] border-[#CDEEDB] text-[#247A4B]'
-            : isDark
-            ? 'bg-rose-950/40 border-rose-500/40 text-rose-300'
-            : 'bg-[#FDF2F0] border-[#F7D3CF] text-[#B64235]'
+            ? 'bg-[var(--accent-green)] border-[var(--border)] text-[var(--accent-green-text)]'
+            : 'bg-[var(--accent-pink)] border-[var(--border)] text-[var(--accent-pink-text)]'
         }`}
       >
-        {correct ? '✓ CORRECT' : '✗ INTERFERENCE'}
+        {correct ? '✓ Correct' : 'Interference detected'}
       </div>
     </div>
   );

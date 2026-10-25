@@ -23,10 +23,11 @@ export const SynapticWeightHeatmap: React.FC<SynapticWeightHeatmapProps> = ({
   const [hoveredCell, setHoveredCell] = useState<{
     i: number;
     j: number;
-    weight: number;
+    baseWeight: number;
     plasticState: number;
     effectiveWeight: number;
     flux: number;
+    isCoincident: boolean;
   } | null>(null);
 
   // Playback timer

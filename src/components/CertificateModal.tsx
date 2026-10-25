@@ -136,19 +136,19 @@ Status: ${certData.milestonesCount}/${certData.totalMilestones} Experiments Veri
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-[#252525]/45 backdrop-blur-xs overflow-y-auto no-print">
-      <div className="relative w-full max-w-4xl bg-[#FFFFFF] rounded-xl border border-[#D9DCD8] shadow-2xl p-5 sm:p-8 space-y-6 max-h-[92vh] overflow-y-auto text-[#252525]">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-black/50 backdrop-blur-xs overflow-y-auto no-print">
+      <div className="relative w-full max-w-4xl bg-[var(--surface)] rounded-xl border border-[var(--border)] shadow-2xl p-5 sm:p-8 space-y-6 max-h-[92vh] overflow-y-auto text-[var(--text-primary)]">
         {/* Modal Header */}
-        <div className="flex items-center justify-between border-b border-[#D9DCD8] pb-4">
+        <div className="flex items-center justify-between border-b border-[var(--border)] pb-4">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-lg bg-[#DCEFE2] text-[#24452E] border border-[#C5DDCB] flex items-center justify-center">
+            <div className="w-10 h-10 rounded-lg bg-[var(--accent-green)] text-[var(--accent-green-text)] border border-[var(--border)] flex items-center justify-center">
               <Award className="w-5 h-5" />
             </div>
             <div>
-              <h3 className="text-lg sm:text-xl font-serif font-bold text-[#252525]">
+              <h3 className="text-lg sm:text-xl font-serif font-bold text-[var(--text-primary)]">
                 Certificate of Completion
               </h3>
-              <p className="text-xs text-[#5F625F] font-sans">
+              <p className="text-xs text-[var(--text-secondary)] font-sans">
                 Attestation for In-Context Learning with Recurrent Memory.
               </p>
             </div>
@@ -158,7 +158,7 @@ Status: ${certData.milestonesCount}/${certData.totalMilestones} Experiments Veri
             {isUnlocked && (
               <button
                 onClick={() => triggerConfettiExplosion()}
-                className="px-3 py-1.5 rounded-lg bg-[#FAF8F5] hover:bg-[#F0EDE6] text-[#24452E] border border-[#C5DDCB] font-sans text-xs font-semibold flex items-center gap-1.5 transition-all shadow-2xs cursor-pointer"
+                className="px-3 py-1.5 rounded-lg bg-[var(--surface-soft)] hover:bg-[var(--surface)] text-[var(--accent-green-text)] border border-[var(--border)] font-sans text-xs font-semibold flex items-center gap-1.5 transition-all shadow-2xs cursor-pointer"
                 title="Celebrate achievement again with confetti"
               >
                 <Sparkles className="w-3.5 h-3.5 text-[#F59E0B]" />
@@ -168,7 +168,7 @@ Status: ${certData.milestonesCount}/${certData.totalMilestones} Experiments Veri
 
             <button
               onClick={onClose}
-              className="p-2 rounded-md text-[#5F625F] hover:text-[#252525] hover:bg-[#F0F1EF] transition-all cursor-pointer"
+              className="p-2 rounded-md text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--surface-soft)] transition-all cursor-pointer"
               aria-label="Close modal"
             >
               <X className="w-5 h-5" />
@@ -178,15 +178,15 @@ Status: ${certData.milestonesCount}/${certData.totalMilestones} Experiments Veri
 
         {/* LOCKED STATE */}
         {!isUnlocked && (
-          <div className="p-6 rounded-lg bg-[#F7F5EF] border border-[#D9DCD8] text-center space-y-4">
-            <div className="w-12 h-12 rounded-full bg-[#FFFFFF] border border-[#D9DCD8] flex items-center justify-center mx-auto text-[#5F625F]">
+          <div className="p-6 rounded-lg bg-[var(--surface-soft)] border border-[var(--border)] text-center space-y-4">
+            <div className="w-12 h-12 rounded-full bg-[var(--surface)] border border-[var(--border)] flex items-center justify-center mx-auto text-[var(--text-secondary)]">
               <Lock className="w-5 h-5" />
             </div>
             <div className="space-y-1 max-w-md mx-auto">
-              <h4 className="font-serif font-bold text-base text-[#252525]">
+              <h4 className="font-serif font-bold text-base text-[var(--text-primary)]">
                 Complete Stage 07 (Prove) to Unlock
               </h4>
-              <p className="text-xs text-[#5F625F] font-sans leading-relaxed">
+              <p className="text-xs text-[var(--text-secondary)] font-sans leading-relaxed">
                 The certificate is earned by completing the experimental challenges and the evaluation in Stage 07. You currently have {milestonesCount} of {totalMilestones} milestones recorded.
               </p>
             </div>
@@ -207,16 +207,16 @@ Status: ${certData.milestonesCount}/${certData.totalMilestones} Experiments Veri
 
         {/* UNLOCKED BUT NOT YET GENERATED */}
         {isUnlocked && !isGenerated && (
-          <div className="p-6 rounded-lg bg-[#F7F5EF] border border-[#D9DCD8] space-y-4">
+          <div className="p-6 rounded-lg bg-[var(--surface-soft)] border border-[var(--border)] space-y-4">
             <div className="flex items-center gap-3">
-              <div className="w-8 h-8 rounded-md bg-[#E7F2FA] text-[#21445B] flex items-center justify-center font-bold">
+              <div className="w-8 h-8 rounded-md bg-[var(--accent-blue)] text-[var(--accent-blue-text)] flex items-center justify-center font-bold">
                 <Sparkles className="w-4 h-4" />
               </div>
               <div>
-                <h4 className="font-serif font-bold text-base text-[#252525]">
+                <h4 className="font-serif font-bold text-base text-[var(--text-primary)]">
                   Verification Complete — Ready to Generate
                 </h4>
-                <p className="text-xs text-[#5F625F] font-sans">
+                <p className="text-xs text-[var(--text-secondary)] font-sans">
                   Enter your full name to generate your personalized Certificate of Completion.
                 </p>
               </div>
@@ -228,7 +228,7 @@ Status: ${certData.milestonesCount}/${certData.totalMilestones} Experiments Veri
                 value={learnerName}
                 onChange={(e) => handleNameChange(e.target.value)}
                 placeholder="Enter your full name (e.g. Alexandra Elizabeth Johnson)"
-                className="flex-1 px-4 py-2.5 rounded-md bg-[#FFFFFF] border border-[#D9DCD8] text-[#252525] focus:outline-none focus:border-[#2B6282] font-sans text-sm"
+                className="flex-1 px-4 py-2.5 rounded-md bg-[var(--surface)] border border-[var(--border)] text-[var(--text-primary)] placeholder:text-[var(--text-muted)] focus:outline-none focus:border-[var(--accent-blue-text)] font-sans text-sm"
               />
               <button
                 onClick={handleGenerate}
@@ -244,12 +244,12 @@ Status: ${certData.milestonesCount}/${certData.totalMilestones} Experiments Veri
         {isUnlocked && isGenerated && (
           <>
             {/* Name Configuration Row */}
-            <div className="flex flex-wrap items-center justify-between gap-4 p-4 rounded-lg bg-[#F7F5EF] border border-[#D9DCD8]">
+            <div className="flex flex-wrap items-center justify-between gap-4 p-4 rounded-lg bg-[var(--surface-soft)] border border-[var(--border)]">
               <div className="space-y-0.5">
-                <label className="text-xs font-sans font-bold text-[#252525] block">
+                <label className="text-xs font-sans font-bold text-[var(--text-primary)] block">
                   Recipient Name on Certificate
                 </label>
-                <p className="text-[11px] text-[#5F625F] font-sans">
+                <p className="text-[11px] text-[var(--text-secondary)] font-sans">
                   Need to adjust your name? Update here to refresh the document.
                 </p>
               </div>
@@ -259,21 +259,21 @@ Status: ${certData.milestonesCount}/${certData.totalMilestones} Experiments Veri
                 value={learnerName}
                 onChange={(e) => handleNameChange(e.target.value)}
                 placeholder="e.g. Alexandra Elizabeth Johnson"
-                className="px-4 py-2 rounded-md bg-[#FFFFFF] border border-[#D9DCD8] text-[#252525] focus:outline-none focus:border-[#2B6282] font-sans text-sm w-full sm:w-64"
+                className="px-4 py-2 rounded-md bg-[var(--surface)] border border-[var(--border)] text-[var(--text-primary)] placeholder:text-[var(--text-muted)] focus:outline-none focus:border-[var(--accent-blue-text)] font-sans text-sm w-full sm:w-64"
               />
             </div>
 
             {/* Live A4 Portrait Certificate Document */}
-            <div className="certificate-print-wrapper py-2 overflow-x-auto flex justify-center bg-[#F0F1EF] rounded-lg p-4 sm:p-6 border border-[#D9DCD8]">
+            <div className="certificate-print-wrapper py-2 overflow-x-auto flex justify-center bg-[var(--surface-soft)] rounded-lg p-4 sm:p-6 border border-[var(--border)]">
               <CertificateDocument data={certData} />
             </div>
 
             {/* Action Controls */}
-            <div className="flex flex-wrap items-center justify-between gap-3 pt-2 border-t border-[#D9DCD8]">
-              <div className="flex items-center gap-3 text-xs text-[#5F625F] font-sans">
+            <div className="flex flex-wrap items-center justify-between gap-3 pt-2 border-t border-[var(--border)]">
+              <div className="flex items-center gap-3 text-xs text-[var(--text-secondary)] font-sans">
                 <span>Layout: Fixed A4 Portrait (210mm × 297mm) · 16mm safe margins</span>
                 {modalStatus && (
-                  <span className="px-2 py-0.5 rounded bg-[#DCEFE2] text-[#24452E] font-mono text-[10px] font-semibold flex items-center gap-1">
+                  <span className="px-2 py-0.5 rounded bg-[var(--accent-green)] text-[var(--accent-green-text)] font-mono text-[10px] font-semibold flex items-center gap-1">
                     <CheckCircle2 className="w-3 h-3" />
                     <span>{modalStatus}</span>
                   </span>
@@ -286,9 +286,9 @@ Status: ${certData.milestonesCount}/${certData.totalMilestones} Experiments Veri
                   className="btn btn-secondary text-xs"
                 >
                   {copied ? (
-                    <CheckCircle2 className="w-4 h-4 text-[#24452E]" />
+                    <CheckCircle2 className="w-4 h-4 text-[var(--accent-green-text)]" />
                   ) : (
-                    <Copy className="w-4 h-4 text-[#5F625F]" />
+                    <Copy className="w-4 h-4 text-[var(--text-secondary)]" />
                   )}
                   <span>{copied ? 'Copied' : 'Copy Text'}</span>
                 </button>
@@ -297,7 +297,7 @@ Status: ${certData.milestonesCount}/${certData.totalMilestones} Experiments Veri
                   onClick={handlePrint}
                   className="btn btn-secondary text-xs"
                 >
-                  <Printer className="w-4 h-4 text-[#5F625F]" />
+                  <Printer className="w-4 h-4 text-[var(--text-secondary)]" />
                   <span>Print / Save as PDF</span>
                 </button>
 

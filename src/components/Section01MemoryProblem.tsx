@@ -28,7 +28,7 @@ export const Section01MemoryProblem: React.FC = () => {
   ].slice(0, tokenCount);
 
   return (
-    <section id="section-01" className="scroll-mt-20 border-b border-[#E5E0D8] bg-[#FBF9F5] py-16">
+    <section id="section-01" className="scroll-mt-20 border-b border-[var(--border)] bg-[var(--page-bg)] py-16">
       <div className="max-w-[1400px] mx-auto px-4 sm:px-6">
         <SectionHeader
           number="01"
@@ -46,7 +46,7 @@ export const Section01MemoryProblem: React.FC = () => {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
           {/* Left Column: Context, Sliders & Core Scientific Question */}
           <div className="lg:col-span-5 space-y-6">
-            <div className="rounded-2xl border border-[#E5E0D8] bg-[#FFFFFF] p-6 space-y-5 shadow-xs">
+            <div className="rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-6 space-y-5 shadow-xs">
               <h3 className="text-xs font-mono uppercase tracking-widest text-[#167C80] font-bold">
                 System interface dynamics
               </h3>

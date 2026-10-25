@@ -144,35 +144,35 @@ export const FinalChallenge: React.FC = () => {
   };
 
   return (
-    <div id="final-challenge" className="rounded-2xl border border-[#252A35] bg-[#0A0D16] p-5 sm:p-7 text-slate-100 shadow-2xl space-y-6">
+    <div id="final-challenge" className="rounded-xl border border-[#D8DCD8] bg-[#FFFFFF] p-5 sm:p-7 text-[#252525] shadow-xs space-y-6">
       {/* Header Banner */}
-      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[#1E2538] pb-4">
+      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[#EAE6DF] pb-4">
         <div className="space-y-1">
           <div className="flex items-center gap-2">
-            <span className="text-xs font-mono uppercase tracking-wider text-cyan-400 bg-cyan-950/60 border border-cyan-800/60 px-2.5 py-0.5 rounded-md font-bold flex items-center gap-1.5">
+            <span className="text-xs uppercase tracking-wider text-[#31566E] bg-[#E7F2FA] border border-[#B8D7ED] px-2.5 py-0.5 rounded-md font-semibold flex items-center gap-1.5">
               <Target className="w-3.5 h-3.5" />
-              EVERSIVE EVALUATION
+              Empirical evaluation
             </span>
-            <span className="text-xs font-mono uppercase tracking-wider text-purple-300 bg-purple-950/70 border border-purple-800/60 px-2.5 py-0.5 rounded-md font-bold">
-              HYPOTHESIS STRESS TEST
+            <span className="text-xs uppercase tracking-wider text-[#8C5D17] bg-[#FFF5D8] border border-[#E8D9A8] px-2.5 py-0.5 rounded-md font-semibold">
+              Hypothesis stress test
             </span>
           </div>
-          <h3 className="text-2xl sm:text-3xl font-serif font-normal text-white tracking-tight">
-            NOW BREAK YOUR OWN CLAIM
+          <h3 className="text-2xl sm:text-3xl font-serif font-bold text-[#252525] tracking-tight">
+            Stress-test the boundary conditions
           </h3>
-          <p className="text-xs sm:text-sm text-slate-400 font-sans max-w-2xl leading-relaxed">
-            Rigorous science requires attempting to falsify our own claims. Push recurrent memory past its boundary conditions: predict where the mathematical mechanism breaks, run the deterministic probe, and uncover the failure mode.
+          <p className="text-xs sm:text-sm text-[#5F625F] font-sans max-w-2xl leading-relaxed">
+            Rigorous inquiry requires investigating where our models encounter limits. Probe recurrent memory past its boundary conditions: predict where the mathematical mechanism encounters interference, run the deterministic probe, and observe the result.
           </p>
         </div>
 
-        <div className="flex items-center gap-2 font-mono text-xs">
-          <span className="text-slate-400">
-            ROUND <strong className="text-white">{Math.min(currentRound, 3)}</strong> OF 3
+        <div className="flex items-center gap-2 text-xs">
+          <span className="text-[#5F625F]">
+            Round <strong className="text-[#252525]">{Math.min(currentRound, 3)}</strong> of 3
           </span>
           <button
             onClick={handleResetChallenge}
-            className="p-1.5 rounded-lg bg-[#141A28] border border-[#232D42] text-slate-400 hover:text-white transition"
-            title="Restart Challenge"
+            className="p-1.5 rounded-lg bg-[#FFFFFF] hover:bg-[#F7F5EF] border border-[#D8DCD8] text-[#5F625F] hover:text-[#252525] transition cursor-pointer"
+            title="Restart challenge"
           >
             <RotateCcw className="w-3.5 h-3.5" />
           </button>
@@ -182,28 +182,28 @@ export const FinalChallenge: React.FC = () => {
       {/* ROUND 1: Blind Capacity & Retention */}
       {currentRound === 1 && (
         <div className="space-y-5 animate-in fade-in">
-          <div className="p-4 rounded-xl bg-[#0F1424] border border-[#1F2942] space-y-3">
-            <div className="text-xs font-mono text-cyan-400 font-bold uppercase">
-              ROUND 1: BLIND MEMORY TRIAL
+          <div className="p-4 rounded-xl bg-[#F7F5EF] border border-[#D8DCD8] space-y-3">
+            <div className="text-xs text-[#31566E] font-semibold uppercase">
+              Round 1: Comparative memory trial
             </div>
-            <p className="text-xs sm:text-sm text-slate-300 font-sans">
+            <p className="text-xs sm:text-sm text-[#5F625F] font-sans">
               Two hidden memory systems are presented with the exact same sequence of {testFacts.length} sequential world facts. Which system will retrieve more facts correctly?
             </p>
 
             {/* Hidden Systems Cards */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2 font-mono text-xs">
-              <div className="p-4 rounded-lg bg-[#0A0D18] border border-[#252E44] space-y-2">
-                <div className="text-cyan-300 font-bold text-sm">SYSTEM A</div>
-                <div className="text-slate-400 text-[11px] space-y-1">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2 text-xs">
+              <div className="p-4 rounded-lg bg-[#FFFFFF] border border-[#D8DCD8] space-y-2 shadow-2xs">
+                <div className="text-[#31566E] font-semibold text-sm">System A</div>
+                <div className="text-[#5F625F] text-[11px] font-mono space-y-1">
                   <div>Dimension: [???]</div>
                   <div>Retention Rate: [???]</div>
                   <div>Interference: [???]</div>
                 </div>
               </div>
 
-              <div className="p-4 rounded-lg bg-[#0A0D18] border border-[#252E44] space-y-2">
-                <div className="text-purple-300 font-bold text-sm">SYSTEM B</div>
-                <div className="text-slate-400 text-[11px] space-y-1">
+              <div className="p-4 rounded-lg bg-[#FFFFFF] border border-[#D8DCD8] space-y-2 shadow-2xs">
+                <div className="text-[#8C5D17] font-semibold text-sm">System B</div>
+                <div className="text-[#5F625F] text-[11px] font-mono space-y-1">
                   <div>Dimension: [???]</div>
                   <div>Retention Rate: [???]</div>
                   <div>Interference: [???]</div>
@@ -214,19 +214,19 @@ export const FinalChallenge: React.FC = () => {
 
           {/* Prediction Selection */}
           {!testRevealed ? (
-            <div className="p-4 rounded-xl bg-[#0A0E18] border border-[#1A2234] space-y-3">
-              <div className="text-xs font-mono text-slate-400 uppercase font-semibold">
-                YOUR PREDICTION:
+            <div className="p-4 rounded-xl bg-[#FFFFFF] border border-[#D8DCD8] space-y-3 shadow-2xs">
+              <div className="text-xs text-[#5F625F] uppercase font-semibold">
+                Your prediction:
               </div>
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 font-mono text-xs">
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
                 {['A', 'B', 'Not enough information'].map((opt) => (
                   <button
                     key={opt}
                     onClick={() => setUserPrediction(opt)}
-                    className={`p-3 rounded-lg border text-center transition font-bold cursor-pointer ${
+                    className={`p-3 rounded-lg border text-center transition font-medium cursor-pointer ${
                       userPrediction === opt
-                        ? 'bg-[#E7F2FA] border-[#2B6282] text-[#21445B] ring-1 ring-[#2B6282]'
-                        : 'bg-[#121828] border-[#202B40] text-slate-300 hover:text-white hover:bg-[#161F34]'
+                        ? 'bg-[#E7F2FA] border-[#B8D7ED] text-[#31566E] font-semibold'
+                        : 'bg-[#F7F5EF] border-[#D8DCD8] text-[#5F625F] hover:text-[#252525] hover:bg-[#F1F2F0]'
                     }`}
                   >
                     {opt === 'A'
@@ -242,61 +242,61 @@ export const FinalChallenge: React.FC = () => {
                 <button
                   disabled={!userPrediction}
                   onClick={handleTestPrediction}
-                  className="btn btn-primary text-xs font-bold disabled:opacity-40 flex items-center gap-2 cursor-pointer"
+                  className="px-4 py-2 rounded-lg bg-[#DCEFE2] hover:bg-[#CDE8D5] text-[#245B38] border border-[#BCE2C9] text-xs font-semibold disabled:opacity-40 flex items-center gap-2 cursor-pointer shadow-2xs"
                 >
                   <Play className="w-3.5 h-3.5 fill-current" />
-                  <span>RUN EXPERIMENT & REVEAL</span>
+                  <span>Run experiment & reveal</span>
                 </button>
               </div>
             </div>
           ) : (
             /* Revealed Test Results & Explanation */
             <div className="space-y-4 animate-in fade-in">
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 font-mono text-xs">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs font-mono">
                 {/* Revealed System A */}
-                <div className="p-4 rounded-xl bg-[#0A0D18] border border-cyan-800/40 space-y-2">
-                  <div className="flex justify-between items-center text-cyan-300 font-bold">
-                    <span>SYSTEM A REVEALED</span>
+                <div className="p-4 rounded-xl bg-[#FFFFFF] border border-[#D8DCD8] space-y-2 shadow-2xs">
+                  <div className="flex justify-between items-center text-[#31566E] font-semibold">
+                    <span>System A revealed</span>
                     <span>{r1A.accuracy}% Acc</span>
                   </div>
-                  <div className="text-slate-300 space-y-1 text-[11px]">
-                    <div>Dimension: <strong className="text-white">{r1A.dim}D</strong> (Constrained)</div>
-                    <div>Retention: <strong className="text-white">{(r1A.retention * 100).toFixed(0)}%</strong> (Rapid Decay)</div>
+                  <div className="text-[#5F625F] space-y-1 text-[11px]">
+                    <div>Dimension: <strong className="text-[#252525]">{r1A.dim}D</strong> (Constrained)</div>
+                    <div>Retention: <strong className="text-[#252525]">{(r1A.retention * 100).toFixed(0)}%</strong> (Rapid Decay)</div>
                     <div>Correct: {r1A.correctCount} / {r1A.total} facts</div>
                   </div>
                 </div>
 
                 {/* Revealed System B */}
-                <div className="p-4 rounded-xl bg-[#0A0D18] border border-purple-800/40 space-y-2">
-                  <div className="flex justify-between items-center text-purple-300 font-bold">
-                    <span>SYSTEM B REVEALED</span>
-                    <span className="text-emerald-400">{r1B.accuracy}% Acc</span>
+                <div className="p-4 rounded-xl bg-[#FFFFFF] border border-[#D8DCD8] space-y-2 shadow-2xs">
+                  <div className="flex justify-between items-center text-[#8C5D17] font-semibold">
+                    <span>System B revealed</span>
+                    <span className="text-[#247A4B]">{r1B.accuracy}% Acc</span>
                   </div>
-                  <div className="text-slate-300 space-y-1 text-[11px]">
-                    <div>Dimension: <strong className="text-white">{r1B.dim}D</strong> (Higher Capacity)</div>
-                    <div>Retention: <strong className="text-white">{(r1B.retention * 100).toFixed(0)}%</strong> (Strong Persistence)</div>
+                  <div className="text-[#5F625F] space-y-1 text-[11px]">
+                    <div>Dimension: <strong className="text-[#252525]">{r1B.dim}D</strong> (Higher Capacity)</div>
+                    <div>Retention: <strong className="text-[#252525]">{(r1B.retention * 100).toFixed(0)}%</strong> (Strong Persistence)</div>
                     <div>Correct: {r1B.correctCount} / {r1B.total} facts</div>
                   </div>
                 </div>
               </div>
 
               {/* Explanation of Observed Result */}
-              <div className="p-4 rounded-xl bg-[#0E1424] border border-[#1E2740] space-y-2 font-mono text-xs">
-                <div className="text-white font-bold flex items-center gap-2">
+              <div className="p-4 rounded-xl bg-[#F7F5EF] border border-[#D8DCD8] space-y-2 text-xs">
+                <div className="text-[#252525] font-semibold flex items-center gap-2">
                   {userPrediction === 'B' ? (
-                    <CheckCircle2 className="w-4 h-4 text-emerald-400" />
+                    <CheckCircle2 className="w-4 h-4 text-[#247A4B]" />
                   ) : (
-                    <XCircle className="w-4 h-4 text-amber-400" />
+                    <XCircle className="w-4 h-4 text-[#8C5D17]" />
                   )}
                   <span>
                     {userPrediction === 'B'
-                      ? 'Correct Prediction!'
+                      ? 'Correct prediction'
                       : userPrediction === 'Not enough information'
-                      ? 'A reasonable conservative guess, but System B holds a definitive parameter advantage!'
-                      : 'Incorrect: System A suffered severe temporal decay and limited dimension.'}
+                      ? 'A reasonable conservative guess, but System B holds a definitive parameter advantage'
+                      : 'Observed outcome: System A experienced temporal decay and limited coordinate capacity.'}
                   </span>
                 </div>
-                <p className="text-slate-300 font-sans text-xs leading-relaxed">
+                <p className="text-[#5F625F] font-sans text-xs leading-relaxed">
                   System B combines higher orthogonal vector capacity (16D vs 8D) with high retention (95% vs 72%). In System A, earlier facts decayed exponentially while later facts collided in the cramped 8-dimensional space.
                 </p>
               </div>
@@ -304,9 +304,9 @@ export const FinalChallenge: React.FC = () => {
               <div className="flex justify-end">
                 <button
                   onClick={handleNextRound}
-                  className="btn btn-secondary text-xs font-bold flex items-center gap-1.5 cursor-pointer"
+                  className="px-3.5 py-2 rounded-lg bg-[#FFFFFF] hover:bg-[#F7F5EF] border border-[#D8DCD8] text-[#252525] text-xs font-semibold flex items-center gap-1.5 cursor-pointer shadow-2xs"
                 >
-                  <span>Proceed to Round 2</span>
+                  <span>Proceed to round 2</span>
                   <ArrowRight className="w-3.5 h-3.5" />
                 </button>
               </div>
@@ -318,46 +318,46 @@ export const FinalChallenge: React.FC = () => {
       {/* ROUND 2: High Interference vs Clean Separation */}
       {currentRound === 2 && (
         <div className="space-y-5 animate-in fade-in">
-          <div className="p-4 rounded-xl bg-[#0F1424] border border-[#1F2942] space-y-3">
-            <div className="text-xs font-mono text-purple-400 font-bold uppercase">
-              ROUND 2: DIMENSION VS. INTERFERENCE
+          <div className="p-4 rounded-xl bg-[#F7F5EF] border border-[#D8DCD8] space-y-3">
+            <div className="text-xs text-[#31566E] font-semibold uppercase">
+              Round 2: Dimension vs. Interference
             </div>
-            <p className="text-xs sm:text-sm text-slate-300 font-sans">
-              Hint: System A has a much larger state dimension (32D), but is subjected to 85% correlated key interference. System B has only a 16D state, but has near-zero interference. Which will retrieve more facts correctly?
+            <p className="text-xs sm:text-sm text-[#5F625F] font-sans">
+              System A has a larger state dimension (32D), but is subjected to 85% correlated key interference. System B has a 16D state with near-zero interference. Which will retrieve more facts correctly?
             </p>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2 font-mono text-xs">
-              <div className="p-4 rounded-lg bg-[#0A0D18] border border-[#252E44] space-y-1">
-                <div className="text-cyan-300 font-bold text-sm">SYSTEM A</div>
-                <div className="text-slate-400 text-[11px]">Dimension: 32D | High Key Correlation (85%)</div>
+              <div className="p-4 rounded-lg bg-[#FFFFFF] border border-[#D8DCD8] space-y-1 shadow-2xs">
+                <div className="text-[#31566E] font-semibold text-sm">System A</div>
+                <div className="text-[#5F625F] text-[11px]">Dimension: 32D | High Key Correlation (85%)</div>
               </div>
-              <div className="p-4 rounded-lg bg-[#0A0D18] border border-[#252E44] space-y-1">
-                <div className="text-purple-300 font-bold text-sm">SYSTEM B</div>
-                <div className="text-slate-400 text-[11px]">Dimension: 16D | Clean Orthogonal Keys (5%)</div>
+              <div className="p-4 rounded-lg bg-[#FFFFFF] border border-[#D8DCD8] space-y-1 shadow-2xs">
+                <div className="text-[#8C5D17] font-semibold text-sm">System B</div>
+                <div className="text-[#5F625F] text-[11px]">Dimension: 16D | Clean Orthogonal Keys (5%)</div>
               </div>
             </div>
           </div>
 
           {!testRevealed ? (
-            <div className="p-4 rounded-xl bg-[#0A0E18] border border-[#1A2234] space-y-3">
-              <div className="text-xs font-mono text-slate-400 uppercase font-semibold">
-                YOUR PREDICTION:
+            <div className="p-4 rounded-xl bg-[#FFFFFF] border border-[#D8DCD8] space-y-3 shadow-2xs">
+              <div className="text-xs text-[#5F625F] uppercase font-semibold">
+                Your prediction:
               </div>
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 font-mono text-xs">
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
                 {['A', 'B', 'They will perform similarly'].map((opt) => (
                   <button
                     key={opt}
                     onClick={() => setUserPrediction(opt)}
-                    className={`p-3 rounded-lg border text-center transition font-bold cursor-pointer ${
+                    className={`p-3 rounded-lg border text-center transition font-medium cursor-pointer ${
                       userPrediction === opt
-                        ? 'bg-[#E7F2FA] border-[#2B6282] text-[#21445B] ring-1 ring-[#2B6282]'
-                        : 'bg-[#121828] border-[#202B40] text-slate-300 hover:text-white hover:bg-[#161F34]'
+                        ? 'bg-[#E7F2FA] border-[#B8D7ED] text-[#31566E] font-semibold'
+                        : 'bg-[#F7F5EF] border-[#D8DCD8] text-[#5F625F] hover:text-[#252525] hover:bg-[#F1F2F0]'
                     }`}
                   >
                     {opt === 'A'
-                      ? 'System A (Larger Dimension wins)'
+                      ? 'System A (Larger dimension)'
                       : opt === 'B'
-                      ? 'System B (Clean Orthogonality wins)'
+                      ? 'System B (Orthogonality)'
                       : 'They will perform similarly'}
                   </button>
                 ))}
@@ -367,51 +367,51 @@ export const FinalChallenge: React.FC = () => {
                 <button
                   disabled={!userPrediction}
                   onClick={handleTestPrediction}
-                  className="btn btn-primary text-xs font-bold disabled:opacity-40 flex items-center gap-2 cursor-pointer"
+                  className="px-4 py-2 rounded-lg bg-[#DCEFE2] hover:bg-[#CDE8D5] text-[#245B38] border border-[#BCE2C9] text-xs font-semibold disabled:opacity-40 flex items-center gap-2 cursor-pointer shadow-2xs"
                 >
                   <Play className="w-3.5 h-3.5 fill-current" />
-                  <span>RUN EXPERIMENT & REVEAL</span>
+                  <span>Run experiment & reveal</span>
                 </button>
               </div>
             </div>
           ) : (
             <div className="space-y-4 animate-in fade-in">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 font-mono text-xs">
-                <div className="p-4 rounded-xl bg-[#0A0D18] border border-cyan-800/40 space-y-2">
-                  <div className="flex justify-between items-center text-cyan-300 font-bold">
-                    <span>SYSTEM A: 32D HIGH-INTERFERENCE</span>
-                    <span className="text-rose-400">{r2A.accuracy}% Acc</span>
+                <div className="p-4 rounded-xl bg-[#FFFFFF] border border-[#D8DCD8] space-y-2 shadow-2xs">
+                  <div className="flex justify-between items-center text-[#31566E] font-semibold">
+                    <span>System A: 32D High-Interference</span>
+                    <span className="text-[#B64235]">{r2A.accuracy}% Acc</span>
                   </div>
-                  <div className="text-slate-400 text-[11px]">
-                    Despite 32 dimensions, high correlation caused fatal superposition cross-talk ({r2A.correctCount}/{r2A.total} correct).
+                  <div className="text-[#5F625F] text-[11px]">
+                    Despite 32 dimensions, high correlation caused coordinate cross-talk ({r2A.correctCount}/{r2A.total} correct).
                   </div>
                 </div>
 
-                <div className="p-4 rounded-xl bg-[#0A0D18] border border-purple-800/40 space-y-2">
-                  <div className="flex justify-between items-center text-purple-300 font-bold">
-                    <span>SYSTEM B: 16D CLEAN ORTHOGONAL</span>
-                    <span className="text-emerald-400">{r2B.accuracy}% Acc</span>
+                <div className="p-4 rounded-xl bg-[#FFFFFF] border border-[#D8DCD8] space-y-2 shadow-2xs">
+                  <div className="flex justify-between items-center text-[#8C5D17] font-semibold">
+                    <span>System B: 16D Orthogonal</span>
+                    <span className="text-[#247A4B]">{r2B.accuracy}% Acc</span>
                   </div>
-                  <div className="text-slate-400 text-[11px]">
-                    Near-zero interference allowed clean uncorrupted retrieval ({r2B.correctCount}/{r2B.total} correct).
+                  <div className="text-[#5F625F] text-[11px]">
+                    Low interference permitted clean uncorrupted retrieval ({r2B.correctCount}/{r2B.total} correct).
                   </div>
                 </div>
               </div>
 
-              <div className="p-4 rounded-xl bg-[#0E1424] border border-[#1E2740] space-y-2 font-mono text-xs">
-                <div className="text-white font-bold flex items-center gap-2">
+              <div className="p-4 rounded-xl bg-[#F7F5EF] border border-[#D8DCD8] space-y-2 text-xs">
+                <div className="text-[#252525] font-semibold flex items-center gap-2">
                   {userPrediction === 'B' ? (
-                    <CheckCircle2 className="w-4 h-4 text-emerald-400" />
+                    <CheckCircle2 className="w-4 h-4 text-[#247A4B]" />
                   ) : (
-                    <XCircle className="w-4 h-4 text-amber-400" />
+                    <XCircle className="w-4 h-4 text-[#8C5D17]" />
                   )}
                   <span>
                     {userPrediction === 'B'
-                      ? 'Spot on! Orthogonality outweighs raw dimension.'
-                      : 'Surprising result! High interference ruins even wide dimensional matrices.'}
+                      ? 'Orthogonality outweighs raw dimension'
+                      : 'Observed result: High correlation impairs retrieval even with wider dimensional matrices.'}
                   </span>
                 </div>
-                <p className="text-slate-300 font-sans text-xs leading-relaxed">
+                <p className="text-[#5F625F] font-sans text-xs leading-relaxed">
                   When keys are correlated, adding dimensions does not prevent them from projecting onto overlapping coordinate subspaces. Clean orthogonality is the fundamental currency of associative retrieval.
                 </p>
               </div>
@@ -419,9 +419,9 @@ export const FinalChallenge: React.FC = () => {
               <div className="flex justify-end">
                 <button
                   onClick={handleNextRound}
-                  className="btn btn-secondary text-xs font-bold flex items-center gap-1.5 cursor-pointer"
+                  className="px-3.5 py-2 rounded-lg bg-[#FFFFFF] hover:bg-[#F7F5EF] border border-[#D8DCD8] text-[#252525] text-xs font-semibold flex items-center gap-1.5 cursor-pointer shadow-2xs"
                 >
-                  <span>Proceed to Final Capstone</span>
+                  <span>Proceed to synthesis</span>
                   <ArrowRight className="w-3.5 h-3.5" />
                 </button>
               </div>
@@ -434,15 +434,15 @@ export const FinalChallenge: React.FC = () => {
       {currentRound >= 3 && (
         <div className="space-y-6 animate-in fade-in">
           {/* Diagnostic Question */}
-          <div className="p-5 rounded-xl bg-[#0F1424] border border-[#1F2A44] space-y-4 font-mono text-xs">
-            <div className="text-xs text-amber-400 font-bold uppercase">
-              ROUND 3: CAUSAL INTERFERENCE DIAGNOSTIC
+          <div className="p-5 rounded-xl bg-[#F7F5EF] border border-[#D8DCD8] space-y-4 text-xs">
+            <div className="text-xs text-[#8C5D17] font-semibold uppercase">
+              Round 3: Causal interference diagnostic
             </div>
-            <div className="text-sm font-bold text-white">
-              Which architectural change is most effective at preventing catastrophic interference in a fixed-size recurrent state?
+            <div className="text-sm font-semibold text-[#252525]">
+              Which architectural change is most effective at reducing interference in a fixed-size recurrent state?
             </div>
 
-            <div className="space-y-2 font-mono text-xs">
+            <div className="space-y-2 text-xs">
               {[
                 {
                   id: 'dim-ortho',
@@ -474,18 +474,18 @@ export const FinalChallenge: React.FC = () => {
                       window.dispatchEvent(new CustomEvent('final_challenge_completed'));
                     }
                   }}
-                  className={`w-full p-3 rounded-lg border text-left transition flex items-center justify-between ${
+                  className={`w-full p-3 rounded-lg border text-left transition flex items-center justify-between cursor-pointer ${
                     round3SelectedAction === opt.id
                       ? opt.correct
-                        ? 'bg-emerald-950/60 border-emerald-500 text-emerald-200 font-bold'
-                        : 'bg-rose-950/60 border-rose-500 text-rose-200'
-                      : 'bg-[#121828] border-[#202B40] text-slate-300 hover:text-white'
+                        ? 'bg-[#DCEFE2] border-[#BCE2C9] text-[#247A4B] font-semibold'
+                        : 'bg-[#F9E9ED] border-[#F2CAD2] text-[#B64235]'
+                      : 'bg-[#FFFFFF] border-[#D8DCD8] text-[#5F625F] hover:text-[#252525]'
                   }`}
                 >
                   <span>{opt.label}</span>
                   {round3SelectedAction === opt.id && (
-                    <span className="ml-2 font-bold">
-                      {opt.correct ? '✓ MECHANICALLY VALID' : '✕ INEFFECTIVE'}
+                    <span className="ml-2 font-semibold">
+                      {opt.correct ? '✓ Mechanically valid' : '✕ Ineffective'}
                     </span>
                   )}
                 </button>
@@ -493,35 +493,35 @@ export const FinalChallenge: React.FC = () => {
             </div>
           </div>
 
-          {/* YOU CAN EXPLAIN THE MECHANISM Master Card */}
-          <div className="p-6 rounded-2xl bg-gradient-to-b from-[#0F1524] to-[#0A0D16] border border-emerald-500/40 space-y-5 shadow-xl">
-            <div className="flex flex-wrap items-center justify-between gap-4 border-b border-[#1D273E] pb-4">
+          {/* Synthesis Master Card */}
+          <div className="p-6 rounded-xl bg-[#FFFFFF] border border-[#D8DCD8] space-y-5 shadow-xs">
+            <div className="flex flex-wrap items-center justify-between gap-4 border-b border-[#EAE6DF] pb-4">
               <div className="flex items-center gap-3">
-                <div className="p-2.5 rounded-xl bg-emerald-950 border border-emerald-700 text-emerald-400">
+                <div className="p-2.5 rounded-xl bg-[#DCEFE2] border border-[#BCE2C9] text-[#247A4B]">
                   <ShieldCheck className="w-6 h-6" />
                 </div>
                 <div>
-                  <div className="text-xs font-mono uppercase text-emerald-400 font-bold">
-                    EVALUATION COMPLETE
+                  <div className="text-xs uppercase text-[#247A4B] font-semibold">
+                    Evaluation complete
                   </div>
-                  <h4 className="text-lg sm:text-xl font-bold font-mono text-white">
-                    YOU CAN EXPLAIN THE MECHANISM
+                  <h4 className="text-lg sm:text-xl font-serif font-bold text-[#252525]">
+                    Understanding verified
                   </h4>
                 </div>
               </div>
 
               <button
                 onClick={() => window.dispatchEvent(new CustomEvent('open_certificate_modal'))}
-                className="btn btn-primary text-xs font-bold flex items-center gap-2 cursor-pointer shadow-lg hover:shadow-emerald-900/30"
+                className="px-4 py-2 rounded-lg bg-[#DCEFE2] hover:bg-[#CDE8D5] text-[#245B38] border border-[#BCE2C9] text-xs font-semibold flex items-center gap-2 cursor-pointer shadow-2xs"
               >
-                <Award className="w-4 h-4 text-[#FFD700]" />
-                <span>View Attestation Certificate</span>
-                <Sparkles className="w-3.5 h-3.5 text-[#FFD700]" />
+                <Award className="w-4 h-4 text-[#8C5D17]" />
+                <span>View attestation certificate</span>
+                <Sparkles className="w-3.5 h-3.5 text-[#8C5D17]" />
               </button>
             </div>
 
             {/* Verified Capabilities Checklist */}
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 font-mono text-xs">
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 text-xs">
               {[
                 'Fixed-size state',
                 'Information persistence',
@@ -532,19 +532,19 @@ export const FinalChallenge: React.FC = () => {
               ].map((item) => (
                 <div
                   key={item}
-                  className="p-3 rounded-lg bg-[#070912] border border-emerald-500/30 flex items-center gap-2 text-slate-200"
+                  className="p-3 rounded-lg bg-[#F7F5EF] border border-[#EAE6DF] flex items-center gap-2 text-[#252525]"
                 >
-                  <CheckCircle2 className="w-4 h-4 text-emerald-400 flex-shrink-0" />
+                  <CheckCircle2 className="w-4 h-4 text-[#247A4B] shrink-0" />
                   <span>{item}</span>
                 </div>
               ))}
             </div>
 
             {/* Where Does Memory Live in BDH? Section */}
-            <div className="p-4 rounded-xl bg-[#090C16] border border-purple-500/30 space-y-3 font-mono text-xs">
-              <div className="text-purple-300 font-bold uppercase text-xs flex items-center gap-2">
-                <Brain className="w-4 h-4 text-purple-400" />
-                FINAL INQUIRY: WHERE DOES MEMORY LIVE IN BDH?
+            <div className="p-4 rounded-xl bg-[#F7F5EF] border border-[#D8DCD8] space-y-3 text-xs">
+              <div className="text-[#31566E] font-semibold uppercase text-xs flex items-center gap-2">
+                <Brain className="w-4 h-4 text-[#31566E]" />
+                Research context: Where does memory reside in BDH?
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
@@ -556,12 +556,12 @@ export const FinalChallenge: React.FC = () => {
                   <button
                     key={opt.id}
                     onClick={() => setSelectedBdhMemoryLocation(opt.id)}
-                    className={`p-3 rounded-lg border text-center transition font-bold cursor-pointer ${
+                    className={`p-3 rounded-lg border text-center transition font-medium cursor-pointer ${
                       selectedBdhMemoryLocation === opt.id
                         ? opt.correct
-                          ? 'bg-[#DCEFE2] border-[#2E683D] text-[#24452E]'
-                          : 'bg-[#F9E9ED] border-[#9E372B] text-[#6B2835]'
-                        : 'bg-[#121626] border-[#222B42] text-slate-400 hover:text-white'
+                          ? 'bg-[#DCEFE2] border-[#BCE2C9] text-[#245B38] font-semibold'
+                          : 'bg-[#F9E9ED] border-[#F2CAD2] text-[#B64235]'
+                        : 'bg-[#FFFFFF] border-[#D8DCD8] text-[#5F625F] hover:text-[#252525]'
                     }`}
                   >
                     {opt.label}
@@ -570,15 +570,15 @@ export const FinalChallenge: React.FC = () => {
               </div>
 
               {selectedBdhMemoryLocation === 'synaptic' && (
-                <div className="p-3 rounded-lg bg-[#E7F2FA] border border-[#2B6282] text-[#21445B] space-y-2 animate-in fade-in">
+                <div className="p-3.5 rounded-lg bg-[#E7F2FA] border border-[#B8D7ED] text-[#31566E] space-y-2 animate-in fade-in">
                   <p className="text-xs font-sans">
-                    <strong>Exactly correct:</strong> Working memory lives in continuous synaptic edge plasticity ($\sigma$), updated in-place via 4-phase local particle relaxation.
+                    <strong>Confirmed:</strong> Working memory resides in continuous synaptic edge plasticity ($\sigma$), updated in-place via local particle relaxation without allocating new token memory.
                   </p>
                   <button
                     onClick={scrollToBdhExplorer}
-                    className="inline-flex items-center gap-2 text-xs font-mono font-bold text-[#2B6282] hover:underline cursor-pointer"
+                    className="inline-flex items-center gap-2 text-xs font-semibold text-[#31566E] hover:underline cursor-pointer"
                   >
-                    <span>Inspect Synaptic Weights in the BDH Microscope (Section 08)</span>
+                    <span>Inspect synaptic states in the BDH interactive microscope</span>
                     <ArrowRight className="w-3.5 h-3.5" />
                   </button>
                 </div>

@@ -3,8 +3,10 @@ import { ExperimentConfig } from '../types/experiment';
 import { CheckCircle2, AlertTriangle, ArrowRight, ShieldCheck, Activity } from 'lucide-react';
 
 export interface ParameterDeltaProps {
-  prevConfig: ExperimentConfig;
-  currConfig: ExperimentConfig;
+  prevConfig?: Partial<ExperimentConfig>;
+  currConfig?: Partial<ExperimentConfig>;
+  prev?: Partial<ExperimentConfig>;
+  curr?: Partial<ExperimentConfig>;
   prevResult?: {
     prediction: string;
     confidence: number;
@@ -19,12 +21,16 @@ export interface ParameterDeltaProps {
 }
 
 export const ParameterDelta: React.FC<ParameterDeltaProps> = ({
-  prevConfig,
-  currConfig,
+  prevConfig: rawPrevConfig,
+  currConfig: rawCurrConfig,
+  prev,
+  curr,
   prevResult,
   currResult,
   queryKey = 'Japan',
 }) => {
+  const prevConfig = (rawPrevConfig || prev || {}) as ExperimentConfig;
+  const currConfig = (rawCurrConfig || curr || {}) as ExperimentConfig;
   // Find changed parameters
   const paramNames: (keyof ExperimentConfig)[] = [
     'dimension',
@@ -99,43 +105,43 @@ export const ParameterDelta: React.FC<ParameterDeltaProps> = ({
   const singleParam = changedParams[0];
 
   return (
-    <div className="rounded-xl border border-[#222B3D] bg-[#0A0E18] p-4 font-mono text-xs space-y-3 animate-in fade-in duration-200">
+    <div className="rounded-xl border border-[#D8DCD8] bg-[#F7F5EF] p-4 text-xs space-y-3 animate-in fade-in duration-200">
       {/* Header Banner */}
-      <div className="flex flex-wrap items-center justify-between gap-2 border-b border-[#1C2436] pb-2.5">
+      <div className="flex flex-wrap items-center justify-between gap-2 border-b border-[#EAE6DF] pb-2.5">
         <div className="flex items-center gap-2">
-          <Activity className="w-4 h-4 text-[#22D3EE]" />
-          <span className="font-bold text-white uppercase tracking-wider text-xs">
-            WHAT CHANGED?
+          <Activity className="w-4 h-4 text-[#31566E]" />
+          <span className="font-semibold text-[#252525] uppercase tracking-wider text-xs font-sans">
+            What changed?
           </span>
         </div>
 
         {isSingleVariable ? (
-          <span className="px-2 py-0.5 rounded bg-emerald-950/70 border border-emerald-500/40 text-emerald-300 text-xs font-bold uppercase flex items-center gap-1">
-            <CheckCircle2 className="w-3 h-3 text-emerald-400" />
-            CONTROLLED COMPARISON (1 VARIABLE)
+          <span className="px-2.5 py-0.5 rounded bg-[#DCEFE2] border border-[#BCE2C9] text-[#247A4B] text-xs font-semibold flex items-center gap-1">
+            <CheckCircle2 className="w-3 h-3 text-[#247A4B]" />
+            Controlled comparison (1 variable)
           </span>
         ) : (
-          <span className="px-2 py-0.5 rounded bg-amber-950/70 border border-amber-500/40 text-amber-300 text-xs font-bold uppercase flex items-center gap-1">
-            <AlertTriangle className="w-3 h-3 text-amber-400" />
-            MULTI-VARIABLE CHANGE ({changedParams.length} VARIABLES)
+          <span className="px-2.5 py-0.5 rounded bg-[#FFF5D8] border border-[#E8D9A8] text-[#8C5D17] text-xs font-semibold flex items-center gap-1">
+            <AlertTriangle className="w-3 h-3 text-[#8C5D17]" />
+            Multi-variable change ({changedParams.length} variables)
           </span>
         )}
       </div>
 
       {/* Parameter Delta Display */}
       <div className="space-y-1.5">
-        <span className="text-xs text-slate-400 uppercase">PARAMETER DELTA:</span>
+        <span className="text-xs text-[#5F625F] uppercase font-medium">Parameter delta:</span>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
           {changedParams.map((p) => (
             <div
               key={p.key}
-              className="p-2.5 rounded-lg bg-[#111624] border border-[#232B3E] flex items-center justify-between"
+              className="p-2.5 rounded-lg bg-[#FFFFFF] border border-[#D8DCD8] flex items-center justify-between shadow-2xs"
             >
-              <span className="text-slate-300 font-semibold">{p.name}</span>
-              <div className="flex items-center gap-1.5 font-bold">
-                <span className="text-rose-400">{p.oldVal}</span>
-                <ArrowRight className="w-3 h-3 text-slate-500" />
-                <span className="text-emerald-400">{p.newVal}</span>
+              <span className="text-[#252525] font-medium">{p.name}</span>
+              <div className="flex items-center gap-1.5 font-mono font-bold">
+                <span className="text-[#B64235]">{p.oldVal}</span>
+                <ArrowRight className="w-3 h-3 text-[#5F625F]" />
+                <span className="text-[#247A4B]">{p.newVal}</span>
               </div>
             </div>
           ))}
@@ -145,42 +151,42 @@ export const ParameterDelta: React.FC<ParameterDeltaProps> = ({
       {/* Output Changes (Before vs After) */}
       {prevResult && currResult && (
         <div className="space-y-1.5 pt-1">
-          <span className="text-xs text-slate-400 uppercase">OUTPUT CHANGES FOR PROBE "{queryKey}":</span>
+          <span className="text-xs text-[#5F625F] uppercase font-medium">Output changes for probe "{queryKey}":</span>
           <div className="grid grid-cols-3 gap-2 text-center text-xs">
             {/* Prediction */}
-            <div className="p-2 rounded bg-[#0E131E] border border-[#1E2536]">
-              <span className="text-xs text-slate-400 block uppercase">PREDICTION</span>
-              <div className="flex items-center justify-center gap-1 mt-0.5">
-                <span className={prevResult.isCorrect ? 'text-emerald-400' : 'text-rose-400'}>
+            <div className="p-2 rounded-lg bg-[#FFFFFF] border border-[#D8DCD8] shadow-2xs">
+              <span className="text-xs text-[#5F625F] block uppercase font-medium">Prediction</span>
+              <div className="flex items-center justify-center gap-1 mt-0.5 font-serif font-semibold">
+                <span className={prevResult.isCorrect ? 'text-[#247A4B]' : 'text-[#B64235]'}>
                   {prevResult.prediction}
                 </span>
-                <ArrowRight className="w-2.5 h-2.5 text-slate-500" />
-                <span className={currResult.isCorrect ? 'text-emerald-400 font-bold' : 'text-rose-400 font-bold'}>
+                <ArrowRight className="w-2.5 h-2.5 text-[#5F625F]" />
+                <span className={currResult.isCorrect ? 'text-[#247A4B] font-bold' : 'text-[#B64235] font-bold'}>
                   {currResult.prediction}
                 </span>
               </div>
             </div>
 
             {/* Retrieval Score */}
-            <div className="p-2 rounded bg-[#0E131E] border border-[#1E2536]" title="This score is based on representation similarity and is not a calibrated probability.">
-              <span className="text-xs text-slate-400 block uppercase">RETRIEVAL SCORE</span>
-              <div className="flex items-center justify-center gap-1 mt-0.5">
-                <span className="text-slate-400">{Math.round(prevResult.confidence * 100)}%</span>
-                <ArrowRight className="w-2.5 h-2.5 text-slate-500" />
-                <span className="text-[#22D3EE] font-bold">{Math.round(currResult.confidence * 100)}%</span>
+            <div className="p-2 rounded-lg bg-[#FFFFFF] border border-[#D8DCD8] shadow-2xs" title="Cosine similarity between retrieved representation and candidate. This is not a calibrated probability.">
+              <span className="text-xs text-[#5F625F] block uppercase font-medium">Retrieval score</span>
+              <div className="flex items-center justify-center gap-1 mt-0.5 font-mono">
+                <span className="text-[#5F625F]">{Math.round(prevResult.confidence * 100)}%</span>
+                <ArrowRight className="w-2.5 h-2.5 text-[#5F625F]" />
+                <span className="text-[#31566E] font-bold">{Math.round(currResult.confidence * 100)}%</span>
               </div>
             </div>
 
             {/* Accuracy / Status */}
-            <div className="p-2 rounded bg-[#0E131E] border border-[#1E2536]">
-              <span className="text-xs text-slate-400 block uppercase">STATUS</span>
-              <div className="flex items-center justify-center gap-1 mt-0.5 font-bold">
-                <span className={prevResult.isCorrect ? 'text-emerald-400' : 'text-rose-400'}>
-                  {prevResult.isCorrect ? 'PASS' : 'FAIL'}
+            <div className="p-2 rounded-lg bg-[#FFFFFF] border border-[#D8DCD8] shadow-2xs">
+              <span className="text-xs text-[#5F625F] block uppercase font-medium">Status</span>
+              <div className="flex items-center justify-center gap-1 mt-0.5 font-sans font-semibold">
+                <span className={prevResult.isCorrect ? 'text-[#247A4B]' : 'text-[#B64235]'}>
+                  {prevResult.isCorrect ? 'Pass' : 'Collision'}
                 </span>
-                <ArrowRight className="w-2.5 h-2.5 text-slate-500" />
-                <span className={currResult.isCorrect ? 'text-emerald-400' : 'text-rose-400'}>
-                  {currResult.isCorrect ? 'PASS' : 'FAIL'}
+                <ArrowRight className="w-2.5 h-2.5 text-[#5F625F]" />
+                <span className={currResult.isCorrect ? 'text-[#247A4B]' : 'text-[#B64235]'}>
+                  {currResult.isCorrect ? 'Pass' : 'Collision'}
                 </span>
               </div>
             </div>
@@ -189,14 +195,14 @@ export const ParameterDelta: React.FC<ParameterDeltaProps> = ({
       )}
 
       {/* What Stayed Fixed? */}
-      <div className="pt-2 border-t border-[#1C2436] flex flex-wrap items-center justify-between gap-2 text-xs text-slate-400">
+      <div className="pt-2 border-t border-[#EAE6DF] flex flex-wrap items-center justify-between gap-2 text-xs text-[#5F625F]">
         <div>
-          <span className="text-slate-300 font-bold">HELD CONSTANT: </span>
+          <span className="text-[#252525] font-semibold">Held constant: </span>
           <span>{constantParams.join(', ')} · Dataset (Canonical Facts) · Seed {currConfig.seed}</span>
         </div>
 
         {isMultiVariable && (
-          <span className="text-amber-400 italic">
+          <span className="text-[#8C5D17] italic">
             *Multiple variables shifted simultaneously; outcome cannot be attributed to a single cause.
           </span>
         )}

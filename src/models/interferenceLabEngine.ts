@@ -33,6 +33,36 @@ export const DEFAULT_INTERFERENCE_CONFIG: InterferenceConfig = {
   targetKey: 'Japan',
 };
 
+// Global shared state tracker for diagnostic observation and error recovery
+let lastActiveExperimentConfig: InterferenceConfig = { ...DEFAULT_INTERFERENCE_CONFIG };
+let lastValidExperimentConfig: InterferenceConfig = { ...DEFAULT_INTERFERENCE_CONFIG };
+
+export function setActiveExperimentConfig(config: InterferenceConfig): void {
+  lastActiveExperimentConfig = { ...config };
+}
+
+export function getActiveExperimentConfig(): InterferenceConfig {
+  return { ...lastActiveExperimentConfig };
+}
+
+export function setLastValidExperimentConfig(config: InterferenceConfig): void {
+  lastValidExperimentConfig = { ...config };
+}
+
+export function getLastValidExperimentConfig(): InterferenceConfig {
+  return { ...lastValidExperimentConfig };
+}
+
+/**
+ * Re-executes the last valid experiment configuration before the failure occurred.
+ * Restores and computes the state using the verified valid parameter snapshot.
+ */
+export function reexecuteLastValidExperiment(): ExperimentResult {
+  const validConfig = getLastValidExperimentConfig();
+  setActiveExperimentConfig(validConfig);
+  return runInterferenceExperiment(validConfig);
+}
+
 /**
  * Deterministic pseudo-random noise generator using a linear congruential generator (LCG).
  * Returns noise in range [-1, 1].
@@ -92,6 +122,11 @@ export function generateFacts(sequenceLength: number, seed: number = 42, targetK
  * 8. Return comprehensive ExperimentResult
  */
 export function runInterferenceExperiment(config: InterferenceConfig): ExperimentResult {
+  // Sync active configuration for diagnostics and error boundary capture
+  if (config) {
+    setActiveExperimentConfig(config);
+  }
+
   const {
     dimension: rawDim,
     sequenceLength,
@@ -181,6 +216,11 @@ export function runInterferenceExperiment(config: InterferenceConfig): Experimen
   // Compute state similarity with pure target vector
   const targetValVec = vector(groundTruth, dim);
   const stateSimilarityWithTarget = Number(cosine(retrieved, targetValVec).toFixed(4));
+
+  // Save this verified configuration as the last valid state before any subsequent failure
+  if (config) {
+    setLastValidExperimentConfig(config);
+  }
 
   return {
     prediction,

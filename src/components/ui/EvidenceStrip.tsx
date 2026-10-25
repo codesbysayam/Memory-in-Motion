@@ -4,7 +4,7 @@ import { ShieldCheck, BookOpen, Binary, Eye, Sparkles } from 'lucide-react';
 
 interface EvidenceStripProps {
   type: EvidenceType;
-  detail?: string;
+  detail?: React.ReactNode;
   className?: string;
 }
 

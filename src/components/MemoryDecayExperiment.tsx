@@ -134,23 +134,23 @@ export const MemoryDecayExperiment: React.FC = () => {
   const currentStepData = simulationData.history[selectedStep] || simulationData.history[0];
 
   return (
-    <div className="rounded-2xl border border-[#252A35] bg-[#0A0D15] p-5 sm:p-7 text-slate-100 shadow-2xl space-y-6">
+    <div className="rounded-xl border border-[var(--border)] bg-[var(--surface)] p-5 sm:p-7 text-[var(--text-primary)] shadow-xs space-y-6">
       {/* Header Banner */}
-      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[#1E2536] pb-4">
+      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[var(--border)] pb-4">
         <div className="space-y-1">
           <div className="flex items-center gap-2">
-            <span className="text-xs font-mono uppercase tracking-wider text-cyan-400 bg-cyan-950/60 border border-cyan-800/60 px-2.5 py-0.5 rounded-md font-bold">
-              EXPERIMENT: MEMORY DECAY & FORGETTING
+            <span className="text-xs font-sans text-[var(--accent-blue-text)] bg-[var(--accent-blue)] border border-[var(--border)] px-2.5 py-0.5 rounded-md font-semibold">
+              Experiment: memory decay & retention
             </span>
-            <span className="text-xs font-mono uppercase tracking-wider text-amber-300 bg-amber-950/70 border border-amber-800/60 px-2.5 py-0.5 rounded-md font-bold">
-              TOY COMPUTATION
+            <span className="text-xs font-sans text-[var(--text-secondary)] bg-[var(--surface-soft)] border border-[var(--border)] px-2.5 py-0.5 rounded-md font-semibold">
+              Educational toy
             </span>
           </div>
-          <h3 className="text-xl sm:text-2xl font-bold font-mono text-white tracking-tight">
-            WHAT HAPPENS OVER REPEATED RECURRENT UPDATES?
+          <h3 className="text-xl sm:text-2xl font-serif font-bold text-[var(--text-primary)] tracking-tight">
+            What happens over repeated recurrent updates?
           </h3>
-          <p className="text-xs sm:text-sm text-slate-400 font-sans max-w-2xl">
-            Write <strong className="text-white">France → Paris</strong>, then execute repeated recurrent updates with no new relevant information. Control retention to observe how fast the associative state degrades.
+          <p className="text-xs sm:text-sm text-[var(--text-secondary)] font-sans max-w-2xl">
+            Write <strong className="text-[var(--text-primary)]">France → Paris</strong>, then execute repeated recurrent updates with no new relevant information. Control retention to observe how fast the associative state degrades.
           </p>
         </div>
 
@@ -160,20 +160,20 @@ export const MemoryDecayExperiment: React.FC = () => {
             setTotalUpdates(10);
             setSelectedStep(5);
           }}
-          className="px-3 py-1.5 rounded-lg bg-[#141A28] border border-[#232D42] text-xs font-mono text-slate-300 hover:text-white flex items-center gap-1.5 transition"
+          className="px-3 py-1.5 rounded-lg bg-[var(--surface)] border border-[var(--border)] text-xs font-sans text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--surface-soft)] flex items-center gap-1.5 transition cursor-pointer"
         >
           <RotateCcw className="w-3.5 h-3.5" />
-          <span>Reset Defaults</span>
+          <span>Reset defaults</span>
         </button>
       </div>
 
       {/* Control Sliders */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 p-4 rounded-xl bg-[#0F1422] border border-[#1C2538]">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 p-4 rounded-lg bg-[var(--surface-soft)] border border-[var(--border)]">
         {/* Retention Slider */}
         <div className="space-y-2">
-          <div className="flex justify-between items-center text-xs font-mono">
-            <span className="text-slate-400">RETENTION (λ):</span>
-            <strong className="text-cyan-400 font-mono text-sm">{retentionPercent}%</strong>
+          <div className="flex justify-between items-center text-xs font-sans">
+            <span className="text-[var(--text-secondary)]">Retention (λ):</span>
+            <strong className="text-[var(--accent-blue-text)] font-mono text-sm">{retentionPercent}%</strong>
           </div>
           <input
             type="range"
@@ -182,19 +182,19 @@ export const MemoryDecayExperiment: React.FC = () => {
             step="5"
             value={retentionPercent}
             onChange={(e) => setRetentionPercent(Number(e.target.value))}
-            className="w-full accent-cyan-400 cursor-pointer h-1.5 bg-slate-800 rounded-lg"
+            className="w-full accent-[var(--accent-blue-text)] cursor-pointer h-1.5 bg-[var(--border)] rounded-lg"
           />
-          <div className="flex justify-between text-xs font-mono text-slate-500">
-            <span>0% (Instant Loss)</span>
+          <div className="flex justify-between text-xs font-sans text-[var(--text-muted)]">
+            <span>0% (Instant loss)</span>
             <span>100% (Lossless)</span>
           </div>
         </div>
 
         {/* Update Steps */}
         <div className="space-y-2">
-          <div className="flex justify-between items-center text-xs font-mono">
-            <span className="text-slate-400">NUMBER OF UPDATES:</span>
-            <strong className="text-purple-400 font-mono text-sm">{totalUpdates} STEPS</strong>
+          <div className="flex justify-between items-center text-xs font-sans">
+            <span className="text-[var(--text-secondary)]">Number of updates:</span>
+            <strong className="text-[var(--text-primary)] font-mono text-sm">{totalUpdates} steps</strong>
           </div>
           <input
             type="range"
@@ -207,70 +207,70 @@ export const MemoryDecayExperiment: React.FC = () => {
               setTotalUpdates(val);
               if (selectedStep > val) setSelectedStep(val);
             }}
-            className="w-full accent-purple-400 cursor-pointer h-1.5 bg-slate-800 rounded-lg"
+            className="w-full accent-[var(--accent-blue-text)] cursor-pointer h-1.5 bg-[var(--border)] rounded-lg"
           />
-          <div className="flex justify-between text-xs font-mono text-slate-500">
-            <span>3 Steps</span>
-            <span>15 Steps</span>
+          <div className="flex justify-between text-xs font-sans text-[var(--text-muted)]">
+            <span>3 steps</span>
+            <span>15 steps</span>
           </div>
         </div>
 
         {/* Distractor Type */}
         <div className="space-y-2">
-          <div className="text-xs font-mono text-slate-400">UPDATE DYNAMICS:</div>
+          <div className="text-xs font-sans text-[var(--text-secondary)]">Update dynamics:</div>
           <div className="grid grid-cols-2 gap-2">
             <button
               onClick={() => setDistractorType('neutral')}
-              className={`py-2 px-2.5 rounded-lg border text-xs font-mono transition ${
+              className={`py-2 px-2.5 rounded-lg border text-xs font-sans transition cursor-pointer ${
                 distractorType === 'neutral'
-                  ? 'bg-cyan-950/60 border-cyan-500 text-cyan-200 font-bold'
-                  : 'bg-[#151C2C] border-[#222D42] text-slate-400 hover:text-white'
+                  ? 'bg-[var(--accent-blue)] border-[var(--border)] text-[var(--accent-blue-text)] font-semibold'
+                  : 'bg-[var(--surface)] border-[var(--border)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--surface-soft)]'
               }`}
             >
-              Neutral Pass (λ·M)
+              Neutral pass (λ·M)
             </button>
             <button
               onClick={() => setDistractorType('unrelated')}
-              className={`py-2 px-2.5 rounded-lg border text-xs font-mono transition ${
+              className={`py-2 px-2.5 rounded-lg border text-xs font-sans transition cursor-pointer ${
                 distractorType === 'unrelated'
-                  ? 'bg-purple-950/60 border-purple-500 text-purple-200 font-bold'
-                  : 'bg-[#151C2C] border-[#222D42] text-slate-400 hover:text-white'
+                  ? 'bg-[var(--accent-blue)] border-[var(--border)] text-[var(--accent-blue-text)] font-semibold'
+                  : 'bg-[var(--surface)] border-[var(--border)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--surface-soft)]'
               }`}
             >
-              With Distractors
+              With distractors
             </button>
           </div>
         </div>
       </div>
 
       {/* Plot: Number of Updates vs Retrieval Score */}
-      <div className="p-4 rounded-xl bg-[#0C101A] border border-[#1E2638] space-y-4">
-        <div className="flex flex-wrap items-center justify-between gap-2 border-b border-[#182132] pb-2 text-xs font-mono">
-          <span className="text-white font-bold flex items-center gap-2" title="This score is based on representation similarity and is not a calibrated probability.">
-            <Activity className="w-4 h-4 text-cyan-400" />
-            PLOT: NUMBER OF UPDATES VS. RETRIEVAL SCORE
+      <div className="p-4 rounded-lg bg-[var(--surface-soft)] border border-[var(--border)] space-y-4">
+        <div className="flex flex-wrap items-center justify-between gap-2 border-b border-[var(--border)] pb-2 text-xs font-sans">
+          <span className="text-[var(--text-primary)] font-semibold flex items-center gap-2" title="This score is based on representation similarity and is not a calibrated probability.">
+            <Activity className="w-4 h-4 text-[var(--accent-blue-text)]" />
+            Plot: number of updates vs. retrieval score
           </span>
           <div className="flex items-center gap-3 text-xs">
-            <span className="flex items-center gap-1 text-emerald-400">
-              <span className="w-2.5 h-2.5 rounded-full bg-emerald-400" />
+            <span className="flex items-center gap-1 text-[var(--accent-green-text)]">
+              <span className="w-2.5 h-2.5 rounded-full bg-[var(--accent-green-text)]" />
               Correct (Paris)
             </span>
-            <span className="flex items-center gap-1 text-amber-400">
-              <span className="w-2.5 h-2.5 rounded-full bg-amber-400" />
-              Degraded / Fail
+            <span className="flex items-center gap-1 text-[var(--accent-yellow-text)]">
+              <span className="w-2.5 h-2.5 rounded-full bg-[var(--accent-yellow-text)]" />
+              Degraded / fail
             </span>
           </div>
         </div>
 
         {/* Graphical Bars Display */}
-        <div className="grid grid-cols-4 sm:grid-cols-8 md:grid-cols-16 gap-1.5 items-end h-44 pt-4 px-2 bg-[#070912] rounded-lg border border-[#151C2C] relative">
+        <div className="grid grid-cols-4 sm:grid-cols-8 md:grid-cols-16 gap-1.5 items-end h-44 pt-4 px-2 bg-[var(--surface)] rounded-lg border border-[var(--border)] relative">
           {/* Threshold Line at 55% */}
           <div
-            className="absolute left-0 right-0 border-b border-dashed border-amber-500/40 pointer-events-none flex items-center justify-end pr-2"
+            className="absolute left-0 right-0 border-b border-dashed border-[var(--accent-yellow-text)]/60 pointer-events-none flex items-center justify-end pr-2"
             style={{ bottom: '55%' }}
           >
-            <span className="text-xs font-mono text-amber-400/80 bg-[#070912] px-1 rounded">
-              Reliability Threshold (55%)
+            <span className="text-xs font-sans text-[var(--accent-yellow-text)] bg-[var(--surface)] px-1 rounded font-medium">
+              Reliability threshold (55%)
             </span>
           </div>
 
@@ -287,8 +287,8 @@ export const MemoryDecayExperiment: React.FC = () => {
               >
                 {/* Unreliable Marker Banner */}
                 {isUnreliableMarker && (
-                  <div className="mb-1 bg-rose-950 border border-rose-500 text-rose-300 text-xs font-mono font-bold px-1 py-0.5 rounded whitespace-nowrap z-10 animate-bounce">
-                    UNRELIABLE
+                  <div className="mb-1 bg-[var(--accent-pink)] border border-[var(--border)] text-[var(--accent-pink-text)] text-[10px] font-sans font-semibold px-1 py-0.5 rounded whitespace-nowrap z-10">
+                    Unreliable
                   </div>
                 )}
 
@@ -296,18 +296,18 @@ export const MemoryDecayExperiment: React.FC = () => {
                   className={`w-full rounded-t transition-all ${
                     pt.isCorrect
                       ? isSelected
-                        ? 'bg-cyan-400 shadow-md shadow-cyan-500/50'
-                        : 'bg-cyan-600/70 hover:bg-cyan-500'
+                        ? 'bg-[var(--accent-green-text)] shadow-xs'
+                        : 'bg-[var(--accent-green)] hover:opacity-80'
                       : isSelected
-                      ? 'bg-rose-500 shadow-md shadow-rose-500/50'
-                      : 'bg-rose-700/60 hover:bg-rose-600'
+                      ? 'bg-[var(--accent-pink-text)] shadow-xs'
+                      : 'bg-[var(--accent-pink)] hover:opacity-80'
                   }`}
                   style={{ height: `${heightPercent}%` }}
                 />
 
                 <span
                   className={`text-xs font-mono mt-1 ${
-                    isSelected ? 'text-white font-bold' : 'text-slate-500 group-hover:text-slate-300'
+                    isSelected ? 'text-[var(--text-primary)] font-bold' : 'text-[var(--text-muted)] group-hover:text-[var(--text-primary)]'
                   }`}
                 >
                   t={pt.step}
@@ -319,59 +319,59 @@ export const MemoryDecayExperiment: React.FC = () => {
 
         {/* Dynamic Vertical Marker Explanation */}
         {simulationData.unreliableStep !== null ? (
-          <div className="p-2.5 rounded-lg bg-rose-950/40 border border-rose-500/40 text-xs font-mono text-rose-300 flex items-center gap-2">
-            <AlertTriangle className="w-4 h-4 text-rose-400 flex-shrink-0" />
+          <div className="p-2.5 rounded-lg bg-[var(--accent-pink)] border border-[var(--border)] text-xs font-sans text-[var(--accent-pink-text)] flex items-center gap-2">
+            <AlertTriangle className="w-4 h-4 text-[var(--accent-pink-text)] flex-shrink-0" />
             <span>
-              <strong>MEMORY BECOMES UNRELIABLE AT STEP {simulationData.unreliableStep}:</strong>{' '}
+              <strong>Memory becomes unreliable at step {simulationData.unreliableStep}:</strong>{' '}
               Retrieval score dropped below recognition threshold due to repeated retention attenuation (λ ={' '}
               {retentionPercent}%).
             </span>
           </div>
         ) : (
-          <div className="p-2.5 rounded-lg bg-emerald-950/30 border border-emerald-500/30 text-xs font-mono text-emerald-300 flex items-center gap-2">
-            <CheckCircle2 className="w-4 h-4 text-emerald-400 flex-shrink-0" />
+          <div className="p-2.5 rounded-lg bg-[var(--accent-green)] border border-[var(--border)] text-xs font-sans text-[var(--accent-green-text)] flex items-center gap-2">
+            <CheckCircle2 className="w-4 h-4 text-[var(--accent-green-text)] flex-shrink-0" />
             <span>
-              <strong>MEMORY REMAINS RELIABLE:</strong> At λ = {retentionPercent}%, Paris was successfully retrieved across all {totalUpdates} updates.
+              <strong>Memory remains reliable:</strong> At λ = {retentionPercent}%, Paris was successfully retrieved across all {totalUpdates} updates.
             </span>
           </div>
         )}
       </div>
 
       {/* Selected Step Inspector & Actual State Heatmap */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-5 p-4 rounded-xl bg-[#090D18] border border-[#1B2336]">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-5 p-4 rounded-lg bg-[var(--surface-soft)] border border-[var(--border)]">
         {/* Step Telemetry */}
-        <div className="space-y-3 font-mono text-xs">
-          <div className="flex items-center justify-between border-b border-[#182134] pb-2">
-            <span className="text-slate-400">INSPECTED STEP:</span>
-            <strong className="text-white text-sm">Step t = {currentStepData.step}</strong>
+        <div className="p-3.5 rounded-lg bg-[var(--surface)] border border-[var(--border)] space-y-3 font-sans text-xs">
+          <div className="flex items-center justify-between border-b border-[var(--border)] pb-2">
+            <span className="text-[var(--text-secondary)]">Inspected step:</span>
+            <strong className="text-[var(--text-primary)] font-mono text-sm">Step t = {currentStepData.step}</strong>
           </div>
 
           <div className="space-y-2">
             <div className="flex justify-between">
-              <span className="text-slate-400">Action:</span>
-              <span className="text-cyan-300">{currentStepData.action}</span>
+              <span className="text-[var(--text-secondary)]">Action:</span>
+              <span className="text-[var(--accent-blue-text)] font-medium">{currentStepData.action}</span>
             </div>
             <div className="flex justify-between">
-              <span className="text-slate-400">Query:</span>
-              <span className="text-white font-bold">"France"</span>
+              <span className="text-[var(--text-secondary)]">Query cue:</span>
+              <span className="text-[var(--text-primary)] font-serif font-bold">&quot;France&quot;</span>
             </div>
             <div className="flex justify-between">
-              <span className="text-slate-400">Ground Truth:</span>
-              <span className="text-white">Paris</span>
+              <span className="text-[var(--text-secondary)]">Ground truth:</span>
+              <span className="text-[var(--text-primary)] font-serif font-semibold">Paris</span>
             </div>
             <div className="flex justify-between">
-              <span className="text-slate-400">Predicted Answer:</span>
+              <span className="text-[var(--text-secondary)]">Predicted answer:</span>
               <span
-                className={`font-bold ${
-                  currentStepData.isCorrect ? 'text-emerald-400' : 'text-rose-400'
+                className={`font-serif font-bold ${
+                  currentStepData.isCorrect ? 'text-[var(--accent-green-text)]' : 'text-[var(--accent-pink-text)]'
                 }`}
               >
                 {currentStepData.prediction}
               </span>
             </div>
-            <div className="flex justify-between" title="This score is based on representation similarity and is not a calibrated probability.">
-              <span className="text-slate-400">Retrieval Score:</span>
-              <strong className="text-white">
+            <div className="flex justify-between" title="Cosine similarity between representation and candidate. This is not a calibrated probability.">
+              <span className="text-[var(--text-secondary)]">Retrieval score:</span>
+              <strong className="text-[var(--text-primary)] font-mono">
                 {(currentStepData.confidence * 100).toFixed(1)}% (Cosine: {currentStepData.cosineRaw.toFixed(2)})
               </strong>
             </div>
@@ -379,13 +379,13 @@ export const MemoryDecayExperiment: React.FC = () => {
         </div>
 
         {/* Live Matrix Heatmap after selected step */}
-        <div className="space-y-2 font-mono text-xs">
-          <div className="flex justify-between items-center text-slate-400">
-            <span>ACTUAL STATE MATRIX M_t ({dim}x{dim}):</span>
-            <span className="text-xs text-purple-300">Live In-Memory Tensor</span>
+        <div className="p-3.5 rounded-lg bg-[var(--surface)] border border-[var(--border)] space-y-2 text-xs">
+          <div className="flex justify-between items-center text-[var(--text-secondary)] font-sans">
+            <span className="font-semibold text-[var(--text-primary)]">State matrix M_t ({dim}×{dim}):</span>
+            <span className="text-[var(--accent-blue-text)]">Live in-memory state</span>
           </div>
 
-          <div className="grid grid-cols-16 gap-[1.5px] p-2 bg-[#05070D] rounded-lg border border-[#151C2C]">
+          <div className="grid grid-cols-16 gap-[1.5px] p-2 bg-[var(--surface-soft)] rounded-lg border border-[var(--border)]">
             {currentStepData.matrix.flatMap((row, rIdx) =>
               row.map((val, cIdx) => {
                 const absVal = Math.min(Math.abs(val) * 1.5, 1);
@@ -397,8 +397,8 @@ export const MemoryDecayExperiment: React.FC = () => {
                     className="w-full h-2.5 rounded-[1px] transition-colors"
                     style={{
                       backgroundColor: isPos
-                        ? `rgba(34, 211, 238, ${0.1 + absVal * 0.9})`
-                        : `rgba(244, 63, 94, ${0.1 + absVal * 0.9})`,
+                        ? `rgba(40, 91, 115, ${0.15 + absVal * 0.85})`
+                        : `rgba(168, 62, 54, ${0.15 + absVal * 0.85})`,
                     }}
                   />
                 );
@@ -409,8 +409,8 @@ export const MemoryDecayExperiment: React.FC = () => {
       </div>
 
       {/* Explanatory Scientific Guardrail */}
-      <div className="p-3.5 rounded-lg bg-[#0C101C] border border-[#1C2538] text-xs text-slate-400 font-sans leading-relaxed">
-        <strong className="text-slate-200">Scientific Clarification:</strong> In this educational model, repeated state updates with retention below 1 gradually reduce the influence of earlier information. Do not equate this toy directly with biological memory decay or claim a universal forgetting curve.
+      <div className="p-3.5 rounded-lg bg-[var(--surface-soft)] border border-[var(--border)] text-xs text-[var(--text-secondary)] font-sans leading-relaxed">
+        <strong className="text-[var(--text-primary)]">Educational toy:</strong> Educational toy — not the official BDH implementation. In this educational model, repeated state updates with retention below 1 gradually reduce the influence of earlier information.
       </div>
     </div>
   );

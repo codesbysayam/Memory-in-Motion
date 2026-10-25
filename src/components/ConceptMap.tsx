@@ -86,57 +86,58 @@ const CONCEPT_NODES: Record<string, ConceptNode> = {
 };
 
 interface ConceptMapProps {
+  id?: string;
   onNavigate?: (sectionId: string) => void;
 }
 
-export const ConceptMap: React.FC<ConceptMapProps> = ({ onNavigate }) => {
+export const ConceptMap: React.FC<ConceptMapProps> = ({ id, onNavigate }) => {
   const [selectedNodeId, setSelectedNodeId] = useState<string>('fixedState');
 
   const selectedNode = CONCEPT_NODES[selectedNodeId] || CONCEPT_NODES.memory;
 
   return (
-    <div className="rounded-2xl border border-[#222B3D] bg-[#090C16] p-5 sm:p-7 text-slate-100 shadow-2xl space-y-6">
+    <div id={id} className="rounded-xl border border-[#D8DCD8] bg-[#FFFFFF] p-5 sm:p-7 text-[#252525] shadow-xs space-y-6">
       {/* Header */}
-      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[#1E2536] pb-4">
+      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[#EAE6DF] pb-4">
         <div className="flex items-center gap-2.5">
-          <div className="p-2 rounded-xl bg-purple-950/80 border border-purple-800 text-purple-300">
+          <div className="p-2 rounded-lg bg-[#E7F2FA] border border-[#D8DCD8] text-[#31566E]">
             <Network className="w-5 h-5" />
           </div>
           <div>
-            <span className="text-xs font-mono uppercase tracking-widest text-purple-400 font-bold block">
-              SYNTHESIS MAP
+            <span className="text-xs uppercase tracking-wider text-[#5F625F] font-semibold block">
+              Synthesis map
             </span>
-            <h3 className="text-lg font-bold font-mono text-white mt-0.5">
+            <h3 className="text-lg font-serif font-bold text-[#252525] mt-0.5">
               Architectural Concept Map: From Memory to BDH
             </h3>
           </div>
         </div>
 
-        <span className="text-xs font-mono text-slate-400">
+        <span className="text-xs text-[#5F625F]">
           Click any node to inspect its principles and trade-offs
         </span>
       </div>
 
       {/* Visual Interactive Tree Layout */}
-      <div className="p-4 sm:p-6 rounded-xl bg-[#06080F] border border-[#1C2336] overflow-x-auto">
-        <div className="min-w-[640px] flex flex-col items-center space-y-5 select-none font-mono text-xs">
+      <div className="p-4 sm:p-6 rounded-xl bg-[#F7F5EF] border border-[#D8DCD8] overflow-x-auto">
+        <div className="min-w-[640px] flex flex-col items-center space-y-5 select-none text-xs">
           {/* Root Node: Memory */}
           <button
             onClick={() => setSelectedNodeId('memory')}
-            className={`px-5 py-2.5 rounded-xl border transition-all ${
+            className={`px-5 py-2.5 rounded-lg border transition-all text-center cursor-pointer ${
               selectedNodeId === 'memory'
-                ? 'border-white bg-[#1B2236] text-white ring-2 ring-[#22D3EE]/50 shadow-lg'
-                : 'border-[#2B354C] bg-[#101524] text-slate-300 hover:border-slate-400'
+                ? 'border-[#31566E] bg-[#E7F2FA] text-[#1E3A52] ring-1 ring-[#31566E] shadow-xs font-semibold'
+                : 'border-[#D8DCD8] bg-[#FFFFFF] text-[#252525] hover:border-[#5F625F]'
             }`}
           >
-            <strong className="block text-sm">MEMORY IN INTELLIGENCE</strong>
-            <span className="text-xs text-slate-400">Fundamental Design Space</span>
+            <strong className="block text-sm">Memory in intelligence</strong>
+            <span className="text-xs text-[#5F625F]">Fundamental design space</span>
           </button>
 
           {/* Fork into Growing vs Fixed */}
-          <div className="w-1/2 border-t border-slate-700 h-3 relative">
-            <div className="absolute left-0 -top-1 w-2 h-2 rounded-full bg-slate-500" />
-            <div className="absolute right-0 -top-1 w-2 h-2 rounded-full bg-slate-500" />
+          <div className="w-1/2 border-t border-[#D8DCD8] h-3 relative">
+            <div className="absolute left-0 -top-1 w-2 h-2 rounded-full bg-[#5F625F]" />
+            <div className="absolute right-0 -top-1 w-2 h-2 rounded-full bg-[#5F625F]" />
           </div>
 
           <div className="w-full grid grid-cols-2 gap-8">
@@ -144,28 +145,28 @@ export const ConceptMap: React.FC<ConceptMapProps> = ({ onNavigate }) => {
             <div className="flex flex-col items-center space-y-4">
               <button
                 onClick={() => setSelectedNodeId('growingContext')}
-                className={`w-full p-3 rounded-xl border transition-all text-center ${
+                className={`w-full p-3 rounded-lg border transition-all text-center cursor-pointer ${
                   selectedNodeId === 'growingContext'
-                    ? 'border-amber-400 bg-amber-950/60 text-amber-200 ring-2 ring-amber-400/50 shadow-lg'
-                    : 'border-[#2B354C] bg-[#111624] text-slate-300 hover:border-amber-500/50'
+                    ? 'border-[#A46622] bg-[#FFF5D8] text-[#6E4211] ring-1 ring-[#A46622] shadow-xs font-semibold'
+                    : 'border-[#D8DCD8] bg-[#FFFFFF] text-[#252525] hover:border-[#A46622]/60'
                 }`}
               >
-                <strong className="text-xs block text-amber-400">GROWING CONTEXT</strong>
-                <span className="text-xs text-slate-400">Memory expands O(T) with tokens</span>
+                <strong className="text-xs block text-[#A46622]">Growing context (O(T))</strong>
+                <span className="text-xs text-[#5F625F]">Memory expands with tokens</span>
               </button>
 
-              <div className="w-px h-3 bg-slate-700" />
+              <div className="w-px h-3 bg-[#D8DCD8]" />
 
               <button
                 onClick={() => setSelectedNodeId('kvCache')}
-                className={`w-4/5 p-2.5 rounded-lg border transition-all text-center ${
+                className={`w-4/5 p-2.5 rounded-lg border transition-all text-center cursor-pointer ${
                   selectedNodeId === 'kvCache'
-                    ? 'border-amber-400 bg-amber-950/80 text-white ring-2 ring-amber-400/50 shadow-lg'
-                    : 'border-[#222B3D] bg-[#0D121F] text-slate-400 hover:text-white'
+                    ? 'border-[#A46622] bg-[#FFF5D8] text-[#6E4211] ring-1 ring-[#A46622] shadow-xs font-semibold'
+                    : 'border-[#D8DCD8] bg-[#FFFFFF] text-[#5F625F] hover:text-[#252525]'
                 }`}
               >
-                <div className="font-bold text-amber-300">KV CACHE</div>
-                <div className="text-xs text-slate-500">Exhausts GPU VRAM</div>
+                <div className="font-semibold text-[#A46622]">KV cache</div>
+                <div className="text-xs text-[#5F625F]">Exhausts GPU VRAM</div>
               </button>
             </div>
 
@@ -173,34 +174,34 @@ export const ConceptMap: React.FC<ConceptMapProps> = ({ onNavigate }) => {
             <div className="flex flex-col items-center space-y-4">
               <button
                 onClick={() => setSelectedNodeId('fixedState')}
-                className={`w-full p-3 rounded-xl border transition-all text-center ${
+                className={`w-full p-3 rounded-lg border transition-all text-center cursor-pointer ${
                   selectedNodeId === 'fixedState'
-                    ? 'border-[#22D3EE] bg-cyan-950/60 text-cyan-200 ring-2 ring-[#22D3EE]/50 shadow-lg'
-                    : 'border-[#2B354C] bg-[#111624] text-slate-300 hover:border-cyan-500/50'
+                    ? 'border-[#31566E] bg-[#E7F2FA] text-[#1E3A52] ring-1 ring-[#31566E] shadow-xs font-semibold'
+                    : 'border-[#D8DCD8] bg-[#FFFFFF] text-[#252525] hover:border-[#31566E]/60'
                 }`}
               >
-                <strong className="text-xs block text-[#22D3EE]">FIXED-SIZE STATE</strong>
-                <span className="text-xs text-slate-400">Memory stays bounded O(1)</span>
+                <strong className="text-xs block text-[#31566E]">Fixed-size state (O(1))</strong>
+                <span className="text-xs text-[#5F625F]">Memory stays bounded</span>
               </button>
 
-              <div className="w-px h-3 bg-slate-700" />
+              <div className="w-px h-3 bg-[#D8DCD8]" />
 
               <button
                 onClick={() => setSelectedNodeId('recurrence')}
-                className={`w-4/5 p-2.5 rounded-lg border transition-all text-center ${
+                className={`w-4/5 p-2.5 rounded-lg border transition-all text-center cursor-pointer ${
                   selectedNodeId === 'recurrence'
-                    ? 'border-[#22D3EE] bg-cyan-950/80 text-white ring-2 ring-[#22D3EE]/50 shadow-lg'
-                    : 'border-[#222B3D] bg-[#0D121F] text-slate-400 hover:text-white'
+                    ? 'border-[#31566E] bg-[#E7F2FA] text-[#1E3A52] ring-1 ring-[#31566E] shadow-xs font-semibold'
+                    : 'border-[#D8DCD8] bg-[#FFFFFF] text-[#5F625F] hover:text-[#252525]'
                 }`}
               >
-                <div className="font-bold text-cyan-300">RECURRENCE</div>
-                <div className="text-xs text-slate-500">Iterative State Folding</div>
+                <div className="font-semibold text-[#31566E]">Recurrence</div>
+                <div className="text-xs text-[#5F625F]">Iterative state folding</div>
               </button>
 
               {/* Sub-fork: Toy vs BDH */}
-              <div className="w-3/4 border-t border-slate-700 h-3 relative">
-                <div className="absolute left-0 -top-1 w-1.5 h-1.5 rounded-full bg-slate-500" />
-                <div className="absolute right-0 -top-1 w-1.5 h-1.5 rounded-full bg-slate-500" />
+              <div className="w-3/4 border-t border-[#D8DCD8] h-3 relative">
+                <div className="absolute left-0 -top-1 w-1.5 h-1.5 rounded-full bg-[#5F625F]" />
+                <div className="absolute right-0 -top-1 w-1.5 h-1.5 rounded-full bg-[#5F625F]" />
               </div>
 
               <div className="w-full grid grid-cols-2 gap-4">
@@ -208,24 +209,24 @@ export const ConceptMap: React.FC<ConceptMapProps> = ({ onNavigate }) => {
                 <div className="flex flex-col items-center space-y-3">
                   <button
                     onClick={() => setSelectedNodeId('ourToy')}
-                    className={`w-full p-2.5 rounded-lg border transition-all text-center ${
+                    className={`w-full p-2.5 rounded-lg border transition-all text-center cursor-pointer ${
                       selectedNodeId === 'ourToy'
-                        ? 'border-[#22D3EE] bg-cyan-950/90 text-white ring-2 ring-[#22D3EE]/50 shadow-md'
-                        : 'border-[#222B3D] bg-[#0D121F] text-slate-400 hover:text-white'
+                        ? 'border-[#31566E] bg-[#E7F2FA] text-[#1E3A52] ring-1 ring-[#31566E] shadow-xs font-semibold'
+                        : 'border-[#D8DCD8] bg-[#FFFFFF] text-[#5F625F] hover:text-[#252525]'
                     }`}
                   >
-                    <div className="font-bold text-cyan-300 text-xs">OUR TOY</div>
-                    <div className="text-xs text-slate-500">Vector Matrix M</div>
+                    <div className="font-semibold text-[#31566E] text-xs">Our toy</div>
+                    <div className="text-xs text-[#5F625F] font-mono">Vector matrix M</div>
                   </button>
 
-                  <div className="w-px h-2 bg-slate-700" />
+                  <div className="w-px h-2 bg-[#D8DCD8]" />
 
                   <button
                     onClick={() => setSelectedNodeId('interference')}
-                    className={`w-full p-2 rounded border transition-all text-center ${
+                    className={`w-full p-2 rounded-lg border transition-all text-center cursor-pointer ${
                       selectedNodeId === 'interference'
-                        ? 'border-rose-500 bg-rose-950/80 text-rose-300 ring-1 ring-rose-500 font-bold'
-                        : 'border-[#222B3D] bg-[#0A0D16] text-rose-400/70 hover:text-rose-300'
+                        ? 'border-[#B64235] bg-[#F9E9ED] text-[#B64235] ring-1 ring-[#B64235] font-semibold'
+                        : 'border-[#D8DCD8] bg-[#FFFFFF] text-[#B64235]/80 hover:text-[#B64235]'
                     }`}
                   >
                     <div className="text-xs">Interference</div>
@@ -236,27 +237,27 @@ export const ConceptMap: React.FC<ConceptMapProps> = ({ onNavigate }) => {
                 <div className="flex flex-col items-center space-y-3">
                   <button
                     onClick={() => setSelectedNodeId('bdhFamily')}
-                    className={`w-full p-2.5 rounded-lg border transition-all text-center ${
+                    className={`w-full p-2.5 rounded-lg border transition-all text-center cursor-pointer ${
                       selectedNodeId === 'bdhFamily'
-                        ? 'border-purple-400 bg-purple-950/90 text-white ring-2 ring-purple-400/50 shadow-md'
-                        : 'border-[#222B3D] bg-[#0D121F] text-slate-400 hover:text-white'
+                        ? 'border-[#31566E] bg-[#E7F2FA] text-[#1E3A52] ring-1 ring-[#31566E] shadow-xs font-semibold'
+                        : 'border-[#D8DCD8] bg-[#FFFFFF] text-[#5F625F] hover:text-[#252525]'
                     }`}
                   >
-                    <div className="font-bold text-purple-300 text-xs">BDH FAMILY</div>
-                    <div className="text-xs text-slate-500">Synaptic Plasticity σ_ij</div>
+                    <div className="font-semibold text-[#31566E] text-xs">BDH family</div>
+                    <div className="text-xs text-[#5F625F]">Synaptic plasticity</div>
                   </button>
 
-                  <div className="w-px h-2 bg-slate-700" />
+                  <div className="w-px h-2 bg-[#D8DCD8]" />
 
                   <button
                     onClick={() => setSelectedNodeId('localDynamics')}
-                    className={`w-full p-2 rounded border transition-all text-center ${
+                    className={`w-full p-2 rounded-lg border transition-all text-center cursor-pointer ${
                       selectedNodeId === 'localDynamics'
-                        ? 'border-purple-400 bg-purple-950/80 text-purple-300 ring-1 ring-purple-400 font-bold'
-                        : 'border-[#222B3D] bg-[#0A0D16] text-purple-400/70 hover:text-purple-300'
+                        ? 'border-[#31566E] bg-[#E7F2FA] text-[#1E3A52] ring-1 ring-[#31566E] font-semibold'
+                        : 'border-[#D8DCD8] bg-[#FFFFFF] text-[#5F625F] hover:text-[#252525]'
                     }`}
                   >
-                    <div className="text-xs">Latent Dynamics</div>
+                    <div className="text-xs">Latent dynamics</div>
                   </button>
                 </div>
               </div>
@@ -266,20 +267,20 @@ export const ConceptMap: React.FC<ConceptMapProps> = ({ onNavigate }) => {
       </div>
 
       {/* Selected Node Details Card */}
-      <div className="p-4 sm:p-5 rounded-xl bg-[#0D121F] border border-[#20293D] flex flex-wrap items-center justify-between gap-4">
-        <div className="space-y-1 max-w-2xl font-mono">
+      <div className="p-4 sm:p-5 rounded-xl bg-[#F7F5EF] border border-[#D8DCD8] flex flex-wrap items-center justify-between gap-4">
+        <div className="space-y-1.5 max-w-2xl">
           <div className="flex items-center gap-2">
-            <span className="text-xs uppercase font-bold text-[#22D3EE] bg-cyan-950/70 border border-cyan-800/60 px-2 py-0.5 rounded">
-              Node Inspection
+            <span className="text-xs uppercase font-semibold text-[#31566E] bg-[#E7F2FA] border border-[#D8DCD8] px-2 py-0.5 rounded">
+              Node inspection
             </span>
-            <h4 className="text-sm font-bold text-white">{selectedNode.title}</h4>
+            <h4 className="text-sm font-bold text-[#252525]">{selectedNode.title}</h4>
           </div>
-          <p className="text-xs text-slate-300 font-sans leading-relaxed">
+          <p className="text-xs text-[#5F625F] leading-relaxed">
             {selectedNode.description}
           </p>
-          <div className="text-xs text-[#22D3EE] pt-1">
-            <strong>Key Characteristic: </strong>
-            <span className="text-slate-300">
+          <div className="text-xs text-[#252525] pt-1">
+            <strong className="font-semibold text-[#31566E]">Key characteristic: </strong>
+            <span className="text-[#5F625F]">
               <FormattedMathText text={selectedNode.keyMetric} />
             </span>
           </div>
@@ -288,10 +289,10 @@ export const ConceptMap: React.FC<ConceptMapProps> = ({ onNavigate }) => {
         {selectedNode.relatedSectionId && onNavigate && (
           <button
             onClick={() => onNavigate(selectedNode.relatedSectionId!)}
-            className="flex items-center gap-1.5 px-3.5 py-2 rounded-lg bg-[#161D2E] hover:bg-[#202A42] text-white border border-[#2B3650] font-mono text-xs font-semibold transition"
+            className="flex items-center gap-1.5 px-3.5 py-2 rounded-lg bg-[#FFFFFF] hover:bg-[#F7F5EF] text-[#252525] border border-[#D8DCD8] text-xs font-medium transition cursor-pointer shadow-xs"
           >
-            <span>Jump to Section</span>
-            <ChevronRight className="w-3.5 h-3.5 text-[#22D3EE]" />
+            <span>Jump to section</span>
+            <ChevronRight className="w-3.5 h-3.5 text-[#31566E]" />
           </button>
         )}
       </div>

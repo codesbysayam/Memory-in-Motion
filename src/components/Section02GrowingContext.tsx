@@ -25,7 +25,7 @@ export const Section02GrowingContext: React.FC = () => {
   const isOverloaded = seqLength > capacityDim * 1.3;
 
   return (
-    <section id="section-02" className="scroll-mt-20 border-b border-[#E5E0D8] bg-[#FBF9F5] py-16">
+    <section id="section-02" className="scroll-mt-20 border-b border-[var(--border)] bg-[var(--page-bg)] py-16">
       <div className="max-w-[1400px] mx-auto px-4 sm:px-6">
         <SectionHeader
           number="02"

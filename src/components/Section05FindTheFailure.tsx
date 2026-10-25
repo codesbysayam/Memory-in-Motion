@@ -162,7 +162,7 @@ export const Section05FindTheFailure: React.FC = () => {
       (userPrediction === 'forget' && !result.modelRemembers));
 
   return (
-    <section id="section-05" className="w-full scroll-mt-20 border-b border-[#252A35] bg-[#07080B] text-slate-100 py-14">
+    <section id="section-05" className="w-full scroll-mt-20 border-b border-[var(--border)] bg-[var(--page-bg)] text-[var(--text-primary)] py-10">
       <div id="section-05-deltas" className="scroll-mt-24" />
       <div id="debug-panel-section" className="scroll-mt-24" />
       <div className="w-full max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
@@ -176,7 +176,7 @@ export const Section05FindTheFailure: React.FC = () => {
             </span>
           }
           discovery="Human intuition often underestimates interference: adding just 2 distractor vectors in low dimensions can catastrophically corrupt prior memory associations."
-          theme="dark"
+          theme="light"
         />
 
         {/* Epistemic Evidence Classification */}
@@ -196,29 +196,29 @@ export const Section05FindTheFailure: React.FC = () => {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
           {/* Left Column: Challenge Trial Interface */}
           <div className="lg:col-span-5 space-y-5">
-            <div className="rounded-xl border border-[#252A35] bg-[#11141A] p-5 space-y-4">
-              <div className="flex items-center justify-between border-b border-[#252A35] pb-2">
-                <span className="text-xs font-mono uppercase tracking-widest text-[#22D3EE] font-semibold">
-                  ROUND {String(trial.round).padStart(2, '0')} / 05
+            <div className="rounded-xl border border-[var(--border)] bg-[var(--surface-soft)] p-5 space-y-4">
+              <div className="flex items-center justify-between border-b border-[var(--border)] pb-2 font-sans">
+                <span className="text-xs font-semibold text-[var(--accent-blue-text)]">
+                  Round {String(trial.round).padStart(2, '0')} / 05
                 </span>
-                <span className="text-xs font-mono text-[#8F96A3]">
-                  SCORE: <strong className="text-white">{score}</strong> / {TRIALS.length}
+                <span className="text-xs text-[var(--text-secondary)]">
+                  Score: <strong className="text-[var(--text-primary)] font-mono">{score}</strong> / {TRIALS.length}
                 </span>
               </div>
 
               {/* Trial Specifications */}
-              <div className="grid grid-cols-3 gap-2 text-xs font-mono">
-                <div className="rounded-lg bg-[#151922] p-2.5 border border-[#252A35]">
-                  <span className="text-[#8F96A3] block text-xs">CAPACITY</span>
-                  <span className="font-bold text-white"><InlineMath math={`D = ${trial.dim}`} /></span>
+              <div className="grid grid-cols-3 gap-2 text-xs font-sans">
+                <div className="rounded-lg bg-[var(--surface)] p-2.5 border border-[var(--border)]">
+                  <span className="text-[var(--text-secondary)] block text-xs">Capacity</span>
+                  <span className="font-bold text-[var(--text-primary)] font-mono"><InlineMath math={`D = ${trial.dim}`} /></span>
                 </div>
-                <div className="rounded-lg bg-[#151922] p-2.5 border border-[#252A35]">
-                  <span className="text-[#8F96A3] block text-xs">FACTS (<InlineMath math="T" />)</span>
-                  <span className="font-bold text-white">{trial.factsCount} pairs</span>
+                <div className="rounded-lg bg-[var(--surface)] p-2.5 border border-[var(--border)]">
+                  <span className="text-[var(--text-secondary)] block text-xs">Facts (<InlineMath math="T" />)</span>
+                  <span className="font-bold text-[var(--text-primary)] font-mono">{trial.factsCount} pairs</span>
                 </div>
-                <div className="rounded-lg bg-[#151922] p-2.5 border border-[#252A35]">
-                  <span className="text-[#8F96A3] block text-xs">CROSSTALK</span>
-                  <span className={`font-bold ${trial.similarity === 'High' ? 'text-amber-400' : 'text-emerald-400'}`}>
+                <div className="rounded-lg bg-[var(--surface)] p-2.5 border border-[var(--border)]">
+                  <span className="text-[var(--text-secondary)] block text-xs">Crosstalk</span>
+                  <span className={`font-bold font-sans ${trial.similarity === 'High' ? 'text-[var(--accent-yellow-text)]' : 'text-[var(--accent-green-text)]'}`}>
                     {trial.similarity}
                   </span>
                 </div>
@@ -226,8 +226,8 @@ export const Section05FindTheFailure: React.FC = () => {
 
               {/* Variable stream tokens */}
               <div>
-                <span className="text-xs font-mono uppercase text-[#8F96A3] block mb-1.5">
-                  Stream Sequence (Target key is B):
+                <span className="text-xs font-sans text-[var(--text-secondary)] block mb-1.5">
+                  Stream sequence (Target key is B):
                 </span>
                 <div className="flex flex-wrap gap-1.5">
                   {result.pairs.map((p) => {
@@ -237,8 +237,8 @@ export const Section05FindTheFailure: React.FC = () => {
                         key={p.key}
                         className={`px-2 py-1 rounded text-xs font-mono border ${
                           isTarget
-                            ? 'bg-violet-950/60 border-violet-500/60 text-violet-200 font-bold'
-                            : 'bg-[#151922] border-[#252A35] text-[#8F96A3]'
+                            ? 'bg-[var(--accent-blue)] border-[var(--border)] text-[var(--accent-blue-text)] font-bold'
+                            : 'bg-[var(--surface)] border-[var(--border)] text-[var(--text-secondary)]'
                         }`}
                       >
                         {p.key} → {p.val}
@@ -249,40 +249,40 @@ export const Section05FindTheFailure: React.FC = () => {
               </div>
 
               {/* Prediction Decision Buttons */}
-              <div className="pt-2 border-t border-[#252A35] space-y-2">
-                <span className="text-xs font-mono text-[#8F96A3] block">
-                  Your Scientific Hypothesis for Round {trial.round}:
+              <div className="pt-2 border-t border-[var(--border)] space-y-2">
+                <span className="text-xs font-sans text-[var(--text-secondary)] block">
+                  Your hypothesis for Round {trial.round}:
                 </span>
                 <div className="grid grid-cols-2 gap-3">
                   <button
                     onClick={() => handlePredict('remember')}
                     disabled={userPrediction !== null}
-                    className={`py-2.5 px-3 rounded-lg border text-xs font-mono font-semibold transition-all ${
+                    className={`py-2 px-3 rounded-lg border text-xs font-sans font-semibold transition-all ${
                       userPrediction === 'remember'
-                        ? 'border-emerald-400 bg-emerald-500/20 text-emerald-300'
+                        ? 'border-[var(--accent-green-text)] bg-[var(--accent-green)] text-[var(--accent-green-text)] ring-1 ring-[var(--accent-green-text)]'
                         : userPrediction !== null
-                        ? 'opacity-40 border-[#252A35] bg-[#151922] text-[#8F96A3]'
-                        : 'border-emerald-500/40 bg-emerald-950/30 text-emerald-300 hover:bg-emerald-900/40 cursor-pointer'
+                        ? 'opacity-40 border-[var(--border)] bg-[var(--surface)] text-[var(--text-muted)]'
+                        : 'border-[var(--border)] bg-[var(--accent-green)] hover:opacity-90 text-[var(--accent-green-text)] cursor-pointer'
                     }`}
                   >
                     <span className="inline-flex items-center justify-center gap-1">
-                      <span>WILL REMEMBER</span>
-                      <InlineMath math="(B=42)" />
+                      <span>Will remember</span>
+                      <span className="font-mono text-xs">(B=42)</span>
                     </span>
                   </button>
 
                   <button
                     onClick={() => handlePredict('forget')}
                     disabled={userPrediction !== null}
-                    className={`py-2.5 px-3 rounded-lg border text-xs font-mono font-semibold transition-all ${
+                    className={`py-2 px-3 rounded-lg border text-xs font-sans font-semibold transition-all ${
                       userPrediction === 'forget'
-                        ? 'border-rose-400 bg-rose-500/20 text-rose-300'
+                        ? 'border-[var(--accent-pink-text)] bg-[var(--accent-pink)] text-[var(--accent-pink-text)] ring-1 ring-[var(--accent-pink-text)]'
                         : userPrediction !== null
-                        ? 'opacity-40 border-[#252A35] bg-[#151922] text-[#8F96A3]'
-                        : 'border-rose-500/40 bg-rose-950/30 text-rose-300 hover:bg-rose-900/40 cursor-pointer'
+                        ? 'opacity-40 border-[var(--border)] bg-[var(--surface)] text-[var(--text-muted)]'
+                        : 'border-[var(--border)] bg-[var(--accent-pink)] hover:opacity-90 text-[var(--accent-pink-text)] cursor-pointer'
                     }`}
                   >
-                    WILL FORGET (INTERFERENCE)
+                    Will forget (Interference)
                   </button>
                 </div>
               </div>
@@ -290,35 +290,35 @@ export const Section05FindTheFailure: React.FC = () => {
               {/* User Outcome Evaluation */}
               {userPrediction !== null && (
                 <div
-                  className={`rounded-lg p-3 border text-xs space-y-2 animate-in fade-in ${
+                  className={`rounded-lg p-3 border text-xs space-y-2 animate-in fade-in font-sans ${
                     isUserCorrect
-                      ? 'bg-emerald-950/20 border-emerald-500/40 text-emerald-200'
-                      : 'bg-amber-950/20 border-amber-500/40 text-amber-200'
+                      ? 'bg-[var(--accent-green)] border-[var(--border)] text-[var(--accent-green-text)]'
+                      : 'bg-[var(--accent-yellow)] border-[var(--border)] text-[var(--accent-yellow-text)]'
                   }`}
                 >
-                  <div className="flex items-center gap-1.5 font-bold font-mono">
+                  <div className="flex items-center gap-1.5 font-bold">
                     {isUserCorrect ? (
                       <>
-                        <CheckCircle2 className="w-4 h-4 text-emerald-400" />
-                        <span>HYPOTHESIS CONFIRMED! (+1 PT)</span>
+                        <CheckCircle2 className="w-4 h-4 text-[var(--accent-green-text)]" />
+                        <span>Hypothesis confirmed (+1 pt)</span>
                       </>
                     ) : (
                       <>
-                        <XCircle className="w-4 h-4 text-amber-400" />
-                        <span>HYPOTHESIS DISPROVED</span>
+                        <XCircle className="w-4 h-4 text-[var(--accent-yellow-text)]" />
+                        <span>Hypothesis disproved</span>
                       </>
                     )}
                   </div>
-                  <p className="text-xs leading-relaxed text-[#F4F5F7]">
+                  <p className="text-xs leading-relaxed text-[var(--text-primary)]">
                     {trial.explanation}
                   </p>
 
                   <div className="pt-2 flex justify-end">
                     <button
                       onClick={handleNextRound}
-                      className="inline-flex items-center gap-1.5 py-1.5 px-3 rounded-lg bg-white text-black font-mono text-xs font-semibold hover:bg-[#22D3EE] transition-colors"
+                      className="btn-primary py-1.5 px-3 rounded-lg text-xs font-semibold cursor-pointer"
                     >
-                      <span>{currentRoundIdx === TRIALS.length - 1 ? 'Finish Challenge' : 'Next Trial'}</span>
+                      <span>{currentRoundIdx === TRIALS.length - 1 ? 'Finish challenge' : 'Next trial'}</span>
                       <ArrowRight className="w-3.5 h-3.5" />
                     </button>
                   </div>
@@ -326,14 +326,14 @@ export const Section05FindTheFailure: React.FC = () => {
               )}
             </div>
 
-            <div className="flex items-center justify-between text-xs font-mono text-[#8F96A3]">
+            <div className="flex items-center justify-between text-xs font-sans text-[var(--text-secondary)]">
               <span>Round {trial.round} of 5</span>
               <button
                 onClick={handleResetChallenge}
-                className="flex items-center gap-1 hover:text-white transition-colors"
+                className="flex items-center gap-1 hover:text-[var(--text-primary)] transition-colors cursor-pointer"
               >
                 <RotateCcw className="w-3 h-3" />
-                <span>Reset All Trials</span>
+                <span>Reset all trials</span>
               </button>
             </div>
           </div>
@@ -343,7 +343,7 @@ export const Section05FindTheFailure: React.FC = () => {
             <TruthModel
               truth="42 (Key B)"
               model={userPrediction !== null ? String(result.predicted) : '??? (Make prediction first)'}
-              label={`TRIAL ${trial.round} EMPIRICAL PROBE FOR KEY "B"`}
+              label={`Trial ${trial.round} empirical probe for key "B"`}
               confidence={userPrediction !== null ? Math.max(0.2, 0.5 + result.actualMargin) : undefined}
               margin={userPrediction !== null ? result.actualMargin : undefined}
               status={
@@ -358,7 +358,7 @@ export const Section05FindTheFailure: React.FC = () => {
                   ? 'Make your prediction on the left to reveal the actual vector probe computation.'
                   : result.modelRemembers
                   ? `The model recalled B = ${result.predicted}. The decision margin remained positive (+${result.actualMargin.toFixed(2)}).`
-                  : `Memory failure! The model retrieved ${result.predicted} instead of 42. High coordinate overlap caused the probe to lock onto an interference pattern.`
+                  : `Interference observed: The model retrieved ${result.predicted} instead of 42. High coordinate overlap caused the probe to lock onto an interference pattern.`
               }
             />
           </div>

@@ -66,29 +66,29 @@ export const ExplainItChallenge: React.FC = () => {
   };
 
   return (
-    <div className="rounded-2xl border border-[#252A35] bg-[#0C0F17] p-6 space-y-5">
+    <div className="rounded-xl border border-[#D8DCD8] bg-[#FFFFFF] p-6 space-y-5 text-[#252525] shadow-xs">
       {/* Header */}
-      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[#1E2536] pb-4">
+      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[#EAE6DF] pb-4">
         <div className="flex items-center gap-3">
-          <div className="p-2.5 rounded-xl bg-violet-950/70 border border-violet-800/70 text-violet-300">
+          <div className="p-2.5 rounded-xl bg-[#E7F2FA] border border-[#B8D7ED] text-[#31566E]">
             <HelpCircle className="w-5 h-5" />
           </div>
           <div>
             <div className="flex items-center gap-2">
-              <span className="text-xs font-mono font-bold tracking-widest text-violet-400 uppercase">
-                CAN YOU EXPLAIN IT?
+              <span className="text-xs uppercase tracking-wider text-[#31566E] font-semibold">
+                Concept check
               </span>
-              <span className="text-xs font-mono text-cyan-300 bg-cyan-950/60 border border-cyan-800/60 px-2 py-0.5 rounded-full">
-                LOCAL CONCEPT CHECK · NO AI GRADING
+              <span className="text-xs text-[#5F625F] bg-[#F7F5EF] border border-[#D8DCD8] px-2 py-0.5 rounded-full">
+                Deterministic keyword analysis · No LLM grading
               </span>
             </div>
-            <h3 className="text-base font-semibold text-white mt-0.5">
+            <h3 className="text-base font-serif font-bold text-[#252525] mt-0.5">
               A friend asks: &ldquo;Why did the system forget Tokyo?&rdquo;
             </h3>
           </div>
         </div>
 
-        <span className="text-xs font-mono text-slate-400">
+        <span className="text-xs text-[#5F625F]">
           Explain in your own words
         </span>
       </div>
@@ -103,11 +103,11 @@ export const ExplainItChallenge: React.FC = () => {
             if (hasEvaluated) setHasEvaluated(false);
           }}
           placeholder="Type your explanation here (e.g., The system uses a fixed-size state, so ingesting distractors compressed too much information, causing interference that corrupted retrieval)..."
-          className="w-full rounded-xl bg-[#121622] border border-[#252A35] focus:border-[#22D3EE] focus:ring-1 focus:ring-[#22D3EE] p-4 text-sm text-white placeholder-slate-500 font-sans resize-none transition-all"
+          className="w-full rounded-xl bg-[#FFFFFF] border border-[#D8DCD8] focus:border-[#31566E] focus:ring-1 focus:ring-[#31566E] p-4 text-sm text-[#252525] placeholder-[#8F96A3] font-sans resize-none transition-all outline-hidden"
         />
 
         <div className="flex flex-wrap items-center justify-between gap-3">
-          <div className="text-xs font-mono text-slate-400">
+          <div className="text-xs font-mono text-[#5F625F]">
             {userText.trim().length} characters
           </div>
 
@@ -115,27 +115,27 @@ export const ExplainItChallenge: React.FC = () => {
             {hasEvaluated && (
               <button
                 onClick={handleReset}
-                className="btn btn-secondary text-xs flex items-center gap-1.5 transition cursor-pointer"
+                className="px-3 py-1.5 rounded-lg bg-[#FFFFFF] hover:bg-[#F7F5EF] border border-[#D8DCD8] text-[#5F625F] text-xs font-medium flex items-center gap-1.5 transition cursor-pointer"
               >
                 <RotateCcw className="w-3.5 h-3.5" />
-                <span>TRY AGAIN</span>
+                <span>Try again</span>
               </button>
             )}
 
             <button
               onClick={() => setShowModelAnswer(!showModelAnswer)}
-              className="btn btn-secondary text-xs flex items-center gap-1.5 transition cursor-pointer"
+              className="px-3 py-1.5 rounded-lg bg-[#FFFFFF] hover:bg-[#F7F5EF] border border-[#D8DCD8] text-[#5F625F] text-xs font-medium flex items-center gap-1.5 transition cursor-pointer"
             >
-              <Lightbulb className="w-3.5 h-3.5 text-[#5F625F]" />
-              <span>{showModelAnswer ? 'HIDE MODEL EXPLANATION' : 'SHOW MODEL EXPLANATION'}</span>
+              <Lightbulb className="w-3.5 h-3.5 text-[#8C5D17]" />
+              <span>{showModelAnswer ? 'Hide model explanation' : 'Show model explanation'}</span>
             </button>
 
             <button
               onClick={handleCheck}
               disabled={userText.trim().length === 0}
-              className="btn btn-primary text-xs font-bold disabled:opacity-40 disabled:pointer-events-none transition flex items-center gap-1.5 cursor-pointer"
+              className="px-3.5 py-1.5 rounded-lg bg-[#DCEFE2] hover:bg-[#CDE8D5] text-[#245B38] border border-[#BCE2C9] text-xs font-semibold disabled:opacity-40 disabled:pointer-events-none transition flex items-center gap-1.5 cursor-pointer shadow-2xs"
             >
-              <span>CHECK MY EXPLANATION</span>
+              <span>Check my explanation</span>
               <ArrowRight className="w-3.5 h-3.5" />
             </button>
           </div>
@@ -144,13 +144,13 @@ export const ExplainItChallenge: React.FC = () => {
 
       {/* Evaluation Results */}
       {hasEvaluated && (
-        <div className="p-4 rounded-xl bg-[#090D15] border border-[#1E2536] space-y-3 font-mono text-xs animate-in fade-in duration-200">
-          <div className="flex items-center justify-between border-b border-[#1E2536] pb-2">
-            <span className="text-slate-300 font-bold uppercase tracking-wider">
-              CONCEPT DETECTION SUMMARY ({matchedCount} / {CONCEPT_GROUPS.length} IDENTIFIED)
+        <div className="p-4 rounded-xl bg-[#F7F5EF] border border-[#D8DCD8] space-y-3 text-xs animate-in fade-in duration-200">
+          <div className="flex items-center justify-between border-b border-[#EAE6DF] pb-2">
+            <span className="text-[#252525] font-semibold uppercase tracking-wider text-xs">
+              Concept detection summary ({matchedCount} / {CONCEPT_GROUPS.length} identified)
             </span>
-            <span className={`text-xs font-bold ${matchedCount >= 3 ? 'text-emerald-400' : 'text-amber-400'}`}>
-              {matchedCount >= 3 ? 'STRONG SYNTHESIS ✓' : 'PARTIAL EXPLANATION'}
+            <span className={`text-xs font-semibold ${matchedCount >= 3 ? 'text-[#247A4B]' : 'text-[#8C5D17]'}`}>
+              {matchedCount >= 3 ? 'Strong synthesis ✓' : 'Partial explanation'}
             </span>
           </div>
 
@@ -160,21 +160,21 @@ export const ExplainItChallenge: React.FC = () => {
                 key={r.id}
                 className={`p-2.5 rounded-lg border flex items-center gap-2 ${
                   r.matched
-                    ? 'bg-emerald-950/40 border-emerald-700/60 text-emerald-300 font-semibold'
-                    : 'bg-[#121622] border-[#22283A] text-slate-500'
+                    ? 'bg-[#DCEFE2] border-[#BCE2C9] text-[#247A4B] font-semibold'
+                    : 'bg-[#FFFFFF] border-[#D8DCD8] text-[#5F625F]'
                 }`}
               >
                 {r.matched ? (
-                  <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
+                  <CheckCircle2 className="w-4 h-4 text-[#247A4B] shrink-0" />
                 ) : (
-                  <XCircle className="w-4 h-4 text-slate-600 shrink-0" />
+                  <XCircle className="w-4 h-4 text-[#8F96A3] shrink-0" />
                 )}
                 <span className="text-xs truncate">{r.name}</span>
               </div>
             ))}
           </div>
 
-          <p className="text-slate-300 text-xs font-sans leading-relaxed pt-1">
+          <p className="text-[#5F625F] text-xs font-sans leading-relaxed pt-1">
             A strong scientific explanation connects the <strong>fixed-size state</strong> with <strong>compression</strong>, <strong>superposition interference</strong>, and <strong>retrieval failure</strong>.
           </p>
         </div>
@@ -182,12 +182,12 @@ export const ExplainItChallenge: React.FC = () => {
 
       {/* Reference / Model Answer */}
       {showModelAnswer && (
-        <div className="p-4 rounded-xl bg-purple-950/20 border border-purple-800/40 text-xs font-mono text-purple-200 space-y-2 animate-in fade-in duration-200">
-          <div className="flex items-center gap-2 font-bold text-purple-300">
-            <Sparkles className="w-4 h-4 text-purple-400" />
-            <span>MODEL REFERENCE EXPLANATION:</span>
+        <div className="p-4 rounded-xl bg-[#FFF5D8] border border-[#E8D9A8] text-xs text-[#252525] space-y-2 animate-in fade-in duration-200">
+          <div className="flex items-center gap-2 font-semibold text-[#8C5D17]">
+            <Sparkles className="w-4 h-4 text-[#8C5D17]" />
+            <span>Model reference explanation:</span>
           </div>
-          <p className="text-slate-300 font-sans leading-relaxed text-xs">
+          <p className="text-[#252525] font-sans leading-relaxed text-xs">
             &ldquo;In this recurrent architecture, memory is compressed into a fixed-size vector matrix rather than expanding dynamically like a Transformer KV-cache. When new associations and distractors are ingested sequentially, their outer-product coordinate updates superimpose onto the existing coordinates. Because the state dimension is finite, adding competing facts causes geometric crosstalk (interference), shifting the readout vector closer to distractor candidates and causing retrieval failure.&rdquo;
           </p>
         </div>

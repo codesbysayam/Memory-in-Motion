@@ -466,7 +466,7 @@ export const SynapticHeatmap: React.FC<SynapticHeatmapProps> = ({
                 <Scatter
                   data={heatmapData}
                   shape="square"
-                  onClick={(entry) => setSelectedCell(entry)}
+                  onClick={(entry: any) => setSelectedCell(entry?.payload || (entry as any))}
                 >
                   {heatmapData.map((entry, index) => (
                     <Cell

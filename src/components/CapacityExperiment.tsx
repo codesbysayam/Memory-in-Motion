@@ -67,20 +67,20 @@ export const CapacityExperiment: React.FC<CapacityExperimentProps> = ({
   };
 
   return (
-    <div id={id} className="rounded-2xl border border-[#252C3D] bg-[#0A0E17] p-5 sm:p-7 text-slate-100 shadow-xl">
+    <div id={id} className="rounded-xl border border-[#D8DCD8] bg-[#FFFFFF] p-5 sm:p-7 text-[#252525] shadow-xs space-y-6">
       {/* Header Banner */}
-      <div className="flex flex-wrap items-center justify-between gap-4 border-b border-[#1E2638] pb-5 mb-6">
+      <div className="flex flex-wrap items-center justify-between gap-4 border-b border-[#EAE6DF] pb-5">
         <div>
           <div className="flex items-center gap-2 mb-1.5">
             <SourceBadge type="TOY COMPUTATION" />
-            <span className="text-xs font-mono uppercase tracking-wider text-slate-400">
-              Reproducible Empirical Capacity Benchmark
+            <span className="text-xs uppercase tracking-wider text-[#5F625F]">
+              Reproducible empirical capacity benchmark
             </span>
           </div>
-          <h3 className="text-xl sm:text-2xl font-bold font-mono text-white tracking-tight">
+          <h3 className="text-xl sm:text-2xl font-serif font-bold text-[#252525] tracking-tight">
             Memory Accuracy vs. Capacity Sweep
           </h3>
-          <p className="text-xs sm:text-sm text-slate-400 mt-1 max-w-2xl">
+          <p className="text-xs sm:text-sm text-[#5F625F] mt-1 max-w-2xl font-sans">
             Empirical stress test querying all written facts across 4 state dimensions (D ∈ &#123;4, 8, 16, 32&#125;) and fact counts (N ∈ &#123;1, 2, 4, 8, 16, 32&#125;).
           </p>
         </div>
@@ -89,27 +89,27 @@ export const CapacityExperiment: React.FC<CapacityExperimentProps> = ({
           <button
             onClick={handleRunSweepAgain}
             disabled={isSweeping}
-            className="btn btn-primary text-xs font-semibold disabled:opacity-50 flex items-center gap-2 cursor-pointer"
+            className="px-3.5 py-2 rounded-lg bg-[#DCEFE2] hover:bg-[#CDE8D5] text-[#245B38] border border-[#BCE2C9] text-xs font-semibold disabled:opacity-50 flex items-center gap-2 cursor-pointer transition shadow-2xs"
           >
             {isSweeping ? (
               <RotateCcw className="w-3.5 h-3.5 animate-spin" />
             ) : (
               <Play className="w-3.5 h-3.5 fill-current" />
             )}
-            <span>RUN SWEEP AGAIN</span>
+            <span>Run sweep again</span>
           </button>
         </div>
       </div>
 
       {/* Metric Mode Toggle & Scientific Honesty Callout */}
-      <div className="flex flex-wrap items-center justify-between gap-3 mb-4">
-        <div className="flex items-center bg-[#111726] p-1 rounded-lg border border-[#1E273A]">
+      <div className="flex flex-wrap items-center justify-between gap-3">
+        <div className="flex items-center bg-[#F7F5EF] p-1 rounded-lg border border-[#D8DCD8]">
           <button
             onClick={() => setActiveTab('accuracy')}
-            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-mono font-medium transition cursor-pointer ${
+            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-medium transition cursor-pointer ${
               activeTab === 'accuracy'
-                ? 'btn-blue font-bold shadow-xs'
-                : 'text-slate-400 hover:text-slate-200'
+                ? 'bg-[#FFFFFF] text-[#252525] font-semibold shadow-2xs'
+                : 'text-[#5F625F] hover:text-[#252525]'
             }`}
           >
             <BarChart3 className="w-3.5 h-3.5" />
@@ -117,19 +117,19 @@ export const CapacityExperiment: React.FC<CapacityExperimentProps> = ({
           </button>
           <button
             onClick={() => setActiveTab('confidence')}
-            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-mono font-medium transition cursor-pointer ${
+            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-medium transition cursor-pointer ${
               activeTab === 'confidence'
-                ? 'btn-blue font-bold shadow-xs'
-                : 'text-slate-400 hover:text-slate-200'
+                ? 'bg-[#FFFFFF] text-[#252525] font-semibold shadow-2xs'
+                : 'text-[#5F625F] hover:text-[#252525]'
             }`}
           >
             <BarChart3 className="w-3.5 h-3.5" />
-            <span>Mean Confidence</span>
+            <span>Mean Retrieval Score</span>
           </button>
         </div>
 
-        <div className="flex items-center gap-2 text-xs font-mono text-slate-400 bg-slate-900/80 px-3 py-1.5 rounded-lg border border-slate-800">
-          <Info className="w-3.5 h-3.5 text-amber-400" />
+        <div className="flex items-center gap-2 text-xs text-[#5F625F] bg-[#F7F5EF] px-3 py-1.5 rounded-lg border border-[#EAE6DF]">
+          <Info className="w-3.5 h-3.5 text-[#8C5D17]" />
           <span>Observed in this educational model (not a universal scaling law).</span>
         </div>
       </div>
@@ -137,12 +137,12 @@ export const CapacityExperiment: React.FC<CapacityExperimentProps> = ({
       {/* Main Interactive Chart Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Left 2 Cols: SVG Curves */}
-        <div className="lg:col-span-2 bg-[#0E1321] p-4 rounded-xl border border-[#1C2436] flex flex-col">
-          <div className="flex items-center justify-between mb-2 text-xs font-mono text-slate-400">
+        <div className="lg:col-span-2 bg-[#F7F5EF] p-4 rounded-xl border border-[#D8DCD8] flex flex-col">
+          <div className="flex items-center justify-between mb-2 text-xs font-mono text-[#5F625F]">
             <span>
-              {activeTab === 'accuracy' ? 'RETRIEVAL ACCURACY (% CORRECT)' : 'MEAN QUERY CONFIDENCE (%)'}
+              {activeTab === 'accuracy' ? 'RETRIEVAL ACCURACY (% CORRECT)' : 'MEAN RETRIEVAL SCORE (%)'}
             </span>
-            <span className="text-slate-500">Click any dot to inspect state</span>
+            <span className="text-[#5F625F]">Click any dot to inspect state</span>
           </div>
 
           <div className="w-full overflow-x-auto">
@@ -272,16 +272,16 @@ export const CapacityExperiment: React.FC<CapacityExperimentProps> = ({
           </div>
 
           {/* Dimension Legend */}
-          <div className="flex flex-wrap items-center justify-center gap-4 mt-3 pt-3 border-t border-[#1C2436] text-xs font-mono">
+          <div className="flex flex-wrap items-center justify-center gap-4 mt-3 pt-3 border-t border-[#EAE6DF] text-xs">
             {BENCHMARK_DIMENSIONS.map((dim) => {
               const col = dimColors[dim];
               return (
-                <div key={dim} className="flex items-center gap-1.5">
+                <div key={dim} className="flex items-center gap-1.5 font-mono">
                   <span
-                    className="w-3 h-3 rounded-full inline-block"
+                    className="w-2.5 h-2.5 rounded-full inline-block"
                     style={{ backgroundColor: col.stroke }}
                   />
-                  <span className="text-slate-300">Dimension D = {dim}</span>
+                  <span className="text-[#5F625F]">Dimension D = {dim}</span>
                 </div>
               );
             })}
@@ -290,35 +290,35 @@ export const CapacityExperiment: React.FC<CapacityExperimentProps> = ({
 
         {/* Right Col: Selected Experiment Point Inspection Card */}
         {selectedPoint && (
-          <div className="bg-[#0E1321] p-5 rounded-xl border border-[#1C2436] flex flex-col justify-between">
+          <div className="bg-[#FFFFFF] p-5 rounded-xl border border-[#D8DCD8] flex flex-col justify-between shadow-2xs">
             <div>
-              <div className="flex items-center justify-between border-b border-[#1C2436] pb-3 mb-3">
-                <span className="text-xs font-mono font-bold text-blue-400 uppercase tracking-wider">
-                  POINT TELEMETRY
+              <div className="flex items-center justify-between border-b border-[#EAE6DF] pb-3 mb-3">
+                <span className="text-xs font-semibold text-[#31566E]">
+                  Point telemetry
                 </span>
-                <span className="text-xs font-mono text-slate-400 bg-slate-800/80 px-2 py-0.5 rounded">
+                <span className="text-xs font-mono text-[#5F625F] bg-[#F7F5EF] border border-[#D8DCD8] px-2 py-0.5 rounded">
                   D = {selectedPoint.dimension} · N = {selectedPoint.factCount}
                 </span>
               </div>
 
               {/* KPI metrics */}
-              <div className="grid grid-cols-2 gap-2.5 mb-4 text-xs font-mono">
-                <div className="bg-[#141A29] p-2.5 rounded-lg border border-[#20293D]">
-                  <div className="text-slate-400 text-[11px]">Accuracy</div>
-                  <div className="text-emerald-400 font-bold text-base mt-0.5">
+              <div className="grid grid-cols-2 gap-2.5 mb-4 text-xs">
+                <div className="bg-[#F7F5EF] p-2.5 rounded-lg border border-[#EAE6DF]">
+                  <div className="text-[#5F625F] text-[11px]">Accuracy</div>
+                  <div className="text-[#247A4B] font-serif font-bold text-base mt-0.5">
                     {selectedPoint.accuracy}%
                   </div>
-                  <div className="text-[10px] text-slate-500">
+                  <div className="text-[10px] text-[#5F625F] font-mono">
                     {selectedPoint.totalCount - selectedPoint.wrongCount}/{selectedPoint.totalCount} correct
                   </div>
                 </div>
 
-                <div className="bg-[#141A29] p-2.5 rounded-lg border border-[#20293D]" title="This score is based on representation similarity and is not a calibrated probability.">
-                  <div className="text-slate-400 text-[11px]">Mean Retrieval Score</div>
-                  <div className="text-purple-400 font-bold text-base mt-0.5">
+                <div className="bg-[#F7F5EF] p-2.5 rounded-lg border border-[#EAE6DF]" title="Cosine similarity between retrieved representation and candidate. This is not a calibrated probability.">
+                  <div className="text-[#5F625F] text-[11px]">Mean retrieval score</div>
+                  <div className="text-[#31566E] font-serif font-bold text-base mt-0.5">
                     {selectedPoint.meanConfidence}%
                   </div>
-                  <div className="text-[10px] text-slate-500">
+                  <div className="text-[10px] text-[#5F625F] font-mono">
                     ||Matrix|| = {selectedPoint.matrixNorm}
                   </div>
                 </div>
@@ -326,15 +326,15 @@ export const CapacityExperiment: React.FC<CapacityExperimentProps> = ({
 
               {/* Failed Queries Details */}
               <div className="mb-4">
-                <div className="flex items-center justify-between text-xs font-mono mb-2">
-                  <span className="text-slate-300 font-semibold">
-                    Collisions / Failed Queries ({selectedPoint.failedQueries.length})
+                <div className="flex items-center justify-between text-xs mb-2">
+                  <span className="text-[#252525] font-semibold">
+                    Collisions / Failed queries ({selectedPoint.failedQueries.length})
                   </span>
                 </div>
 
                 {selectedPoint.failedQueries.length === 0 ? (
-                  <div className="p-3 rounded-lg bg-emerald-950/30 border border-emerald-800/40 text-xs font-mono text-emerald-300 flex items-center gap-2">
-                    <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
+                  <div className="p-3 rounded-lg bg-[#DCEFE2] border border-[#BCE2C9] text-xs text-[#247A4B] flex items-center gap-2">
+                    <CheckCircle2 className="w-4 h-4 text-[#247A4B] shrink-0" />
                     <span>Zero interference collisions. All {selectedPoint.factCount} facts retrieved cleanly.</span>
                   </div>
                 ) : (
@@ -342,16 +342,16 @@ export const CapacityExperiment: React.FC<CapacityExperimentProps> = ({
                     {selectedPoint.failedQueries.map((fail, fIdx) => (
                       <div
                         key={fIdx}
-                        className="p-2 rounded bg-rose-950/30 border border-rose-800/40 text-[11px] font-mono flex items-center justify-between gap-2"
+                        className="p-2 rounded bg-[#F9E9ED] border border-[#F2CAD2] text-[11px] font-mono flex items-center justify-between gap-2"
                       >
                         <div className="flex items-center gap-1.5">
-                          <XCircle className="w-3.5 h-3.5 text-rose-400 shrink-0" />
-                          <span className="text-slate-200 font-semibold">{fail.query}:</span>
-                          <span className="line-through text-slate-500">{fail.expected}</span>
-                          <span className="text-slate-400">→</span>
-                          <span className="text-rose-300 font-bold">{fail.retrieved}</span>
+                          <XCircle className="w-3.5 h-3.5 text-[#B64235] shrink-0" />
+                          <span className="text-[#252525] font-semibold">{fail.query}:</span>
+                          <span className="line-through text-[#5F625F]">{fail.expected}</span>
+                          <span className="text-[#5F625F]">→</span>
+                          <span className="text-[#B64235] font-bold">{fail.retrieved}</span>
                         </div>
-                        <span className="text-slate-500 shrink-0">{fail.confidence}%</span>
+                        <span className="text-[#5F625F] shrink-0">{fail.confidence}%</span>
                       </div>
                     ))}
                   </div>
@@ -360,14 +360,14 @@ export const CapacityExperiment: React.FC<CapacityExperimentProps> = ({
 
               {/* Matrix Micro Heatmap */}
               <div>
-                <div className="text-xs font-mono text-slate-400 mb-1.5 flex items-center justify-between">
-                  <span>Final Matrix State (D={selectedPoint.dimension})</span>
-                  <span className="text-[10px] text-slate-500">
+                <div className="text-xs text-[#5F625F] mb-1.5 flex items-center justify-between">
+                  <span>Final matrix state (D={selectedPoint.dimension})</span>
+                  <span className="text-[10px] font-mono text-[#5F625F]">
                     {selectedPoint.dimension}×{selectedPoint.dimension} coordinates
                   </span>
                 </div>
                 <div
-                  className="grid gap-0.5 p-1 rounded bg-[#080B12] border border-[#1A2234] max-h-24 overflow-hidden"
+                  className="grid gap-0.5 p-1 rounded bg-[#F7F5EF] border border-[#D8DCD8] max-h-24 overflow-hidden"
                   style={{
                     gridTemplateColumns: `repeat(${Math.min(16, selectedPoint.dimension)}, minmax(0, 1fr))`,
                   }}
@@ -377,10 +377,10 @@ export const CapacityExperiment: React.FC<CapacityExperimentProps> = ({
                       const alpha = Math.min(1, Math.abs(val) * 0.8);
                       const bg =
                         val > 0
-                          ? `rgba(59, 130, 246, ${alpha})`
+                          ? `rgba(49, 86, 110, ${alpha})`
                           : val < 0
-                          ? `rgba(239, 68, 68, ${alpha})`
-                          : '#111726';
+                          ? `rgba(182, 66, 53, ${alpha})`
+                          : '#EAE6DF';
                       return (
                         <div
                           key={`${rIdx}-${cIdx}`}
@@ -395,7 +395,7 @@ export const CapacityExperiment: React.FC<CapacityExperimentProps> = ({
               </div>
             </div>
 
-            <div className="pt-3 mt-3 border-t border-[#1C2436] text-[11px] text-slate-500 font-mono">
+            <div className="pt-3 mt-3 border-t border-[#EAE6DF] text-[11px] text-[#5F625F] font-sans">
               Deterministic trial seeded with canonical facts pool. Repeated runs yield identical coordinates.
             </div>
           </div>

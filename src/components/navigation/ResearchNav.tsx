@@ -14,6 +14,7 @@ import {
   Hash,
 } from 'lucide-react';
 import { LogoMark } from '../ui/LogoMark';
+import { ThemeSwitcher } from '../ui/ThemeSwitcher';
 
 export type PageId = 'memory' | 'break' | 'trace' | 'measure' | 'bdh' | 'reason' | 'prove' | 'docs' | 'privacy' | 'terms' | '404';
 
@@ -437,28 +438,37 @@ export function ResearchNav({
             >
               <LogoMark size={28} variant="editorial" />
               <div className="flex flex-col">
-                <span className="header-brand-title group-hover:text-[#2B6282] transition-colors">
+                <span className="header-brand-title group-hover:text-[var(--accent-blue-text)] transition-colors">
                   Memory in Motion
                 </span>
-                <span className="text-[10px] font-sans text-[#716F68] leading-tight hidden xl:block whitespace-nowrap">
+                <span className="text-[10px] font-sans text-[var(--text-muted)] leading-tight hidden xl:block whitespace-nowrap">
                   Interactive Research Laboratory
                 </span>
               </div>
             </button>
           </div>
 
-          {/* TABLET / MOBILE ONLY: Compact Current Stage Indicator (hidden on large desktop) */}
-          <div className="hidden md:flex lg:hidden items-center gap-1.5 px-2.5 py-1 rounded-md bg-[#FAF8F5] border border-[#D9DCD8] text-xs font-sans">
-            <span className="font-mono text-[11px] font-bold text-[#21445B] bg-[#E7F2FA] px-1.5 py-0.5 rounded">
-              {currentPageInfo.num}
-            </span>
-            <span className="font-semibold text-[#252525] max-w-[120px] truncate">
-              {currentPageInfo.title}
-            </span>
+          {/* COMPACT VIEWPORTS (< 1200px): Stage Selector Button with Dropdown Trigger */}
+          <div className="flex xl:hidden items-center">
+            <button
+              type="button"
+              onClick={() => setTocDrawerOpen(true)}
+              className="inline-flex items-center gap-2 px-2.5 py-1.5 rounded-lg border border-[var(--border)] bg-[var(--surface-soft)] text-xs font-sans hover:bg-[var(--surface)] transition-colors cursor-pointer"
+              title="Open Stages Navigation"
+              aria-label="Open Stages Navigation"
+            >
+              <span className="font-mono text-[11px] font-bold text-[var(--accent-blue-text)] bg-[var(--accent-blue)] px-1.5 py-0.5 rounded">
+                {currentPageInfo.num}
+              </span>
+              <span className="font-semibold text-[var(--text-primary)] max-w-[140px] truncate">
+                {currentPageInfo.title}
+              </span>
+              <ChevronDown className="w-3.5 h-3.5 text-[var(--text-secondary)]" />
+            </button>
           </div>
 
-          {/* CENTER: Primary Navigation (01–07 stages) - Visible >= 1024px */}
-          <nav className="primary-nav" aria-label="Primary stages navigation">
+          {/* DESKTOP (>= 1200px): Primary Navigation (01–07 stages) - Never Clipped */}
+          <nav className="hidden xl:flex primary-nav" aria-label="Primary stages navigation">
             {PAGES.map((page, index) => {
               const isActive = page.id === currentPage;
               const isDropdownOpen = activeDropdownPage === page.id;
@@ -478,7 +488,7 @@ export function ResearchNav({
                   >
                     <span
                       className={`font-mono text-xs ${
-                        isActive ? 'text-[#21445B] font-bold' : 'text-[#7D817D]'
+                        isActive ? 'text-[var(--accent-blue-text)] font-bold' : 'text-[var(--text-muted)]'
                       }`}
                     >
                       {page.num}
@@ -492,13 +502,13 @@ export function ResearchNav({
                           e.stopPropagation();
                           setActiveDropdownPage(isDropdownOpen ? null : page.id);
                         }}
-                        className="p-0.5 text-[#7D817D] hover:text-[#252525] cursor-pointer ml-0.5"
+                        className="p-0.5 text-[var(--text-muted)] hover:text-[var(--text-primary)] cursor-pointer ml-0.5"
                         title={`View Stage ${page.num} Subsections`}
                         aria-label={`Toggle Stage ${page.num} subsections`}
                       >
                         <ChevronDown
                           className={`w-3 h-3 transition-transform duration-200 ${
-                            isDropdownOpen ? 'rotate-180 text-[#21445B]' : 'opacity-70'
+                            isDropdownOpen ? 'rotate-180 text-[var(--accent-blue-text)]' : 'opacity-70'
                           }`}
                         />
                       </span>
@@ -508,20 +518,20 @@ export function ResearchNav({
                   {/* Table of Contents Popover for this Page */}
                   {isDropdownOpen && page.subsections && (
                     <div
-                      className="absolute top-full left-0 mt-1 w-84 sm:w-96 rounded-xl border border-[#D9DCD8] bg-[#FFFFFF] p-3 shadow-lg z-50 animate-in fade-in slide-in-from-top-1 duration-150"
+                      className="absolute top-full left-0 mt-1 w-84 sm:w-96 rounded-xl border border-[var(--border)] bg-[var(--surface)] text-[var(--text-primary)] p-3 shadow-lg z-50 animate-in fade-in slide-in-from-top-1 duration-150"
                       onMouseEnter={() => handleMouseEnterNav(page.id)}
                       onMouseLeave={handleMouseLeaveNav}
                     >
                       {/* TOC Header */}
-                      <div className="flex items-center justify-between pb-2 mb-2 border-b border-[#D9DCD8]">
+                      <div className="flex items-center justify-between pb-2 mb-2 border-b border-[var(--border)]">
                         <div className="flex items-center gap-1.5">
-                          <span className="font-mono text-xs uppercase font-bold text-[#21445B] bg-[#E7F2FA] px-2 py-0.5 rounded border border-[#CDE1F0]">
+                          <span className="text-xs font-sans font-medium text-[var(--accent-blue-text)] bg-[var(--accent-blue)] px-2 py-0.5 rounded border border-[var(--border)]">
                             Stage {page.num} · Subsections
                           </span>
                         </div>
                         <button
                           onClick={() => handleSelect(page.id)}
-                          className="text-xs font-sans text-[#2B6282] hover:underline flex items-center gap-1 cursor-pointer"
+                          className="text-xs font-sans text-[var(--accent-blue-text)] hover:underline flex items-center gap-1 cursor-pointer"
                         >
                           <span>Overview Top</span>
                           <ArrowRight className="w-3 h-3" />
@@ -534,23 +544,23 @@ export function ResearchNav({
                           <button
                             key={sub.id}
                             onClick={() => handleSubsectionSelect(page.id, sub.id)}
-                            className="w-full text-left p-2 rounded-lg hover:bg-[#F7F5EF] border border-transparent hover:border-[#D9DCD8] transition-all group cursor-pointer flex items-start gap-2.5"
+                            className="w-full text-left p-2 rounded-lg hover:bg-[var(--surface-soft)] border border-transparent hover:border-[var(--border)] transition-all group cursor-pointer flex items-start gap-2.5"
                           >
-                            <span className="font-mono text-xs font-semibold text-[#21445B] bg-[#F0F1EF] group-hover:bg-[#E7F2FA] px-1.5 py-0.5 rounded border border-[#D9DCD8] shrink-0 mt-0.5">
+                            <span className="font-mono text-xs font-semibold text-[var(--accent-blue-text)] bg-[var(--surface-soft)] group-hover:bg-[var(--accent-blue)] px-1.5 py-0.5 rounded border border-[var(--border)] shrink-0 mt-0.5">
                               {sub.num}
                             </span>
                             <div className="flex-1 min-w-0">
                               <div className="flex items-center justify-between gap-1">
-                                <span className="text-xs font-semibold text-[#252525] group-hover:text-[#2B6282] transition-colors truncate font-sans">
+                                <span className="text-xs font-semibold text-[var(--text-primary)] group-hover:text-[var(--accent-blue-text)] transition-colors truncate font-sans">
                                   {sub.title}
                                 </span>
                                 {sub.badge && (
-                                  <span className="text-xs font-mono uppercase px-1.5 py-0.5 rounded bg-[#F0F1EF] border border-[#D9DCD8] text-[#5F625F] shrink-0">
+                                  <span className="text-xs font-sans px-1.5 py-0.5 rounded bg-[var(--surface-soft)] border border-[var(--border)] text-[var(--text-secondary)] shrink-0">
                                     {sub.badge}
                                   </span>
                                 )}
                               </div>
-                              <p className="text-xs text-[#5F625F] font-sans leading-snug line-clamp-1 mt-0.5">
+                              <p className="text-xs text-[var(--text-secondary)] font-sans leading-snug line-clamp-1 mt-0.5">
                                 {sub.description}
                               </p>
                             </div>
@@ -566,127 +576,35 @@ export function ResearchNav({
 
           {/* RIGHT: Secondary Actions Area */}
           <div className="header-actions">
-            {/* Contents Trigger - ALWAYS visible on desktop and tablet */}
+            {/* The Single Global Segmented Theme Switcher */}
+            <ThemeSwitcher />
+
+            {/* Contents Trigger - Opens full research drawer */}
             <button
               onClick={() => setTocDrawerOpen(true)}
               className="header-secondary-button"
               title="Open Complete Research Table of Contents"
               aria-label="Open Table of Contents"
             >
-              <ListTree className="w-3.5 h-3.5 text-[#5F625F] shrink-0" />
-              <span>Contents</span>
+              <ListTree className="w-3.5 h-3.5 text-[var(--text-secondary)] shrink-0" />
+              <span className="hidden sm:inline">Contents</span>
             </button>
-
-            {/* Glossary Trigger - visible on large desktop (>= 1280px) */}
-            {onOpenGlossary && (
-              <button
-                onClick={onOpenGlossary}
-                className="header-secondary-button glossary hidden xl:inline-flex"
-                title="Open Concept Glossary"
-                aria-label="Open Concept Glossary"
-              >
-                <BookOpen className="w-3.5 h-3.5 shrink-0" />
-                <span>Glossary</span>
-              </button>
-            )}
-
-            {/* 60s Fast Experiment CTA - visible on extra-wide desktop (>= 1400px) */}
-            {onStartJudgeMode && (
-              <button
-                onClick={onStartJudgeMode}
-                className="header-secondary-button hidden 2xl:inline-flex bg-[#FFF5D8] hover:bg-[#F8EFCB] text-[#5A4716] border-[#F0E3B8]"
-                title="Quick 60-Second Guided Verification"
-              >
-                <Clock className="w-3.5 h-3.5 text-[#5A4716] shrink-0" />
-                <span>60s Test</span>
-              </button>
-            )}
-
-            {/* Priority-Based "More ▾" Overflow Dropdown (compact & medium viewports) */}
-            <div className="relative hidden sm:block xl:hidden" ref={moreDropdownRef}>
-              <button
-                onClick={() => setMoreDropdownOpen(!moreDropdownOpen)}
-                className="header-more-btn"
-                title="More Research Tools"
-                aria-expanded={moreDropdownOpen}
-              >
-                <span>More</span>
-                <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-200 ${moreDropdownOpen ? 'rotate-180' : ''}`} />
-              </button>
-
-              {moreDropdownOpen && (
-                <div className="absolute right-0 top-full mt-1.5 w-52 rounded-xl border border-[#D9DCD8] bg-[#FFFFFF] p-2 shadow-lg z-50 animate-in fade-in slide-in-from-top-1 duration-150 space-y-1">
-                  {onOpenGlossary && (
-                    <button
-                      onClick={() => {
-                        setMoreDropdownOpen(false);
-                        onOpenGlossary();
-                      }}
-                      className="w-full flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-[#E7F2FA] text-xs font-sans font-semibold text-[#21445B] transition-colors text-left cursor-pointer"
-                    >
-                      <BookOpen className="w-4 h-4 text-[#21445B]" />
-                      <span>Concept Glossary</span>
-                    </button>
-                  )}
-
-                  {onStartJudgeMode && (
-                    <button
-                      onClick={() => {
-                        setMoreDropdownOpen(false);
-                        onStartJudgeMode();
-                      }}
-                      className="w-full flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-[#FFF5D8] text-xs font-sans font-semibold text-[#5A4716] transition-colors text-left cursor-pointer"
-                    >
-                      <Clock className="w-4 h-4 text-[#5A4716]" />
-                      <span>60s Experiment</span>
-                    </button>
-                  )}
-
-                  {onOpenCertificate && (
-                    <button
-                      onClick={() => {
-                        setMoreDropdownOpen(false);
-                        onOpenCertificate();
-                      }}
-                      className="w-full flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-[#DCEFE2] text-xs font-sans font-semibold text-[#24452E] transition-colors text-left cursor-pointer"
-                    >
-                      <Award className="w-4 h-4 text-[#24452E]" />
-                      <span>Certificate</span>
-                    </button>
-                  )}
-
-                  {onOpenDocs && (
-                    <button
-                      onClick={() => {
-                        setMoreDropdownOpen(false);
-                        onOpenDocs();
-                      }}
-                      className="w-full flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-[#FAF8F5] text-xs font-sans font-semibold text-[#48453E] transition-colors text-left cursor-pointer"
-                    >
-                      <BookOpen className="w-4 h-4 text-[#48453E]" />
-                      <span>Documentation</span>
-                    </button>
-                  )}
-                </div>
-              )}
-            </div>
-
-            {/* Mobile / Tablet Menu Trigger (hidden on large desktop >= 1024px) */}
+            {/* Mobile / Tablet Menu Trigger */}
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="lg:hidden flex items-center justify-center w-9 h-9 rounded-lg bg-[#FFFFFF] hover:bg-[#F0F1EF] text-[#252525] border border-[#D9DCD8] transition-all cursor-pointer shrink-0"
+              className="xl:hidden flex items-center justify-center w-9 h-9 rounded-lg bg-[var(--surface)] hover:bg-[var(--surface-soft)] text-[var(--text-primary)] border border-[var(--border)] transition-all cursor-pointer shrink-0"
               aria-label="Toggle navigation menu"
             >
-              {mobileMenuOpen ? <X className="w-4 h-4 text-[#252525]" /> : <Menu className="w-4 h-4 text-[#5F625F]" />}
+              {mobileMenuOpen ? <X className="w-4 h-4 text-[var(--text-primary)]" /> : <Menu className="w-4 h-4 text-[var(--text-secondary)]" />}
             </button>
           </div>
         </div>
 
         {/* Mobile Drawer Menu with Full Subsection Accordions */}
         {mobileMenuOpen && (
-          <div className="lg:hidden border-t border-[#D9DCD8] bg-[#FFFFFF] px-4 py-4 space-y-2 shadow-lg max-h-[85vh] overflow-y-auto">
-            <div className="flex items-center justify-between text-xs text-[#5F625F] font-sans px-2 pb-2">
-              <span className="font-semibold text-[#252525]">Learning Stages & Subsections</span>
+          <div className="xl:hidden border-t border-[var(--border)] bg-[var(--surface)] px-4 py-4 space-y-2 shadow-lg max-h-[85vh] overflow-y-auto">
+            <div className="flex items-center justify-between text-xs text-[var(--text-secondary)] font-sans px-2 pb-2">
+              <span className="font-semibold text-[var(--text-primary)]">Learning Stages & Subsections</span>
               <span className="font-mono">
                 Stage {activePageNum} of {PAGES.length}
               </span>
@@ -701,21 +619,21 @@ export function ResearchNav({
                 return (
                   <div
                     key={page.id}
-                    className="rounded-lg border border-[#D9DCD8] bg-[#FFFFFF] overflow-hidden"
+                    className="rounded-lg border border-[var(--border)] bg-[var(--surface)] overflow-hidden"
                   >
                     <div className="flex items-center justify-between p-2.5">
                       <button
                         onClick={() => handleSelect(page.id)}
                         className="flex items-center gap-3 text-left flex-1 cursor-pointer"
                       >
-                        <span className="font-mono text-xs text-[#7D817D] w-5">
+                        <span className="font-mono text-xs text-[var(--text-muted)] w-5">
                           {page.num}
                         </span>
                         <div>
-                          <div className={`font-semibold text-sm leading-tight ${isActive ? 'text-[#21445B]' : 'text-[#252525]'}`}>
+                          <div className={`font-semibold text-sm leading-tight ${isActive ? 'text-[var(--accent-blue-text)]' : 'text-[var(--text-primary)]'}`}>
                             {page.title}
                           </div>
-                          <div className="text-xs text-[#5F625F] font-normal">
+                          <div className="text-xs text-[var(--text-secondary)] font-normal">
                             {page.subtitle}
                           </div>
                         </div>
@@ -729,12 +647,12 @@ export function ResearchNav({
                               [page.id]: !prev[page.id],
                             }))
                           }
-                          className="p-1.5 rounded-md hover:bg-[#F0F1EF] text-[#5F625F] cursor-pointer"
+                          className="p-1.5 rounded-md hover:bg-[var(--surface-soft)] text-[var(--text-secondary)] cursor-pointer"
                           aria-label={`Toggle subsections for ${page.title}`}
                         >
                           <ChevronDown
                             className={`w-4 h-4 transition-transform duration-200 ${
-                              isExpanded ? 'rotate-180 text-[#21445B]' : ''
+                              isExpanded ? 'rotate-180 text-[var(--accent-blue-text)]' : ''
                             }`}
                           />
                         </button>
@@ -743,24 +661,24 @@ export function ResearchNav({
 
                     {/* Subsections Accordion for Mobile */}
                     {isExpanded && page.subsections && (
-                      <div className="bg-[#F7F5EF] border-t border-[#D9DCD8] px-3 py-2 space-y-1.5">
-                        <div className="text-xs font-mono uppercase text-[#5F625F] font-bold px-1 pt-1">
-                          Table of Contents ({page.subsections.length} topics)
+                      <div className="bg-[var(--surface-soft)] border-t border-[var(--border)] px-3 py-2 space-y-1.5">
+                        <div className="text-xs font-sans text-[var(--text-secondary)] font-semibold px-1 pt-1">
+                          Table of contents ({page.subsections.length} topics)
                         </div>
                         {page.subsections.map((sub) => (
                           <button
                             key={sub.id}
                             onClick={() => handleSubsectionSelect(page.id, sub.id)}
-                            className="w-full text-left p-2 rounded-md bg-[#FFFFFF] hover:bg-[#E7F2FA] border border-[#D9DCD8] flex items-start gap-2.5 transition-colors cursor-pointer"
+                            className="w-full text-left p-2 rounded-md bg-[var(--surface)] hover:bg-[var(--accent-blue)] border border-[var(--border)] flex items-start gap-2.5 transition-colors cursor-pointer"
                           >
-                            <span className="font-mono text-xs font-semibold text-[#21445B] shrink-0 mt-0.5">
+                            <span className="font-mono text-xs font-semibold text-[var(--accent-blue-text)] shrink-0 mt-0.5">
                               {sub.num}
                             </span>
                             <div className="flex-1 min-w-0">
-                              <div className="text-xs font-semibold text-[#252525] truncate">
+                              <div className="text-xs font-semibold text-[var(--text-primary)] truncate">
                                 {sub.title}
                               </div>
-                              <div className="text-[10.5px] text-[#5F625F] line-clamp-1">
+                              <div className="text-[10.5px] text-[var(--text-secondary)] line-clamp-1">
                                 {sub.description}
                               </div>
                             </div>
@@ -773,16 +691,17 @@ export function ResearchNav({
               })}
             </div>
 
-            {/* Mobile Drawer Actions */}
-            <div className="pt-3 border-t border-[#D9DCD8] grid grid-cols-2 gap-2">
+            {/* Mobile Drawer Actions (Theme Switcher is in the header, single source of truth) */}
+            <div className="pt-3 border-t border-[var(--border)] space-y-2">
+              <div className="grid grid-cols-2 gap-2">
               <button
                 onClick={() => {
                   setMobileMenuOpen(false);
                   setTocDrawerOpen(true);
                 }}
-                className="flex items-center justify-center gap-2 px-3 py-2.5 rounded-lg bg-[#FFFFFF] text-[#252525] border border-[#D9DCD8] font-sans text-xs font-semibold col-span-2 cursor-pointer"
+                className="flex items-center justify-center gap-2 px-3 py-2.5 rounded-lg bg-[var(--surface)] text-[var(--text-primary)] border border-[var(--border)] font-sans text-xs font-semibold col-span-2 cursor-pointer"
               >
-                <ListTree className="w-4 h-4 text-[#5F625F]" />
+                <ListTree className="w-4 h-4 text-[var(--text-secondary)]" />
                 <span>Complete Table of Contents</span>
               </button>
 
@@ -792,7 +711,7 @@ export function ResearchNav({
                     setMobileMenuOpen(false);
                     onOpenGlossary();
                   }}
-                  className="flex items-center justify-center gap-2 px-3 py-2.5 rounded-lg bg-[#E7F2FA] text-[#21445B] border border-[#CDE1F0] font-sans text-xs font-semibold col-span-2 cursor-pointer"
+                  className="flex items-center justify-center gap-2 px-3 py-2.5 rounded-lg bg-[var(--accent-blue)] text-[var(--accent-blue-text)] border border-[var(--border)] font-sans text-xs font-semibold col-span-2 cursor-pointer"
                 >
                   <BookOpen className="w-4 h-4" />
                   <span>Concept Glossary</span>
@@ -805,7 +724,7 @@ export function ResearchNav({
                     setMobileMenuOpen(false);
                     onStartJudgeMode();
                   }}
-                  className="flex items-center justify-center gap-2 px-3 py-2.5 rounded-lg bg-[#FFF5D8] text-[#5A4716] border border-[#F0E3B8] font-sans text-xs font-semibold cursor-pointer"
+                  className="flex items-center justify-center gap-2 px-3 py-2.5 rounded-lg bg-[var(--accent-yellow)] text-[var(--accent-yellow-text)] border border-[var(--border)] font-sans text-xs font-semibold cursor-pointer"
                 >
                   <Clock className="w-4 h-4" />
                   <span>60s Test</span>
@@ -818,23 +737,24 @@ export function ResearchNav({
                     setMobileMenuOpen(false);
                     onOpenCertificate();
                   }}
-                  className="flex items-center justify-center gap-2 px-3 py-2.5 rounded-lg bg-[#DCEFE2] text-[#24452E] border border-[#C5DDCB] font-sans text-xs font-semibold cursor-pointer"
+                  className="flex items-center justify-center gap-2 px-3 py-2.5 rounded-lg bg-[var(--accent-green)] text-[var(--accent-green-text)] border border-[var(--border)] font-sans text-xs font-semibold cursor-pointer"
                 >
                   <Award className="w-4 h-4" />
                   <span>Certificate</span>
                 </button>
               )}
+              </div>
             </div>
 
             {/* Mobile Footer Disclosures */}
-            <div className="pt-3 border-t border-[#E8EBE7] flex items-center justify-between text-xs text-[#716F68] px-1 font-sans">
+            <div className="pt-3 border-t border-[var(--border)] flex items-center justify-between text-xs text-[var(--text-secondary)] px-1 font-sans">
               <button
                 onClick={() => {
                   setMobileMenuOpen(false);
                   onPageChange('privacy');
                   window.scrollTo({ top: 0, behavior: 'smooth' });
                 }}
-                className="hover:text-[#21445B] hover:underline cursor-pointer"
+                className="hover:text-[var(--text-primary)] hover:underline cursor-pointer"
               >
                 Privacy Policy
               </button>
@@ -845,7 +765,7 @@ export function ResearchNav({
                   onPageChange('terms');
                   window.scrollTo({ top: 0, behavior: 'smooth' });
                 }}
-                className="hover:text-[#21445B] hover:underline cursor-pointer"
+                className="hover:text-[var(--accent-blue-text)] hover:underline cursor-pointer"
               >
                 Terms of Use
               </button>
@@ -856,7 +776,7 @@ export function ResearchNav({
                   onPageChange('docs');
                   window.scrollTo({ top: 0, behavior: 'smooth' });
                 }}
-                className="hover:text-[#21445B] hover:underline cursor-pointer"
+                className="hover:text-[var(--accent-blue-text)] hover:underline cursor-pointer"
               >
                 Documentation
               </button>
@@ -867,24 +787,24 @@ export function ResearchNav({
 
       {/* Global Table of Contents Slide-Over Drawer */}
       {tocDrawerOpen && (
-        <div className="fixed inset-0 z-50 flex justify-end bg-black/35 backdrop-blur-xs animate-in fade-in duration-200">
+        <div className="fixed inset-0 z-50 flex justify-end bg-black/40 backdrop-blur-xs animate-in fade-in duration-200">
           <div
-            className="w-full max-w-lg bg-[#FFFFFF] h-full shadow-2xl flex flex-col border-l border-[#D9DCD8] animate-in slide-in-from-right duration-250"
+            className="w-full max-w-lg bg-[var(--surface)] text-[var(--text-primary)] h-full shadow-2xl flex flex-col border-l border-[var(--border)] animate-in slide-in-from-right duration-250"
             role="dialog"
             aria-modal="true"
             aria-label="Table of Contents"
           >
             {/* Drawer Header */}
-            <div className="p-5 border-b border-[#D9DCD8] bg-[#FFFFFF] flex items-center justify-between">
+            <div className="p-5 border-b border-[var(--border)] bg-[var(--surface)] flex items-center justify-between">
               <div className="flex items-center gap-2.5">
-                <div className="w-8 h-8 rounded-lg bg-[#E7F2FA] border border-[#CDE1F0] flex items-center justify-center">
-                  <ListTree className="w-4 h-4 text-[#21445B]" />
+                <div className="w-8 h-8 rounded-lg bg-[var(--accent-blue)] border border-[var(--border)] flex items-center justify-center">
+                  <ListTree className="w-4 h-4 text-[var(--accent-blue-text)]" />
                 </div>
                 <div>
-                  <h3 className="font-serif font-bold text-base text-[#252525] leading-tight">
+                  <h3 className="font-serif font-bold text-base text-[var(--text-primary)] leading-tight">
                     Table of Contents
                   </h3>
-                  <p className="text-xs text-[#5F625F] font-sans">
+                  <p className="text-xs text-[var(--text-secondary)] font-sans">
                     Navigate all 7 stages & research subsections
                   </p>
                 </div>
@@ -892,7 +812,7 @@ export function ResearchNav({
 
               <button
                 onClick={() => setTocDrawerOpen(false)}
-                className="w-8 h-8 rounded-md hover:bg-[#F0F1EF] border border-[#D9DCD8] flex items-center justify-center text-[#5F625F] hover:text-[#252525] transition cursor-pointer"
+                className="w-8 h-8 rounded-md hover:bg-[var(--surface-soft)] border border-[var(--border)] flex items-center justify-center text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition cursor-pointer"
                 aria-label="Close Table of Contents"
               >
                 <X className="w-4 h-4" />
@@ -900,44 +820,44 @@ export function ResearchNav({
             </div>
 
             {/* Quick Search */}
-            <div className="p-4 border-b border-[#D9DCD8] bg-[#F7F5EF]">
+            <div className="p-4 border-b border-[var(--border)] bg-[var(--page-bg)]">
               <input
                 type="text"
                 placeholder="Search topics (e.g., 'Hebbian plasticity', 'bounds', 'KV-cache')..."
                 value={tocSearch}
                 onChange={(e) => setTocSearch(e.target.value)}
-                className="w-full px-3 py-2 rounded-md bg-[#FFFFFF] border border-[#D9DCD8] text-xs font-sans text-[#252525] focus:outline-none focus:border-[#2B6282]"
+                className="w-full px-3 py-2 rounded-md bg-[var(--surface)] border border-[var(--border)] text-xs font-sans text-[var(--text-primary)] placeholder:text-[var(--text-muted)] focus:outline-none focus:border-[var(--accent-blue-text)]"
               />
             </div>
 
             {/* Content List */}
-            <div className="flex-1 overflow-y-auto p-4 space-y-4 bg-[#F7F5EF]">
+            <div className="flex-1 overflow-y-auto p-4 space-y-4 bg-[var(--page-bg)]">
               {filteredPages.length === 0 ? (
-                <div className="text-center py-10 text-xs text-[#5F625F]">
+                <div className="text-center py-10 text-xs text-[var(--text-secondary)]">
                   No subsections matching &ldquo;{tocSearch}&rdquo;.
                 </div>
               ) : (
                 filteredPages.map((page) => (
                   <div
                     key={page.id}
-                    className="rounded-lg border border-[#D9DCD8] bg-[#FFFFFF] p-4 space-y-3 shadow-xs"
+                    className="rounded-lg border border-[var(--border)] bg-[var(--surface)] p-4 space-y-3 shadow-xs"
                   >
-                    <div className="flex items-center justify-between border-b border-[#E8EBE7] pb-2">
+                    <div className="flex items-center justify-between border-b border-[var(--border)] pb-2">
                       <button
                         onClick={() => handleSelect(page.id)}
                         className="text-left group flex items-center gap-2 cursor-pointer"
                       >
-                        <span className="font-mono text-xs font-bold text-[#21445B] bg-[#E7F2FA] px-2 py-0.5 rounded border border-[#CDE1F0]">
+                        <span className="font-mono text-xs font-bold text-[var(--accent-blue-text)] bg-[var(--accent-blue)] px-2 py-0.5 rounded border border-[var(--border)]">
                           Stage {page.num}
                         </span>
-                        <span className="font-serif font-bold text-sm text-[#252525] group-hover:text-[#2B6282] transition-colors">
+                        <span className="font-serif font-bold text-sm text-[var(--text-primary)] group-hover:text-[var(--accent-blue-text)] transition-colors">
                           {page.title}
                         </span>
                       </button>
 
                       <button
                         onClick={() => handleSelect(page.id)}
-                        className="text-xs font-sans text-[#2B6282] hover:underline flex items-center gap-1 cursor-pointer"
+                        className="text-xs font-sans text-[var(--accent-blue-text)] hover:underline flex items-center gap-1 cursor-pointer"
                       >
                         <span>Jump to Top</span>
                         <ArrowRight className="w-3 h-3" />
@@ -950,23 +870,23 @@ export function ResearchNav({
                           <button
                             key={sub.id}
                             onClick={() => handleSubsectionSelect(page.id, sub.id)}
-                            className="w-full text-left p-2.5 rounded-md hover:bg-[#F7F5EF] border border-transparent hover:border-[#D9DCD8] transition-all flex items-start gap-3 group cursor-pointer"
+                            className="w-full text-left p-2.5 rounded-md hover:bg-[var(--surface-soft)] border border-transparent hover:border-[var(--border)] transition-all flex items-start gap-3 group cursor-pointer"
                           >
-                            <span className="font-mono text-xs font-bold text-[#21445B] bg-[#F0F1EF] group-hover:bg-[#E7F2FA] px-1.5 py-0.5 rounded border border-[#D9DCD8] shrink-0 mt-0.5">
+                            <span className="font-mono text-xs font-bold text-[var(--accent-blue-text)] bg-[var(--surface-soft)] group-hover:bg-[var(--accent-blue)] px-1.5 py-0.5 rounded border border-[var(--border)] shrink-0 mt-0.5">
                               {sub.num}
                             </span>
                             <div className="flex-1 min-w-0">
                               <div className="flex items-center justify-between gap-2">
-                                <span className="text-xs font-bold text-[#252525] group-hover:text-[#2B6282] transition-colors">
+                                <span className="text-xs font-bold text-[var(--text-primary)] group-hover:text-[var(--accent-blue-text)] transition-colors">
                                   {sub.title}
                                 </span>
                                 {sub.badge && (
-                                  <span className="text-xs font-mono uppercase px-1.5 py-0.5 rounded bg-[#F0F1EF] border border-[#D9DCD8] text-[#5F625F] shrink-0">
+                                  <span className="text-xs font-sans px-1.5 py-0.5 rounded bg-[var(--surface-soft)] border border-[var(--border)] text-[var(--text-secondary)] shrink-0">
                                     {sub.badge}
                                   </span>
                                 )}
                               </div>
-                              <p className="text-xs text-[#5F625F] font-sans mt-0.5 leading-snug">
+                              <p className="text-xs text-[var(--text-secondary)] font-sans mt-0.5 leading-snug">
                                 {sub.description}
                               </p>
                             </div>
@@ -980,7 +900,7 @@ export function ResearchNav({
             </div>
 
             {/* Drawer Footer */}
-            <div className="p-4 border-t border-[#D9DCD8] bg-[#FFFFFF] flex items-center justify-between text-xs text-[#5F625F]">
+            <div className="p-4 border-t border-[var(--border)] bg-[var(--surface)] flex items-center justify-between text-xs text-[var(--text-secondary)]">
               <span>Clicking any item scrolls directly to the subsection</span>
               <button
                 onClick={() => setTocDrawerOpen(false)}

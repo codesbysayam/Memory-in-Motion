@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useExperiment } from '../context/ExperimentContext';
-import { Terminal, Copy, Check, Activity, ShieldCheck, AlertTriangle } from 'lucide-react';
-import { GlossaryTerm } from './GlossaryTerm';
+import { Download, ChevronDown, ChevronUp, CheckCircle2, AlertTriangle, HelpCircle } from 'lucide-react';
 
 interface DebugPanelProps {
   id?: string;
@@ -17,10 +16,15 @@ interface DebugPanelProps {
   status?: 'Correct' | 'Interference' | 'Unknown';
   mode?: string;
   currentRunId?: string;
+  facts?: any[];
+  matrix?: number[][];
+  state?: number[];
+  history?: any[];
+  config?: any;
 }
 
 export const DebugPanel: React.FC<DebugPanelProps> = ({
-  id = 'experiment-debug-panel',
+  id = 'live-experiment-panel',
   className = '',
   activeFactsCount: propActiveFactsCount,
   step: propStep,
@@ -33,274 +37,265 @@ export const DebugPanel: React.FC<DebugPanelProps> = ({
   status: propStatus,
   mode: propMode,
   currentRunId: propCurrentRunId,
+  facts: propFacts,
+  matrix: propMatrix,
+  state: propState,
+  history: propHistory,
+  config: propConfig,
 }) => {
   const context = useExperiment();
 
-  const activeFactsCount = propActiveFactsCount ?? context.activeFactsCount;
-  const step = propStep ?? context.step;
-  const matrixNorm = propMatrixNorm ?? context.matrixNorm;
-  const activeProbe = propActiveProbe !== undefined ? propActiveProbe : context.activeProbe;
-  const prediction = propPrediction ?? context.prediction;
-  const groundTruth = propGroundTruth ?? context.groundTruth;
-  const retrievalScore = propRetrievalScore ?? context.retrievalScore;
-  const top1Margin = propTop1Margin ?? context.top1Margin;
-  const status = propStatus ?? context.status;
-  const mode = propMode ?? context.mode;
-  const currentRunId = propCurrentRunId ?? context.currentRunId;
-  const config = context.config;
+  const activeFactsCount = propActiveFactsCount ?? context?.activeFactsCount ?? 3;
+  const step = propStep ?? context?.step ?? 3;
+  const matrixNorm = propMatrixNorm ?? context?.matrixNorm ?? 1.1753;
+  const activeProbe = propActiveProbe !== undefined ? propActiveProbe : context?.activeProbe ?? 'Japan';
+  const prediction = propPrediction ?? context?.prediction ?? 'Tokyo';
+  const groundTruth = propGroundTruth ?? context?.groundTruth ?? 'Tokyo';
+  const retrievalScore = propRetrievalScore ?? context?.retrievalScore ?? 0.9858;
+  const top1Margin = propTop1Margin ?? context?.top1Margin ?? 0.6198;
+  const status = propStatus ?? context?.status ?? 'Correct';
+  const mode = propMode ?? context?.mode ?? 'interactive';
+  const currentRunId = propCurrentRunId ?? context?.currentRunId ?? `MEM-D16-S${step}`;
+  const config = propConfig ?? context?.config;
 
-  const [copied, setCopied] = useState(false);
-  const [isExpanded, setIsExpanded] = useState(true);
-
-  const handleCopy = () => {
-    const payload = {
-      timestamp: new Date().toISOString(),
-      mode,
-      currentRunId,
-      activeFactsCount,
-      stepIndex: step,
-      matrixFrobeniusNorm: Number(matrixNorm.toFixed(6)),
-      activeProbeKey: activeProbe,
-      modelPrediction: prediction,
-      groundTruth,
-      retrievalScore: Number(retrievalScore.toFixed(6)),
-      top1Margin: Number(top1Margin.toFixed(6)),
-      status,
-      config,
-    };
-
-    navigator.clipboard.writeText(JSON.stringify(payload, null, 2));
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
-  };
+  const [expanded, setExpanded] = useState<boolean>(true);
+  const [exported, setExported] = useState<boolean>(false);
 
   const isCorrect = status === 'Correct';
   const isInterference = status === 'Interference';
 
+  const handleExportJSON = () => {
+    const experimentData = {
+      experimentId: currentRunId,
+      timestamp: new Date().toISOString(),
+      mode,
+      config: config || {
+        dimension: 16,
+        retention: 0.95,
+        writeStrength: 0.8,
+        interference: 0,
+      },
+      factsCount: activeFactsCount,
+      step,
+      probe: activeProbe,
+      result: {
+        prediction,
+        groundTruth,
+        retrievalScore: Number(retrievalScore.toFixed(4)),
+        top1Margin: Number(top1Margin.toFixed(4)),
+        status,
+        isCorrect,
+      },
+      state: {
+        norm: Number(matrixNorm.toFixed(4)),
+        vector: propState || context?.state || [],
+        matrix: propMatrix || context?.matrix || [],
+      },
+      facts: propFacts || context?.facts || [],
+      history: propHistory || context?.historyRuns || [],
+    };
+
+    const blob = new Blob([JSON.stringify(experimentData, null, 2)], {
+      type: 'application/json',
+    });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `${currentRunId || 'memory-experiment'}.json`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+
+    setExported(true);
+    setTimeout(() => setExported(false), 2000);
+  };
+
   return (
     <div
       id={id}
-      className={`rounded-2xl border border-[#D9DCD8] bg-[#FFFFFF] text-[#252525] p-4 sm:p-5 shadow-xs transition-all ${className}`}
+      className={`lab-section shadow-sm transition-all ${className}`}
     >
-      {/* Top Header */}
-      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[#EAE6DF] pb-3 mb-3.5">
-        <div className="flex items-center gap-2.5">
-          <div className="w-7 h-7 rounded-lg bg-[#EBF1F5] border border-[#D9DCD8] flex items-center justify-center text-[#31566E]">
-            <Terminal className="w-4 h-4" />
+      {/* Editorial Instrument Header */}
+      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[var(--lab-border)] pb-3 mb-4">
+        <div>
+          <div className="text-[11px] font-sans font-bold uppercase tracking-wider text-[var(--lab-secondary)]">
+            LIVE EXPERIMENT
           </div>
-          <div>
-            <div className="flex items-center gap-2">
-              <span className="text-xs font-mono font-bold tracking-wider text-[#31566E]">
-                Engine state verifier
-              </span>
-              <span className="flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-mono font-semibold bg-[#FAF8F5] border border-[#D9DCD8] text-[#4F514E]">
-                <Activity className="w-3 h-3 text-[#31566E]" />
-                {mode} mode
-              </span>
-            </div>
-            <h2 className="font-serif text-sm sm:text-base font-bold text-[#252525]">
-              Deterministic memory state diagnostics
-            </h2>
-          </div>
+          <h2 className="font-serif text-lg sm:text-xl font-semibold text-[var(--lab-text)] mt-0.5">
+            Interactive memory instrument
+          </h2>
         </div>
 
+        {/* Quiet Controls */}
         <div className="flex items-center gap-2">
           <button
             type="button"
-            onClick={handleCopy}
-            title="Copy current telemetry JSON"
-            className="utility-button"
+            onClick={handleExportJSON}
+            className="inline-flex items-center gap-1.5 px-2.5 py-1 text-xs font-sans text-[var(--lab-secondary)] hover:text-[var(--lab-text)] bg-[var(--lab-surface)] hover:bg-[var(--lab-border)] border border-[var(--lab-border)] rounded-md transition-colors cursor-pointer"
+            title="Download complete verified experiment record as JSON"
           >
-            {copied ? (
-              <>
-                <Check className="w-3.5 h-3.5 text-[#245B38]" />
-                <span className="text-[#245B38]">Copied</span>
-              </>
-            ) : (
-              <>
-                <Copy className="w-3.5 h-3.5" />
-                <span>Export JSON</span>
-              </>
-            )}
+            <Download className="w-3.5 h-3.5" />
+            <span>{exported ? 'Downloaded' : 'Export JSON'}</span>
           </button>
+
           <button
             type="button"
-            onClick={() => setIsExpanded(!isExpanded)}
-            className="utility-button"
+            onClick={() => setExpanded(!expanded)}
+            className="inline-flex items-center gap-1 px-2.5 py-1 text-xs font-sans text-[var(--lab-secondary)] hover:text-[var(--lab-text)] hover:bg-[var(--lab-surface)] rounded-md transition-colors cursor-pointer"
+            aria-expanded={expanded}
           >
-            {isExpanded ? 'Collapse' : 'Expand'}
+            <span>{expanded ? 'Collapse' : 'Expand'}</span>
+            {expanded ? <ChevronUp className="w-3.5 h-3.5" /> : <ChevronDown className="w-3.5 h-3.5" />}
           </button>
         </div>
       </div>
 
-      {isExpanded && (
-        <>
-          {/* 8 Required Engine Metrics Grid */}
-          <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-2.5 font-mono">
-            {/* 1. Active Facts Count */}
+      {expanded && (
+        <div className="space-y-4 animate-in fade-in duration-200">
+          {/* Scientific Status Notification (Non-neon, semantic, quiet) */}
+          <div className="flex items-center justify-between gap-3">
             <div
-              id="debug-metric-active-facts"
-              className="p-2.5 rounded-xl bg-[#FAF8F5] border border-[#EAE6DF] flex flex-col justify-between"
-            >
-              <div className="text-xs text-[#70736F] font-semibold">
-                Active facts
-              </div>
-              <div className="text-base sm:text-lg font-bold text-[#252525] mt-1">
-                {activeFactsCount}
-              </div>
-              <div className="text-[11px] text-[#70736F] mt-0.5">Stream facts count</div>
-            </div>
-
-            {/* 2. Current Step Index */}
-            <div
-              id="debug-metric-step-index"
-              className="p-2.5 rounded-xl bg-[#FAF8F5] border border-[#EAE6DF] flex flex-col justify-between"
-            >
-              <div className="text-xs text-[#70736F] font-semibold">
-                Step index
-              </div>
-              <div className="text-base sm:text-lg font-bold text-[#31566E] mt-1">
-                t = {step}
-              </div>
-              <div className="text-[11px] text-[#70736F] mt-0.5">Transitions executed</div>
-            </div>
-
-            {/* 3. Matrix Frobenius Norm */}
-            <div
-              id="debug-metric-matrix-norm"
-              className="p-2.5 rounded-xl bg-[#FAF8F5] border border-[#EAE6DF] flex flex-col justify-between"
-            >
-              <div className="text-xs text-[#70736F] font-semibold flex items-center justify-between">
-                <span>||M||_F norm</span>
-              </div>
-              <div className="text-base sm:text-lg font-bold text-[#252525] mt-1 font-mono">
-                {matrixNorm.toFixed(4)}
-              </div>
-              <div className="text-[11px] text-[#70736F] mt-0.5">
-                <GlossaryTerm term="Frobenius norm" className="text-[#4F514E] hover:text-[#252525] border-dashed border-[#D9DCD8]">
-                  Frobenius state
-                </GlossaryTerm>
-              </div>
-            </div>
-
-            {/* 4. Active Probe Key */}
-            <div
-              id="debug-metric-active-probe"
-              className="p-2.5 rounded-xl bg-[#FAF8F5] border border-[#EAE6DF] flex flex-col justify-between"
-            >
-              <div className="text-xs text-[#70736F] font-semibold">
-                Probe key
-              </div>
-              <div className="text-base sm:text-lg font-bold text-[#252525] mt-1 truncate" title={activeProbe || 'None'}>
-                "{activeProbe || 'None'}"
-              </div>
-              <div className="text-[11px] text-[#70736F] mt-0.5">Query association</div>
-            </div>
-
-            {/* 5. Model Prediction */}
-            <div
-              id="debug-metric-prediction"
-              className={`p-2.5 rounded-xl border flex flex-col justify-between ${
+              className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-sans font-medium border ${
                 isCorrect
-                  ? 'bg-[#EBF7EE] border-[#B2D8BD] text-[#245B38]'
+                  ? 'bg-[var(--accent-green)] text-[var(--accent-green-text)] border-[var(--border)]'
                   : isInterference
-                  ? 'bg-[#FDF2F0] border-[#ECC0BC] text-[#8A352E]'
-                  : 'bg-[#FAF8F5] border-[#EAE6DF] text-[#252525]'
+                  ? 'bg-[var(--accent-pink)] text-[var(--accent-pink-text)] border-[var(--border)]'
+                  : 'bg-[var(--lab-surface)] text-[var(--lab-secondary)] border-[var(--lab-border)]'
               }`}
             >
-              <div className="text-xs font-semibold opacity-85">
-                Prediction
-              </div>
-              <div className="text-base sm:text-lg font-bold mt-1 truncate" title={prediction}>
-                {prediction}
-              </div>
-              <div className="text-[11px] opacity-75 mt-0.5">Argmax projection</div>
+              {isCorrect ? (
+                <>
+                  <CheckCircle2 className="w-4 h-4 text-[var(--accent-green-text)] shrink-0" />
+                  <span>✓ Correct retrieval: probe &quot;{activeProbe}&quot; matches ground truth</span>
+                </>
+              ) : isInterference ? (
+                <>
+                  <AlertTriangle className="w-4 h-4 text-[var(--accent-pink-text)] shrink-0" />
+                  <span>Interference detected: probe vector diverged from ground truth</span>
+                </>
+              ) : (
+                <span>State initialised</span>
+              )}
             </div>
 
-            {/* 6. Ground Truth */}
-            <div
-              id="debug-metric-ground-truth"
-              className="p-2.5 rounded-xl bg-[#FAF8F5] border border-[#EAE6DF] flex flex-col justify-between"
-            >
-              <div className="text-xs text-[#70736F] font-semibold">
-                Ground truth
+            <div className="text-xs font-mono text-[var(--lab-secondary)] hidden sm:block">
+              ID: {currentRunId}
+            </div>
+          </div>
+
+          {/* 4 Conceptual Columns: Experiment, Current state, Probe, Result */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+            {/* 1. Experiment Section */}
+            <div className="p-3.5 rounded-xl bg-[var(--lab-surface)] border border-[var(--lab-border)] space-y-2">
+              <span className="text-[11px] font-mono font-bold text-[var(--lab-secondary)] uppercase tracking-wider block">
+                EXPERIMENT
+              </span>
+              <div className="space-y-1">
+                <div className="font-mono text-sm text-[var(--lab-text)] font-semibold">{activeFactsCount} facts</div>
+                <div className="font-mono text-xs text-[var(--lab-secondary)]">t = {step}</div>
+                <div className="font-mono text-xs text-[var(--lab-secondary)]">D = 16</div>
               </div>
-              <div className="text-base sm:text-lg font-bold text-[#252525] mt-1 truncate" title={groundTruth}>
-                {groundTruth}
-              </div>
-              <div className="text-[11px] text-[#70736F] mt-0.5">Target value</div>
             </div>
 
-            {/* 7. Retrieval Score */}
-            <div
-              id="debug-metric-retrieval-score"
-              className="p-2.5 rounded-xl bg-[#FAF8F5] border border-[#EAE6DF] flex flex-col justify-between"
-              title="This score is computed from representation similarity. It is not a calibrated probability."
-            >
-              <div className="text-xs text-[#70736F] font-semibold">
-                Score
+            {/* 2. Current State Section */}
+            <div className="p-3.5 rounded-xl bg-[var(--lab-surface)] border border-[var(--lab-border)] space-y-2">
+              <span className="text-[11px] font-mono font-bold text-[var(--lab-secondary)] uppercase tracking-wider block">
+                CURRENT STATE
+              </span>
+              <div className="space-y-1">
+                <div className="font-mono text-sm text-[var(--lab-text)] font-semibold">
+                  ‖M‖<sub>F</sub> = {matrixNorm.toFixed(4)}
+                </div>
+                <div className="font-mono text-xs text-[var(--lab-secondary)]">
+                  M ∈ ℝ<sup>16×16</sup>
+                </div>
               </div>
-              <div className="text-base sm:text-lg font-bold text-[#31566E] mt-1">
-                {retrievalScore.toFixed(4)}
-              </div>
-              <div className="text-[11px] text-[#70736F] mt-0.5">Top-1 cosine sim</div>
             </div>
 
-            {/* 8. Top-1 Margin */}
-            <div
-              id="debug-metric-top1-margin"
-              className="p-2.5 rounded-xl bg-[#FAF8F5] border border-[#EAE6DF] flex flex-col justify-between"
-            >
-              <div className="text-xs text-[#70736F] font-semibold">
-                Top-1 margin
+            {/* 3. Probe Section */}
+            <div className="p-3.5 rounded-xl bg-[var(--lab-surface)] border border-[var(--lab-border)] space-y-2">
+              <span className="text-[11px] font-mono font-bold text-[var(--lab-secondary)] uppercase tracking-wider block">
+                PROBE
+              </span>
+              <div className="space-y-1">
+                <div className="font-serif text-lg font-bold text-[var(--lab-text)] truncate" title={activeProbe || 'None'}>
+                  {activeProbe || 'None'}
+                </div>
+                <div className="font-mono text-xs text-[var(--lab-secondary)]">
+                  qᵀ M
+                </div>
               </div>
+            </div>
+
+            {/* 4. Result Section */}
+            <div
+              className={`p-3.5 rounded-xl border space-y-2 bg-[var(--lab-surface)] ${
+                isCorrect
+                  ? 'border-[var(--accent-green-text)]/40'
+                  : 'border-[var(--accent-pink-text)]/40'
+              }`}
+            >
+              <span className="text-[11px] font-mono font-bold text-[var(--lab-secondary)] uppercase tracking-wider block">
+                RESULT
+              </span>
+              <div className="space-y-1">
+                <div
+                  className={`font-serif text-lg font-bold truncate ${
+                    isCorrect ? 'text-[var(--accent-green-text)]' : 'text-[var(--accent-pink-text)]'
+                  }`}
+                  title={prediction}
+                >
+                  {prediction}
+                </div>
+                <div className="text-xs text-[var(--lab-secondary)] flex items-center justify-between">
+                  <span>Ground truth:</span>
+                  <span className="font-semibold text-[var(--lab-text)]">{groundTruth}</span>
+                </div>
+                <div className="text-xs text-[var(--lab-secondary)] flex items-center justify-between">
+                  <span>Retrieval score:</span>
+                  <span className="font-mono font-medium text-[var(--lab-text)]">{retrievalScore.toFixed(4)}</span>
+                </div>
+                <div className="text-xs text-[var(--lab-secondary)] flex items-center justify-between">
+                  <span>Top-1 margin:</span>
+                  <span className="font-mono font-medium text-[var(--lab-text)]">{top1Margin.toFixed(4)}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Secondary Quantitative Metrics Strip */}
+          <div className="flex flex-wrap items-center justify-between gap-4 px-3.5 py-2 rounded-xl bg-[var(--lab-surface)] border border-[var(--lab-border)] text-xs font-sans">
+            <div className="flex flex-wrap items-center gap-6 text-[var(--lab-secondary)]">
               <div
-                className={`text-base sm:text-lg font-bold mt-1 ${
-                  top1Margin > 0.3 ? 'text-[#245B38]' : top1Margin > 0.1 ? 'text-[#B88728]' : 'text-[#8A352E]'
-                }`}
+                className="flex items-center gap-2"
+                title="Cosine similarity between the retrieved representation and a candidate value representation. This is not a calibrated probability."
               >
-                {top1Margin.toFixed(4)}
+                <span>Retrieval score:</span>
+                <span className="font-mono font-bold text-[var(--accent-blue-text)]">{retrievalScore.toFixed(4)}</span>
+                <span
+                  className="cursor-help text-[var(--lab-secondary)] hover:text-[var(--lab-text)]"
+                  title="Cosine similarity between the retrieved representation and a candidate value representation. This is not a calibrated probability."
+                >
+                  <HelpCircle className="w-3.5 h-3.5 inline" />
+                </span>
               </div>
-              <div className="text-[11px] text-[#70736F] mt-0.5">Score gap to 2nd</div>
-            </div>
-          </div>
 
-          {/* Sub-bar: Status and Run ID */}
-          <div className="mt-3 pt-2.5 border-t border-[#EAE6DF] flex flex-wrap items-center justify-between gap-3 text-xs font-mono text-[#70736F]">
-            <div className="flex items-center gap-3">
-              <span className="text-xs text-[#70736F]">Engine status:</span>
-              <span
-                className={`flex items-center gap-1.5 px-2.5 py-0.5 rounded-md text-xs font-bold ${
-                  isCorrect
-                    ? 'bg-[#EBF7EE] border border-[#B2D8BD] text-[#245B38]'
-                    : isInterference
-                    ? 'bg-[#FDF2F0] border border-[#ECC0BC] text-[#8A352E]'
-                    : 'bg-[#FAF8F5] border border-[#D9DCD8] text-[#4F514E]'
-                }`}
+              <div
+                className="flex items-center gap-2"
+                title="Difference between the top candidate similarity score and the runner-up candidate score."
               >
-                {isCorrect ? (
-                  <ShieldCheck className="w-3.5 h-3.5 text-[#245B38]" />
-                ) : (
-                  <AlertTriangle className="w-3.5 h-3.5 text-[#8A352E]" />
-                )}
-                {status}
-              </span>
-              <span className="hidden sm:inline text-[#D9DCD8]">•</span>
-              <span className="hidden sm:inline text-xs text-[#70736F]">
-                q = vector("{activeProbe}", {config.dimension})
-              </span>
+                <span>Top-1 margin:</span>
+                <span className="font-mono font-semibold text-[var(--lab-text)]">{top1Margin.toFixed(4)}</span>
+              </div>
             </div>
 
-            <div className="flex items-center gap-2">
-              <span className="text-[#70736F] text-xs">Reproducible run:</span>
-              <span className="px-2 py-0.5 rounded bg-[#FAF8F5] border border-[#D9DCD8] text-[#252525] text-xs font-semibold">
-                {currentRunId}
-              </span>
-            </div>
+            <p className="text-[11px] text-[var(--lab-secondary)] italic">
+              Cosine similarity is representation alignment, not a calibrated probability.
+            </p>
           </div>
-        </>
+        </div>
       )}
     </div>
   );
 };
-export default DebugPanel;

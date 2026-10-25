@@ -15,6 +15,8 @@ import { Section01MemoryProblem } from './components/Section01MemoryProblem';
 import { Section02GrowingContext } from './components/Section02GrowingContext';
 import { Section03RecurrentMemory } from './components/Section03RecurrentMemory';
 import { Section04InterferenceLab } from './components/Section04InterferenceLab';
+import { ErrorBoundary } from './components/ErrorBoundary';
+import { reexecuteLastValidExperiment } from './models/interferenceLabEngine';
 import { Section05FindTheFailure } from './components/Section05FindTheFailure';
 import { SectionMeasure } from './components/SectionMeasure';
 import { Section06WhyThisMatters } from './components/Section06WhyThisMatters';
@@ -36,6 +38,14 @@ import { TermsPage } from './components/TermsPage';
 import { NotFoundPage } from './components/NotFoundPage';
 import { CookieConsentBanner } from './components/CookieConsentBanner';
 import { usePersistentNavigation } from './hooks/usePersistentNavigation';
+import { ThemeProvider } from './context/ThemeContext';
+import { Page01MemoryInteractions } from './components/interactions/Page01MemoryInteractions';
+import { Page02BreakInteractions } from './components/interactions/Page02BreakInteractions';
+import { Page03TraceInteractions } from './components/interactions/Page03TraceInteractions';
+import { Page04MeasureInteractions } from './components/interactions/Page04MeasureInteractions';
+import { Page05BDHInteractions } from './components/interactions/Page05BDHInteractions';
+import { Page06ReasonInteractions } from './components/interactions/Page06ReasonInteractions';
+import { Page07ProveInteractions } from './components/interactions/Page07ProveInteractions';
 
 function AppContent() {
   const { openGlossary } = useGlossary();
@@ -80,7 +90,7 @@ function AppContent() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-[#FFFFFF] text-[#252525] font-sans selection:bg-[#E7F2FA] selection:text-[#21445B]">
+    <div className="min-h-screen bg-[var(--page-bg)] text-[var(--text-primary)] font-sans selection:bg-[var(--accent-blue)] selection:text-[var(--accent-blue-text)]">
       {/* Navigation Bar */}
       <ResearchNav
         currentPage={currentPage}
@@ -145,6 +155,7 @@ function AppContent() {
                 <Section01MemoryProblem />
                 <Section02GrowingContext />
                 <Section03RecurrentMemory />
+                <Page01MemoryInteractions />
               </div>
 
               <PageFooterCta
@@ -162,18 +173,18 @@ function AppContent() {
           {/* ============================================================ */}
           {currentPage === 'break' && (
             <div className="animate-in fade-in duration-300 w-full">
-              <div className="w-full border-b border-[#E5E0D8] bg-[#FAF8F5]/80">
+              <div className="w-full border-b border-[var(--border)] bg-[var(--surface)]">
                 <div className="w-full max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10">
                   <div className="space-y-2">
-                    <div className="flex items-center gap-2 text-xs font-mono text-[#21445B]">
-                      <span className="px-2 py-0.5 rounded bg-[#E7F2FA] border border-[#CDE1F0] font-bold">STAGE 02</span>
-                      <span>·</span>
-                      <span className="text-[#5F625F]">EXPERIMENTATION</span>
+                    <div className="flex items-center gap-2 text-xs font-sans text-[var(--text-secondary)]">
+                      <span className="font-semibold text-[var(--accent-blue-text)]">Stage 02 · Experimentation</span>
+                      <span aria-hidden="true" className="text-[var(--border)]">·</span>
+                      <span>Stress-testing memory retention</span>
                     </div>
-                    <h1 className="text-3xl sm:text-4xl font-serif font-bold text-[#252525] tracking-tight">
+                    <h1 className="text-3xl sm:text-4xl font-serif font-bold text-[var(--text-primary)] tracking-tight">
                       Can You Make It Forget?
                     </h1>
-                    <p className="text-sm sm:text-base text-[#52504A] font-sans max-w-2xl">
+                    <p className="text-sm sm:text-base text-[var(--text-secondary)] font-sans max-w-2xl">
                       Stress-test the recurrent state. Tune retention, inject distractors, and discover the exact boundary where associative memory begins to collide.
                     </p>
                   </div>
@@ -181,7 +192,20 @@ function AppContent() {
               </div>
 
               <div className="w-full">
-                <Section04InterferenceLab />
+                <ErrorBoundary
+                  title="Matrix Computation Interrupted"
+                  description="An unexpected mathematical or state exception occurred during recurrent associative memory computation. You can retry the last valid experiment configuration before the failure occurred or perform a full reset to default baseline."
+                  retryLabel="Retry Last Operation"
+                  resetLabel="Full Reset to Defaults"
+                  sectionName="04 / When Memory Collides (Interference Lab)"
+                  retryLastOperation={reexecuteLastValidExperiment}
+                >
+                  <Section04InterferenceLab />
+                </ErrorBoundary>
+
+                <div className="w-full max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 py-6">
+                  <Page02BreakInteractions />
+                </div>
               </div>
 
               <PageFooterCta
@@ -200,26 +224,27 @@ function AppContent() {
           {/* ============================================================ */}
           {currentPage === 'trace' && (
             <div className="animate-in fade-in duration-300 w-full">
-              <div className="w-full border-b border-[#E5E0D8] bg-[#FAF8F5]/80">
+              <div className="w-full border-b border-[var(--border)] bg-[var(--surface)]">
                 <div className="w-full max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10">
                   <div className="space-y-2">
-                    <div className="flex items-center gap-2 text-xs font-mono text-[#167C80]">
-                      <span className="px-2 py-0.5 rounded bg-[#E6F4F5] font-bold">STAGE 03</span>
-                      <span>·</span>
-                      <span className="text-[#716F68]">DIAGNOSTICS</span>
+                    <div className="flex items-center gap-2 text-xs font-sans text-[var(--text-secondary)]">
+                      <span className="font-semibold text-[var(--accent-blue-text)]">Stage 03 · Diagnostics</span>
+                      <span aria-hidden="true" className="text-[var(--border)]">·</span>
+                      <span>State coordinate inspection</span>
                     </div>
-                    <h1 className="text-3xl sm:text-4xl font-serif font-bold text-[#151515] tracking-tight">
+                    <h1 className="text-3xl sm:text-4xl font-serif font-bold text-[var(--text-primary)] tracking-tight">
                       What Changed Inside the State?
                     </h1>
-                    <p className="text-sm sm:text-base text-[#52504A] font-sans max-w-2xl">
+                    <p className="text-sm sm:text-base text-[var(--text-secondary)] font-sans max-w-2xl">
                       Step through the sequence timeline. Inspect the state coordinate deltas (ΔM), observe counterfactual interventions with Memory Surgery, and isolate the exact moment of interference.
                     </p>
                   </div>
                 </div>
               </div>
 
-              <div className="w-full">
+              <div className="w-full max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-8">
                 <Section05FindTheFailure />
+                <Page03TraceInteractions />
               </div>
 
               <PageFooterCta
@@ -238,18 +263,18 @@ function AppContent() {
           {/* ============================================================ */}
           {currentPage === 'measure' && (
             <div className="animate-in fade-in duration-300 w-full">
-              <div className="w-full border-b border-[#E5E0D8] bg-[#FAF8F5]/80">
+              <div className="w-full border-b border-[var(--border)] bg-[var(--surface)]">
                 <div className="w-full max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10">
                   <div className="space-y-2">
-                    <div className="flex items-center gap-2 text-xs font-mono text-[#247A4B]">
-                      <span className="px-2 py-0.5 rounded bg-[#EAF5EF] font-bold">STAGE 04</span>
-                      <span>·</span>
-                      <span className="text-[#716F68]">EVIDENCE</span>
+                    <div className="flex items-center gap-2 text-xs font-sans text-[var(--text-secondary)]">
+                      <span className="font-semibold text-[var(--accent-green-text)]">Stage 04 · Evidence</span>
+                      <span aria-hidden="true" className="text-[var(--border)]">·</span>
+                      <span>Empirical capacity measurements</span>
                     </div>
-                    <h1 className="text-3xl sm:text-4xl font-serif font-bold text-[#151515] tracking-tight">
+                    <h1 className="text-3xl sm:text-4xl font-serif font-bold text-[var(--text-primary)] tracking-tight">
                       Turn Observations into Evidence
                     </h1>
-                    <p className="text-sm sm:text-base text-[#52504A] font-sans max-w-2xl">
+                    <p className="text-sm sm:text-base text-[var(--text-secondary)] font-sans max-w-2xl">
                       Plot real empirical performance data. Measure retrieval accuracy against memory dimension, track Frobenius norm drift, and verify theoretical capacity limits.
                     </p>
                   </div>
@@ -259,6 +284,7 @@ function AppContent() {
               <div className="w-full max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 space-y-12 py-8">
                 <SectionMeasure />
                 <CapacityExperiment id="section-capacity-bounds" />
+                <Page04MeasureInteractions />
               </div>
 
               <PageFooterCta
@@ -277,18 +303,18 @@ function AppContent() {
           {/* ============================================================ */}
           {currentPage === 'bdh' && (
             <div className="animate-in fade-in duration-300 w-full">
-              <div className="w-full border-b border-[#E5E0D8] bg-[#FAF8F5]/80">
+              <div className="w-full border-b border-[var(--border)] bg-[var(--surface)]">
                 <div className="w-full max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10">
                   <div className="space-y-2">
-                    <div className="flex items-center gap-2 text-xs font-mono text-[#A46622]">
-                      <span className="px-2 py-0.5 rounded bg-[#FBF2E8] font-bold">STAGE 05</span>
-                      <span>·</span>
-                      <span className="text-[#716F68]">ARCHITECTURE</span>
+                    <div className="flex items-center gap-2 text-xs font-sans text-[var(--text-secondary)]">
+                      <span className="font-semibold text-[var(--accent-yellow-text)]">Stage 05 · Architecture</span>
+                      <span aria-hidden="true" className="text-[var(--border)]">·</span>
+                      <span>Synaptic neural network structures</span>
                     </div>
-                    <h1 className="text-3xl sm:text-4xl font-serif font-bold text-[#151515] tracking-tight">
+                    <h1 className="text-3xl sm:text-4xl font-serif font-bold text-[var(--text-primary)] tracking-tight">
                       From Vector States to Synaptic Networks
                     </h1>
-                    <p className="text-sm sm:text-base text-[#52504A] font-sans max-w-2xl">
+                    <p className="text-sm sm:text-base text-[var(--text-secondary)] font-sans max-w-2xl">
                       Discover Pathway's Dragon Hatchling (BDH) architecture. Explore how biological Hebbian plasticity and scale-free connectivity turn recurrent state into decentralized synaptic memory.
                     </p>
                   </div>
@@ -299,6 +325,7 @@ function AppContent() {
                 <div className="w-full max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
                   <Section06WhyThisMatters />
                   <Section07MeetBDH />
+                  <Page05BDHInteractions />
                 </div>
                 <Section08BDHArchitecture />
               </div>
@@ -319,18 +346,18 @@ function AppContent() {
           {/* ============================================================ */}
           {currentPage === 'reason' && (
             <div className="animate-in fade-in duration-300 w-full">
-              <div className="w-full border-b border-[#E5E0D8] bg-[#FAF8F5]/80">
+              <div className="w-full border-b border-[var(--border)] bg-[var(--surface)]">
                 <div className="w-full max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10">
                   <div className="space-y-2">
-                    <div className="flex items-center gap-2 text-xs font-mono text-[#21445B]">
-                      <span className="px-2 py-0.5 rounded bg-[#E7F2FA] border border-[#CDE1F0] font-bold">STAGE 06</span>
-                      <span>·</span>
-                      <span className="text-[#5F625F]">LATENT REASONING</span>
+                    <div className="flex items-center gap-2 text-xs font-sans text-[var(--text-secondary)]">
+                      <span className="font-semibold text-[var(--accent-blue-text)]">Stage 06 · Latent reasoning</span>
+                      <span aria-hidden="true" className="text-[var(--border)]">·</span>
+                      <span>Continuous state dynamics and BDH-CQ</span>
                     </div>
-                    <h1 className="text-3xl sm:text-4xl font-serif font-bold text-[#252525] tracking-tight">
+                    <h1 className="text-3xl sm:text-4xl font-serif font-bold text-[var(--text-primary)] tracking-tight">
                       Recurrent Latent Computation
                     </h1>
-                    <p className="text-sm sm:text-base text-[#52504A] font-sans max-w-2xl">
+                    <p className="text-sm sm:text-base text-[var(--text-secondary)] font-sans max-w-2xl">
                       What if reasoning happens in continuous state before tokens are emitted? Explore BDH-CQ and iterative synaptic relaxation loops.
                     </p>
                   </div>
@@ -340,6 +367,7 @@ function AppContent() {
               <div className="w-full max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 space-y-12 py-8">
                 <Section09BDHPlayground />
                 <Section10BDHCQ />
+                <Page06ReasonInteractions />
                 <SoWhatSection />
               </div>
 
@@ -359,18 +387,18 @@ function AppContent() {
           {/* ============================================================ */}
           {currentPage === 'prove' && (
             <div className="animate-in fade-in duration-300 w-full">
-              <div className="w-full border-b border-[#E5E0D8] bg-[#FAF8F5]/80">
+              <div className="w-full border-b border-[var(--border)] bg-[var(--surface)]">
                 <div className="w-full max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10">
                   <div className="space-y-2">
-                    <div className="flex items-center gap-2 text-xs font-mono text-[#247A4B]">
-                      <span className="px-2 py-0.5 rounded bg-[#EAF5EF] font-bold">STAGE 07</span>
-                      <span>·</span>
-                      <span className="text-[#716F68]">EVALUATION & CAPSTONE</span>
+                    <div className="flex items-center gap-2 text-xs font-sans text-[var(--text-secondary)]">
+                      <span className="font-semibold text-[var(--accent-green-text)]">Stage 07 · Evaluation & Capstone</span>
+                      <span aria-hidden="true" className="text-[var(--border)]">·</span>
+                      <span>Synthesis, verification, and certification</span>
                     </div>
-                    <h1 className="text-3xl sm:text-4xl font-serif font-bold text-[#151515] tracking-tight">
+                    <h1 className="text-3xl sm:text-4xl font-serif font-bold text-[var(--text-primary)] tracking-tight">
                       Demonstrate Your Understanding
                     </h1>
-                    <p className="text-sm sm:text-base text-[#52504A] font-sans max-w-2xl">
+                    <p className="text-sm sm:text-base text-[var(--text-secondary)] font-sans max-w-2xl">
                       Complete the 60-second guided challenge, verify your empirical predictions, synthesize concepts, and claim your Certificate of Completion.
                     </p>
                   </div>
@@ -380,6 +408,7 @@ function AppContent() {
               <div className="w-full max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 space-y-12 py-8">
                 <SixtySecondTest />
                 <FinalChallenge />
+                <Page07ProveInteractions />
                 <ConceptMap id="concept-synthesis-map" />
                 <EvidenceAndSources />
                 <YouMadeItSection />
@@ -458,12 +487,14 @@ function AppContent() {
 
 export default function App() {
   return (
-    <ExperimentProvider>
-      <MemoryLensProvider>
-        <GlossaryProvider>
-          <AppContent />
-        </GlossaryProvider>
-      </MemoryLensProvider>
-    </ExperimentProvider>
+    <ThemeProvider>
+      <ExperimentProvider>
+        <MemoryLensProvider>
+          <GlossaryProvider>
+            <AppContent />
+          </GlossaryProvider>
+        </MemoryLensProvider>
+      </ExperimentProvider>
+    </ThemeProvider>
   );
 }

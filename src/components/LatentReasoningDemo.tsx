@@ -62,54 +62,54 @@ export const LatentReasoningDemo: React.FC<LatentReasoningDemoProps> = ({
   const stepOptions = [0, 1, 2, 4, 8, 16];
 
   return (
-    <div id={id} className="rounded-2xl border border-[#252A35] bg-[#0A0E17] p-5 sm:p-7 text-slate-100 shadow-2xl space-y-8">
+    <div id={id} className="rounded-xl border border-[#D8DCD8] bg-[#FFFFFF] p-5 sm:p-7 text-[#252525] shadow-xs space-y-8">
       {/* Header Banner & Title */}
-      <div className="space-y-3 border-b border-[#1E2536] pb-5">
+      <div className="space-y-3 border-b border-[#EAE6DF] pb-5">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div className="flex items-center gap-2">
-            <span className="text-xs font-mono uppercase tracking-wider text-purple-400 bg-purple-950/60 border border-purple-800/60 px-2.5 py-0.5 rounded-md font-bold">
-              FROM MEMORY TO REASONING
+            <span className="text-xs font-sans text-[#21445B] bg-[#E7F2FA] border border-[#CDE1F0] px-2.5 py-0.5 rounded-md font-semibold">
+              From memory to reasoning
             </span>
-            <span className="text-xs font-mono uppercase tracking-wider text-amber-300 bg-amber-950/70 border border-amber-800/60 px-2.5 py-0.5 rounded-md font-bold flex items-center gap-1">
+            <span className="text-xs font-sans text-[#A46622] bg-[#FFF5D8] border border-[#F3E5BE] px-2.5 py-0.5 rounded-md font-semibold flex items-center gap-1">
               <AlertCircle className="w-3.5 h-3.5" />
-              EDUCATIONAL TOY — NOT BDH-CQ
+              Educational toy — not official BDH-CQ
             </span>
           </div>
 
-          <div className="flex items-center gap-2 text-xs font-mono">
+          <div className="flex items-center gap-2 text-xs font-sans">
             <button
               onClick={() => setShowLatentState(!showLatentState)}
-              className={`px-3 py-1.5 rounded-lg border transition flex items-center gap-1.5 cursor-pointer ${
+              className={`px-3 py-1.5 rounded-lg border transition flex items-center gap-1.5 cursor-pointer font-medium ${
                 showLatentState
-                  ? 'bg-[#E7F2FA] border-[#2B6282] text-[#21445B] font-bold ring-1 ring-[#2B6282]'
-                  : 'bg-[#121622] border-[#222B3D] text-slate-400 hover:text-white'
+                  ? 'bg-[#E7F2FA] border-[#2B6282] text-[#21445B] font-semibold ring-1 ring-[#2B6282]'
+                  : 'bg-[#FAF8F5] border-[#D8DCD8] text-[#5F625F] hover:text-[#252525]'
               }`}
             >
               {showLatentState ? <Eye className="w-3.5 h-3.5" /> : <EyeOff className="w-3.5 h-3.5" />}
-              <span>{showLatentState ? 'HIDE LATENT STATE' : 'SHOW LATENT STATE'}</span>
+              <span>{showLatentState ? 'Hide latent state' : 'Show latent state'}</span>
             </button>
 
             <button
               onClick={() => setShowVisibleTokens(!showVisibleTokens)}
-              className={`px-3 py-1.5 rounded-lg border transition flex items-center gap-1.5 cursor-pointer ${
+              className={`px-3 py-1.5 rounded-lg border transition flex items-center gap-1.5 cursor-pointer font-medium ${
                 showVisibleTokens
-                  ? 'bg-[#E7F2FA] border-[#2B6282] text-[#21445B] font-bold ring-1 ring-[#2B6282]'
-                  : 'bg-[#121622] border-[#222B3D] text-slate-400 hover:text-white'
+                  ? 'bg-[#E7F2FA] border-[#2B6282] text-[#21445B] font-semibold ring-1 ring-[#2B6282]'
+                  : 'bg-[#FAF8F5] border-[#D8DCD8] text-[#5F625F] hover:text-[#252525]'
               }`}
             >
               {showVisibleTokens ? <Eye className="w-3.5 h-3.5" /> : <EyeOff className="w-3.5 h-3.5" />}
-              <span>{showVisibleTokens ? 'HIDE VISIBLE TOKENS' : 'SHOW VISIBLE TOKENS'}</span>
+              <span>{showVisibleTokens ? 'Hide visible tokens' : 'Show visible tokens'}</span>
             </button>
           </div>
         </div>
 
         <div className="space-y-1">
-          <h3 className="text-xl sm:text-2xl font-bold font-mono text-white tracking-tight">
-            RECURRENT LATENT REASONING EXPLORER
+          <h3 className="text-xl sm:text-2xl font-serif font-bold text-[#252525] tracking-tight">
+            Recurrent latent reasoning explorer
           </h3>
-          <p className="text-xs sm:text-sm text-slate-400 leading-relaxed max-w-3xl font-sans">
-            Our toy showed memory being carried forward through an evolving internal state. Now introduce{' '}
-            <strong className="text-purple-300">BDH-CQ</strong>: in-context learning with recurrent latent reasoning, where multi-step internal deliberation happens directly in latent state rather than by spewing lengthy token scratchpads into an expanding KV-cache.
+          <p className="text-xs sm:text-sm text-[#5F625F] leading-relaxed max-w-3xl font-sans">
+            Our earlier experiment showed memory being carried forward through an evolving internal state. Now compare this with{' '}
+            <strong className="text-[#21445B]">BDH-CQ</strong>: in-context learning with recurrent latent reasoning, where multi-step internal deliberation happens directly in latent state rather than by emitting lengthy token scratchpads into an expanding KV-cache.
           </p>
         </div>
       </div>
@@ -117,83 +117,83 @@ export const LatentReasoningDemo: React.FC<LatentReasoningDemoProps> = ({
       {/* Visual Comparison: Verbal Reasoning vs Latent Reasoning */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {/* Verbal Reasoning Box */}
-        <div className="p-4 rounded-xl border border-amber-900/40 bg-[#140F0A] space-y-3">
-          <div className="flex items-center justify-between border-b border-amber-900/40 pb-2">
-            <span className="font-mono text-xs font-bold uppercase text-amber-400 flex items-center gap-1.5">
-              <span className="w-2 h-2 rounded-full bg-amber-400" />
-              VERBAL REASONING (CHAIN-OF-THOUGHT)
+        <div className="p-4 rounded-xl border border-[#EAE6DF] bg-[#FAF8F5] space-y-3">
+          <div className="flex items-center justify-between border-b border-[#EAE6DF] pb-2">
+            <span className="font-sans text-xs font-bold text-[#A46622] flex items-center gap-1.5">
+              <span className="w-2 h-2 rounded-full bg-[#A46622]" />
+              Verbal reasoning (Chain-of-thought)
             </span>
-            <span className="text-xs font-mono text-amber-500 bg-amber-950 px-2 py-0.5 rounded border border-amber-800">
-              O(T) KV-CACHE
+            <span className="text-xs font-mono text-[#A46622] bg-[#FFF5D8] px-2 py-0.5 rounded border border-[#F3E5BE]">
+              O(T) KV-cache
             </span>
           </div>
 
-          <div className="p-3 rounded-lg bg-[#0D0A07] border border-[#2A1E14] font-mono text-xs text-amber-200/90 flex flex-wrap items-center gap-2">
-            <span className="px-2 py-1 rounded bg-amber-900/40 border border-amber-700/50 text-white">Input Tokens</span>
-            <ArrowRight className="w-3.5 h-3.5 text-amber-500" />
-            <span className="px-2 py-1 rounded bg-amber-950 border border-amber-800 text-amber-300">Explanation Step 1</span>
-            <ArrowRight className="w-3.5 h-3.5 text-amber-500" />
-            <span className="px-2 py-1 rounded bg-amber-950 border border-amber-800 text-amber-300">Explanation Step 2</span>
-            <ArrowRight className="w-3.5 h-3.5 text-amber-500" />
-            <span className="px-2 py-1 rounded bg-amber-900/60 border border-amber-600 text-white font-bold">Answer Token</span>
+          <div className="p-3 rounded-lg bg-[#FFFFFF] border border-[#EAE6DF] font-sans text-xs text-[#252525] flex flex-wrap items-center gap-2">
+            <span className="px-2 py-1 rounded bg-[#F1F2F0] border border-[#D8DCD8] text-[#252525]">Input tokens</span>
+            <ArrowRight className="w-3.5 h-3.5 text-[#5F625F]" />
+            <span className="px-2 py-1 rounded bg-[#FFF5D8] border border-[#F3E5BE] text-[#A46622]">Explanation step 1</span>
+            <ArrowRight className="w-3.5 h-3.5 text-[#5F625F]" />
+            <span className="px-2 py-1 rounded bg-[#FFF5D8] border border-[#F3E5BE] text-[#A46622]">Explanation step 2</span>
+            <ArrowRight className="w-3.5 h-3.5 text-[#5F625F]" />
+            <span className="px-2 py-1 rounded bg-[#DCEFE2] border border-[#C5DDCB] text-[#245B38] font-bold">Answer token</span>
           </div>
 
-          <p className="text-xs text-slate-400 leading-relaxed font-sans">
+          <p className="text-xs text-[#5F625F] leading-relaxed font-sans">
             Every reasoning step emits visible scratchpad tokens into the prompt buffer. GPU memory footprint grows linearly or quadratically with sequence length.
           </p>
         </div>
 
         {/* Latent Reasoning Box */}
-        <div className="p-4 rounded-xl border border-purple-900/40 bg-[#120D1F] space-y-3">
-          <div className="flex items-center justify-between border-b border-purple-900/40 pb-2">
-            <span className="font-mono text-xs font-bold uppercase text-purple-300 flex items-center gap-1.5">
-              <span className="w-2 h-2 rounded-full bg-purple-400" />
-              LATENT REASONING (RECURRENT DYNAMICS)
+        <div className="p-4 rounded-xl border border-[#CDE1F0] bg-[#F7FAFD] space-y-3">
+          <div className="flex items-center justify-between border-b border-[#CDE1F0] pb-2">
+            <span className="font-sans text-xs font-bold text-[#21445B] flex items-center gap-1.5">
+              <span className="w-2 h-2 rounded-full bg-[#21445B]" />
+              Latent reasoning (Recurrent dynamics)
             </span>
-            <span className="text-xs font-mono text-purple-300 bg-purple-950 px-2 py-0.5 rounded border border-purple-800">
-              O(1) BOUNDED STATE
+            <span className="text-xs font-mono text-[#21445B] bg-[#E7F2FA] px-2 py-0.5 rounded border border-[#CDE1F0]">
+              O(1) bounded state
             </span>
           </div>
 
-          <div className="p-3 rounded-lg bg-[#0C0816] border border-[#2D1F48] font-mono text-xs text-purple-200 flex flex-wrap items-center gap-2">
-            <span className="px-2 py-1 rounded bg-purple-900/50 border border-purple-700 text-white">Input</span>
-            <ArrowRight className="w-3.5 h-3.5 text-purple-400" />
-            <span className="px-2 py-1 rounded bg-purple-950 border border-purple-800 text-purple-300">Latent State h₀</span>
-            <ArrowRight className="w-3.5 h-3.5 text-purple-400" />
-            <span className="px-2 py-1 rounded bg-purple-950 border border-purple-800 text-purple-300">Latent Update h₁..hₖ</span>
-            <ArrowRight className="w-3.5 h-3.5 text-purple-400" />
-            <span className="px-2 py-1 rounded bg-purple-900/60 border border-purple-600 text-white font-bold">Answer</span>
+          <div className="p-3 rounded-lg bg-[#FFFFFF] border border-[#CDE1F0] font-sans text-xs text-[#252525] flex flex-wrap items-center gap-2">
+            <span className="px-2 py-1 rounded bg-[#F1F2F0] border border-[#D8DCD8] text-[#252525]">Input</span>
+            <ArrowRight className="w-3.5 h-3.5 text-[#21445B]" />
+            <span className="px-2 py-1 rounded bg-[#E7F2FA] border border-[#CDE1F0] text-[#21445B]">Latent state <code className="font-mono">h₀</code></span>
+            <ArrowRight className="w-3.5 h-3.5 text-[#21445B]" />
+            <span className="px-2 py-1 rounded bg-[#E7F2FA] border border-[#CDE1F0] text-[#21445B]">Latent update <code className="font-mono">h₁..hₖ</code></span>
+            <ArrowRight className="w-3.5 h-3.5 text-[#21445B]" />
+            <span className="px-2 py-1 rounded bg-[#DCEFE2] border border-[#C5DDCB] text-[#245B38] font-bold">Answer</span>
           </div>
 
-          <p className="text-xs text-slate-400 leading-relaxed font-sans">
+          <p className="text-xs text-[#5F625F] leading-relaxed font-sans">
             Deliberation is executed via recurrent updates on a fixed-size latent state vector without inflating the visible sequence length.
           </p>
         </div>
       </div>
 
       {/* Latent Steps Control Slider & Interactive Playground */}
-      <div className="p-5 rounded-xl border border-[#222B3D] bg-[#0E1321] space-y-5">
-        <div className="flex flex-wrap items-center justify-between gap-4 border-b border-[#1C2538] pb-4">
+      <div className="p-5 rounded-xl border border-[#D8DCD8] bg-[#FAF8F5] space-y-5">
+        <div className="flex flex-wrap items-center justify-between gap-4 border-b border-[#EAE6DF] pb-4">
           <div>
-            <div className="text-xs font-mono text-slate-400 uppercase font-semibold">
-              RECURRENT EXPERIMENT PARAMETERS
+            <div className="text-xs font-sans text-[#5F625F] font-semibold">
+              Recurrent experiment parameters
             </div>
-            <div className="text-sm font-mono font-bold text-white mt-0.5">
-              CONTROL LATENT REASONING STEPS
+            <div className="text-sm font-sans font-bold text-[#252525] mt-0.5">
+              Control latent reasoning steps
             </div>
           </div>
 
           {/* Stepper Buttons: 0 / 1 / 2 / 4 / 8 / 16 */}
           <div className="flex items-center gap-1.5">
-            <span className="text-xs font-mono text-slate-400 mr-2">STEPS:</span>
+            <span className="text-xs font-sans text-[#5F625F] mr-2">Steps:</span>
             {stepOptions.map((s) => (
               <button
                 key={s}
                 onClick={() => setSteps(s)}
-                className={`px-2.5 py-1 rounded-lg font-mono text-xs font-bold transition border cursor-pointer ${
+                className={`px-3 py-1 rounded-lg font-mono text-xs font-bold transition border cursor-pointer ${
                   steps === s
                     ? 'bg-[#E7F2FA] border-[#2B6282] text-[#21445B] ring-1 ring-[#2B6282]'
-                    : 'bg-[#151C2C] border-[#222C42] text-slate-300 hover:text-white hover:bg-[#1A2438]'
+                    : 'bg-[#FFFFFF] border-[#D8DCD8] text-[#5F625F] hover:text-[#252525] hover:bg-[#F1F2F0]'
                 }`}
               >
                 {s}
@@ -203,33 +203,33 @@ export const LatentReasoningDemo: React.FC<LatentReasoningDemoProps> = ({
         </div>
 
         {/* The Math Formula & Explanatory Notice */}
-        <div className="p-3.5 rounded-lg bg-[#080C14] border border-[#1A2234] flex flex-wrap items-center justify-between gap-3 text-xs font-mono">
+        <div className="p-3.5 rounded-lg bg-[#FFFFFF] border border-[#EAE6DF] flex flex-wrap items-center justify-between gap-3 text-xs font-sans">
           <div className="flex items-center gap-2">
-            <span className="text-purple-400 font-bold">STATE RECURRENCE FORMULA:</span>
-            <span className="text-white bg-[#101626] px-2 py-0.5 rounded border border-[#202C44]">
+            <span className="text-[#21445B] font-semibold">State recurrence formula:</span>
+            <span className="text-[#252525] bg-[#F1F2F0] px-2 py-0.5 rounded border border-[#D8DCD8] font-mono">
               <MathView math="s_{t+1} = \tanh(\lambda \cdot s_t + x_t)" />
             </span>
           </div>
-          <span className="text-slate-400 text-xs">
+          <span className="text-[#5F625F] text-xs">
             Repeated latent steps update the internal state without emitting visible tokens.
           </span>
         </div>
 
         {/* COMPUTATION WITHOUT MORE TOKENS Visual Presentation */}
-        <div className="p-4 rounded-xl bg-[#090D18] border border-[#1C2538] space-y-4">
-          <div className="flex flex-wrap items-center justify-between gap-2 border-b border-[#172032] pb-2">
-            <span className="text-xs font-mono uppercase font-bold text-emerald-400 flex items-center gap-2">
+        <div className="p-4 rounded-xl bg-[#FFFFFF] border border-[#EAE6DF] space-y-4">
+          <div className="flex flex-wrap items-center justify-between gap-2 border-b border-[#EAE6DF] pb-2">
+            <span className="text-xs font-sans font-bold text-[#247A4B] flex items-center gap-2">
               <Cpu className="w-4 h-4" />
-              COMPUTATION WITHOUT MORE TOKENS
+              Computation without more tokens
             </span>
-            <div className="flex items-center gap-3 font-mono text-xs">
-              <span className="text-slate-400">
-                VISIBLE TOKENS:{' '}
-                <strong className="text-white bg-slate-800 px-2 py-0.5 rounded font-mono">2</strong>
+            <div className="flex items-center gap-3 font-sans text-xs">
+              <span className="text-[#5F625F]">
+                Visible tokens:{' '}
+                <strong className="text-[#252525] bg-[#F1F2F0] px-2 py-0.5 rounded border border-[#D8DCD8] font-mono">2</strong>
               </span>
-              <span className="text-slate-400">
-                LATENT UPDATES:{' '}
-                <strong className="text-purple-300 bg-purple-950 px-2 py-0.5 rounded border border-purple-800 font-mono">
+              <span className="text-[#5F625F]">
+                Latent updates:{' '}
+                <strong className="text-[#21445B] bg-[#E7F2FA] px-2 py-0.5 rounded border border-[#CDE1F0] font-mono">
                   {steps}
                 </strong>
               </span>
@@ -238,19 +238,19 @@ export const LatentReasoningDemo: React.FC<LatentReasoningDemoProps> = ({
 
           {/* User & Model Visible Sequence */}
           {showVisibleTokens && (
-            <div className="p-3 rounded-lg bg-[#0F1424] border border-[#202A40] space-y-2 text-xs font-mono">
-              <div className="flex items-center gap-2 text-slate-300">
-                <span className="text-blue-400 font-bold">USER:</span>
+            <div className="p-3 rounded-lg bg-[#FAF8F5] border border-[#EAE6DF] space-y-2 text-xs font-sans">
+              <div className="flex items-center gap-2 text-[#252525]">
+                <span className="text-[#21445B] font-bold">User:</span>
                 <span>Solve ARC reasoning challenge #{selectedSampleProblem}</span>
               </div>
-              <div className="flex items-center gap-2 text-slate-300 border-t border-[#1C2438] pt-2">
-                <span className="text-emerald-400 font-bold">MODEL:</span>
-                <div className="flex items-center gap-2">
-                  <span className="px-2 py-0.5 rounded bg-blue-950/80 border border-blue-700 text-blue-200">
+              <div className="flex items-center gap-2 text-[#252525] border-t border-[#EAE6DF] pt-2">
+                <span className="text-[#247A4B] font-bold">Model:</span>
+                <div className="flex items-center gap-2 font-mono">
+                  <span className="px-2 py-0.5 rounded bg-[#E7F2FA] border border-[#CDE1F0] text-[#21445B]">
                     [INPUT]
                   </span>
-                  <span className="text-slate-500">────────────────────────→</span>
-                  <span className="px-2 py-0.5 rounded bg-emerald-950/80 border border-emerald-700 text-emerald-200 font-bold">
+                  <span className="text-[#5F625F]">────────────────────────→</span>
+                  <span className="px-2 py-0.5 rounded bg-[#DCEFE2] border border-[#C5DDCB] text-[#245B38] font-bold">
                     [ANSWER]
                   </span>
                 </div>
@@ -259,42 +259,42 @@ export const LatentReasoningDemo: React.FC<LatentReasoningDemoProps> = ({
           )}
 
           {/* Internal Recurrent Computation Path */}
-          <div className="p-3.5 rounded-lg bg-[#070910] border border-[#1A2234] space-y-3 font-mono">
-            <div className="flex items-center justify-between text-xs text-slate-400">
-              <span>INTERNAL COMPUTATION FLOW (UNROLLED):</span>
-              <span className="text-purple-400 font-semibold">{steps} Recurrent Iterations</span>
+          <div className="p-3.5 rounded-lg bg-[#FAF8F5] border border-[#EAE6DF] space-y-3 font-sans">
+            <div className="flex items-center justify-between text-xs text-[#5F625F]">
+              <span>Internal computation flow (unrolled):</span>
+              <span className="text-[#21445B] font-semibold">{steps} recurrent iterations</span>
             </div>
 
             <div className="overflow-x-auto pb-2 flex items-center gap-2 text-xs">
-              <div className="flex-shrink-0 px-2.5 py-1.5 rounded-lg bg-[#111728] border border-blue-500/40 text-blue-300 text-center">
-                <div className="text-xs text-slate-500">INPUT</div>
+              <div className="flex-shrink-0 px-2.5 py-1.5 rounded-lg bg-[#E7F2FA] border border-[#CDE1F0] text-[#21445B] text-center font-mono">
+                <div className="text-xs text-[#5F625F] font-sans">Input</div>
                 <div className="font-bold">x_0</div>
               </div>
 
               {Array.from({ length: Math.min(steps, 8) }).map((_, i) => (
                 <React.Fragment key={i}>
-                  <ArrowRight className="w-3.5 h-3.5 text-purple-500 flex-shrink-0" />
-                  <div className="flex-shrink-0 px-2.5 py-1.5 rounded-lg bg-purple-950/40 border border-purple-500/50 text-purple-200 text-center">
-                    <div className="text-xs text-purple-400">LATENT STEP {i + 1}</div>
-                    <div className="font-bold font-mono">h_{i + 1}</div>
+                  <ArrowRight className="w-3.5 h-3.5 text-[#5F625F] flex-shrink-0" />
+                  <div className="flex-shrink-0 px-2.5 py-1.5 rounded-lg bg-[#FFF5D8] border border-[#F3E5BE] text-[#A46622] text-center font-mono">
+                    <div className="text-xs text-[#A46622] font-sans">Step {i + 1}</div>
+                    <div className="font-bold">h_{i + 1}</div>
                   </div>
                 </React.Fragment>
               ))}
 
               {steps > 8 && (
                 <>
-                  <span className="text-slate-500">···</span>
-                  <ArrowRight className="w-3.5 h-3.5 text-purple-500 flex-shrink-0" />
-                  <div className="flex-shrink-0 px-2.5 py-1.5 rounded-lg bg-purple-950/40 border border-purple-500/50 text-purple-200 text-center">
-                    <div className="text-xs text-purple-400">LATENT STEP {steps}</div>
-                    <div className="font-bold font-mono">h_{steps}</div>
+                  <span className="text-[#5F625F]">···</span>
+                  <ArrowRight className="w-3.5 h-3.5 text-[#5F625F] flex-shrink-0" />
+                  <div className="flex-shrink-0 px-2.5 py-1.5 rounded-lg bg-[#FFF5D8] border border-[#F3E5BE] text-[#A46622] text-center font-mono">
+                    <div className="text-xs text-[#A46622] font-sans">Step {steps}</div>
+                    <div className="font-bold">h_{steps}</div>
                   </div>
                 </>
               )}
 
-              <ArrowRight className="w-3.5 h-3.5 text-emerald-500 flex-shrink-0" />
-              <div className="flex-shrink-0 px-2.5 py-1.5 rounded-lg bg-emerald-950/60 border border-emerald-500 text-emerald-300 text-center">
-                <div className="text-xs text-emerald-500">OUTPUT</div>
+              <ArrowRight className="w-3.5 h-3.5 text-[#247A4B] flex-shrink-0" />
+              <div className="flex-shrink-0 px-2.5 py-1.5 rounded-lg bg-[#DCEFE2] border border-[#C5DDCB] text-[#245B38] text-center font-mono">
+                <div className="text-xs text-[#247A4B] font-sans">Output</div>
                 <div className="font-bold">ŷ</div>
               </div>
             </div>
@@ -303,31 +303,29 @@ export const LatentReasoningDemo: React.FC<LatentReasoningDemoProps> = ({
           {/* Live Heatmap of Latent State */}
           {showLatentState && (
             <div className="space-y-2 pt-2">
-              <div className="flex items-center justify-between text-xs font-mono text-slate-400">
-                <span>LATENT STATE VECTOR DIMENSIONS ({dim}D):</span>
-                <span className="text-purple-300 font-bold">
+              <div className="flex items-center justify-between text-xs font-sans text-[#5F625F]">
+                <span>Latent state vector dimensions ({dim}D):</span>
+                <span className="text-[#21445B] font-mono font-bold">
                   ||h_{steps}|| = {stateMagnitude.toFixed(2)}
                 </span>
               </div>
 
               <div className="grid grid-cols-8 sm:grid-cols-16 gap-1.5">
                 {finalState.map((val, idx) => {
-                  const intensity = Math.min(Math.abs(val), 1);
                   const isPositive = val >= 0;
                   return (
                     <div
                       key={idx}
-                      className="p-1.5 rounded bg-[#101422] border border-[#1A2234] text-center font-mono text-xs"
+                      className="p-1.5 rounded bg-[#FAF8F5] border border-[#EAE6DF] text-center font-mono text-xs"
                       title={`Dim ${idx}: ${val.toFixed(3)}`}
                     >
-                      <div className="text-slate-500 text-xs mb-1">{idx}</div>
+                      <div className="text-[#5F625F] text-xs mb-1 font-sans">{idx}</div>
                       <div
-                        className={`h-4 rounded flex items-center justify-center font-bold text-xs ${
+                        className={`h-5 rounded flex items-center justify-center font-bold text-xs ${
                           isPositive
-                            ? 'bg-purple-600 text-white'
-                            : 'bg-cyan-600 text-white'
+                            ? 'bg-[#E7F2FA] text-[#21445B] border border-[#CDE1F0]'
+                            : 'bg-[#F9E9ED] text-[#B64235] border border-[#F2CAD2]'
                         }`}
-                        style={{ opacity: 0.35 + intensity * 0.65 }}
                       >
                         {val.toFixed(1)}
                       </div>
@@ -340,19 +338,19 @@ export const LatentReasoningDemo: React.FC<LatentReasoningDemoProps> = ({
         </div>
 
         {/* Conceptual Takeaway Highlight */}
-        <div className="p-3.5 rounded-lg bg-purple-950/20 border border-purple-500/30 text-xs text-purple-200 font-mono text-center">
+        <div className="p-3.5 rounded-lg bg-[#F7F5EF] border border-[#EAE6DF] text-xs text-[#5F625F] font-sans text-center">
           “More computation does not necessarily mean more visible words.”
         </div>
       </div>
 
       {/* Side-by-Side Comparison Table: Standard Token Reasoning vs Recurrent Latent Reasoning */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs font-mono">
-        <div className="p-4 rounded-xl bg-[#0E121E] border border-[#1C2538] space-y-2.5">
-          <div className="font-bold text-amber-300 uppercase flex items-center gap-2">
-            <span className="w-2 h-2 rounded-full bg-amber-400" />
-            STANDARD TOKEN REASONING
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs font-sans">
+        <div className="p-4 rounded-xl bg-[#FAF8F5] border border-[#EAE6DF] space-y-2.5">
+          <div className="font-bold text-[#A46622] flex items-center gap-2">
+            <span className="w-2 h-2 rounded-full bg-[#A46622]" />
+            Standard token reasoning
           </div>
-          <ul className="space-y-1.5 text-slate-300 font-sans text-xs">
+          <ul className="space-y-1.5 text-[#5F625F] leading-relaxed">
             <li>• Reasoning is explicitly represented through emitted, visible tokens.</li>
             <li>• Context sequence length grows linearly with additional reasoning steps.</li>
             <li>• Memory footprint consumes proportionally more GPU RAM in the KV cache.</li>
@@ -360,46 +358,46 @@ export const LatentReasoningDemo: React.FC<LatentReasoningDemoProps> = ({
           </ul>
         </div>
 
-        <div className="p-4 rounded-xl bg-[#120F20] border border-purple-900/40 space-y-2.5">
-          <div className="font-bold text-purple-300 uppercase flex items-center gap-2">
-            <span className="w-2 h-2 rounded-full bg-purple-400" />
-            RECURRENT LATENT REASONING
+        <div className="p-4 rounded-xl bg-[#F7FAFD] border border-[#CDE1F0] space-y-2.5">
+          <div className="font-bold text-[#21445B] flex items-center gap-2">
+            <span className="w-2 h-2 rounded-full bg-[#21445B]" />
+            Recurrent latent reasoning
           </div>
-          <ul className="space-y-1.5 text-slate-300 font-sans text-xs">
+          <ul className="space-y-1.5 text-[#5F625F] leading-relaxed">
             <li>• Additional internal computation occurs in continuous latent state.</li>
             <li>• Reasoning steps do not correspond one-to-one with visible output tokens.</li>
             <li>• Sequence length remains bounded while computation depth expands.</li>
-            <li>• Emulates human contemplation before speech: deliberation without clutter.</li>
+            <li>• Emulates contemplation before speech: deliberation without clutter.</li>
           </ul>
         </div>
       </div>
 
       {/* MEMORY VS COMPUTATION DISTINCTION */}
-      <div className="p-5 rounded-xl border border-[#222B3D] bg-[#0C101C] space-y-4">
-        <div className="text-xs font-mono font-bold uppercase text-white flex items-center gap-2">
-          <Layers3 className="w-4 h-4 text-cyan-400" />
-          THE MEMORY VS. COMPUTATION DISTINCTION
+      <div className="p-5 rounded-xl border border-[#D8DCD8] bg-[#FAF8F5] space-y-4">
+        <div className="text-xs font-sans font-bold text-[#252525] flex items-center gap-2">
+          <Layers3 className="w-4 h-4 text-[#21445B]" />
+          The memory vs. computation distinction
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 font-mono text-xs">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs font-sans">
           {/* Memory */}
-          <div className="p-4 rounded-lg bg-[#0F1422] border border-blue-900/50 space-y-2">
-            <div className="text-blue-300 font-bold uppercase text-sm border-b border-blue-900/40 pb-1">
-              MEMORY
+          <div className="p-4 rounded-lg bg-[#FFFFFF] border border-[#EAE6DF] space-y-2">
+            <div className="text-[#21445B] font-bold text-sm border-b border-[#EAE6DF] pb-1">
+              Memory
             </div>
-            <div className="text-slate-300 font-semibold text-xs">What survives?</div>
-            <div className="text-xs text-slate-400 font-sans leading-relaxed">
-              Information carried across successive updates. In our toy, it is the recurrent matrix $M_t$. In BDH, it is the plastic synaptic state $\sigma(i, j)$.
+            <div className="text-[#252525] font-semibold text-xs">What survives?</div>
+            <div className="text-xs text-[#5F625F] leading-relaxed">
+              Information carried across successive updates. In our toy, it is the recurrent matrix <code className="font-mono">M[t]</code>. In BDH, it is the plastic synaptic state <code className="font-mono">σ(i, j)</code>.
             </div>
           </div>
 
           {/* Computation */}
-          <div className="p-4 rounded-lg bg-[#140F24] border border-purple-900/50 space-y-2">
-            <div className="text-purple-300 font-bold uppercase text-sm border-b border-purple-900/40 pb-1">
-              COMPUTATION
+          <div className="p-4 rounded-lg bg-[#FFFFFF] border border-[#EAE6DF] space-y-2">
+            <div className="text-[#A46622] font-bold text-sm border-b border-[#EAE6DF] pb-1">
+              Computation
             </div>
-            <div className="text-slate-300 font-semibold text-xs">What changes?</div>
-            <div className="text-xs text-slate-400 font-sans leading-relaxed">
+            <div className="text-[#252525] font-semibold text-xs">What changes?</div>
+            <div className="text-xs text-[#5F625F] leading-relaxed">
               Transformations applied to the current state. In our toy, it is the non-linear recurrent update step. In BDH, it is the local graph relaxation cycle.
             </div>
           </div>
@@ -407,16 +405,16 @@ export const LatentReasoningDemo: React.FC<LatentReasoningDemoProps> = ({
       </div>
 
       {/* WHY DOES THIS MATTER? (Beginner-Friendly Explanation & Central Claim Connection) */}
-      <div className="p-5 rounded-xl bg-gradient-to-r from-purple-950/40 via-[#0E1322] to-blue-950/40 border border-purple-500/30 space-y-3">
-        <div className="flex items-center gap-2 text-xs font-mono font-bold text-white uppercase">
-          <Sparkles className="w-4 h-4 text-purple-400" />
-          WHY DOES THIS MATTER?
+      <div className="p-5 rounded-xl bg-[#F7F5EF] border border-[#EAE6DF] space-y-3">
+        <div className="flex items-center gap-2 text-xs font-sans font-bold text-[#252525]">
+          <Sparkles className="w-4 h-4 text-[#21445B]" />
+          Why does this matter?
         </div>
-        <p className="text-xs sm:text-sm text-slate-300 font-sans leading-relaxed">
+        <p className="text-xs sm:text-sm text-[#5F625F] font-sans leading-relaxed">
           A model can perform additional internal recurrent computation while keeping the externally visible sequence shorter. Instead of inflating memory by typing out a 500-word scratchpad to solve an inductive pattern, the system iterates over its latent state in constant RAM.
         </p>
-        <div className="text-xs font-mono text-purple-300 bg-purple-950/60 p-3 rounded-lg border border-purple-800/60">
-          <strong>Central Claim:</strong> A useful fixed-size recurrent state can carry information across multiple computation steps, but the quality and retention of that state determines what survives.
+        <div className="text-xs font-sans text-[#252525] bg-[#FFFFFF] p-3 rounded-lg border border-[#D8DCD8]">
+          <strong className="text-[#21445B]">Central claim:</strong> A useful fixed-size recurrent state can carry information across multiple computation steps, but the quality and retention of that state determines what survives.
         </div>
       </div>
     </div>
