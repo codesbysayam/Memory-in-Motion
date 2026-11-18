@@ -73,24 +73,30 @@ export const Page05BDHInteractions: React.FC = () => {
   const currentArch = ARCH_DETAILS[selectedArch];
 
   return (
-    <div className="space-y-8 mt-6">
+    <div className="space-y-8 mt-6 text-[var(--text-primary)]">
       {/* 4. TOY VS PUBLISHED RESEARCH MODE BANNER */}
-      <div className="rounded-xl border border-[#D8DCD8] bg-[#F7F5EF] p-4 flex flex-wrap items-center justify-between gap-3">
-        <div className="flex items-center gap-2">
-          <span className="text-xs font-semibold uppercase text-[#5F625F]">Perspective Mode:</span>
-          <div className="flex items-center gap-1 bg-[#FFFFFF] p-1 rounded-lg border border-[#D8DCD8]">
+      <div className="rounded-xl border border-[var(--border)] bg-[var(--surface-soft)] p-4 flex flex-wrap items-center justify-between gap-3">
+        <div className="flex flex-wrap items-center gap-2.5">
+          <span className="text-xs font-sans font-semibold text-[var(--text-secondary)]">Perspective mode:</span>
+          <div className="flex items-center gap-1 bg-[var(--surface)] p-1 rounded-lg border border-[var(--border)]">
             <button
+              type="button"
               onClick={() => setMode('toy')}
-              className={`px-3 py-1 rounded text-xs font-medium transition cursor-pointer ${
-                mode === 'toy' ? 'bg-[#31566E] text-white font-bold' : 'text-[#5F625F] hover:text-[#252525]'
+              className={`px-3 py-1 rounded text-xs font-medium transition-colors cursor-pointer ${
+                mode === 'toy'
+                  ? 'bg-[var(--color-accent)] text-[var(--surface)] font-semibold'
+                  : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
               }`}
             >
               Educational Toy Model
             </button>
             <button
+              type="button"
               onClick={() => setMode('research')}
-              className={`px-3 py-1 rounded text-xs font-medium transition cursor-pointer ${
-                mode === 'research' ? 'bg-[#31566E] text-white font-bold' : 'text-[#5F625F] hover:text-[#252525]'
+              className={`px-3 py-1 rounded text-xs font-medium transition-colors cursor-pointer ${
+                mode === 'research'
+                  ? 'bg-[var(--color-accent)] text-[var(--surface)] font-semibold'
+                  : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
               }`}
             >
               Published Research
@@ -98,7 +104,7 @@ export const Page05BDHInteractions: React.FC = () => {
           </div>
         </div>
 
-        <span className="text-xs italic text-[#5F625F]">
+        <span className="text-xs text-[var(--text-secondary)]">
           {mode === 'toy'
             ? 'Educational toy: simplified mathematical demonstration, not the official BDH codebase.'
             : 'Published research context: grounded in Pathway technical publications and peer benchmarks.'}
@@ -106,16 +112,16 @@ export const Page05BDHInteractions: React.FC = () => {
       </div>
 
       {/* 1. INTERACTIVE ARCHITECTURE DIAGRAM */}
-      <div className="rounded-xl border border-[#D8DCD8] bg-[#FFFFFF] p-5 sm:p-6 shadow-xs space-y-4">
-        <div className="flex items-center gap-2 border-b border-[#EAE6DF] pb-3">
-          <div className="p-1.5 rounded-lg bg-[#E7F2FA] text-[#31566E]">
+      <div className="rounded-xl border border-[var(--border)] bg-[var(--surface)] p-5 sm:p-6 space-y-4">
+        <div className="flex items-center gap-2.5 border-b border-[var(--border)] pb-3">
+          <div className="p-1.5 rounded-lg bg-[var(--accent-blue)] text-[var(--accent-blue-text)]">
             <Network className="w-4 h-4" />
           </div>
           <div>
-            <h3 className="font-serif text-base font-bold text-[#252525]">
+            <h3 className="font-sans text-base font-semibold text-[var(--text-primary)]">
               1. Interactive Architecture Nodes
             </h3>
-            <p className="text-xs text-[#5F625F]">
+            <p className="text-xs text-[var(--text-secondary)]">
               Click on any structural element of the BDH graph topology to inspect its role.
             </p>
           </div>
@@ -131,15 +137,16 @@ export const Page05BDHInteractions: React.FC = () => {
           ].map((node) => (
             <button
               key={node.id}
+              type="button"
               onClick={() => setSelectedNode(node.id as any)}
-              className={`p-3 rounded-xl border text-left transition cursor-pointer space-y-1 ${
+              className={`p-3 rounded-lg border text-left transition cursor-pointer space-y-1 ${
                 selectedNode === node.id
-                  ? 'border-[#31566E] bg-[#E7F2FA] text-[#31566E] ring-1 ring-[#31566E] font-bold shadow-xs'
-                  : 'border-[#D8DCD8] bg-[#F7F5EF] text-[#5F625F] hover:text-[#252525] hover:border-[#5F625F]'
+                  ? 'border-[var(--color-border-strong)] bg-[var(--accent-blue)] text-[var(--accent-blue-text)] font-semibold'
+                  : 'border-[var(--border)] bg-[var(--surface-soft)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:border-[var(--color-border-strong)]'
               }`}
             >
               <div className="text-xs font-semibold">{node.label}</div>
-              <p className="text-[11px] leading-relaxed line-clamp-2 text-[#5F625F]">
+              <p className="text-[11px] leading-relaxed line-clamp-2 text-[var(--text-muted)]">
                 {node.desc}
               </p>
             </button>
@@ -147,11 +154,11 @@ export const Page05BDHInteractions: React.FC = () => {
         </div>
 
         {/* Selected Node Detailed Explanation */}
-        <div className="p-4 rounded-xl bg-[#F7F5EF] border border-[#D8DCD8] text-xs space-y-1.5">
-          <span className="font-semibold text-[#31566E] uppercase text-[11px] block">
-            Node Inspection: {selectedNode.toUpperCase()}
+        <div className="p-4 rounded-lg bg-[var(--surface-soft)] border border-[var(--border)] text-xs space-y-1.5">
+          <span className="font-semibold text-[var(--accent-blue-text)] text-xs block">
+            Node inspection: {selectedNode}
           </span>
-          <p className="text-xs text-[#252525] leading-relaxed">
+          <p className="text-xs sm:text-sm text-[var(--text-primary)] leading-relaxed">
             {selectedNode === 'input' &&
               'In BDH, incoming sequence data does not simply sit in an expanding matrix buffer. It activates specific topological entry neurons in the sparse graph, emitting signal waves across plastic connections.'}
             {selectedNode === 'neuron' &&
@@ -167,22 +174,22 @@ export const Page05BDHInteractions: React.FC = () => {
       </div>
 
       {/* 2. RNN VS TRANSFORMER VS BDH ARCHITECTURE COMPARISON */}
-      <div className="rounded-xl border border-[#D8DCD8] bg-[#FFFFFF] p-5 sm:p-6 shadow-xs space-y-4">
-        <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[#EAE6DF] pb-3">
-          <div className="flex items-center gap-2">
-            <div className="p-1.5 rounded-lg bg-[#FFF5D8] text-[#A46622]">
+      <div className="rounded-xl border border-[var(--border)] bg-[var(--surface)] p-5 sm:p-6 space-y-4">
+        <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[var(--border)] pb-3">
+          <div className="flex items-center gap-2.5">
+            <div className="p-1.5 rounded-lg bg-[var(--color-warning-soft)] text-[var(--color-warning)]">
               <Layers className="w-4 h-4" />
             </div>
             <div>
-              <h3 className="font-serif text-base font-bold text-[#252525]">
+              <h3 className="font-sans text-base font-semibold text-[var(--text-primary)]">
                 2. Architectural Paradigm Comparison
               </h3>
-              <p className="text-xs text-[#5F625F]">
+              <p className="text-xs text-[var(--text-secondary)]">
                 Select an architecture to inspect how memory representation, scaling, and sequence dependence fundamentally diverge.
               </p>
             </div>
           </div>
-          <span className="text-xs italic text-[#5F625F]">
+          <span className="text-xs text-[var(--text-muted)]">
             Educational comparison, not a cherry-picked benchmark claim.
           </span>
         </div>
@@ -192,11 +199,12 @@ export const Page05BDHInteractions: React.FC = () => {
           {(['rnn', 'lstm', 'transformer', 'bdh'] as const).map((archKey) => (
             <button
               key={archKey}
+              type="button"
               onClick={() => setSelectedArch(archKey)}
-              className={`p-2.5 rounded-xl border text-xs font-medium transition cursor-pointer text-center ${
+              className={`p-2.5 rounded-lg border text-xs font-medium transition cursor-pointer text-center ${
                 selectedArch === archKey
-                  ? 'border-[#31566E] bg-[#E7F2FA] text-[#31566E] font-bold shadow-xs'
-                  : 'border-[#D8DCD8] bg-[#F7F5EF] text-[#5F625F] hover:text-[#252525]'
+                  ? 'border-[var(--color-border-strong)] bg-[var(--accent-blue)] text-[var(--accent-blue-text)] font-semibold'
+                  : 'border-[var(--border)] bg-[var(--surface-soft)] text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
               }`}
             >
               {archKey.toUpperCase()}
@@ -206,91 +214,91 @@ export const Page05BDHInteractions: React.FC = () => {
 
         {/* Selected Architecture Detailed Telemetry */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
-          <div className="p-3.5 rounded-xl bg-[#F7F5EF] border border-[#D8DCD8] space-y-1">
-            <span className="text-[#5F625F] uppercase font-semibold text-[11px] block">Architecture</span>
-            <strong className="text-[#252525] text-sm block">{currentArch.name}</strong>
-            <span className="text-[#5F625F] block pt-1">
-              <strong>Memory Representation: </strong>{currentArch.memoryRep}
+          <div className="p-3.5 rounded-lg bg-[var(--surface-soft)] border border-[var(--border)] space-y-1">
+            <span className="text-[var(--text-muted)] font-semibold text-xs block">Architecture</span>
+            <strong className="text-[var(--text-primary)] text-sm block">{currentArch.name}</strong>
+            <span className="text-[var(--text-secondary)] block pt-1">
+              <strong className="text-[var(--text-primary)]">Memory Representation: </strong>{currentArch.memoryRep}
             </span>
           </div>
 
-          <div className="p-3.5 rounded-xl bg-[#F7F5EF] border border-[#D8DCD8] space-y-1">
-            <span className="text-[#5F625F] uppercase font-semibold text-[11px] block">State Dynamics Law</span>
-            <p className="text-[#252525] leading-relaxed">{currentArch.stateBehavior}</p>
+          <div className="p-3.5 rounded-lg bg-[var(--surface-soft)] border border-[var(--border)] space-y-1">
+            <span className="text-[var(--text-muted)] font-semibold text-xs block">State Dynamics Law</span>
+            <p className="text-[var(--text-primary)] leading-relaxed">{currentArch.stateBehavior}</p>
           </div>
 
-          <div className="p-3.5 rounded-xl bg-[#F7F5EF] border border-[#D8DCD8] space-y-1">
-            <span className="text-[#5F625F] uppercase font-semibold text-[11px] block">Computational Scaling</span>
-            <p className="font-mono text-[#31566E] font-bold">{currentArch.scaling}</p>
-            <p className="text-[#5F625F] text-[11px] pt-1">{currentArch.seqDep}</p>
+          <div className="p-3.5 rounded-lg bg-[var(--surface-soft)] border border-[var(--border)] space-y-1">
+            <span className="text-[var(--text-muted)] font-semibold text-xs block">Computational Scaling</span>
+            <p className="font-mono text-[var(--accent-blue-text)] font-semibold">{currentArch.scaling}</p>
+            <p className="text-[var(--text-secondary)] text-xs pt-1">{currentArch.seqDep}</p>
           </div>
 
-          <div className="p-3.5 rounded-xl bg-[#E7F2FA] border border-[#D8DCD8] text-[#31566E] space-y-1">
-            <span className="uppercase font-semibold text-[11px] block">Evidence Context</span>
-            <p className="text-[11px] leading-relaxed">{currentArch.evidenceType}</p>
+          <div className="p-3.5 rounded-lg bg-[var(--accent-blue)] border border-[var(--color-border-strong)] text-[var(--accent-blue-text)] space-y-1">
+            <span className="font-semibold text-xs block">Evidence Context</span>
+            <p className="text-xs leading-relaxed">{currentArch.evidenceType}</p>
           </div>
         </div>
       </div>
 
       {/* 3. SYNAPTIC UPDATE INSPECTOR */}
-      <div className="rounded-xl border border-[#D8DCD8] bg-[#FFFFFF] p-5 sm:p-6 shadow-xs space-y-4">
-        <div className="flex items-center gap-2 border-b border-[#EAE6DF] pb-3">
-          <div className="p-1.5 rounded-lg bg-[#DCEFE2] text-[#247A4B]">
+      <div className="rounded-xl border border-[var(--border)] bg-[var(--surface)] p-5 sm:p-6 space-y-4">
+        <div className="flex items-center gap-2.5 border-b border-[var(--border)] pb-3">
+          <div className="p-1.5 rounded-lg bg-[var(--color-success-soft)] text-[var(--color-success)]">
             <Zap className="w-4 h-4" />
           </div>
           <div>
-            <h3 className="font-serif text-base font-bold text-[#252525]">
-              3. Synaptic Update Inspector (Hebb's Rule)
+            <h3 className="font-sans text-base font-semibold text-[var(--text-primary)]">
+              3. Synaptic Update Inspector (Hebb&apos;s Rule)
             </h3>
-            <p className="text-xs text-[#5F625F]">
+            <p className="text-xs text-[var(--text-secondary)]">
               Select a synapse between neuron pair <InlineMath math="(i, j)" /> to view its weight modification under local co-activation.
             </p>
           </div>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-4 gap-3 text-xs">
-          <div className="p-3.5 rounded-xl bg-[#F7F5EF] border border-[#D8DCD8] space-y-1">
-            <span className="text-[#5F625F] uppercase font-semibold text-[11px] block">Synapse Selection</span>
-            <div className="flex items-center gap-2 pt-1">
-              <label className="text-[#5F625F]">Source i:</label>
+        <div className="grid grid-cols-1 sm:grid-cols-4 gap-3 text-xs tabular-nums">
+          <div className="p-3.5 rounded-lg bg-[var(--surface-soft)] border border-[var(--border)] space-y-1.5">
+            <span className="text-[var(--text-muted)] font-semibold text-xs block">Synapse selection</span>
+            <div className="flex flex-wrap items-center gap-2 pt-0.5">
+              <label className="text-[var(--text-secondary)]">Source i:</label>
               <select
                 value={selectedSynapse.i}
                 onChange={(e) => setSelectedSynapse((prev) => ({ ...prev, i: parseInt(e.target.value, 10) }))}
-                className="p-1 rounded border border-[#D8DCD8] bg-[#FFFFFF] cursor-pointer"
+                className="p-1 rounded border border-[var(--border)] bg-[var(--surface)] text-[var(--text-primary)] cursor-pointer"
               >
                 {[1, 2, 3, 4, 5, 6].map((n) => (
                   <option key={n} value={n}>Neuron {n}</option>
                 ))}
               </select>
 
-              <label className="text-[#5F625F]">Target j:</label>
+              <label className="text-[var(--text-secondary)]">Target j:</label>
               <select
                 value={selectedSynapse.j}
                 onChange={(e) => setSelectedSynapse((prev) => ({ ...prev, j: parseInt(e.target.value, 10) }))}
-                className="p-1 rounded border border-[#D8DCD8] bg-[#FFFFFF] cursor-pointer"
+                className="p-1 rounded border border-[var(--border)] bg-[var(--surface)] text-[var(--text-primary)] cursor-pointer"
               >
                 {[1, 2, 3, 4, 5, 6].map((n) => (
                   <option key={n} value={n}>Neuron {n}</option>
                 ))}
               </select>
             </div>
-            <span className="text-[11px] text-[#5F625F] block pt-1">{synapseData.source} → {synapseData.target}</span>
+            <span className="text-[11px] text-[var(--text-muted)] block pt-1">{synapseData.source} → {synapseData.target}</span>
           </div>
 
-          <div className="p-3.5 rounded-xl bg-[#F7F5EF] border border-[#D8DCD8] space-y-1">
-            <span className="text-[#5F625F] uppercase font-semibold text-[11px] block">Previous Weight <InlineMath math="\sigma_{ij}(t)" /></span>
-            <div className="text-base font-mono font-bold text-[#252525]">{synapseData.prevWeight.toFixed(4)}</div>
-            <span className="text-[11px] text-[#5F625F]">Prior synaptic conductance</span>
+          <div className="p-3.5 rounded-lg bg-[var(--surface-soft)] border border-[var(--border)] space-y-1">
+            <span className="text-[var(--text-muted)] font-semibold text-xs block">Previous Weight <InlineMath math="\sigma_{ij}(t)" /></span>
+            <div className="text-base font-mono font-bold text-[var(--text-primary)]">{synapseData.prevWeight.toFixed(4)}</div>
+            <span className="text-[11px] text-[var(--text-muted)]">Prior synaptic conductance</span>
           </div>
 
-          <div className="p-3.5 rounded-xl bg-[#F7F5EF] border border-[#D8DCD8] space-y-1">
-            <span className="text-[#5F625F] uppercase font-semibold text-[11px] block">Hebbian Delta <InlineMath math="\eta x_i y_j" /></span>
-            <div className="text-base font-mono font-bold text-[#247A4B]">+{synapseData.hebbianUpdate.toFixed(4)}</div>
-            <span className="text-[11px] text-[#5F625F]">Concurrent firing update</span>
+          <div className="p-3.5 rounded-lg bg-[var(--surface-soft)] border border-[var(--border)] space-y-1">
+            <span className="text-[var(--text-muted)] font-semibold text-xs block">Hebbian Delta <InlineMath math="\eta x_i y_j" /></span>
+            <div className="text-base font-mono font-bold text-[var(--color-success)]">+{synapseData.hebbianUpdate.toFixed(4)}</div>
+            <span className="text-[11px] text-[var(--text-muted)]">Concurrent firing update</span>
           </div>
 
-          <div className="p-3.5 rounded-xl bg-[#E7F2FA] border border-[#D8DCD8] text-[#31566E] space-y-1">
-            <span className="uppercase font-semibold text-[11px] block">New Weight <InlineMath math="\sigma_{ij}(t+1)" /></span>
+          <div className="p-3.5 rounded-lg bg-[var(--accent-blue)] border border-[var(--color-border-strong)] text-[var(--accent-blue-text)] space-y-1">
+            <span className="font-semibold text-xs block">New Weight <InlineMath math="\sigma_{ij}(t+1)" /></span>
             <div className="text-base font-mono font-bold">{synapseData.nextWeight.toFixed(4)}</div>
             <span className="text-[11px]">Updated synaptic strength</span>
           </div>

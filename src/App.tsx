@@ -151,7 +151,7 @@ function AppContent() {
                 onStartJudgeMode={() => setIsJudgeModeOpen(true)}
               />
 
-              <div className="w-full max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 space-y-12 py-8">
+              <div className="research-container space-y-12 py-8">
                 <Section01MemoryProblem />
                 <Section02GrowingContext />
                 <Section03RecurrentMemory />
@@ -173,18 +173,18 @@ function AppContent() {
           {/* ============================================================ */}
           {currentPage === 'break' && (
             <div className="animate-in fade-in duration-300 w-full">
-              <div className="w-full border-b border-[var(--border)] bg-[var(--surface)]">
-                <div className="w-full max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10">
-                  <div className="space-y-2">
-                    <div className="flex items-center gap-2 text-xs font-sans text-[var(--text-secondary)]">
-                      <span className="font-semibold text-[var(--accent-blue-text)]">Stage 02 · Experimentation</span>
+              <div className="w-full border-b border-[var(--border)] bg-[var(--page-bg)]">
+                <div className="research-container py-9 sm:py-12">
+                  <div className="space-y-3 max-w-2xl">
+                    <div className="flex items-center gap-2 text-xs font-mono text-[var(--text-muted)]">
+                      <span className="font-semibold text-[var(--accent-blue-text)] tabular-nums">Stage 02</span>
                       <span aria-hidden="true" className="text-[var(--border)]">·</span>
-                      <span>Stress-testing memory retention</span>
+                      <span>Experimentation &amp; stress-testing</span>
                     </div>
-                    <h1 className="text-3xl sm:text-4xl font-serif font-bold text-[var(--text-primary)] tracking-tight">
+                    <h1 className="text-3xl sm:text-4xl lg:text-[42px] font-serif font-semibold text-[var(--text-primary)] tracking-[-0.02em] leading-[1.12]">
                       Can You Make It Forget?
                     </h1>
-                    <p className="text-sm sm:text-base text-[var(--text-secondary)] font-sans max-w-2xl">
+                    <p className="text-[15px] sm:text-[17px] text-[var(--text-secondary)] font-sans leading-relaxed">
                       Stress-test the recurrent state. Tune retention, inject distractors, and discover the exact boundary where associative memory begins to collide.
                     </p>
                   </div>
@@ -203,7 +203,7 @@ function AppContent() {
                   <Section04InterferenceLab />
                 </ErrorBoundary>
 
-                <div className="w-full max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 py-6">
+                <div className="research-container py-6">
                   <Page02BreakInteractions />
                 </div>
               </div>
@@ -224,25 +224,25 @@ function AppContent() {
           {/* ============================================================ */}
           {currentPage === 'trace' && (
             <div className="animate-in fade-in duration-300 w-full">
-              <div className="w-full border-b border-[var(--border)] bg-[var(--surface)]">
-                <div className="w-full max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10">
-                  <div className="space-y-2">
-                    <div className="flex items-center gap-2 text-xs font-sans text-[var(--text-secondary)]">
-                      <span className="font-semibold text-[var(--accent-blue-text)]">Stage 03 · Diagnostics</span>
+              <div className="w-full border-b border-[var(--border)] bg-[var(--page-bg)]">
+                <div className="research-container py-9 sm:py-12">
+                  <div className="space-y-3 max-w-2xl">
+                    <div className="flex items-center gap-2 text-xs font-mono text-[var(--text-muted)]">
+                      <span className="font-semibold text-[var(--accent-blue-text)] tabular-nums">Stage 03</span>
                       <span aria-hidden="true" className="text-[var(--border)]">·</span>
-                      <span>State coordinate inspection</span>
+                      <span>Diagnostics &amp; coordinate inspection</span>
                     </div>
-                    <h1 className="text-3xl sm:text-4xl font-serif font-bold text-[var(--text-primary)] tracking-tight">
+                    <h1 className="text-3xl sm:text-4xl lg:text-[42px] font-serif font-semibold text-[var(--text-primary)] tracking-[-0.02em] leading-[1.12]">
                       What Changed Inside the State?
                     </h1>
-                    <p className="text-sm sm:text-base text-[var(--text-secondary)] font-sans max-w-2xl">
-                      Step through the sequence timeline. Inspect the state coordinate deltas (ΔM), observe counterfactual interventions with Memory Surgery, and isolate the exact moment of interference.
+                    <p className="text-[15px] sm:text-[17px] text-[var(--text-secondary)] font-sans leading-relaxed">
+                      Step through the sequence timeline. Inspect state coordinate deltas (ΔM), observe counterfactual interventions with Memory Surgery, and isolate the exact moment of interference.
                     </p>
                   </div>
                 </div>
               </div>
 
-              <div className="w-full max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-8">
+              <div className="research-container py-6 space-y-8">
                 <Section05FindTheFailure />
                 <Page03TraceInteractions />
               </div>
@@ -263,25 +263,25 @@ function AppContent() {
           {/* ============================================================ */}
           {currentPage === 'measure' && (
             <div className="animate-in fade-in duration-300 w-full">
-              <div className="w-full border-b border-[var(--border)] bg-[var(--surface)]">
-                <div className="w-full max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10">
-                  <div className="space-y-2">
-                    <div className="flex items-center gap-2 text-xs font-sans text-[var(--text-secondary)]">
-                      <span className="font-semibold text-[var(--accent-green-text)]">Stage 04 · Evidence</span>
+              <div className="w-full border-b border-[var(--border)] bg-[var(--page-bg)]">
+                <div className="research-container py-9 sm:py-12">
+                  <div className="space-y-3 max-w-2xl">
+                    <div className="flex items-center gap-2 text-xs font-mono text-[var(--text-muted)]">
+                      <span className="font-semibold text-[var(--accent-green-text)] tabular-nums">Stage 04</span>
                       <span aria-hidden="true" className="text-[var(--border)]">·</span>
                       <span>Empirical capacity measurements</span>
                     </div>
-                    <h1 className="text-3xl sm:text-4xl font-serif font-bold text-[var(--text-primary)] tracking-tight">
+                    <h1 className="text-3xl sm:text-4xl lg:text-[42px] font-serif font-semibold text-[var(--text-primary)] tracking-[-0.02em] leading-[1.12]">
                       Turn Observations into Evidence
                     </h1>
-                    <p className="text-sm sm:text-base text-[var(--text-secondary)] font-sans max-w-2xl">
+                    <p className="text-[15px] sm:text-[17px] text-[var(--text-secondary)] font-sans leading-relaxed">
                       Plot real empirical performance data. Measure retrieval accuracy against memory dimension, track Frobenius norm drift, and verify theoretical capacity limits.
                     </p>
                   </div>
                 </div>
               </div>
 
-              <div className="w-full max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 space-y-12 py-8">
+              <div className="research-container space-y-12 py-8">
                 <SectionMeasure />
                 <CapacityExperiment id="section-capacity-bounds" />
                 <Page04MeasureInteractions />
@@ -303,18 +303,18 @@ function AppContent() {
           {/* ============================================================ */}
           {currentPage === 'bdh' && (
             <div className="animate-in fade-in duration-300 w-full">
-              <div className="w-full border-b border-[var(--border)] bg-[var(--surface)]">
-                <div className="w-full max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10">
-                  <div className="space-y-2">
-                    <div className="flex items-center gap-2 text-xs font-sans text-[var(--text-secondary)]">
-                      <span className="font-semibold text-[var(--accent-yellow-text)]">Stage 05 · Architecture</span>
+              <div className="w-full border-b border-[var(--border)] bg-[var(--page-bg)]">
+                <div className="research-container py-9 sm:py-12">
+                  <div className="space-y-3 max-w-2xl">
+                    <div className="flex items-center gap-2 text-xs font-mono text-[var(--text-muted)]">
+                      <span className="font-semibold text-[var(--accent-yellow-text)] tabular-nums">Stage 05</span>
                       <span aria-hidden="true" className="text-[var(--border)]">·</span>
-                      <span>Synaptic neural network structures</span>
+                      <span>Synaptic network architecture</span>
                     </div>
-                    <h1 className="text-3xl sm:text-4xl font-serif font-bold text-[var(--text-primary)] tracking-tight">
+                    <h1 className="text-3xl sm:text-4xl lg:text-[42px] font-serif font-semibold text-[var(--text-primary)] tracking-[-0.02em] leading-[1.12]">
                       From Vector States to Synaptic Networks
                     </h1>
-                    <p className="text-sm sm:text-base text-[var(--text-secondary)] font-sans max-w-2xl">
+                    <p className="text-[15px] sm:text-[17px] text-[var(--text-secondary)] font-sans leading-relaxed">
                       Discover Pathway's Dragon Hatchling (BDH) architecture. Explore how biological Hebbian plasticity and scale-free connectivity turn recurrent state into decentralized synaptic memory.
                     </p>
                   </div>
@@ -322,7 +322,7 @@ function AppContent() {
               </div>
 
               <div className="w-full space-y-12 py-8">
-                <div className="w-full max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+                <div className="research-container space-y-12">
                   <Section06WhyThisMatters />
                   <Section07MeetBDH />
                   <Page05BDHInteractions />
@@ -346,25 +346,25 @@ function AppContent() {
           {/* ============================================================ */}
           {currentPage === 'reason' && (
             <div className="animate-in fade-in duration-300 w-full">
-              <div className="w-full border-b border-[var(--border)] bg-[var(--surface)]">
-                <div className="w-full max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10">
-                  <div className="space-y-2">
-                    <div className="flex items-center gap-2 text-xs font-sans text-[var(--text-secondary)]">
-                      <span className="font-semibold text-[var(--accent-blue-text)]">Stage 06 · Latent reasoning</span>
+              <div className="w-full border-b border-[var(--border)] bg-[var(--page-bg)]">
+                <div className="research-container py-9 sm:py-12">
+                  <div className="space-y-3 max-w-2xl">
+                    <div className="flex items-center gap-2 text-xs font-mono text-[var(--text-muted)]">
+                      <span className="font-semibold text-[var(--accent-blue-text)] tabular-nums">Stage 06</span>
                       <span aria-hidden="true" className="text-[var(--border)]">·</span>
-                      <span>Continuous state dynamics and BDH-CQ</span>
+                      <span>Continuous state dynamics &amp; BDH-CQ</span>
                     </div>
-                    <h1 className="text-3xl sm:text-4xl font-serif font-bold text-[var(--text-primary)] tracking-tight">
+                    <h1 className="text-3xl sm:text-4xl lg:text-[42px] font-serif font-semibold text-[var(--text-primary)] tracking-[-0.02em] leading-[1.12]">
                       Recurrent Latent Computation
                     </h1>
-                    <p className="text-sm sm:text-base text-[var(--text-secondary)] font-sans max-w-2xl">
+                    <p className="text-[15px] sm:text-[17px] text-[var(--text-secondary)] font-sans leading-relaxed">
                       What if reasoning happens in continuous state before tokens are emitted? Explore BDH-CQ and iterative synaptic relaxation loops.
                     </p>
                   </div>
                 </div>
               </div>
 
-              <div className="w-full max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 space-y-12 py-8">
+              <div className="research-container space-y-12 py-8">
                 <Section09BDHPlayground />
                 <Section10BDHCQ />
                 <Page06ReasonInteractions />
@@ -387,25 +387,25 @@ function AppContent() {
           {/* ============================================================ */}
           {currentPage === 'prove' && (
             <div className="animate-in fade-in duration-300 w-full">
-              <div className="w-full border-b border-[var(--border)] bg-[var(--surface)]">
-                <div className="w-full max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10">
-                  <div className="space-y-2">
-                    <div className="flex items-center gap-2 text-xs font-sans text-[var(--text-secondary)]">
-                      <span className="font-semibold text-[var(--accent-green-text)]">Stage 07 · Evaluation & Capstone</span>
+              <div className="w-full border-b border-[var(--border)] bg-[var(--page-bg)]">
+                <div className="research-container py-9 sm:py-12">
+                  <div className="space-y-3 max-w-2xl">
+                    <div className="flex items-center gap-2 text-xs font-mono text-[var(--text-muted)]">
+                      <span className="font-semibold text-[var(--accent-green-text)] tabular-nums">Stage 07</span>
                       <span aria-hidden="true" className="text-[var(--border)]">·</span>
-                      <span>Synthesis, verification, and certification</span>
+                      <span>Evaluation &amp; Capstone</span>
                     </div>
-                    <h1 className="text-3xl sm:text-4xl font-serif font-bold text-[var(--text-primary)] tracking-tight">
+                    <h1 className="text-3xl sm:text-4xl lg:text-[42px] font-serif font-semibold text-[var(--text-primary)] tracking-[-0.02em] leading-[1.12]">
                       Demonstrate Your Understanding
                     </h1>
-                    <p className="text-sm sm:text-base text-[var(--text-secondary)] font-sans max-w-2xl">
-                      Complete the 60-second guided challenge, verify your empirical predictions, synthesize concepts, and claim your Certificate of Completion.
+                    <p className="text-[15px] sm:text-[17px] text-[var(--text-secondary)] font-sans leading-relaxed">
+                      Complete the 60-second guided challenge, verify empirical predictions against live matrix computations, synthesize core concepts, and claim your Certificate of Completion.
                     </p>
                   </div>
                 </div>
               </div>
 
-              <div className="w-full max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 space-y-12 py-8">
+              <div className="research-container space-y-14 py-10">
                 <SixtySecondTest />
                 <FinalChallenge />
                 <Page07ProveInteractions />

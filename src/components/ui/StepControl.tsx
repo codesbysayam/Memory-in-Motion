@@ -24,7 +24,7 @@ export const StepControl: React.FC<StepControlProps> = ({
       className={`btn btn-secondary ${className}`}
       title={isRestart ? 'Restart from step 0' : 'Advance one simulation step'}
     >
-      <SkipForward className="w-3.5 h-3.5 text-[#31566E]" />
+      <SkipForward className="w-3.5 h-3.5 text-[var(--accent-blue-text)]" />
       <span>{isRestart ? `${label} (Restart)` : label}</span>
     </button>
   );

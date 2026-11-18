@@ -62,41 +62,41 @@ export const CookieConsentBanner: React.FC = () => {
       id="cookie-consent-banner"
       role="region"
       aria-label="Privacy preferences"
-      className="fixed bottom-4 left-4 right-4 sm:left-auto sm:right-6 sm:max-w-md z-40 p-4 sm:p-5 rounded-2xl bg-white border border-[#DCD9CF] shadow-xl text-[#252525] font-sans animate-in slide-in-from-bottom-4 duration-300"
+      className="fixed bottom-4 left-4 right-4 sm:left-auto sm:right-6 sm:max-w-md z-40 p-4 sm:p-5 rounded-xl bg-[var(--surface)] border border-[var(--border)] shadow-xl text-[var(--text-primary)] font-sans animate-in slide-in-from-bottom-4 duration-300"
     >
       <div className="flex items-start gap-3">
-        <div className="w-8 h-8 rounded-lg bg-[#EAF2FA] border border-[#CDE1F2] flex items-center justify-center shrink-0 text-[#1B4D7E]">
+        <div className="w-8 h-8 rounded-lg bg-[var(--accent-blue)] border border-[var(--color-border-strong)] flex items-center justify-center shrink-0 text-[var(--accent-blue-text)]">
           <ShieldCheck className="w-4 h-4" />
         </div>
         <div className="flex-1 space-y-2">
           <div className="flex items-center justify-between">
-            <h4 className="font-serif font-bold text-sm text-[#1C1B19]">
+            <h4 className="font-sans font-semibold text-sm text-[var(--text-primary)]">
               Privacy preferences
             </h4>
             <button
               type="button"
               onClick={() => handleChoice(false)}
-              className="text-[#888] hover:text-[#252525] p-1 cursor-pointer transition"
+              className="text-[var(--text-muted)] hover:text-[var(--text-primary)] p-1 cursor-pointer transition-colors"
               aria-label="Close and reject optional tracking"
             >
               <X className="w-4 h-4" />
             </button>
           </div>
-          <p className="text-xs text-[#55524B] leading-relaxed">
+          <p className="text-xs text-[var(--text-secondary)] leading-relaxed">
             This laboratory stores your experiment progress locally in your browser. We never harvest personal information. Would you like to enable anonymous analytics to help improve simulation accuracy?
           </p>
           <div className="flex flex-wrap items-center gap-2 pt-1">
             <button
               type="button"
               onClick={() => handleChoice(true)}
-              className="px-3.5 py-1.5 rounded-lg bg-[#1B4D7E] text-white text-xs font-semibold hover:bg-[#153E65] transition shadow-xs cursor-pointer"
+              className="btn btn-primary text-xs py-1.5 px-3.5"
             >
               Accept analytics
             </button>
             <button
               type="button"
               onClick={() => handleChoice(false)}
-              className="px-3.5 py-1.5 rounded-lg border border-[#D5D2C9] bg-[#FAF9F6] text-[#4B4840] text-xs font-medium hover:bg-[#F2EFE8] transition cursor-pointer"
+              className="btn btn-secondary text-xs py-1.5 px-3.5"
             >
               Reject optional cookies
             </button>

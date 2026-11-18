@@ -53,20 +53,20 @@ export const MatrixDiff: React.FC<MatrixDiffProps> = ({
   const displayDim = Math.min(16, deltaMatrix.length);
 
   return (
-    <div className="rounded-2xl border border-[#E5E0D8] bg-[#FFFFFF] p-5 text-[#151515] space-y-4 font-mono shadow-xs">
-      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[#EAE6DF] pb-3">
+    <div className="diagram-frame p-5 text-[var(--text-primary)] space-y-4 font-mono">
+      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[var(--border)] pb-3">
         <div className="flex items-center gap-2">
-          <Layers className="w-4 h-4 text-[#167C80]" />
-          <h4 className="text-xs font-bold text-[#151515] uppercase tracking-wider">
-            Memory Matrix Difference · ΔM = M_after - M_before
+          <Layers className="w-4 h-4 text-[var(--accent-blue-text)]" />
+          <h4 className="text-xs font-bold text-[var(--text-primary)] uppercase tracking-wider">
+            Memory matrix difference · ΔM = M_after − M_before
           </h4>
         </div>
 
-        <div className="flex items-center gap-1.5 text-[11px] text-[#716F68]">
-          <span className="group relative cursor-help flex items-center gap-1 text-[#167C80]">
+        <div className="flex items-center gap-1.5 text-[11px] text-[var(--text-muted)]">
+          <span className="group relative cursor-help flex items-center gap-1 text-[var(--accent-blue-text)]">
             <HelpCircle className="w-3.5 h-3.5" />
-            <span>Dimension Tooltip</span>
-            <span className="pointer-events-none absolute right-0 top-6 z-50 hidden w-72 rounded-lg border border-[#E5E0D8] bg-[#FFFFFF] p-2.5 text-[10px] text-[#52504A] shadow-md font-sans">
+            <span>Dimension info</span>
+            <span className="pointer-events-none absolute right-0 top-6 z-50 hidden group-hover:block w-72 rounded-lg border border-[var(--border)] bg-[var(--surface)] p-2.5 text-[10px] text-[var(--text-secondary)] shadow-md font-sans">
               Matrix coordinates are computational dimensions; they do not have predefined human meanings.
             </span>
           </span>
@@ -74,25 +74,25 @@ export const MatrixDiff: React.FC<MatrixDiffProps> = ({
       </div>
 
       {/* Actual Computed Statistics */}
-      <div className="grid grid-cols-3 gap-3 text-xs">
-        <div className="p-3 rounded-xl bg-[#FAF8F5] border border-[#EAE6DF] space-y-0.5">
-          <span className="text-[10px] text-[#716F68] uppercase font-bold tracking-wider">MEAN |ΔM|</span>
-          <div className="text-sm font-bold text-[#167C80]">{meanAbsDelta.toFixed(4)}</div>
-          <span className="text-[9px] text-[#716F68] font-sans">Average magnitude change</span>
+      <div className="grid grid-cols-3 gap-3 text-xs tabular-nums">
+        <div className="metric-panel p-3 space-y-0.5">
+          <span className="text-[10px] text-[var(--text-muted)] uppercase font-bold tracking-wider">Mean |ΔM|</span>
+          <div className="text-sm font-bold text-[var(--accent-blue-text)]">{meanAbsDelta.toFixed(4)}</div>
+          <span className="text-[9px] text-[var(--text-muted)] font-sans">Average magnitude change</span>
         </div>
 
-        <div className="p-3 rounded-xl bg-[#FAF8F5] border border-[#EAE6DF] space-y-0.5">
-          <span className="text-[10px] text-[#716F68] uppercase font-bold tracking-wider">MAX |ΔM|</span>
-          <div className="text-sm font-bold text-[#A46622]">{maxAbsDelta.toFixed(4)}</div>
-          <span className="text-[9px] text-[#716F68] font-sans">Peak localized update</span>
+        <div className="metric-panel p-3 space-y-0.5">
+          <span className="text-[10px] text-[var(--text-muted)] uppercase font-bold tracking-wider">Max |ΔM|</span>
+          <div className="text-sm font-bold text-[var(--accent-yellow-text)]">{maxAbsDelta.toFixed(4)}</div>
+          <span className="text-[9px] text-[var(--text-muted)] font-sans">Peak localized update</span>
         </div>
 
-        <div className="p-3 rounded-xl bg-[#FAF8F5] border border-[#EAE6DF] space-y-0.5">
-          <span className="text-[10px] text-[#716F68] uppercase font-bold tracking-wider">CHANGED CELLS</span>
-          <div className="text-sm font-bold text-[#247A4B]">
+        <div className="metric-panel p-3 space-y-0.5">
+          <span className="text-[10px] text-[var(--text-muted)] uppercase font-bold tracking-wider">Changed cells</span>
+          <div className="text-sm font-bold text-[var(--accent-green-text)]">
             {changedCellsCount} / {totalCells}
           </div>
-          <span className="text-[9px] text-[#716F68] font-sans">
+          <span className="text-[9px] text-[var(--text-muted)] font-sans">
             {totalCells > 0 ? ((changedCellsCount / totalCells) * 100).toFixed(0) : 0}% of coordinates
           </span>
         </div>
@@ -102,12 +102,12 @@ export const MatrixDiff: React.FC<MatrixDiffProps> = ({
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-1">
         {/* Before Matrix */}
         <div className="space-y-1.5">
-          <div className="flex justify-between items-center text-[10px] text-[#716F68] font-bold uppercase">
-            <span>BEFORE WRITE (M_before)</span>
+          <div className="flex justify-between items-center text-[10px] text-[var(--text-muted)] font-bold uppercase tabular-nums">
+            <span>Before write (M_before)</span>
             <span>{displayDim}×{displayDim}</span>
           </div>
           <div
-            className="grid gap-[2px] p-2 bg-[#FFFFFF] rounded-lg border border-[#E5E0D8]"
+            className="grid gap-[2px] p-2 bg-[var(--color-matrix-bg)] rounded-lg border border-[var(--color-matrix-border)]"
             style={{ gridTemplateColumns: `repeat(${displayDim}, minmax(0, 1fr))` }}
           >
             {Array.from({ length: displayDim }).map((_, r) =>
@@ -118,12 +118,12 @@ export const MatrixDiff: React.FC<MatrixDiffProps> = ({
                   <div
                     key={`b-${r}-${c}`}
                     onClick={() => setSelectedCell({ r, c })}
-                    className="aspect-square rounded-[1px] cursor-pointer transition-opacity hover:opacity-100 hover:ring-1 hover:ring-[#167C80]"
+                    className="aspect-square rounded-[1px] cursor-pointer transition-opacity hover:opacity-100 hover:ring-1 hover:ring-[var(--color-matrix-ink)]"
                     style={{
                       backgroundColor:
                         val >= 0
-                          ? `rgba(22, 124, 128, ${Math.max(0.08, absV * 0.75)})`
-                          : `rgba(182, 66, 53, ${Math.max(0.08, absV * 0.75)})`,
+                          ? `rgba(76, 154, 255, ${Math.max(0.1, absV * 0.85)})`
+                          : `rgba(229, 98, 90, ${Math.max(0.1, absV * 0.85)})`,
                     }}
                     title={`M_before[${r}][${c}] = ${val.toFixed(4)}`}
                   />
@@ -135,12 +135,12 @@ export const MatrixDiff: React.FC<MatrixDiffProps> = ({
 
         {/* After Matrix */}
         <div className="space-y-1.5">
-          <div className="flex justify-between items-center text-[10px] text-[#716F68] font-bold uppercase">
-            <span>AFTER WRITE (M_after)</span>
+          <div className="flex justify-between items-center text-[10px] text-[var(--text-muted)] font-bold uppercase tabular-nums">
+            <span>After write (M_after)</span>
             <span>{displayDim}×{displayDim}</span>
           </div>
           <div
-            className="grid gap-[2px] p-2 bg-[#FFFFFF] rounded-lg border border-[#E5E0D8]"
+            className="grid gap-[2px] p-2 bg-[var(--color-matrix-bg)] rounded-lg border border-[var(--color-matrix-border)]"
             style={{ gridTemplateColumns: `repeat(${displayDim}, minmax(0, 1fr))` }}
           >
             {Array.from({ length: displayDim }).map((_, r) =>
@@ -151,12 +151,12 @@ export const MatrixDiff: React.FC<MatrixDiffProps> = ({
                   <div
                     key={`a-${r}-${c}`}
                     onClick={() => setSelectedCell({ r, c })}
-                    className="aspect-square rounded-[1px] cursor-pointer transition-opacity hover:opacity-100 hover:ring-1 hover:ring-[#167C80]"
+                    className="aspect-square rounded-[1px] cursor-pointer transition-opacity hover:opacity-100 hover:ring-1 hover:ring-[var(--color-matrix-ink)]"
                     style={{
                       backgroundColor:
                         val >= 0
-                          ? `rgba(22, 124, 128, ${Math.max(0.08, absV * 0.75)})`
-                          : `rgba(182, 66, 53, ${Math.max(0.08, absV * 0.75)})`,
+                          ? `rgba(76, 154, 255, ${Math.max(0.1, absV * 0.85)})`
+                          : `rgba(229, 98, 90, ${Math.max(0.1, absV * 0.85)})`,
                     }}
                     title={`M_after[${r}][${c}] = ${val.toFixed(4)}`}
                   />
@@ -168,12 +168,12 @@ export const MatrixDiff: React.FC<MatrixDiffProps> = ({
 
         {/* Delta Matrix ΔM */}
         <div className="space-y-1.5">
-          <div className="flex justify-between items-center text-[10px] text-[#6842C2] font-bold uppercase">
-            <span>ACTUAL DELTA (ΔM)</span>
-            <span>UPDATES HIGHLIGHTED</span>
+          <div className="flex justify-between items-center text-[10px] text-[var(--accent-blue-text)] font-bold uppercase">
+            <span>Actual delta (ΔM)</span>
+            <span>Updates highlighted</span>
           </div>
           <div
-            className="grid gap-[2px] p-2 bg-[#FFFFFF] rounded-lg border border-[#E2D8FA]"
+            className="grid gap-[2px] p-2 bg-[var(--color-matrix-bg)] rounded-lg border border-[var(--color-matrix-border)]"
             style={{ gridTemplateColumns: `repeat(${displayDim}, minmax(0, 1fr))` }}
           >
             {Array.from({ length: displayDim }).map((_, r) =>
@@ -187,13 +187,13 @@ export const MatrixDiff: React.FC<MatrixDiffProps> = ({
                     key={`d-${r}-${c}`}
                     onClick={() => setSelectedCell({ r, c })}
                     className={`aspect-square rounded-[1px] cursor-pointer transition-transform ${
-                      isLargest ? 'ring-1 ring-[#6842C2] scale-105 z-10' : ''
-                    } hover:opacity-100 hover:ring-1 hover:ring-[#151515]`}
+                      isLargest ? 'ring-1 ring-[var(--color-matrix-ink)] scale-105 z-10' : ''
+                    } hover:opacity-100 hover:ring-1 hover:ring-[var(--color-matrix-ink)]`}
                     style={{
                       backgroundColor:
                         val >= 0
-                          ? `rgba(104, 66, 194, ${Math.max(0.08, intensity * 0.75)})`
-                          : `rgba(182, 66, 53, ${Math.max(0.08, intensity * 0.75)})`,
+                          ? `rgba(76, 154, 255, ${Math.max(0.1, intensity * 0.85)})`
+                          : `rgba(229, 98, 90, ${Math.max(0.1, intensity * 0.85)})`,
                     }}
                     title={`ΔM[${r}][${c}] = ${val.toFixed(4)} (before: ${(matrixBefore[r]?.[c] ?? 0).toFixed(4)}, after: ${(matrixAfter[r]?.[c] ?? 0).toFixed(4)})`}
                   />
@@ -206,14 +206,14 @@ export const MatrixDiff: React.FC<MatrixDiffProps> = ({
 
       {/* Detail Inspector for Selected Cell */}
       {selectedCell && (
-        <div className="p-3 rounded-xl bg-[#FAF8F5] border border-[#EAE6DF] text-xs flex flex-wrap items-center justify-between gap-2">
-          <span className="text-[#52504A]">
-            Selected Coordinate: <strong className="text-[#151515]">[{selectedCell.r}][{selectedCell.c}]</strong>
+        <div className="p-3 rounded-xl bg-[var(--surface-soft)] border border-[var(--border)] text-xs flex flex-wrap items-center justify-between gap-2 tabular-nums">
+          <span className="text-[var(--text-secondary)]">
+            Selected coordinate: <strong className="text-[var(--text-primary)]">[{selectedCell.r}][{selectedCell.c}]</strong>
           </span>
           <div className="flex items-center gap-4 text-[11px]">
-            <span>Before: <strong className="text-[#151515]">{(matrixBefore[selectedCell.r]?.[selectedCell.c] ?? 0).toFixed(4)}</strong></span>
-            <span>After: <strong className="text-[#167C80]">{(matrixAfter[selectedCell.r]?.[selectedCell.c] ?? 0).toFixed(4)}</strong></span>
-            <span>ΔM: <strong className="text-[#6842C2]">{(deltaMatrix[selectedCell.r]?.[selectedCell.c] ?? 0).toFixed(4)}</strong></span>
+            <span>Before: <strong className="text-[var(--text-primary)]">{(matrixBefore[selectedCell.r]?.[selectedCell.c] ?? 0).toFixed(4)}</strong></span>
+            <span>After: <strong className="text-[var(--accent-blue-text)]">{(matrixAfter[selectedCell.r]?.[selectedCell.c] ?? 0).toFixed(4)}</strong></span>
+            <span>ΔM: <strong className="text-[var(--accent-yellow-text)]">{(deltaMatrix[selectedCell.r]?.[selectedCell.c] ?? 0).toFixed(4)}</strong></span>
           </div>
         </div>
       )}

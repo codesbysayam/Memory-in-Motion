@@ -45,37 +45,34 @@ export const TakeawaysAndFooter: React.FC<TakeawaysAndFooterProps> = ({
   ];
 
   return (
-    <footer id="takeaways" className="scroll-mt-20 border-t border-[var(--border)] bg-[var(--page-bg)] py-20 text-[var(--text-primary)]">
-      <div className="max-w-[1400px] mx-auto px-4 sm:px-6 space-y-12">
+    <footer id="takeaways" className="scroll-mt-20 border-t border-[var(--border)] bg-[var(--page-bg)] py-16 text-[var(--text-primary)]">
+      <div className="research-container space-y-12">
         {/* Five Takeaways */}
         <div className="space-y-6">
-          <div className="flex items-center gap-2">
-            <span className="text-[11px] font-mono uppercase tracking-widest px-2.5 py-0.5 rounded bg-[var(--accent-blue)] text-[var(--accent-blue-text)] border border-[var(--border)] font-bold">
-              SYNTHESIS
-            </span>
-            <span className="text-xs font-mono text-[var(--text-muted)]">
-              WHAT YOU SHOULD REMEMBER
-            </span>
+          <div className="flex items-center gap-2 text-xs font-mono text-[var(--text-muted)]">
+            <span className="font-semibold text-[var(--accent-blue-text)]">Synthesis</span>
+            <span aria-hidden="true" className="text-[var(--border)]">·</span>
+            <span>What to carry forward</span>
           </div>
 
-          <h2 className="text-2xl sm:text-4xl font-serif tracking-tight text-[var(--text-primary)] font-normal">
+          <h2 className="text-2xl sm:text-3xl font-serif font-semibold tracking-tight text-[var(--text-primary)]">
             Five core scientific takeaways
           </h2>
 
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-5">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {takeaways.map((t) => (
               <div
                 key={t.num}
-                className="flex flex-col justify-between rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-5 space-y-3 shadow-xs hover:border-[var(--accent-blue-text)] transition-all"
+                className="flex flex-col justify-between rounded-xl border border-[var(--border)] bg-[var(--surface)] p-5 space-y-2.5"
               >
-                <div>
-                  <span className="font-mono text-xs font-bold text-[var(--accent-blue-text)] block mb-1">
+                <div className="space-y-1.5">
+                  <span className="font-mono text-xs font-semibold tabular-nums text-[var(--accent-blue-text)] block">
                     {t.num}
                   </span>
-                  <h4 className="text-xs font-serif font-bold text-[var(--text-primary)] mb-1.5">
+                  <h4 className="text-base font-serif font-semibold text-[var(--text-primary)]">
                     {t.title}
                   </h4>
-                  <p className="text-[11px] text-[var(--text-secondary)] leading-relaxed font-sans">
+                  <p className="text-xs sm:text-sm text-[var(--text-secondary)] leading-relaxed font-sans">
                     {t.desc}
                   </p>
                 </div>
@@ -84,21 +81,21 @@ export const TakeawaysAndFooter: React.FC<TakeawaysAndFooterProps> = ({
           </div>
         </div>
 
-        {/* 19. WHAT THIS SITE DEMONSTRATES: Final Claim & Disclaimer Card */}
+        {/* Final Claim & Disclaimer Card */}
         <div>
           <FinalClaimCard />
         </div>
 
         {/* Technical Honesty & AI Disclosure */}
-        <div className="rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-6 text-xs text-[var(--text-secondary)] leading-relaxed space-y-2 shadow-xs">
-          <div className="flex items-center gap-2 font-mono text-[var(--text-primary)] font-bold">
-            <ShieldCheck className="w-4 h-4 text-[var(--accent-green-text)]" />
-            <span>Technical Honesty & AI Assistance Disclosure</span>
+        <div className="rounded-xl border border-[var(--border)] bg-[var(--surface)] p-5 sm:p-6 text-xs sm:text-sm text-[var(--text-secondary)] leading-relaxed space-y-2">
+          <div className="flex items-center gap-2 font-sans text-[var(--text-primary)] font-semibold">
+            <ShieldCheck className="w-4 h-4 text-[var(--accent-green-text)] shrink-0" />
+            <span>Technical Honesty &amp; AI Assistance Disclosure</span>
           </div>
           <p>
             This laboratory was created for <strong>DataForge 2026 — Pathway Track (&ldquo;Explain the Frontier&rdquo;)</strong>. All simulations execute deterministically in your browser using PRNG-seeded vector arithmetic and local graph updates. No benchmark numbers or experimental claims were fabricated.
           </p>
-          <p className="font-mono text-[11px] text-[var(--text-muted)]">
+          <p className="font-mono text-xs text-[var(--text-muted)]">
             &ldquo;This project uses AI-assisted development. The author is responsible for understanding, verifying, and defending every component.&rdquo;
           </p>
         </div>

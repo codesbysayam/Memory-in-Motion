@@ -28,13 +28,13 @@ export const Section01MemoryProblem: React.FC = () => {
   ].slice(0, tokenCount);
 
   return (
-    <section id="section-01" className="scroll-mt-20 border-b border-[var(--border)] bg-[var(--page-bg)] py-16">
-      <div className="max-w-[1400px] mx-auto px-4 sm:px-6">
+    <section id="section-01" className="scroll-mt-20 border-b border-[var(--border)] bg-[var(--page-bg)] py-12">
+      <div className="w-full">
         <SectionHeader
           number="01"
-          category="THE MEMORY PROBLEM"
+          category="The memory problem"
           title="Why does memory become a systems problem?"
-          subtitle="Standard Transformer models remember past dialogue by storing every single token in an expanding Key-Value cache. As sequences grow, memory consumption scales uncontrollably."
+          subtitle="Standard Transformer models remember past dialogue by storing every single token in an expanding Key-Value cache. As sequences grow, memory consumption scales linearly."
           discovery={
             <span>
               Verbatim token retention scales linearly <InlineMath math="\mathcal{O}(T)" /> with context length, whereas recurrent memory compresses information into a constant <InlineMath math="\mathcal{O}(1)" /> state footprint.
@@ -46,12 +46,12 @@ export const Section01MemoryProblem: React.FC = () => {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
           {/* Left Column: Context, Sliders & Core Scientific Question */}
           <div className="lg:col-span-5 space-y-6">
-            <div className="rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-6 space-y-5 shadow-xs">
-              <h3 className="text-xs font-mono uppercase tracking-widest text-[#167C80] font-bold">
+            <div className="rounded-xl border border-[var(--border)] bg-[var(--surface)] p-6 space-y-5">
+              <h3 className="text-xs font-mono font-semibold text-[var(--accent-blue-text)]">
                 System interface dynamics
               </h3>
-              
-              <p className="text-sm text-[#52504A] font-sans leading-relaxed">
+
+              <p className="text-sm text-[var(--text-secondary)] font-sans leading-relaxed">
                 In standard self-attention architectures, every incoming word token must attend to all previous tokens. To avoid recalculating representations, models maintain a{' '}
                 <Tooltip
                   term="KV Cache"
@@ -59,15 +59,16 @@ export const Section01MemoryProblem: React.FC = () => {
                 >
                   KV Cache
                 </Tooltip>
-                . Each additional token consumes permanent memory until the GPU runs out of VRAM.
+                . Each additional token consumes permanent memory until GPU VRAM saturates.
               </p>
 
               {/* Slider for Sequence Length */}
-              <div className="pt-3 border-t border-[#EAE6DF]">
+              <div className="pt-3 border-t border-[var(--border)]">
                 <ControlSlider
+                  id="section01-token-slider"
                   label={
                     <span className="flex items-center gap-1">
-                      <span>Sequence Length</span>
+                      <span>Sequence length</span>
                       <InlineMath math="(T \text{ tokens})" />
                     </span>
                   }
@@ -76,35 +77,35 @@ export const Section01MemoryProblem: React.FC = () => {
                   max={48}
                   step={2}
                   unit="tokens"
-                  description="Try changing this. Slide to simulate a longer conversation context and watch the storage footprint diverge."
+                  description="Slide to simulate a longer conversation context and watch the storage footprint diverge."
                   onChange={(val) => setTokenCount(val)}
                 />
               </div>
 
               {/* Dual Telemetry Cards */}
               <div className="grid grid-cols-2 gap-3 pt-2">
-                <div className="rounded-xl border border-[#F5E2C4] bg-[#FDF8EE] p-3.5 space-y-1">
-                  <div className="flex items-center gap-1.5 text-xs font-mono text-[#A46622] uppercase font-bold">
-                    <Database className="w-3 h-3 text-[#A46622]" />
+                <div className="rounded-xl border border-[var(--color-warning-border)] bg-[var(--accent-yellow)] p-3.5 space-y-1">
+                  <div className="flex items-center gap-1.5 text-xs font-mono text-[var(--accent-yellow-text)] font-semibold">
+                    <Database className="w-3.5 h-3.5 shrink-0" />
                     <span>KV Cache RAM</span>
                   </div>
-                  <div className="font-serif text-lg font-bold text-[#A46622]">
+                  <div className="font-serif text-lg font-semibold tabular-nums text-[var(--accent-yellow-text)]">
                     {totalKVMemoryMB} MB
                   </div>
-                  <div className="text-xs font-mono text-[#A46622]/90 font-medium">
+                  <div className="text-xs font-mono text-[var(--accent-yellow-text)]">
                     <InlineMath math="\mathcal{O}(T)" /> linear growth
                   </div>
                 </div>
 
-                <div className="rounded-xl border border-[#CDEEDB] bg-[#EDF8F2] p-3.5 space-y-1">
-                  <div className="flex items-center gap-1.5 text-xs font-mono text-[#247A4B] uppercase font-bold">
-                    <HardDrive className="w-3 h-3 text-[#247A4B]" />
-                    <span>Recurrent State</span>
+                <div className="rounded-xl border border-[var(--color-success-border)] bg-[var(--accent-green)] p-3.5 space-y-1">
+                  <div className="flex items-center gap-1.5 text-xs font-mono text-[var(--accent-green-text)] font-semibold">
+                    <HardDrive className="w-3.5 h-3.5 shrink-0" />
+                    <span>Recurrent state</span>
                   </div>
-                  <div className="font-serif text-lg font-bold text-[#247A4B]">
+                  <div className="font-serif text-lg font-semibold tabular-nums text-[var(--accent-green-text)]">
                     {fixedRecurrentSizeKB} KB
                   </div>
-                  <div className="text-xs font-mono text-[#247A4B]/90 font-medium">
+                  <div className="text-xs font-mono text-[var(--accent-green-text)]">
                     <InlineMath math="\mathcal{O}(1)" /> strictly constant
                   </div>
                 </div>
@@ -112,15 +113,15 @@ export const Section01MemoryProblem: React.FC = () => {
             </div>
 
             {/* Scientific Question Callout */}
-            <div className="rounded-2xl border border-[#E2D8FA] bg-[#F3EFFF] p-6 space-y-2.5">
-              <div className="flex items-center gap-2 text-[#6842C2] font-mono text-xs uppercase tracking-wider font-bold">
-                <Sparkles className="w-3.5 h-3.5 text-[#6842C2]" />
-                <span>The Core Scientific Dilemma</span>
+            <div className="rounded-xl border border-[var(--border)] bg-[var(--accent-blue)] p-5 space-y-2.5">
+              <div className="flex items-center gap-2 text-[var(--accent-blue-text)] font-mono text-xs font-semibold">
+                <Sparkles className="w-3.5 h-3.5 shrink-0" />
+                <span>The core scientific dilemma</span>
               </div>
-              <p className="text-sm font-serif italic text-[#151515] leading-relaxed">
-                "Can we retain the task-relevant knowledge of past tokens without paying the unbounded memory cost of storing them verbatim?"
+              <p className="text-sm font-serif italic text-[var(--text-primary)] leading-relaxed">
+                &ldquo;Can we retain the task-relevant knowledge of past tokens without paying the unbounded memory cost of storing them verbatim?&rdquo;
               </p>
-              <p className="text-xs text-[#52504A] font-sans leading-relaxed">
+              <p className="text-xs text-[var(--text-secondary)] font-sans leading-relaxed">
                 Biological brains do not record continuous sensory feeds like a tape recorder. They continuously compress impressions into evolving synaptic states and latent recurrent activations.
               </p>
             </div>
@@ -129,69 +130,69 @@ export const Section01MemoryProblem: React.FC = () => {
           {/* Right Column: Visualizer of Token Chain vs State Vector */}
           <div className="lg:col-span-7 space-y-6">
             {/* Visual Token Stream */}
-            <div className="rounded-2xl border border-[#E5E0D8] bg-[#FFFFFF] p-6 space-y-4 shadow-xs">
-              <div className="flex items-center justify-between">
-                <span className="font-mono text-xs uppercase tracking-widest text-[#716F68] font-bold">
+            <div className="rounded-xl border border-[var(--border)] bg-[var(--surface)] p-5 sm:p-6 space-y-4">
+              <div className="flex flex-wrap items-center justify-between gap-2">
+                <span className="font-mono text-xs font-semibold text-[var(--text-secondary)]">
                   1. Transformer token accumulation (KV cache)
                 </span>
-                <span className="font-mono text-xs text-[#A46622] bg-[#FDF8EE] px-2.5 py-0.5 rounded-full border border-[#F5E2C4] font-bold">
-                  {tokenCount} TOKENS RETAINED
+                <span className="font-mono text-xs tabular-nums text-[var(--accent-yellow-text)] bg-[var(--accent-yellow)] px-2 py-0.5 rounded-md border border-[var(--color-warning-border)] font-semibold">
+                  {tokenCount} tokens retained
                 </span>
               </div>
 
-              <div className="p-4 rounded-xl border border-[#EAE6DF] bg-[#FAF8F5] max-h-[160px] overflow-y-auto space-y-2 custom-scrollbar">
+              <div className="p-4 rounded-xl border border-[var(--border)] bg-[var(--surface-soft)] max-h-[160px] overflow-y-auto space-y-2">
                 <div className="flex flex-wrap gap-1.5">
                   {tokens.map((token, i) => (
                     <div
                       key={i}
-                      className="inline-flex items-center gap-1.5 rounded-md bg-[#FFFFFF] border border-[#E5E0D8] px-2 py-1 font-mono text-xs text-[#151515] shadow-xs"
+                      className="inline-flex items-center gap-1.5 rounded-md bg-[var(--surface)] border border-[var(--border)] px-2 py-1 font-mono text-xs tabular-nums text-[var(--text-primary)]"
                     >
-                      <span className="text-xs text-[#716F68]">{i + 1}</span>
+                      <span className="text-xs text-[var(--text-muted)]">{i + 1}</span>
                       <span>{token}</span>
-                      {i < tokens.length - 1 && <ArrowRight className="w-2.5 h-2.5 text-[#BDB7AB]" />}
+                      {i < tokens.length - 1 && <ArrowRight className="w-2.5 h-2.5 text-[var(--text-muted)]" />}
                     </div>
                   ))}
-                  <span className="font-mono text-xs text-[#6842C2] self-center animate-pulse px-1">...</span>
+                  <span className="font-mono text-xs text-[var(--accent-blue-text)] self-center px-1">…</span>
                 </div>
               </div>
-              <p className="text-xs text-[#716F68] font-sans leading-relaxed">
-                Notice: Every token appends new rows to Key and Value tensors. Doubling conversation length doubles memory cost.
+              <p className="text-xs text-[var(--text-secondary)] font-sans leading-relaxed">
+                Every token appends new rows to Key and Value tensors. Doubling conversation length doubles memory cost.
               </p>
             </div>
 
             {/* Recurrent State Comparison */}
-            <div className="rounded-2xl border border-[#E5E0D8] bg-[#FFFFFF] p-6 space-y-4 shadow-xs">
-              <div className="flex items-center justify-between">
-                <span className="font-mono text-xs uppercase tracking-widest text-[#716F68] font-bold flex items-center gap-1.5">
+            <div className="rounded-xl border border-[var(--border)] bg-[var(--surface)] p-5 sm:p-6 space-y-4">
+              <div className="flex flex-wrap items-center justify-between gap-2">
+                <span className="font-mono text-xs font-semibold text-[var(--text-secondary)] flex items-center gap-1.5">
                   <span>2. Recurrent compact state</span>
                   <span>(Fixed vector <InlineMath math="h_t" />)</span>
                 </span>
-                <span className="font-mono text-xs text-[#247A4B] bg-[#EDF8F2] px-2.5 py-0.5 rounded-full border border-[#CDEEDB] font-bold">
-                  <InlineMath math="\text{FIXED } \mathbb{R}^8 \text{ VECTOR}" />
+                <span className="font-mono text-xs text-[var(--accent-green-text)] bg-[var(--accent-green)] px-2 py-0.5 rounded-md border border-[var(--color-success-border)] font-semibold">
+                  <InlineMath math="\text{Fixed } \mathbb{R}^8 \text{ vector}" />
                 </span>
               </div>
 
-              <div className="p-4 rounded-xl border border-[#EAE6DF] bg-[#FAF8F5]">
-                <div className="flex items-center justify-between text-xs font-mono text-[#716F68] mb-3">
-                  <span>LATENT COORDINATES (<InlineMath math="h_0 \dots h_7" />)</span>
-                  <span className="text-[#247A4B] font-bold flex items-center gap-1">
-                    <span>CONSTANT SIZE AT ALL</span>
+              <div className="p-4 rounded-xl border border-[var(--border)] bg-[var(--surface-soft)]">
+                <div className="flex flex-wrap items-center justify-between gap-2 text-xs font-mono text-[var(--text-secondary)] mb-3">
+                  <span>Latent coordinates (<InlineMath math="h_0 \dots h_7" />)</span>
+                  <span className="text-[var(--accent-green-text)] font-semibold flex items-center gap-1">
+                    <span>Constant size at all</span>
                     <InlineMath math="T" />
                   </span>
                 </div>
 
-                <div className="grid grid-cols-8 gap-1.5">
+                <div className="grid grid-cols-4 sm:grid-cols-8 gap-1.5">
                   {Array.from({ length: 8 }).map((_, i) => {
                     const sampleVal = Math.sin((i + 1) * tokenCount * 0.4);
                     return (
                       <div
                         key={i}
-                        className="rounded-lg border border-[#E5E0D8] bg-[#FFFFFF] p-2 text-center flex flex-col items-center justify-center font-mono shadow-xs"
+                        className="rounded-lg border border-[var(--border)] bg-[var(--surface)] p-2 text-center flex flex-col items-center justify-center font-mono tabular-nums"
                       >
-                        <span className="text-xs text-[#716F68]">
+                        <span className="text-xs text-[var(--text-muted)]">
                           <InlineMath math={`h_{${i}}`} />
                         </span>
-                        <span className="text-xs font-bold text-[#151515] mt-0.5">
+                        <span className="text-xs font-semibold text-[var(--text-primary)] mt-0.5">
                           {sampleVal.toFixed(2)}
                         </span>
                       </div>
@@ -200,8 +201,8 @@ export const Section01MemoryProblem: React.FC = () => {
                 </div>
               </div>
 
-              <div className="text-xs text-[#52504A] font-sans leading-relaxed border-t border-[#EAE6DF] pt-3">
-                <strong className="text-[#151515]">The fundamental trade-off:</strong> While a <GlossaryTerm term="recurrent state">recurrent state</GlossaryTerm> bounds memory to <InlineMath math="\mathcal{O}(1)" />, folding {tokenCount} tokens into the same 8 numbers inevitably forces representations to overlap. Look closely as we inspect this in Section 02 and 03.
+              <div className="text-xs sm:text-sm text-[var(--text-secondary)] font-sans leading-relaxed border-t border-[var(--border)] pt-3">
+                <strong className="text-[var(--text-primary)]">The fundamental trade-off:</strong> While a <GlossaryTerm term="recurrent state">recurrent state</GlossaryTerm> bounds memory to <InlineMath math="\mathcal{O}(1)" />, folding <span className="tabular-nums">{tokenCount}</span> tokens into the same 8 numbers forces representations to overlap. Look closely as we inspect this in Sections 02 and 03.
               </div>
             </div>
           </div>

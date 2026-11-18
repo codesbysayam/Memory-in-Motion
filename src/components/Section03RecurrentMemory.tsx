@@ -413,7 +413,7 @@ export const Section03RecurrentMemory: React.FC = () => {
   return (
     <section id="section-03" className="scroll-mt-20 border-b border-[var(--border)] bg-[var(--page-bg)] py-16 text-[var(--text-primary)]">
       <div id="section-hebbian-plasticity" className="scroll-mt-24" />
-      <div className="max-w-[1400px] mx-auto px-4 sm:px-6 space-y-8">
+      <div className="w-full space-y-8">
         <SectionHeader
           number="03"
           category="THE FACT-LEARNING LABORATORY"
@@ -435,94 +435,94 @@ export const Section03RecurrentMemory: React.FC = () => {
         <MemoryLens currentFocus="state" />
 
         {/* 3. MEMORY AT A GLANCE (Real-time computed metrics) */}
-        <div className="rounded-2xl border border-[#E5E0D8] bg-[#FFFFFF] p-5 shadow-xs">
-          <div className="text-xs text-[#70736F] mb-3 font-semibold flex items-center justify-between">
-            <span className="flex items-center gap-1.5 text-[#252525]">
+        <div className="diagram-frame p-5">
+          <div className="text-xs text-[var(--text-muted)] mb-3 font-semibold flex flex-wrap items-center justify-between gap-2">
+            <span className="flex items-center gap-1.5 text-[var(--text-primary)]">
               <span>Memory at a glance: actual computed state</span>
-              <span className="text-[#31566E] font-mono">(<InlineMath math={`\\hat{v} \\in \\mathbb{R}^{${config.dimension}}`} />)</span>
+              <span className="text-[var(--accent-blue-text)] font-mono">(<InlineMath math={`\\hat{v} \\in \\mathbb{R}^{${config.dimension}}`} />)</span>
             </span>
-            <span className="text-[#245B38] font-mono text-xs">
+            <span className="text-[var(--accent-green-text)] font-mono text-xs">
               Real-time recomputation
             </span>
           </div>
 
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 tabular-nums">
             {/* DIMENSION */}
-            <div className="p-3.5 rounded-xl bg-[#FAF8F5] border border-[#EAE6DF] flex flex-col justify-between">
-              <span className="text-[#70736F] text-xs font-semibold">
+            <div className="metric-panel flex flex-col justify-between">
+              <span className="text-[var(--text-muted)] text-xs font-semibold">
                 Dimension (<InlineMath math="d" />)
               </span>
-              <span className="text-2xl font-bold font-mono text-[#252525] mt-1">{config.dimension}D</span>
-              <span className="text-xs text-[#70736F] font-mono mt-0.5">
+              <span className="text-2xl font-bold font-mono text-[var(--text-primary)] mt-1">{config.dimension}D</span>
+              <span className="text-xs text-[var(--text-muted)] font-mono mt-0.5">
                 <InlineMath math={`\\mathbb{R}^{${config.dimension} \\times ${config.dimension}}`} />
               </span>
             </div>
 
             {/* FACTS STORED */}
-            <div className="p-3.5 rounded-xl bg-[#FAF8F5] border border-[#EAE6DF] flex flex-col justify-between">
-              <span className="text-[#70736F] text-xs font-semibold">Facts stored</span>
-              <span className="text-2xl font-bold font-mono text-[#31566E] mt-1">{activeFacts.length}</span>
-              <span className="text-xs text-[#70736F] mt-0.5">{distractorCount} distractors</span>
+            <div className="metric-panel flex flex-col justify-between">
+              <span className="text-[var(--text-muted)] text-xs font-semibold">Facts stored</span>
+              <span className="text-2xl font-bold font-mono text-[var(--accent-blue-text)] mt-1">{activeFacts.length}</span>
+              <span className="text-xs text-[var(--text-muted)] mt-0.5">{distractorCount} distractors</span>
             </div>
 
             {/* STATE VECTOR NORM */}
-            <div className="p-3.5 rounded-xl bg-[#FAF8F5] border border-[#EAE6DF] flex flex-col justify-between" title="Euclidean norm of retrieved representation vector ||v_hat||">
-              <span className="text-[#70736F] text-xs font-semibold">
+            <div className="metric-panel flex flex-col justify-between" title="Euclidean norm of retrieved representation vector ||v_hat||">
+              <span className="text-[var(--text-muted)] text-xs font-semibold">
                 Norm (<InlineMath math="\|\hat{v}\|" />)
               </span>
-              <span className="text-2xl font-bold font-mono text-[#4F514E] mt-1">
+              <span className="text-2xl font-bold font-mono text-[var(--text-secondary)] mt-1">
                 {stateVectorNorm.toFixed(3)}
               </span>
-              <span className="text-xs text-[#70736F] mt-0.5">Retrieved energy</span>
+              <span className="text-xs text-[var(--text-muted)] mt-0.5">Retrieved energy</span>
             </div>
 
             {/* RETRIEVAL SCORE */}
-            <div className="p-3.5 rounded-xl bg-[#FAF8F5] border border-[#EAE6DF] flex flex-col justify-between" title="Normalized cosine similarity between retrieved state vector and candidate value vector">
-              <span className="text-[#70736F] text-xs font-semibold">
+            <div className="metric-panel flex flex-col justify-between" title="Normalized cosine similarity between retrieved state vector and candidate value vector">
+              <span className="text-[var(--text-muted)] text-xs font-semibold">
                 Score (<InlineMath math="s_1" />)
               </span>
-              <span className={`text-2xl font-bold font-mono mt-1 ${experimentResult.correct ? 'text-[#245B38]' : 'text-[#8A352E]'}`}>
+              <span className={`text-2xl font-bold font-mono mt-1 ${experimentResult.correct ? 'text-[var(--accent-green-text)]' : 'text-[var(--accent-pink-text)]'}`}>
                 {experimentResult.retrievalScore.toFixed(3)}
               </span>
-              <span className="text-xs text-[#70736F] font-mono mt-0.5">
+              <span className="text-xs text-[var(--text-muted)] font-mono mt-0.5">
                 <InlineMath math="s_1 = \cos(\hat{v}, v_c)" />
               </span>
             </div>
 
             {/* TOP-1 MARGIN */}
-            <div className="p-3.5 rounded-xl bg-[#FAF8F5] border border-[#EAE6DF] flex flex-col justify-between" title="Margin between top candidate score and runner-up: Δs = s_1 - s_2">
-              <span className="text-[#70736F] text-xs font-semibold">
+            <div className="metric-panel flex flex-col justify-between" title="Margin between top candidate score and runner-up: Δs = s_1 - s_2">
+              <span className="text-[var(--text-muted)] text-xs font-semibold">
                 Margin (<InlineMath math="\Delta s" />)
               </span>
-              <span className={`text-2xl font-bold font-mono mt-1 ${experimentResult.top1Margin > 0.05 ? 'text-[#245B38]' : 'text-[#8A352E]'}`}>
+              <span className={`text-2xl font-bold font-mono mt-1 ${experimentResult.top1Margin > 0.05 ? 'text-[var(--accent-green-text)]' : 'text-[var(--accent-pink-text)]'}`}>
                 {experimentResult.top1Margin.toFixed(3)}
               </span>
-              <span className="text-xs text-[#70736F] font-mono mt-0.5">
+              <span className="text-xs text-[var(--text-muted)] font-mono mt-0.5">
                 <InlineMath math="\Delta s = s_1 - s_2" />
               </span>
             </div>
 
             {/* PREDICTION STATUS */}
-            <div className="p-3.5 rounded-xl bg-[#FAF8F5] border border-[#EAE6DF] flex flex-col justify-between">
-              <span className="text-[#70736F] text-xs font-semibold">Prediction</span>
-              <span className={`text-lg font-bold font-mono mt-1 truncate ${experimentResult.correct ? 'text-[#245B38]' : 'text-[#8A352E]'}`}>
+            <div className="metric-panel flex flex-col justify-between">
+              <span className="text-[var(--text-muted)] text-xs font-semibold">Prediction</span>
+              <span className={`text-lg font-bold font-mono mt-1 truncate ${experimentResult.correct ? 'text-[var(--accent-green-text)]' : 'text-[var(--accent-pink-text)]'}`}>
                 {experimentResult.prediction}
               </span>
-              <span className="text-xs text-[#70736F] mt-0.5 truncate">
+              <span className="text-xs text-[var(--text-muted)] mt-0.5 truncate">
                 Target: {groundTruth}
               </span>
             </div>
           </div>
         </div>
 
-        {/* 12-Column Control Deck & Experiment Flow with Progressive Disclosure (Issues 7 & 16) */}
+        {/* 12-Column Control Deck & Experiment Flow with Progressive Disclosure */}
         <div className="experiment-layout">
           {/* Left Column: Compact Sticky Control Sidebar */}
           <div className="experiment-sidebar space-y-4 text-xs">
-            <div className="rounded-2xl border border-[#E5E0D8] bg-[#FFFFFF] p-4 sm:p-5 space-y-4 shadow-xs">
-              <div className="flex items-center justify-between border-b border-[#D9DCD8] pb-3">
-                <h3 className="font-semibold text-sm text-[#252525] flex items-center gap-1.5">
-                  <Sliders className="w-4 h-4 text-[#31566E]" />
+            <div className="diagram-frame p-4 sm:p-5 space-y-4">
+              <div className="flex items-center justify-between border-b border-[var(--border)] pb-3">
+                <h3 className="font-semibold text-sm text-[var(--text-primary)] flex items-center gap-1.5">
+                  <Sliders className="w-4 h-4 text-[var(--accent-blue-text)]" />
                   <span>Experiment parameters</span>
                 </h3>
                 <SourceBadge type="toy" />
@@ -530,12 +530,12 @@ export const Section03RecurrentMemory: React.FC = () => {
 
               {/* Memory Dimension Picker */}
               <div className="space-y-1.5">
-                <div className="flex justify-between text-xs">
-                  <span className="text-[#70736F] font-semibold flex items-center gap-1">
+                <div className="flex justify-between text-xs tabular-nums">
+                  <span className="text-[var(--text-muted)] font-semibold flex items-center gap-1">
                     <span>Memory dimension</span>
                     <InlineMath math="(d)" />:
                   </span>
-                  <span className="text-[#31566E] font-mono font-bold">{config.dimension}</span>
+                  <span className="text-[var(--accent-blue-text)] font-mono font-bold">{config.dimension}</span>
                 </div>
                 <div className="grid grid-cols-4 gap-1.5">
                   {[4, 8, 16, 32].map((d) => (
@@ -585,14 +585,14 @@ export const Section03RecurrentMemory: React.FC = () => {
               />
 
               {/* Target Query Selection */}
-              <div className="space-y-1.5 pt-2 border-t border-[#EAE6DF]">
+              <div className="space-y-1.5 pt-2 border-t border-[var(--border)]">
                 <div className="flex justify-between text-xs">
-                  <span className="text-[#70736F] flex items-center gap-1 font-semibold">
-                    <Search className="w-3.5 h-3.5 text-[#31566E]" />
+                  <span className="text-[var(--text-muted)] flex items-center gap-1 font-semibold">
+                    <Search className="w-3.5 h-3.5 text-[var(--accent-blue-text)]" />
                     <span>Probe key query</span>
                     <InlineMath math="(q)" />:
                   </span>
-                  <span className="text-[#252525] font-bold">{selectedQuery}</span>
+                  <span className="text-[var(--text-primary)] font-bold">{selectedQuery}</span>
                 </div>
                 <div className="grid grid-cols-3 gap-1.5 text-xs">
                   {CANONICAL_FACTS.slice(0, 6).map((f) => (
@@ -605,8 +605,8 @@ export const Section03RecurrentMemory: React.FC = () => {
                       }}
                       className={`py-1.5 px-1.5 rounded-lg border truncate text-center cursor-pointer transition ${
                         selectedQuery === f.key
-                          ? 'border-[#31566E] bg-[#EBF1F5] text-[#31566E] font-bold'
-                          : 'border-[#D9DCD8] bg-[#FFFFFF] text-[#70736F] hover:text-[#252525] hover:bg-[#F7F5EF]'
+                          ? 'border-[var(--color-accent)] bg-[var(--accent-blue)] text-[var(--accent-blue-text)] font-bold'
+                          : 'border-[var(--border)] bg-[var(--surface)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--surface-soft)]'
                       }`}
                     >
                       {f.key}
@@ -615,24 +615,24 @@ export const Section03RecurrentMemory: React.FC = () => {
                 </div>
               </div>
 
-              {/* Collapsible Secondary Conditions Button (Audit Item 16) */}
+              {/* Collapsible Secondary Conditions Button */}
               <button
                 type="button"
                 onClick={() => setShowSecondaryParams(!showSecondaryParams)}
                 className="btn btn-secondary w-full text-xs py-2 mt-1 flex items-center justify-center gap-1.5"
               >
-                <Sliders className="w-3.5 h-3.5 text-[#31566E]" />
+                <Sliders className="w-3.5 h-3.5 text-[var(--accent-blue-text)]" />
                 <span>{showSecondaryParams ? 'Hide secondary conditions' : 'Change conditions'}</span>
               </button>
 
-              {/* Secondary Parameters (Collapsible to prevent dead whitespace) */}
+              {/* Secondary Parameters */}
               {showSecondaryParams && (
-                <div className="space-y-3.5 pt-3 border-t border-[#EAE6DF]">
+                <div className="space-y-3.5 pt-3 border-t border-[var(--border)]">
                   {/* Controlled Mode Toggle */}
-                  <div className="p-3 rounded-xl bg-[#FAF8F5] border border-[#EAE6DF] space-y-2">
+                  <div className="p-3 rounded-xl bg-[var(--surface-soft)] border border-[var(--border)] space-y-2">
                     <div className="flex items-center justify-between">
-                      <span className="font-semibold text-[#252525] text-xs flex items-center gap-1.5">
-                        {isControlledMode ? <Lock className="w-3.5 h-3.5 text-[#31566E]" /> : <Unlock className="w-3.5 h-3.5 text-[#70736F]" />}
+                      <span className="font-semibold text-[var(--text-primary)] text-xs flex items-center gap-1.5">
+                        {isControlledMode ? <Lock className="w-3.5 h-3.5 text-[var(--accent-blue-text)]" /> : <Unlock className="w-3.5 h-3.5 text-[var(--text-muted)]" />}
                         Controlled mode
                       </span>
                       <button
@@ -640,8 +640,8 @@ export const Section03RecurrentMemory: React.FC = () => {
                         onClick={toggleControlledMode}
                         className={`px-2.5 py-1 rounded-lg text-xs font-semibold transition border cursor-pointer ${
                           isControlledMode
-                            ? 'bg-[#EBF1F5] text-[#31566E] border-[#A8BAC7]'
-                            : 'bg-[#FFFFFF] text-[#70736F] border-[#D9DCD8] hover:text-[#252525]'
+                            ? 'bg-[var(--accent-blue)] text-[var(--accent-blue-text)] border-[var(--color-accent)]'
+                            : 'bg-[var(--surface)] text-[var(--text-secondary)] border-[var(--border)] hover:text-[var(--text-primary)]'
                         }`}
                       >
                         {isControlledMode ? 'Active ✓' : 'Enable'}
@@ -649,13 +649,13 @@ export const Section03RecurrentMemory: React.FC = () => {
                     </div>
 
                     {isControlledMode && (
-                      <div className="text-xs space-y-1.5 pt-1 text-[#70736F] border-t border-[#EAE6DF]">
+                      <div className="text-xs space-y-1.5 pt-1 text-[var(--text-secondary)] border-t border-[var(--border)]">
                         <div className="flex items-center justify-between">
                           <span>Baseline frozen:</span>
                           <button
                             type="button"
                             onClick={resetBaseline}
-                            className="text-[#31566E] hover:underline text-xs flex items-center gap-1 cursor-pointer font-semibold"
+                            className="text-[var(--accent-blue-text)] hover:underline text-xs flex items-center gap-1 cursor-pointer font-semibold"
                           >
                             <RotateCcw className="w-2.5 h-2.5" />
                             Reset
@@ -663,19 +663,19 @@ export const Section03RecurrentMemory: React.FC = () => {
                         </div>
 
                         {controlledDeltas && controlledDeltas.length > 0 && (
-                          <div className="p-2 rounded-lg bg-[#FFFFFF] border border-[#EAE6DF] space-y-1">
+                          <div className="p-2 rounded-lg bg-[var(--surface)] border border-[var(--border)] space-y-1 tabular-nums">
                             {controlledDeltas.map((d, i) => (
-                              <div key={i} className="flex justify-between text-[#4F514E]">
-                                <span className="text-[#31566E] font-semibold">{d.name}:</span>
-                                <span>{d.base} → <strong className="text-[#252525]">{d.curr}</strong></span>
+                              <div key={i} className="flex justify-between text-[var(--text-secondary)]">
+                                <span className="text-[var(--accent-blue-text)] font-semibold">{d.name}:</span>
+                                <span>{d.base} → <strong className="text-[var(--text-primary)]">{d.curr}</strong></span>
                               </div>
                             ))}
                           </div>
                         )}
 
                         {controlledWarning && (
-                          <div className="p-2 rounded-lg bg-[#FDF8EE] border border-[#F5E2C4] text-[#A46622] text-xs leading-tight flex items-start gap-1">
-                            <AlertTriangle className="w-3.5 h-3.5 text-[#A46622] shrink-0 mt-0.5" />
+                          <div className="p-2 rounded-lg bg-[var(--accent-yellow)] border border-[var(--color-warning-border)] text-[var(--accent-yellow-text)] text-xs leading-tight flex items-start gap-1">
+                            <AlertTriangle className="w-3.5 h-3.5 text-[var(--accent-yellow-text)] shrink-0 mt-0.5" />
                             <span>{controlledWarning}</span>
                           </div>
                         )}
@@ -730,14 +730,14 @@ export const Section03RecurrentMemory: React.FC = () => {
                   />
 
                   {/* Copy Config & Copy Result Buttons */}
-                  <div className="grid grid-cols-2 gap-2 pt-2 border-t border-[#EAE6DF]">
+                  <div className="grid grid-cols-2 gap-2 pt-2 border-t border-[var(--border)]">
                     <button
                       type="button"
                       onClick={handleCopyConfig}
                       className="btn btn-secondary text-xs py-1.5 px-2 flex items-center justify-center gap-1.5"
                       title="Copy deterministic experiment configuration JSON"
                     >
-                      <Copy className="w-3.5 h-3.5 text-[#31566E]" />
+                      <Copy className="w-3.5 h-3.5 text-[var(--accent-blue-text)]" />
                       <span>{copiedConfig ? 'Copied ✓' : 'Copy config'}</span>
                     </button>
 
@@ -747,7 +747,7 @@ export const Section03RecurrentMemory: React.FC = () => {
                       className="btn btn-secondary text-xs py-1.5 px-2 flex items-center justify-center gap-1.5"
                       title="Copy full experiment outcome payload"
                     >
-                      <CheckCircle2 className="w-3.5 h-3.5 text-[#245B38]" />
+                      <CheckCircle2 className="w-3.5 h-3.5 text-[var(--accent-green-text)]" />
                       <span>{copiedResult ? 'Copied ✓' : 'Copy result'}</span>
                     </button>
                   </div>
@@ -768,42 +768,42 @@ export const Section03RecurrentMemory: React.FC = () => {
 
             {/* Compare Before / After (Compact Card) */}
             {prevSnapshot && (
-              <div className="rounded-2xl border border-[#E5E0D8] bg-[#FFFFFF] p-4 text-xs space-y-3 shadow-xs">
-                <div className="flex items-center justify-between border-b border-[#EAE6DF] pb-2">
-                  <h4 className="font-semibold text-xs text-[#252525] flex items-center gap-1">
-                    <TrendingUp className="w-3.5 h-3.5 text-[#31566E]" />
+              <div className="diagram-frame p-4 text-xs space-y-3 tabular-nums">
+                <div className="flex items-center justify-between border-b border-[var(--border)] pb-2">
+                  <h4 className="font-semibold text-xs text-[var(--text-primary)] flex items-center gap-1">
+                    <TrendingUp className="w-3.5 h-3.5 text-[var(--accent-blue-text)]" />
                     <span>Compare before / after</span>
                   </h4>
-                  <span className="text-[#70736F] text-xs font-mono">Live delta</span>
+                  <span className="text-[var(--text-muted)] text-xs font-mono">Live delta</span>
                 </div>
 
                 <div className="grid grid-cols-2 gap-2.5 text-xs">
-                  <div className="p-2 rounded-xl bg-[#FAF8F5] border border-[#EAE6DF] space-y-1">
-                    <span className="text-xs text-[#70736F] font-semibold block">Before</span>
-                    <div>Dim: <strong className="text-[#252525] font-mono">{prevSnapshot.dimension}</strong></div>
-                    <div>Score: <strong className="text-[#252525] font-mono">{prevSnapshot.confidence}%</strong></div>
-                    <div>State: <strong className={prevSnapshot.correct ? 'text-[#245B38]' : 'text-[#8A352E]'}>
+                  <div className="p-2.5 rounded-xl bg-[var(--surface-soft)] border border-[var(--border)] space-y-1">
+                    <span className="text-xs text-[var(--text-muted)] font-semibold block">Before</span>
+                    <div>Dim: <strong className="text-[var(--text-primary)] font-mono">{prevSnapshot.dimension}</strong></div>
+                    <div>Score: <strong className="text-[var(--text-primary)] font-mono">{prevSnapshot.confidence}%</strong></div>
+                    <div>State: <strong className={prevSnapshot.correct ? 'text-[var(--accent-green-text)]' : 'text-[var(--accent-pink-text)]'}>
                       {prevSnapshot.correct ? 'Match' : 'Miss'}
                     </strong></div>
                   </div>
 
-                  <div className="p-2 rounded-xl bg-[#FAF8F5] border border-[#EAE6DF] space-y-1">
-                    <span className="text-xs text-[#31566E] font-semibold block">After</span>
-                    <div>Dim: <strong className="text-[#252525] font-mono">{currentSnapshot.dimension}</strong></div>
-                    <div>Score: <strong className="text-[#252525] font-mono">{currentSnapshot.confidence}%</strong></div>
-                    <div>State: <strong className={currentSnapshot.correct ? 'text-[#245B38]' : 'text-[#8A352E]'}>
+                  <div className="p-2.5 rounded-xl bg-[var(--surface-soft)] border border-[var(--border)] space-y-1">
+                    <span className="text-xs text-[var(--accent-blue-text)] font-semibold block">After</span>
+                    <div>Dim: <strong className="text-[var(--text-primary)] font-mono">{currentSnapshot.dimension}</strong></div>
+                    <div>Score: <strong className="text-[var(--text-primary)] font-mono">{currentSnapshot.confidence}%</strong></div>
+                    <div>State: <strong className={currentSnapshot.correct ? 'text-[var(--accent-green-text)]' : 'text-[var(--accent-pink-text)]'}>
                       {currentSnapshot.correct ? 'Match' : 'Miss'}
                     </strong></div>
                   </div>
                 </div>
 
-                <div className="p-2 rounded-xl bg-[#FAF8F5] border border-[#EAE6DF] text-xs space-y-0.5">
-                  <span className="text-[#70736F] font-semibold block">What changed?</span>
-                  <div className="text-[#252525] font-semibold font-mono">
+                <div className="p-2.5 rounded-xl bg-[var(--surface-soft)] border border-[var(--border)] text-xs space-y-0.5">
+                  <span className="text-[var(--text-muted)] font-semibold block">What changed?</span>
+                  <div className="text-[var(--text-primary)] font-semibold font-mono">
                     {currentSnapshot.confidence - prevSnapshot.confidence >= 0 ? '+' : ''}
                     {(currentSnapshot.confidence - prevSnapshot.confidence).toFixed(1)} pp retrieval score
                   </div>
-                  <div className="text-xs text-[#70736F]">
+                  <div className="text-xs text-[var(--text-secondary)]">
                     {currentSnapshot.correct !== prevSnapshot.correct
                       ? currentSnapshot.correct
                         ? 'Recovery observed: retrieved correct candidate.'
@@ -821,47 +821,47 @@ export const Section03RecurrentMemory: React.FC = () => {
             />
           </div>
 
-          {/* Right Column: Progressive Disclosure Workspace (Audit Item 7) */}
+          {/* Right Column: Progressive Disclosure Workspace */}
           <div className="space-y-6">
             {/* Progressive Disclosure Segmented Switcher */}
-            <div className="flex items-center justify-between flex-wrap gap-2 p-1.5 bg-[#F0F1EF] border border-[#D9DCD8] rounded-xl">
+            <div className="flex items-center justify-between flex-wrap gap-2 p-1.5 bg-[var(--surface-soft)] border border-[var(--border)] rounded-xl">
               <div className="flex items-center gap-1.5">
                 <button
                   type="button"
                   onClick={() => setActiveInstrumentView('matrix')}
                   className={`px-3.5 py-2 rounded-lg text-xs font-semibold transition cursor-pointer ${
                     activeInstrumentView === 'matrix'
-                      ? 'bg-[#FFFFFF] text-[#252525] shadow-xs border border-[#D9DCD8]'
-                      : 'text-[#4F514E] hover:text-[#252525] hover:bg-[#FFFFFF]/50'
+                      ? 'bg-[var(--surface)] text-[var(--text-primary)] shadow-xs border border-[var(--border)]'
+                      : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--surface)]/60'
                   }`}
                 >
-                  Inspect Matrix
+                  Inspect matrix
                 </button>
                 <button
                   type="button"
                   onClick={() => setActiveInstrumentView('analyze')}
                   className={`px-3.5 py-2 rounded-lg text-xs font-semibold transition cursor-pointer ${
                     activeInstrumentView === 'analyze'
-                      ? 'bg-[#FFFFFF] text-[#252525] shadow-xs border border-[#D9DCD8]'
-                      : 'text-[#4F514E] hover:text-[#252525] hover:bg-[#FFFFFF]/50'
+                      ? 'bg-[var(--surface)] text-[var(--text-primary)] shadow-xs border border-[var(--border)]'
+                      : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--surface)]/60'
                   }`}
                 >
-                  Analyze State
+                  Analyze state
                 </button>
                 <button
                   type="button"
                   onClick={() => setActiveInstrumentView('configure')}
                   className={`px-3.5 py-2 rounded-lg text-xs font-semibold transition cursor-pointer ${
                     activeInstrumentView === 'configure'
-                      ? 'bg-[#FFFFFF] text-[#252525] shadow-xs border border-[#D9DCD8]'
-                      : 'text-[#4F514E] hover:text-[#252525] hover:bg-[#FFFFFF]/50'
+                      ? 'bg-[var(--surface)] text-[var(--text-primary)] shadow-xs border border-[var(--border)]'
+                      : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--surface)]/60'
                   }`}
                 >
                   Configure
                 </button>
               </div>
-              <div className="text-xs text-[#70736F] font-sans pr-2 hidden sm:block">
-                View: <strong className="text-[#252525]">{activeInstrumentView === 'matrix' ? 'Matrix & Ingestion Timeline' : activeInstrumentView === 'analyze' ? 'State Vectors & Dimension Deltas' : 'Experiment Conditions & Notebook'}</strong>
+              <div className="text-xs text-[var(--text-muted)] font-sans pr-2 hidden sm:block">
+                View: <strong className="text-[var(--text-primary)]">{activeInstrumentView === 'matrix' ? 'Matrix & ingestion timeline' : activeInstrumentView === 'analyze' ? 'State vectors & dimension deltas' : 'Experiment conditions & notebook'}</strong>
               </div>
             </div>
 
@@ -909,30 +909,30 @@ export const Section03RecurrentMemory: React.FC = () => {
             {/* VIEW 3: CONFIGURE */}
             {activeInstrumentView === 'configure' && (
               <div className="space-y-6">
-                <div className="rounded-2xl border border-[#E5E0D8] bg-[#FFFFFF] p-6 space-y-4 shadow-xs">
-                  <h3 className="text-base font-semibold text-[#252525]">Experiment Parameters & Conditions</h3>
-                  <p className="text-sm text-[#4F514E]">
+                <div className="diagram-frame p-6 space-y-4">
+                  <h3 className="text-base font-semibold text-[var(--text-primary)]">Experiment parameters &amp; conditions</h3>
+                  <p className="text-sm text-[var(--text-secondary)]">
                     Adjust variables in the sticky sidebar or review the snapshot logs below. You can test retention factor, write strength, and noise interference under strictly controlled conditions.
                   </p>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
-                    <div className="p-4 rounded-xl bg-[#FAF8F5] border border-[#EAE6DF]">
-                      <span className="text-xs font-semibold text-[#70736F] block">Active Matrix Configuration</span>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2 tabular-nums">
+                    <div className="metric-panel">
+                      <span className="text-xs font-semibold text-[var(--text-muted)] block">Active matrix configuration</span>
                       <div className="mt-2 space-y-1 text-xs">
                         <div>Dimension: <strong className="font-mono">{config.dimension}D</strong></div>
-                        <div>Sequence Length: <strong className="font-mono">{sequenceLength} facts</strong></div>
+                        <div>Sequence length: <strong className="font-mono">{sequenceLength} facts</strong></div>
                         <div>Retention: <strong className="font-mono">{retentionPct}%</strong></div>
-                        <div>Write Strength: <strong className="font-mono">{Math.round(writeStrength * 100)}%</strong></div>
-                        <div>Interference Noise: <strong className="font-mono">{interferencePct}%</strong></div>
+                        <div>Write strength: <strong className="font-mono">{Math.round(writeStrength * 100)}%</strong></div>
+                        <div>Interference noise: <strong className="font-mono">{interferencePct}%</strong></div>
                       </div>
                     </div>
-                    <div className="p-4 rounded-xl bg-[#FAF8F5] border border-[#EAE6DF]">
-                      <span className="text-xs font-semibold text-[#70736F] block">Retrieval Status</span>
+                    <div className="metric-panel">
+                      <span className="text-xs font-semibold text-[var(--text-muted)] block">Retrieval status</span>
                       <div className="mt-2 space-y-1 text-xs">
-                        <div>Target Query: <strong className="font-mono">{selectedQuery}</strong></div>
-                        <div>Target Ground Truth: <strong className="font-mono">{groundTruth}</strong></div>
-                        <div>Model Prediction: <strong className={`font-mono ${experimentResult.correct ? 'text-[#245B38]' : 'text-[#8A352E]'}`}>{experimentResult.prediction}</strong></div>
-                        <div>Retrieval Score: <strong className="font-mono">{experimentResult.retrievalScore.toFixed(3)}</strong></div>
-                        <div>Top-1 Margin: <strong className="font-mono">{experimentResult.top1Margin.toFixed(3)}</strong></div>
+                        <div>Target query: <strong className="font-mono">{selectedQuery}</strong></div>
+                        <div>Target ground truth: <strong className="font-mono">{groundTruth}</strong></div>
+                        <div>Model prediction: <strong className={`font-mono ${experimentResult.correct ? 'text-[var(--accent-green-text)]' : 'text-[var(--accent-pink-text)]'}`}>{experimentResult.prediction}</strong></div>
+                        <div>Retrieval score: <strong className="font-mono">{experimentResult.retrievalScore.toFixed(3)}</strong></div>
+                        <div>Top-1 margin: <strong className="font-mono">{experimentResult.top1Margin.toFixed(3)}</strong></div>
                       </div>
                     </div>
                   </div>
@@ -941,24 +941,24 @@ export const Section03RecurrentMemory: React.FC = () => {
             )}
 
             {/* MECHANISTIC WORKBENCH SUITE */}
-            <div id="section-context-order" className="rounded-2xl border border-[#E5E0D8] bg-[#FFFFFF] p-5 sm:p-6 space-y-5 shadow-xs scroll-mt-24">
-              <div className="flex flex-wrap items-center justify-between gap-2 border-b border-[#EAE6DF] pb-3">
+            <div id="section-context-order" className="diagram-frame p-5 sm:p-6 space-y-5 scroll-mt-24">
+              <div className="flex flex-wrap items-center justify-between gap-2 border-b border-[var(--border)] pb-3">
                 <div>
-                  <h3 className="text-sm font-semibold text-[#252525] block">
+                  <h3 className="text-sm font-semibold text-[var(--text-primary)] block">
                     Mechanistic inspector and experimental suite
                   </h3>
-                  <p className="text-xs text-[#70736F] font-sans mt-0.5">
+                  <p className="text-xs text-[var(--text-secondary)] font-sans mt-0.5">
                     Step inside the internal algebra: inspect intermediate vectors, state persistence, ordering sensitivity, and overwrite mechanics.
                   </p>
                 </div>
 
-                <span className="text-xs font-mono px-2.5 py-1 rounded-md bg-[#EDF7F7] border border-[#CFE8E8] text-[#31566E] font-semibold">
+                <span className="text-xs font-mono px-2.5 py-1 rounded-md bg-[var(--accent-blue)] border border-[var(--border)] text-[var(--accent-blue-text)] font-semibold">
                   Deterministic suite
                 </span>
               </div>
 
               {/* Workbench Tab Navigation */}
-              <div className="flex flex-wrap gap-1.5 text-xs border-b border-[#EAE6DF] pb-3">
+              <div className="flex flex-wrap gap-1.5 text-xs border-b border-[var(--border)] pb-3">
                 {[
                   { id: 'pipeline', label: 'Write / Read Pipeline' },
                   { id: 'persistence', label: 'State Persistence' },

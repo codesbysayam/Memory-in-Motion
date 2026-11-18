@@ -31,13 +31,13 @@ interface JourneyNavProps {
 
 export const JourneyNav: React.FC<JourneyNavProps> = ({ activeSection, onSelectSection }) => {
   return (
-    <div className="border-b border-zinc-800 bg-[#0c0e14] py-2">
+    <div className="border-b border-[var(--border)] bg-[var(--surface-soft)] py-2 text-[var(--text-primary)]">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between pb-1.5">
-          <span className="font-mono text-xs uppercase tracking-wider text-zinc-400">
+          <span className="font-sans text-xs font-medium text-[var(--text-muted)]">
             Learning Journey · 12 Modules
           </span>
-          <span className="font-mono text-xs text-purple-400">
+          <span className="font-sans text-xs text-[var(--accent-blue-text)]">
             Click step to navigate
           </span>
         </div>
@@ -51,18 +51,18 @@ export const JourneyNav: React.FC<JourneyNavProps> = ({ activeSection, onSelectS
                 <button
                   id={`nav-btn-${step.id}`}
                   onClick={() => onSelectSection(step.id)}
-                  className={`flex shrink-0 items-center gap-1.5 rounded border px-2.5 py-1 transition-all ${
+                  className={`flex shrink-0 items-center gap-1.5 rounded-md border px-2.5 py-1 transition-all cursor-pointer ${
                     isActive
-                      ? 'border-purple-500/70 bg-purple-950/60 font-medium text-purple-200 shadow-sm shadow-purple-950'
-                      : 'border-zinc-800 bg-zinc-900/40 text-zinc-400 hover:border-zinc-700 hover:text-zinc-200'
+                      ? 'border-[var(--color-border-strong)] bg-[var(--color-accent-soft)] font-semibold text-[var(--color-accent-ink)]'
+                      : 'border-[var(--border)] bg-[var(--surface)] text-[var(--text-secondary)] hover:border-[var(--color-border-strong)] hover:text-[var(--text-primary)]'
                   }`}
                   title={`${step.title}: ${step.shortDesc}`}
                 >
-                  <span className="font-mono text-xs text-purple-400">{step.num}</span>
+                  <span className="font-mono tabular-nums text-xs text-[var(--accent-blue-text)]">{step.num}</span>
                   <span className="whitespace-nowrap">{step.title}</span>
                 </button>
                 {idx < JOURNEY_STEPS.length - 1 && (
-                  <ChevronRight className="h-3 w-3 shrink-0 text-zinc-700" />
+                  <ChevronRight className="h-3 w-3 shrink-0 text-[var(--text-muted)]" />
                 )}
               </React.Fragment>
             );

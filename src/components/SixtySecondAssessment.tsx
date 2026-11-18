@@ -620,46 +620,46 @@ export const SixtySecondAssessment: React.FC<SixtySecondAssessmentProps> = ({
 
   return (
     <div
-      className={`w-full font-sans text-[#252525] ${
+      className={`w-full font-sans text-[var(--text-primary)] ${
         isModal
-          ? 'max-w-4xl mx-auto rounded-2xl border border-[#D8D5CC] bg-[#FFFFFF] shadow-2xl overflow-hidden flex flex-col max-h-[92vh]'
-          : 'rounded-2xl border border-[#E2DFD6] bg-[#FFFFFF] shadow-sm overflow-hidden'
+          ? 'max-w-4xl mx-auto rounded-2xl border border-[var(--border)] bg-[var(--surface)] shadow-2xl overflow-hidden flex flex-col max-h-[92vh]'
+          : 'rounded-xl border border-[var(--border)] bg-[var(--surface)] overflow-hidden'
       }`}
     >
       {/* ============================================================ */}
-      {/* TOP HEADER: Clean Academic Bar                              */}
+      {/* TOP HEADER: Clean Restrained Assessment Bar                  */}
       {/* ============================================================ */}
-      <div className="px-5 py-3.5 sm:px-6 sm:py-4 border-b border-[#E6E3DB] bg-[#FAF8F5] flex flex-wrap items-center justify-between gap-3">
+      <div className="px-5 py-3.5 sm:px-6 sm:py-4 border-b border-[var(--border)] bg-[var(--surface-soft)] flex flex-wrap items-center justify-between gap-3">
         <div className="flex items-center gap-3">
-          <div className="p-2 rounded-xl bg-[#EAF2F8] border border-[#BDD9ED] text-[#1B4D7E]">
-            <Clock className="w-5 h-5" />
+          <div className="p-2 rounded-lg bg-[var(--accent-blue)] border border-[var(--border)] text-[var(--color-accent-ink)]">
+            <Clock className="w-4 h-4" />
           </div>
           <div>
-            <div className="flex items-center gap-2">
-              <span className="text-[11px] font-mono uppercase tracking-wider text-[#1B4D7E] font-bold">
-                60-SECOND FAST VERIFICATION
+            <div className="flex flex-wrap items-center gap-2">
+              <span className="text-[11px] font-mono text-[var(--color-accent-ink)] font-semibold">
+                60s fast verification
               </span>
               <EvidenceStrip type="live" detail="Real associative fast-weight engine" />
             </div>
-            <h2 className="text-sm sm:text-base font-serif font-bold text-[#191919] mt-0.5">
+            <h3 className="text-sm sm:text-base font-sans font-semibold text-[var(--text-primary)] mt-0.5">
               {testStarted
                 ? `${STEPS[currentStep - 1].label} · ${STEPS[currentStep - 1].title}`
                 : 'Interactive Mechanistic Assessment'}
-            </h2>
+            </h3>
           </div>
         </div>
 
-        <div className="flex items-center gap-2 sm:gap-3">
+        <div className="flex items-center gap-2 sm:gap-2.5">
           {testStarted && !testCompleted && !timedOut && (
             <>
               {/* Auto-Pace Toggle */}
               <button
                 type="button"
                 onClick={() => setAutoPace((p) => !p)}
-                className={`flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-sans transition border cursor-pointer ${
+                className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-sans transition border cursor-pointer ${
                   autoPace
-                    ? 'bg-[#EBF5EF] border-[#A2D3B4] text-[#185E38] font-bold'
-                    : 'bg-[#FFFFFF] border-[#DCD9D0] text-[#55524B] hover:border-[#B5B2A9]'
+                    ? 'bg-[var(--color-success-soft)] border-[var(--color-success-border)] text-[var(--color-success)] font-semibold'
+                    : 'bg-[var(--surface)] border-[var(--border)] text-[var(--text-secondary)] hover:border-[var(--color-border-strong)] hover:text-[var(--text-primary)]'
                 }`}
                 title="When active, advances 1.5s after checking an answer"
               >
@@ -668,20 +668,20 @@ export const SixtySecondAssessment: React.FC<SixtySecondAssessmentProps> = ({
               </button>
 
               {/* Real Continuous Timer Display */}
-              <div className="flex items-center gap-1.5 px-3 py-1 rounded-lg bg-[#FFFFFF] border border-[#D5D2C9] text-xs font-mono">
-                <span className="text-[#726F67]">Elapsed:</span>
+              <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[var(--surface)] border border-[var(--border)] text-xs font-mono tabular-nums">
+                <span className="text-[var(--text-muted)]">Elapsed</span>
                 <strong
                   className={`font-bold ${
                     timer.elapsedMs <= 45000
-                      ? 'text-[#1B4D7E]'
+                      ? 'text-[var(--color-accent-ink)]'
                       : timer.elapsedMs <= 55000
-                      ? 'text-[#9A5C0E]'
-                      : 'text-[#9C1C1C]'
+                      ? 'text-[var(--color-warning)]'
+                      : 'text-[var(--color-danger)]'
                   }`}
                 >
                   {formattedSecondsInt < 10 ? `0${formattedSecondsInt}` : formattedSecondsInt}s
                 </strong>
-                <span className="text-[#8E8B83]">/ 60s target</span>
+                <span className="text-[var(--text-muted)]">/ 60s</span>
               </div>
             </>
           )}
@@ -693,11 +693,11 @@ export const SixtySecondAssessment: React.FC<SixtySecondAssessmentProps> = ({
                 if (timer.running) setShowExitConfirm(true);
                 else onClose();
               }}
-              className="p-1.5 rounded-lg bg-[#FFFFFF] hover:bg-[#F2EFE9] border border-[#D5D2C9] text-[#605D56] hover:text-[#191919] transition cursor-pointer"
+              className="p-1.5 rounded-lg bg-[var(--surface)] hover:bg-[var(--surface-soft)] border border-[var(--border)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition cursor-pointer"
               aria-label="Close"
               title="Close assessment"
             >
-              <X className="w-5 h-5" />
+              <X className="w-4 h-4" />
             </button>
           )}
         </div>
@@ -707,18 +707,19 @@ export const SixtySecondAssessment: React.FC<SixtySecondAssessmentProps> = ({
       {/* 5-STAGE PROGRESS TIMELINE (Active during test)               */}
       {/* ============================================================ */}
       {testStarted && (
-        <div className="grid grid-cols-5 border-b border-[#E6E3DB] bg-[#F7F5F0] text-xs font-mono">
+        <div className="grid grid-cols-5 border-b border-[var(--border)] bg-[var(--page-bg)] text-xs font-mono">
           {STEPS.map((st) => {
             const isDone = stageResults[st.index] !== undefined;
             const isCurrent = currentStep === st.index;
             const isLocked = !isDone && !isCurrent;
 
-            let tabClass = 'bg-transparent text-[#8C8A82] cursor-not-allowed';
+            let tabClass = 'bg-transparent text-[var(--text-muted)] cursor-not-allowed';
             if (isCurrent) {
-              tabClass = 'bg-[#EBF3FB] text-[#164776] border-b-2 border-b-[#1D5E99] font-bold';
+              tabClass =
+                'bg-[var(--accent-blue)] text-[var(--color-accent-ink)] border-b-2 border-b-[var(--color-accent)] font-semibold';
             } else if (isDone) {
               tabClass =
-                'bg-[#F0F7F2] text-[#1E6B43] border-b-2 border-b-[#4BAE76] hover:bg-[#E8F3EB] cursor-pointer';
+                'bg-[var(--color-success-soft)] text-[var(--color-success)] border-b-2 border-b-[var(--color-success)] hover:opacity-90 cursor-pointer';
             }
 
             return (
@@ -729,11 +730,13 @@ export const SixtySecondAssessment: React.FC<SixtySecondAssessmentProps> = ({
                 onClick={() => {
                   if (!isLocked) setCurrentStep(st.index);
                 }}
-                className={`py-2 px-2 text-center border-r border-[#E6E3DB] last:border-r-0 transition-all relative ${tabClass}`}
+                className={`py-2.5 px-2 text-center border-r border-[var(--border)] last:border-r-0 transition-all relative ${tabClass}`}
               >
                 <div className="text-[10px] tracking-wider opacity-85">{st.label}</div>
-                <div className="truncate text-xs hidden sm:block mt-0.5">{st.shortTitle}</div>
-                <div className="text-[9px] text-[#8C8A82] font-mono hidden md:block">
+                <div className="truncate text-xs font-sans font-medium hidden sm:block mt-0.5">
+                  {st.shortTitle}
+                </div>
+                <div className="text-[10px] text-[var(--text-muted)] font-mono hidden md:block">
                   ~{st.targetSeconds}s
                 </div>
               </button>
@@ -750,75 +753,93 @@ export const SixtySecondAssessment: React.FC<SixtySecondAssessmentProps> = ({
         {/* START SCREEN                                                 */}
         {/* ------------------------------------------------------------ */}
         {!testStarted && !testCompleted && !timedOut && (
-          <div className="max-w-2xl mx-auto space-y-6 py-4 animate-in fade-in">
-            <div className="space-y-3 text-center sm:text-left">
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#EBF3FB] border border-[#BFDBF1] text-xs font-mono text-[#184877] font-bold">
+          <div className="max-w-3xl mx-auto space-y-6 py-2 animate-in fade-in">
+            <div className="space-y-2.5">
+              <div className="inline-flex items-center gap-1.5 text-xs font-mono text-[var(--color-accent-ink)] font-medium">
                 <Sparkles className="w-3.5 h-3.5" />
-                EMPIRICAL VERIFICATION PROTOCOL
+                <span>Empirical verification protocol</span>
               </div>
-              <h3 className="text-2xl sm:text-3xl font-serif font-bold text-[#151515] tracking-tight">
+              <h3 className="text-2xl sm:text-[28px] font-serif font-semibold text-[var(--text-primary)] tracking-tight leading-snug">
                 Can you predict, break, trace and explain a fixed-size recurrent memory?
               </h3>
-              <p className="text-sm sm:text-base text-[#525049] leading-relaxed">
-                Take the genuine 5-stage assessment. Every answer is evaluated against real matrix
+              <p className="text-sm sm:text-[15px] text-[var(--text-secondary)] leading-relaxed max-w-2xl">
+                Take the genuine 5-stage assessment. Every answer is evaluated against live matrix
                 calculations from the educational fast-weight engine.
               </p>
             </div>
 
-            {/* 5 Stages Overview Cards */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs font-sans">
-              <div className="p-3.5 rounded-xl border border-[#E3E0D7] bg-[#FAF9F6] space-y-1">
-                <strong className="text-[#191919] font-serif text-sm block">1. Remember (~12s)</strong>
-                <p className="text-[#605D56] leading-relaxed">
-                  Verify query readout for an association stored in a compact fixed-size matrix.
-                </p>
-              </div>
-              <div className="p-3.5 rounded-xl border border-[#E3E0D7] bg-[#FAF9F6] space-y-1">
-                <strong className="text-[#191919] font-serif text-sm block">2. Break It (~24s)</strong>
-                <p className="text-[#605D56] leading-relaxed">
-                  Write competing distractor facts and probe the onset of representational crosstalk.
-                </p>
-              </div>
-              <div className="p-3.5 rounded-xl border border-[#E3E0D7] bg-[#FAF9F6] space-y-1">
-                <strong className="text-[#191919] font-serif text-sm block">3. Trace It (~36s)</strong>
-                <p className="text-[#605D56] leading-relaxed">
-                  Inspect exact coordinate deltas and Frobenius norm energy drift between snapshots.
-                </p>
-              </div>
-              <div className="p-3.5 rounded-xl border border-[#E3E0D7] bg-[#FAF9F6] space-y-1">
-                <strong className="text-[#191919] font-serif text-sm block">4. Measure It (~48s)</strong>
-                <p className="text-[#605D56] leading-relaxed">
-                  Predict how dimension capacity D affects quasi-orthogonal separation and margin.
-                </p>
-              </div>
-              <div className="p-3.5 rounded-xl border border-[#E3E0D7] bg-[#FAF9F6] space-y-1 sm:col-span-2">
-                <strong className="text-[#191919] font-serif text-sm block">5. BDH Synthesis (~60s)</strong>
-                <p className="text-[#605D56] leading-relaxed">
-                  Connect fixed recurrent state principles to synaptic plasticity in the Dragon
-                  Hatchling architecture.
-                </p>
-              </div>
+            {/* 5 Stages Structured Overview (Hairline List) */}
+            <div className="rounded-xl border border-[var(--border)] bg-[var(--page-bg)] divide-y divide-[var(--border)] overflow-hidden">
+              {[
+                {
+                  num: '01',
+                  name: 'Remember',
+                  target: '~12s',
+                  desc: 'Verify query readout for an association stored in a compact fixed-size matrix.',
+                },
+                {
+                  num: '02',
+                  name: 'Break It',
+                  target: '~24s',
+                  desc: 'Write competing distractor facts and probe the onset of representational crosstalk.',
+                },
+                {
+                  num: '03',
+                  name: 'Trace It',
+                  target: '~36s',
+                  desc: 'Inspect exact coordinate deltas and Frobenius norm energy drift between snapshots.',
+                },
+                {
+                  num: '04',
+                  name: 'Measure It',
+                  target: '~48s',
+                  desc: 'Predict how dimension capacity D affects quasi-orthogonal separation and margin.',
+                },
+                {
+                  num: '05',
+                  name: 'BDH Synthesis',
+                  target: '~60s',
+                  desc: 'Connect fixed recurrent state principles to synaptic plasticity in the Dragon Hatchling architecture.',
+                },
+              ].map((item) => (
+                <div
+                  key={item.num}
+                  className="px-4 py-3 grid grid-cols-1 sm:grid-cols-[180px_1fr] gap-1 sm:gap-4 items-baseline"
+                >
+                  <div className="flex items-center gap-2 font-mono text-xs">
+                    <span className="text-[var(--color-accent-ink)] font-semibold">{item.num}</span>
+                    <span className="font-sans font-semibold text-sm text-[var(--text-primary)]">
+                      {item.name}
+                    </span>
+                    <span className="text-[11px] text-[var(--text-muted)]">({item.target})</span>
+                  </div>
+                  <p className="text-xs sm:text-[13px] text-[var(--text-secondary)] leading-relaxed">
+                    {item.desc}
+                  </p>
+                </div>
+              ))}
             </div>
 
             {/* Scientific Honesty Notice */}
-            <div className="p-3.5 rounded-xl bg-[#F6F4EF] border border-[#E5E2D8] flex items-start gap-2.5 text-xs text-[#5E5B53]">
-              <HelpCircle className="w-4 h-4 text-[#8C887E] shrink-0 mt-0.5" />
+            <div className="p-3.5 rounded-xl bg-[var(--surface-soft)] border border-[var(--border)] flex items-start gap-2.5 text-xs text-[var(--text-secondary)] leading-relaxed">
+              <HelpCircle className="w-4 h-4 text-[var(--text-muted)] shrink-0 mt-0.5" />
               <div>
-                <strong>Educational Toy Computation:</strong> This assessment evaluates your
-                understanding using an associative linear fast-weight model. It illustrates
-                fixed-state recurrence; it is not the full official BDH PyTorch graph implementation.
+                <strong className="text-[var(--text-primary)]">Educational Toy Computation:</strong> This
+                assessment evaluates your understanding using an associative linear fast-weight model.
+                It illustrates fixed-state recurrence; it is not the full official BDH PyTorch graph
+                implementation.
               </div>
             </div>
 
             {/* Start CTA Button */}
-            <div className="pt-2 flex flex-col sm:flex-row items-center justify-between gap-4">
-              <div className="text-xs text-[#706D65] font-mono">
-                5 Stages · 20 Pts Each · 60s Target Pacing
+            <div className="pt-1 flex flex-col sm:flex-row items-center justify-between gap-4">
+              <div className="text-xs text-[var(--text-muted)] font-mono">
+                5 stages · 20 pts each · 60s target pacing
               </div>
               <button
                 type="button"
                 onClick={handleStartTest}
-                className="w-full sm:w-auto px-6 py-3 rounded-xl bg-[#1B4D7E] hover:bg-[#153E65] text-white font-sans text-sm font-bold shadow-md transition flex items-center justify-center gap-2 cursor-pointer"
+                className="w-full sm:w-auto px-6 py-2.5 rounded-lg bg-[var(--color-accent)] hover:bg-[var(--color-accent-hover)] text-[var(--surface)] font-sans text-sm font-semibold transition flex items-center justify-center gap-2 cursor-pointer"
               >
                 <span>Start Test</span>
                 <ArrowRight className="w-4 h-4" />
@@ -827,24 +848,30 @@ export const SixtySecondAssessment: React.FC<SixtySecondAssessmentProps> = ({
 
             {/* Past Attempts History (if available) */}
             {testAttempts.length > 0 && (
-              <div className="pt-4 border-t border-[#E8E5DC] space-y-2">
-                <span className="text-[11px] font-mono uppercase tracking-wider text-[#737068] font-bold block">
-                  Previous Session Attempts
+              <div className="pt-4 border-t border-[var(--border)] space-y-2">
+                <span className="text-xs font-mono text-[var(--text-muted)] font-medium block">
+                  Previous session attempts
                 </span>
                 <div className="space-y-1.5 max-h-32 overflow-y-auto">
                   {testAttempts.slice(0, 3).map((att) => (
                     <div
                       key={att.id}
-                      className="p-2.5 rounded-lg bg-[#FAF9F6] border border-[#E8E5DD] flex items-center justify-between text-xs font-mono text-[#525049]"
+                      className="px-3 py-2 rounded-lg bg-[var(--surface-soft)] border border-[var(--border)] flex items-center justify-between text-xs font-mono text-[var(--text-secondary)]"
                     >
                       <div className="flex items-center gap-2">
-                        <span className={att.score >= 80 ? 'text-[#1E6B43] font-bold' : 'text-[#8E5311]'}>
-                          {att.score}/100 Pts
+                        <span
+                          className={
+                            att.score >= 80
+                              ? 'text-[var(--color-success)] font-bold'
+                              : 'text-[var(--color-warning)] font-semibold'
+                          }
+                        >
+                          {att.score}/100 pts
                         </span>
                         <span>·</span>
                         <span>{(att.elapsedMs / 1000).toFixed(1)}s</span>
                       </div>
-                      <span className="text-[#88857D] text-[11px]">
+                      <span className="text-[var(--text-muted)] text-[11px]">
                         {new Date(att.completedAt || att.startedAt).toLocaleTimeString([], {
                           hour: '2-digit',
                           minute: '2-digit',
@@ -864,23 +891,23 @@ export const SixtySecondAssessment: React.FC<SixtySecondAssessmentProps> = ({
         {testStarted && currentStep === 1 && !testCompleted && !timedOut && (
           <div className="space-y-5 animate-in fade-in">
             {/* Context Box */}
-            <div className="p-4 rounded-xl bg-[#FAF9F6] border border-[#E3DFD5] space-y-2">
-              <div className="flex items-center justify-between">
-                <span className="text-xs font-mono uppercase text-[#1B4D7E] font-bold tracking-wider">
-                  TEST 1: FIXED-SIZE RETRIEVAL FIDELITY
+            <div className="p-4 rounded-xl bg-[var(--surface-soft)] border border-[var(--border)] space-y-2.5">
+              <div className="flex flex-wrap items-center justify-between gap-2">
+                <span className="text-xs font-mono text-[var(--color-accent-ink)] font-semibold">
+                  Test 1: Fixed-size retrieval fidelity
                 </span>
-                <span className="text-[11px] font-mono text-[#185E38] bg-[#EAF5EF] border border-[#BDE3CC] px-2 py-0.5 rounded">
-                  State: D=16 Matrix (256 Floats)
+                <span className="text-[11px] font-mono text-[var(--color-success)] bg-[var(--color-success-soft)] border border-[var(--color-success-border)] px-2 py-0.5 rounded">
+                  State: D=16 matrix (256 floats)
                 </span>
               </div>
-              <p className="text-xs sm:text-sm text-[#4E4B43] font-sans leading-relaxed">
+              <p className="text-sm text-[var(--text-secondary)] font-sans leading-relaxed">
                 The model sequentially stored 3 facts into a fixed-size state matrix (<InlineMath math="M \in \mathbb{R}^{16 \times 16}" />):
               </p>
-              <div className="flex flex-wrap gap-2 pt-1">
+              <div className="flex flex-wrap gap-2 pt-0.5">
                 {INITIAL_FACTS.map((f) => (
                   <span
                     key={f.key}
-                    className="px-2.5 py-1 rounded-md bg-[#FFFFFF] border border-[#DDD9CF] text-xs font-mono text-[#2B2925]"
+                    className="px-2.5 py-1 rounded-md bg-[var(--surface)] border border-[var(--border)] text-xs font-mono text-[var(--text-primary)]"
                   >
                     <strong>{f.key}</strong> → {f.value}
                   </span>
@@ -890,17 +917,18 @@ export const SixtySecondAssessment: React.FC<SixtySecondAssessmentProps> = ({
 
             {/* Question */}
             <div className="space-y-3">
-              <h3 className="font-serif text-base sm:text-lg font-bold text-[#191919]">
+              <h4 className="font-sans text-base sm:text-lg font-semibold text-[var(--text-primary)]">
                 Which value should the memory retrieve when the query key is "Japan"?
-              </h3>
+              </h4>
 
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
                 {['Tokyo', 'Paris', 'Brasília'].map((optionVal) => {
                   const isSelected = step1Answer === optionVal;
                   let btnStyle =
-                    'bg-[#FFFFFF] border-[#DCD9D0] text-[#302E29] hover:border-[#B5B1A6]';
+                    'bg-[var(--surface)] border-[var(--border)] text-[var(--text-primary)] hover:border-[var(--color-border-strong)] hover:bg-[var(--surface-soft)]';
                   if (isSelected) {
-                    btnStyle = 'bg-[#EBF3FB] border-[#1D5E99] text-[#154676] font-bold ring-1 ring-[#1D5E99]';
+                    btnStyle =
+                      'bg-[var(--accent-blue)] border-[var(--color-accent)] text-[var(--color-accent-ink)] font-semibold';
                   }
 
                   return (
@@ -909,7 +937,7 @@ export const SixtySecondAssessment: React.FC<SixtySecondAssessmentProps> = ({
                       type="button"
                       disabled={step1Checked}
                       onClick={() => setStep1Answer(optionVal)}
-                      className={`p-3 rounded-xl border text-sm font-sans transition text-center cursor-pointer ${btnStyle}`}
+                      className={`p-3 rounded-lg border text-sm font-sans transition text-center cursor-pointer ${btnStyle}`}
                     >
                       {optionVal}
                     </button>
@@ -920,44 +948,46 @@ export const SixtySecondAssessment: React.FC<SixtySecondAssessmentProps> = ({
 
             {/* Check Button & Results */}
             {!step1Checked ? (
-              <div className="pt-2 flex justify-end">
+              <div className="pt-1 flex justify-end">
                 <button
                   type="button"
                   disabled={!step1Answer}
                   onClick={handleCheckStep1}
-                  className="px-5 py-2 rounded-xl bg-[#1B4D7E] hover:bg-[#153E65] disabled:opacity-40 text-white font-sans text-xs font-bold transition shadow cursor-pointer"
+                  className="px-5 py-2 rounded-lg bg-[var(--color-accent)] hover:bg-[var(--color-accent-hover)] disabled:opacity-40 text-[var(--surface)] font-sans text-xs font-semibold transition cursor-pointer"
                 >
                   Check Answer
                 </button>
               </div>
             ) : (
-              <div className="space-y-4 pt-2">
+              <div className="space-y-4 pt-1">
                 {/* Live Model Readout vs Ground Truth */}
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs font-mono">
-                  <div className="p-3 rounded-xl bg-[#FAF9F6] border border-[#E3DFD5]">
-                    <span className="text-[10px] text-[#716E66] uppercase block">Query Key</span>
-                    <strong className="text-sm text-[#191919] mt-0.5 block">Japan</strong>
+                  <div className="p-3 rounded-lg bg-[var(--surface-soft)] border border-[var(--border)]">
+                    <span className="text-[11px] text-[var(--text-muted)] block">Query Key</span>
+                    <strong className="text-sm text-[var(--text-primary)] mt-0.5 block">Japan</strong>
                   </div>
-                  <div className="p-3 rounded-xl bg-[#FAF9F6] border border-[#E3DFD5]">
-                    <span className="text-[10px] text-[#716E66] uppercase block">Ground Truth</span>
-                    <strong className="text-sm text-[#191919] mt-0.5 block">{baseMemory.groundTruth}</strong>
+                  <div className="p-3 rounded-lg bg-[var(--surface-soft)] border border-[var(--border)]">
+                    <span className="text-[11px] text-[var(--text-muted)] block">Ground Truth</span>
+                    <strong className="text-sm text-[var(--text-primary)] mt-0.5 block">
+                      {baseMemory.groundTruth}
+                    </strong>
                   </div>
                   <div
-                    className={`p-3 rounded-xl border ${
+                    className={`p-3 rounded-lg border ${
                       stageResults[1]?.correct
-                        ? 'bg-[#EAF5EF] border-[#B2DEC3] text-[#185E38]'
-                        : 'bg-[#FDF1F1] border-[#F2C2C2] text-[#9A2222]'
+                        ? 'bg-[var(--color-success-soft)] border-[var(--color-success-border)] text-[var(--color-success)]'
+                        : 'bg-[var(--color-danger-soft)] border-[var(--color-danger-border)] text-[var(--color-danger)]'
                     }`}
                   >
-                    <div className="flex items-center justify-between text-[10px] uppercase">
+                    <div className="flex items-center justify-between text-[11px]">
                       <span>Model Readout</span>
                       <span className="font-bold">
-                        {stageResults[1]?.correct ? '✓ MATCH (+20 PTS)' : '✗ INCORRECT'}
+                        {stageResults[1]?.correct ? '✓ Match (+20 pts)' : '✗ Incorrect'}
                       </span>
                     </div>
                     <strong className="text-sm mt-0.5 block">{baseMemory.queryRes.prediction}</strong>
-                    <div className="text-[10px] mt-0.5 opacity-85">
-                      Retrieval Score: {baseMemory.queryRes.retrievalScore.toFixed(3)} · Margin:{' '}
+                    <div className="text-[11px] mt-0.5 opacity-90">
+                      Score: {baseMemory.queryRes.retrievalScore.toFixed(3)} · Margin:{' '}
                       {baseMemory.queryRes.top1Margin.toFixed(3)}
                     </div>
                   </div>
@@ -965,10 +995,10 @@ export const SixtySecondAssessment: React.FC<SixtySecondAssessmentProps> = ({
 
                 {/* Feedback note */}
                 <div
-                  className={`p-3.5 rounded-xl border text-xs font-sans leading-relaxed ${
+                  className={`p-3.5 rounded-lg border text-xs sm:text-sm font-sans leading-relaxed ${
                     stageResults[1]?.correct
-                      ? 'bg-[#EAF5EF] border-[#B2DEC3] text-[#185E38]'
-                      : 'bg-[#FDF1F1] border-[#F2C2C2] text-[#9A2222]'
+                      ? 'bg-[var(--color-success-soft)] border-[var(--color-success-border)] text-[var(--color-success)]'
+                      : 'bg-[var(--color-danger-soft)] border-[var(--color-danger-border)] text-[var(--color-danger)]'
                   }`}
                 >
                   {stageResults[1]?.correct ? (
@@ -994,24 +1024,24 @@ export const SixtySecondAssessment: React.FC<SixtySecondAssessmentProps> = ({
         {/* ------------------------------------------------------------ */}
         {testStarted && currentStep === 2 && !testCompleted && !timedOut && (
           <div className="space-y-5 animate-in fade-in">
-            {/* Header */}
-            <div className="p-4 rounded-xl bg-[#FAF9F6] border border-[#E3DFD5] space-y-2">
-              <div className="flex items-center justify-between">
-                <span className="text-xs font-mono uppercase text-[#9A5C0E] font-bold tracking-wider flex items-center gap-1.5">
-                  <Flame className="w-4 h-4 text-[#C27313]" />
-                  TEST 2: SUPERPOSITION & CAPACITY PRESSURE
+            <div className="p-4 rounded-xl bg-[var(--surface-soft)] border border-[var(--border)] space-y-3">
+              <div className="flex flex-wrap items-center justify-between gap-2">
+                <span className="text-xs font-mono text-[var(--color-warning)] font-semibold flex items-center gap-1.5">
+                  <Flame className="w-3.5 h-3.5" />
+                  <span>Test 2: Superposition & capacity pressure</span>
                 </span>
-                <span className="text-[11px] font-mono text-[#716E66]">
+                <span className="text-[11px] font-mono text-[var(--text-muted)]">
                   State Capacity: D=16 Fixed
                 </span>
               </div>
-              <p className="text-xs sm:text-sm text-[#4E4B43] font-sans leading-relaxed">
-                What happens when competing associations are superposed into the <em>exact same</em> 16×16 coordinate
-                matrix? <strong>Add one or more distractor facts below</strong> to write their outer products into the state:
+              <p className="text-sm text-[var(--text-secondary)] font-sans leading-relaxed">
+                What happens when competing associations are superposed into the <em>exact same</em> 16×16
+                coordinate matrix? <strong className="text-[var(--text-primary)]">Add one or more distractor facts below</strong> to write their
+                outer products into the state:
               </p>
 
               {/* Distractor buttons */}
-              <div className="flex flex-wrap gap-2 pt-1">
+              <div className="flex flex-wrap gap-2 pt-0.5">
                 {DISTRACTOR_CANDIDATES.map((cand) => {
                   const isAdded = addedDistractors.some((d) => d.key === cand.key);
                   return (
@@ -1022,12 +1052,14 @@ export const SixtySecondAssessment: React.FC<SixtySecondAssessmentProps> = ({
                       disabled={isAdded || step2Checked}
                       className={`px-3 py-1.5 rounded-lg border text-xs font-mono transition cursor-pointer flex items-center gap-1.5 ${
                         isAdded
-                          ? 'bg-[#EBF5EF] border-[#B0DEBF] text-[#1E6B43] font-bold'
-                          : 'bg-[#FFFFFF] border-[#DCD9D0] text-[#302E29] hover:border-[#9A5C0E]'
+                          ? 'bg-[var(--color-success-soft)] border-[var(--color-success-border)] text-[var(--color-success)] font-semibold'
+                          : 'bg-[var(--surface)] border-[var(--border)] text-[var(--text-primary)] hover:border-[var(--color-warning)]'
                       }`}
                     >
                       <span>{isAdded ? '✓' : '+'}</span>
-                      <span>{cand.key} → {cand.value}</span>
+                      <span>
+                        {cand.key} → {cand.value}
+                      </span>
                     </button>
                   );
                 })}
@@ -1036,9 +1068,9 @@ export const SixtySecondAssessment: React.FC<SixtySecondAssessmentProps> = ({
 
             {/* Question */}
             <div className="space-y-3">
-              <h3 className="font-serif text-base sm:text-lg font-bold text-[#191919]">
+              <h4 className="font-sans text-base sm:text-lg font-semibold text-[var(--text-primary)]">
                 Did adding competing information alter the retrieval score or readout for "Japan"?
-              </h3>
+              </h4>
 
               <div className="grid grid-cols-2 gap-3 max-w-sm">
                 {[
@@ -1047,9 +1079,10 @@ export const SixtySecondAssessment: React.FC<SixtySecondAssessmentProps> = ({
                 ].map((opt) => {
                   const isSelected = step2Answer === opt.val;
                   let btnStyle =
-                    'bg-[#FFFFFF] border-[#DCD9D0] text-[#302E29] hover:border-[#B5B1A6]';
+                    'bg-[var(--surface)] border-[var(--border)] text-[var(--text-primary)] hover:border-[var(--color-border-strong)] hover:bg-[var(--surface-soft)]';
                   if (isSelected) {
-                    btnStyle = 'bg-[#EBF3FB] border-[#1D5E99] text-[#154676] font-bold ring-1 ring-[#1D5E99]';
+                    btnStyle =
+                      'bg-[var(--accent-blue)] border-[var(--color-accent)] text-[var(--color-accent-ink)] font-semibold';
                   }
 
                   return (
@@ -1058,7 +1091,7 @@ export const SixtySecondAssessment: React.FC<SixtySecondAssessmentProps> = ({
                       type="button"
                       disabled={step2Checked}
                       onClick={() => setStep2Answer(opt.val as 'yes' | 'no')}
-                      className={`p-3 rounded-xl border text-sm font-sans transition text-center cursor-pointer ${btnStyle}`}
+                      className={`p-3 rounded-lg border text-sm font-sans transition text-center cursor-pointer ${btnStyle}`}
                     >
                       {opt.label}
                     </button>
@@ -1069,37 +1102,40 @@ export const SixtySecondAssessment: React.FC<SixtySecondAssessmentProps> = ({
 
             {/* Probe Button & Live Engine Readout */}
             {!step2Checked ? (
-              <div className="pt-2 flex justify-end">
+              <div className="pt-1 flex justify-end">
                 <button
                   type="button"
                   disabled={!step2Answer || addedDistractors.length === 0}
                   onClick={handleCheckStep2}
-                  className="px-5 py-2 rounded-xl bg-[#1B4D7E] hover:bg-[#153E65] disabled:opacity-40 text-white font-sans text-xs font-bold transition shadow cursor-pointer"
+                  className="px-5 py-2 rounded-lg bg-[var(--color-accent)] hover:bg-[var(--color-accent-hover)] disabled:opacity-40 text-[var(--surface)] font-sans text-xs font-semibold transition cursor-pointer"
                 >
                   Run Probe & Evaluate
                 </button>
               </div>
             ) : (
-              <div className="space-y-4 pt-2">
-                {/* Metric Delta Comparison */}
+              <div className="space-y-4 pt-1">
                 <div className="grid grid-cols-1 sm:grid-cols-4 gap-2.5 text-xs font-mono">
-                  <div className="p-3 rounded-xl bg-[#FAF9F6] border border-[#E3DFD5]">
-                    <span className="text-[10px] text-[#716E66] uppercase block">Target Query</span>
-                    <strong className="text-sm text-[#191919] mt-0.5 block">Japan</strong>
+                  <div className="p-3 rounded-lg bg-[var(--surface-soft)] border border-[var(--border)]">
+                    <span className="text-[11px] text-[var(--text-muted)] block">Target Query</span>
+                    <strong className="text-sm text-[var(--text-primary)] mt-0.5 block">Japan</strong>
                   </div>
 
-                  <div className="p-3 rounded-xl bg-[#FAF9F6] border border-[#E3DFD5]">
-                    <span className="text-[10px] text-[#716E66] uppercase block">Distractors</span>
-                    <strong className="text-sm text-[#9A5C0E] mt-0.5 block">
-                      +{addedDistractors.length} Added
+                  <div className="p-3 rounded-lg bg-[var(--surface-soft)] border border-[var(--border)]">
+                    <span className="text-[11px] text-[var(--text-muted)] block">Distractors</span>
+                    <strong className="text-sm text-[var(--color-warning)] mt-0.5 block">
+                      +{addedDistractors.length} added
                     </strong>
                   </div>
 
-                  <div className="p-3 rounded-xl bg-[#FAF9F6] border border-[#E3DFD5]">
-                    <span className="text-[10px] text-[#716E66] uppercase block">Retrieval Score Δ</span>
+                  <div className="p-3 rounded-lg bg-[var(--surface-soft)] border border-[var(--border)]">
+                    <span className="text-[11px] text-[var(--text-muted)] block">
+                      Retrieval Score Δ
+                    </span>
                     <strong
                       className={`text-sm mt-0.5 block ${
-                        disturbedMemory.scoreDelta < 0 ? 'text-[#9A2222]' : 'text-[#185E38]'
+                        disturbedMemory.scoreDelta < 0
+                          ? 'text-[var(--color-danger)]'
+                          : 'text-[var(--color-success)]'
                       }`}
                     >
                       {disturbedMemory.scoreDelta > 0 ? '+' : ''}
@@ -1108,22 +1144,21 @@ export const SixtySecondAssessment: React.FC<SixtySecondAssessmentProps> = ({
                   </div>
 
                   <div
-                    className={`p-3 rounded-xl border ${
+                    className={`p-3 rounded-lg border ${
                       stageResults[2]?.correct
-                        ? 'bg-[#EAF5EF] border-[#B2DEC3] text-[#185E38]'
-                        : 'bg-[#FDF1F1] border-[#F2C2C2] text-[#9A2222]'
+                        ? 'bg-[var(--color-success-soft)] border-[var(--color-success-border)] text-[var(--color-success)]'
+                        : 'bg-[var(--color-danger-soft)] border-[var(--color-danger-border)] text-[var(--color-danger)]'
                     }`}
                   >
-                    <span className="text-[10px] uppercase block">Assessment</span>
+                    <span className="text-[11px] block">Assessment</span>
                     <strong className="text-sm mt-0.5 block">
-                      {stageResults[2]?.correct ? '✓ PASS (+20 PTS)' : '✗ INCORRECT'}
+                      {stageResults[2]?.correct ? '✓ Pass (+20 pts)' : '✗ Incorrect'}
                     </strong>
                   </div>
                 </div>
 
-                {/* Mechanistic Explanation */}
-                <div className="p-3.5 rounded-xl bg-[#F6F4EF] border border-[#E5E2D8] text-xs text-[#4F4C44] space-y-1 font-sans leading-relaxed">
-                  <strong>Empirical Observation:</strong>{' '}
+                <div className="p-3.5 rounded-lg bg-[var(--surface-soft)] border border-[var(--border)] text-xs sm:text-sm text-[var(--text-secondary)] font-sans leading-relaxed">
+                  <strong className="text-[var(--text-primary)]">Empirical Observation:</strong>{' '}
                   {disturbedMemory.predictionChanged ? (
                     <span>
                       Severe interference occurred: the readout prediction shifted to "
@@ -1148,19 +1183,18 @@ export const SixtySecondAssessment: React.FC<SixtySecondAssessmentProps> = ({
         {/* ------------------------------------------------------------ */}
         {testStarted && currentStep === 3 && !testCompleted && !timedOut && (
           <div className="space-y-5 animate-in fade-in">
-            {/* Context & Snapshot Timeline */}
-            <div className="p-4 rounded-xl bg-[#FAF9F6] border border-[#E3DFD5] space-y-3">
-              <div className="flex items-center justify-between">
-                <span className="text-xs font-mono uppercase text-[#1B4D7E] font-bold tracking-wider">
-                  TEST 3: MATRIX STATE FORENSICS & ENERGY DRIFT
+            <div className="p-4 rounded-xl bg-[var(--surface-soft)] border border-[var(--border)] space-y-3">
+              <div className="flex flex-wrap items-center justify-between gap-2">
+                <span className="text-xs font-mono text-[var(--color-accent-ink)] font-semibold">
+                  Test 3: Matrix state forensics & energy drift
                 </span>
-                <span className="text-[11px] font-mono text-[#716E66]">
+                <span className="text-[11px] font-mono text-[var(--text-muted)]">
                   Frobenius Norm ‖M‖_F: {disturbedMemory.finalFrobenius.toFixed(2)}
                 </span>
               </div>
-              <p className="text-xs sm:text-sm text-[#4E4B43] font-sans leading-relaxed">
-                Inspect the recorded sequence of state snapshots (<InlineMath math="t_0 \to t_N" />) from the actual memory history.
-                Click any step to inspect the state at that moment in time:
+              <p className="text-sm text-[var(--text-secondary)] font-sans leading-relaxed">
+                Inspect the recorded sequence of state snapshots (<InlineMath math="t_0 \to t_N" />) from the
+                actual memory history. Click any step to inspect the state at that moment in time:
               </p>
 
               {/* Timeline selector */}
@@ -1175,12 +1209,12 @@ export const SixtySecondAssessment: React.FC<SixtySecondAssessmentProps> = ({
                       onClick={() => setSelectedSnapshotIdx(idx)}
                       className={`px-3 py-1 rounded-lg border text-xs font-mono transition cursor-pointer shrink-0 ${
                         isSelected
-                          ? 'bg-[#EBF3FB] border-[#1D5E99] text-[#154676] font-bold ring-1 ring-[#1D5E99]'
-                          : 'bg-[#FFFFFF] border-[#DCD9D0] text-[#55524B] hover:border-[#8E8B83]'
+                          ? 'bg-[var(--accent-blue)] border-[var(--color-accent)] text-[var(--color-accent-ink)] font-semibold'
+                          : 'bg-[var(--surface)] border-[var(--border)] text-[var(--text-secondary)] hover:border-[var(--color-border-strong)]'
                       }`}
                     >
                       <span>t={idx + 1}</span>
-                      <span className="text-[#88857D] ml-1">({fact?.key || 'Fact'})</span>
+                      <span className="text-[var(--text-muted)] ml-1">({fact?.key || 'Fact'})</span>
                     </button>
                   );
                 })}
@@ -1189,38 +1223,38 @@ export const SixtySecondAssessment: React.FC<SixtySecondAssessmentProps> = ({
 
             {/* Numerical Matrix Metrics */}
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs font-mono">
-              <div className="p-3 rounded-xl bg-[#FAF9F6] border border-[#E3DFD5] space-y-1">
-                <span className="text-[10px] text-[#716E66] uppercase block">
+              <div className="p-3 rounded-lg bg-[var(--surface-soft)] border border-[var(--border)] space-y-1">
+                <span className="text-[11px] text-[var(--text-muted)] block">
                   Largest Positive Change
                 </span>
-                <strong className="text-sm text-[#185E38] block">
+                <strong className="text-sm text-[var(--color-success)] block">
                   +{disturbedMemory.maxPos.val.toFixed(3)}
                 </strong>
-                <span className="text-[11px] text-[#716E66]">
+                <span className="text-[11px] text-[var(--text-muted)]">
                   at coordinate [row {disturbedMemory.maxPos.r}, col {disturbedMemory.maxPos.c}]
                 </span>
               </div>
 
-              <div className="p-3 rounded-xl bg-[#FAF9F6] border border-[#E3DFD5] space-y-1">
-                <span className="text-[10px] text-[#716E66] uppercase block">
+              <div className="p-3 rounded-lg bg-[var(--surface-soft)] border border-[var(--border)] space-y-1">
+                <span className="text-[11px] text-[var(--text-muted)] block">
                   Largest Negative Shift
                 </span>
-                <strong className="text-sm text-[#9A2222] block">
+                <strong className="text-sm text-[var(--color-danger)] block">
                   {disturbedMemory.maxNeg.val.toFixed(3)}
                 </strong>
-                <span className="text-[11px] text-[#716E66]">
+                <span className="text-[11px] text-[var(--text-muted)]">
                   at coordinate [row {disturbedMemory.maxNeg.r}, col {disturbedMemory.maxNeg.c}]
                 </span>
               </div>
 
-              <div className="p-3 rounded-xl bg-[#FAF9F6] border border-[#E3DFD5] space-y-1">
-                <span className="text-[10px] text-[#716E66] uppercase block">
+              <div className="p-3 rounded-lg bg-[var(--surface-soft)] border border-[var(--border)] space-y-1">
+                <span className="text-[11px] text-[var(--text-muted)] block">
                   Mean Absolute Δ Coordinate
                 </span>
-                <strong className="text-sm text-[#191919] block">
+                <strong className="text-sm text-[var(--text-primary)] block">
                   {disturbedMemory.meanAbsDelta.toFixed(4)}
                 </strong>
-                <span className="text-[11px] text-[#716E66]">
+                <span className="text-[11px] text-[var(--text-muted)]">
                   across all 256 coordinates
                 </span>
               </div>
@@ -1228,11 +1262,11 @@ export const SixtySecondAssessment: React.FC<SixtySecondAssessmentProps> = ({
 
             {/* Question */}
             <div className="space-y-3">
-              <h3 className="font-serif text-base sm:text-lg font-bold text-[#191919]">
+              <h4 className="font-sans text-base sm:text-lg font-semibold text-[var(--text-primary)]">
                 What caused the coordinate drift between Initial M and Final M?
-              </h3>
+              </h4>
 
-              <div className="space-y-2 text-xs sm:text-sm font-sans">
+              <div className="space-y-2 text-sm font-sans">
                 {[
                   {
                     id: 'A',
@@ -1252,10 +1286,10 @@ export const SixtySecondAssessment: React.FC<SixtySecondAssessmentProps> = ({
                 ].map((opt) => {
                   const isSelected = step3Answer === opt.id;
                   let cardStyle =
-                    'bg-[#FFFFFF] border-[#DCD9D0] text-[#302E29] hover:border-[#B5B1A6]';
+                    'bg-[var(--surface)] border-[var(--border)] text-[var(--text-primary)] hover:border-[var(--color-border-strong)] hover:bg-[var(--surface-soft)]';
                   if (isSelected) {
                     cardStyle =
-                      'bg-[#EBF3FB] border-[#1D5E99] text-[#154676] font-semibold ring-1 ring-[#1D5E99]';
+                      'bg-[var(--accent-blue)] border-[var(--color-accent)] text-[var(--color-accent-ink)] font-semibold';
                   }
 
                   return (
@@ -1264,9 +1298,9 @@ export const SixtySecondAssessment: React.FC<SixtySecondAssessmentProps> = ({
                       type="button"
                       disabled={step3Checked}
                       onClick={() => setStep3Answer(opt.id)}
-                      className={`w-full text-left p-3.5 rounded-xl border transition flex items-start gap-3 cursor-pointer ${cardStyle}`}
+                      className={`w-full text-left p-3.5 rounded-lg border transition flex items-start gap-3 cursor-pointer ${cardStyle}`}
                     >
-                      <span className="w-5 h-5 rounded-md bg-[#F4F2EB] border border-[#DDD9CF] flex items-center justify-center font-mono font-bold text-xs shrink-0 mt-0.5">
+                      <span className="w-5 h-5 rounded bg-[var(--surface-soft)] border border-[var(--border)] flex items-center justify-center font-mono font-bold text-xs shrink-0 mt-0.5 text-[var(--text-secondary)]">
                         {opt.id}
                       </span>
                       <span className="leading-relaxed">{opt.text}</span>
@@ -1278,22 +1312,22 @@ export const SixtySecondAssessment: React.FC<SixtySecondAssessmentProps> = ({
 
             {/* Check Button & Scientific Rigor Note */}
             {!step3Checked ? (
-              <div className="pt-2 flex justify-end">
+              <div className="pt-1 flex justify-end">
                 <button
                   type="button"
                   disabled={!step3Answer}
                   onClick={handleCheckStep3}
-                  className="px-5 py-2 rounded-xl bg-[#1B4D7E] hover:bg-[#153E65] disabled:opacity-40 text-white font-sans text-xs font-bold transition shadow cursor-pointer"
+                  className="px-5 py-2 rounded-lg bg-[var(--color-accent)] hover:bg-[var(--color-accent-hover)] disabled:opacity-40 text-[var(--surface)] font-sans text-xs font-semibold transition cursor-pointer"
                 >
                   Verify Hypothesis
                 </button>
               </div>
             ) : (
               <div
-                className={`p-3.5 rounded-xl border text-xs font-sans leading-relaxed ${
+                className={`p-3.5 rounded-lg border text-xs sm:text-sm font-sans leading-relaxed ${
                   stageResults[3]?.correct
-                    ? 'bg-[#EAF5EF] border-[#B2DEC3] text-[#185E38]'
-                    : 'bg-[#FDF1F1] border-[#F2C2C2] text-[#9A2222]'
+                    ? 'bg-[var(--color-success-soft)] border-[var(--color-success-border)] text-[var(--color-success)]'
+                    : 'bg-[var(--color-danger-soft)] border-[var(--color-danger-border)] text-[var(--color-danger)]'
                 }`}
               >
                 {stageResults[3]?.correct ? (
@@ -1318,12 +1352,11 @@ export const SixtySecondAssessment: React.FC<SixtySecondAssessmentProps> = ({
         {/* ------------------------------------------------------------ */}
         {testStarted && currentStep === 4 && !testCompleted && !timedOut && (
           <div className="space-y-5 animate-in fade-in">
-            {/* Header */}
-            <div className="p-4 rounded-xl bg-[#FAF9F6] border border-[#E3DFD5] space-y-2">
-              <span className="text-xs font-mono uppercase text-[#1B4D7E] font-bold tracking-wider block">
-                TEST 4: QUANTITATIVE CAPACITY PREDICTION
+            <div className="p-4 rounded-xl bg-[var(--surface-soft)] border border-[var(--border)] space-y-2">
+              <span className="text-xs font-mono text-[var(--color-accent-ink)] font-semibold block">
+                Test 4: Quantitative capacity prediction
               </span>
-              <p className="text-xs sm:text-sm text-[#4E4B43] font-sans leading-relaxed">
+              <p className="text-sm text-[var(--text-secondary)] font-sans leading-relaxed">
                 Baseline setting: Dimension <InlineMath math="D=16" />, Retention <InlineMath math="\lambda=0.95" />, 5 facts stored.
                 Predict how changing configuration will impact the likelihood of interference:
               </p>
@@ -1331,11 +1364,11 @@ export const SixtySecondAssessment: React.FC<SixtySecondAssessmentProps> = ({
 
             {/* Hypothesis Options */}
             <div className="space-y-3">
-              <h3 className="font-serif text-base sm:text-lg font-bold text-[#191919]">
+              <h4 className="font-sans text-base sm:text-lg font-semibold text-[var(--text-primary)]">
                 Which condition should make interference more likely to occur?
-              </h3>
+              </h4>
 
-              <div className="space-y-2 text-xs sm:text-sm font-sans">
+              <div className="space-y-2 text-sm font-sans">
                 {[
                   {
                     id: 'A',
@@ -1355,10 +1388,10 @@ export const SixtySecondAssessment: React.FC<SixtySecondAssessmentProps> = ({
                 ].map((opt) => {
                   const isSelected = step4Prediction === opt.id;
                   let cardStyle =
-                    'bg-[#FFFFFF] border-[#DCD9D0] text-[#302E29] hover:border-[#B5B1A6]';
+                    'bg-[var(--surface)] border-[var(--border)] text-[var(--text-primary)] hover:border-[var(--color-border-strong)] hover:bg-[var(--surface-soft)]';
                   if (isSelected) {
                     cardStyle =
-                      'bg-[#EBF3FB] border-[#1D5E99] text-[#154676] font-semibold ring-1 ring-[#1D5E99]';
+                      'bg-[var(--accent-blue)] border-[var(--color-accent)] text-[var(--color-accent-ink)] font-semibold';
                   }
 
                   return (
@@ -1367,9 +1400,9 @@ export const SixtySecondAssessment: React.FC<SixtySecondAssessmentProps> = ({
                       type="button"
                       disabled={step4Checked}
                       onClick={() => setStep4Prediction(opt.id as 'A' | 'B' | 'C')}
-                      className={`w-full text-left p-3.5 rounded-xl border transition flex items-start gap-3 cursor-pointer ${cardStyle}`}
+                      className={`w-full text-left p-3.5 rounded-lg border transition flex items-start gap-3 cursor-pointer ${cardStyle}`}
                     >
-                      <span className="w-5 h-5 rounded-md bg-[#F4F2EB] border border-[#DDD9CF] flex items-center justify-center font-mono font-bold text-xs shrink-0 mt-0.5">
+                      <span className="w-5 h-5 rounded bg-[var(--surface-soft)] border border-[var(--border)] flex items-center justify-center font-mono font-bold text-xs shrink-0 mt-0.5 text-[var(--text-secondary)]">
                         {opt.id}
                       </span>
                       <span className="leading-relaxed">{opt.text}</span>
@@ -1381,58 +1414,60 @@ export const SixtySecondAssessment: React.FC<SixtySecondAssessmentProps> = ({
 
             {/* Run Measurement Button */}
             {!step4Checked ? (
-              <div className="pt-2 flex justify-end">
+              <div className="pt-1 flex justify-end">
                 <button
                   type="button"
                   disabled={!step4Prediction}
                   onClick={handleCheckStep4}
-                  className="px-5 py-2 rounded-xl bg-[#1B4D7E] hover:bg-[#153E65] disabled:opacity-40 text-white font-sans text-xs font-bold transition shadow cursor-pointer"
+                  className="px-5 py-2 rounded-lg bg-[var(--color-accent)] hover:bg-[var(--color-accent-hover)] disabled:opacity-40 text-[var(--surface)] font-sans text-xs font-semibold transition cursor-pointer"
                 >
                   Run Measurement & Compare
                 </button>
               </div>
             ) : (
-              <div className="space-y-4 pt-2">
+              <div className="space-y-4 pt-1">
                 {/* Quantitative Measurement Table */}
-                <div className="rounded-xl border border-[#E3DFD5] overflow-hidden bg-[#FAF9F6] text-xs font-mono">
-                  <div className="grid grid-cols-4 bg-[#F2EFE8] px-3.5 py-2 text-[#706D64] font-semibold border-b border-[#E3DFD5]">
-                    <span>Dimension</span>
-                    <span>Retrieval Score</span>
-                    <span>Top-1 Margin</span>
-                    <span>Predicted State</span>
-                  </div>
+                <div className="rounded-xl border border-[var(--border)] overflow-x-auto bg-[var(--surface)] text-xs font-mono">
+                  <div className="min-w-[480px]">
+                    <div className="grid grid-cols-4 bg-[var(--surface-soft)] px-4 py-2.5 text-[var(--text-muted)] font-semibold border-b border-[var(--border)]">
+                      <span>Dimension</span>
+                      <span>Retrieval Score</span>
+                      <span>Top-1 Margin</span>
+                      <span>Predicted State</span>
+                    </div>
 
-                  {/* D=8 */}
-                  <div className="grid grid-cols-4 px-3.5 py-2.5 border-b border-[#EBE8DF] bg-[#FDF5F5] text-[#8C1D1D]">
-                    <span className="font-bold">D = 8 (Compressed)</span>
-                    <span>{capacityComparison.compressed.score.toFixed(3)}</span>
-                    <span className="font-bold">{capacityComparison.compressed.margin.toFixed(3)}</span>
-                    <span>{capacityComparison.compressed.prediction}</span>
-                  </div>
+                    {/* D=8 */}
+                    <div className="grid grid-cols-4 px-4 py-2.5 border-b border-[var(--border)] bg-[var(--color-danger-soft)] text-[var(--color-danger)]">
+                      <span className="font-bold">D = 8 (Compressed)</span>
+                      <span>{capacityComparison.compressed.score.toFixed(3)}</span>
+                      <span className="font-bold">{capacityComparison.compressed.margin.toFixed(3)}</span>
+                      <span>{capacityComparison.compressed.prediction}</span>
+                    </div>
 
-                  {/* D=16 */}
-                  <div className="grid grid-cols-4 px-3.5 py-2.5 border-b border-[#EBE8DF] text-[#302E29]">
-                    <span className="font-bold">D = 16 (Baseline)</span>
-                    <span>{capacityComparison.baseline.score.toFixed(3)}</span>
-                    <span>{capacityComparison.baseline.margin.toFixed(3)}</span>
-                    <span>{capacityComparison.baseline.prediction}</span>
-                  </div>
+                    {/* D=16 */}
+                    <div className="grid grid-cols-4 px-4 py-2.5 border-b border-[var(--border)] text-[var(--text-primary)]">
+                      <span className="font-bold">D = 16 (Baseline)</span>
+                      <span>{capacityComparison.baseline.score.toFixed(3)}</span>
+                      <span>{capacityComparison.baseline.margin.toFixed(3)}</span>
+                      <span>{capacityComparison.baseline.prediction}</span>
+                    </div>
 
-                  {/* D=32 */}
-                  <div className="grid grid-cols-4 px-3.5 py-2.5 bg-[#F2F8F4] text-[#185E38]">
-                    <span className="font-bold">D = 32 (Expanded)</span>
-                    <span>{capacityComparison.expanded.score.toFixed(3)}</span>
-                    <span className="font-bold">{capacityComparison.expanded.margin.toFixed(3)}</span>
-                    <span>{capacityComparison.expanded.prediction}</span>
+                    {/* D=32 */}
+                    <div className="grid grid-cols-4 px-4 py-2.5 bg-[var(--color-success-soft)] text-[var(--color-success)]">
+                      <span className="font-bold">D = 32 (Expanded)</span>
+                      <span>{capacityComparison.expanded.score.toFixed(3)}</span>
+                      <span className="font-bold">{capacityComparison.expanded.margin.toFixed(3)}</span>
+                      <span>{capacityComparison.expanded.prediction}</span>
+                    </div>
                   </div>
                 </div>
 
                 {/* Feedback */}
                 <div
-                  className={`p-3.5 rounded-xl border text-xs font-sans leading-relaxed ${
+                  className={`p-3.5 rounded-lg border text-xs sm:text-sm font-sans leading-relaxed ${
                     stageResults[4]?.correct
-                      ? 'bg-[#EAF5EF] border-[#B2DEC3] text-[#185E38]'
-                      : 'bg-[#FDF1F1] border-[#F2C2C2] text-[#9A2222]'
+                      ? 'bg-[var(--color-success-soft)] border-[var(--color-success-border)] text-[var(--color-success)]'
+                      : 'bg-[var(--color-danger-soft)] border-[var(--color-danger-border)] text-[var(--color-danger)]'
                   }`}
                 >
                   {stageResults[4]?.correct ? (
@@ -1456,27 +1491,25 @@ export const SixtySecondAssessment: React.FC<SixtySecondAssessmentProps> = ({
         {/* ------------------------------------------------------------ */}
         {testStarted && currentStep === 5 && !testCompleted && !timedOut && (
           <div className="space-y-5 animate-in fade-in">
-            {/* Header */}
-            <div className="p-4 rounded-xl bg-[#FAF9F6] border border-[#E3DFD5] space-y-2">
-              <div className="flex items-center gap-2">
-                <span className="text-[10px] font-mono uppercase px-2 py-0.5 rounded bg-[#F1EBFB] border border-[#D9C6F5] text-[#552599] font-bold">
-                  BDH ARCHITECTURAL SYNTHESIS
+            <div className="p-4 rounded-xl bg-[var(--surface-soft)] border border-[var(--border)] space-y-2">
+              <div className="flex flex-wrap items-center gap-2 text-xs font-mono">
+                <span className="text-[var(--color-accent-ink)] font-semibold">
+                  Test 5: BDH architectural synthesis
                 </span>
-                <span className="text-[10px] font-mono uppercase px-2 py-0.5 rounded bg-[#FAF2E6] border border-[#EAD5BA] text-[#8E5311] font-bold">
-                  EDUCATIONAL ABSTRACTION
-                </span>
+                <span className="text-[var(--text-muted)]">·</span>
+                <span className="text-[var(--color-warning)]">Educational abstraction</span>
               </div>
-              <p className="text-xs sm:text-sm text-[#4E4B43] font-sans leading-relaxed">
+              <p className="text-sm text-[var(--text-secondary)] font-sans leading-relaxed">
                 Connect your empirical observations of recurrent memory to modern architectures like Pathway's Dragon Hatchling (BDH):
               </p>
             </div>
 
             {/* Question 1 */}
             <div className="space-y-2.5">
-              <h4 className="font-serif text-sm sm:text-base font-bold text-[#191919]">
+              <h4 className="font-sans text-sm sm:text-base font-semibold text-[var(--text-primary)]">
                 1. Which architectural idea is most closely related to what you observed in this experiment?
               </h4>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs font-sans">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs sm:text-sm font-sans">
                 {[
                   { id: 'A', text: 'A growing token-by-token KV cache that expands per step' },
                   { id: 'B', text: 'A fixed recurrent state updated sequentially over time' },
@@ -1490,13 +1523,13 @@ export const SixtySecondAssessment: React.FC<SixtySecondAssessmentProps> = ({
                       type="button"
                       disabled={step5Checked}
                       onClick={() => setStep5Answer1(opt.id)}
-                      className={`p-3 rounded-xl border text-left transition cursor-pointer flex items-start gap-2.5 ${
+                      className={`p-3 rounded-lg border text-left transition cursor-pointer flex items-start gap-2.5 ${
                         isSelected
-                          ? 'bg-[#EBF3FB] border-[#1D5E99] text-[#154676] font-semibold ring-1 ring-[#1D5E99]'
-                          : 'bg-[#FFFFFF] border-[#DCD9D0] text-[#302E29] hover:border-[#B5B1A6]'
+                          ? 'bg-[var(--accent-blue)] border-[var(--color-accent)] text-[var(--color-accent-ink)] font-semibold'
+                          : 'bg-[var(--surface)] border-[var(--border)] text-[var(--text-primary)] hover:border-[var(--color-border-strong)] hover:bg-[var(--surface-soft)]'
                       }`}
                     >
-                      <span className="w-5 h-5 rounded bg-[#F4F2EB] flex items-center justify-center font-mono font-bold shrink-0 text-[11px]">
+                      <span className="w-5 h-5 rounded bg-[var(--surface-soft)] border border-[var(--border)] flex items-center justify-center font-mono font-bold shrink-0 text-[11px] text-[var(--text-secondary)]">
                         {opt.id}
                       </span>
                       <span>{opt.text}</span>
@@ -1507,11 +1540,11 @@ export const SixtySecondAssessment: React.FC<SixtySecondAssessmentProps> = ({
             </div>
 
             {/* Question 2 */}
-            <div className="space-y-2.5 pt-2">
-              <h4 className="font-serif text-sm sm:text-base font-bold text-[#191919]">
+            <div className="space-y-2.5 pt-1">
+              <h4 className="font-sans text-sm sm:text-base font-semibold text-[var(--text-primary)]">
                 2. Why can a fixed-size recurrent representation still experience interference?
               </h4>
-              <div className="space-y-2 text-xs font-sans">
+              <div className="space-y-2 text-xs sm:text-sm font-sans">
                 {[
                   {
                     id: 'A',
@@ -1533,13 +1566,13 @@ export const SixtySecondAssessment: React.FC<SixtySecondAssessmentProps> = ({
                       type="button"
                       disabled={step5Checked}
                       onClick={() => setStep5Answer2(opt.id)}
-                      className={`w-full p-3 rounded-xl border text-left transition cursor-pointer flex items-start gap-2.5 ${
+                      className={`w-full p-3 rounded-lg border text-left transition cursor-pointer flex items-start gap-2.5 ${
                         isSelected
-                          ? 'bg-[#EBF3FB] border-[#1D5E99] text-[#154676] font-semibold ring-1 ring-[#1D5E99]'
-                          : 'bg-[#FFFFFF] border-[#DCD9D0] text-[#302E29] hover:border-[#B5B1A6]'
+                          ? 'bg-[var(--accent-blue)] border-[var(--color-accent)] text-[var(--color-accent-ink)] font-semibold'
+                          : 'bg-[var(--surface)] border-[var(--border)] text-[var(--text-primary)] hover:border-[var(--color-border-strong)] hover:bg-[var(--surface-soft)]'
                       }`}
                     >
-                      <span className="w-5 h-5 rounded bg-[#F4F2EB] flex items-center justify-center font-mono font-bold shrink-0 text-[11px]">
+                      <span className="w-5 h-5 rounded bg-[var(--surface-soft)] border border-[var(--border)] flex items-center justify-center font-mono font-bold shrink-0 text-[11px] text-[var(--text-secondary)]">
                         {opt.id}
                       </span>
                       <span>{opt.text}</span>
@@ -1550,20 +1583,20 @@ export const SixtySecondAssessment: React.FC<SixtySecondAssessmentProps> = ({
             </div>
 
             {/* BDH Honesty Callout */}
-            <div className="p-3.5 rounded-xl bg-[#FAF9F6] border border-[#E3DFD5] text-xs text-[#55524B] space-y-1 font-sans">
-              <strong>Scientific Honesty Note:</strong> Your experiment is an educational associative-memory
+            <div className="p-3.5 rounded-lg bg-[var(--surface-soft)] border border-[var(--border)] text-xs text-[var(--text-secondary)] font-sans leading-relaxed">
+              <strong className="text-[var(--text-primary)]">Scientific Honesty Note:</strong> Your experiment is an educational associative-memory
               model. It illustrates the fixed-state and interference principle; it is not the official BDH
               implementation. BDH distributes state across a scale-free graph with dynamic synapses <InlineMath math="\sigma_{ij}" />.
             </div>
 
             {/* Finish Test Button */}
             {!step5Checked && (
-              <div className="pt-2 flex justify-end">
+              <div className="pt-1 flex justify-end">
                 <button
                   type="button"
                   disabled={!step5Answer1 || !step5Answer2}
                   onClick={handleCheckStep5}
-                  className="px-6 py-2.5 rounded-xl bg-[#1E6B43] hover:bg-[#175635] disabled:opacity-40 text-white font-sans text-xs font-bold transition shadow cursor-pointer"
+                  className="px-6 py-2.5 rounded-lg bg-[var(--color-success)] hover:opacity-90 disabled:opacity-40 text-[var(--surface)] font-sans text-xs font-semibold transition cursor-pointer"
                 >
                   Submit & Finish Test
                 </button>
@@ -1576,45 +1609,43 @@ export const SixtySecondAssessment: React.FC<SixtySecondAssessmentProps> = ({
         {/* COMPLETION SCREEN: Final Assessment Results                  */}
         {/* ------------------------------------------------------------ */}
         {testCompleted && (
-          <div className="max-w-2xl mx-auto space-y-6 py-2 animate-in fade-in">
-            {/* Header Badge */}
-            <div className="p-5 rounded-2xl bg-gradient-to-br from-[#FAF8F5] via-[#FFFFFF] to-[#F3F7F5] border border-[#D5DDD7] space-y-4">
+          <div className="max-w-3xl mx-auto space-y-6 py-2 animate-in fade-in">
+            {/* Header Summary */}
+            <div className="p-5 rounded-xl bg-[var(--surface-soft)] border border-[var(--border)] space-y-4">
               <div className="flex flex-wrap items-center justify-between gap-3">
                 <div className="flex items-center gap-3">
-                  <div className="p-2.5 rounded-xl bg-[#EAF5EF] border border-[#BDE3CC] text-[#1E6B43]">
-                    <Award className="w-7 h-7" />
+                  <div className="p-2.5 rounded-lg bg-[var(--color-success-soft)] border border-[var(--color-success-border)] text-[var(--color-success)]">
+                    <Award className="w-6 h-6" />
                   </div>
                   <div>
-                    <span className="text-[11px] font-mono uppercase tracking-wider text-[#1E6B43] font-bold">
-                      VERIFICATION COMPLETE
+                    <span className="text-[11px] font-mono text-[var(--color-success)] font-semibold">
+                      Verification complete
                     </span>
-                    <h3 className="text-xl sm:text-2xl font-serif font-bold text-[#191919]">
+                    <h3 className="text-xl sm:text-2xl font-sans font-semibold text-[var(--text-primary)]">
                       60-Second Fast Assessment Results
                     </h3>
                   </div>
                 </div>
 
-                {/* Score badge */}
-                <div className="text-right">
-                  <div className="text-2xl sm:text-3xl font-mono font-bold text-[#1E6B43]">
-                    {currentTotalScore} <span className="text-sm text-[#737068]">/ 100</span>
+                <div className="text-right font-mono tabular-nums">
+                  <div className="text-2xl sm:text-3xl font-bold text-[var(--color-success)]">
+                    {currentTotalScore} <span className="text-sm text-[var(--text-muted)]">/ 100</span>
                   </div>
-                  <span className="text-xs font-mono text-[#737068]">
+                  <span className="text-xs text-[var(--text-muted)]">
                     Time: {formattedSeconds}s
                   </span>
                 </div>
               </div>
 
-              {/* Assessment Label */}
-              <div className="pt-2 border-t border-[#E8E5DD] flex items-center justify-between text-xs font-sans">
-                <span className="text-[#55524B]">Proficiency Evaluation:</span>
+              <div className="pt-3 border-t border-[var(--border)] flex flex-wrap items-center justify-between gap-2 text-xs font-sans">
+                <span className="text-[var(--text-secondary)]">Proficiency Evaluation:</span>
                 <span
-                  className={`font-bold px-2.5 py-0.5 rounded-full ${
+                  className={`font-semibold px-2.5 py-1 rounded-md border ${
                     currentTotalScore >= 80
-                      ? 'bg-[#EAF5EF] text-[#1E6B43]'
+                      ? 'bg-[var(--color-success-soft)] border-[var(--color-success-border)] text-[var(--color-success)]'
                       : currentTotalScore >= 60
-                      ? 'bg-[#FAF2E6] text-[#8E5311]'
-                      : 'bg-[#FDF1F1] text-[#9A2222]'
+                      ? 'bg-[var(--color-warning-soft)] border-[var(--color-warning-border)] text-[var(--color-warning)]'
+                      : 'bg-[var(--color-danger-soft)] border-[var(--color-danger-border)] text-[var(--color-danger)]'
                   }`}
                 >
                   {currentTotalScore >= 80
@@ -1628,8 +1659,8 @@ export const SixtySecondAssessment: React.FC<SixtySecondAssessmentProps> = ({
 
             {/* Stage-by-Stage Breakdown */}
             <div className="space-y-2">
-              <span className="text-[11px] font-mono uppercase tracking-wider text-[#706D65] font-bold block">
-                Stage-by-Stage Performance Breakdown
+              <span className="text-xs font-mono text-[var(--text-muted)] font-medium block">
+                Stage-by-stage performance breakdown
               </span>
               <div className="grid grid-cols-1 sm:grid-cols-5 gap-2 text-xs font-mono">
                 {STEPS.map((st) => {
@@ -1639,92 +1670,92 @@ export const SixtySecondAssessment: React.FC<SixtySecondAssessmentProps> = ({
                   return (
                     <div
                       key={st.index}
-                      className={`p-3 rounded-xl border text-center space-y-1 ${
+                      className={`p-3 rounded-lg border text-center space-y-1 ${
                         passed
-                          ? 'bg-[#EAF5EF] border-[#BDE3CC] text-[#1E6B43]'
-                          : 'bg-[#FDF1F1] border-[#F2C2C2] text-[#9A2222]'
+                          ? 'bg-[var(--color-success-soft)] border-[var(--color-success-border)] text-[var(--color-success)]'
+                          : 'bg-[var(--color-danger-soft)] border-[var(--color-danger-border)] text-[var(--color-danger)]'
                       }`}
                     >
-                      <div className="text-[10px] opacity-80">{st.shortTitle}</div>
+                      <div className="text-[11px] opacity-85 font-sans font-medium">{st.shortTitle}</div>
                       <div className="text-sm font-bold">{pts} / 20</div>
-                      <div className="text-[10px]">{passed ? '✓ Passed' : '✗ Review'}</div>
+                      <div className="text-[11px]">{passed ? '✓ Passed' : '✗ Review'}</div>
                     </div>
                   );
                 })}
               </div>
             </div>
 
-            {/* 4-Part Scientific Assessment Synthesis: Prediction, Observation, Explanation, Limitation */}
+            {/* 4-Part Scientific Assessment Synthesis */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
-              <div className="p-3.5 rounded-xl bg-[#F7F5EF] dark:bg-[#171A1D] border border-[#D8DCD8] dark:border-[#3A4044] space-y-1">
-                <span className="text-[#31566E] dark:text-[#89C0E8] uppercase font-bold text-[11px] block">
+              <div className="p-3.5 rounded-xl bg-[var(--surface-soft)] border border-[var(--border)] space-y-1">
+                <span className="text-[var(--color-accent-ink)] font-mono font-semibold text-xs block">
                   1. Prediction
                 </span>
-                <p className="text-[#252525] dark:text-[#F5F3EE] leading-relaxed">
+                <p className="text-[var(--text-primary)] leading-relaxed">
                   Evaluated your initial hypothesis: whether fixed-size fast-weight states could retain specific associations under sequence scaling without a growing token tape.
                 </p>
               </div>
 
-              <div className="p-3.5 rounded-xl bg-[#F7F5EF] dark:bg-[#171A1D] border border-[#D8DCD8] dark:border-[#3A4044] space-y-1">
-                <span className="text-[#247A4B] dark:text-[#70B98A] uppercase font-bold text-[11px] block">
+              <div className="p-3.5 rounded-xl bg-[var(--surface-soft)] border border-[var(--border)] space-y-1">
+                <span className="text-[var(--color-success)] font-mono font-semibold text-xs block">
                   2. Observation
                 </span>
-                <p className="text-[#252525] dark:text-[#F5F3EE] leading-relaxed">
+                <p className="text-[var(--text-primary)] leading-relaxed">
                   Observed retrieval accuracy, decision margins, and state norm shifts across 5 progressive stages in real-time matrix algebra.
                 </p>
               </div>
 
-              <div className="p-3.5 rounded-xl bg-[#F7F5EF] dark:bg-[#171A1D] border border-[#D8DCD8] dark:border-[#3A4044] space-y-1">
-                <span className="text-[#A46622] dark:text-[#F3CA68] uppercase font-bold text-[11px] block">
+              <div className="p-3.5 rounded-xl bg-[var(--surface-soft)] border border-[var(--border)] space-y-1">
+                <span className="text-[var(--color-warning)] font-mono font-semibold text-xs block">
                   3. Explanation
                 </span>
-                <p className="text-[#252525] dark:text-[#F5F3EE] leading-relaxed">
+                <p className="text-[var(--text-primary)] leading-relaxed">
                   Interference arises naturally when sequence length exceeds available quasi-orthogonal directions in dimension D, causing coordinate crosstalk and forgetting.
                 </p>
               </div>
 
-              <div className="p-3.5 rounded-xl bg-[#E7F2FA] dark:bg-[#263C4B] border border-[#D8DCD8] dark:border-[#3A4044] text-[#31566E] dark:text-[#89C0E8] space-y-1">
-                <span className="uppercase font-bold text-[11px] block">
+              <div className="p-3.5 rounded-xl bg-[var(--accent-blue)] border border-[var(--border)] text-[var(--color-accent-ink)] space-y-1">
+                <span className="font-mono font-semibold text-xs block">
                   4. Limitation
                 </span>
-                <p className="text-[11px] leading-relaxed">
+                <p className="leading-relaxed">
                   Educational laboratory abstraction. Real-world frontier architectures (BDH) utilize decentralized plastic graphs rather than monolithic toy outer-product matrices.
                 </p>
               </div>
             </div>
 
             {/* What You Demonstrated Checklist */}
-            <div className="p-4 rounded-xl bg-[#FAF9F6] border border-[#E3DFD5] space-y-2.5">
-              <span className="text-xs font-serif font-bold text-[#191919] block">
+            <div className="p-4 rounded-xl bg-[var(--surface-soft)] border border-[var(--border)] space-y-2.5">
+              <span className="text-sm font-sans font-semibold text-[var(--text-primary)] block">
                 Demonstrated Principles
               </span>
-              <div className="space-y-1.5 text-xs text-[#4C4942]">
+              <div className="space-y-1.5 text-xs sm:text-sm text-[var(--text-secondary)]">
                 <div className="flex items-center gap-2">
-                  <span className={stageResults[1]?.correct ? 'text-[#1E6B43] font-bold' : 'text-[#8C887E]'}>
+                  <span className={stageResults[1]?.correct ? 'text-[var(--color-success)] font-bold' : 'text-[var(--text-muted)]'}>
                     {stageResults[1]?.correct ? '✓' : '○'}
                   </span>
                   <span>Fixed-size memory carries information forward without growing a token tape.</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <span className={stageResults[2]?.correct ? 'text-[#1E6B43] font-bold' : 'text-[#8C887E]'}>
+                  <span className={stageResults[2]?.correct ? 'text-[var(--color-success)] font-bold' : 'text-[var(--text-muted)]'}>
                     {stageResults[2]?.correct ? '✓' : '○'}
                   </span>
                   <span>Superposing competing facts causes coordinate crosstalk and narrows retrieval margin.</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <span className={stageResults[3]?.correct ? 'text-[#1E6B43] font-bold' : 'text-[#8C887E]'}>
+                  <span className={stageResults[3]?.correct ? 'text-[var(--color-success)] font-bold' : 'text-[var(--text-muted)]'}>
                     {stageResults[3]?.correct ? '✓' : '○'}
                   </span>
                   <span>Coordinate drift and Frobenius energy changes can be mathematically inspected.</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <span className={stageResults[4]?.correct ? 'text-[#1E6B43] font-bold' : 'text-[#8C887E]'}>
+                  <span className={stageResults[4]?.correct ? 'text-[var(--color-success)] font-bold' : 'text-[var(--text-muted)]'}>
                     {stageResults[4]?.correct ? '✓' : '○'}
                   </span>
                   <span>State dimension D directly governs quasi-orthogonal capacity limits.</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <span className={stageResults[5]?.correct ? 'text-[#1E6B43] font-bold' : 'text-[#8C887E]'}>
+                  <span className={stageResults[5]?.correct ? 'text-[var(--color-success)] font-bold' : 'text-[var(--text-muted)]'}>
                     {stageResults[5]?.correct ? '✓' : '○'}
                   </span>
                   <span>BDH generalizes fixed-state recurrence using decentralized Hebbian synapses.</span>
@@ -1737,7 +1768,7 @@ export const SixtySecondAssessment: React.FC<SixtySecondAssessmentProps> = ({
               <button
                 type="button"
                 onClick={handleRestart}
-                className="flex items-center gap-1.5 px-4 py-2 rounded-xl bg-[#FAF9F6] hover:bg-[#F2EFE8] border border-[#DCD9CF] text-xs font-sans font-semibold text-[#504D45] transition cursor-pointer"
+                className="flex items-center gap-1.5 px-4 py-2 rounded-lg bg-[var(--surface)] hover:bg-[var(--surface-soft)] border border-[var(--border)] text-xs font-sans font-semibold text-[var(--text-primary)] transition cursor-pointer"
               >
                 <RotateCcw className="w-3.5 h-3.5" />
                 <span>New Attempt</span>
@@ -1751,7 +1782,7 @@ export const SixtySecondAssessment: React.FC<SixtySecondAssessmentProps> = ({
                       if (onClose) onClose();
                       onExploreFullLab();
                     }}
-                    className="px-3.5 py-2 rounded-xl bg-[#FAF9F6] hover:bg-[#F2EFE8] border border-[#DCD9CF] text-xs font-sans font-semibold text-[#302E28] transition cursor-pointer"
+                    className="px-3.5 py-2 rounded-lg bg-[var(--surface)] hover:bg-[var(--surface-soft)] border border-[var(--border)] text-xs font-sans font-semibold text-[var(--text-primary)] transition cursor-pointer"
                   >
                     Interference Lab →
                   </button>
@@ -1763,7 +1794,7 @@ export const SixtySecondAssessment: React.FC<SixtySecondAssessmentProps> = ({
                       if (onClose) onClose();
                       onEnterSandbox();
                     }}
-                    className="px-3.5 py-2 rounded-xl bg-[#FAF9F6] hover:bg-[#F2EFE8] border border-[#DCD9CF] text-xs font-sans font-semibold text-[#302E28] transition cursor-pointer"
+                    className="px-3.5 py-2 rounded-lg bg-[var(--surface)] hover:bg-[var(--surface-soft)] border border-[var(--border)] text-xs font-sans font-semibold text-[var(--text-primary)] transition cursor-pointer"
                   >
                     BDH Architecture →
                   </button>
@@ -1772,7 +1803,7 @@ export const SixtySecondAssessment: React.FC<SixtySecondAssessmentProps> = ({
                   <button
                     type="button"
                     onClick={onClose}
-                    className="px-4 py-2 rounded-xl bg-[#1B4D7E] hover:bg-[#153E65] text-white text-xs font-sans font-bold transition cursor-pointer shadow"
+                    className="px-4 py-2 rounded-lg bg-[var(--color-accent)] hover:bg-[var(--color-accent-hover)] text-[var(--surface)] text-xs font-sans font-semibold transition cursor-pointer"
                   >
                     Return to Document
                   </button>
@@ -1787,33 +1818,33 @@ export const SixtySecondAssessment: React.FC<SixtySecondAssessmentProps> = ({
         {/* ------------------------------------------------------------ */}
         {timedOut && !testCompleted && (
           <div className="max-w-xl mx-auto space-y-5 py-4 animate-in fade-in text-center sm:text-left">
-            <div className="p-5 rounded-2xl bg-[#FFF8F8] border border-[#F5CACA] space-y-3">
+            <div className="p-5 rounded-xl bg-[var(--color-danger-soft)] border border-[var(--color-danger-border)] space-y-3">
               <div className="flex items-center gap-3">
-                <div className="p-2 rounded-xl bg-[#FDF1F1] text-[#9A2222]">
-                  <AlertTriangle className="w-6 h-6" />
+                <div className="p-2 rounded-lg bg-[var(--surface)] text-[var(--color-danger)] border border-[var(--color-danger-border)]">
+                  <AlertTriangle className="w-5 h-5" />
                 </div>
                 <div>
-                  <h3 className="text-lg font-serif font-bold text-[#191919]">
+                  <h3 className="text-lg font-sans font-semibold text-[var(--text-primary)]">
                     Time Limit Reached (60 Seconds)
                   </h3>
-                  <p className="text-xs text-[#6E6B62] font-sans">
+                  <p className="text-xs sm:text-sm text-[var(--text-secondary)] font-sans">
                     The 60-second target window has elapsed. You completed{' '}
-                    <strong>{Object.keys(stageResults).length} of 5</strong> stages.
+                    <strong className="text-[var(--text-primary)]">{Object.keys(stageResults).length} of 5</strong> stages.
                   </p>
                 </div>
               </div>
 
-              <div className="pt-2 border-t border-[#F2D7D7] flex items-center justify-between text-xs font-mono">
+              <div className="pt-2 border-t border-[var(--color-danger-border)] flex items-center justify-between text-xs font-mono text-[var(--text-primary)]">
                 <span>Score Accumulated So Far:</span>
-                <strong className="text-sm text-[#1B4D7E]">{currentTotalScore} / 100 Pts</strong>
+                <strong className="text-sm text-[var(--color-accent-ink)]">{currentTotalScore} / 100 pts</strong>
               </div>
             </div>
 
-            <div className="flex items-center justify-center sm:justify-start gap-3 pt-2">
+            <div className="flex items-center justify-center sm:justify-start gap-3 pt-1">
               <button
                 type="button"
                 onClick={handleRestart}
-                className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[#1B4D7E] hover:bg-[#153E65] text-white text-xs font-sans font-bold transition shadow cursor-pointer"
+                className="flex items-center gap-2 px-5 py-2.5 rounded-lg bg-[var(--color-accent)] hover:bg-[var(--color-accent-hover)] text-[var(--surface)] text-xs font-sans font-semibold transition cursor-pointer"
               >
                 <RotateCcw className="w-4 h-4" />
                 <span>Restart 60s Challenge</span>
@@ -1824,7 +1855,7 @@ export const SixtySecondAssessment: React.FC<SixtySecondAssessmentProps> = ({
                 onClick={() => {
                   setTestCompleted(true);
                 }}
-                className="px-4 py-2.5 rounded-xl bg-[#FAF9F6] hover:bg-[#F2EFE8] border border-[#DCD9CF] text-xs font-sans font-semibold text-[#504D45] transition cursor-pointer"
+                className="px-4 py-2.5 rounded-lg bg-[var(--surface)] hover:bg-[var(--surface-soft)] border border-[var(--border)] text-xs font-sans font-semibold text-[var(--text-primary)] transition cursor-pointer"
               >
                 Review Completed Results
               </button>
@@ -1837,40 +1868,37 @@ export const SixtySecondAssessment: React.FC<SixtySecondAssessmentProps> = ({
       {/* BOTTOM ACTION & NAVIGATION BAR                               */}
       {/* ============================================================ */}
       {testStarted && !testCompleted && !timedOut && (
-        <div className="px-5 py-3 sm:px-6 sm:py-3.5 border-t border-[#E6E3DB] bg-[#FAF8F5] flex items-center justify-between text-xs font-sans">
-          {/* Back Button */}
+        <div className="px-5 py-3 sm:px-6 sm:py-3.5 border-t border-[var(--border)] bg-[var(--surface-soft)] flex items-center justify-between text-xs font-sans">
           <button
             type="button"
             disabled={currentStep === 1}
             onClick={() => setCurrentStep((s) => Math.max(1, s - 1))}
-            className="flex items-center gap-1 px-3 py-1.5 rounded-lg bg-[#FFFFFF] hover:bg-[#F2EFE9] disabled:opacity-30 border border-[#D5D2C9] text-[#55524B] font-medium transition cursor-pointer"
+            className="flex items-center gap-1 px-3 py-1.5 rounded-lg bg-[var(--surface)] hover:bg-[var(--page-bg)] disabled:opacity-35 border border-[var(--border)] text-[var(--text-primary)] font-medium transition cursor-pointer"
           >
             <ArrowLeft className="w-3.5 h-3.5" />
             <span>Back</span>
           </button>
 
-          {/* Keyboard hints */}
-          <div className="text-[#8C887E] font-mono text-[11px] hidden sm:flex items-center gap-2">
+          <div className="text-[var(--text-muted)] font-mono text-[11px] hidden sm:flex items-center gap-2">
             <span>Use</span>
-            <kbd className="px-1.5 py-0.5 bg-[#FFFFFF] border border-[#D5D2C9] rounded text-[#4C4942]">
+            <kbd className="px-1.5 py-0.5 bg-[var(--surface)] border border-[var(--border)] rounded text-[var(--text-secondary)]">
               ←
             </kbd>
-            <kbd className="px-1.5 py-0.5 bg-[#FFFFFF] border border-[#D5D2C9] rounded text-[#4C4942]">
+            <kbd className="px-1.5 py-0.5 bg-[var(--surface)] border border-[var(--border)] rounded text-[var(--text-secondary)]">
               →
             </kbd>
             <span>or</span>
-            <kbd className="px-1.5 py-0.5 bg-[#FFFFFF] border border-[#D5D2C9] rounded text-[#4C4942]">
+            <kbd className="px-1.5 py-0.5 bg-[var(--surface)] border border-[var(--border)] rounded text-[var(--text-secondary)]">
               ESC
             </kbd>
           </div>
 
-          {/* Next Step / Finish Button */}
           {currentStep < 5 ? (
             <button
               type="button"
               disabled={!isCurrentStepChecked}
               onClick={() => setCurrentStep((s) => Math.min(5, s + 1))}
-              className="flex items-center gap-1.5 px-4 py-1.5 rounded-lg bg-[#1B4D7E] hover:bg-[#153E65] disabled:opacity-40 text-white font-bold transition shadow cursor-pointer"
+              className="flex items-center gap-1.5 px-4 py-1.5 rounded-lg bg-[var(--color-accent)] hover:bg-[var(--color-accent-hover)] disabled:opacity-40 text-[var(--surface)] font-semibold transition cursor-pointer"
             >
               <span>Next Step ({currentStep}/5)</span>
               <ArrowRight className="w-3.5 h-3.5" />
@@ -1880,7 +1908,7 @@ export const SixtySecondAssessment: React.FC<SixtySecondAssessmentProps> = ({
               type="button"
               disabled={!isCurrentStepChecked}
               onClick={() => setTestCompleted(true)}
-              className="flex items-center gap-1.5 px-4 py-1.5 rounded-lg bg-[#1E6B43] hover:bg-[#175635] disabled:opacity-40 text-white font-bold transition shadow cursor-pointer"
+              className="flex items-center gap-1.5 px-4 py-1.5 rounded-lg bg-[var(--color-success)] hover:opacity-90 disabled:opacity-40 text-[var(--surface)] font-semibold transition cursor-pointer"
             >
               <span>Review Summary</span>
               <CheckCircle2 className="w-3.5 h-3.5" />
@@ -1893,19 +1921,19 @@ export const SixtySecondAssessment: React.FC<SixtySecondAssessmentProps> = ({
       {/* EXIT CONFIRMATION DIALOG                                     */}
       {/* ============================================================ */}
       {showExitConfirm && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-xs animate-in fade-in">
-          <div className="w-full max-w-sm rounded-2xl bg-white p-5 border border-[#D5D2C9] shadow-xl space-y-4 text-center">
-            <h4 className="font-serif text-base font-bold text-[#191919]">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-xs animate-in fade-in">
+          <div className="w-full max-w-sm rounded-xl bg-[var(--surface)] p-5 border border-[var(--border)] shadow-xl space-y-4 text-center">
+            <h4 className="font-sans text-base font-semibold text-[var(--text-primary)]">
               Leave the 60-Second Test?
             </h4>
-            <p className="text-xs text-[#605D55] font-sans leading-relaxed">
+            <p className="text-xs sm:text-sm text-[var(--text-secondary)] font-sans leading-relaxed">
               Your test is currently running. Leaving now will cancel this attempt.
             </p>
             <div className="flex items-center justify-center gap-2 pt-1">
               <button
                 type="button"
                 onClick={() => setShowExitConfirm(false)}
-                className="px-4 py-2 rounded-xl bg-[#FAF9F6] border border-[#D5D2C9] text-xs font-sans font-bold text-[#45423B] hover:bg-[#F2EFE8] transition cursor-pointer"
+                className="px-4 py-2 rounded-lg bg-[var(--surface-soft)] border border-[var(--border)] text-xs font-sans font-semibold text-[var(--text-primary)] hover:bg-[var(--page-bg)] transition cursor-pointer"
               >
                 Continue Test
               </button>
@@ -1915,7 +1943,7 @@ export const SixtySecondAssessment: React.FC<SixtySecondAssessmentProps> = ({
                   setShowExitConfirm(false);
                   if (onClose) onClose();
                 }}
-                className="px-4 py-2 rounded-xl bg-[#9A2222] hover:bg-[#7D1B1B] text-white text-xs font-sans font-bold transition cursor-pointer"
+                className="px-4 py-2 rounded-lg bg-[var(--color-danger)] hover:opacity-90 text-[var(--surface)] text-xs font-sans font-semibold transition cursor-pointer"
               >
                 Exit Test
               </button>

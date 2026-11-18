@@ -115,17 +115,17 @@ export const Page03TraceInteractions: React.FC = () => {
   return (
     <div className="space-y-8 mt-6">
       {/* 1. TIMELINE SCRUBBER & ANIMATION CONTROLLER */}
-      <div className="rounded-xl border border-[#D8DCD8] bg-[#FFFFFF] p-5 sm:p-6 shadow-xs space-y-4">
-        <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[#EAE6DF] pb-3">
+      <div className="diagram-frame p-5 sm:p-6 space-y-4">
+        <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[var(--border)] pb-3">
           <div className="flex items-center gap-2">
-            <div className="p-1.5 rounded-lg bg-[#E7F2FA] text-[#31566E]">
+            <div className="p-1.5 rounded-lg bg-[var(--accent-blue)] text-[var(--accent-blue-text)]">
               <Clock className="w-4 h-4" />
             </div>
             <div>
-              <h3 className="font-serif text-base font-bold text-[#252525]">
-                1. Trajectory Timeline Scrubber & Replay
+              <h3 className="font-serif text-base font-bold text-[var(--text-primary)]">
+                1. Trajectory timeline scrubber &amp; replay
               </h3>
-              <p className="text-xs text-[#5F625F]">
+              <p className="text-xs text-[var(--text-secondary)]">
                 Drag the scrubber to inspect recorded states across sequence ingestion without recalculating divergent trajectories.
               </p>
             </div>
@@ -134,26 +134,29 @@ export const Page03TraceInteractions: React.FC = () => {
           {/* Animation Controls */}
           <div className="flex items-center gap-1.5">
             <button
+              type="button"
               onClick={() => setIsPlaying(!isPlaying)}
-              className="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-[#31566E] hover:bg-[#264457] text-white text-xs font-medium transition cursor-pointer"
+              className="btn-primary text-xs"
             >
               {isPlaying ? <Pause className="w-3.5 h-3.5" /> : <Play className="w-3.5 h-3.5" />}
-              <span>{isPlaying ? 'Pause' : 'Play Trajectory'}</span>
+              <span>{isPlaying ? 'Pause' : 'Play trajectory'}</span>
             </button>
             <button
+              type="button"
               onClick={() => setCurrentStep((prev) => Math.min(prev + 1, recordedSteps.length - 1))}
               disabled={currentStep >= recordedSteps.length - 1}
-              className="p-1.5 rounded-lg border border-[#D8DCD8] bg-[#F7F5EF] text-[#252525] hover:bg-[#FFFFFF] text-xs transition cursor-pointer disabled:opacity-40"
+              className="icon-button disabled:opacity-40"
               title="Step forward"
             >
               <SkipForward className="w-3.5 h-3.5" />
             </button>
             <button
+              type="button"
               onClick={() => {
                 setIsPlaying(false);
                 setCurrentStep(0);
               }}
-              className="p-1.5 rounded-lg border border-[#D8DCD8] bg-[#F7F5EF] text-[#252525] hover:bg-[#FFFFFF] text-xs transition cursor-pointer"
+              className="icon-button"
               title="Reset to t0"
             >
               <RotateCcw className="w-3.5 h-3.5" />
@@ -164,10 +167,13 @@ export const Page03TraceInteractions: React.FC = () => {
         {/* Scrubber Range Input */}
         <div className="space-y-2">
           <div className="flex items-center justify-between text-xs">
-            <span className="text-[#5F625F]">
-              Timestep: <strong className="font-mono text-[#31566E] text-sm">t = {activeSnapshot.step} / {recordedSteps.length - 1}</strong>
+            <span className="text-[var(--text-secondary)]">
+              Timestep:{' '}
+              <strong className="font-mono text-[var(--accent-blue-text)] text-sm tabular-nums">
+                t = {activeSnapshot.step} / {recordedSteps.length - 1}
+              </strong>
             </span>
-            <span className="font-sans text-xs text-[#252525]">
+            <span className="font-sans text-xs text-[var(--text-primary)]">
               {activeSnapshot.fact ? `Ingested: ${activeSnapshot.fact.key} → ${activeSnapshot.fact.value}` : 'Initial state M_0'}
             </span>
           </div>
@@ -181,12 +187,12 @@ export const Page03TraceInteractions: React.FC = () => {
               setIsPlaying(false);
               setCurrentStep(parseInt(e.target.value, 10));
             }}
-            className="w-full accent-[#31566E] cursor-pointer"
+            className="w-full accent-[var(--color-accent)] cursor-pointer"
           />
 
-          <div className="flex justify-between text-[10px] font-mono text-[#5F625F]">
+          <div className="flex justify-between text-[11px] font-mono text-[var(--text-secondary)] tabular-nums">
             {recordedSteps.map((s) => (
-              <span key={s.step} className={s.step === currentStep ? 'font-bold text-[#31566E]' : ''}>
+              <span key={s.step} className={s.step === currentStep ? 'font-bold text-[var(--accent-blue-text)]' : ''}>
                 t_{s.step}
               </span>
             ))}
@@ -194,43 +200,52 @@ export const Page03TraceInteractions: React.FC = () => {
         </div>
 
         {/* 2. BEFORE / AFTER TOGGLE & MATRIX DISPLAY */}
-        <div className="pt-2 border-t border-[#EAE6DF] space-y-3">
+        <div className="pt-2 border-t border-[var(--border)] space-y-3">
           <div className="flex flex-wrap items-center justify-between gap-3 text-xs">
-            <div className="flex items-center gap-1.5">
-              <span className="font-semibold text-[#5F625F]">View State:</span>
+            <div className="flex flex-wrap items-center gap-1.5">
+              <span className="font-semibold text-[var(--text-secondary)]">View state:</span>
               <button
+                type="button"
                 onClick={() => setViewMode('current')}
-                className={`px-2.5 py-1 rounded-md transition cursor-pointer ${
-                  viewMode === 'current' ? 'bg-[#31566E] text-white font-bold' : 'bg-[#F7F5EF] text-[#5F625F]'
+                className={`px-2.5 py-1 rounded-md border transition cursor-pointer ${
+                  viewMode === 'current'
+                    ? 'bg-[var(--accent-blue)] border-[var(--color-accent)] text-[var(--accent-blue-text)] font-bold'
+                    : 'bg-[var(--surface-soft)] border-[var(--border)] text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
                 }`}
               >
-                Current State (M_{activeSnapshot.step})
+                Current state (M_{activeSnapshot.step})
               </button>
               <button
+                type="button"
                 onClick={() => setViewMode('initial')}
-                className={`px-2.5 py-1 rounded-md transition cursor-pointer ${
-                  viewMode === 'initial' ? 'bg-[#31566E] text-white font-bold' : 'bg-[#F7F5EF] text-[#5F625F]'
+                className={`px-2.5 py-1 rounded-md border transition cursor-pointer ${
+                  viewMode === 'initial'
+                    ? 'bg-[var(--accent-blue)] border-[var(--color-accent)] text-[var(--accent-blue-text)] font-bold'
+                    : 'bg-[var(--surface-soft)] border-[var(--border)] text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
                 }`}
               >
                 Initial (M_0)
               </button>
               <button
+                type="button"
                 onClick={() => setViewMode('delta')}
-                className={`px-2.5 py-1 rounded-md transition cursor-pointer ${
-                  viewMode === 'delta' ? 'bg-[#31566E] text-white font-bold' : 'bg-[#F7F5EF] text-[#5F625F]'
+                className={`px-2.5 py-1 rounded-md border transition cursor-pointer ${
+                  viewMode === 'delta'
+                    ? 'bg-[var(--accent-blue)] border-[var(--color-accent)] text-[var(--accent-blue-text)] font-bold'
+                    : 'bg-[var(--surface-soft)] border-[var(--border)] text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
                 }`}
               >
-                Delta Shift (ΔM)
+                Delta shift (ΔM)
               </button>
             </div>
 
-            <span className="font-mono text-xs text-[#5F625F]">
-              Frobenius Norm: <strong className="text-[#252525]">{activeSnapshot.norm.toFixed(4)}</strong>
+            <span className="font-mono text-xs text-[var(--text-secondary)] tabular-nums">
+              Frobenius norm: <strong className="text-[var(--text-primary)]">{activeSnapshot.norm.toFixed(4)}</strong>
             </span>
           </div>
 
           {/* Matrix Heatmap with Clickable Coordinates */}
-          <div className="matrix-scroll overflow-x-auto py-1 bg-[#F7F5EF] p-4 rounded-xl border border-[#D8DCD8]">
+          <div className="matrix-scroll overflow-x-auto bg-[var(--color-matrix-bg)] p-4 rounded-xl border border-[var(--color-matrix-border)]">
             <div
               className="grid gap-1 min-w-[320px]"
               style={{ gridTemplateColumns: `repeat(${dim}, minmax(0, 1fr))` }}
@@ -251,16 +266,17 @@ export const Page03TraceInteractions: React.FC = () => {
                   return (
                     <button
                       key={`${r}-${c}`}
+                      type="button"
                       onClick={() => setSelectedCoord({ r, c })}
                       title={`Click to inspect M[${r},${c}]`}
-                      className={`h-7 rounded text-[10px] font-mono flex items-center justify-center transition cursor-pointer ${
-                        isSelected ? 'ring-2 ring-[#252525] scale-105 z-10 font-bold' : ''
+                      className={`h-7 rounded text-[11px] font-mono tabular-nums flex items-center justify-center transition cursor-pointer ${
+                        isSelected ? 'ring-2 ring-[var(--color-matrix-ink)] scale-105 z-10 font-bold' : ''
                       }`}
                       style={{
                         backgroundColor: isPos
-                          ? `rgba(49, 86, 110, ${abs * 0.75 + 0.08})`
-                          : `rgba(182, 66, 53, ${abs * 0.75 + 0.08})`,
-                        color: abs > 0.45 ? '#FFFFFF' : '#252525',
+                          ? `rgba(76, 154, 255, ${abs * 0.72 + 0.14})`
+                          : `rgba(229, 98, 90, ${abs * 0.72 + 0.14})`,
+                        color: 'var(--color-matrix-ink)',
                       }}
                     >
                       {displayVal.toFixed(1)}
@@ -274,47 +290,47 @@ export const Page03TraceInteractions: React.FC = () => {
       </div>
 
       {/* 3. COORDINATE INSPECTOR CARD */}
-      <div className="rounded-xl border border-[#D8DCD8] bg-[#FFFFFF] p-5 sm:p-6 shadow-xs space-y-3">
-        <div className="flex items-center gap-2 border-b border-[#EAE6DF] pb-3">
-          <div className="p-1.5 rounded-lg bg-[#FFF5D8] text-[#A46622]">
+      <div className="diagram-frame p-5 sm:p-6 space-y-3">
+        <div className="flex items-center gap-2 border-b border-[var(--border)] pb-3">
+          <div className="p-1.5 rounded-lg bg-[var(--accent-yellow)] text-[var(--accent-yellow-text)]">
             <Search className="w-4 h-4" />
           </div>
           <div>
-            <h3 className="font-serif text-base font-bold text-[#252525]">
-              2. Coordinate Inspector (Cell Level)
+            <h3 className="font-serif text-base font-bold text-[var(--text-primary)]">
+              2. Coordinate inspector (cell level)
             </h3>
-            <p className="text-xs text-[#5F625F]">
+            <p className="text-xs text-[var(--text-secondary)]">
               Inspecting cell coordinate <InlineMath math={`M[${selectedCoord.r}, ${selectedCoord.c}]`} /> at step <InlineMath math={`t = ${currentStep}`} />.
             </p>
           </div>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
-          <div className="p-3.5 rounded-xl border border-[#D8DCD8] bg-[#F7F5EF] space-y-1">
-            <span className="text-[#5F625F] uppercase font-semibold text-[11px] block">
-              Before Ingestion (<InlineMath math="t_{k-1}" />)
+          <div className="metric-panel space-y-1">
+            <span className="text-[var(--text-secondary)] uppercase font-semibold text-[11px] block">
+              Before ingestion (<InlineMath math="t_{k-1}" />)
             </span>
-            <div className="text-base font-mono font-bold text-[#252525]">
+            <div className="text-base font-mono font-bold text-[var(--text-primary)] tabular-nums">
               {coordInspection.beforeVal.toFixed(4)}
             </div>
-            <span className="text-[11px] text-[#5F625F]">Prior coordinate charge</span>
+            <span className="text-[11px] text-[var(--text-secondary)]">Prior coordinate charge</span>
           </div>
 
-          <div className="p-3.5 rounded-xl border border-[#D8DCD8] bg-[#F7F5EF] space-y-1">
-            <span className="text-[#5F625F] uppercase font-semibold text-[11px] block">
-              After Ingestion (<InlineMath math="t_k" />)
+          <div className="metric-panel space-y-1">
+            <span className="text-[var(--text-secondary)] uppercase font-semibold text-[11px] block">
+              After ingestion (<InlineMath math="t_k" />)
             </span>
-            <div className="text-base font-mono font-bold text-[#31566E]">
+            <div className="text-base font-mono font-bold text-[var(--accent-blue-text)] tabular-nums">
               {coordInspection.afterVal.toFixed(4)}
             </div>
-            <span className="text-[11px] text-[#5F625F]">Superimposed coordinate charge</span>
+            <span className="text-[11px] text-[var(--text-secondary)]">Superimposed coordinate charge</span>
           </div>
 
-          <div className="p-3.5 rounded-xl border border-[#D8DCD8] bg-[#E7F2FA] text-[#31566E] space-y-1">
+          <div className="p-3.5 rounded-xl border border-[var(--border)] bg-[var(--accent-blue)] text-[var(--accent-blue-text)] space-y-1">
             <span className="uppercase font-semibold text-[11px] block">
-              Coordinate Delta (<InlineMath math="\Delta M_{ij}" />)
+              Coordinate delta (<InlineMath math="\Delta M_{ij}" />)
             </span>
-            <div className="text-base font-mono font-bold">
+            <div className="text-base font-mono font-bold tabular-nums">
               {coordInspection.deltaVal >= 0 ? `+${coordInspection.deltaVal.toFixed(4)}` : coordInspection.deltaVal.toFixed(4)}
             </div>
             <span className="text-[11px]">

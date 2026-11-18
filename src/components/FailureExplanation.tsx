@@ -98,30 +98,30 @@ export const FailureExplanation: React.FC<FailureExplanationProps> = ({
   ];
 
   return (
-    <div id={id} className="rounded-xl border border-[#D8DCD8] bg-[#FFFFFF] p-5 sm:p-7 text-[#252525] shadow-xs space-y-6">
+    <div id={id} className="diagram-frame p-5 sm:p-7 text-[var(--text-primary)] space-y-6">
       {/* Failure Header */}
-      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[#EAE6DF] pb-4">
+      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[var(--border)] pb-4">
         <div className="flex items-center gap-2.5">
-          <div className="p-2 rounded-lg bg-[#F9E9ED] border border-[#F2CAD2] text-[#B64235]">
+          <div className="p-2 rounded-lg bg-[var(--accent-pink)] border border-[var(--color-danger-border)] text-[var(--accent-pink-text)]">
             <AlertOctagon className="w-5 h-5" />
           </div>
           <div>
             <div className="flex items-center gap-2">
-              <span className="text-xs font-sans font-semibold text-[#B64235]">
+              <span className="text-xs font-sans font-semibold text-[var(--accent-pink-text)]">
                 Interference inquiry
               </span>
               <SourceBadge type="OBSERVED RESULT" />
             </div>
-            <h3 className="text-lg font-serif font-bold text-[#252525] mt-0.5">
+            <h3 className="text-lg font-serif font-bold text-[var(--text-primary)] mt-0.5">
               Why did this retrieval change occur?
             </h3>
           </div>
         </div>
 
-        <div className="flex items-center gap-2 text-xs font-sans text-[#5F625F]">
-          <span>Target: <strong className="text-[#252525] font-mono">{targetKey}</strong></span>
+        <div className="flex items-center gap-2 text-xs font-sans text-[var(--text-secondary)]">
+          <span>Target: <strong className="text-[var(--text-primary)] font-mono">{targetKey}</strong></span>
           <span>·</span>
-          <span>Output: <strong className="text-[#B64235] font-mono">{prediction}</strong></span>
+          <span>Output: <strong className="text-[var(--accent-pink-text)] font-mono">{prediction}</strong></span>
         </div>
       </div>
 
@@ -129,15 +129,15 @@ export const FailureExplanation: React.FC<FailureExplanationProps> = ({
       <div className="space-y-2.5">
         {options.map((opt) => {
           const isSelected = selectedOption === opt.id;
-          let btnClass = 'border-[#D8DCD8] bg-[#FAF8F5] hover:bg-[#F0EEEA] text-[#252525]';
+          let btnClass = 'border-[var(--border)] bg-[var(--surface-soft)] hover:bg-[var(--color-surface-muted)] text-[var(--text-primary)]';
 
           if (hasAnswered) {
             if (opt.isCorrect) {
-              btnClass = 'border-[#C5DDCB] bg-[#DCEFE2] text-[#245B38] font-medium';
+              btnClass = 'border-[var(--color-success-border)] bg-[var(--accent-green)] text-[var(--accent-green-text)] font-medium';
             } else if (isSelected && !opt.isCorrect) {
-              btnClass = 'border-[#F2CAD2] bg-[#F9E9ED] text-[#B64235]';
+              btnClass = 'border-[var(--color-danger-border)] bg-[var(--accent-pink)] text-[var(--accent-pink-text)]';
             } else {
-              btnClass = 'border-[#EAE6DF] bg-[#FAF8F5] opacity-50 text-[#7D817D]';
+              btnClass = 'border-[var(--border)] bg-[var(--surface-soft)] opacity-50 text-[var(--text-muted)]';
             }
           }
 
@@ -146,9 +146,9 @@ export const FailureExplanation: React.FC<FailureExplanationProps> = ({
               key={opt.id}
               onClick={() => handleSelectOption(opt.id)}
               disabled={hasAnswered}
-              className={`w-full text-left p-3.5 rounded-xl border transition-all flex items-start gap-3.5 text-xs sm:text-sm font-sans ${btnClass}`}
+              className={`w-full text-left p-3.5 rounded-xl border transition-all flex items-start gap-3.5 text-xs sm:text-sm font-sans cursor-pointer ${btnClass}`}
             >
-              <span className="w-6 h-6 rounded-lg bg-[#FFFFFF] border border-[#D8DCD8] flex items-center justify-center font-bold shrink-0 text-[#252525] font-mono text-xs">
+              <span className="w-6 h-6 rounded-lg bg-[var(--surface)] border border-[var(--border)] flex items-center justify-center font-bold shrink-0 text-[var(--text-primary)] font-mono text-xs">
                 {opt.id}
               </span>
               <div className="flex-1">
@@ -156,23 +156,23 @@ export const FailureExplanation: React.FC<FailureExplanationProps> = ({
                 {hasAnswered && isSelected && (
                   <p
                     className={`mt-2 text-xs leading-relaxed font-sans ${
-                      opt.isCorrect ? 'text-[#245B38]' : 'text-[#B64235]'
+                      opt.isCorrect ? 'text-[var(--accent-green-text)]' : 'text-[var(--accent-pink-text)]'
                     }`}
                   >
                     {opt.feedback}
                   </p>
                 )}
                 {hasAnswered && !isSelected && opt.isCorrect && (
-                  <p className="mt-2 text-xs leading-relaxed font-sans text-[#245B38] font-medium">
+                  <p className="mt-2 text-xs leading-relaxed font-sans text-[var(--accent-green-text)] font-medium">
                     ✓ {opt.feedback}
                   </p>
                 )}
               </div>
               {hasAnswered && opt.isCorrect && (
-                <CheckCircle2 className="w-4 h-4 text-[#247A4B] shrink-0 mt-0.5" />
+                <CheckCircle2 className="w-4 h-4 text-[var(--accent-green-text)] shrink-0 mt-0.5" />
               )}
               {hasAnswered && isSelected && !opt.isCorrect && (
-                <XCircle className="w-4 h-4 text-[#B64235] shrink-0 mt-0.5" />
+                <XCircle className="w-4 h-4 text-[var(--accent-pink-text)] shrink-0 mt-0.5" />
               )}
             </button>
           );
@@ -181,13 +181,13 @@ export const FailureExplanation: React.FC<FailureExplanationProps> = ({
 
       {/* Revealed Explanation & State Difference */}
       {hasAnswered && (
-        <div className="pt-4 border-t border-[#EAE6DF] space-y-6">
-          <div className="p-4 rounded-xl bg-[#FAF8F5] border border-[#EAE6DF]">
+        <div className="pt-4 border-t border-[var(--border)] space-y-6">
+          <div className="p-4 rounded-xl bg-[var(--surface-soft)] border border-[var(--border)]">
             <div className="flex items-center gap-2 mb-2">
               <SourceBadge type="EXPLANATION" />
-              <h4 className="text-sm font-serif font-bold text-[#252525]">Mechanistic explanation</h4>
+              <h4 className="text-sm font-serif font-bold text-[var(--text-primary)]">Mechanistic explanation</h4>
             </div>
-            <p className="text-xs sm:text-sm text-[#5F625F] leading-relaxed font-sans">
+            <p className="text-xs sm:text-sm text-[var(--text-secondary)] leading-relaxed font-sans">
               The educational model keeps a <strong>fixed-size internal representation</strong> (a {dimension}×{dimension} fast-weight matrix).
               As more information ({distractorCount} intervening distractor facts) was written into that representation,
               the non-orthogonal key vectors superimposed conflicting values onto the same coordinates.
@@ -199,10 +199,10 @@ export const FailureExplanation: React.FC<FailureExplanationProps> = ({
           {/* Real-Time State Diff Inspector */}
           <div>
             <div className="flex items-center justify-between mb-2">
-              <span className="text-xs font-sans text-[#252525] font-semibold">
-                State vector displacement (Before vs. after superposition)
+              <span className="text-xs font-sans text-[var(--text-primary)] font-semibold">
+                State vector displacement (before vs. after superposition)
               </span>
-              <span className="text-xs font-sans text-[#5F625F]">
+              <span className="text-xs font-sans text-[var(--text-secondary)]">
                 Highlighting highest delta dimensions
               </span>
             </div>
@@ -215,13 +215,13 @@ export const FailureExplanation: React.FC<FailureExplanationProps> = ({
           </div>
 
           {/* Tracing the Recorded Failure */}
-          <div className="p-4 rounded-xl bg-[#FAF8F5] border border-[#EAE6DF] space-y-3">
+          <div className="p-4 rounded-xl bg-[var(--surface-soft)] border border-[var(--border)] space-y-3">
             <div className="flex flex-wrap items-center justify-between gap-3">
               <div>
-                <h5 className="text-xs sm:text-sm font-serif font-bold text-[#252525]">
+                <h5 className="text-xs sm:text-sm font-serif font-bold text-[var(--text-primary)]">
                   Trace the recorded computation
                 </h5>
-                <p className="text-xs text-[#5F625F] font-sans mt-0.5">
+                <p className="text-xs text-[var(--text-secondary)] font-sans mt-0.5">
                   Step sequentially through the deterministic vector operations that yielded the observed answer.
                 </p>
               </div>
@@ -229,7 +229,7 @@ export const FailureExplanation: React.FC<FailureExplanationProps> = ({
               <button
                 onClick={handleRunTrace}
                 disabled={isTracing}
-                className="px-3.5 py-1.5 rounded-lg bg-[#DCEFE2] hover:bg-[#D0E8D7] text-[#245B38] border border-[#C5DDCB] text-xs font-semibold flex items-center gap-1.5 transition disabled:opacity-50 cursor-pointer"
+                className="px-3.5 py-1.5 rounded-lg bg-[var(--accent-green)] hover:opacity-90 text-[var(--accent-green-text)] border border-[var(--color-success-border)] text-xs font-semibold flex items-center gap-1.5 transition disabled:opacity-50 cursor-pointer"
               >
                 <Play className="w-3.5 h-3.5 fill-current" />
                 <span>{isTracing ? 'Tracing...' : 'Trace the failure'}</span>
@@ -246,21 +246,21 @@ export const FailureExplanation: React.FC<FailureExplanationProps> = ({
                     key={stage.num}
                     className={`p-2.5 rounded-lg border text-center transition-all ${
                       isActive
-                        ? 'border-[#2B6282] bg-[#E7F2FA] text-[#21445B] ring-1 ring-[#2B6282]'
+                        ? 'border-[var(--accent-blue-text)] bg-[var(--accent-blue)] text-[var(--accent-blue-text)] ring-1 ring-[var(--accent-blue-text)]'
                         : isPassed
-                        ? 'border-[#C5DDCB] bg-[#DCEFE2] text-[#245B38]'
-                        : 'border-[#EAE6DF] bg-[#FFFFFF] opacity-70'
+                        ? 'border-[var(--color-success-border)] bg-[var(--accent-green)] text-[var(--accent-green-text)]'
+                        : 'border-[var(--border)] bg-[var(--surface)] opacity-75'
                     }`}
                   >
-                    <div className="text-xs font-sans text-[#5F625F]">Stage 0{stage.num}</div>
+                    <div className="text-xs font-sans text-[var(--text-secondary)] tabular-nums">Stage 0{stage.num}</div>
                     <div
                       className={`text-xs font-bold font-sans mt-0.5 ${
-                        stage.num === 6 ? 'text-[#B64235]' : 'text-[#252525]'
+                        stage.num === 6 ? 'text-[var(--accent-pink-text)]' : 'text-[var(--text-primary)]'
                       }`}
                     >
                       {stage.title}
                     </div>
-                    <div className="text-xs text-[#5F625F] mt-1 truncate" title={stage.desc}>
+                    <div className="text-xs text-[var(--text-secondary)] mt-1 truncate" title={stage.desc}>
                       {stage.desc}
                     </div>
                   </div>
@@ -270,18 +270,18 @@ export const FailureExplanation: React.FC<FailureExplanationProps> = ({
           </div>
 
           {/* Action Footer: Try Again or Complete Discovery */}
-          <div className="flex flex-wrap items-center justify-between gap-3 pt-3 border-t border-[#EAE6DF]">
+          <div className="flex flex-wrap items-center justify-between gap-3 pt-3 border-t border-[var(--border)]">
             <button
               onClick={onTryAgain}
-              className="px-3.5 py-2 rounded-lg bg-[#FAF8F5] hover:bg-[#F0EEEA] text-[#252525] border border-[#D8DCD8] text-xs font-semibold flex items-center gap-2 cursor-pointer transition"
+              className="px-3.5 py-2 rounded-lg bg-[var(--surface-soft)] hover:bg-[var(--color-surface-muted)] text-[var(--text-primary)] border border-[var(--border)] text-xs font-semibold flex items-center gap-2 cursor-pointer transition"
             >
-              <RotateCcw className="w-3.5 h-3.5 text-[#5F625F]" />
-              <span>Try again (Change 1 parameter)</span>
+              <RotateCcw className="w-3.5 h-3.5 text-[var(--text-secondary)]" />
+              <span>Try again (change 1 parameter)</span>
             </button>
 
             <button
               onClick={onCompleteDiscovery}
-              className="px-3.5 py-2 rounded-lg bg-[#DCEFE2] hover:bg-[#D0E8D7] text-[#245B38] border border-[#C5DDCB] text-xs font-bold flex items-center gap-2 cursor-pointer transition"
+              className="px-3.5 py-2 rounded-lg bg-[var(--accent-green)] hover:opacity-90 text-[var(--accent-green-text)] border border-[var(--color-success-border)] text-xs font-bold flex items-center gap-2 cursor-pointer transition"
             >
               <Sparkles className="w-3.5 h-3.5" />
               <span>Complete discovery</span>

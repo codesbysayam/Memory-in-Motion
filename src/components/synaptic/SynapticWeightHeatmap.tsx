@@ -153,42 +153,41 @@ export const SynapticWeightHeatmap: React.FC<SynapticWeightHeatmapProps> = ({
     return matrix;
   }, [displayN, inputPattern, synapticStrength, activeStep]);
 
-  // Color mapping function: soft academic indigo/teal/amber heat palette
-  const getCellColor = (effectiveWeight: number, isCoincident: boolean, flux: number) => {
-    if (effectiveWeight < 0.05) return 'bg-[#F7F5EF] text-[#A2A5A0]'; // dormant/zero
+  // Color mapping function using semantic CSS vars
+  const getCellColor = (effectiveWeight: number, isCoincident: boolean) => {
+    if (effectiveWeight < 0.05) return 'bg-[var(--surface-soft)] text-[var(--text-muted)]';
     if (activeStep === 3 && isCoincident) {
-      // Hebbian ignition flash
-      return 'bg-[#F0C987] text-[#4A3205] ring-1 ring-[#D8A856] font-bold';
+      return 'bg-[var(--color-warning)] text-[var(--surface)] ring-1 ring-[var(--color-warning-border)] font-bold';
     }
     if (isCoincident) {
-      if (effectiveWeight > 0.8) return 'bg-[#2B6282] text-[#FFFFFF] font-bold';
-      if (effectiveWeight > 0.5) return 'bg-[#4B84A6] text-[#FFFFFF] font-medium';
-      return 'bg-[#89B9D4] text-[#142B38] font-medium';
+      if (effectiveWeight > 0.8) return 'bg-[var(--color-accent)] text-[var(--surface)] font-bold';
+      if (effectiveWeight > 0.5) return 'bg-[var(--color-accent-hover)] text-[var(--surface)] font-medium';
+      return 'bg-[var(--accent-blue)] text-[var(--accent-blue-text)] font-medium';
     }
-    if (effectiveWeight > 0.4) return 'bg-[#D2E4F0] text-[#1C3E52]';
-    if (effectiveWeight > 0.2) return 'bg-[#E7F2FA] text-[#2D5873]';
-    return 'bg-[#F1F3EE] text-[#696D68]';
+    if (effectiveWeight > 0.4) return 'bg-[var(--accent-blue)] text-[var(--accent-blue-text)]';
+    if (effectiveWeight > 0.2) return 'bg-[var(--color-surface-muted)] text-[var(--text-primary)]';
+    return 'bg-[var(--surface-soft)] text-[var(--text-secondary)]';
   };
 
   return (
-    <div className="rounded-2xl border border-[#D9DCD8] bg-[#FFFFFF] p-5 sm:p-6 space-y-6 shadow-xs">
+    <div className="rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-5 sm:p-6 space-y-6 shadow-xs text-[var(--text-primary)]">
       {/* Title & Playback Controls Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-[#EAE6DF] pb-4">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-[var(--border)] pb-4">
         <div>
-          <div className="flex items-center gap-2">
-            <span className="font-mono text-xs font-bold text-[#21445B] bg-[#E7F2FA] px-2 py-0.5 rounded border border-[#CDE1F0]">
-              SYNAPTIC RETRIEVAL SEQUENCE
+          <div className="flex flex-wrap items-center gap-2">
+            <span className="font-mono text-xs font-bold text-[var(--accent-blue-text)] bg-[var(--accent-blue)] px-2 py-0.5 rounded border border-[var(--border)]">
+              Synaptic retrieval sequence
             </span>
-            <span className="text-xs font-mono text-[#716F68]">
+            <span className="text-xs font-mono text-[var(--text-muted)]">
               {displayN}×{displayN} Connection Matrix W_ij(t)
             </span>
           </div>
-          <h4 className="text-base font-serif font-bold text-[#151515] mt-1">
-            Synaptic Weight Activity & Hebbian Plasticity Heatmap
+          <h4 className="text-base font-sans font-semibold text-[var(--text-primary)] mt-1">
+            Synaptic Weight Activity &amp; Hebbian Plasticity Heatmap
           </h4>
-          <p className="text-xs font-sans text-[#5F625F] mt-0.5 max-w-2xl">
+          <p className="text-xs font-sans text-[var(--text-secondary)] mt-0.5 max-w-2xl">
             Watch how associative memory is retrieved directly through the synaptic tensor
-            <code className="font-mono bg-[#F7F5EF] px-1 py-0.5 rounded text-[#21445B] ml-1">
+            <code className="font-mono bg-[var(--surface-soft)] px-1 py-0.5 rounded text-[var(--accent-blue-text)] ml-1">
               W_ij + σ_ij(t)
             </code>
             without scanning a growing external key-value token cache.
@@ -199,7 +198,7 @@ export const SynapticWeightHeatmap: React.FC<SynapticWeightHeatmapProps> = ({
         <div className="flex items-center gap-2 shrink-0">
           <button
             onClick={() => setIsPlaying(!isPlaying)}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#2B6282] hover:bg-[#214D66] text-[#FFFFFF] text-xs font-sans font-semibold transition-all shadow-xs cursor-pointer"
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[var(--color-accent)] hover:bg-[var(--color-accent-hover)] text-[var(--surface)] text-xs font-sans font-semibold transition-all shadow-xs cursor-pointer"
             title={isPlaying ? 'Pause sequence' : 'Play retrieval sequence'}
           >
             {isPlaying ? <Pause className="w-3.5 h-3.5" /> : <Play className="w-3.5 h-3.5" />}
@@ -210,7 +209,7 @@ export const SynapticWeightHeatmap: React.FC<SynapticWeightHeatmapProps> = ({
               setIsPlaying(false);
               setActiveStep(0);
             }}
-            className="p-1.5 rounded-lg bg-[#FFFFFF] hover:bg-[#F7F5EF] text-[#5F625F] border border-[#D9DCD8] transition-all cursor-pointer"
+            className="p-1.5 rounded-lg bg-[var(--surface)] hover:bg-[var(--surface-soft)] text-[var(--text-secondary)] border border-[var(--border)] transition-all cursor-pointer"
             title="Reset to step 0"
           >
             <RotateCcw className="w-3.5 h-3.5" />
@@ -231,17 +230,16 @@ export const SynapticWeightHeatmap: React.FC<SynapticWeightHeatmapProps> = ({
               }}
               className={`p-2.5 rounded-xl border text-left transition-all cursor-pointer ${
                 isCurrent
-                  ? 'bg-[#E7F2FA] border-[#2B6282] shadow-xs'
-                  : 'bg-[#FAF8F5] border-[#EAE6DF] hover:bg-[#F2EFE8]'
+                  ? 'bg-[var(--accent-blue)] border-[var(--color-accent)] shadow-xs'
+                  : 'bg-[var(--surface-soft)] border-[var(--border)] hover:bg-[var(--color-surface-muted)]'
               }`}
             >
               <div className="flex items-center justify-between">
-                <span className={`text-[10px] font-mono font-bold ${isCurrent ? 'text-[#21445B]' : 'text-[#716F68]'}`}>
+                <span className={`text-[10px] font-mono font-bold ${isCurrent ? 'text-[var(--accent-blue-text)]' : 'text-[var(--text-muted)]'}`}>
                   {st.phase.split('·')[0]}
                 </span>
-                {isCurrent && <span className="w-1.5 h-1.5 rounded-full bg-[#2B6282]" />}
               </div>
-              <div className={`text-xs font-sans font-semibold mt-1 leading-snug line-clamp-1 ${isCurrent ? 'text-[#151515]' : 'text-[#5F625F]'}`}>
+              <div className={`text-xs font-sans font-semibold mt-1 leading-snug line-clamp-1 ${isCurrent ? 'text-[var(--text-primary)]' : 'text-[var(--text-secondary)]'}`}>
                 {st.focus}
               </div>
             </button>
@@ -250,21 +248,21 @@ export const SynapticWeightHeatmap: React.FC<SynapticWeightHeatmapProps> = ({
       </div>
 
       {/* Current Step Description Card */}
-      <div className="p-3.5 rounded-xl bg-[#FAF8F5] border border-[#E5E0D8] flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs">
+      <div className="p-3.5 rounded-xl bg-[var(--surface-soft)] border border-[var(--border)] flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs">
         <div className="space-y-0.5">
-          <div className="flex items-center gap-2">
-            <span className="font-bold text-[#151515]">
+          <div className="flex flex-wrap items-center gap-2">
+            <span className="font-bold text-[var(--text-primary)]">
               {sequenceStages[activeStep].phase}
             </span>
-            <span className="text-[#716F68]">·</span>
-            <span className="text-[#5F625F]">{sequenceStages[activeStep].desc}</span>
+            <span className="text-[var(--text-muted)]">·</span>
+            <span className="text-[var(--text-secondary)]">{sequenceStages[activeStep].desc}</span>
           </div>
-          <div className="font-mono text-[11px] text-[#21445B]">
+          <div className="font-mono text-[11px] text-[var(--accent-blue-text)]">
             Mathematical formulation: {sequenceStages[activeStep].formula}
           </div>
         </div>
-        <div className="shrink-0 flex items-center gap-1.5 bg-[#FFFFFF] px-2.5 py-1 rounded-md border border-[#D9DCD8] text-[11px] font-mono text-[#5F625F]">
-          <Sparkles className="w-3 h-3 text-[#B08928]" />
+        <div className="shrink-0 flex items-center gap-1.5 bg-[var(--surface)] px-2.5 py-1 rounded-md border border-[var(--border)] text-[11px] font-mono text-[var(--text-secondary)]">
+          <Sparkles className="w-3 h-3 text-[var(--accent-yellow-text)]" />
           <span>Active Cue: {inputPattern}</span>
         </div>
       </div>
@@ -273,12 +271,12 @@ export const SynapticWeightHeatmap: React.FC<SynapticWeightHeatmapProps> = ({
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
         {/* Heatmap Grid (8 cols) */}
         <div className="lg:col-span-8 space-y-3">
-          <div className="flex items-center justify-between text-xs text-[#716F68] font-mono px-1">
+          <div className="flex flex-wrap items-center justify-between gap-2 text-xs text-[var(--text-muted)] font-mono px-1">
             <span>Source Neurons (Pre-synaptic i → Rows)</span>
             <span>Target Neurons (Post-synaptic j → Columns)</span>
           </div>
 
-          <div className="overflow-x-auto p-2 bg-[#FAF8F5] rounded-xl border border-[#E5E0D8]">
+          <div className="overflow-x-auto p-2 bg-[var(--surface-soft)] rounded-xl border border-[var(--border)]">
             <div
               className="grid gap-1 min-w-[340px]"
               style={{
@@ -294,11 +292,10 @@ export const SynapticWeightHeatmap: React.FC<SynapticWeightHeatmapProps> = ({
                       key={`${rIdx}-${cIdx}`}
                       onMouseEnter={() => setHoveredCell(cell)}
                       onClick={() => setHoveredCell(cell)}
-                      className={`aspect-square rounded flex flex-col items-center justify-center p-0.5 text-[9px] sm:text-[10px] font-mono transition-all cursor-pointer relative ${getCellColor(
+                      className={`aspect-square rounded flex flex-col items-center justify-center p-0.5 text-[9px] sm:text-[10px] font-mono transition-all cursor-pointer relative tabular-nums ${getCellColor(
                         cell.effectiveWeight,
-                        cell.isCoincident,
-                        cell.flux
-                      )} ${isHovered ? 'ring-2 ring-[#151515] z-10 scale-105 shadow-sm' : ''}`}
+                        cell.isCoincident
+                      )} ${isHovered ? 'ring-2 ring-[var(--text-primary)] z-10 scale-105 shadow-sm' : ''}`}
                       title={`Synapse (${cell.i} → ${cell.j}): W=${cell.effectiveWeight}, State=${cell.plasticState}`}
                     >
                       {cell.i === cell.j ? (
@@ -314,26 +311,26 @@ export const SynapticWeightHeatmap: React.FC<SynapticWeightHeatmapProps> = ({
           </div>
 
           {/* Color Scale Legend */}
-          <div className="flex flex-wrap items-center justify-between gap-3 text-xs font-mono text-[#5F625F] pt-1">
+          <div className="flex flex-wrap items-center justify-between gap-3 text-xs font-mono text-[var(--text-secondary)] pt-1">
             <div className="flex items-center gap-1.5">
               <span>0.0 (Dormant)</span>
-              <div className="flex h-3 w-32 rounded overflow-hidden border border-[#D9DCD8]">
-                <div className="w-1/5 bg-[#F7F5EF]" />
-                <div className="w-1/5 bg-[#E7F2FA]" />
-                <div className="w-1/5 bg-[#89B9D4]" />
-                <div className="w-1/5 bg-[#4B84A6]" />
-                <div className="w-1/5 bg-[#2B6282]" />
+              <div className="flex h-3 w-32 rounded-sm overflow-hidden border border-[var(--border)]">
+                <div className="w-1/5 bg-[var(--surface-soft)]" />
+                <div className="w-1/5 bg-[var(--accent-blue)]" />
+                <div className="w-1/5 opacity-60 bg-[var(--color-accent)]" />
+                <div className="w-1/5 opacity-85 bg-[var(--color-accent)]" />
+                <div className="w-1/5 bg-[var(--color-accent)]" />
               </div>
               <span>1.0+ (Saturated)</span>
             </div>
 
-            <div className="flex items-center gap-2">
-              <span className="flex items-center gap-1">
-                <span className="w-2.5 h-2.5 rounded bg-[#F0C987] border border-[#D8A856]" />
+            <div className="flex flex-wrap items-center gap-3">
+              <span className="flex items-center gap-1.5">
+                <span className="w-2.5 h-2.5 rounded-xs bg-[var(--color-warning)] border border-[var(--color-warning-border)]" />
                 <span>Hebbian Coincident Spike</span>
               </span>
-              <span className="flex items-center gap-1">
-                <span className="w-2.5 h-2.5 rounded bg-[#2B6282]" />
+              <span className="flex items-center gap-1.5">
+                <span className="w-2.5 h-2.5 rounded-xs bg-[var(--color-accent)]" />
                 <span>Consolidated Memory Link</span>
               </span>
             </div>
@@ -341,12 +338,12 @@ export const SynapticWeightHeatmap: React.FC<SynapticWeightHeatmapProps> = ({
         </div>
 
         {/* Selected Synaptic Channel Inspector (4 cols) */}
-        <div className="lg:col-span-4 rounded-xl border border-[#D9DCD8] bg-[#FAF8F5] p-4 space-y-4">
-          <div className="flex items-center justify-between border-b border-[#EAE6DF] pb-2">
-            <h5 className="text-xs font-serif font-bold text-[#151515]">
+        <div className="lg:col-span-4 rounded-xl border border-[var(--border)] bg-[var(--surface-soft)] p-4 space-y-4">
+          <div className="flex items-center justify-between border-b border-[var(--border)] pb-2">
+            <h5 className="text-xs font-sans font-semibold text-[var(--text-primary)]">
               Synapse Weight Inspector
             </h5>
-            <span className="text-[11px] font-mono text-[#21445B] bg-[#E7F2FA] px-1.5 py-0.5 rounded">
+            <span className="text-[11px] font-mono text-[var(--accent-blue-text)] bg-[var(--accent-blue)] px-1.5 py-0.5 rounded">
               {hoveredCell ? `Synapse (${hoveredCell.i} → ${hoveredCell.j})` : 'Hover matrix cell'}
             </span>
           </div>
@@ -354,58 +351,58 @@ export const SynapticWeightHeatmap: React.FC<SynapticWeightHeatmapProps> = ({
           {hoveredCell ? (
             <div className="space-y-3 text-xs font-sans">
               <div className="space-y-1.5">
-                <div className="flex justify-between text-[#716F68] font-mono text-[11px]">
+                <div className="flex justify-between text-[var(--text-muted)] font-mono text-[11px]">
                   <span>Total Effective Weight W_eff:</span>
-                  <span className="font-bold text-[#151515]">{hoveredCell.effectiveWeight}</span>
+                  <span className="font-bold text-[var(--text-primary)] tabular-nums">{hoveredCell.effectiveWeight}</span>
                 </div>
-                <div className="w-full bg-[#E5E0D8] h-1.5 rounded-full overflow-hidden">
+                <div className="w-full bg-[var(--border)] h-1.5 rounded-sm overflow-hidden">
                   <div
-                    className="bg-[#2B6282] h-full transition-all"
+                    className="bg-[var(--color-accent)] h-full transition-all"
                     style={{ width: `${Math.min(100, hoveredCell.effectiveWeight * 80)}%` }}
                   />
                 </div>
               </div>
 
               <div className="grid grid-cols-2 gap-2 text-[11px] font-mono pt-1">
-                <div className="bg-[#FFFFFF] p-2 rounded-lg border border-[#E5E0D8]">
-                  <span className="text-[#716F68] block text-[9px]">STATIC WEIGHT W_0</span>
-                  <span className="font-bold text-[#151515]">{hoveredCell.baseWeight}</span>
+                <div className="bg-[var(--surface)] p-2 rounded-lg border border-[var(--border)]">
+                  <span className="text-[var(--text-muted)] block text-[10px]">STATIC WEIGHT W_0</span>
+                  <span className="font-bold text-[var(--text-primary)] tabular-nums">{hoveredCell.baseWeight}</span>
                 </div>
-                <div className="bg-[#FFFFFF] p-2 rounded-lg border border-[#E5E0D8]">
-                  <span className="text-[#716F68] block text-[9px]">PLASTIC STATE σ_ij</span>
-                  <span className="font-bold text-[#21445B]">{hoveredCell.plasticState}</span>
+                <div className="bg-[var(--surface)] p-2 rounded-lg border border-[var(--border)]">
+                  <span className="text-[var(--text-muted)] block text-[10px]">PLASTIC STATE σ_ij</span>
+                  <span className="font-bold text-[var(--accent-blue-text)] tabular-nums">{hoveredCell.plasticState}</span>
                 </div>
-                <div className="bg-[#FFFFFF] p-2 rounded-lg border border-[#E5E0D8]">
-                  <span className="text-[#716F68] block text-[9px]">SIGNAL FLUX</span>
-                  <span className="font-bold text-[#247A4B]">{hoveredCell.flux}</span>
+                <div className="bg-[var(--surface)] p-2 rounded-lg border border-[var(--border)]">
+                  <span className="text-[var(--text-muted)] block text-[10px]">SIGNAL FLUX</span>
+                  <span className="font-bold text-[var(--accent-green-text)] tabular-nums">{hoveredCell.flux}</span>
                 </div>
-                <div className="bg-[#FFFFFF] p-2 rounded-lg border border-[#E5E0D8]">
-                  <span className="text-[#716F68] block text-[9px]">ASSOCIATED PAIR</span>
-                  <span className={`font-bold ${hoveredCell.isCoincident ? 'text-[#B08928]' : 'text-[#716F68]'}`}>
+                <div className="bg-[var(--surface)] p-2 rounded-lg border border-[var(--border)]">
+                  <span className="text-[var(--text-muted)] block text-[10px]">ASSOCIATED PAIR</span>
+                  <span className={`font-bold ${hoveredCell.isCoincident ? 'text-[var(--accent-yellow-text)]' : 'text-[var(--text-muted)]'}`}>
                     {hoveredCell.isCoincident ? 'Yes (Active)' : 'No'}
                   </span>
                 </div>
               </div>
 
-              <div className="p-2.5 rounded-lg bg-[#FFFFFF] border border-[#EAE6DF] text-[11px] text-[#5F625F] leading-snug">
+              <div className="p-2.5 rounded-lg bg-[var(--surface)] border border-[var(--border)] text-[11px] text-[var(--text-secondary)] leading-snug">
                 {hoveredCell.isCoincident
                   ? 'This synapse connects two nodes within the current memory cluster. During retrieval, Hebbian coincidence reinforces its trace.'
                   : 'This synapse connects background non-associated units; its plastic contribution remains at basal baseline.'}
               </div>
             </div>
           ) : (
-            <div className="py-8 text-center text-xs text-[#716F68] space-y-1">
-              <Activity className="w-5 h-5 mx-auto text-[#A2A5A0]" />
+            <div className="py-8 text-center text-xs text-[var(--text-muted)] space-y-1">
+              <Activity className="w-5 h-5 mx-auto text-[var(--text-muted)]" />
               <p>Hover over or click any cell in the heatmap to inspect its constituent static and plastic components.</p>
             </div>
           )}
 
           {/* Architectural Comparison Note */}
-          <div className="pt-2 border-t border-[#EAE6DF] space-y-1.5 text-[11px] text-[#5F625F]">
-            <span className="font-bold text-[#252525] block">BDH vs. Standard KV Cache:</span>
+          <div className="pt-2 border-t border-[var(--border)] space-y-1.5 text-[11px] text-[var(--text-secondary)]">
+            <span className="font-bold text-[var(--text-primary)] block">BDH vs. Standard KV Cache:</span>
             <p className="leading-snug">
-              Standard transformers store tokens as an unbound <code className="font-mono text-[#21445B]">L × d</code> key-value cache.
-              BDH stores memory as distributed state inside <code className="font-mono text-[#21445B]">W_ij</code>, bounding inference footprint to <code className="font-mono text-[#21445B]">O(1)</code> space per token.
+              Standard transformers store tokens as an unbound <code className="font-mono text-[var(--accent-blue-text)]">L × d</code> key-value cache.
+              BDH stores memory as distributed state inside <code className="font-mono text-[var(--accent-blue-text)]">W_ij</code>, bounding inference footprint to <code className="font-mono text-[var(--accent-blue-text)]">O(1)</code> space per token.
             </p>
           </div>
         </div>

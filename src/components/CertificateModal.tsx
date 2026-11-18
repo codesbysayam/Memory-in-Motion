@@ -145,7 +145,7 @@ Status: ${certData.milestonesCount}/${certData.totalMilestones} Experiments Veri
               <Award className="w-5 h-5" />
             </div>
             <div>
-              <h3 className="text-lg sm:text-xl font-serif font-bold text-[var(--text-primary)]">
+              <h3 className="text-lg sm:text-xl font-sans font-semibold text-[var(--text-primary)]">
                 Certificate of Completion
               </h3>
               <p className="text-xs text-[var(--text-secondary)] font-sans">
@@ -158,10 +158,10 @@ Status: ${certData.milestonesCount}/${certData.totalMilestones} Experiments Veri
             {isUnlocked && (
               <button
                 onClick={() => triggerConfettiExplosion()}
-                className="px-3 py-1.5 rounded-lg bg-[var(--surface-soft)] hover:bg-[var(--surface)] text-[var(--accent-green-text)] border border-[var(--border)] font-sans text-xs font-semibold flex items-center gap-1.5 transition-all shadow-2xs cursor-pointer"
+                className="btn btn-secondary text-xs py-1.5 px-3"
                 title="Celebrate achievement again with confetti"
               >
-                <Sparkles className="w-3.5 h-3.5 text-[#F59E0B]" />
+                <Sparkles className="w-3.5 h-3.5 text-[var(--color-warning)]" />
                 <span className="hidden sm:inline">Celebrate</span>
               </button>
             )}
@@ -179,11 +179,11 @@ Status: ${certData.milestonesCount}/${certData.totalMilestones} Experiments Veri
         {/* LOCKED STATE */}
         {!isUnlocked && (
           <div className="p-6 rounded-lg bg-[var(--surface-soft)] border border-[var(--border)] text-center space-y-4">
-            <div className="w-12 h-12 rounded-full bg-[var(--surface)] border border-[var(--border)] flex items-center justify-center mx-auto text-[var(--text-secondary)]">
+            <div className="w-12 h-12 rounded-lg bg-[var(--surface)] border border-[var(--border)] flex items-center justify-center mx-auto text-[var(--text-secondary)]">
               <Lock className="w-5 h-5" />
             </div>
             <div className="space-y-1 max-w-md mx-auto">
-              <h4 className="font-serif font-bold text-base text-[var(--text-primary)]">
+              <h4 className="font-sans font-semibold text-base text-[var(--text-primary)]">
                 Complete Stage 07 (Prove) to Unlock
               </h4>
               <p className="text-xs text-[var(--text-secondary)] font-sans leading-relaxed">
@@ -213,7 +213,7 @@ Status: ${certData.milestonesCount}/${certData.totalMilestones} Experiments Veri
                 <Sparkles className="w-4 h-4" />
               </div>
               <div>
-                <h4 className="font-serif font-bold text-base text-[var(--text-primary)]">
+                <h4 className="font-sans font-semibold text-base text-[var(--text-primary)]">
                   Verification Complete — Ready to Generate
                 </h4>
                 <p className="text-xs text-[var(--text-secondary)] font-sans">

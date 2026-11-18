@@ -184,23 +184,23 @@ export const MemoryABComparison: React.FC = () => {
   };
 
   return (
-    <div className="rounded-xl border border-[#D8DCD8] bg-[#FFFFFF] p-5 sm:p-7 text-[#252525] shadow-xs space-y-6">
+    <div className="diagram-frame p-5 sm:p-7 text-[var(--text-primary)] space-y-6">
       {/* Header & Title */}
-      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[#EAE6DF] pb-4">
+      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[var(--border)] pb-4">
         <div className="space-y-1">
           <div className="flex items-center gap-2">
-            <span className="text-xs font-sans text-[#21445B] bg-[#E7F2FA] border border-[#CDE1F0] px-2.5 py-0.5 rounded-md font-semibold flex items-center gap-1.5">
+            <span className="text-xs font-sans text-[var(--accent-blue-text)] bg-[var(--accent-blue)] border border-[var(--border)] px-2.5 py-0.5 rounded-md font-semibold flex items-center gap-1.5">
               <GitCompare className="w-3.5 h-3.5" />
               A/B experiment mode
             </span>
-            <span className="text-xs font-sans text-[#5F625F] bg-[#F1F2F0] border border-[#D8DCD8] px-2.5 py-0.5 rounded-md font-semibold">
+            <span className="text-xs font-sans text-[var(--text-secondary)] bg-[var(--surface-soft)] border border-[var(--border)] px-2.5 py-0.5 rounded-md font-semibold">
               Controlled comparison
             </span>
           </div>
-          <h3 className="text-xl sm:text-2xl font-serif font-bold text-[#252525] tracking-tight">
+          <h3 className="text-xl sm:text-2xl font-serif font-bold text-[var(--text-primary)] tracking-tight">
             Same information. Different memory.
           </h3>
-          <p className="text-xs sm:text-sm text-[#5F625F] font-sans max-w-2xl">
+          <p className="text-xs sm:text-sm text-[var(--text-secondary)] font-sans max-w-2xl">
             Freeze System A or adjust parameters independently. Both receive the exact same sequence of {factsCount} facts. Observe what parameter changed the outcome.
           </p>
         </div>
@@ -211,17 +211,17 @@ export const MemoryABComparison: React.FC = () => {
             onClick={() => setIsAFrozen(!isAFrozen)}
             className={`px-3 py-1.5 rounded-lg border transition flex items-center gap-1.5 cursor-pointer ${
               isAFrozen
-                ? 'bg-[#FFF5D8] border-[#E8DCB8] text-[#705A1A] font-semibold'
-                : 'bg-[#FFFFFF] border-[#D8DCD8] text-[#5F625F] hover:text-[#252525] hover:bg-[#F7F5EF]'
+                ? 'bg-[var(--accent-yellow)] border-[var(--color-warning-border)] text-[var(--accent-yellow-text)] font-semibold'
+                : 'bg-[var(--surface)] border-[var(--border)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--surface-soft)]'
             }`}
           >
-            {isAFrozen ? <Lock className="w-3.5 h-3.5 text-[#705A1A]" /> : <Unlock className="w-3.5 h-3.5" />}
+            {isAFrozen ? <Lock className="w-3.5 h-3.5 text-[var(--accent-yellow-text)]" /> : <Unlock className="w-3.5 h-3.5" />}
             <span>{isAFrozen ? 'Memory A frozen' : 'Freeze A'}</span>
           </button>
 
           <button
             onClick={handleCopyAToB}
-            className="px-3 py-1.5 rounded-lg bg-[#FFFFFF] border border-[#D8DCD8] text-[#5F625F] hover:text-[#252525] hover:bg-[#F7F5EF] flex items-center gap-1.5 transition cursor-pointer"
+            className="px-3 py-1.5 rounded-lg bg-[var(--surface)] border border-[var(--border)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--surface-soft)] flex items-center gap-1.5 transition cursor-pointer"
           >
             <Copy className="w-3.5 h-3.5" />
             <span>Copy A → B</span>
@@ -230,7 +230,7 @@ export const MemoryABComparison: React.FC = () => {
           <button
             onClick={handleSwap}
             disabled={isAFrozen}
-            className="px-3 py-1.5 rounded-lg bg-[#FFFFFF] border border-[#D8DCD8] text-[#5F625F] hover:text-[#252525] hover:bg-[#F7F5EF] flex items-center gap-1.5 transition cursor-pointer disabled:opacity-40"
+            className="px-3 py-1.5 rounded-lg bg-[var(--surface)] border border-[var(--border)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--surface-soft)] flex items-center gap-1.5 transition cursor-pointer disabled:opacity-40"
           >
             <ArrowLeftRight className="w-3.5 h-3.5" />
             <span>Swap</span>
@@ -238,7 +238,7 @@ export const MemoryABComparison: React.FC = () => {
 
           <button
             onClick={handleResetBoth}
-            className="px-3 py-1.5 rounded-lg bg-[#FFFFFF] border border-[#D8DCD8] text-[#5F625F] hover:text-[#252525] hover:bg-[#F7F5EF] flex items-center gap-1.5 transition cursor-pointer"
+            className="px-3 py-1.5 rounded-lg bg-[var(--surface)] border border-[var(--border)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--surface-soft)] flex items-center gap-1.5 transition cursor-pointer"
           >
             <RotateCcw className="w-3.5 h-3.5" />
             <span>Reset both</span>
@@ -247,25 +247,25 @@ export const MemoryABComparison: React.FC = () => {
       </div>
 
       {/* Shared Facts Sequence Bar */}
-      <div className="p-3.5 rounded-lg bg-[#FAF8F5] border border-[#D8DCD8] flex flex-wrap items-center justify-between gap-4 font-sans text-xs">
+      <div className="p-3.5 rounded-lg bg-[var(--surface-soft)] border border-[var(--border)] flex flex-wrap items-center justify-between gap-4 font-sans text-xs">
         <div className="flex items-center gap-2">
-          <span className="text-[#5F625F] font-semibold">Shared dataset:</span>
-          <span className="font-mono text-xs font-bold text-[#252525] bg-[#FFFFFF] px-2.5 py-0.5 rounded border border-[#D8DCD8]">
-            {factsCount} Facts Loaded
+          <span className="text-[var(--text-secondary)] font-semibold">Shared dataset:</span>
+          <span className="font-mono text-xs font-bold text-[var(--text-primary)] bg-[var(--surface)] px-2.5 py-0.5 rounded border border-[var(--border)] tabular-nums">
+            {factsCount} facts loaded
           </span>
-          <span className="text-[#7D817D]">| Query cue: &quot;{testQueryKey}&quot;</span>
+          <span className="text-[var(--text-muted)]">| Query cue: &quot;{testQueryKey}&quot;</span>
         </div>
 
         <div className="flex items-center gap-2">
-          <span className="text-[#5F625F] text-[11px] font-semibold">Count:</span>
+          <span className="text-[var(--text-secondary)] text-[11px] font-semibold">Count:</span>
           {[8, 16, 24, 32].map((cnt) => (
             <button
               key={cnt}
               onClick={() => setFactsCount(cnt)}
-              className={`px-2.5 py-0.5 rounded text-xs transition border font-mono cursor-pointer ${
+              className={`px-2.5 py-0.5 rounded text-xs transition border font-mono tabular-nums cursor-pointer ${
                 factsCount === cnt
-                  ? 'bg-[#E7F2FA] border-[#CDE1F0] text-[#21445B] font-bold'
-                  : 'bg-[#FFFFFF] border-[#D8DCD8] text-[#5F625F] hover:text-[#252525] hover:bg-[#F7F5EF]'
+                  ? 'bg-[var(--accent-blue)] border-[var(--accent-blue-text)] text-[var(--accent-blue-text)] font-bold'
+                  : 'bg-[var(--surface)] border-[var(--border)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--surface-soft)]'
               }`}
             >
               {cnt}
@@ -277,36 +277,36 @@ export const MemoryABComparison: React.FC = () => {
       {/* Side-by-Side Comparison Columns */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {/* System A Column */}
-        <div className="p-5 rounded-lg bg-[#FAF8F5] border border-[#D8DCD8] space-y-4">
-          <div className="flex items-center justify-between border-b border-[#EAE6DF] pb-2 font-sans text-xs">
+        <div className="p-5 rounded-lg bg-[var(--surface-soft)] border border-[var(--border)] space-y-4">
+          <div className="flex items-center justify-between border-b border-[var(--border)] pb-2 font-sans text-xs">
             <div className="flex items-center gap-2">
-              <span className="w-2.5 h-2.5 rounded-full bg-[#31566E]" />
-              <strong className="text-[#252525] font-serif font-semibold text-base">Memory system A</strong>
+              <span className="w-2.5 h-2.5 rounded-[2px] bg-[var(--accent-blue-text)]" />
+              <strong className="text-[var(--text-primary)] font-serif font-semibold text-base">Memory system A</strong>
               {isAFrozen && (
-                <span className="text-[10px] font-sans bg-[#FFF5D8] text-[#705A1A] px-2 py-0.5 rounded border border-[#E8DCB8] font-semibold">
+                <span className="text-[10px] font-sans bg-[var(--accent-yellow)] text-[var(--accent-yellow-text)] px-2 py-0.5 rounded border border-[var(--color-warning-border)] font-semibold">
                   Frozen
                 </span>
               )}
             </div>
-            <span className="text-[#21445B] font-mono font-bold text-sm">
-              {resultsA.accuracy.toFixed(0)}% Accuracy
+            <span className="text-[var(--accent-blue-text)] font-mono font-bold text-sm tabular-nums">
+              {resultsA.accuracy.toFixed(0)}% accuracy
             </span>
           </div>
 
           {/* Controls for A */}
           <div className="space-y-3 font-sans text-xs">
             <div className="flex items-center justify-between">
-              <span className="text-[#5F625F]">Dimension:</span>
+              <span className="text-[var(--text-secondary)]">Dimension:</span>
               <div className="flex gap-1">
                 {[8, 16, 32].map((d) => (
                   <button
                     key={d}
                     disabled={isAFrozen}
                     onClick={() => setConfigA({ ...configA, dim: d })}
-                    className={`px-2.5 py-0.5 rounded border font-mono text-[11px] cursor-pointer ${
+                    className={`px-2.5 py-0.5 rounded border font-mono text-[11px] tabular-nums cursor-pointer ${
                       configA.dim === d
-                        ? 'bg-[#E7F2FA] border-[#CDE1F0] text-[#21445B] font-bold'
-                        : 'bg-[#FFFFFF] border-[#D8DCD8] text-[#5F625F]'
+                        ? 'bg-[var(--accent-blue)] border-[var(--accent-blue-text)] text-[var(--accent-blue-text)] font-bold'
+                        : 'bg-[var(--surface)] border-[var(--border)] text-[var(--text-secondary)]'
                     }`}
                   >
                     {d}D
@@ -316,9 +316,9 @@ export const MemoryABComparison: React.FC = () => {
             </div>
 
             <div className="space-y-1">
-              <div className="flex justify-between text-[#5F625F]">
+              <div className="flex justify-between text-[var(--text-secondary)]">
                 <span>Retention:</span>
-                <span className="text-[#252525] font-mono font-bold">{(configA.retention * 100).toFixed(0)}%</span>
+                <span className="text-[var(--text-primary)] font-mono font-bold tabular-nums">{(configA.retention * 100).toFixed(0)}%</span>
               </div>
               <input
                 type="range"
@@ -330,14 +330,14 @@ export const MemoryABComparison: React.FC = () => {
                 onChange={(e) =>
                   setConfigA({ ...configA, retention: Number(e.target.value) / 100 })
                 }
-                className="w-full accent-[#31566E] cursor-pointer h-1.5 bg-[#EAE6DF] rounded"
+                className="w-full accent-[var(--accent-blue-text)] cursor-pointer h-1.5 bg-[var(--border)] rounded"
               />
             </div>
 
             <div className="space-y-1">
-              <div className="flex justify-between text-[#5F625F]">
+              <div className="flex justify-between text-[var(--text-secondary)]">
                 <span>Interference:</span>
-                <span className="text-[#252525] font-mono font-bold">{(configA.interference * 100).toFixed(0)}%</span>
+                <span className="text-[var(--text-primary)] font-mono font-bold tabular-nums">{(configA.interference * 100).toFixed(0)}%</span>
               </div>
               <input
                 type="range"
@@ -349,63 +349,63 @@ export const MemoryABComparison: React.FC = () => {
                 onChange={(e) =>
                   setConfigA({ ...configA, interference: Number(e.target.value) / 100 })
                 }
-                className="w-full accent-[#31566E] cursor-pointer h-1.5 bg-[#EAE6DF] rounded"
+                className="w-full accent-[var(--accent-blue-text)] cursor-pointer h-1.5 bg-[var(--border)] rounded"
               />
             </div>
           </div>
 
           {/* Results Summary for A */}
-          <div className="p-3.5 rounded-lg bg-[#FFFFFF] border border-[#D8DCD8] space-y-2 font-sans text-xs">
+          <div className="p-3.5 rounded-lg bg-[var(--surface)] border border-[var(--border)] space-y-2 font-sans text-xs">
             <div className="flex justify-between">
-              <span className="text-[#5F625F]">Query target:</span>
-              <span className="text-[#252525] font-serif font-bold">{testQueryKey}</span>
+              <span className="text-[var(--text-secondary)]">Query target:</span>
+              <span className="text-[var(--text-primary)] font-serif font-bold">{testQueryKey}</span>
             </div>
             <div className="flex justify-between">
-              <span className="text-[#5F625F]">Decoded prediction:</span>
+              <span className="text-[var(--text-secondary)]">Decoded prediction:</span>
               <span
                 className={`font-serif font-bold ${
-                  resultsA.isTargetCorrect ? 'text-[#247A4B]' : 'text-[#B64235]'
+                  resultsA.isTargetCorrect ? 'text-[var(--accent-green-text)]' : 'text-[var(--accent-pink-text)]'
                 }`}
               >
                 {resultsA.targetPredicted}
               </span>
             </div>
             <div className="flex justify-between" title="Cosine similarity between the retrieved representation and candidate value. This is not a calibrated probability.">
-              <span className="text-[#5F625F]">Retrieval score:</span>
-              <span className="text-[#252525] font-mono font-semibold">{(resultsA.targetConfidence * 100).toFixed(1)}%</span>
+              <span className="text-[var(--text-secondary)]">Retrieval score:</span>
+              <span className="text-[var(--text-primary)] font-mono font-semibold tabular-nums">{(resultsA.targetConfidence * 100).toFixed(1)}%</span>
             </div>
-            <div className="flex justify-between border-t border-[#EAE6DF] pt-2">
-              <span className="text-[#5F625F]">Failures across all {factsCount} facts:</span>
-              <strong className="text-[#B64235] font-mono">{resultsA.failuresCount}</strong>
+            <div className="flex justify-between border-t border-[var(--border)] pt-2">
+              <span className="text-[var(--text-secondary)]">Failures across all {factsCount} facts:</span>
+              <strong className="text-[var(--accent-pink-text)] font-mono tabular-nums">{resultsA.failuresCount}</strong>
             </div>
           </div>
         </div>
 
         {/* System B Column */}
-        <div className="p-5 rounded-lg bg-[#FAF8F5] border border-[#D8DCD8] space-y-4">
-          <div className="flex items-center justify-between border-b border-[#EAE6DF] pb-2 font-sans text-xs">
+        <div className="p-5 rounded-lg bg-[var(--surface-soft)] border border-[var(--border)] space-y-4">
+          <div className="flex items-center justify-between border-b border-[var(--border)] pb-2 font-sans text-xs">
             <div className="flex items-center gap-2">
-              <span className="w-2.5 h-2.5 rounded-full bg-[#247A4B]" />
-              <strong className="text-[#252525] font-serif font-semibold text-base">Memory system B</strong>
+              <span className="w-2.5 h-2.5 rounded-[2px] bg-[var(--accent-green-text)]" />
+              <strong className="text-[var(--text-primary)] font-serif font-semibold text-base">Memory system B</strong>
             </div>
-            <span className="text-[#247A4B] font-mono font-bold text-sm">
-              {resultsB.accuracy.toFixed(0)}% Accuracy
+            <span className="text-[var(--accent-green-text)] font-mono font-bold text-sm tabular-nums">
+              {resultsB.accuracy.toFixed(0)}% accuracy
             </span>
           </div>
 
           {/* Controls for B */}
           <div className="space-y-3 font-sans text-xs">
             <div className="flex items-center justify-between">
-              <span className="text-[#5F625F]">Dimension:</span>
+              <span className="text-[var(--text-secondary)]">Dimension:</span>
               <div className="flex gap-1">
                 {[8, 16, 32].map((d) => (
                   <button
                     key={d}
                     onClick={() => setConfigB({ ...configB, dim: d })}
-                    className={`px-2.5 py-0.5 rounded border font-mono text-[11px] cursor-pointer ${
+                    className={`px-2.5 py-0.5 rounded border font-mono text-[11px] tabular-nums cursor-pointer ${
                       configB.dim === d
-                        ? 'bg-[#DCEFE2] border-[#C5DDCB] text-[#245B38] font-bold'
-                        : 'bg-[#FFFFFF] border-[#D8DCD8] text-[#5F625F]'
+                        ? 'bg-[var(--accent-green)] border-[var(--color-success-border)] text-[var(--accent-green-text)] font-bold'
+                        : 'bg-[var(--surface)] border-[var(--border)] text-[var(--text-secondary)]'
                     }`}
                   >
                     {d}D
@@ -415,9 +415,9 @@ export const MemoryABComparison: React.FC = () => {
             </div>
 
             <div className="space-y-1">
-              <div className="flex justify-between text-[#5F625F]">
+              <div className="flex justify-between text-[var(--text-secondary)]">
                 <span>Retention:</span>
-                <span className="text-[#252525] font-mono font-bold">{(configB.retention * 100).toFixed(0)}%</span>
+                <span className="text-[var(--text-primary)] font-mono font-bold tabular-nums">{(configB.retention * 100).toFixed(0)}%</span>
               </div>
               <input
                 type="range"
@@ -428,14 +428,14 @@ export const MemoryABComparison: React.FC = () => {
                 onChange={(e) =>
                   setConfigB({ ...configB, retention: Number(e.target.value) / 100 })
                 }
-                className="w-full accent-[#247A4B] cursor-pointer h-1.5 bg-[#EAE6DF] rounded"
+                className="w-full accent-[var(--accent-green-text)] cursor-pointer h-1.5 bg-[var(--border)] rounded"
               />
             </div>
 
             <div className="space-y-1">
-              <div className="flex justify-between text-[#5F625F]">
+              <div className="flex justify-between text-[var(--text-secondary)]">
                 <span>Interference:</span>
-                <span className="text-[#252525] font-mono font-bold">{(configB.interference * 100).toFixed(0)}%</span>
+                <span className="text-[var(--text-primary)] font-mono font-bold tabular-nums">{(configB.interference * 100).toFixed(0)}%</span>
               </div>
               <input
                 type="range"
@@ -446,45 +446,45 @@ export const MemoryABComparison: React.FC = () => {
                 onChange={(e) =>
                   setConfigB({ ...configB, interference: Number(e.target.value) / 100 })
                 }
-                className="w-full accent-[#247A4B] cursor-pointer h-1.5 bg-[#EAE6DF] rounded"
+                className="w-full accent-[var(--accent-green-text)] cursor-pointer h-1.5 bg-[var(--border)] rounded"
               />
             </div>
           </div>
 
           {/* Results Summary for B */}
-          <div className="p-3.5 rounded-lg bg-[#FFFFFF] border border-[#D8DCD8] space-y-2 font-sans text-xs">
+          <div className="p-3.5 rounded-lg bg-[var(--surface)] border border-[var(--border)] space-y-2 font-sans text-xs">
             <div className="flex justify-between">
-              <span className="text-[#5F625F]">Query target:</span>
-              <span className="text-[#252525] font-serif font-bold">{testQueryKey}</span>
+              <span className="text-[var(--text-secondary)]">Query target:</span>
+              <span className="text-[var(--text-primary)] font-serif font-bold">{testQueryKey}</span>
             </div>
             <div className="flex justify-between">
-              <span className="text-[#5F625F]">Decoded prediction:</span>
+              <span className="text-[var(--text-secondary)]">Decoded prediction:</span>
               <span
                 className={`font-serif font-bold ${
-                  resultsB.isTargetCorrect ? 'text-[#247A4B]' : 'text-[#B64235]'
+                  resultsB.isTargetCorrect ? 'text-[var(--accent-green-text)]' : 'text-[var(--accent-pink-text)]'
                 }`}
               >
                 {resultsB.targetPredicted}
               </span>
             </div>
             <div className="flex justify-between" title="Cosine similarity between the retrieved representation and candidate value. This is not a calibrated probability.">
-              <span className="text-[#5F625F]">Retrieval score:</span>
-              <span className="text-[#252525] font-mono font-semibold">{(resultsB.targetConfidence * 100).toFixed(1)}%</span>
+              <span className="text-[var(--text-secondary)]">Retrieval score:</span>
+              <span className="text-[var(--text-primary)] font-mono font-semibold tabular-nums">{(resultsB.targetConfidence * 100).toFixed(1)}%</span>
             </div>
-            <div className="flex justify-between border-t border-[#EAE6DF] pt-2">
-              <span className="text-[#5F625F]">Failures across all {factsCount} facts:</span>
-              <strong className="text-[#B64235] font-mono">{resultsB.failuresCount}</strong>
+            <div className="flex justify-between border-t border-[var(--border)] pt-2">
+              <span className="text-[var(--text-secondary)]">Failures across all {factsCount} facts:</span>
+              <strong className="text-[var(--accent-pink-text)] font-mono tabular-nums">{resultsB.failuresCount}</strong>
             </div>
           </div>
         </div>
       </div>
 
       {/* Epistemic Conclusion Question */}
-      <div className="p-4 rounded-lg bg-[#FAF8F5] border border-[#D8DCD8] flex flex-wrap items-center justify-between gap-3 text-xs font-sans">
-        <span className="text-[#5F625F]">
-          <strong className="text-[#252525]">What parameter changed the outcome?</strong> Higher dimension increases orthogonal capacity; higher retention slows temporal decay; lower interference prevents crosstalk superposition.
+      <div className="p-4 rounded-lg bg-[var(--surface-soft)] border border-[var(--border)] flex flex-wrap items-center justify-between gap-3 text-xs font-sans">
+        <span className="text-[var(--text-secondary)]">
+          <strong className="text-[var(--text-primary)]">What parameter changed the outcome?</strong> Higher dimension increases orthogonal capacity; higher retention slows temporal decay; lower interference prevents crosstalk superposition.
         </span>
-        <span className="text-[#21445B] font-mono font-semibold bg-[#E7F2FA] px-2.5 py-1 rounded border border-[#CDE1F0]">
+        <span className="text-[var(--accent-blue-text)] font-mono font-semibold bg-[var(--accent-blue)] px-2.5 py-1 rounded border border-[var(--border)] tabular-nums">
           Δ {Math.abs(resultsB.accuracy - resultsA.accuracy).toFixed(0)}% accuracy spread
         </span>
       </div>

@@ -23,6 +23,7 @@ import {
   Zap,
   Info,
 } from 'lucide-react';
+import { InlineMath } from '../ui/MathView';
 
 export interface RetrievalSequenceState {
   step: number; // 0 to 5
@@ -225,22 +226,20 @@ export const SynapticHeatmap: React.FC<SynapticHeatmapProps> = ({
     return data;
   }, [dimSize, clusterIndices, currentStep, synapticStrength]);
 
-  // Color mapping function based on intensity & state
+  // Color mapping function based on intensity & state using theme CSS variables
   const getColor = (intensity: number, isCluster: boolean) => {
     if (currentStep === 3 && isCluster) {
-      // Flash amber/gold on Hebbian coincidence
-      return '#F0C987';
+      return 'var(--color-warning)';
     }
     if (isCluster) {
-      if (intensity > 0.8) return '#21445B'; // Deep navy
-      if (intensity > 0.6) return '#2B6282'; // BDH primary teal/blue
-      return '#4B84A6';
+      if (intensity > 0.8) return 'var(--color-accent)';
+      if (intensity > 0.6) return 'color-mix(in srgb, var(--color-accent) 78%, var(--surface))';
+      return 'color-mix(in srgb, var(--color-accent) 55%, var(--surface))';
     }
-    // Background synaptic connections
-    if (intensity > 0.4) return '#89B9D4';
-    if (intensity > 0.2) return '#CDE1F0';
-    if (intensity > 0.08) return '#E7F2FA';
-    return '#F7F5EF'; // Quiescent
+    if (intensity > 0.4) return 'color-mix(in srgb, var(--color-accent) 35%, var(--surface))';
+    if (intensity > 0.2) return 'var(--accent-blue)';
+    if (intensity > 0.08) return 'var(--color-surface-muted)';
+    return 'var(--surface-soft)';
   };
 
   // 2. Bar chart data for aggregate weight dimension intensity profile across layers
@@ -261,22 +260,22 @@ export const SynapticHeatmap: React.FC<SynapticHeatmapProps> = ({
   }, [heatmapData, dimSize]);
 
   return (
-    <div className="rounded-2xl border border-[#D9DCD8] bg-[#FFFFFF] p-5 sm:p-7 space-y-6 shadow-xs">
+    <div className="rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-5 sm:p-7 space-y-6 shadow-xs text-[var(--text-primary)]">
       {/* 1. Header with Title & Playback Controls */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-[#EAE6DF] pb-5">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-[var(--border)] pb-5">
         <div>
-          <div className="flex items-center gap-2">
-            <span className="font-mono text-xs font-bold text-[#21445B] bg-[#E7F2FA] px-2.5 py-0.5 rounded border border-[#CDE1F0]">
-              RECHARTS SYNAPTIC HEATMAP
+          <div className="flex flex-wrap items-center gap-2">
+            <span className="font-mono text-xs font-bold text-[var(--accent-blue-text)] bg-[var(--accent-blue)] px-2.5 py-0.5 rounded border border-[var(--border)]">
+              Recharts synaptic heatmap
             </span>
-            <span className="text-xs font-mono text-[#716F68]">
+            <span className="text-xs font-mono text-[var(--text-muted)]">
               {dimSize}×{dimSize} Synaptic Tensor W_ij(t)
             </span>
           </div>
-          <h3 className="text-base sm:text-lg font-serif font-bold text-[#151515] mt-1">
+          <h3 className="text-base sm:text-lg font-sans font-semibold text-[var(--text-primary)] mt-1">
             Synaptic Weight Activity During Memory Retrieval (t0 → tN)
           </h3>
-          <p className="text-xs font-sans text-[#5F625F] mt-1 max-w-2xl">
+          <p className="text-xs font-sans text-[var(--text-secondary)] mt-1 max-w-2xl">
             Real-time visual heatmap using Recharts depicting synaptic weight intensity variations across all
             pre-synaptic (rows) and post-synaptic (columns) dimensions as memory is retrieved without a KV-cache.
           </p>
@@ -286,7 +285,7 @@ export const SynapticHeatmap: React.FC<SynapticHeatmapProps> = ({
         <div className="flex items-center gap-2 shrink-0">
           <button
             onClick={() => setIsPlaying(!isPlaying)}
-            className="flex items-center gap-1.5 px-3.5 py-2 rounded-lg bg-[#2B6282] hover:bg-[#214D66] text-[#FFFFFF] text-xs font-sans font-semibold transition-all shadow-xs cursor-pointer"
+            className="flex items-center gap-1.5 px-3.5 py-2 rounded-lg bg-[var(--color-accent)] hover:bg-[var(--color-accent-hover)] text-[var(--surface)] text-xs font-sans font-semibold transition-all shadow-xs cursor-pointer"
             title={isPlaying ? 'Pause sequence' : 'Play sequence t0 → tN'}
           >
             {isPlaying ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4" />}
@@ -297,7 +296,7 @@ export const SynapticHeatmap: React.FC<SynapticHeatmapProps> = ({
               setIsPlaying(false);
               setStep(0);
             }}
-            className="p-2 rounded-lg bg-[#FFFFFF] hover:bg-[#F7F5EF] text-[#5F625F] border border-[#D9DCD8] transition-all cursor-pointer"
+            className="p-2 rounded-lg bg-[var(--surface)] hover:bg-[var(--surface-soft)] text-[var(--text-secondary)] border border-[var(--border)] transition-all cursor-pointer"
             title="Reset to t0 (Cue Injection)"
           >
             <RotateCcw className="w-4 h-4" />
@@ -307,16 +306,16 @@ export const SynapticHeatmap: React.FC<SynapticHeatmapProps> = ({
 
       {/* 2. VISUAL STEP-PROGRESS INDICATOR (t0 to tN) */}
       <div className="space-y-2">
-        <div className="flex items-center justify-between text-xs font-mono text-[#716F68] px-1">
-          <span>RETRIEVAL SEQUENCE PROGRESSION</span>
-          <span className="text-[#21445B] font-bold">
+        <div className="flex flex-wrap items-center justify-between gap-2 text-xs font-mono text-[var(--text-muted)] px-1">
+          <span>Retrieval sequence progression</span>
+          <span className="text-[var(--accent-blue-text)] font-bold tabular-nums">
             State {currentStep + 1} of {RETRIEVAL_SEQUENCE_STATES.length} · {currentState.timeLabel}
           </span>
         </div>
 
         {/* Responsive Step Bar */}
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2">
-          {RETRIEVAL_SEQUENCE_STATES.map((st, idx) => {
+          {RETRIEVAL_SEQUENCE_STATES.map((st) => {
             const isCurrent = currentStep === st.step;
             const isCompleted = currentStep > st.step;
 
@@ -329,10 +328,10 @@ export const SynapticHeatmap: React.FC<SynapticHeatmapProps> = ({
                 }}
                 className={`p-3 rounded-xl border text-left transition-all cursor-pointer relative overflow-hidden flex flex-col justify-between ${
                   isCurrent
-                    ? 'bg-[#E7F2FA] border-[#2B6282] shadow-sm ring-1 ring-[#2B6282]/30'
+                    ? 'bg-[var(--accent-blue)] border-[var(--color-accent)] shadow-sm ring-1 ring-[var(--color-accent)]'
                     : isCompleted
-                    ? 'bg-[#FFFFFF] border-[#D9DCD8] hover:bg-[#F7F5EF]'
-                    : 'bg-[#FAF8F5] border-[#EAE6DF] hover:bg-[#F2EFE8] opacity-75'
+                    ? 'bg-[var(--surface)] border-[var(--border)] hover:bg-[var(--surface-soft)]'
+                    : 'bg-[var(--surface-soft)] border-[var(--border)] hover:bg-[var(--color-surface-muted)] opacity-80'
                 }`}
               >
                 {/* Top Badge & Time Label */}
@@ -340,36 +339,30 @@ export const SynapticHeatmap: React.FC<SynapticHeatmapProps> = ({
                   <span
                     className={`font-mono text-xs font-bold px-1.5 py-0.5 rounded ${
                       isCurrent
-                        ? 'bg-[#2B6282] text-[#FFFFFF]'
+                        ? 'bg-[var(--color-accent)] text-[var(--surface)]'
                         : isCompleted
-                        ? 'bg-[#DCEFE2] text-[#245B38]'
-                        : 'bg-[#F1F2F0] text-[#716F68]'
+                        ? 'bg-[var(--accent-green)] text-[var(--accent-green-text)]'
+                        : 'bg-[var(--color-surface-muted)] text-[var(--text-muted)]'
                     }`}
                   >
                     {st.timeLabel}
                   </span>
-                  {isCurrent && (
-                    <span className="flex h-2 w-2 relative">
-                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#2B6282] opacity-75" />
-                      <span className="relative inline-flex rounded-full h-2 w-2 bg-[#2B6282]" />
-                    </span>
-                  )}
                 </div>
 
                 {/* State Title */}
                 <div
                   className={`text-xs font-sans font-semibold leading-tight line-clamp-2 ${
-                    isCurrent ? 'text-[#151515]' : 'text-[#5F625F]'
+                    isCurrent ? 'text-[var(--text-primary)]' : 'text-[var(--text-secondary)]'
                   }`}
                 >
                   {st.title}
                 </div>
 
-                {/* Micro Step indicator pill */}
-                <div className="w-full bg-[#E5E0D8]/60 h-1 rounded-full overflow-hidden mt-2">
+                {/* Micro Step indicator bar */}
+                <div className="w-full bg-[var(--border)] h-1 rounded-sm overflow-hidden mt-2">
                   <div
                     className={`h-full transition-all duration-300 ${
-                      isCurrent ? 'bg-[#2B6282] w-full' : isCompleted ? 'bg-[#245B38] w-full' : 'w-0'
+                      isCurrent ? 'bg-[var(--color-accent)] w-full' : isCompleted ? 'bg-[var(--color-success)] w-full' : 'w-0'
                     }`}
                   />
                 </div>
@@ -380,27 +373,29 @@ export const SynapticHeatmap: React.FC<SynapticHeatmapProps> = ({
       </div>
 
       {/* 3. Current State Formulation & Detail Card */}
-      <div className="p-4 rounded-xl bg-[#FAF8F5] border border-[#E5E0D8] space-y-2">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-[#EAE6DF] pb-2">
-          <div className="flex items-center gap-2">
-            <span className="font-mono text-xs font-bold text-[#21445B] bg-[#FFFFFF] px-2 py-0.5 rounded border border-[#D9DCD8]">
+      <div className="p-4 rounded-xl bg-[var(--surface-soft)] border border-[var(--border)] space-y-2">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-[var(--border)] pb-2">
+          <div className="flex flex-wrap items-center gap-2">
+            <span className="font-mono text-xs font-bold text-[var(--accent-blue-text)] bg-[var(--surface)] px-2 py-0.5 rounded border border-[var(--border)]">
               {currentState.timeLabel.toUpperCase()}: {currentState.title}
             </span>
-            <span className="text-xs text-[#716F68]">({currentState.phase} phase)</span>
+            <span className="text-xs text-[var(--text-muted)]">({currentState.phase} phase)</span>
           </div>
-          <div className="flex items-center gap-1.5 text-xs font-mono text-[#5F625F]">
-            <Sparkles className="w-3.5 h-3.5 text-[#B08928]" />
+          <div className="flex items-center gap-1.5 text-xs font-mono text-[var(--text-secondary)]">
+            <Sparkles className="w-3.5 h-3.5 text-[var(--accent-yellow-text)]" />
             <span>Target Pattern: {inputPattern}</span>
           </div>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-12 gap-4 items-center text-xs">
-          <div className="md:col-span-8 text-[#4A4C48] font-sans leading-relaxed">
+          <div className="md:col-span-8 text-[var(--text-secondary)] font-sans leading-relaxed">
             {currentState.description}
           </div>
-          <div className="md:col-span-4 bg-[#FFFFFF] p-2.5 rounded-lg border border-[#E5E0D8] font-mono text-[11px] text-[#21445B]">
-            <div className="text-[9px] uppercase text-[#716F68] font-sans">Active Tensor Law:</div>
-            <code className="block mt-0.5">{currentState.mathFormula}</code>
+          <div className="md:col-span-4 bg-[var(--surface)] p-2.5 rounded-lg border border-[var(--border)] text-xs text-[var(--accent-blue-text)] overflow-x-auto">
+            <div className="text-[11px] text-[var(--text-muted)] font-sans mb-1">Active Tensor Law:</div>
+            <div className="text-[var(--text-primary)]">
+              <InlineMath math={currentState.mathFormula} />
+            </div>
           </div>
         </div>
       </div>
@@ -408,9 +403,9 @@ export const SynapticHeatmap: React.FC<SynapticHeatmapProps> = ({
       {/* 4. Dual Visualization: Recharts 2D Synaptic Heatmap + Weight Dimension Intensity Profile */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
         {/* Left Visual: 2D Recharts Scatter Heatmap Matrix (7 cols) */}
-        <div className="lg:col-span-7 rounded-xl border border-[#D9DCD8] bg-[#FFFFFF] p-4 space-y-3">
-          <div className="flex items-center justify-between text-xs text-[#716F68] font-mono">
-            <span>2D RECHARTS WEIGHT TENSOR MAP</span>
+        <div className="lg:col-span-7 rounded-xl border border-[var(--border)] bg-[var(--surface)] p-4 space-y-3">
+          <div className="flex flex-wrap items-center justify-between gap-2 text-xs text-[var(--text-muted)] font-mono">
+            <span>2D Recharts weight tensor map</span>
             <span>Target Neuron (Columns 0..{dimSize - 1})</span>
           </div>
 
@@ -425,7 +420,7 @@ export const SynapticHeatmap: React.FC<SynapticHeatmapProps> = ({
                   name="Post-Synaptic Unit (j)"
                   domain={[-0.5, dimSize - 0.5]}
                   tickCount={dimSize}
-                  tick={{ fontSize: 10, fill: '#716F68', fontFamily: 'monospace' }}
+                  tick={{ fontSize: 10, fill: 'var(--text-muted)', fontFamily: 'monospace' }}
                   tickFormatter={(val) => `N${val}`}
                 />
                 <YAxis
@@ -434,27 +429,27 @@ export const SynapticHeatmap: React.FC<SynapticHeatmapProps> = ({
                   name="Pre-Synaptic Unit (i)"
                   domain={[-0.5, dimSize - 0.5]}
                   tickCount={dimSize}
-                  tick={{ fontSize: 10, fill: '#716F68', fontFamily: 'monospace' }}
+                  tick={{ fontSize: 10, fill: 'var(--text-muted)', fontFamily: 'monospace' }}
                   tickFormatter={(val) => `N${dimSize - 1 - val}`}
                 />
                 <ZAxis type="number" dataKey="z" range={[180, 260]} />
                 <Tooltip
-                  cursor={{ strokeDasharray: '3 3', stroke: '#2B6282' }}
+                  cursor={{ strokeDasharray: '3 3', stroke: 'var(--color-accent)' }}
                   content={({ active, payload }) => {
                     if (active && payload && payload.length) {
                       const data = payload[0].payload;
                       return (
-                        <div className="bg-[#FFFFFF] p-3 rounded-lg border border-[#D9DCD8] shadow-md font-sans text-xs space-y-1">
-                          <div className="font-bold text-[#151515] font-mono">
+                        <div className="bg-[var(--surface)] p-3 rounded-lg border border-[var(--border)] shadow-md font-sans text-xs space-y-1">
+                          <div className="font-bold text-[var(--text-primary)] font-mono">
                             Synapse N_{data.i} → N_{data.j}
                           </div>
-                          <div className="text-[#21445B] font-mono text-[11px]">
-                            Total W_eff: {data.weight + data.plasticState}
+                          <div className="text-[var(--accent-blue-text)] font-mono text-[11px] tabular-nums">
+                            Total W_eff: {(data.weight + data.plasticState).toFixed(3)}
                           </div>
-                          <div className="text-[11px] text-[#5F625F]">
+                          <div className="text-[11px] text-[var(--text-secondary)] tabular-nums">
                             Static base: {data.weight} · Plastic σ: {data.plasticState}
                           </div>
-                          <div className="text-[11px] font-semibold text-[#B08928]">
+                          <div className="text-[11px] font-semibold text-[var(--accent-yellow-text)]">
                             {data.isKeyCluster ? '★ Core Associated Memory Pair' : 'Background synapse'}
                           </div>
                         </div>
@@ -472,7 +467,7 @@ export const SynapticHeatmap: React.FC<SynapticHeatmapProps> = ({
                     <Cell
                       key={`cell-${index}`}
                       fill={getColor(entry.intensity, entry.isKeyCluster)}
-                      stroke="#FFFFFF"
+                      stroke="var(--surface)"
                       strokeWidth={1.5}
                       className="cursor-pointer transition-all hover:opacity-80"
                     />
@@ -483,25 +478,25 @@ export const SynapticHeatmap: React.FC<SynapticHeatmapProps> = ({
           </div>
 
           {/* Color Scale Legend */}
-          <div className="flex flex-wrap items-center justify-between gap-3 text-[11px] font-mono text-[#5F625F] pt-2 border-t border-[#EAE6DF]">
+          <div className="flex flex-wrap items-center justify-between gap-3 text-[11px] font-mono text-[var(--text-secondary)] pt-2 border-t border-[var(--border)]">
             <div className="flex items-center gap-1.5">
               <span>0.0 (Dormant)</span>
-              <div className="flex h-3 w-28 rounded overflow-hidden border border-[#D9DCD8]">
-                <div className="w-1/4 bg-[#F7F5EF]" />
-                <div className="w-1/4 bg-[#E7F2FA]" />
-                <div className="w-1/4 bg-[#4B84A6]" />
-                <div className="w-1/4 bg-[#21445B]" />
+              <div className="flex h-3 w-28 rounded-sm overflow-hidden border border-[var(--border)]">
+                <div className="w-1/4 bg-[var(--surface-soft)]" />
+                <div className="w-1/4 bg-[var(--accent-blue)]" />
+                <div className="w-1/4 opacity-70 bg-[var(--color-accent)]" />
+                <div className="w-1/4 bg-[var(--color-accent)]" />
               </div>
               <span>1.0+ (Saturated)</span>
             </div>
 
-            <div className="flex items-center gap-2">
-              <span className="flex items-center gap-1">
-                <span className="w-2.5 h-2.5 rounded bg-[#F0C987] border border-[#D8A856]" />
+            <div className="flex flex-wrap items-center gap-3">
+              <span className="flex items-center gap-1.5">
+                <span className="w-2.5 h-2.5 rounded-xs bg-[var(--color-warning)] border border-[var(--color-warning-border)]" />
                 <span>Hebbian Ignition</span>
               </span>
-              <span className="flex items-center gap-1">
-                <span className="w-2.5 h-2.5 rounded bg-[#21445B]" />
+              <span className="flex items-center gap-1.5">
+                <span className="w-2.5 h-2.5 rounded-xs bg-[var(--color-accent)]" />
                 <span>Memory Attractor Cluster</span>
               </span>
             </div>
@@ -511,10 +506,10 @@ export const SynapticHeatmap: React.FC<SynapticHeatmapProps> = ({
         {/* Right Visual: Dimension Profile Bar Chart + Cell Inspector (5 cols) */}
         <div className="lg:col-span-5 space-y-4">
           {/* Recharts Bar Chart: Weight Dimension Intensity Profile */}
-          <div className="rounded-xl border border-[#D9DCD8] bg-[#FFFFFF] p-4 space-y-3">
-            <div className="flex items-center justify-between text-xs font-mono text-[#716F68]">
-              <span>DIMENSION INTENSITY PROFILE</span>
-              <span className="text-[#21445B] font-bold">Static + Plastic σ</span>
+          <div className="rounded-xl border border-[var(--border)] bg-[var(--surface)] p-4 space-y-3">
+            <div className="flex items-center justify-between text-xs font-mono text-[var(--text-muted)]">
+              <span>Dimension intensity profile</span>
+              <span className="text-[var(--accent-blue-text)] font-bold">Static + Plastic σ</span>
             </div>
 
             <div className="w-full h-[180px]">
@@ -522,38 +517,44 @@ export const SynapticHeatmap: React.FC<SynapticHeatmapProps> = ({
                 <BarChart data={dimensionProfileData} margin={{ top: 8, right: 8, bottom: 0, left: -20 }}>
                   <XAxis
                     dataKey="dim"
-                    tick={{ fontSize: 9, fill: '#716F68', fontFamily: 'monospace' }}
+                    tick={{ fontSize: 9, fill: 'var(--text-muted)', fontFamily: 'monospace' }}
                   />
                   <YAxis
                     domain={[0, 0.8]}
-                    tick={{ fontSize: 9, fill: '#716F68', fontFamily: 'monospace' }}
+                    tick={{ fontSize: 9, fill: 'var(--text-muted)', fontFamily: 'monospace' }}
                   />
                   <Tooltip
                     formatter={(val: number) => val.toFixed(3)}
-                    contentStyle={{ backgroundColor: '#FFFFFF', borderRadius: 8, fontSize: 11, border: '1px solid #D9DCD8' }}
+                    contentStyle={{
+                      backgroundColor: 'var(--surface)',
+                      color: 'var(--text-primary)',
+                      borderRadius: 8,
+                      fontSize: 11,
+                      border: '1px solid var(--border)',
+                    }}
                   />
-                  <Bar dataKey="staticW" stackId="a" fill="#CDE1F0" name="Static Base Weight" />
+                  <Bar dataKey="staticW" stackId="a" fill="var(--color-border-strong)" name="Static Base Weight" />
                   <Bar
                     dataKey="plasticTrace"
                     stackId="a"
-                    fill={currentStep === 3 ? '#F0C987' : '#2B6282'}
+                    fill={currentStep === 3 ? 'var(--color-warning)' : 'var(--color-accent)'}
                     name="Plastic State σ_ij"
                   />
                 </BarChart>
               </ResponsiveContainer>
             </div>
-            <div className="text-[10px] text-[#716F68] font-sans flex items-center justify-between">
+            <div className="text-[11px] text-[var(--text-muted)] font-sans flex items-center justify-between">
               <span>Notice how plastic state σ expands selectively on active associative neurons.</span>
             </div>
           </div>
 
           {/* Synaptic Channel Inspector Card */}
-          <div className="rounded-xl border border-[#D9DCD8] bg-[#FAF8F5] p-4 space-y-3">
-            <div className="flex items-center justify-between border-b border-[#EAE6DF] pb-2">
-              <span className="text-xs font-serif font-bold text-[#151515]">
+          <div className="rounded-xl border border-[var(--border)] bg-[var(--surface-soft)] p-4 space-y-3">
+            <div className="flex items-center justify-between border-b border-[var(--border)] pb-2">
+              <span className="text-xs font-sans font-semibold text-[var(--text-primary)]">
                 Synapse Dimension Inspector
               </span>
-              <span className="text-[11px] font-mono text-[#21445B] bg-[#E7F2FA] px-1.5 py-0.5 rounded">
+              <span className="text-[11px] font-mono text-[var(--accent-blue-text)] bg-[var(--accent-blue)] px-1.5 py-0.5 rounded">
                 {selectedCell ? `${selectedCell.dimension}` : 'Click any matrix cell'}
               </span>
             </div>
@@ -561,37 +562,37 @@ export const SynapticHeatmap: React.FC<SynapticHeatmapProps> = ({
             {selectedCell ? (
               <div className="space-y-2.5 text-xs font-sans">
                 <div className="grid grid-cols-2 gap-2 text-[11px] font-mono">
-                  <div className="bg-[#FFFFFF] p-2 rounded-lg border border-[#E5E0D8]">
-                    <span className="text-[#716F68] block text-[9px]">STATIC BASE W</span>
-                    <span className="font-bold text-[#151515]">{selectedCell.weight}</span>
+                  <div className="bg-[var(--surface)] p-2 rounded-lg border border-[var(--border)]">
+                    <span className="text-[var(--text-muted)] block text-[10px]">STATIC BASE W</span>
+                    <span className="font-bold text-[var(--text-primary)] tabular-nums">{selectedCell.weight}</span>
                   </div>
-                  <div className="bg-[#FFFFFF] p-2 rounded-lg border border-[#E5E0D8]">
-                    <span className="text-[#716F68] block text-[9px]">PLASTIC STATE σ(t)</span>
-                    <span className="font-bold text-[#21445B]">{selectedCell.plasticState}</span>
+                  <div className="bg-[var(--surface)] p-2 rounded-lg border border-[var(--border)]">
+                    <span className="text-[var(--text-muted)] block text-[10px]">PLASTIC STATE σ(t)</span>
+                    <span className="font-bold text-[var(--accent-blue-text)] tabular-nums">{selectedCell.plasticState}</span>
                   </div>
-                  <div className="bg-[#FFFFFF] p-2 rounded-lg border border-[#E5E0D8]">
-                    <span className="text-[#716F68] block text-[9px]">EFFECTIVE WEIGHT</span>
-                    <span className="font-bold text-[#245B38]">
+                  <div className="bg-[var(--surface)] p-2 rounded-lg border border-[var(--border)]">
+                    <span className="text-[var(--text-muted)] block text-[10px]">EFFECTIVE WEIGHT</span>
+                    <span className="font-bold text-[var(--accent-green-text)] tabular-nums">
                       {(selectedCell.weight + selectedCell.plasticState).toFixed(3)}
                     </span>
                   </div>
-                  <div className="bg-[#FFFFFF] p-2 rounded-lg border border-[#E5E0D8]">
-                    <span className="text-[#716F68] block text-[9px]">CLUSTER PARTICIPANT</span>
-                    <span className={`font-bold ${selectedCell.isKeyCluster ? 'text-[#B08928]' : 'text-[#716F68]'}`}>
+                  <div className="bg-[var(--surface)] p-2 rounded-lg border border-[var(--border)]">
+                    <span className="text-[var(--text-muted)] block text-[10px]">CLUSTER PARTICIPANT</span>
+                    <span className={`font-bold ${selectedCell.isKeyCluster ? 'text-[var(--accent-yellow-text)]' : 'text-[var(--text-muted)]'}`}>
                       {selectedCell.isKeyCluster ? 'Yes (Recall Core)' : 'Background'}
                     </span>
                   </div>
                 </div>
 
-                <p className="text-[11px] text-[#5F625F] leading-snug">
+                <p className="text-[11px] text-[var(--text-secondary)] leading-snug">
                   {selectedCell.isKeyCluster
                     ? `Synapse (${selectedCell.i} → ${selectedCell.j}) is an activated associative link. During ${currentState.timeLabel}, Hebbian plasticity modifies its connection strength.`
                     : `Synapse (${selectedCell.i} → ${selectedCell.j}) connects quiescent units. Its plastic contribution remains at basal baseline.`}
                 </p>
               </div>
             ) : (
-              <div className="py-4 text-center text-xs text-[#716F68]">
-                <Activity className="w-5 h-5 mx-auto text-[#A2A5A0] mb-1" />
+              <div className="py-4 text-center text-xs text-[var(--text-muted)]">
+                <Activity className="w-5 h-5 mx-auto text-[var(--text-muted)] mb-1" />
                 <span>Click any cell in the Recharts scatter matrix above to inspect its real-time weight decomposition.</span>
               </div>
             )}

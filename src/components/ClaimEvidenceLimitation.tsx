@@ -14,45 +14,45 @@ export const ClaimEvidenceLimitation: React.FC<ClaimEvidenceLimitationProps> = (
   limitation,
 }) => {
   return (
-    <div className="rounded-2xl border border-[#E5E0D8] bg-[#FFFFFF] p-5 sm:p-6 font-mono text-xs space-y-4 shadow-xs text-[#151515]">
-      <div className="flex items-center justify-between border-b border-[#EAE6DF] pb-3 text-xs text-[#716F68] uppercase tracking-wider">
-        <span className="font-bold text-[#151515] flex items-center gap-1.5">
-          <BookOpen className="w-3.5 h-3.5 text-[#167C80]" />
-          <span>EPISTEMIC AUDIT: SCIENTIFIC BOUNDARIES</span>
+    <div className="diagram-frame p-5 sm:p-6 font-mono text-xs space-y-4 text-[var(--text-primary)]">
+      <div className="flex items-center justify-between border-b border-[var(--border)] pb-3 text-xs text-[var(--text-secondary)] font-sans">
+        <span className="font-semibold text-[var(--text-primary)] flex items-center gap-1.5">
+          <BookOpen className="w-3.5 h-3.5 text-[var(--accent-blue-text)]" />
+          <span>Epistemic audit: Scientific boundaries</span>
         </span>
-        <span className="text-[#716F68]">Rigorous Evaluation</span>
+        <span className="text-[var(--text-muted)]">Rigorous evaluation</span>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         {/* CLAIM */}
-        <div className="p-4 rounded-xl bg-[#FAF8FD] border border-[#E2D8FA] space-y-2">
-          <div className="flex items-center gap-1.5 font-bold text-[#6842C2] text-xs uppercase">
-            <CheckCircle2 className="w-3.5 h-3.5 text-[#6842C2]" />
-            <span>CLAIM</span>
+        <div className="p-4 rounded-xl bg-[var(--accent-blue)] border border-[var(--border)] space-y-2">
+          <div className="flex items-center gap-1.5 font-semibold text-[var(--accent-blue-text)] text-xs font-sans">
+            <CheckCircle2 className="w-3.5 h-3.5 text-[var(--accent-blue-text)] shrink-0" />
+            <span>Claim</span>
           </div>
-          <p className="text-xs text-[#2A2926] font-sans leading-relaxed">
+          <p className="text-xs text-[var(--text-primary)] font-sans leading-relaxed">
             {claim}
           </p>
         </div>
 
         {/* EVIDENCE */}
-        <div className="p-4 rounded-xl bg-[#EDF7F7] border border-[#CFE8E8] space-y-2">
-          <div className="flex items-center gap-1.5 font-bold text-[#167C80] text-xs uppercase">
-            <CheckCircle2 className="w-3.5 h-3.5 text-[#167C80]" />
-            <span>EVIDENCE</span>
+        <div className="p-4 rounded-xl bg-[var(--accent-green)] border border-[var(--color-success-border)] space-y-2">
+          <div className="flex items-center gap-1.5 font-semibold text-[var(--accent-green-text)] text-xs font-sans">
+            <CheckCircle2 className="w-3.5 h-3.5 text-[var(--accent-green-text)] shrink-0" />
+            <span>Evidence</span>
           </div>
-          <p className="text-xs text-[#2A2926] font-sans leading-relaxed">
+          <p className="text-xs text-[var(--text-primary)] font-sans leading-relaxed">
             {evidence}
           </p>
         </div>
 
         {/* LIMITATION */}
-        <div className="p-4 rounded-xl bg-[#FFF8EE] border border-[#F5E2C4] space-y-2">
-          <div className="flex items-center gap-1.5 font-bold text-[#A46622] text-xs uppercase">
-            <AlertTriangle className="w-3.5 h-3.5 text-[#A46622]" />
-            <span>LIMITATION</span>
+        <div className="p-4 rounded-xl bg-[var(--accent-yellow)] border border-[var(--color-warning-border)] space-y-2">
+          <div className="flex items-center gap-1.5 font-semibold text-[var(--accent-yellow-text)] text-xs font-sans">
+            <AlertTriangle className="w-3.5 h-3.5 text-[var(--accent-yellow-text)] shrink-0" />
+            <span>Limitation</span>
           </div>
-          <p className="text-xs text-[#2A2926] font-sans leading-relaxed">
+          <p className="text-xs text-[var(--text-primary)] font-sans leading-relaxed">
             {limitation}
           </p>
         </div>

@@ -142,16 +142,17 @@ Core Scientific Lesson: Fixed-size recurrent states maintain O(1) memory at the 
   };
 
   return (
-    <section id="you-made-it" className="scroll-mt-20 border-b border-[var(--border)] bg-[var(--page-bg)] py-20 text-[var(--text-primary)]">
-      <div className="max-w-[1400px] mx-auto px-4 sm:px-6 space-y-12">
+    <section id="you-made-it" className="scroll-mt-20 border-t border-[var(--border)] bg-[var(--page-bg)] py-12 text-[var(--text-primary)]">
+      <div className="space-y-10">
         {/* Editorial Section Header */}
-        <div className="space-y-3">
-          <div className="flex items-center gap-2">
-            <span className="text-xs font-mono uppercase tracking-widest px-2.5 py-0.5 rounded bg-[var(--accent-blue)] text-[var(--accent-blue-text)] border border-[var(--border)] font-bold">
-              FINAL CAPSTONE
+        <div className="space-y-2.5">
+          <div className="flex items-center gap-2 text-xs font-mono">
+            <span className="text-[var(--color-accent-ink)] font-semibold">
+              Final capstone
             </span>
-            <span className="text-xs font-mono text-[var(--text-muted)]">
-              RESEARCH ATTESTATION & SUMMARY
+            <span className="text-[var(--text-muted)]">·</span>
+            <span className="text-[var(--text-muted)]">
+              Research attestation & summary
             </span>
           </div>
 
@@ -202,9 +203,9 @@ Core Scientific Lesson: Fixed-size recurrent states maintain O(1) memory at the 
                       {m.label}
                     </span>
                     <span
-                      className={`w-4 h-4 rounded-full flex items-center justify-center shrink-0 border ${
+                      className={`w-4 h-4 rounded-sm flex items-center justify-center shrink-0 border ${
                         isDone
-                          ? 'bg-[var(--accent-blue-text)] border-[var(--accent-blue-text)] text-[var(--surface)]'
+                          ? 'bg-[var(--color-accent)] border-[var(--color-accent)] text-[var(--surface)]'
                           : 'border-[var(--border)] bg-[var(--surface)]'
                       }`}
                     >
@@ -278,13 +279,13 @@ Core Scientific Lesson: Fixed-size recurrent states maintain O(1) memory at the 
             <div className="flex items-center gap-2 font-mono text-xs">
               <span className="text-[var(--text-secondary)]">Status:</span>
               <span
-                className={`px-2.5 py-0.5 rounded-md font-bold ${
+                className={`px-2.5 py-0.5 rounded-md font-semibold ${
                   isCertificateUnlocked
                     ? 'bg-[var(--accent-green)] text-[var(--accent-green-text)] border border-[var(--border)]'
                     : 'bg-[var(--surface-soft)] text-[var(--text-secondary)] border border-[var(--border)]'
                 }`}
               >
-                {isCertificateUnlocked ? 'UNLOCKED' : 'LOCKED (REQUIRES PROVE STAGE)'}
+                {isCertificateUnlocked ? 'Unlocked' : 'Locked (Requires Prove stage)'}
               </span>
             </div>
           </div>
@@ -292,7 +293,7 @@ Core Scientific Lesson: Fixed-size recurrent states maintain O(1) memory at the 
           {/* LOCKED STATE: When learner has not completed Final Challenge in Stage 07 */}
           {!isCertificateUnlocked && (
             <div className="p-6 sm:p-8 rounded-xl bg-[var(--surface-soft)] border border-[var(--border)] text-center space-y-4">
-              <div className="w-12 h-12 rounded-full bg-[var(--surface)] border border-[var(--border)] flex items-center justify-center mx-auto text-[var(--text-secondary)] shadow-xs">
+              <div className="w-11 h-11 rounded-lg bg-[var(--surface)] border border-[var(--border)] flex items-center justify-center mx-auto text-[var(--text-secondary)]">
                 <Lock className="w-5 h-5 text-[var(--text-secondary)]" />
               </div>
               <div className="space-y-1.5 max-w-lg mx-auto">

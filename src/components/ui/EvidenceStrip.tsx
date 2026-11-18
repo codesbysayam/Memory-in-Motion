@@ -12,46 +12,46 @@ export function EvidenceStrip({ type, detail, className = '' }: EvidenceStripPro
   const getIcon = () => {
     switch (type) {
       case 'live':
-        return <Binary className="w-3.5 h-3.5 text-[#167C80]" />;
+        return <Binary className="w-3.5 h-3.5 shrink-0" />;
       case 'published':
-        return <BookOpen className="w-3.5 h-3.5 text-[#247A4B]" />;
+        return <BookOpen className="w-3.5 h-3.5 shrink-0" />;
       case 'abstraction':
-        return <ShieldCheck className="w-3.5 h-3.5 text-[#6842C2]" />;
+        return <ShieldCheck className="w-3.5 h-3.5 shrink-0" />;
       case 'illustration':
-        return <Eye className="w-3.5 h-3.5 text-[#A46622]" />;
+        return <Eye className="w-3.5 h-3.5 shrink-0" />;
       case 'precomputed':
-        return <Sparkles className="w-3.5 h-3.5 text-[#2F6399]" />;
+        return <Sparkles className="w-3.5 h-3.5 shrink-0" />;
     }
   };
 
   const getBadgeStyle = () => {
     switch (type) {
       case 'live':
-        return 'border-[#CFE8E8] bg-[#EDF7F7] text-[#167C80]';
+        return 'border-[var(--border)] bg-[var(--accent-blue)] text-[var(--accent-blue-text)]';
       case 'published':
-        return 'border-[#CDEEDB] bg-[#EDF8F2] text-[#247A4B]';
+        return 'border-[var(--color-success-border)] bg-[var(--accent-green)] text-[var(--accent-green-text)]';
       case 'abstraction':
-        return 'border-[#E2D8FA] bg-[#F3EFFF] text-[#6842C2]';
+        return 'border-[var(--border)] bg-[var(--surface-soft)] text-[var(--text-primary)]';
       case 'illustration':
-        return 'border-[#F5E2C4] bg-[#FDF8EE] text-[#A46622]';
+        return 'border-[var(--color-warning-border)] bg-[var(--accent-yellow)] text-[var(--accent-yellow-text)]';
       case 'precomputed':
-        return 'border-[#D3E2F2] bg-[#EEF4FA] text-[#2F6399]';
+        return 'border-[var(--border)] bg-[var(--accent-blue)] text-[var(--accent-blue-text)]';
     }
   };
 
   return (
     <div
-      className={`inline-flex items-center gap-2 px-2.5 py-1 rounded-lg border text-xs font-mono select-none ${getBadgeStyle()} ${className}`}
+      className={`inline-flex items-center gap-2 px-2.5 py-1 rounded-md border text-xs font-mono select-none ${getBadgeStyle()} ${className}`}
       title={detail ? `${EVIDENCE[type]} — ${detail}` : EVIDENCE[type]}
     >
-      <span className="flex items-center gap-1.5 font-bold tracking-wider uppercase text-[10px]">
+      <span className="flex items-center gap-1.5 font-medium text-[11px] whitespace-nowrap">
         {getIcon()}
         <span>{EVIDENCE[type]}</span>
       </span>
       {detail && (
         <>
-          <span className="opacity-40">•</span>
-          <span className="text-[10px] text-[#52504A] font-sans truncate max-w-[280px]">
+          <span aria-hidden="true" className="opacity-40">·</span>
+          <span className="text-[11px] text-[var(--text-secondary)] font-sans truncate max-w-[280px]">
             {detail}
           </span>
         </>

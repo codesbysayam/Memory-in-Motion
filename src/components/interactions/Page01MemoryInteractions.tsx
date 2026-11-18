@@ -178,25 +178,25 @@ export const Page01MemoryInteractions: React.FC = () => {
   };
 
   return (
-    <div className="space-y-8 mt-6">
+    <div className="space-y-8 mt-6 tabular-nums">
       {/* 1. MEMORY TIMELINE INTERACTION */}
-      <div className="rounded-xl border border-[#D8DCD8] bg-[#FFFFFF] p-5 sm:p-6 shadow-xs space-y-4">
-        <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[#EAE6DF] pb-3">
+      <div className="diagram-frame p-5 sm:p-6 space-y-4">
+        <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[var(--border)] pb-3">
           <div className="flex items-center gap-2">
-            <div className="p-1.5 rounded-lg bg-[#E7F2FA] text-[#31566E]">
+            <div className="p-1.5 rounded-lg bg-[var(--accent-blue)] text-[var(--accent-blue-text)]">
               <Clock className="w-4 h-4" />
             </div>
             <div>
-              <h3 className="font-serif text-base font-bold text-[#252525]">
-                1. Sequential Memory Timeline
+              <h3 className="font-serif text-base font-bold text-[var(--text-primary)]">
+                1. Sequential memory timeline
               </h3>
-              <p className="text-xs text-[#5F625F]">
+              <p className="text-xs text-[var(--text-secondary)]">
                 Click any timestep <InlineMath math="t_i" /> to inspect the exact matrix coordinates and Frobenius norm at that point in time.
               </p>
             </div>
           </div>
-          <span className="text-xs font-mono text-[#5F625F]">
-            Selected: <strong className="text-[#31566E]">t = {activeTimelineState.step}</strong>
+          <span className="text-xs font-mono text-[var(--text-secondary)]">
+            Selected: <strong className="text-[var(--accent-blue-text)]">t = {activeTimelineState.step}</strong>
           </span>
         </div>
 
@@ -204,12 +204,13 @@ export const Page01MemoryInteractions: React.FC = () => {
         <div className="flex items-center gap-2 overflow-x-auto pb-2 pt-1">
           {timelineStates.map((st) => (
             <button
+              type="button"
               key={st.step}
               onClick={() => setSelectedTimestep(st.step)}
               className={`px-3 py-2 rounded-lg border text-xs font-mono transition cursor-pointer shrink-0 flex flex-col items-center gap-0.5 ${
                 selectedTimestep === st.step
-                  ? 'border-[#31566E] bg-[#E7F2FA] text-[#31566E] font-bold shadow-xs'
-                  : 'border-[#D8DCD8] bg-[#F7F5EF] text-[#5F625F] hover:text-[#252525] hover:border-[#5F625F]'
+                  ? 'border-[var(--color-accent)] bg-[var(--accent-blue)] text-[var(--accent-blue-text)] font-bold shadow-xs'
+                  : 'border-[var(--border)] bg-[var(--surface-soft)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:border-[var(--color-border-strong)]'
               }`}
             >
               <span>t_{st.step}</span>
@@ -222,39 +223,39 @@ export const Page01MemoryInteractions: React.FC = () => {
 
         {/* State Display at Timestep */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-2">
-          <div className="bg-[#F7F5EF] p-4 rounded-xl border border-[#D8DCD8] space-y-2 text-xs">
-            <span className="font-semibold text-[#5F625F] block uppercase text-[11px]">
-              Step Details
+          <div className="metric-panel space-y-2 text-xs">
+            <span className="font-semibold text-[var(--text-muted)] block text-xs">
+              Step details
             </span>
             <div>
-              <span className="text-[#5F625F]">Ingested: </span>
-              <strong className="text-[#252525]">
+              <span className="text-[var(--text-muted)]">Ingested: </span>
+              <strong className="text-[var(--text-primary)]">
                 {activeTimelineState.step === 0
                   ? 'Zero state M_0'
                   : `${activeTimelineState.fact.key} → ${activeTimelineState.fact.value}`}
               </strong>
             </div>
             <div>
-              <span className="text-[#5F625F]">State Norm ||M||_F: </span>
-              <strong className="font-mono text-[#31566E]">
+              <span className="text-[var(--text-muted)]">State norm ||M||_F: </span>
+              <strong className="font-mono text-[var(--accent-blue-text)]">
                 {activeTimelineState.norm.toFixed(4)}
               </strong>
             </div>
             <div>
-              <span className="text-[#5F625F]">Matrix Dimensions: </span>
-              <span className="font-mono text-[#252525]">
+              <span className="text-[var(--text-muted)]">Matrix dimensions: </span>
+              <span className="font-mono text-[var(--text-primary)]">
                 <InlineMath math={`M \\in \\mathbb{R}^{${dim} \\times ${dim}}`} />
               </span>
             </div>
           </div>
 
-          <div className="md:col-span-2 bg-[#F7F5EF] p-4 rounded-xl border border-[#D8DCD8] space-y-2">
+          <div className="md:col-span-2 bg-[var(--color-matrix-bg)] p-4 rounded-xl border border-[var(--color-matrix-border)] space-y-2">
             <div className="flex items-center justify-between text-xs">
-              <span className="font-semibold text-[#5F625F] uppercase text-[11px]">
-                Matrix Coordinates at t = {activeTimelineState.step}
+              <span className="font-semibold text-[var(--color-matrix-ink)] text-xs">
+                Matrix coordinates at t = {activeTimelineState.step}
               </span>
-              <span className="text-[11px] text-[#5F625F]">
-                Displaying 8x8 coordinate heat values
+              <span className="text-[11px] text-[var(--color-matrix-muted)]">
+                Displaying 8×8 coordinate heat values
               </span>
             </div>
 
@@ -272,12 +273,11 @@ export const Page01MemoryInteractions: React.FC = () => {
                       <div
                         key={`${r}-${c}`}
                         title={`M[${r},${c}] = ${val.toFixed(4)}`}
-                        className="h-6 rounded text-[9px] font-mono flex items-center justify-center transition-colors select-none"
+                        className="h-6 rounded text-[10px] font-mono flex items-center justify-center transition-colors select-none text-[var(--color-matrix-ink)]"
                         style={{
                           backgroundColor: isPos
-                            ? `rgba(49, 86, 110, ${abs * 0.75 + 0.05})`
-                            : `rgba(182, 66, 53, ${abs * 0.75 + 0.05})`,
-                          color: abs > 0.4 ? '#FFFFFF' : '#252525',
+                            ? `rgba(76, 154, 255, ${abs * 0.78 + 0.14})`
+                            : `rgba(229, 98, 90, ${abs * 0.78 + 0.14})`,
                         }}
                       >
                         {val.toFixed(1)}
@@ -292,23 +292,23 @@ export const Page01MemoryInteractions: React.FC = () => {
       </div>
 
       {/* 2. FACT PRIORITY INTERACTION */}
-      <div className="rounded-xl border border-[#D8DCD8] bg-[#FFFFFF] p-5 sm:p-6 shadow-xs space-y-4">
-        <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[#EAE6DF] pb-3">
+      <div className="diagram-frame p-5 sm:p-6 space-y-4">
+        <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[var(--border)] pb-3">
           <div className="flex items-center gap-2">
-            <div className="p-1.5 rounded-lg bg-[#FFF5D8] text-[#A46622]">
+            <div className="p-1.5 rounded-lg bg-[var(--accent-yellow)] text-[var(--accent-yellow-text)]">
               <Sliders className="w-4 h-4" />
             </div>
             <div>
-              <h3 className="font-serif text-base font-bold text-[#252525]">
-                2. Fact Priority Stream Weights
+              <h3 className="font-serif text-base font-bold text-[var(--text-primary)]">
+                2. Fact priority stream weights
               </h3>
-              <p className="text-xs text-[#5F625F]">
+              <p className="text-xs text-[var(--text-secondary)]">
                 Adjust fact priority to alter the associative write weight <InlineMath math="\eta" />. Visibly observe how prioritizing or deprioritizing facts shifts retrieval.
               </p>
             </div>
           </div>
-          <span className="text-xs text-[#5F625F] italic">
-            Note: "Important" is an experimental weight parameter, not semantic comprehension.
+          <span className="text-xs text-[var(--text-muted)] italic">
+            Note: &ldquo;Important&rdquo; is an experimental weight parameter, not semantic comprehension.
           </span>
         </div>
 
@@ -316,17 +316,17 @@ export const Page01MemoryInteractions: React.FC = () => {
           {facts.map((fact, idx) => (
             <div
               key={fact.key}
-              className="p-3.5 rounded-xl border border-[#D8DCD8] bg-[#F7F5EF] space-y-2 text-xs"
+              className="p-3.5 rounded-xl border border-[var(--border)] bg-[var(--surface-soft)] space-y-2 text-xs"
             >
               <div className="flex items-center justify-between">
-                <span className="font-mono text-[10px] text-[#5F625F]">#{idx + 1}</span>
+                <span className="font-mono text-[11px] text-[var(--text-muted)]">#{idx + 1}</span>
                 <span
-                  className={`text-[10px] font-semibold px-1.5 py-0.5 rounded uppercase ${
+                  className={`text-[11px] font-semibold px-1.5 py-0.5 rounded capitalize ${
                     fact.priority === 'important'
-                      ? 'bg-[#DCEFE2] text-[#247A4B]'
+                      ? 'bg-[var(--accent-green)] text-[var(--accent-green-text)]'
                       : fact.priority === 'distractor'
-                      ? 'bg-[#F9E9ED] text-[#B64235]'
-                      : 'bg-[#E7F2FA] text-[#31566E]'
+                      ? 'bg-[var(--accent-pink)] text-[var(--accent-pink-text)]'
+                      : 'bg-[var(--accent-blue)] text-[var(--accent-blue-text)]'
                   }`}
                 >
                   {fact.priority}
@@ -334,37 +334,40 @@ export const Page01MemoryInteractions: React.FC = () => {
               </div>
 
               <div>
-                <strong className="text-sm font-serif block text-[#252525]">{fact.key}</strong>
-                <span className="text-xs text-[#5F625F]">{fact.value}</span>
+                <strong className="text-sm font-serif block text-[var(--text-primary)]">{fact.key}</strong>
+                <span className="text-xs text-[var(--text-secondary)]">{fact.value}</span>
               </div>
 
-              <div className="pt-2 border-t border-[#D8DCD8] flex items-center justify-between gap-1">
+              <div className="pt-2 border-t border-[var(--border)] flex items-center justify-between gap-1">
                 <button
+                  type="button"
                   onClick={() => handlePriorityChange(idx, 'important')}
-                  className={`px-1.5 py-1 rounded text-[10px] cursor-pointer transition ${
+                  className={`px-2 py-1 rounded text-[11px] cursor-pointer transition ${
                     fact.priority === 'important'
-                      ? 'bg-[#247A4B] text-white font-bold'
-                      : 'hover:bg-[#EAE6DF] text-[#5F625F]'
+                      ? 'bg-[var(--color-success)] text-[var(--surface)] font-bold'
+                      : 'hover:bg-[var(--border)] text-[var(--text-secondary)]'
                   }`}
                 >
                   High
                 </button>
                 <button
+                  type="button"
                   onClick={() => handlePriorityChange(idx, 'normal')}
-                  className={`px-1.5 py-1 rounded text-[10px] cursor-pointer transition ${
+                  className={`px-2 py-1 rounded text-[11px] cursor-pointer transition ${
                     fact.priority === 'normal'
-                      ? 'bg-[#31566E] text-white font-bold'
-                      : 'hover:bg-[#EAE6DF] text-[#5F625F]'
+                      ? 'bg-[var(--color-accent)] text-[var(--surface)] font-bold'
+                      : 'hover:bg-[var(--border)] text-[var(--text-secondary)]'
                   }`}
                 >
                   Norm
                 </button>
                 <button
+                  type="button"
                   onClick={() => handlePriorityChange(idx, 'distractor')}
-                  className={`px-1.5 py-1 rounded text-[10px] cursor-pointer transition ${
+                  className={`px-2 py-1 rounded text-[11px] cursor-pointer transition ${
                     fact.priority === 'distractor'
-                      ? 'bg-[#B64235] text-white font-bold'
-                      : 'hover:bg-[#EAE6DF] text-[#5F625F]'
+                      ? 'bg-[var(--color-danger)] text-[var(--surface)] font-bold'
+                      : 'hover:bg-[var(--border)] text-[var(--text-secondary)]'
                   }`}
                 >
                   Low
@@ -376,17 +379,17 @@ export const Page01MemoryInteractions: React.FC = () => {
       </div>
 
       {/* 3. PROBE HISTORY INTERACTION */}
-      <div className="rounded-xl border border-[#D8DCD8] bg-[#FFFFFF] p-5 sm:p-6 shadow-xs space-y-4">
-        <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[#EAE6DF] pb-3">
+      <div className="diagram-frame p-5 sm:p-6 space-y-4">
+        <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[var(--border)] pb-3">
           <div className="flex items-center gap-2">
-            <div className="p-1.5 rounded-lg bg-[#DCEFE2] text-[#247A4B]">
+            <div className="p-1.5 rounded-lg bg-[var(--accent-green)] text-[var(--accent-green-text)]">
               <Search className="w-4 h-4" />
             </div>
             <div>
-              <h3 className="font-serif text-base font-bold text-[#252525]">
-                3. Probe History & Replay
+              <h3 className="font-serif text-base font-bold text-[var(--text-primary)]">
+                3. Probe history &amp; replay
               </h3>
-              <p className="text-xs text-[#5F625F]">
+              <p className="text-xs text-[var(--text-secondary)]">
                 Every query is evaluated against the current associative state and recorded with retrieval metrics.
               </p>
             </div>
@@ -394,15 +397,17 @@ export const Page01MemoryInteractions: React.FC = () => {
 
           <div className="flex items-center gap-2">
             <button
+              type="button"
               onClick={handleExportProbeHistory}
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#FFFFFF] hover:bg-[#F7F5EF] text-[#252525] border border-[#D8DCD8] text-xs font-medium transition cursor-pointer"
+              className="btn-secondary text-xs"
             >
               <Download className="w-3.5 h-3.5" />
               <span>Export</span>
             </button>
             <button
+              type="button"
               onClick={() => setProbeHistory([])}
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg hover:bg-[#F9E9ED] text-[#B64235] border border-transparent hover:border-[#D8DCD8] text-xs font-medium transition cursor-pointer"
+              className="btn-failure text-xs px-3 py-1.5 rounded-md border"
             >
               <Trash2 className="w-3.5 h-3.5" />
               <span>Clear</span>
@@ -412,15 +417,16 @@ export const Page01MemoryInteractions: React.FC = () => {
 
         {/* Quick Query Bar */}
         <div className="flex flex-wrap items-center gap-2">
-          <span className="text-xs text-[#5F625F] font-semibold">Test Probe:</span>
+          <span className="text-xs text-[var(--text-muted)] font-semibold">Test probe:</span>
           {facts.map((f) => (
             <button
+              type="button"
               key={f.key}
               onClick={() => {
                 setProbeQuery(f.key);
                 handleExecuteProbe(f.key);
               }}
-              className="px-3 py-1.5 rounded-lg border border-[#D8DCD8] bg-[#F7F5EF] hover:bg-[#FFFFFF] text-xs font-medium text-[#252525] transition cursor-pointer"
+              className="btn-secondary text-xs py-1 px-3"
             >
               {f.key}
             </button>
@@ -428,46 +434,47 @@ export const Page01MemoryInteractions: React.FC = () => {
         </div>
 
         {/* History Table / Cards */}
-        <div className="overflow-x-auto">
-          <table className="w-full text-left text-xs border border-[#D8DCD8] rounded-xl overflow-hidden">
-            <thead className="bg-[#F7F5EF] text-[#5F625F] border-b border-[#D8DCD8]">
+        <div className="research-table-wrap">
+          <table className="research-table text-xs">
+            <thead>
               <tr>
-                <th className="py-2.5 px-3 font-semibold">Query</th>
-                <th className="py-2.5 px-3 font-semibold">Prediction</th>
-                <th className="py-2.5 px-3 font-semibold">Ground Truth</th>
-                <th className="py-2.5 px-3 font-semibold">Retrieval Score</th>
-                <th className="py-2.5 px-3 font-semibold">Top-1 Margin</th>
-                <th className="py-2.5 px-3 font-semibold">Status</th>
-                <th className="py-2.5 px-3 font-semibold">Action</th>
+                <th>Query</th>
+                <th>Prediction</th>
+                <th>Ground truth</th>
+                <th>Retrieval score</th>
+                <th>Top-1 margin</th>
+                <th>Status</th>
+                <th>Action</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-[#EAE6DF]">
+            <tbody>
               {probeHistory.map((rec) => (
-                <tr key={rec.id} className="hover:bg-[#F7F5EF]/60 transition">
-                  <td className="py-2.5 px-3 font-bold text-[#252525]">{rec.query}</td>
-                  <td className="py-2.5 px-3 text-[#252525]">{rec.prediction}</td>
-                  <td className="py-2.5 px-3 text-[#5F625F]">{rec.groundTruth}</td>
-                  <td className="py-2.5 px-3 font-mono">{(rec.retrievalScore * 100).toFixed(1)}%</td>
-                  <td className="py-2.5 px-3 font-mono text-[#31566E]">
+                <tr key={rec.id}>
+                  <td className="font-bold">{rec.query}</td>
+                  <td>{rec.prediction}</td>
+                  <td className="text-[var(--text-secondary)]">{rec.groundTruth}</td>
+                  <td className="font-mono">{(rec.retrievalScore * 100).toFixed(1)}%</td>
+                  <td className="font-mono text-[var(--accent-blue-text)]">
                     {rec.top1Margin > 0 ? `+${rec.top1Margin.toFixed(3)}` : rec.top1Margin.toFixed(3)}
                   </td>
-                  <td className="py-2.5 px-3">
+                  <td>
                     <span
                       className={`inline-flex items-center gap-1 px-2 py-0.5 rounded text-[11px] font-medium ${
                         rec.isCorrect
-                          ? 'bg-[#DCEFE2] text-[#247A4B]'
-                          : 'bg-[#F9E9ED] text-[#B64235]'
+                          ? 'bg-[var(--accent-green)] text-[var(--accent-green-text)]'
+                          : 'bg-[var(--accent-pink)] text-[var(--accent-pink-text)]'
                       }`}
                     >
                       {rec.isCorrect ? <CheckCircle2 className="w-3 h-3" /> : <AlertOctagon className="w-3 h-3" />}
                       {rec.isCorrect ? 'Correct' : 'Interference'}
                     </span>
                   </td>
-                  <td className="py-2.5 px-3">
+                  <td>
                     <button
+                      type="button"
                       onClick={() => handleExecuteProbe(rec.query)}
                       title="Replay probe"
-                      className="px-2 py-1 rounded bg-[#FFFFFF] hover:bg-[#E7F2FA] text-[#31566E] border border-[#D8DCD8] text-[11px] font-medium transition cursor-pointer"
+                      className="btn-secondary py-1 px-2 text-[11px]"
                     >
                       Replay
                     </button>

@@ -1,6 +1,6 @@
 import React from 'react';
 
-export type ButtonVariant = 'primary' | 'secondary' | 'ghost';
+export type ButtonVariant = 'primary' | 'secondary' | 'ghost' | 'tertiary';
 
 export type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
   variant?: ButtonVariant;
@@ -16,12 +16,12 @@ export const Button: React.FC<ButtonProps> = ({
   const variantClass =
     variant === 'primary'
       ? 'btn-primary'
-      : variant === 'ghost'
-      ? 'btn-ghost'
+      : variant === 'ghost' || variant === 'tertiary'
+      ? 'btn-tertiary'
       : 'btn-secondary';
 
   return (
-    <button className={`btn ${variantClass} ${className}`} {...props}>
+    <button className={`${variantClass} ${className}`} {...props}>
       {children}
     </button>
   );

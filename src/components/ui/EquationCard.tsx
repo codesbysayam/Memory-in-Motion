@@ -10,38 +10,38 @@ interface EquationCardProps {
 }
 
 export function EquationCard({
-  label = "STATE UPDATE FORMULATION",
+  label = "State update formulation",
   formula,
   plainEnglish,
   systemImpact,
   id
 }: EquationCardProps) {
   return (
-    <div id={id} className="rounded-xl border border-[#252A35] bg-[#11141A] p-4 text-[#F4F5F7] space-y-3">
-      <div className="flex items-center justify-between">
-        <span className="text-[11px] font-mono uppercase tracking-widest text-[#8F96A3]">
+    <div id={id} className="rounded-xl border border-[var(--border)] bg-[var(--surface)] p-5 text-[var(--text-primary)] space-y-3.5">
+      <div className="flex flex-wrap items-center justify-between gap-2">
+        <span className="text-xs font-mono font-medium text-[var(--text-muted)]">
           {label}
         </span>
-        <span className="text-[10px] font-mono uppercase tracking-wider text-[#8B5CF6] bg-[#8B5CF6]/10 px-2 py-0.5 rounded border border-[#8B5CF6]/20">
-          MATHEMATICAL DEFINITION
+        <span className="text-[11px] font-mono font-medium text-[var(--accent-blue-text)] bg-[var(--accent-blue)] px-2 py-0.5 rounded-md border border-[var(--border)]">
+          Mathematical definition
         </span>
       </div>
 
-      <div className="rounded-lg bg-[#151922] border border-[#252A35] p-3 text-center overflow-x-auto">
-        <div className="text-sm sm:text-base font-medium text-[#22D3EE] tracking-wide py-1">
+      <div className="rounded-lg bg-[var(--color-code-bg)] border border-[var(--border)] p-4 text-center overflow-x-auto">
+        <div className="text-sm sm:text-base font-medium text-[var(--text-primary)] tracking-wide py-1">
           <MathView math={formula} block />
         </div>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
-        <div className="rounded-lg bg-[#151922]/60 p-2.5 border border-[#252A35]/50">
-          <div className="text-[10px] font-mono uppercase text-[#8F96A3] mb-1">Plain English</div>
-          <div className="text-[#F4F5F7] leading-relaxed">{plainEnglish}</div>
+        <div className="rounded-lg bg-[var(--surface-soft)] p-3 border border-[var(--border)]">
+          <div className="text-[11px] font-mono font-medium text-[var(--text-muted)] mb-1">Plain English</div>
+          <div className="text-[var(--text-primary)] leading-relaxed">{plainEnglish}</div>
         </div>
 
-        <div className="rounded-lg bg-[#151922]/60 p-2.5 border border-[#252A35]/50">
-          <div className="text-[10px] font-mono uppercase text-[#8B5CF6] mb-1">What changes in system</div>
-          <div className="text-[#F4F5F7] leading-relaxed">{systemImpact}</div>
+        <div className="rounded-lg bg-[var(--surface-soft)] p-3 border border-[var(--border)]">
+          <div className="text-[11px] font-mono font-medium text-[var(--accent-blue-text)] mb-1">System effect</div>
+          <div className="text-[var(--text-primary)] leading-relaxed">{systemImpact}</div>
         </div>
       </div>
     </div>

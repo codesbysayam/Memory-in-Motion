@@ -55,27 +55,27 @@ export const MemoryOverwriteExperiment: React.FC = () => {
   }, [dimension, retention, writeStrength]);
 
   return (
-    <div className="rounded-2xl border border-[#E5E0D8] bg-[#FFFFFF] p-5 sm:p-6 text-[#151515] space-y-5 font-mono shadow-xs">
+    <div className="diagram-frame p-5 sm:p-6 text-[var(--text-primary)] space-y-5 font-mono tabular-nums">
       {/* Header */}
-      <div className="flex flex-wrap items-center justify-between gap-2 border-b border-[#EAE6DF] pb-3">
+      <div className="flex flex-wrap items-center justify-between gap-2 border-b border-[var(--border)] pb-3">
         <div>
           <div className="flex items-center gap-2">
-            <Layers className="w-4 h-4 text-[#A46622]" />
-            <h4 className="text-sm font-bold text-[#151515] uppercase tracking-wider">
-              Memory Overwrite Experiment · Writing Conflicting Facts
+            <Layers className="w-4 h-4 text-[var(--accent-yellow-text)]" />
+            <h4 className="text-sm font-bold text-[var(--text-primary)]">
+              Memory overwrite experiment · writing conflicting facts
             </h4>
           </div>
-          <p className="text-xs text-[#716F68] mt-1 font-sans">
+          <p className="text-xs text-[var(--text-secondary)] mt-1 font-sans">
             What happens when the exact same key is bound to two different values consecutively?
           </p>
         </div>
 
         <div className="flex items-center gap-2">
-          <span className="text-[10px] px-2.5 py-0.5 rounded bg-[#EDF7F7] border border-[#CFE8E8] text-[#167C80] font-bold">
-            LIVE COMPUTATION
+          <span className="text-xs px-2.5 py-0.5 rounded-md bg-[var(--accent-blue)] border border-[var(--border)] text-[var(--accent-blue-text)] font-semibold">
+            Live computation
           </span>
-          <span className="text-[10px] px-2 py-0.5 rounded bg-[#FAF8F5] border border-[#EAE6DF] text-[#716F68]">
-            D={dimension}
+          <span className="text-xs px-2 py-0.5 rounded-md bg-[var(--surface-soft)] border border-[var(--border)] text-[var(--text-muted)]">
+            d={dimension}
           </span>
         </div>
       </div>
@@ -83,105 +83,105 @@ export const MemoryOverwriteExperiment: React.FC = () => {
       {/* Sequence Timeline */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs">
         {/* Step 1: Write 1 */}
-        <div className="p-3.5 rounded-xl bg-[#FAF8F5] border border-[#EAE6DF] space-y-2">
-          <div className="flex justify-between items-center text-[10px] text-[#716F68] font-bold uppercase">
-            <span>STEP 1: FIRST WRITE</span>
-            <span className="text-[#167C80]">t=1</span>
+        <div className="p-3.5 rounded-xl bg-[var(--surface-soft)] border border-[var(--border)] space-y-2">
+          <div className="flex justify-between items-center text-[11px] text-[var(--text-muted)] font-semibold">
+            <span>Step 1: First write</span>
+            <span className="text-[var(--accent-blue-text)]">t=1</span>
           </div>
-          <div className="text-sm font-bold text-[#151515] flex items-center gap-1.5">
+          <div className="text-sm font-bold text-[var(--text-primary)] flex items-center gap-1.5">
             <span>Japan</span>
-            <ArrowRight className="w-3.5 h-3.5 text-[#BDB7AB]" />
-            <span className="text-[#167C80]">Tokyo</span>
+            <ArrowRight className="w-3.5 h-3.5 text-[var(--text-muted)]" />
+            <span className="text-[var(--accent-blue-text)]">Tokyo</span>
           </div>
-          <p className="text-[10px] text-[#716F68] font-sans">
+          <p className="text-xs text-[var(--text-secondary)] font-sans">
             Initial binding etched into the matrix: <MathView math="M_1 = \eta k v_{\text{tokyo}}^T" />.
           </p>
         </div>
 
         {/* Step 2: Write 2 */}
-        <div className="p-3.5 rounded-xl bg-[#FAF8F5] border border-[#EAE6DF] space-y-2">
-          <div className="flex justify-between items-center text-[10px] text-[#716F68] font-bold uppercase">
-            <span>STEP 2: SECOND WRITE</span>
-            <span className="text-[#A46622]">t=2</span>
+        <div className="p-3.5 rounded-xl bg-[var(--surface-soft)] border border-[var(--border)] space-y-2">
+          <div className="flex justify-between items-center text-[11px] text-[var(--text-muted)] font-semibold">
+            <span>Step 2: Second write</span>
+            <span className="text-[var(--accent-yellow-text)]">t=2</span>
           </div>
-          <div className="text-sm font-bold text-[#151515] flex items-center gap-1.5">
+          <div className="text-sm font-bold text-[var(--text-primary)] flex items-center gap-1.5">
             <span>Japan</span>
-            <ArrowRight className="w-3.5 h-3.5 text-[#BDB7AB]" />
-            <span className="text-[#A46622]">Osaka</span>
+            <ArrowRight className="w-3.5 h-3.5 text-[var(--text-muted)]" />
+            <span className="text-[var(--accent-yellow-text)]">Osaka</span>
           </div>
-          <p className="text-[10px] text-[#716F68] font-sans">
+          <p className="text-xs text-[var(--text-secondary)] font-sans">
             Overwriting update: <MathView math="M_2 = \lambda M_1 + \eta k v_{\text{osaka}}^T" />
           </p>
         </div>
 
         {/* Step 3: Query */}
-        <div className="p-3.5 rounded-xl bg-[#FAF8F5] border border-[#EAE6DF] space-y-2">
-          <div className="flex justify-between items-center text-[10px] text-[#716F68] font-bold uppercase">
-            <span>STEP 3: PROBE QUERY</span>
-            <span className="text-[#6842C2]">t=3</span>
+        <div className="p-3.5 rounded-xl bg-[var(--surface-soft)] border border-[var(--border)] space-y-2">
+          <div className="flex justify-between items-center text-[11px] text-[var(--text-muted)] font-semibold">
+            <span>Step 3: Probe query</span>
+            <span className="text-[var(--accent-blue-text)]">t=3</span>
           </div>
-          <div className="text-sm font-bold text-[#151515] flex items-center gap-1.5">
+          <div className="text-sm font-bold text-[var(--text-primary)] flex items-center gap-1.5">
             <span>Query:</span>
-            <span className="text-[#6842C2] font-bold">&ldquo;Japan&rdquo;</span>
+            <span className="text-[var(--accent-blue-text)] font-bold">&ldquo;Japan&rdquo;</span>
           </div>
-          <div className="text-[11px] text-[#52504A]">
-            Winner: <strong className="text-[#247A4B]">{winningValue}</strong>
+          <div className="text-xs text-[var(--text-secondary)]">
+            Winner: <strong className="text-[var(--accent-green-text)]">{winningValue}</strong>
           </div>
         </div>
       </div>
 
       {/* Live Measured Similarities & Margin */}
-      <div className="rounded-xl bg-[#FAF8F5] border border-[#EAE6DF] p-4 space-y-3 text-xs">
-        <div className="flex justify-between items-center border-b border-[#EAE6DF] pb-2">
-          <span className="font-bold text-[#151515] uppercase text-[11px]">
-            COMPETITION TELEMETRY: TOKYO VS OSAKA
+      <div className="rounded-xl bg-[var(--surface-soft)] border border-[var(--border)] p-4 space-y-3 text-xs">
+        <div className="flex flex-wrap justify-between items-center gap-2 border-b border-[var(--border)] pb-2">
+          <span className="font-semibold text-[var(--text-primary)] text-xs">
+            Competition telemetry: Tokyo vs Osaka
           </span>
-          <span className="text-[10px] text-[#716F68] font-sans">
+          <span className="text-xs text-[var(--text-muted)] font-sans">
             Determined dynamically by current update equation
           </span>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           {/* Tokyo Score */}
-          <div className="space-y-1.5 p-3 rounded-lg bg-[#FFFFFF] border border-[#E5E0D8]">
+          <div className="space-y-1.5 p-3 rounded-lg bg-[var(--surface)] border border-[var(--border)]">
             <div className="flex justify-between text-xs">
-              <span className="text-[#716F68] font-bold">Similarity to &ldquo;Tokyo&rdquo; (First write):</span>
-              <strong className="text-[#167C80]">{scoreTokyo.toFixed(3)}</strong>
+              <span className="text-[var(--text-muted)] font-semibold">Similarity to &ldquo;Tokyo&rdquo; (First write):</span>
+              <strong className="text-[var(--accent-blue-text)]">{scoreTokyo.toFixed(3)}</strong>
             </div>
-            <div className="w-full bg-[#EAE6DF] rounded-full h-2 overflow-hidden">
+            <div className="w-full bg-[var(--border)] rounded-sm h-2 overflow-hidden">
               <div
-                className="bg-[#167C80] h-2 rounded-full transition-all"
+                className="bg-[var(--color-accent)] h-2 rounded-sm transition-all"
                 style={{ width: `${Math.max(4, Math.min(100, ((scoreTokyo + 1) / 2) * 100))}%` }}
               />
             </div>
-            <span className="text-[10px] text-[#716F68] block font-sans">
+            <span className="text-xs text-[var(--text-muted)] block font-sans">
               Retained weight after decay: factor of <MathView math={`\\lambda = ${retention}`} />.
             </span>
           </div>
 
           {/* Osaka Score */}
-          <div className="space-y-1.5 p-3 rounded-lg bg-[#FFFFFF] border border-[#E5E0D8]">
+          <div className="space-y-1.5 p-3 rounded-lg bg-[var(--surface)] border border-[var(--border)]">
             <div className="flex justify-between text-xs">
-              <span className="text-[#716F68] font-bold">Similarity to &ldquo;Osaka&rdquo; (Second write):</span>
-              <strong className="text-[#A46622]">{scoreOsaka.toFixed(3)}</strong>
+              <span className="text-[var(--text-muted)] font-semibold">Similarity to &ldquo;Osaka&rdquo; (Second write):</span>
+              <strong className="text-[var(--accent-yellow-text)]">{scoreOsaka.toFixed(3)}</strong>
             </div>
-            <div className="w-full bg-[#EAE6DF] rounded-full h-2 overflow-hidden">
+            <div className="w-full bg-[var(--border)] rounded-sm h-2 overflow-hidden">
               <div
-                className="bg-[#A46622] h-2 rounded-full transition-all"
+                className="bg-[var(--color-warning)] h-2 rounded-sm transition-all"
                 style={{ width: `${Math.max(4, Math.min(100, ((scoreOsaka + 1) / 2) * 100))}%` }}
               />
             </div>
-            <span className="text-[10px] text-[#716F68] block font-sans">
+            <span className="text-xs text-[var(--text-muted)] block font-sans">
               Directly added without decay in the final step.
             </span>
           </div>
         </div>
 
-        <div className="p-3 rounded-lg bg-[#FFFFFF] border border-[#E5E0D8] flex flex-wrap items-center justify-between gap-2 text-xs">
+        <div className="p-3 rounded-lg bg-[var(--surface)] border border-[var(--border)] flex flex-wrap items-center justify-between gap-2 text-xs">
           <span>
-            Top-1 Margin between candidates: <strong className="text-[#151515]">{margin.toFixed(3)}</strong>
+            Top-1 margin between candidates: <strong className="text-[var(--text-primary)]">{margin.toFixed(3)}</strong>
           </span>
-          <span className="text-[#716F68] font-sans text-[11px]">
+          <span className="text-[var(--text-secondary)] font-sans text-xs">
             {scoreOsaka > scoreTokyo
               ? 'Second write currently dominates due to recency and retention decay.'
               : scoreTokyo > scoreOsaka
@@ -193,10 +193,10 @@ export const MemoryOverwriteExperiment: React.FC = () => {
 
       {/* Live Parameter Sliders to test Recency & Forgetting */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs pt-1">
-        <div className="space-y-1.5 p-3.5 rounded-xl bg-[#FAF8F5] border border-[#EAE6DF]">
+        <div className="space-y-1.5 p-3.5 rounded-xl bg-[var(--surface-soft)] border border-[var(--border)]">
           <div className="flex justify-between">
-            <span className="text-[#716F68] font-bold">RETENTION (λ):</span>
-            <span className="text-[#167C80] font-bold">{(retention * 100).toFixed(0)}%</span>
+            <span className="text-[var(--text-muted)] font-semibold">Retention (λ):</span>
+            <span className="text-[var(--accent-blue-text)] font-bold">{(retention * 100).toFixed(0)}%</span>
           </div>
           <input
             type="range"
@@ -205,17 +205,17 @@ export const MemoryOverwriteExperiment: React.FC = () => {
             step="0.05"
             value={retention}
             onChange={(e) => setRetention(parseFloat(e.target.value))}
-            className="w-full accent-[#167C80] cursor-pointer"
+            className="w-full accent-[var(--color-accent)] cursor-pointer"
           />
-          <span className="text-[10px] text-[#716F68] font-sans block">
+          <span className="text-xs text-[var(--text-muted)] font-sans block">
             Lower retention accelerates decay of the first write (Tokyo).
           </span>
         </div>
 
-        <div className="space-y-1.5 p-3.5 rounded-xl bg-[#FAF8F5] border border-[#EAE6DF]">
+        <div className="space-y-1.5 p-3.5 rounded-xl bg-[var(--surface-soft)] border border-[var(--border)]">
           <div className="flex justify-between">
-            <span className="text-[#716F68] font-bold">WRITE STRENGTH (η):</span>
-            <span className="text-[#A46622] font-bold">{writeStrength.toFixed(2)}</span>
+            <span className="text-[var(--text-muted)] font-semibold">Write strength (η):</span>
+            <span className="text-[var(--accent-yellow-text)] font-bold">{writeStrength.toFixed(2)}</span>
           </div>
           <input
             type="range"
@@ -224,19 +224,19 @@ export const MemoryOverwriteExperiment: React.FC = () => {
             step="0.05"
             value={writeStrength}
             onChange={(e) => setWriteStrength(parseFloat(e.target.value))}
-            className="w-full accent-[#A46622] cursor-pointer"
+            className="w-full accent-[var(--color-warning)] cursor-pointer"
           />
-          <span className="text-[10px] text-[#716F68] font-sans block">
+          <span className="text-xs text-[var(--text-muted)] font-sans block">
             Controls the magnitude of each added outer product update.
           </span>
         </div>
       </div>
 
       {/* Explanation Box */}
-      <div className="p-3.5 rounded-xl bg-[#FAF8F5] border border-[#EAE6DF] text-xs text-[#52504A] font-sans flex items-start gap-2">
-        <HelpCircle className="w-4 h-4 text-[#167C80] shrink-0 mt-0.5" />
+      <div className="research-callout text-xs text-[var(--text-secondary)] font-sans flex items-start gap-2">
+        <HelpCircle className="w-4 h-4 text-[var(--accent-blue-text)] shrink-0 mt-0.5" />
         <div>
-          <strong className="text-[#151515]">Scientific Principle:</strong> Repeated writes can change the internal representation. The outcome depends on the update rule and retention. The toy does not have an explicit &ldquo;delete&rdquo; key—it can only decay or superimpose new patterns.
+          <strong className="text-[var(--text-primary)]">Scientific principle:</strong> Repeated writes can change the internal representation. The outcome depends on the update rule and retention. The toy does not have an explicit &ldquo;delete&rdquo; key—it can only decay or superimpose new patterns.
         </div>
       </div>
     </div>

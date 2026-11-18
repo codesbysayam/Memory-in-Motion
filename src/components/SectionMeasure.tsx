@@ -10,7 +10,7 @@ import {
   AlertTriangle,
   Activity,
 } from 'lucide-react';
-import { Fact, CANONICAL_FACTS, createAssociativeMemory, cosine, vector } from '../models/associativeMemory';
+import { Fact, createAssociativeMemory, cosine, vector } from '../models/associativeMemory';
 import { MathView } from './ui/MathView';
 import { GlossaryTerm } from './GlossaryTerm';
 import { markMilestoneCompleted } from '../utils/progressTracker';
@@ -213,142 +213,146 @@ export const SectionMeasure: React.FC = () => {
   const mechanismStages = [
     {
       id: 1,
-      title: '1. INPUT PAIR',
+      title: '1. Input pair',
       symbol: '(k_t, v_t)',
       desc: 'Fact arrives as symbolic pair (France → Paris).',
       math: '\\text{input} = (\\text{key}, \\text{value})',
-      color: '#6842C2',
+      colorVar: 'var(--accent-blue-text)',
     },
     {
       id: 2,
-      title: '2. VECTOR ENCODE',
+      title: '2. Vector encode',
       symbol: 'k_t, v_t \\in \\mathbb{R}^D',
       desc: 'Embedding projections generate continuous coordinate vectors.',
       math: 'k_t = W_k x_t, \\quad v_t = W_v y_t',
-      color: '#2E689C',
+      colorVar: 'var(--accent-blue-text)',
     },
     {
       id: 3,
-      title: '3. OUTER-PRODUCT WRITE',
+      title: '3. Outer-product write',
       symbol: '\\Delta M_t = \\eta k_t v_t^T',
       desc: 'Dense D×D outer-product binds key coordinates directly to value coordinates.',
       math: '\\Delta M_t = \\eta \\cdot (k_t v_t^T)',
-      color: '#167C80',
+      colorVar: 'var(--accent-green-text)',
     },
     {
       id: 4,
-      title: '4. STATE RECURRENCE',
+      title: '4. State recurrence',
       symbol: 'M_t = \\lambda M_{t-1} + \\Delta M_t',
       desc: 'Prior matrix decays by factor λ; new rank-1 matrix superposes on top.',
       math: 'M_t = \\lambda M_{t-1} + \\Delta M_t',
-      color: '#247A4B',
+      colorVar: 'var(--accent-green-text)',
     },
     {
       id: 5,
-      title: '5. SUPERPOSITION & DRIFT',
+      title: '5. Superposition & drift',
       symbol: '\\sum_i k_i v_i^T',
       desc: 'Multiple facts share the exact same D×D numbers, causing gradual interference.',
       math: 'M_T = \\sum_{\\tau=1}^T \\lambda^{T-\\tau} \\eta k_\\tau v_\\tau^T',
-      color: '#A46622',
+      colorVar: 'var(--accent-yellow-text)',
     },
     {
       id: 6,
-      title: '6. QUERY PROBE',
+      title: '6. Query probe',
       symbol: 'q^T M_t',
       desc: 'Query vector excites the associative matrix via linear vector-matrix multiplication.',
       math: '\\hat{v} = q^T M_t',
-      color: '#9B4174',
+      colorVar: 'var(--accent-pink-text)',
     },
     {
       id: 7,
-      title: '7. COSINE DECODE',
+      title: '7. Cosine decode',
       symbol: '\\operatorname{argmax}_v \\cos(\\hat{v}, v)',
       desc: 'Decoded answer is selected by maximum similarity against known vocabularies.',
       math: '\\hat{y} = \\operatorname{argmax}_v \\operatorname{sim}(\\hat{v}, v)',
-      color: '#167C80',
+      colorVar: 'var(--accent-blue-text)',
     },
   ];
 
   return (
-    <section id="section-measure" className="scroll-mt-20 border-b border-[#D9DCD8] bg-[#F7F5EF] py-16 text-[#252525]">
+    <section id="section-measure" className="scroll-mt-20 w-full space-y-8 text-[var(--text-primary)]">
       <div id="section-measure-curves" className="scroll-mt-24" />
-      <div className="w-full max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
+      <div className="w-full space-y-8">
         {/* Editorial Section Header */}
         <div className="space-y-3">
-          <div className="flex items-center gap-2">
-            <span className="text-[11px] font-mono uppercase tracking-widest px-2.5 py-0.5 rounded bg-[#E7F2FA] text-[#21445B] border border-[#CDE1F0] font-semibold">
-              04 / MEASURE
-            </span>
-            <span className="text-xs font-mono text-[#5F625F]">
-              STATE PERSISTENCE & ANALYTICS
-            </span>
+          <div className="flex items-center gap-2 text-xs font-sans text-[var(--text-secondary)]">
+            <span className="font-semibold text-[var(--accent-blue-text)]">04 · Measure</span>
+            <span aria-hidden="true" className="text-[var(--border)]">·</span>
+            <span>State persistence &amp; empirical analytics</span>
           </div>
 
-          <h2 className="text-2xl sm:text-4xl font-serif tracking-tight text-[#252525] font-normal">
+          <h2 className="text-2xl sm:text-4xl font-serif tracking-tight text-[var(--text-primary)] font-semibold">
             Watch memory change.
           </h2>
 
-          <p className="text-sm sm:text-base text-[#5F625F] font-sans max-w-3xl leading-relaxed">
+          <p className="text-sm sm:text-base text-[var(--text-secondary)] font-sans max-w-3xl leading-relaxed">
             The <GlossaryTerm term="recurrent state">recurrent state</GlossaryTerm> is fixed in size (<MathView math={`D \\times D = ${dimension} \\times ${dimension}`} /> coordinates). What changes is what survives inside it. Follow the empirical trajectory of retained memories as new facts arrive.
           </p>
         </div>
 
         {/* View Selection Bar */}
-        <div className="flex flex-wrap items-center justify-between gap-4 p-2 rounded-lg bg-[#FFFFFF] border border-[#D9DCD8] shadow-xs">
-          <div className="flex flex-wrap items-center gap-1.5 font-mono text-xs">
-            <span className="text-[#5F625F] px-2 py-1 text-[11px] uppercase tracking-wider hidden sm:inline-block">
-              ONE EXPERIMENT — FOUR VIEWS:
+        <div className="diagram-frame p-2.5 flex flex-wrap items-center justify-between gap-4">
+          <div className="flex flex-wrap items-center gap-1.5 font-sans text-xs">
+            <span className="text-[var(--text-muted)] px-2 py-1 text-xs font-medium hidden sm:inline-block">
+              One experiment, four views:
             </span>
             <button
+              type="button"
               onClick={() => setActiveView('time')}
-              className={`px-3 py-1.5 rounded-md font-medium transition-all flex items-center gap-2 cursor-pointer ${
+              className={`px-3 py-1.5 rounded-md font-medium transition-colors flex items-center gap-2 cursor-pointer whitespace-nowrap ${
                 activeView === 'time'
-                  ? 'bg-[#DCEFE2] text-[#24452E] border border-[#C5DDCB] font-bold shadow-xs'
-                  : 'text-[#5F625F] hover:text-[#252525] hover:bg-[#F0F1EF]'
+                  ? 'bg-[var(--accent-green)] text-[var(--accent-green-text)] border border-[var(--color-success-border)] font-semibold'
+                  : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--surface-soft)] border border-transparent'
               }`}
             >
-              <TrendingUp className="w-3.5 h-3.5" />
-              <span>View 01: Time (Line Graph)</span>
+              <TrendingUp className="w-3.5 h-3.5 shrink-0" />
+              <span>01: Time (Line)</span>
             </button>
             <button
+              type="button"
               onClick={() => setActiveView('outcome')}
-              className={`px-3 py-1.5 rounded-md font-medium transition-all flex items-center gap-2 cursor-pointer ${
+              className={`px-3 py-1.5 rounded-md font-medium transition-colors flex items-center gap-2 cursor-pointer whitespace-nowrap ${
                 activeView === 'outcome'
-                  ? 'bg-[#DCEFE2] text-[#24452E] border border-[#C5DDCB] font-bold shadow-xs'
-                  : 'text-[#5F625F] hover:text-[#252525] hover:bg-[#F0F1EF]'
+                  ? 'bg-[var(--accent-green)] text-[var(--accent-green-text)] border border-[var(--color-success-border)] font-semibold'
+                  : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--surface-soft)] border border-transparent'
               }`}
             >
-              <PieChartIcon className="w-3.5 h-3.5" />
-              <span>View 02: Outcome (Donut Chart)</span>
+              <PieChartIcon className="w-3.5 h-3.5 shrink-0" />
+              <span>02: Outcome (Donut)</span>
             </button>
             <button
+              type="button"
               onClick={() => setActiveView('mechanism')}
-              className={`px-3 py-1.5 rounded-md font-medium transition-all flex items-center gap-2 cursor-pointer ${
+              className={`px-3 py-1.5 rounded-md font-medium transition-colors flex items-center gap-2 cursor-pointer whitespace-nowrap ${
                 activeView === 'mechanism'
-                  ? 'bg-[#DCEFE2] text-[#24452E] border border-[#C5DDCB] font-bold shadow-xs'
-                  : 'text-[#5F625F] hover:text-[#252525] hover:bg-[#F0F1EF]'
+                  ? 'bg-[var(--accent-green)] text-[var(--accent-green-text)] border border-[var(--color-success-border)] font-semibold'
+                  : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--surface-soft)] border border-transparent'
               }`}
             >
-              <GitCommit className="w-3.5 h-3.5" />
-              <span>View 03: Mechanism (Flowchart)</span>
+              <GitCommit className="w-3.5 h-3.5 shrink-0" />
+              <span>03: Mechanism (Flow)</span>
             </button>
             <button
+              type="button"
               onClick={() => setActiveView('frobenius')}
-              className={`px-3 py-1.5 rounded-md font-medium transition-all flex items-center gap-2 cursor-pointer ${
+              className={`px-3 py-1.5 rounded-md font-medium transition-colors flex items-center gap-2 cursor-pointer whitespace-nowrap ${
                 activeView === 'frobenius'
-                  ? 'bg-[#FFF5D8] text-[#5A4716] border border-[#F0E3B8] font-bold shadow-xs'
-                  : 'text-[#5F625F] hover:text-[#252525] hover:bg-[#F0F1EF]'
+                  ? 'bg-[var(--accent-yellow)] text-[var(--accent-yellow-text)] border border-[var(--color-warning-border)] font-semibold'
+                  : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--surface-soft)] border border-transparent'
               }`}
             >
-              <Activity className="w-3.5 h-3.5" />
-              <span>View 04: Frobenius Drift (Recharts)</span>
+              <Activity className="w-3.5 h-3.5 shrink-0" />
+              <span>04: Frobenius Drift</span>
             </button>
           </div>
 
           {/* Interactive Parameters Quick Bar */}
-          <div className="flex items-center gap-3 font-mono text-xs text-[#5F625F] px-2">
-            <span className="text-[11px] text-[#5F625F]">λ: {retention.toFixed(2)}</span>
+          <div className="flex items-center gap-3 font-mono text-xs text-[var(--text-secondary)] px-2 tabular-nums">
+            <label htmlFor="measure-retention-slider" className="text-xs text-[var(--text-secondary)]">
+              λ: {retention.toFixed(2)}
+            </label>
             <input
+              id="measure-retention-slider"
               type="range"
               min="0.70"
               max="1.0"
@@ -358,60 +362,63 @@ export const SectionMeasure: React.FC = () => {
                 setRetention(parseFloat(e.target.value));
                 markMilestoneCompleted('adjust_params');
               }}
-              className="w-20 sm:w-28 accent-[#2B6282] cursor-pointer"
+              className="w-20 sm:w-28 accent-[var(--color-accent)] cursor-pointer"
               title="Retention attenuation factor λ"
             />
-            <span className="text-[11px] text-[#5F625F]">D: {dimension}</span>
+            <span className="text-xs text-[var(--text-secondary)]">D: {dimension}</span>
           </div>
         </div>
 
         {/* VIEW 01: TIME (RETRIEVAL ACROSS SEQUENCE) */}
         {activeView === 'time' && (
-          <div className="rounded-xl border border-[#D9DCD8] bg-[#FFFFFF] p-5 sm:p-7 space-y-6 shadow-xs">
-            <div className="flex flex-wrap items-center justify-between gap-4 border-b border-[#D9DCD8] pb-4">
+          <div className="diagram-frame p-5 sm:p-7 space-y-6">
+            <div className="flex flex-wrap items-center justify-between gap-4 border-b border-[var(--border)] pb-4">
               <div>
-                <h3 className="text-base sm:text-lg font-serif font-bold text-[#252525] flex items-center gap-2">
+                <h3 className="text-base sm:text-lg font-serif font-semibold text-[var(--text-primary)] flex flex-wrap items-center gap-2.5">
                   <span>Retrieval Performance Across the Sequence</span>
-                  <span className="text-xs font-mono font-normal text-[#21445B] bg-[#E7F2FA] px-2.5 py-0.5 rounded border border-[#CDE1F0]">
+                  <span className="text-xs font-mono font-medium text-[var(--accent-blue-text)] bg-[var(--accent-blue)] px-2.5 py-0.5 rounded-md border border-[var(--border)]">
                     Fact #1: France → Paris
                   </span>
                 </h3>
-                <p className="text-xs text-[#5F625F] font-sans mt-0.5">
+                <p className="text-xs text-[var(--text-secondary)] font-sans mt-1">
                   Track how Fact #1 (&ldquo;France → Paris&rdquo;) decays and interferes as 5 subsequent facts are written.
                 </p>
               </div>
 
               {/* Metric Selector */}
-              <div className="flex items-center gap-1 bg-[#F7F5EF] p-1 rounded-md border border-[#D9DCD8] text-xs font-mono">
+              <div className="flex items-center gap-1 bg-[var(--surface-soft)] p-1 rounded-lg border border-[var(--border)] text-xs font-sans">
                 <button
+                  type="button"
                   onClick={() => setMetricMode('retrievalScore')}
-                  className={`px-3 py-1 rounded-md transition-colors cursor-pointer ${
+                  className={`px-3 py-1 rounded-md transition-colors cursor-pointer whitespace-nowrap ${
                     metricMode === 'retrievalScore'
-                      ? 'bg-[#FFFFFF] text-[#252525] border border-[#D9DCD8] font-bold shadow-xs'
-                      : 'text-[#5F625F] hover:text-[#252525]'
+                      ? 'bg-[var(--surface)] text-[var(--text-primary)] border border-[var(--border)] font-semibold shadow-2xs'
+                      : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
                   }`}
                 >
-                  Retrieval Score
+                  Retrieval score
                 </button>
                 <button
+                  type="button"
                   onClick={() => setMetricMode('top1Margin')}
-                  className={`px-3 py-1 rounded-md transition-colors cursor-pointer ${
+                  className={`px-3 py-1 rounded-md transition-colors cursor-pointer whitespace-nowrap ${
                     metricMode === 'top1Margin'
-                      ? 'bg-[#FFFFFF] text-[#252525] border border-[#D9DCD8] font-bold shadow-xs'
-                      : 'text-[#5F625F] hover:text-[#252525]'
+                      ? 'bg-[var(--surface)] text-[var(--text-primary)] border border-[var(--border)] font-semibold shadow-2xs'
+                      : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
                   }`}
                 >
-                  Top-1 Margin
+                  Top-1 margin
                 </button>
                 <button
+                  type="button"
                   onClick={() => setMetricMode('stateSimilarity')}
-                  className={`px-3 py-1 rounded-md transition-colors cursor-pointer ${
+                  className={`px-3 py-1 rounded-md transition-colors cursor-pointer whitespace-nowrap ${
                     metricMode === 'stateSimilarity'
-                      ? 'bg-[#FFFFFF] text-[#252525] border border-[#D9DCD8] font-bold shadow-xs'
-                      : 'text-[#5F625F] hover:text-[#252525]'
+                      ? 'bg-[var(--surface)] text-[var(--text-primary)] border border-[var(--border)] font-semibold shadow-2xs'
+                      : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
                   }`}
                 >
-                  State Overlap
+                  State overlap
                 </button>
               </div>
             </div>
@@ -425,12 +432,12 @@ export const SectionMeasure: React.FC = () => {
                 >
                   <defs>
                     <linearGradient id="lineGrad" x1="0" y1="0" x2="1" y2="0">
-                      <stop offset="0%" stopColor="#167C80" />
-                      <stop offset="100%" stopColor="#6842C2" />
+                      <stop offset="0%" stopColor="var(--color-accent)" />
+                      <stop offset="100%" stopColor="var(--color-success)" />
                     </linearGradient>
                     <linearGradient id="areaGrad" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="0%" stopColor="#167C80" stopOpacity="0.15" />
-                      <stop offset="100%" stopColor="#167C80" stopOpacity="0.0" />
+                      <stop offset="0%" stopColor="var(--color-accent)" stopOpacity="0.18" />
+                      <stop offset="100%" stopColor="var(--color-accent)" stopOpacity="0.0" />
                     </linearGradient>
                   </defs>
 
@@ -444,14 +451,15 @@ export const SectionMeasure: React.FC = () => {
                           y1={y}
                           x2={chartWidth - padding.right}
                           y2={y}
-                          stroke="#EAE6DF"
+                          stroke="var(--border)"
                           strokeDasharray="3 3"
                         />
                         <text
                           x={padding.left - 8}
                           y={y + 4}
                           textAnchor="end"
-                          className="fill-[#5F625F] font-mono text-xs"
+                          fill="var(--text-secondary)"
+                          className="font-mono text-xs tabular-nums"
                         >
                           {v.toFixed(2)}
                         </text>
@@ -493,8 +501,8 @@ export const SectionMeasure: React.FC = () => {
                         cx={p.x}
                         cy={p.y}
                         r={hoveredDataPoint?.step === p.step ? 6.5 : 4.5}
-                        fill={p.isCorrect ? '#167C80' : '#B64235'}
-                        stroke="#FFFFFF"
+                        fill={p.isCorrect ? 'var(--color-success)' : 'var(--color-danger)'}
+                        stroke="var(--surface)"
                         strokeWidth="2"
                         className="transition-all"
                       />
@@ -503,7 +511,8 @@ export const SectionMeasure: React.FC = () => {
                         x={p.x}
                         y={chartHeight - 16}
                         textAnchor="middle"
-                        className="fill-[#5F625F] font-mono text-xs"
+                        fill="var(--text-muted)"
+                        className="font-mono text-xs tabular-nums"
                       >
                         Step {p.step}
                       </text>
@@ -511,7 +520,8 @@ export const SectionMeasure: React.FC = () => {
                         x={p.x}
                         y={chartHeight - 3}
                         textAnchor="middle"
-                        className="fill-[#252525] font-mono text-xs font-semibold"
+                        fill="var(--text-primary)"
+                        className="font-mono text-xs font-semibold"
                       >
                         +{p.factName}
                       </text>
@@ -520,11 +530,11 @@ export const SectionMeasure: React.FC = () => {
                 </svg>
 
                 {/* Honest Scientific Annotation */}
-                <div className="mt-3 p-3.5 rounded-xl bg-[#FAF8F5] border border-[#EAE6DF] text-xs font-sans text-[#52504A] flex items-start gap-2.5">
-                  <Info className="w-4 h-4 text-[#167C80] shrink-0 mt-0.5" />
+                <div className="research-callout mt-3 text-xs font-sans text-[var(--text-secondary)] flex items-start gap-2.5">
+                  <Info className="w-4 h-4 text-[var(--accent-blue-text)] shrink-0 mt-0.5" />
                   <div>
-                    <strong className="text-[#151515] font-mono uppercase text-[11px] block mb-0.5">
-                      Epistemic Interpretation:
+                    <strong className="text-[var(--text-primary)] font-semibold block mb-0.5">
+                      Epistemic interpretation
                     </strong>
                     Retrieval score measures representation cosine similarity (<MathView math="\cos(\hat{v}, v_{\text{cand}})" />), not a calibrated softmax probability. Decay (<MathView math={`\\lambda = ${retention}`} />) continuously lowers representation energy unless refreshed.
                   </div>
@@ -532,12 +542,12 @@ export const SectionMeasure: React.FC = () => {
               </div>
 
               {/* Data Point Telemetry Card */}
-              <div className="rounded-xl bg-[#FAF8F5] border border-[#EAE6DF] p-4 space-y-3 font-mono text-xs">
-                <div className="flex items-center justify-between border-b border-[#EAE6DF] pb-2">
-                  <span className="text-[11px] font-bold text-[#716F68] uppercase tracking-wider">
-                    STEP TELEMETRY
+              <div className="metric-panel space-y-3 font-mono text-xs tabular-nums">
+                <div className="flex items-center justify-between border-b border-[var(--border)] pb-2">
+                  <span className="text-xs font-semibold text-[var(--text-secondary)] font-sans">
+                    Step telemetry
                   </span>
-                  <span className="text-[10px] text-[#167C80] bg-[#EDF7F7] border border-[#CFE8E8] px-2 py-0.5 rounded font-bold">
+                  <span className="text-xs text-[var(--accent-blue-text)] bg-[var(--accent-blue)] border border-[var(--border)] px-2 py-0.5 rounded-md font-semibold">
                     {hoveredDataPoint ? `Step ${hoveredDataPoint.step}` : 'Hover a node'}
                   </span>
                 </div>
@@ -545,48 +555,48 @@ export const SectionMeasure: React.FC = () => {
                 {hoveredDataPoint ? (
                   <div className="space-y-2.5">
                     <div className="flex justify-between">
-                      <span className="text-[#716F68]">Probed Fact:</span>
-                      <strong className="text-[#151515]">France → Paris</strong>
+                      <span className="text-[var(--text-secondary)]">Probed fact:</span>
+                      <strong className="text-[var(--text-primary)]">France → Paris</strong>
                     </div>
                     <div className="flex justify-between items-center">
-                      <span className="text-[#716F68]">Decoded Output:</span>
+                      <span className="text-[var(--text-secondary)]">Decoded output:</span>
                       <span
-                        className={`px-2 py-0.5 rounded font-bold text-xs ${
+                        className={`px-2 py-0.5 rounded-md font-semibold text-xs border ${
                           hoveredDataPoint.isCorrect
-                            ? 'text-[#247A4B] bg-[#EDF8F2] border border-[#CDEEDB]'
-                            : 'text-[#B64235] bg-[#FDF2F0] border border-[#F7D3CF]'
+                            ? 'text-[var(--accent-green-text)] bg-[var(--accent-green)] border-[var(--color-success-border)]'
+                            : 'text-[var(--accent-pink-text)] bg-[var(--accent-pink)] border-[var(--color-danger-border)]'
                         }`}
                       >
                         {hoveredDataPoint.retrieved}
                       </span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-[#716F68]">Ground Truth:</span>
-                      <span className="text-[#151515] font-medium">Paris</span>
+                      <span className="text-[var(--text-secondary)]">Ground truth:</span>
+                      <span className="text-[var(--text-primary)] font-medium">Paris</span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-[#716F68]">Cosine Score:</span>
-                      <strong className="text-[#167C80]">{hoveredDataPoint.score.toFixed(4)}</strong>
+                      <span className="text-[var(--text-secondary)]">Cosine score:</span>
+                      <strong className="text-[var(--accent-blue-text)]">{hoveredDataPoint.score.toFixed(4)}</strong>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-[#716F68]">Top-1 Margin:</span>
-                      <strong className="text-[#6842C2]">{hoveredDataPoint.margin.toFixed(4)}</strong>
+                      <span className="text-[var(--text-secondary)]">Top-1 margin:</span>
+                      <strong className="text-[var(--accent-green-text)]">{hoveredDataPoint.margin.toFixed(4)}</strong>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-[#716F68]">Fact Written:</span>
-                      <span className="text-[#151515] font-bold">+{hoveredDataPoint.factName}</span>
+                      <span className="text-[var(--text-secondary)]">Fact written:</span>
+                      <span className="text-[var(--text-primary)] font-bold">+{hoveredDataPoint.factName}</span>
                     </div>
-                    <div className="flex justify-between items-center pt-1 border-t border-[#EAE6DF]">
-                      <span className="text-[#716F68]">
-                        <GlossaryTerm term="Frobenius norm">State Norm ||M||_F:</GlossaryTerm>
+                    <div className="flex justify-between items-center pt-2 border-t border-[var(--border)]">
+                      <span className="text-[var(--text-secondary)]">
+                        <GlossaryTerm term="Frobenius norm">State norm ||M||_F:</GlossaryTerm>
                       </span>
-                      <strong className="text-amber-700 font-mono">
+                      <strong className="text-[var(--accent-yellow-text)] font-mono">
                         {measurementData.find((s) => s.step === hoveredDataPoint.step)?.matrixNorm.toFixed(4) || '—'}
                       </strong>
                     </div>
                   </div>
                 ) : (
-                  <div className="text-[#716F68] py-8 text-center italic font-sans text-xs">
+                  <div className="text-[var(--text-secondary)] py-8 text-center font-sans text-xs">
                     Hover over or click any point along the curve to inspect step-level cosine margin and output.
                   </div>
                 )}
@@ -597,55 +607,59 @@ export const SectionMeasure: React.FC = () => {
 
         {/* VIEW 02: OUTCOME (DONUT CHART & SURVIVAL BREAKDOWN) */}
         {activeView === 'outcome' && (
-          <div className="rounded-2xl border border-[#E5E0D8] bg-[#FFFFFF] p-5 sm:p-7 space-y-6 shadow-xs">
-            <div className="flex flex-wrap items-center justify-between gap-4 border-b border-[#EAE6DF] pb-4">
+          <div className="diagram-frame p-5 sm:p-7 space-y-6">
+            <div className="flex flex-wrap items-center justify-between gap-4 border-b border-[var(--border)] pb-4">
               <div>
-                <h3 className="text-base sm:text-lg font-serif font-bold text-[#151515]">
+                <h3 className="text-base sm:text-lg font-serif font-semibold text-[var(--text-primary)]">
                   What Survived in Memory? (Final Outcome)
                 </h3>
-                <p className="text-xs text-[#716F68] font-sans mt-0.5">
+                <p className="text-xs text-[var(--text-secondary)] font-sans mt-0.5 tabular-nums">
                   Empirical classification of all {outcomeBreakdown.total} facts after sequential ingestion into {dimension}×{dimension} state.
                 </p>
               </div>
 
               {/* Segment Filter */}
-              <div className="flex items-center gap-1 bg-[#FAF8F5] p-1 rounded-xl border border-[#EAE6DF] text-xs font-mono">
+              <div className="flex flex-wrap items-center gap-1 bg-[var(--surface-soft)] p-1 rounded-lg border border-[var(--border)] text-xs font-sans tabular-nums">
                 <button
+                  type="button"
                   onClick={() => setSelectedOutcomeSegment('all')}
-                  className={`px-2.5 py-1 rounded-lg transition-colors cursor-pointer ${
+                  className={`px-2.5 py-1 rounded-md transition-colors cursor-pointer whitespace-nowrap ${
                     selectedOutcomeSegment === 'all'
-                      ? 'bg-[#FFFFFF] text-[#151515] font-bold border border-[#D8D4CB] shadow-xs'
-                      : 'text-[#716F68] hover:text-[#151515]'
+                      ? 'bg-[var(--surface)] text-[var(--text-primary)] font-semibold border border-[var(--border)] shadow-2xs'
+                      : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
                   }`}
                 >
                   All ({outcomeBreakdown.total})
                 </button>
                 <button
+                  type="button"
                   onClick={() => setSelectedOutcomeSegment('correct')}
-                  className={`px-2.5 py-1 rounded-lg transition-colors cursor-pointer ${
+                  className={`px-2.5 py-1 rounded-md transition-colors cursor-pointer whitespace-nowrap ${
                     selectedOutcomeSegment === 'correct'
-                      ? 'bg-[#EDF8F2] text-[#247A4B] font-bold border border-[#CDEEDB]'
-                      : 'text-[#716F68] hover:text-[#151515]'
+                      ? 'bg-[var(--accent-green)] text-[var(--accent-green-text)] font-semibold border border-[var(--color-success-border)]'
+                      : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
                   }`}
                 >
                   Correct ({outcomeBreakdown.correct.length})
                 </button>
                 <button
+                  type="button"
                   onClick={() => setSelectedOutcomeSegment('incorrect')}
-                  className={`px-2.5 py-1 rounded-lg transition-colors cursor-pointer ${
+                  className={`px-2.5 py-1 rounded-md transition-colors cursor-pointer whitespace-nowrap ${
                     selectedOutcomeSegment === 'incorrect'
-                      ? 'bg-[#FDF2F0] text-[#B64235] font-bold border border-[#F7D3CF]'
-                      : 'text-[#716F68] hover:text-[#151515]'
+                      ? 'bg-[var(--accent-pink)] text-[var(--accent-pink-text)] font-semibold border border-[var(--color-danger-border)]'
+                      : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
                   }`}
                 >
                   Incorrect ({outcomeBreakdown.incorrect.length})
                 </button>
                 <button
+                  type="button"
                   onClick={() => setSelectedOutcomeSegment('unresolved')}
-                  className={`px-2.5 py-1 rounded-lg transition-colors cursor-pointer ${
+                  className={`px-2.5 py-1 rounded-md transition-colors cursor-pointer whitespace-nowrap ${
                     selectedOutcomeSegment === 'unresolved'
-                      ? 'bg-[#FDF8EE] text-[#A46622] font-bold border border-[#F5E2C4]'
-                      : 'text-[#716F68] hover:text-[#151515]'
+                      ? 'bg-[var(--accent-yellow)] text-[var(--accent-yellow-text)] font-semibold border border-[var(--color-warning-border)]'
+                      : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
                   }`}
                 >
                   Unresolved ({outcomeBreakdown.unresolved.length})
@@ -678,11 +692,11 @@ export const SectionMeasure: React.FC = () => {
                             cy="50"
                             r="38"
                             fill="transparent"
-                            stroke="#247A4B"
+                            stroke="var(--color-success)"
                             strokeWidth="12"
                             strokeDasharray={`${cDash} ${circ - cDash}`}
                             strokeDashoffset="0"
-                            className="cursor-pointer transition-all hover:stroke-width-14"
+                            className="cursor-pointer transition-opacity hover:opacity-85"
                             onClick={() => setSelectedOutcomeSegment('correct')}
                           />
                           {/* Incorrect Arc */}
@@ -691,11 +705,11 @@ export const SectionMeasure: React.FC = () => {
                             cy="50"
                             r="38"
                             fill="transparent"
-                            stroke="#B64235"
+                            stroke="var(--color-danger)"
                             strokeWidth="12"
                             strokeDasharray={`${iDash} ${circ - iDash}`}
                             strokeDashoffset={`${-cDash}`}
-                            className="cursor-pointer transition-all hover:stroke-width-14"
+                            className="cursor-pointer transition-opacity hover:opacity-85"
                             onClick={() => setSelectedOutcomeSegment('incorrect')}
                           />
                           {/* Unresolved Arc */}
@@ -704,11 +718,11 @@ export const SectionMeasure: React.FC = () => {
                             cy="50"
                             r="38"
                             fill="transparent"
-                            stroke="#A46622"
+                            stroke="var(--color-warning)"
                             strokeWidth="12"
                             strokeDasharray={`${uDash} ${circ - uDash}`}
                             strokeDashoffset={`${-(cDash + iDash)}`}
-                            className="cursor-pointer transition-all hover:stroke-width-14"
+                            className="cursor-pointer transition-opacity hover:opacity-85"
                             onClick={() => setSelectedOutcomeSegment('unresolved')}
                           />
                         </>
@@ -718,33 +732,33 @@ export const SectionMeasure: React.FC = () => {
 
                   {/* Centered Donut Label */}
                   <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
-                    <span className="text-3xl font-mono font-bold text-[#151515]">
+                    <span className="text-3xl font-mono font-bold text-[var(--text-primary)] tabular-nums">
                       {outcomeBreakdown.total}
                     </span>
-                    <span className="text-[10px] font-mono text-[#716F68] uppercase tracking-wider font-bold">
-                      TOTAL QUERIES
+                    <span className="text-xs font-sans text-[var(--text-secondary)] font-medium">
+                      Total queries
                     </span>
                   </div>
                 </div>
 
-                <div className="flex items-center gap-4 mt-4 text-[11px] font-mono text-[#52504A]">
+                <div className="flex flex-wrap items-center justify-center gap-4 mt-4 text-xs font-mono text-[var(--text-secondary)] tabular-nums">
                   <div className="flex items-center gap-1.5">
-                    <span className="w-2.5 h-2.5 rounded-full bg-[#247A4B]" />
+                    <span className="w-2.5 h-2.5 rounded-xs bg-[var(--color-success)]" />
                     <span>Correct ({Math.round((outcomeBreakdown.correct.length / (outcomeBreakdown.total || 1)) * 100)}%)</span>
                   </div>
                   <div className="flex items-center gap-1.5">
-                    <span className="w-2.5 h-2.5 rounded-full bg-[#B64235]" />
+                    <span className="w-2.5 h-2.5 rounded-xs bg-[var(--color-danger)]" />
                     <span>Incorrect ({Math.round((outcomeBreakdown.incorrect.length / (outcomeBreakdown.total || 1)) * 100)}%)</span>
                   </div>
                   <div className="flex items-center gap-1.5">
-                    <span className="w-2.5 h-2.5 rounded-full bg-[#A46622]" />
+                    <span className="w-2.5 h-2.5 rounded-xs bg-[var(--color-warning)]" />
                     <span>Unresolved ({Math.round((outcomeBreakdown.unresolved.length / (outcomeBreakdown.total || 1)) * 100)}%)</span>
                   </div>
                 </div>
               </div>
 
               {/* Filtered Fact Cards */}
-              <div className="md:col-span-2 space-y-2 max-h-[320px] overflow-y-auto pr-1 custom-scrollbar">
+              <div className="md:col-span-2 space-y-2 max-h-[320px] overflow-y-auto pr-1 custom-scrollbar tabular-nums">
                 {finalStep?.queryResults
                   .filter((qr) => {
                     if (selectedOutcomeSegment === 'correct') return qr.isCorrect;
@@ -757,35 +771,35 @@ export const SectionMeasure: React.FC = () => {
                       key={idx}
                       className={`p-3 rounded-xl border flex items-center justify-between gap-3 text-xs font-mono ${
                         qr.isCorrect
-                          ? 'bg-[#EDF8F2] border-[#CDEEDB] text-[#247A4B]'
+                          ? 'bg-[var(--accent-green)] border-[var(--color-success-border)] text-[var(--accent-green-text)]'
                           : qr.score > 0.15
-                          ? 'bg-[#FDF2F0] border-[#F7D3CF] text-[#B64235]'
-                          : 'bg-[#FDF8EE] border-[#F5E2C4] text-[#A46622]'
+                          ? 'bg-[var(--accent-pink)] border-[var(--color-danger-border)] text-[var(--accent-pink-text)]'
+                          : 'bg-[var(--accent-yellow)] border-[var(--color-warning-border)] text-[var(--accent-yellow-text)]'
                       }`}
                     >
                       <div className="flex items-center gap-2 min-w-0">
                         {qr.isCorrect ? (
-                          <CheckCircle2 className="w-4 h-4 text-[#247A4B] shrink-0" />
+                          <CheckCircle2 className="w-4 h-4 text-[var(--accent-green-text)] shrink-0" />
                         ) : qr.score > 0.15 ? (
-                          <XCircle className="w-4 h-4 text-[#B64235] shrink-0" />
+                          <XCircle className="w-4 h-4 text-[var(--accent-pink-text)] shrink-0" />
                         ) : (
-                          <AlertTriangle className="w-4 h-4 text-[#A46622] shrink-0" />
+                          <AlertTriangle className="w-4 h-4 text-[var(--accent-yellow-text)] shrink-0" />
                         )}
-                        <span className="text-[#151515] font-bold">{qr.fact.key}</span>
-                        <ArrowRight className="w-3 h-3 text-[#716F68] shrink-0" />
-                        <span className="truncate">
-                          Expected: <strong className="text-[#151515]">{qr.fact.value}</strong>
+                        <span className="text-[var(--text-primary)] font-bold">{qr.fact.key}</span>
+                        <ArrowRight className="w-3 h-3 text-[var(--text-secondary)] shrink-0" />
+                        <span className="truncate text-[var(--text-secondary)]">
+                          Expected: <strong className="text-[var(--text-primary)]">{qr.fact.value}</strong>
                         </span>
                       </div>
 
                       <div className="flex items-center gap-3 shrink-0">
                         <div className="text-right">
-                          <span className="text-[10px] text-[#716F68] block">OUTPUT</span>
-                          <span className="font-bold text-[#151515]">{qr.retrievedVal}</span>
+                          <span className="text-[11px] text-[var(--text-muted)] block">Output</span>
+                          <span className="font-bold text-[var(--text-primary)]">{qr.retrievedVal}</span>
                         </div>
                         <div className="text-right">
-                          <span className="text-[10px] text-[#716F68] block">SIM</span>
-                          <span className="text-[#167C80] font-bold">{qr.score.toFixed(3)}</span>
+                          <span className="text-[11px] text-[var(--text-muted)] block">Cosine</span>
+                          <span className="text-[var(--accent-blue-text)] font-bold">{qr.score.toFixed(3)}</span>
                         </div>
                       </div>
                     </div>
@@ -794,10 +808,10 @@ export const SectionMeasure: React.FC = () => {
             </div>
 
             {/* Honest Annotation */}
-            <div className="p-3.5 rounded-xl bg-[#FAF8F5] border border-[#EAE6DF] text-xs font-sans text-[#52504A] flex items-start gap-2">
-              <Info className="w-4 h-4 text-[#167C80] shrink-0 mt-0.5" />
+            <div className="research-callout text-xs font-sans text-[var(--text-secondary)] flex items-start gap-2">
+              <Info className="w-4 h-4 text-[var(--accent-blue-text)] shrink-0 mt-0.5" />
               <div>
-                <strong className="text-[#151515]">Scientific Grounding:</strong> Decoded via <MathView math="\operatorname{argmax}_v \operatorname{sim}(\hat{v}, v)" /> against candidate value representations. Collisions and cross-talk directly stem from finite coordinate dimension <MathView math={`D=${dimension}`} />.
+                <strong className="text-[var(--text-primary)]">Scientific grounding:</strong> Decoded via <MathView math="\operatorname{argmax}_v \operatorname{sim}(\hat{v}, v)" /> against candidate value representations. Collisions and cross-talk directly stem from finite coordinate dimension <MathView math={`D=${dimension}`} />.
               </div>
             </div>
           </div>
@@ -805,12 +819,12 @@ export const SectionMeasure: React.FC = () => {
 
         {/* VIEW 03: MECHANISM (FLOWCHART OF HOW FACTS BECOME MEMORY) */}
         {activeView === 'mechanism' && (
-          <div className="rounded-2xl border border-[#E5E0D8] bg-[#FFFFFF] p-5 sm:p-7 space-y-6 shadow-xs">
-            <div className="border-b border-[#EAE6DF] pb-4">
-              <h3 className="text-base sm:text-lg font-serif font-bold text-[#151515]">
-                How Does One Fact Become Memory? (The Computational Graph)
+          <div className="diagram-frame p-5 sm:p-7 space-y-6">
+            <div className="border-b border-[var(--border)] pb-4">
+              <h3 className="text-base sm:text-lg font-serif font-semibold text-[var(--text-primary)]">
+                How Does One Fact Become Memory? (Computational Graph)
               </h3>
-              <p className="text-xs text-[#716F68] font-sans mt-0.5">
+              <p className="text-xs text-[var(--text-secondary)] font-sans mt-0.5">
                 Step through each mathematical transformation from symbolic fact to associative matrix superposition and linear probe readout.
               </p>
             </div>
@@ -821,23 +835,27 @@ export const SectionMeasure: React.FC = () => {
                 const isActive = activeMechanismStep === stage.id;
                 return (
                   <button
+                    type="button"
                     key={stage.id}
                     onClick={() => setActiveMechanismStep(stage.id)}
                     className={`p-3.5 rounded-xl border text-left transition-all flex flex-col justify-between space-y-2 cursor-pointer ${
                       isActive
-                        ? 'border-[#6842C2] bg-[#F3EFFF] ring-1 ring-[#6842C2]/40 text-[#151515] shadow-xs'
-                        : 'border-[#EAE6DF] bg-[#FAF8F5] text-[#716F68] hover:text-[#151515] hover:border-[#D8D4CB]'
+                        ? 'border-[var(--color-accent)] bg-[var(--accent-blue)] text-[var(--text-primary)] shadow-2xs'
+                        : 'border-[var(--border)] bg-[var(--surface-soft)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:border-[var(--color-border-strong)]'
                     }`}
                   >
                     <div>
-                      <span className="text-[10px] font-mono uppercase tracking-wider block font-bold" style={{ color: stage.color }}>
+                      <span
+                        className="text-[11px] font-mono block font-semibold"
+                        style={{ color: stage.colorVar }}
+                      >
                         {stage.title}
                       </span>
-                      <div className="text-xs font-mono font-semibold text-[#151515] mt-1">
+                      <div className="text-xs font-mono font-semibold text-[var(--text-primary)] mt-1.5">
                         <MathView math={stage.symbol} />
                       </div>
                     </div>
-                    <span className="text-[9px] font-mono text-[#716F68] self-end">
+                    <span className="text-[11px] font-mono text-[var(--text-muted)] self-end tabular-nums">
                       Stage {stage.id}/7
                     </span>
                   </button>
@@ -849,41 +867,45 @@ export const SectionMeasure: React.FC = () => {
             {(() => {
               const currentStage = mechanismStages.find((s) => s.id === activeMechanismStep) || mechanismStages[0];
               return (
-                <div className="p-5 rounded-xl bg-[#FAF8F5] border border-[#EAE6DF] space-y-3 font-mono">
-                  <div className="flex flex-wrap items-center justify-between gap-2 border-b border-[#EAE6DF] pb-3">
+                <div className="metric-panel space-y-3 font-mono">
+                  <div className="flex flex-wrap items-center justify-between gap-2 border-b border-[var(--border)] pb-3">
                     <div className="flex items-center gap-2">
-                      <span className="text-xs font-bold text-[#6842C2] uppercase">
-                        ACTIVE STAGE {currentStage.id}:
+                      <span className="text-xs font-semibold text-[var(--accent-blue-text)]">
+                        Active stage {currentStage.id}:
                       </span>
-                      <span className="text-sm font-bold text-[#151515]">
+                      <span className="text-sm font-bold text-[var(--text-primary)]">
                         {currentStage.title}
                       </span>
                     </div>
 
-                    <div className="text-xs text-[#6842C2] bg-[#F3EFFF] px-3 py-1 rounded-lg border border-[#E2D8FA] font-bold">
+                    <div className="text-xs text-[var(--accent-blue-text)] bg-[var(--accent-blue)] px-3 py-1 rounded-lg border border-[var(--border)] font-semibold">
                       <MathView math={currentStage.math} />
                     </div>
                   </div>
 
-                  <p className="text-xs text-[#52504A] font-sans leading-relaxed">
+                  <p className="text-xs sm:text-sm text-[var(--text-secondary)] font-sans leading-relaxed">
                     {currentStage.desc}
                   </p>
 
-                  <div className="flex items-center justify-between pt-2 text-xs text-[#716F68]">
+                  <div className="flex items-center justify-between pt-2 text-xs text-[var(--text-secondary)] font-sans">
                     <button
+                      type="button"
                       disabled={activeMechanismStep <= 1}
                       onClick={() => setActiveMechanismStep((s) => Math.max(1, s - 1))}
-                      className="px-3 py-1.5 rounded-lg bg-[#FFFFFF] hover:bg-[#FAF8F5] border border-[#E5E0D8] text-[#151515] disabled:opacity-40 cursor-pointer"
+                      className="btn-secondary text-xs disabled:opacity-40 cursor-pointer"
                     >
-                      ← Previous Step
+                      ← Previous step
                     </button>
-                    <span>Click nodes above to inspect transformation</span>
+                    <span className="hidden sm:inline text-xs text-[var(--text-muted)]">
+                      Click nodes above to inspect each transformation
+                    </span>
                     <button
+                      type="button"
                       disabled={activeMechanismStep >= 7}
                       onClick={() => setActiveMechanismStep((s) => Math.min(7, s + 1))}
-                      className="px-3 py-1.5 rounded-lg bg-[#FFFFFF] hover:bg-[#FAF8F5] border border-[#E5E0D8] text-[#6842C2] font-bold disabled:opacity-40 cursor-pointer"
+                      className="btn-secondary text-xs text-[var(--accent-blue-text)] disabled:opacity-40 cursor-pointer"
                     >
-                      Next Step →
+                      Next step →
                     </button>
                   </div>
                 </div>
@@ -905,59 +927,59 @@ export const SectionMeasure: React.FC = () => {
         )}
 
         {/* STATE CHANGE MINI-GRAPH: COORDINATE DELTAS ΔM_t */}
-        <div className="p-5 sm:p-6 rounded-2xl border border-[#E5E0D8] bg-[#FFFFFF] space-y-4 font-mono text-xs shadow-xs">
-          <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[#EAE6DF] pb-3">
+        <div className="diagram-frame p-5 sm:p-6 space-y-4 font-mono text-xs tabular-nums">
+          <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[var(--border)] pb-3">
             <div className="flex items-center gap-2">
-              <Activity className="w-4 h-4 text-[#167C80]" />
-              <span className="font-bold text-[#151515] uppercase text-xs">
-                State Coordinate Deltas (<MathView math="\Delta M_t = M_t - M_{t-1}" />)
+              <Activity className="w-4 h-4 text-[var(--accent-blue-text)]" />
+              <span className="font-semibold text-[var(--text-primary)] font-sans text-sm">
+                State coordinate deltas (<MathView math="\Delta M_t = M_t - M_{t-1}" />)
               </span>
             </div>
-            <span className="text-[11px] text-[#716F68]">
-              Final Ingestion Step: +{finalStep?.factWritten.key} → {finalStep?.factWritten.value}
+            <span className="text-xs text-[var(--text-secondary)] font-sans">
+              Final ingestion step: +{finalStep?.factWritten.key} → {finalStep?.factWritten.value}
             </span>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-            <div className="p-3.5 rounded-xl bg-[#EDF8F2] border border-[#CDEEDB] space-y-1">
-              <span className="text-[10px] text-[#247A4B] font-bold uppercase tracking-wider block">
-                LARGEST POSITIVE SHIFT
+            <div className="p-3.5 rounded-xl bg-[var(--accent-green)] border border-[var(--color-success-border)] space-y-1">
+              <span className="text-xs text-[var(--accent-green-text)] font-sans font-semibold block">
+                Largest positive shift
               </span>
-              <div className="text-sm font-bold text-[#247A4B]">
+              <div className="text-sm font-bold text-[var(--accent-green-text)]">
                 +{finalStep?.maxPosDelta.val.toFixed(4)}
               </div>
-              <div className="text-[10px] text-[#52504A]">
-                Coordinate #{finalStep?.maxPosDelta.index} (Constructive binding)
+              <div className="text-xs font-sans text-[var(--text-secondary)]">
+                Coordinate #{finalStep?.maxPosDelta.index} (constructive binding)
               </div>
             </div>
 
-            <div className="p-3.5 rounded-xl bg-[#FDF2F0] border border-[#F7D3CF] space-y-1">
-              <span className="text-[10px] text-[#B64235] font-bold uppercase tracking-wider block">
-                LARGEST NEGATIVE SHIFT
+            <div className="p-3.5 rounded-xl bg-[var(--accent-pink)] border border-[var(--color-danger-border)] space-y-1">
+              <span className="text-xs text-[var(--accent-pink-text)] font-sans font-semibold block">
+                Largest negative shift
               </span>
-              <div className="text-sm font-bold text-[#B64235]">
+              <div className="text-sm font-bold text-[var(--accent-pink-text)]">
                 {finalStep?.maxNegDelta.val.toFixed(4)}
               </div>
-              <div className="text-[10px] text-[#52504A]">
-                Coordinate #{finalStep?.maxNegDelta.index} (Destructive attenuation)
+              <div className="text-xs font-sans text-[var(--text-secondary)]">
+                Coordinate #{finalStep?.maxNegDelta.index} (destructive attenuation)
               </div>
             </div>
 
-            <div className="p-3.5 rounded-xl bg-[#FAF8F5] border border-[#EAE6DF] space-y-1">
-              <span className="text-[10px] text-[#167C80] font-bold uppercase tracking-wider block">
-                NEAR-ZERO COORDINATES
+            <div className="metric-panel space-y-1">
+              <span className="text-xs text-[var(--accent-blue-text)] font-sans font-semibold block">
+                Near-zero coordinates
               </span>
-              <div className="text-sm font-bold text-[#167C80]">
+              <div className="text-sm font-bold text-[var(--text-primary)]">
                 {finalStep?.nearZeroCount} / {dimension * dimension}
               </div>
-              <div className="text-[10px] text-[#52504A]">
+              <div className="text-xs font-sans text-[var(--text-secondary)]">
                 Coordinates unaffected (|Δ| &lt; 0.005)
               </div>
             </div>
           </div>
 
-          <div className="text-[11px] text-[#716F68] font-sans leading-relaxed pt-1">
-            <strong className="text-[#151515]">Scientific Note:</strong> Latent dimensions are continuous mathematical coordinates in <MathView math="\mathbb{R}^{D \times D}" /> without human-interpretable single-neuron labels. Interference happens because information is distributed across these superposed linear coordinates.
+          <div className="text-xs text-[var(--text-secondary)] font-sans leading-relaxed pt-1">
+            <strong className="text-[var(--text-primary)]">Scientific note:</strong> Latent dimensions are continuous mathematical coordinates in <MathView math="\mathbb{R}^{D \times D}" /> without human-interpretable single-neuron labels. Interference happens because information is distributed across these superposed linear coordinates.
           </div>
         </div>
 

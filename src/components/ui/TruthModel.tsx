@@ -1,4 +1,5 @@
 import React from 'react';
+import { StatusLabel } from './StatusLabel';
 
 export interface TruthModelProps {
   truth: string;
@@ -14,7 +15,7 @@ export interface TruthModelProps {
 export function TruthModel({
   truth,
   model,
-  label = "CAPITAL OF JAPAN",
+  label = "Capital of Japan",
   confidence,
   margin,
   status = "match",
@@ -23,58 +24,51 @@ export function TruthModel({
 }: TruthModelProps) {
   const isMatch = status === 'match';
   const isInterference = status === 'interference';
-  const isForgotten = status === 'forgotten';
 
   const statusColor = isMatch
-    ? 'text-[#247A4B] border-[#CDEEDB] bg-[#EDF8F2]'
+    ? 'text-[var(--accent-green-text)] border-[var(--color-success-border)] bg-[var(--accent-green)]'
     : isInterference
-    ? 'text-[#A46622] border-[#F5E2C4] bg-[#FDF8EE]'
-    : 'text-[#B64235] border-[#F7D3CF] bg-[#FDF2F0]';
+    ? 'text-[var(--accent-yellow-text)] border-[var(--color-warning-border)] bg-[var(--accent-yellow)]'
+    : 'text-[var(--accent-pink-text)] border-[var(--color-danger-border)] bg-[var(--accent-pink)]';
 
   const statusBadge = isMatch ? (
-    <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded-full border border-[#CDEEDB] bg-[#EDF8F2] text-[#247A4B]">
-      STATE MATCH
-    </span>
+    <StatusLabel status="correct" label="State match" />
   ) : isInterference ? (
-    <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded-full border border-[#F5E2C4] bg-[#FDF8EE] text-[#A46622]">
-      INTERFERENCE
-    </span>
+    <StatusLabel status="interference" label="Interference" />
   ) : (
-    <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded-full border border-[#F7D3CF] bg-[#FDF2F0] text-[#B64235]">
-      DECAYED / FORGOTTEN
-    </span>
+    <StatusLabel status="decayed" label="Decayed" />
   );
 
   return (
-    <div id={id} className="rounded-xl border border-[#E5E0D8] bg-[#FFFFFF] p-4 text-[#151515] space-y-3 shadow-xs">
-      <div className="flex items-center justify-between text-xs tracking-wider text-[#716F68] uppercase font-mono">
-        <span>{label}</span>
+    <div id={id} className="rounded-xl border border-[var(--border)] bg-[var(--surface)] p-4 text-[var(--text-primary)] space-y-3">
+      <div className="flex items-center justify-between gap-2 text-xs text-[var(--text-muted)] font-mono">
+        <span className="truncate">{label}</span>
         {statusBadge}
       </div>
 
       <div className="grid grid-cols-2 gap-3 text-sm">
-        <div className="rounded-lg border border-[#E5E0D8] bg-[#FAF8F5] p-3">
-          <div className="text-[10px] uppercase tracking-wider text-[#716F68] font-mono mb-1">GROUND TRUTH</div>
-          <div className="font-serif font-bold text-[#151515] text-base">{truth}</div>
+        <div className="rounded-lg border border-[var(--border)] bg-[var(--surface-soft)] p-3">
+          <div className="text-[11px] text-[var(--text-muted)] font-mono mb-1">Ground truth</div>
+          <div className="font-serif font-semibold text-[var(--text-primary)] text-base">{truth}</div>
         </div>
 
         <div className={`rounded-lg border p-3 ${statusColor}`}>
-          <div className="text-[10px] uppercase tracking-wider opacity-80 font-mono mb-1">MODEL PREDICTION</div>
-          <div className="font-serif font-bold text-base">{model}</div>
+          <div className="text-[11px] opacity-85 font-mono mb-1">Model prediction</div>
+          <div className="font-serif font-semibold text-base">{model}</div>
         </div>
       </div>
 
       {(confidence !== undefined || margin !== undefined) && (
-        <div className="flex items-center justify-between text-xs font-mono text-[#716F68] pt-2 border-t border-[#EAE6DF]">
+        <div className="flex items-center justify-between gap-2 text-xs font-mono tabular-nums text-[var(--text-secondary)] pt-2 border-t border-[var(--border)]">
           {confidence !== undefined && (
             <span>
-              Cosine Sim: <strong className="text-[#151515]">{confidence.toFixed(3)}</strong>
+              Cosine sim: <strong className="text-[var(--text-primary)]">{confidence.toFixed(3)}</strong>
             </span>
           )}
           {margin !== undefined && (
             <span>
-              Decision Margin:{' '}
-              <strong className={margin > 0.1 ? 'text-[#247A4B]' : 'text-[#A46622]'}>
+              Margin:{' '}
+              <strong className={margin > 0.1 ? 'text-[var(--accent-green-text)]' : 'text-[var(--accent-yellow-text)]'}>
                 {margin > 0 ? `+${margin.toFixed(2)}` : margin.toFixed(2)}
               </strong>
             </span>
@@ -83,7 +77,7 @@ export function TruthModel({
       )}
 
       {explanation && (
-        <div className="text-xs text-[#52504A] font-sans leading-relaxed border-t border-[#EAE6DF] pt-2">
+        <div className="text-xs text-[var(--text-secondary)] font-sans leading-relaxed border-t border-[var(--border)] pt-2">
           {explanation}
         </div>
       )}

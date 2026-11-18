@@ -21,22 +21,22 @@ export const SourceBadge: React.FC<SourceBadgeProps> = ({ type, className = '' }
     case 'primary':
       return (
         <span
-          className={`inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-md border border-[#E2D8FA] bg-[#F3EFFF] text-[#6842C2] font-mono text-[10px] tracking-wider font-bold uppercase ${className}`}
+          className={`inline-flex items-center gap-1.5 px-2 py-0.5 rounded-md border border-[var(--border)] bg-[var(--accent-blue)] text-[var(--accent-blue-text)] font-mono text-[11px] font-medium whitespace-nowrap ${className}`}
           title="Peer-reviewed or formal technical preprint literature"
         >
-          <BookOpen className="w-3 h-3 text-[#6842C2]" />
-          <span>[PRIMARY PAPER]</span>
+          <BookOpen className="w-3 h-3 shrink-0" />
+          <span>Primary Paper</span>
         </span>
       );
 
     case 'official':
       return (
         <span
-          className={`inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-md border border-[#CFE8E8] bg-[#EDF7F7] text-[#167C80] font-mono text-[10px] tracking-wider font-bold uppercase ${className}`}
+          className={`inline-flex items-center gap-1.5 px-2 py-0.5 rounded-md border border-[var(--color-success-border)] bg-[var(--accent-green)] text-[var(--accent-green-text)] font-mono text-[11px] font-medium whitespace-nowrap ${className}`}
           title="Official Pathway technical releases, documentation, or code repositories"
         >
-          <ShieldCheck className="w-3 h-3 text-[#167C80]" />
-          <span>[OFFICIAL PATHWAY]</span>
+          <ShieldCheck className="w-3 h-3 shrink-0" />
+          <span>Official Pathway</span>
         </span>
       );
 
@@ -44,33 +44,33 @@ export const SourceBadge: React.FC<SourceBadgeProps> = ({ type, className = '' }
     case 'TOY COMPUTATION':
       return (
         <span
-          className={`inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-md border border-[#F5E2C4] bg-[#FDF8EE] text-[#A46622] font-mono text-[10px] tracking-wider font-bold uppercase ${className}`}
+          className={`inline-flex items-center gap-1.5 px-2 py-0.5 rounded-md border border-[var(--color-warning-border)] bg-[var(--accent-yellow)] text-[var(--accent-yellow-text)] font-mono text-[11px] font-medium whitespace-nowrap ${className}`}
           title="Educational in-browser simulation built to demonstrate principles"
         >
-          <Cpu className="w-3 h-3 text-[#A46622]" />
-          <span>[OUR TOY EXPERIMENT]</span>
+          <Cpu className="w-3 h-3 shrink-0" />
+          <span>Toy Experiment</span>
         </span>
       );
 
     case 'OBSERVED RESULT':
       return (
         <span
-          className={`inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-md border border-[#CDEEDB] bg-[#EDF8F2] text-[#247A4B] font-mono text-[10px] tracking-wider font-bold uppercase ${className}`}
+          className={`inline-flex items-center gap-1.5 px-2 py-0.5 rounded-md border border-[var(--color-success-border)] bg-[var(--accent-green)] text-[var(--accent-green-text)] font-mono text-[11px] font-medium whitespace-nowrap ${className}`}
           title="Direct measurement observed in current simulation session"
         >
-          <Activity className="w-3 h-3 text-[#247A4B]" />
-          <span>[OBSERVED RESULT]</span>
+          <Activity className="w-3 h-3 shrink-0" />
+          <span>Observed Result</span>
         </span>
       );
 
     case 'EXPLANATION':
       return (
         <span
-          className={`inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-md border border-[#D3E2F2] bg-[#EEF4FA] text-[#2F6399] font-mono text-[10px] tracking-wider font-bold uppercase ${className}`}
+          className={`inline-flex items-center gap-1.5 px-2 py-0.5 rounded-md border border-[var(--border)] bg-[var(--accent-blue)] text-[var(--accent-blue-text)] font-mono text-[11px] font-medium whitespace-nowrap ${className}`}
           title="Theoretical deduction explaining the empirical phenomena"
         >
-          <FileText className="w-3 h-3 text-[#2F6399]" />
-          <span>[EXPLANATION]</span>
+          <FileText className="w-3 h-3 shrink-0" />
+          <span>Explanation</span>
         </span>
       );
 
@@ -78,11 +78,11 @@ export const SourceBadge: React.FC<SourceBadgeProps> = ({ type, className = '' }
     default:
       return (
         <span
-          className={`inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-md border border-[#EAE6DF] bg-[#FAF8F5] text-[#716F68] font-mono text-[10px] tracking-wider font-bold uppercase ${className}`}
+          className={`inline-flex items-center gap-1.5 px-2 py-0.5 rounded-md border border-[var(--border)] bg-[var(--surface-soft)] text-[var(--text-secondary)] font-mono text-[11px] font-medium whitespace-nowrap ${className}`}
           title="Schematic visual representation to aid conceptual intuition"
         >
-          <Sparkles className="w-3 h-3 text-[#716F68]" />
-          <span>[ILLUSTRATION]</span>
+          <Sparkles className="w-3 h-3 shrink-0" />
+          <span>Illustration</span>
         </span>
       );
   }

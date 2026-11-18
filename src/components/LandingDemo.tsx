@@ -641,112 +641,80 @@ export const LandingDemo: React.FC<LandingDemoProps> = ({
   return (
     <section
       id="landing-hero"
-      className="w-full border-b border-[var(--border)] bg-[var(--page-bg)] text-[var(--text-primary)] hero relative overflow-hidden"
+      className="w-full border-b border-[var(--border)] bg-[var(--page-bg)] text-[var(--text-primary)] hero relative"
     >
-      <div className="w-full max-w-[1400px] mx-auto relative z-10 space-y-6">
-        {/* Top Research Bar: Structured Editorial & Mathematical Context */}
+      <div className="research-container space-y-8">
+        {/* Top Research Context Line */}
         <div className="flex flex-wrap items-center justify-between gap-3 pb-3 border-b border-[var(--border)] text-xs font-mono text-[var(--text-secondary)]">
           <div className="flex items-center gap-2">
             <span className="font-semibold text-[var(--accent-blue-text)]">Stage 01 · Foundation</span>
             <span aria-hidden="true" className="text-[var(--border)]">·</span>
-            <span>Associative fast-weight recurrence</span>
+            <span>In-context learning with recurrent memory</span>
           </div>
 
-          <div className="text-xs font-mono text-[var(--text-secondary)]">
+          <div className="text-xs font-mono tabular-nums text-[var(--text-secondary)]">
             <InlineMath math={`M \\in \\mathbb{R}^{${dim} \\times ${dim}}`} />
           </div>
         </div>
 
         {/* Framing Question & Editorial Statement */}
-        <div className="max-w-[840px] space-y-4">
+        <div className="max-w-[780px] space-y-4">
           <h1 className="hero-title">
             Can a fixed-size state remember what matters?
           </h1>
           <p className="hero-description">
-            A recurrent state can carry information forward without storing every previous token.
-            Instead of an unbounded KV cache, it compresses facts into continuous matrix updates.
-            Observe the live instrument below to see how superposition and decay govern retrieval.
+            A recurrent state carries task-relevant information forward without growing a token-by-token cache.
+            Compressing sequential facts into fixed matrix coordinates saves memory—but creates interference and forgetting.
           </p>
-          
-          {/* ONE Primary CTA + Quiet Secondary Action */}
+
+          {/* Primary CTA + Quiet Secondary Action */}
           <div className="flex flex-wrap items-center gap-3 pt-1">
             <button
               type="button"
               onClick={() => {
-                const el = document.getElementById('live-experiment-instrument') || document.getElementById('live-experiment-debug-panel');
-                if (el) {
-                  el.scrollIntoView({ behavior: 'smooth' });
-                }
+                const el = document.getElementById('live-experiment-instrument');
+                if (el) el.scrollIntoView({ behavior: 'smooth' });
                 if (onExploreClick) onExploreClick();
               }}
               className="btn-primary"
             >
-              <span>Start the experiment →</span>
+              <span>Run live experiment →</span>
             </button>
 
             <button
               type="button"
               onClick={() => {
-                const el = document.getElementById('section-01') || document.getElementById('section-tradeoff');
+                const el = document.getElementById('section-01');
                 if (el) el.scrollIntoView({ behavior: 'smooth' });
               }}
               className="btn-secondary"
             >
               <BookOpen className="w-4 h-4 text-[var(--accent-blue-text)]" />
-              <span>Explore the research</span>
+              <span>Read the mechanism</span>
             </button>
-          </div>
-        </div>
 
-        {/* Editorial Section Divider: Clean scientific transition into instrument */}
-        <div className="pt-4 border-t border-[var(--border)] flex items-center justify-between gap-3 text-xs text-[var(--text-secondary)] font-mono">
-          <div className="flex items-center gap-2">
-            <span className="w-2 h-2 rounded-full bg-[var(--accent-green-text)] animate-pulse" />
-            <span className="uppercase tracking-wider font-semibold text-[var(--text-primary)]">
-              Interactive Memory Instrument
-            </span>
+            {onStartJudgeMode && (
+              <button
+                type="button"
+                onClick={onStartJudgeMode}
+                className="btn-tertiary"
+              >
+                <Clock className="w-4 h-4" />
+                <span>60s guided verification</span>
+              </button>
+            )}
           </div>
-          <span className="hidden sm:inline">
-            <InlineMath math="M_{t+1} = \lambda M_t + \eta k_t v_t^\top" />
-          </span>
         </div>
 
         {/* THE HERO SCIENTIFIC INSTRUMENT */}
-        {/* Instrumentation: DebugPanel Component Extracting Real Engine State */}
-        <DebugPanel
-          id="live-experiment-debug-panel"
-          className="mb-4"
-          activeFactsCount={experiment.facts.length}
-          step={experiment.step}
-          matrixNorm={matrixNorm}
-          activeProbe={experiment.activeProbe}
-          prediction={experiment.evaluation.prediction}
-          groundTruth={experiment.evaluation.groundTruth}
-          retrievalScore={experiment.evaluation.retrievalScore}
-          top1Margin={experiment.evaluation.top1Margin}
-          status={experiment.evaluation.status}
-          mode="interactive"
-          facts={experiment.facts}
-          matrix={experiment.matrix}
-          state={experiment.state}
-          history={experiment.history}
-          config={{
-            dimension: dim,
-            retention,
-            writeStrength,
-            interference: interferenceNoise,
-          }}
-        />
-
-        <div className="rounded-2xl border border-[var(--border)] bg-[var(--surface)] shadow-xs overflow-hidden">
+        <div id="live-experiment-instrument" className="diagram-frame">
           {/* Instrument Header Bar */}
-          <div className="px-5 sm:px-7 py-4 border-b border-[var(--border)] bg-[var(--surface-soft)] flex flex-wrap items-center justify-between gap-3">
-            <div className="flex items-center gap-2.5">
-              <div className="w-2.5 h-2.5 rounded-full bg-[var(--accent-green-text)] animate-pulse" />
-              <h2 className="font-serif font-bold text-base sm:text-lg text-[var(--text-primary)]">
+          <div className="px-5 sm:px-6 py-4 border-b border-[var(--border)] bg-[var(--surface-soft)] flex flex-wrap items-center justify-between gap-3">
+            <div className="flex flex-wrap items-center gap-3">
+              <h2 className="font-sans font-semibold text-base sm:text-lg text-[var(--text-primary)]">
                 Live Recurrent Memory Instrument
               </h2>
-              <span className="font-mono text-xs text-[var(--text-secondary)] hidden md:inline border-l border-[var(--border)] pl-2.5">
+              <span className="font-mono text-xs text-[var(--text-secondary)] hidden md:inline border-l border-[var(--border)] pl-3">
                 <InlineMath math="M_{t+1} = \lambda M_t + \eta k_t v_t^\top" />
               </span>
             </div>
@@ -756,7 +724,7 @@ export const LandingDemo: React.FC<LandingDemoProps> = ({
               <button
                 type="button"
                 onClick={handleReset}
-                className="btn btn-secondary text-xs"
+                className="btn-secondary text-xs"
                 title="Reset memory instrument to initial state"
                 aria-label="Reset memory"
               >
@@ -767,7 +735,7 @@ export const LandingDemo: React.FC<LandingDemoProps> = ({
               <button
                 type="button"
                 onClick={handleStepForward}
-                className="btn btn-secondary text-xs"
+                className="btn-secondary text-xs"
                 title="Step forward one fact write"
               >
                 Step
@@ -776,7 +744,7 @@ export const LandingDemo: React.FC<LandingDemoProps> = ({
               <button
                 type="button"
                 onClick={handleTogglePlay}
-                className={`btn ${isRunning ? 'btn-primary' : 'btn-secondary'} text-xs`}
+                className={`${isRunning ? 'btn-primary' : 'btn-secondary'} text-xs`}
                 title={isRunning ? 'Pause playback' : 'Play sequence writes step-by-step'}
               >
                 {isRunning ? (
@@ -795,19 +763,17 @@ export const LandingDemo: React.FC<LandingDemoProps> = ({
           </div>
 
           {/* 3-Column Instrument Grid: INPUT STREAM | CURRENT STATE | QUERY & RESULT */}
-          <div className="p-5 sm:p-7 grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+          <div className="p-5 sm:p-6 grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
             {/* COLUMN 1: INPUT STREAM (4 Cols) */}
             <div className="lg:col-span-4 space-y-3">
-              <div className="flex items-center justify-between pb-1 border-b border-[#EAE6DF]">
-                <div>
-                  <h3 className="font-sans text-xs uppercase tracking-wider text-[#6B665E] font-semibold">
-                    Input stream ({experiment.step}/{experiment.facts.length} written)
-                  </h3>
-                </div>
+              <div className="flex items-center justify-between pb-2 border-b border-[var(--border)]">
+                <h3 className="font-mono text-xs font-semibold tabular-nums text-[var(--text-secondary)]">
+                  Input stream ({experiment.step}/{experiment.facts.length} written)
+                </h3>
                 <button
                   type="button"
                   onClick={() => setShowCustomInput((prev) => !prev)}
-                  className="btn btn-primary text-xs py-1 px-2.5 min-h-[32px]"
+                  className="btn-primary text-xs py-1 px-2.5 min-h-[30px]"
                 >
                   <Plus className="w-3.5 h-3.5" />
                   <span>{showCustomInput ? 'Close' : 'Add fact'}</span>
@@ -816,7 +782,7 @@ export const LandingDemo: React.FC<LandingDemoProps> = ({
 
               {/* Custom fact input form */}
               {showCustomInput && (
-                <div className="p-3.5 rounded-xl bg-[#FAF8F3] border border-[#D8D3C9] space-y-2.5 text-xs font-sans">
+                <div className="p-3.5 rounded-xl bg-[var(--surface-soft)] border border-[var(--border)] space-y-2.5 text-xs font-sans">
                   <form onSubmit={handleAddCustomFact} className="space-y-2">
                     <div className="grid grid-cols-2 gap-2">
                       <input
@@ -824,21 +790,21 @@ export const LandingDemo: React.FC<LandingDemoProps> = ({
                         placeholder="Key (e.g. Spain)"
                         value={customKey}
                         onChange={(e) => setCustomKey(e.target.value)}
-                        className="px-2.5 py-1.5 rounded-md border border-[#D8D3C9] bg-white text-[#1C1B19] font-mono text-xs focus:outline-none focus:border-[#31566E]"
+                        className="px-2.5 py-1.5 rounded-md border border-[var(--border)] bg-[var(--surface)] text-[var(--text-primary)] placeholder:text-[var(--text-muted)] font-mono text-xs focus:outline-none focus:border-[var(--color-accent)]"
                       />
                       <input
                         type="text"
                         placeholder="Value (e.g. Madrid)"
                         value={customValue}
                         onChange={(e) => setCustomValue(e.target.value)}
-                        className="px-2.5 py-1.5 rounded-md border border-[#D8D3C9] bg-white text-[#1C1B19] font-mono text-xs focus:outline-none focus:border-[#31566E]"
+                        className="px-2.5 py-1.5 rounded-md border border-[var(--border)] bg-[var(--surface)] text-[var(--text-primary)] placeholder:text-[var(--text-muted)] font-mono text-xs focus:outline-none focus:border-[var(--color-accent)]"
                       />
                     </div>
                     <div className="flex justify-end">
                       <button
                         type="submit"
                         disabled={!customKey.trim() || !customValue.trim()}
-                        className="btn btn-primary text-xs py-1 px-3"
+                        className="btn-primary text-xs py-1 px-3"
                       >
                         Insert into stream
                       </button>
@@ -846,16 +812,16 @@ export const LandingDemo: React.FC<LandingDemoProps> = ({
                   </form>
 
                   {/* Quick Preset Buttons */}
-                  <div className="pt-1.5 border-t border-[#E5E0D8]">
-                    <span className="text-xs text-[#6B665E] block mb-1 font-mono">Quick presets:</span>
-                    <div className="flex flex-wrap gap-1">
+                  <div className="pt-2 border-t border-[var(--border)]">
+                    <span className="text-xs text-[var(--text-muted)] block mb-1.5 font-mono">Quick presets:</span>
+                    <div className="flex flex-wrap gap-1.5">
                       {QUICK_PRESETS.map((preset) => (
                         <button
                           key={preset.key}
                           type="button"
                           onClick={() => handleQuickAdd(preset)}
                           disabled={experiment.facts.some((f) => f.key.toLowerCase() === preset.key.toLowerCase())}
-                          className="btn btn-secondary text-xs py-0.5 px-2 min-h-[26px]"
+                          className="btn-secondary text-xs py-1 px-2 min-h-[28px]"
                         >
                           + {preset.key} → {preset.value}
                         </button>
@@ -875,32 +841,32 @@ export const LandingDemo: React.FC<LandingDemoProps> = ({
                   return (
                     <div
                       key={`${fact.key}-${idx}`}
-                      className={`p-2.5 rounded-xl border transition-all flex items-center justify-between text-xs ${
+                      className={`p-2.5 rounded-lg border transition-colors flex items-center justify-between text-xs ${
                         isCurrentlyWriting
-                          ? 'border-[#245B38] bg-[#EBF7EE] text-[#1C1B19] shadow-xs'
+                          ? 'border-[var(--color-success-border)] bg-[var(--accent-green)] text-[var(--text-primary)]'
                           : isTarget
-                          ? 'border-[#31566E] bg-[#F4F8FA] text-[#1C1B19]'
+                          ? 'border-[var(--color-accent)] bg-[var(--accent-blue)] text-[var(--text-primary)]'
                           : isWritten
-                          ? 'border-[#D8D3C9] bg-[#FFFFFF] text-[#1C1B19]'
-                          : 'border-[#E5E0D8] bg-[#FAF8F3] text-[#9E9A92] opacity-60'
+                          ? 'border-[var(--border)] bg-[var(--surface)] text-[var(--text-primary)]'
+                          : 'border-[var(--border)] bg-[var(--surface-soft)] text-[var(--text-muted)] opacity-70'
                       }`}
                     >
                       <div className="flex items-center gap-2.5 truncate">
                         <span
-                          className={`w-5 h-5 rounded-full font-mono text-xs flex items-center justify-center font-bold ${
+                          className={`w-5 h-5 rounded-md font-mono text-xs tabular-nums flex items-center justify-center font-semibold shrink-0 ${
                             isCurrentlyWriting
-                              ? 'bg-[#245B38] text-white animate-pulse'
+                              ? 'bg-[var(--color-success)] text-[var(--surface)]'
                               : isWritten
-                              ? 'bg-[#EFEBE0] text-[#1C1B19]'
-                              : 'bg-transparent text-[#9E9A92] border border-[#D8D3C9]'
+                              ? 'bg-[var(--surface-soft)] text-[var(--text-primary)] border border-[var(--border)]'
+                              : 'bg-transparent text-[var(--text-muted)] border border-[var(--border)]'
                           }`}
                         >
                           {idx + 1}
                         </span>
                         <div className="truncate">
-                          <span className="font-semibold text-[#1C1B19]">{fact.key}</span>
-                          <span className="text-[#9E9A92] mx-1.5">→</span>
-                          <span className={isTarget ? 'font-bold text-[#31566E]' : 'text-[#403D38]'}>
+                          <span className="font-semibold text-[var(--text-primary)]">{fact.key}</span>
+                          <span className="text-[var(--text-muted)] mx-1.5">→</span>
+                          <span className={isTarget ? 'font-semibold text-[var(--accent-blue-text)]' : 'text-[var(--text-secondary)]'}>
                             {fact.value}
                           </span>
                         </div>
@@ -908,14 +874,14 @@ export const LandingDemo: React.FC<LandingDemoProps> = ({
 
                       <div className="flex items-center gap-1 shrink-0 ml-2">
                         {isTarget ? (
-                          <span className="px-2 py-0.5 rounded text-xs font-mono font-bold bg-[#31566E] text-white">
+                          <span className="px-2 py-0.5 rounded text-[11px] font-mono font-semibold bg-[var(--color-accent)] text-[var(--surface)]">
                             Probe
                           </span>
                         ) : (
                           <button
                             type="button"
                             onClick={() => handleSetProbe(fact.key)}
-                            className="btn btn-secondary text-xs py-0.5 px-2 min-h-[24px]"
+                            className="btn-secondary text-xs py-0.5 px-2 min-h-[26px]"
                             title={`Set ${fact.key} as probe target`}
                           >
                             Probe
@@ -925,7 +891,7 @@ export const LandingDemo: React.FC<LandingDemoProps> = ({
                           <button
                             type="button"
                             onClick={() => handleRemoveFact(idx)}
-                            className="p-1 rounded text-[#9E9A92] hover:text-[#8A352E] transition-colors cursor-pointer"
+                            className="p-1 rounded text-[var(--text-muted)] hover:text-[var(--accent-pink-text)] transition-colors cursor-pointer"
                             title="Remove fact"
                             aria-label={`Remove fact ${fact.key}`}
                           >
@@ -944,7 +910,7 @@ export const LandingDemo: React.FC<LandingDemoProps> = ({
                   <button
                     type="button"
                     onClick={handleAddDistractor}
-                    className="btn btn-secondary w-full py-2 px-3 flex items-center justify-center gap-1.5"
+                    className="btn-secondary w-full py-2 px-3 flex items-center justify-center gap-1.5 text-xs"
                   >
                     <Plus className="w-3.5 h-3.5" />
                     <span>Add distractor: {nextDistractor.key} → {nextDistractor.value}</span>
@@ -955,21 +921,21 @@ export const LandingDemo: React.FC<LandingDemoProps> = ({
 
             {/* COLUMN 2: CURRENT STATE M & RETRIEVED VECTOR (4 Cols) */}
             <div className="lg:col-span-4 space-y-3.5">
-              <div className="flex items-center justify-between">
-                <span className="font-mono text-xs uppercase tracking-wider text-[#6B665E] font-semibold flex items-center gap-1.5">
-                  <Layers className="w-3.5 h-3.5 text-[#6842C2]" />
-                  Memory State <InlineMath math="M_t" /> (<InlineMath math={`t = ${experiment.step}`} />)
+              <div className="flex items-center justify-between gap-2">
+                <span className="font-mono text-xs text-[var(--text-secondary)] font-semibold flex items-center gap-1.5">
+                  <Layers className="w-3.5 h-3.5 text-[var(--accent-blue-text)]" />
+                  Memory state <InlineMath math="M_t" /> (<InlineMath math={`t = ${experiment.step}`} />)
                 </span>
-                <span className="font-mono text-xs text-[#403D38] flex items-center gap-1">
+                <span className="font-mono text-xs tabular-nums text-[var(--text-primary)] flex items-center gap-1">
                   <InlineMath math="\|M\|_F" /> = <strong>{matrixNorm.toFixed(3)}</strong>
                 </span>
               </div>
 
               {/* Matrix Heatmap View */}
-              <div className="p-3.5 rounded-xl border border-[#292D33] bg-[#0D0F12] text-[#F5F3EE] space-y-3 shadow-inner">
-                <div className="flex items-center justify-between text-xs font-mono text-[#C8C4BC]">
-                  <span className="flex items-center gap-1">
-                    <InlineMath math={`${dim} \\times ${dim}`} /> STATE MATRIX
+              <div className="p-3.5 rounded-xl border border-[var(--color-matrix-border)] bg-[var(--color-matrix-bg)] text-[var(--color-matrix-ink)] space-y-3">
+                <div className="flex items-center justify-between text-xs font-mono tabular-nums text-[var(--color-matrix-muted)]">
+                  <span>
+                    <InlineMath math={`${dim} \\times ${dim}`} /> state matrix
                   </span>
                   <span>
                     <InlineMath math={`\\lambda = ${retention.toFixed(2)}`} />
@@ -988,8 +954,8 @@ export const LandingDemo: React.FC<LandingDemoProps> = ({
                       const isPos = val >= 0;
                       const abs = Math.min(Math.abs(val) * 1.4, 1);
                       const bg = isPos
-                        ? `rgba(104, 66, 194, ${Math.max(0.15, abs)})`
-                        : `rgba(40, 124, 124, ${Math.max(0.15, abs)})`;
+                        ? `rgba(78, 134, 240, ${Math.max(0.16, abs)})`
+                        : `rgba(220, 76, 76, ${Math.max(0.16, abs)})`;
 
                       const isSelected = selectedCell?.r === rIdx && selectedCell?.c === cIdx;
                       const isHovered = hoveredCell?.r === rIdx && hoveredCell?.c === cIdx;
@@ -1011,11 +977,11 @@ export const LandingDemo: React.FC<LandingDemoProps> = ({
                               setSelectedCell({ r: rIdx, c: cIdx, val, delta });
                             }
                           }}
-                          className={`aspect-square rounded-[2px] transition-all duration-150 border cursor-pointer ${
+                          className={`aspect-square rounded-[2px] transition-transform duration-150 border cursor-pointer ${
                             isSelected
-                              ? 'border-yellow-400 ring-2 ring-yellow-400/80 z-10 scale-125'
+                              ? 'border-amber-300 ring-2 ring-amber-300/80 z-10 scale-125'
                               : isHovered
-                              ? 'border-white ring-1 ring-white/60 z-10 scale-110'
+                              ? 'border-white ring-1 ring-white/70 z-10 scale-110'
                               : 'border-white/10'
                           }`}
                         />
@@ -1026,73 +992,73 @@ export const LandingDemo: React.FC<LandingDemoProps> = ({
 
                 {/* Interactive Cell Inspector Box */}
                 {activeInspectCell ? (
-                  <div className="p-2.5 rounded-lg bg-[#151922] border border-[#292D33] text-xs font-mono text-[#F5F3EE] space-y-1">
+                  <div className="p-2.5 rounded-lg bg-[var(--color-matrix-surface)] border border-[var(--color-matrix-border)] text-xs font-mono tabular-nums text-[var(--color-matrix-ink)] space-y-1">
                     <div className="flex items-center justify-between">
-                      <span className="text-[#A78BFA] font-bold">
+                      <span className="text-sky-300 font-semibold">
                         <InlineMath math={`M[${activeInspectCell.r}, ${activeInspectCell.c}]`} />
                       </span>
-                      <span className="text-xs text-[#C8C4BC]">
-                        {selectedCell ? '(Pinned)' : '(Hover)'}
+                      <span className="text-xs text-[var(--color-matrix-muted)]">
+                        {selectedCell ? 'Pinned' : 'Hover'}
                       </span>
                     </div>
                     <div className="flex items-center gap-4 text-xs">
                       <div>
-                        <span className="text-[#9E9A92]">Value: </span>
-                        <strong className="text-white">{activeInspectCell.val.toFixed(4)}</strong>
+                        <span className="text-[var(--color-matrix-muted)]">Value: </span>
+                        <strong className="text-[var(--color-matrix-ink)]">{activeInspectCell.val.toFixed(4)}</strong>
                       </div>
                       <div>
-                        <span className="text-[#9E9A92]">&Delta;: </span>
+                        <span className="text-[var(--color-matrix-muted)]">&Delta;: </span>
                         <strong
                           className={
                             activeInspectCell.delta > 0.0001
-                              ? 'text-emerald-400'
+                              ? 'text-emerald-300'
                               : activeInspectCell.delta < -0.0001
-                              ? 'text-rose-400'
-                              : 'text-slate-400'
+                              ? 'text-rose-300'
+                              : 'text-[var(--color-matrix-muted)]'
                           }
                         >
                           {activeInspectCell.delta >= 0 ? `+${activeInspectCell.delta.toFixed(4)}` : activeInspectCell.delta.toFixed(4)}
                         </strong>
                       </div>
                     </div>
-                    <div className="text-xs text-[#C8C4BC] font-sans">
+                    <div className="text-xs text-[var(--color-matrix-muted)] font-sans">
                       {activeInspectCell.val > 0.05 ? (
                         <span className="text-emerald-300">Constructive associative weight strengthening key-value binding.</span>
                       ) : activeInspectCell.val < -0.05 ? (
                         <span className="text-rose-300">Negative interference coordinate from superimposed distractor projection.</span>
                       ) : (
-                        <span className="text-slate-400">Near-zero coordinate in residual subspace.</span>
+                        <span>Near-zero coordinate in residual subspace.</span>
                       )}
                     </div>
                   </div>
                 ) : (
-                  <div className="text-xs font-mono text-[#9E9A92] text-center py-1">
+                  <div className="text-xs font-mono text-[var(--color-matrix-muted)] text-center py-1">
                     Hover or click any matrix coordinate to inspect
                   </div>
                 )}
 
                 {/* Color Legend */}
-                <div className="flex items-center justify-between text-xs font-mono text-[#C8C4BC] pt-1.5 border-t border-[#292D33]">
+                <div className="flex items-center justify-between text-xs font-mono text-[var(--color-matrix-muted)] pt-2 border-t border-[var(--color-matrix-border)]">
                   <div className="flex items-center gap-1.5">
-                    <div className="w-2.5 h-2.5 rounded-[2px] bg-[#6842C2]" />
-                    <span>Positive association</span>
+                    <div className="w-2.5 h-2.5 rounded-[2px] bg-sky-400" />
+                    <span>Positive weight</span>
                   </div>
                   <div className="flex items-center gap-1.5">
-                    <div className="w-2.5 h-2.5 rounded-[2px] bg-[#287C7C]" />
-                    <span>Negative interference</span>
+                    <div className="w-2.5 h-2.5 rounded-[2px] bg-rose-400" />
+                    <span>Negative weight</span>
                   </div>
                 </div>
               </div>
 
               {/* Retrieved State Vector Strip: v_hat = q^T M in R^d */}
-              <div className="p-3.5 rounded-xl border border-[#292D33] bg-[#0D0F12] text-[#F5F3EE] space-y-2.5 shadow-inner">
-                <div className="flex items-center justify-between text-xs font-mono text-[#C8C4BC]">
-                  <span className="flex items-center gap-1.5 font-bold text-[#A78BFA]">
-                    <Activity className="w-3.5 h-3.5 text-[#A78BFA]" />
-                    STATE VECTOR <InlineMath math="\hat{v} = q^\top M" />
+              <div className="p-3.5 rounded-xl border border-[var(--color-matrix-border)] bg-[var(--color-matrix-bg)] text-[var(--color-matrix-ink)] space-y-2.5">
+                <div className="flex items-center justify-between text-xs font-mono tabular-nums text-[var(--color-matrix-muted)]">
+                  <span className="flex items-center gap-1.5 font-semibold text-sky-300">
+                    <Activity className="w-3.5 h-3.5 text-sky-300" />
+                    State vector <InlineMath math="\hat{v} = q^\top M" />
                   </span>
-                  <span className="text-[#C8C4BC]">
-                    <InlineMath math="\|\hat{v}\|_2" /> = <strong className="text-white">{vectorNorm.toFixed(3)}</strong>
+                  <span>
+                    <InlineMath math="\|\hat{v}\|_2" /> = <strong className="text-[var(--color-matrix-ink)]">{vectorNorm.toFixed(3)}</strong>
                   </span>
                 </div>
 
@@ -1107,8 +1073,8 @@ export const LandingDemo: React.FC<LandingDemoProps> = ({
                     const isPos = val >= 0;
                     const abs = Math.min(Math.abs(val) * 1.5, 1);
                     const bg = isPos
-                      ? `rgba(167, 139, 250, ${Math.max(0.18, abs)})`
-                      : `rgba(40, 124, 124, ${Math.max(0.18, abs)})`;
+                      ? `rgba(126, 168, 255, ${Math.max(0.18, abs)})`
+                      : `rgba(220, 76, 76, ${Math.max(0.18, abs)})`;
 
                     const isSelected = selectedVectorCoord?.idx === idx;
                     const isHovered = hoveredVectorCoord?.idx === idx;
@@ -1126,11 +1092,11 @@ export const LandingDemo: React.FC<LandingDemoProps> = ({
                             setSelectedVectorCoord({ idx, val });
                           }
                         }}
-                        className={`h-6 rounded-[2px] transition-all duration-150 border cursor-pointer ${
+                        className={`h-6 rounded-[2px] transition-transform duration-150 border cursor-pointer ${
                           isSelected
-                            ? 'border-yellow-400 ring-2 ring-yellow-400/80 z-10 scale-110'
+                            ? 'border-amber-300 ring-2 ring-amber-300/80 z-10 scale-110'
                             : isHovered
-                            ? 'border-white ring-1 ring-white/60 z-10 scale-105'
+                            ? 'border-white ring-1 ring-white/70 z-10 scale-105'
                             : 'border-white/10'
                         }`}
                         title={`Coordinate j=${idx}: ${val.toFixed(4)}`}
@@ -1141,84 +1107,83 @@ export const LandingDemo: React.FC<LandingDemoProps> = ({
 
                 {/* Vector coordinate inspector feedback */}
                 {activeVectorCoord ? (
-                  <div className="p-2 rounded-lg bg-[#151922] border border-[#292D33] text-xs font-mono text-[#F5F3EE] flex items-center justify-between">
-                    <span className="text-[#A78BFA] font-bold">
+                  <div className="p-2 rounded-lg bg-[var(--color-matrix-surface)] border border-[var(--color-matrix-border)] text-xs font-mono tabular-nums text-[var(--color-matrix-ink)] flex items-center justify-between gap-2">
+                    <span className="text-sky-300 font-semibold">
                       <InlineMath math={`\\hat{v}_{${activeVectorCoord.idx}} = ${activeVectorCoord.val.toFixed(4)}`} />
                     </span>
-                    <span className="text-xs text-[#C8C4BC]">
+                    <span className="text-xs text-[var(--color-matrix-muted)]">
                       {activeVectorCoord.val > 0.05 ? (
                         <span className="text-emerald-300">Aligned projection</span>
                       ) : activeVectorCoord.val < -0.05 ? (
                         <span className="text-rose-300">Interference component</span>
                       ) : (
-                        <span className="text-slate-400">Null coordinate</span>
+                        <span>Null coordinate</span>
                       )}
                     </span>
                   </div>
                 ) : (
-                  <div className="text-xs font-mono text-[#9E9A92] text-center py-0.5">
+                  <div className="text-xs font-mono text-[var(--color-matrix-muted)] text-center py-0.5">
                     Hover coordinate bar <InlineMath math="\hat{v}_j" /> (<InlineMath math={`j \\in [0, ${dim - 1}]`} />) to inspect
                   </div>
                 )}
               </div>
 
-              <div className="text-xs text-[#6B665E] font-sans leading-relaxed">
-                <FormattedMathText text="Recurrent write accumulates outer-products $M_t = \lambda M_{t-1} + \eta k_t v_t^\top$. The query computes the projected state vector $\hat{v} = q^\top M$." />
+              <div className="text-xs text-[var(--text-secondary)] font-sans leading-relaxed">
+                <FormattedMathText text="Recurrent writes accumulate rank-1 outer products $M_t = \lambda M_{t-1} + \eta k_t v_t^\top$. Querying computes $\hat{v} = q^\top M$." />
               </div>
             </div>
 
             {/* COLUMN 3: QUERY & REAL-TIME RECOMPUTATION (4 Cols) */}
             <div className="lg:col-span-4 space-y-3.5">
-              <div className="flex items-center justify-between">
-                <span className="font-mono text-xs uppercase tracking-wider text-[#6B665E] font-semibold flex items-center gap-1.5">
-                  <Gauge className="w-3.5 h-3.5 text-[#6842C2]" />
-                  Query & Model Output
+              <div className="flex items-center justify-between gap-2">
+                <span className="font-mono text-xs text-[var(--text-secondary)] font-semibold flex items-center gap-1.5">
+                  <Gauge className="w-3.5 h-3.5 text-[var(--accent-blue-text)]" />
+                  Query &amp; output
                 </span>
-                <span className="text-xs font-sans text-[#6B665E]">
-                  Target: <strong className="text-[#1C1B19]">{experiment.activeProbe}</strong>
+                <span className="text-xs font-sans text-[var(--text-secondary)]">
+                  Target: <strong className="text-[var(--text-primary)]">{experiment.activeProbe}</strong>
                 </span>
               </div>
 
               {/* Retrieval Card */}
-              <div className="p-4 rounded-xl border border-[#D8D3C9] bg-[#FAF8F3] space-y-3.5 shadow-xs">
+              <div className="p-4 rounded-xl border border-[var(--border)] bg-[var(--surface-soft)] space-y-3.5">
                 {/* Probe selector */}
-                <div className="space-y-1">
-                  <label className="text-xs font-sans font-medium text-[#6B665E] block">
-                    Active Probe Key (<InlineMath math="q = k_{\text{probe}}" />):
+                <div className="space-y-1.5">
+                  <label htmlFor="landing-probe-select" className="text-xs font-sans font-medium text-[var(--text-secondary)] block">
+                    Active probe key (<InlineMath math="q = k_{\text{probe}}" />):
                   </label>
-                  <div className="flex gap-1.5">
-                    <select
-                      value={experiment.activeProbe}
-                      onChange={(e) => handleSetProbe(e.target.value)}
-                      className="flex-1 px-3 py-1.5 rounded-lg border border-[#D8D3C9] bg-[#FFFFFF] text-[#1C1B19] font-sans text-xs font-semibold focus:outline-none focus:border-[#6842C2] cursor-pointer"
-                    >
-                      {experiment.facts.map((f) => (
-                        <option key={f.key} value={f.key}>
-                          {f.key} (Target: {f.value})
-                        </option>
-                      ))}
-                    </select>
-                  </div>
+                  <select
+                    id="landing-probe-select"
+                    value={experiment.activeProbe}
+                    onChange={(e) => handleSetProbe(e.target.value)}
+                    className="w-full px-3 py-1.5 rounded-lg border border-[var(--border)] bg-[var(--surface)] text-[var(--text-primary)] font-sans text-xs font-semibold focus:outline-none focus:border-[var(--color-accent)] cursor-pointer"
+                  >
+                    {experiment.facts.map((f) => (
+                      <option key={f.key} value={f.key}>
+                        {f.key} (Target: {f.value})
+                      </option>
+                    ))}
+                  </select>
                 </div>
 
                 {/* Ground Truth vs Computed Output */}
-                <div className="grid grid-cols-2 gap-2 pt-1">
-                  <div className="p-2.5 rounded-lg bg-[#FFFFFF] border border-[#D8D3C9] space-y-0.5">
-                    <div className="text-xs font-mono text-[#6B665E] uppercase font-semibold">
-                      Ground Truth
+                <div className="grid grid-cols-2 gap-2.5">
+                  <div className="p-2.5 rounded-lg bg-[var(--surface)] border border-[var(--border)] space-y-0.5">
+                    <div className="text-[11px] font-mono text-[var(--text-muted)] font-medium">
+                      Ground truth
                     </div>
-                    <div className="font-serif font-bold text-sm text-[#1C1B19]">
+                    <div className="font-sans font-semibold text-sm text-[var(--text-primary)]">
                       {experiment.evaluation.groundTruth}
                     </div>
                   </div>
 
-                  <div className="p-2.5 rounded-lg bg-[#FFFFFF] border border-[#D8D3C9] space-y-0.5">
-                    <div className="text-xs font-mono text-[#6B665E] uppercase font-semibold">
-                      Model Output
+                  <div className="p-2.5 rounded-lg bg-[var(--surface)] border border-[var(--border)] space-y-0.5">
+                    <div className="text-[11px] font-mono text-[var(--text-muted)] font-medium">
+                      Model output
                     </div>
                     <div
-                      className={`font-serif font-bold text-sm ${
-                        experiment.evaluation.isCorrect ? 'text-[#247A4B]' : 'text-[#B64235]'
+                      className={`font-sans font-semibold text-sm ${
+                        experiment.evaluation.isCorrect ? 'text-[var(--accent-green-text)]' : 'text-[var(--accent-pink-text)]'
                       }`}
                     >
                       {experiment.evaluation.prediction}
@@ -1227,27 +1192,26 @@ export const LandingDemo: React.FC<LandingDemoProps> = ({
                 </div>
 
                 {/* Empirical Metrics & Visual Gauges */}
-                <div className="p-3 rounded-lg bg-[#FFFFFF] border border-[#D8D3C9] space-y-2.5 text-xs font-mono">
+                <div className="p-3 rounded-lg bg-[var(--surface)] border border-[var(--border)] space-y-2.5 text-xs font-mono tabular-nums">
                   {/* Retrieval Score with Gauge */}
                   <div className="space-y-1">
                     <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-1 text-[#6B665E]">
-                        <span>Retrieval Score:</span>
+                      <div className="flex items-center gap-1 text-[var(--text-secondary)]">
+                        <span>Retrieval score</span>
                         <span
                           title="This score is computed from representation similarity. It is not a calibrated probability."
                           className="cursor-help"
                         >
-                          <HelpCircle className="w-3 h-3 text-[#9E9A92]" />
+                          <HelpCircle className="w-3 h-3 text-[var(--text-muted)]" />
                         </span>
                       </div>
-                      <strong className="text-[#1C1B19]">
+                      <strong className="text-[var(--text-primary)]">
                         {experiment.evaluation.retrievalScore.toFixed(3)}
                       </strong>
                     </div>
-                    {/* Visual Score Bar */}
-                    <div className="w-full bg-[#E5E0D8] h-1.5 rounded-full overflow-hidden">
+                    <div className="w-full bg-[var(--surface-soft)] h-1.5 rounded-sm overflow-hidden">
                       <div
-                        className="h-full bg-[#6842C2] transition-all duration-300"
+                        className="h-full bg-[var(--color-accent)] transition-all duration-300"
                         style={{
                           width: `${Math.max(0, Math.min(100, Math.max(0, experiment.evaluation.retrievalScore) * 100))}%`,
                         }}
@@ -1258,36 +1222,35 @@ export const LandingDemo: React.FC<LandingDemoProps> = ({
                   {/* Top-1 Margin with Gauge */}
                   <div className="space-y-1">
                     <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-1 text-[#6B665E]">
-                        <span>Top-1 Margin (<InlineMath math="\Delta s" />):</span>
+                      <div className="flex items-center gap-1 text-[var(--text-secondary)]">
+                        <span>Top-1 margin (<InlineMath math="\Delta s" />)</span>
                         <span
                           title="Difference between best candidate score and second-best candidate score: Δs = s_(1) - s_(2)."
                           className="cursor-help"
                         >
-                          <HelpCircle className="w-3 h-3 text-[#9E9A92]" />
+                          <HelpCircle className="w-3 h-3 text-[var(--text-muted)]" />
                         </span>
                       </div>
                       <strong
                         className={
                           experiment.evaluation.top1Margin >= 0.15
-                            ? 'text-[#247A4B]'
+                            ? 'text-[var(--accent-green-text)]'
                             : experiment.evaluation.top1Margin >= 0.05
-                            ? 'text-amber-700'
-                            : 'text-[#B64235]'
+                            ? 'text-[var(--accent-yellow-text)]'
+                            : 'text-[var(--accent-pink-text)]'
                         }
                       >
                         {experiment.evaluation.top1Margin.toFixed(3)}
                       </strong>
                     </div>
-                    {/* Visual Margin Bar */}
-                    <div className="w-full bg-[#E5E0D8] h-1.5 rounded-full overflow-hidden">
+                    <div className="w-full bg-[var(--surface-soft)] h-1.5 rounded-sm overflow-hidden">
                       <div
                         className={`h-full transition-all duration-300 ${
                           experiment.evaluation.top1Margin >= 0.15
-                            ? 'bg-[#247A4B]'
+                            ? 'bg-[var(--color-success)]'
                             : experiment.evaluation.top1Margin >= 0.05
-                            ? 'bg-amber-500'
-                            : 'bg-[#B64235]'
+                            ? 'bg-[var(--color-warning)]'
+                            : 'bg-[var(--color-danger)]'
                         }`}
                         style={{
                           width: `${Math.max(0, Math.min(100, (experiment.evaluation.top1Margin / 0.5) * 100))}%`,
@@ -1296,30 +1259,30 @@ export const LandingDemo: React.FC<LandingDemoProps> = ({
                     </div>
                   </div>
 
-                  <div className="flex items-center justify-between pt-1 border-t border-[#E5E0D8]">
-                    <span className="text-[#6B665E]">Empirical Status:</span>
+                  <div className="flex items-center justify-between pt-2 border-t border-[var(--border)]">
+                    <span className="text-[var(--text-secondary)]">Status</span>
                     <span
-                      className={`px-2 py-0.5 rounded text-xs font-bold flex items-center gap-1 ${
+                      className={`px-2 py-0.5 rounded text-xs font-semibold flex items-center gap-1 border ${
                         experiment.evaluation.status === 'Correct'
-                          ? 'bg-[#EAF5EF] text-[#247A4B] border border-[#CDEEDB]'
+                          ? 'bg-[var(--accent-green)] text-[var(--accent-green-text)] border-[var(--color-success-border)]'
                           : experiment.evaluation.status === 'Interference'
-                          ? 'bg-[#FDEDEC] text-[#B64235] border border-[#FADBD8]'
-                          : 'bg-[#FAF8F3] text-[#6B665E] border border-[#D8D3C9]'
+                          ? 'bg-[var(--accent-pink)] text-[var(--accent-pink-text)] border-[var(--color-danger-border)]'
+                          : 'bg-[var(--surface-soft)] text-[var(--text-secondary)] border-[var(--border)]'
                       }`}
                     >
                       {experiment.evaluation.status === 'Correct' ? (
                         <>
-                          <CheckCircle2 className="w-3 h-3 text-[#247A4B]" />
+                          <CheckCircle2 className="w-3 h-3 shrink-0" />
                           <span>Correct</span>
                         </>
                       ) : experiment.evaluation.status === 'Interference' ? (
                         <>
-                          <AlertTriangle className="w-3 h-3 text-[#B64235]" />
+                          <AlertTriangle className="w-3 h-3 shrink-0" />
                           <span>Interference</span>
                         </>
                       ) : (
                         <>
-                          <HelpCircle className="w-3 h-3 text-[#6B665E]" />
+                          <HelpCircle className="w-3 h-3 shrink-0" />
                           <span>Unknown</span>
                         </>
                       )}
@@ -1329,38 +1292,38 @@ export const LandingDemo: React.FC<LandingDemoProps> = ({
 
                 {/* Candidate breakdown table */}
                 <div className="space-y-1.5">
-                  <div className="text-xs font-mono text-[#6B665E] uppercase tracking-wider font-semibold flex items-center justify-between">
-                    <span>Candidate Affinities (<InlineMath math="\text{sim}(\hat{v}, v_c)" />)</span>
-                    <span className="text-xs text-[#9E9A92]">{experiment.evaluation.candidates.length} candidates</span>
+                  <div className="text-xs font-mono text-[var(--text-secondary)] font-semibold flex items-center justify-between">
+                    <span>Candidate affinities</span>
+                    <span className="text-xs tabular-nums text-[var(--text-muted)]">{experiment.evaluation.candidates.length} candidates</span>
                   </div>
-                  <div className="space-y-1 text-xs font-mono">
+                  <div className="space-y-1 text-xs font-mono tabular-nums">
                     {experiment.evaluation.candidates.map((cand, cIdx) => (
                       <div
                         key={cand.value}
-                        className="flex items-center justify-between py-1 px-2 rounded bg-white border border-[#E5E0D8]"
+                        className="flex items-center justify-between py-1 px-2.5 rounded bg-[var(--surface)] border border-[var(--border)]"
                       >
                         <span className="truncate flex items-center gap-1">
-                          <span className="text-[#9E9A92] mr-1">{cIdx + 1}.</span>
+                          <span className="text-[var(--text-muted)] mr-1">{cIdx + 1}.</span>
                           <span
                             className={
                               cand.value === experiment.evaluation.prediction
-                                ? 'font-bold text-[#6842C2]'
+                                ? 'font-bold text-[var(--accent-blue-text)]'
                                 : cand.value === experiment.evaluation.groundTruth
-                                ? 'font-semibold text-[#247A4B]'
-                                : 'text-[#403D38]'
+                                ? 'font-semibold text-[var(--accent-green-text)]'
+                                : 'text-[var(--text-primary)]'
                             }
                           >
                             {cand.value}
                           </span>
                         </span>
                         <div className="flex items-center gap-2">
-                          <div className="w-16 bg-[#E5E0D8] h-1.5 rounded-full overflow-hidden hidden sm:block">
+                          <div className="w-14 bg-[var(--surface-soft)] h-1.5 rounded-full overflow-hidden hidden sm:block">
                             <div
-                              className={`h-full ${cand.score >= 0 ? 'bg-[#6842C2]' : 'bg-[#287C7C]'}`}
+                              className={`h-full ${cand.score >= 0 ? 'bg-[var(--color-accent)]' : 'bg-[var(--color-danger)]'}`}
                               style={{ width: `${Math.max(0, Math.min(100, Math.abs(cand.score) * 100))}%` }}
                             />
                           </div>
-                          <span className="text-[#6B665E] shrink-0 font-semibold w-12 text-right">
+                          <span className="text-[var(--text-secondary)] shrink-0 font-semibold w-12 text-right">
                             {cand.score.toFixed(3)}
                           </span>
                         </div>
@@ -1373,12 +1336,12 @@ export const LandingDemo: React.FC<LandingDemoProps> = ({
           </div>
 
           {/* EXPERIMENT CONDITIONS ROW */}
-          <div className="border-t border-[#D2D6D1] bg-[#F1F2F0] px-5 sm:px-7 py-3 flex flex-wrap items-center justify-between gap-3">
+          <div className="border-t border-[var(--border)] bg-[var(--surface-soft)] px-5 sm:px-6 py-3 flex flex-wrap items-center justify-between gap-3">
             <div className="flex items-center gap-2">
-              <span className="font-sans text-xs font-semibold text-[#252725]">
-                Experiment conditions:
+              <span className="font-sans text-xs font-semibold text-[var(--text-primary)]">
+                Experiment conditions
               </span>
-              <span className="text-[#747873] font-normal text-xs hidden sm:inline">
+              <span className="text-[var(--text-secondary)] font-normal text-xs hidden sm:inline">
                 Dimension <InlineMath math="d" />, retention <InlineMath math="\lambda" />, write strength <InlineMath math="\eta" />, interference noise <InlineMath math="\sigma" />
               </span>
             </div>
@@ -1387,135 +1350,134 @@ export const LandingDemo: React.FC<LandingDemoProps> = ({
               type="button"
               onClick={() => setShowConditions(!showConditions)}
               className="change-conditions"
+              aria-expanded={showConditions}
             >
-              <Sliders className="w-4 h-4 text-[#31566E]" />
+              <Sliders className="w-4 h-4 text-[var(--accent-blue-text)]" />
               <span>{showConditions ? 'Hide conditions' : 'Change conditions'}</span>
               {showConditions ? (
-                <ChevronUp className="w-4 h-4 text-[#747873]" />
+                <ChevronUp className="w-4 h-4 text-[var(--text-muted)]" />
               ) : (
-                <ChevronDown className="w-4 h-4 text-[#747873]" />
+                <ChevronDown className="w-4 h-4 text-[var(--text-muted)]" />
               )}
             </button>
           </div>
 
-            {showConditions && (
-              <div className="p-5 sm:p-7 border-t border-[#D8D3C9] bg-[#FFFFFF] space-y-6 animate-in fade-in duration-200 text-xs font-sans">
-                {/* Preset Scenarios Toolbar */}
-                <div className="flex flex-wrap items-center justify-between gap-2 p-3 rounded-xl bg-[#FAF8F3] border border-[#D8D3C9]">
-                  <span className="font-mono text-xs text-[#6B665E] font-semibold">
-                    Test scenarios:
-                  </span>
-                  <div className="flex flex-wrap gap-1.5">
-                    <button
-                      type="button"
-                      onClick={() => applyConditionPreset('balanced')}
-                      className="btn btn-secondary text-xs py-1 px-2.5 min-h-[30px]"
-                    >
-                      Balanced (<InlineMath math="d=12, \lambda=0.95" />)
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => applyConditionPreset('capacity')}
-                      className="btn btn-secondary text-xs py-1 px-2.5 min-h-[30px]"
-                    >
-                      High capacity (<InlineMath math="d=24, \lambda=0.98" />)
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => applyConditionPreset('interference')}
-                      className="btn btn-secondary text-xs py-1 px-2.5 min-h-[30px] text-[#8A352E]"
-                    >
-                      Interference boundary (<InlineMath math="d=6, \sigma=0.25" />)
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => applyConditionPreset('decay')}
-                      className="btn btn-secondary text-xs py-1 px-2.5 min-h-[30px] text-[#B88728]"
-                    >
-                      Rapid decay (<InlineMath math="\lambda=0.55" />)
-                    </button>
-                  </div>
-                </div>
-
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                  {/* Dimension */}
-                  <ControlSlider
-                    label={<span>Dimension (<InlineMath math="d" />)</span>}
-                    value={dim}
-                    min={4}
-                    max={32}
-                    step={4}
-                    unit="D"
-                    description="Capacity bound ~ O(d). Lower dimensions trigger subspace interference."
-                    onChange={(val) => updateConfig({ dimension: val })}
-                    theme="light"
-                  />
-
-                  {/* Retention Rate (lambda) */}
-                  <ControlSlider
-                    label={<span>Retention (<InlineMath math="\lambda" />)</span>}
-                    value={retention}
-                    min={0.5}
-                    max={1.0}
-                    step={0.01}
-                    formatValue={(v) => `${(v * 100).toFixed(0)}%`}
-                    description="Decay applied at each step: M_t = \lambda M_{t-1} + \eta k_t v_t^\top."
-                    onChange={(val) => updateConfig({ retention: val })}
-                    theme="light"
-                  />
-
-                  {/* Write Strength (eta) */}
-                  <ControlSlider
-                    label={<span>Write Strength (<InlineMath math="\eta" />)</span>}
-                    value={writeStrength}
-                    min={0.2}
-                    max={1.5}
-                    step={0.05}
-                    formatValue={(v) => v.toFixed(2)}
-                    description="Scale factor of outer-product rank-1 updates."
-                    onChange={(val) => updateConfig({ writeStrength: val })}
-                    theme="light"
-                  />
-
-                  {/* Interference Noise */}
-                  <ControlSlider
-                    label={<span>Interference (<InlineMath math="\sigma" />)</span>}
-                    value={interferenceNoise}
-                    min={0.0}
-                    max={0.8}
-                    step={0.05}
-                    formatValue={(v) => `${(v * 100).toFixed(0)}%`}
-                    description="Query perturbation noise q = k_{probe} + \epsilon."
-                    onChange={(val) => updateConfig({ interference: val })}
-                    theme="light"
-                  />
+          {showConditions && (
+            <div className="p-5 sm:p-6 border-t border-[var(--border)] bg-[var(--surface)] space-y-6 text-xs font-sans">
+              {/* Preset Scenarios Toolbar */}
+              <div className="flex flex-wrap items-center justify-between gap-2 p-3 rounded-xl bg-[var(--surface-soft)] border border-[var(--border)]">
+                <span className="font-mono text-xs text-[var(--text-secondary)] font-semibold">
+                  Preset conditions:
+                </span>
+                <div className="flex flex-wrap gap-1.5">
+                  <button
+                    type="button"
+                    onClick={() => applyConditionPreset('balanced')}
+                    className="btn-secondary text-xs py-1 px-2.5 min-h-[30px]"
+                  >
+                    Balanced (<InlineMath math="d=12, \lambda=0.95" />)
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => applyConditionPreset('capacity')}
+                    className="btn-secondary text-xs py-1 px-2.5 min-h-[30px]"
+                  >
+                    High capacity (<InlineMath math="d=24, \lambda=0.98" />)
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => applyConditionPreset('interference')}
+                    className="btn-secondary text-xs py-1 px-2.5 min-h-[30px] text-[var(--accent-pink-text)]"
+                  >
+                    Interference boundary (<InlineMath math="d=6, \sigma=0.25" />)
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => applyConditionPreset('decay')}
+                    className="btn-secondary text-xs py-1 px-2.5 min-h-[30px] text-[var(--accent-yellow-text)]"
+                  >
+                    Rapid decay (<InlineMath math="\lambda=0.55" />)
+                  </button>
                 </div>
               </div>
-            )}
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                <ControlSlider
+                  id="landing-dim"
+                  label={<span>Dimension (<InlineMath math="d" />)</span>}
+                  value={dim}
+                  min={4}
+                  max={32}
+                  step={4}
+                  unit="D"
+                  description="Capacity bound ~ O(d). Lower dimensions trigger subspace interference."
+                  onChange={(val) => updateConfig({ dimension: val })}
+                />
+
+                <ControlSlider
+                  id="landing-retention"
+                  label={<span>Retention (<InlineMath math="\lambda" />)</span>}
+                  value={retention}
+                  min={0.5}
+                  max={1.0}
+                  step={0.01}
+                  formatValue={(v) => `${(v * 100).toFixed(0)}%`}
+                  description="Decay applied at each step: M_t = λ M_{t-1} + η k_t v_t^T."
+                  onChange={(val) => updateConfig({ retention: val })}
+                />
+
+                <ControlSlider
+                  id="landing-eta"
+                  label={<span>Write strength (<InlineMath math="\eta" />)</span>}
+                  value={writeStrength}
+                  min={0.2}
+                  max={1.5}
+                  step={0.05}
+                  formatValue={(v) => v.toFixed(2)}
+                  description="Scale factor of outer-product rank-1 updates."
+                  onChange={(val) => updateConfig({ writeStrength: val })}
+                />
+
+                <ControlSlider
+                  id="landing-noise"
+                  label={<span>Interference (<InlineMath math="\sigma" />)</span>}
+                  value={interferenceNoise}
+                  min={0.0}
+                  max={0.8}
+                  step={0.05}
+                  formatValue={(v) => `${(v * 100).toFixed(0)}%`}
+                  description="Query perturbation noise q = k_{probe} + ε."
+                  onChange={(val) => updateConfig({ interference: val })}
+                />
+              </div>
+            </div>
+          )}
         </div>
 
-        {/* Action Anchor to Continue Down to Detailed Sections */}
-        <div className="flex flex-wrap items-center justify-between gap-4 pt-4 border-t border-[#D8D3C9]">
-          <div className="text-xs sm:text-sm text-[#6B665E] font-sans">
-            Next: Observe what happens when sequence length exceeds dimension capacity.
-          </div>
-
-          <button
-            type="button"
-            onClick={() => {
-              if (onExploreClick) {
-                onExploreClick();
-              } else {
-                const el = document.getElementById('section-01');
-                if (el) el.scrollIntoView({ behavior: 'smooth' });
-              }
-            }}
-            className="btn btn-primary text-xs py-2.5 px-5"
-          >
-            <span>Explore the mechanism</span>
-            <ArrowDown className="w-3.5 h-3.5" />
-          </button>
-        </div>
+        {/* Collapsible Run Telemetry & Export Snapshot */}
+        <DebugPanel
+          id="live-experiment-debug-panel"
+          activeFactsCount={experiment.facts.length}
+          step={experiment.step}
+          matrixNorm={matrixNorm}
+          activeProbe={experiment.activeProbe}
+          prediction={experiment.evaluation.prediction}
+          groundTruth={experiment.evaluation.groundTruth}
+          retrievalScore={experiment.evaluation.retrievalScore}
+          top1Margin={experiment.evaluation.top1Margin}
+          status={experiment.evaluation.status}
+          mode="interactive"
+          facts={experiment.facts}
+          matrix={experiment.matrix}
+          state={experiment.state}
+          history={experiment.history}
+          config={{
+            dimension: dim,
+            retention,
+            writeStrength,
+            interference: interferenceNoise,
+          }}
+        />
       </div>
     </section>
   );

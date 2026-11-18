@@ -62,39 +62,40 @@ export const RepeatedInputBDHExperiment: React.FC = () => {
   }, [numNeurons, sparsityThreshold, synapticStrength, inputPattern]);
 
   return (
-    <div className="rounded-2xl border border-[#E5E0D8] bg-[#FFFFFF] p-6 sm:p-7 text-[#151515] space-y-6 font-mono shadow-xs">
+    <div className="rounded-xl border border-[var(--border)] bg-[var(--surface)] p-6 sm:p-7 text-[var(--text-primary)] space-y-6 font-mono">
       {/* Header */}
-      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[#EAE6DF] pb-4">
+      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[var(--border)] pb-4">
         <div>
           <div className="flex items-center gap-2">
-            <RefreshCw className="w-4 h-4 text-[#6842C2]" />
-            <h4 className="text-sm font-serif font-bold text-[#151515]">
-              Repeated-input BDH toy experiment · Synaptic habituation & attractor settling
+            <RefreshCw className="w-4 h-4 text-[var(--accent-blue-text)]" />
+            <h4 className="text-sm font-sans font-semibold text-[var(--text-primary)]">
+              Repeated-input BDH toy experiment · Synaptic habituation &amp; attractor settling
             </h4>
           </div>
-          <p className="text-xs text-[#716F68] mt-1 font-sans">
+          <p className="text-xs text-[var(--text-secondary)] mt-1 font-sans">
             Compare network activation profile when the exact same input pattern is presented twice sequentially.
           </p>
         </div>
 
-        <span className="text-xs px-2.5 py-1 rounded-lg bg-[#F3EFFF] border border-[#E2D8FA] text-[#6842C2] font-bold">
+        <span className="text-xs px-2.5 py-1 rounded-md bg-[var(--color-accent-soft)] border border-[var(--color-border-strong)] text-[var(--color-accent-ink)] font-semibold">
           Toy-computed sparsity
         </span>
       </div>
 
       {/* Controls */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
-        <div className="p-4 rounded-xl bg-[#FAF8F5] border border-[#EAE6DF] space-y-2">
-          <span className="text-[#716F68] font-bold block text-xs">Input pattern</span>
+        <div className="p-4 rounded-xl bg-[var(--surface-soft)] border border-[var(--border)] space-y-2">
+          <span className="text-[var(--text-muted)] font-sans font-semibold block text-xs">Input pattern</span>
           <div className="grid grid-cols-2 gap-1.5 pt-1">
             {(['Alpha', 'Beta', 'Gamma', 'Orthogonal'] as const).map((p) => (
               <button
                 key={p}
+                type="button"
                 onClick={() => setInputPattern(p)}
-                className={`py-1.5 px-2 rounded-lg text-xs border truncate cursor-pointer ${
+                className={`py-1.5 px-2 rounded-lg text-xs border truncate cursor-pointer transition-colors ${
                   inputPattern === p
-                    ? 'bg-[#F3EFFF] border-[#E2D8FA] text-[#6842C2] font-bold'
-                    : 'bg-[#FFFFFF] border-[#E5E0D8] text-[#52504A] hover:bg-[#FAF8F5]'
+                    ? 'bg-[var(--color-accent-soft)] border-[var(--color-border-strong)] text-[var(--color-accent-ink)] font-semibold'
+                    : 'bg-[var(--surface)] border-[var(--border)] text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
                 }`}
               >
                 {p}
@@ -103,10 +104,10 @@ export const RepeatedInputBDHExperiment: React.FC = () => {
           </div>
         </div>
 
-        <div className="p-4 rounded-xl bg-[#FAF8F5] border border-[#EAE6DF] space-y-2">
+        <div className="p-4 rounded-xl bg-[var(--surface-soft)] border border-[var(--border)] space-y-2">
           <div className="flex justify-between">
-            <span className="text-[#716F68] font-bold text-xs">Synaptic strength (η):</span>
-            <strong className="text-[#6842C2]">{synapticStrength.toFixed(2)}</strong>
+            <span className="text-[var(--text-muted)] font-sans font-semibold text-xs">Synaptic strength (η):</span>
+            <strong className="text-[var(--accent-blue-text)] tabular-nums">{synapticStrength.toFixed(2)}</strong>
           </div>
           <input
             type="range"
@@ -115,21 +116,22 @@ export const RepeatedInputBDHExperiment: React.FC = () => {
             step="0.05"
             value={synapticStrength}
             onChange={(e) => setSynapticStrength(parseFloat(e.target.value))}
-            className="w-full accent-[#6842C2] cursor-pointer"
+            className="w-full accent-[var(--color-accent)] cursor-pointer"
           />
         </div>
 
-        <div className="p-4 rounded-xl bg-[#FAF8F5] border border-[#EAE6DF] space-y-2">
-          <span className="text-[#716F68] font-bold block text-xs">Neuron population</span>
+        <div className="p-4 rounded-xl bg-[var(--surface-soft)] border border-[var(--border)] space-y-2">
+          <span className="text-[var(--text-muted)] font-sans font-semibold block text-xs">Neuron population</span>
           <div className="grid grid-cols-3 gap-1.5 pt-1">
             {([16, 24, 32] as const).map((n) => (
               <button
                 key={n}
+                type="button"
                 onClick={() => setNumNeurons(n)}
-                className={`py-1.5 rounded-lg text-xs border cursor-pointer ${
+                className={`py-1.5 rounded-lg text-xs border cursor-pointer tabular-nums transition-colors ${
                   numNeurons === n
-                    ? 'bg-[#EDF7F7] border-[#CFE8E8] text-[#167C80] font-bold'
-                    : 'bg-[#FFFFFF] border-[#E5E0D8] text-[#52504A] hover:bg-[#FAF8F5]'
+                    ? 'bg-[var(--accent-blue)] border-[var(--color-border-strong)] text-[var(--accent-blue-text)] font-semibold'
+                    : 'bg-[var(--surface)] border-[var(--border)] text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
                 }`}
               >
                 N={n}
@@ -140,87 +142,87 @@ export const RepeatedInputBDHExperiment: React.FC = () => {
       </div>
 
       {/* Side by Side Comparison Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs tabular-nums">
         {/* Pass 1 */}
-        <div className="p-5 rounded-2xl bg-[#EDF7F7] border border-[#CFE8E8] space-y-3">
-          <div className="flex justify-between items-center border-b border-[#E0F0F0] pb-2">
-            <span className="text-[#167C80] font-bold text-xs">Presentation 1 (initial exposure)</span>
-            <span className="text-[#716F68] text-xs">Unprimed state</span>
+        <div className="p-5 rounded-xl bg-[var(--surface-soft)] border border-[var(--border)] space-y-3">
+          <div className="flex justify-between items-center border-b border-[var(--border)] pb-2">
+            <span className="text-[var(--accent-blue-text)] font-sans font-semibold text-xs">Presentation 1 (initial exposure)</span>
+            <span className="text-[var(--text-muted)] text-xs">Unprimed state</span>
           </div>
 
           <div className="space-y-2 text-xs">
             <div className="flex justify-between">
-              <span className="text-[#52504A]">Active Neurons:</span>
-              <strong className="text-[#151515]">{comparison.pass1.activeNeurons} / {numNeurons}</strong>
+              <span className="text-[var(--text-secondary)]">Active Neurons:</span>
+              <strong className="text-[var(--text-primary)]">{comparison.pass1.activeNeurons} / {numNeurons}</strong>
             </div>
             <div className="flex justify-between">
-              <span className="text-[#52504A]">Active Fraction:</span>
-              <strong className="text-[#151515]">{(comparison.pass1.activeFraction * 100).toFixed(0)}%</strong>
+              <span className="text-[var(--text-secondary)]">Active Fraction:</span>
+              <strong className="text-[var(--text-primary)]">{(comparison.pass1.activeFraction * 100).toFixed(0)}%</strong>
             </div>
             <div className="flex justify-between">
-              <span className="text-[#52504A]">Toy-Computed Sparsity:</span>
-              <strong className="text-[#167C80]">{(comparison.pass1.sparsity * 100).toFixed(0)}% Quiescent</strong>
+              <span className="text-[var(--text-secondary)]">Toy-Computed Sparsity:</span>
+              <strong className="text-[var(--accent-blue-text)]">{(comparison.pass1.sparsity * 100).toFixed(0)}% Quiescent</strong>
             </div>
             <div className="flex justify-between">
-              <span className="text-[#52504A]">Mean Node Activation:</span>
-              <strong className="text-[#151515]">{comparison.pass1.meanAct.toFixed(3)}</strong>
+              <span className="text-[var(--text-secondary)]">Mean Node Activation:</span>
+              <strong className="text-[var(--text-primary)]">{comparison.pass1.meanAct.toFixed(3)}</strong>
             </div>
             <div className="flex justify-between">
-              <span className="text-[#52504A]">Total Network Energy:</span>
-              <strong className="text-[#151515]">{comparison.pass1.energy.toFixed(2)}</strong>
+              <span className="text-[var(--text-secondary)]">Total Network Energy:</span>
+              <strong className="text-[var(--text-primary)]">{comparison.pass1.energy.toFixed(2)}</strong>
             </div>
           </div>
         </div>
 
         {/* Pass 2 */}
-        <div className="p-5 rounded-2xl bg-[#FAF8FD] border border-[#E2D8FA] space-y-3">
-          <div className="flex justify-between items-center border-b border-[#EAE2FB] pb-2">
-            <span className="text-[#6842C2] font-bold text-xs">Presentation 2 (repeated input)</span>
-            <span className="text-[#6842C2] font-semibold text-xs">Primed Synapses</span>
+        <div className="p-5 rounded-xl bg-[var(--accent-blue)] border border-[var(--color-border-strong)] space-y-3">
+          <div className="flex justify-between items-center border-b border-[var(--border)] pb-2">
+            <span className="text-[var(--accent-blue-text)] font-sans font-semibold text-xs">Presentation 2 (repeated input)</span>
+            <span className="text-[var(--accent-blue-text)] font-semibold text-xs">Primed Synapses</span>
           </div>
 
           <div className="space-y-2 text-xs">
             <div className="flex justify-between">
-              <span className="text-[#52504A]">Active Neurons:</span>
-              <strong className="text-[#6842C2]">{comparison.pass2.activeNeurons} / {numNeurons}</strong>
+              <span className="text-[var(--text-secondary)]">Active Neurons:</span>
+              <strong className="text-[var(--accent-blue-text)]">{comparison.pass2.activeNeurons} / {numNeurons}</strong>
             </div>
             <div className="flex justify-between">
-              <span className="text-[#52504A]">Active Fraction:</span>
-              <strong className="text-[#6842C2]">{(comparison.pass2.activeFraction * 100).toFixed(0)}%</strong>
+              <span className="text-[var(--text-secondary)]">Active Fraction:</span>
+              <strong className="text-[var(--accent-blue-text)]">{(comparison.pass2.activeFraction * 100).toFixed(0)}%</strong>
             </div>
             <div className="flex justify-between">
-              <span className="text-[#52504A]">Toy-Computed Sparsity:</span>
-              <strong className="text-[#6842C2]">{(comparison.pass2.sparsity * 100).toFixed(0)}% Quiescent</strong>
+              <span className="text-[var(--text-secondary)]">Toy-Computed Sparsity:</span>
+              <strong className="text-[var(--accent-blue-text)]">{(comparison.pass2.sparsity * 100).toFixed(0)}% Quiescent</strong>
             </div>
             <div className="flex justify-between">
-              <span className="text-[#52504A]">Mean Node Activation:</span>
-              <strong className="text-[#6842C2]">{comparison.pass2.meanAct.toFixed(3)}</strong>
+              <span className="text-[var(--text-secondary)]">Mean Node Activation:</span>
+              <strong className="text-[var(--accent-blue-text)]">{comparison.pass2.meanAct.toFixed(3)}</strong>
             </div>
             <div className="flex justify-between">
-              <span className="text-[#52504A]">Total Network Energy:</span>
-              <strong className="text-[#6842C2]">{comparison.pass2.energy.toFixed(2)}</strong>
+              <span className="text-[var(--text-secondary)]">Total Network Energy:</span>
+              <strong className="text-[var(--accent-blue-text)]">{comparison.pass2.energy.toFixed(2)}</strong>
             </div>
           </div>
         </div>
       </div>
 
       {/* Outcome Banner */}
-      <div className="p-4 rounded-xl bg-[#FAF8F5] border border-[#EAE6DF] flex flex-wrap items-center justify-between gap-2 text-xs">
-        <span className="font-bold text-[#151515]">
+      <div className="p-4 rounded-xl bg-[var(--surface-soft)] border border-[var(--border)] flex flex-wrap items-center justify-between gap-2 text-xs">
+        <span className="font-sans font-semibold text-[var(--text-primary)]">
           {comparison.lowerActivity
             ? '✓ Lower activity observed in this toy run.'
             : 'No lower-activity effect observed under this toy configuration.'}
         </span>
-        <span className="text-[#716F68] font-sans text-xs">
+        <span className="text-[var(--text-muted)] font-mono text-xs">
           Sparsity metric: sparsity = 1 - (active / total)
         </span>
       </div>
 
       {/* Epistemic disclaimer */}
-      <div className="p-4 rounded-xl bg-[#FFF8EE] border border-[#F5E2C4] text-xs text-[#52504A] font-sans flex items-start gap-2.5">
-        <HelpCircle className="w-4 h-4 text-[#A46622] shrink-0 mt-0.5" />
+      <div className="p-4 rounded-xl bg-[var(--color-warning-soft)] border border-[var(--color-warning-border)] text-xs text-[var(--text-secondary)] font-sans flex items-start gap-2.5">
+        <HelpCircle className="w-4 h-4 text-[var(--color-warning)] shrink-0 mt-0.5" />
         <div>
-          <strong className="text-[#151515]">Scientific Principle:</strong> In recurrent networks with synaptic plasticity, familiar inputs settle into pre-existing attractor trajectories more efficiently, sharpening active populations and reducing diffuse cross-talk.
+          <strong className="text-[var(--text-primary)]">Scientific Principle:</strong> In recurrent networks with synaptic plasticity, familiar inputs settle into pre-existing attractor trajectories more efficiently, sharpening active populations and reducing diffuse cross-talk.
         </div>
       </div>
     </div>

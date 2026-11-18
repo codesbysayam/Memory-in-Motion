@@ -9,26 +9,26 @@ export const NotFoundPage: React.FC<NotFoundPageProps> = ({ onReturnToMemory }) 
   return (
     <div
       id="custom-404-page"
-      className="min-h-[80vh] flex items-center justify-center p-6 bg-[#FBF9F5] text-[#1C1B19] font-sans"
+      className="min-h-[80vh] flex items-center justify-center p-6 bg-[var(--page-bg)] text-[var(--text-primary)] font-sans"
     >
-      <div className="w-full max-w-md text-center space-y-6 p-8 rounded-2xl border border-[#E5E0D8] bg-white shadow-xs">
-        <div className="w-14 h-14 rounded-2xl bg-[#EAF2FA] border border-[#CDE1F2] flex items-center justify-center mx-auto text-[#1B4D7E]">
+      <div className="w-full max-w-md text-center space-y-6 p-8 rounded-2xl border border-[var(--border)] bg-[var(--surface)]">
+        <div className="w-14 h-14 rounded-xl bg-[var(--accent-blue)] border border-[var(--border)] flex items-center justify-center mx-auto text-[var(--color-accent-ink)]">
           <Compass className="w-7 h-7" />
         </div>
 
         <div className="space-y-2">
-          <div className="font-mono text-xs font-bold text-[#1B4D7E] tracking-wider uppercase bg-[#EAF2FA] px-2.5 py-1 rounded inline-block border border-[#CDE1F2]">
-            Status 404 · Unmapped Coordinate
+          <div className="font-mono text-xs font-medium text-[var(--color-accent-ink)]">
+            Status 404 · Unmapped coordinate
           </div>
-          <h1 className="text-5xl sm:text-6xl font-serif font-bold text-[#1C1B19] tracking-tight">
+          <h1 className="text-5xl sm:text-6xl font-serif font-semibold text-[var(--text-primary)] tracking-tight">
             404
           </h1>
-          <p className="text-base sm:text-lg text-[#55524B] font-serif">
+          <p className="text-base sm:text-lg text-[var(--text-secondary)] font-serif">
             This page is not part of the experiment.
           </p>
         </div>
 
-        <p className="text-xs text-[#726E65] font-sans max-w-xs mx-auto leading-relaxed">
+        <p className="text-xs text-[var(--text-muted)] font-sans max-w-xs mx-auto leading-relaxed">
           The requested coordinate lies outside the 7 experimental stages and documentation specifications.
         </p>
 
@@ -36,7 +36,7 @@ export const NotFoundPage: React.FC<NotFoundPageProps> = ({ onReturnToMemory }) 
           <button
             type="button"
             onClick={onReturnToMemory}
-            className="w-full py-3 px-4 rounded-xl bg-[#1B4D7E] hover:bg-[#153E65] text-white text-xs font-bold transition flex items-center justify-center gap-2 shadow-xs cursor-pointer"
+            className="w-full py-3 px-4 rounded-lg bg-[var(--color-accent)] hover:bg-[var(--color-accent-hover)] text-[var(--surface)] text-xs font-semibold transition flex items-center justify-center gap-2 cursor-pointer"
           >
             <ArrowLeft className="w-4 h-4" />
             <span>Return to Memory</span>

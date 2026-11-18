@@ -111,19 +111,21 @@ export const DebugPanel: React.FC<DebugPanelProps> = ({
     setTimeout(() => setExported(false), 2000);
   };
 
+  const activeDim = config?.dimension ?? 16;
+
   return (
     <div
       id={id}
-      className={`lab-section shadow-sm transition-all ${className}`}
+      className={`lab-section ${className}`}
     >
       {/* Editorial Instrument Header */}
-      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[var(--lab-border)] pb-3 mb-4">
+      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[var(--border)] pb-3 mb-4">
         <div>
-          <div className="text-[11px] font-sans font-bold uppercase tracking-wider text-[var(--lab-secondary)]">
-            LIVE EXPERIMENT
+          <div className="text-xs font-mono text-[var(--text-muted)]">
+            Run summary &amp; telemetry
           </div>
-          <h2 className="font-serif text-lg sm:text-xl font-semibold text-[var(--lab-text)] mt-0.5">
-            Interactive memory instrument
+          <h2 className="font-serif text-lg sm:text-xl font-semibold text-[var(--text-primary)] mt-0.5">
+            Experiment state snapshot
           </h2>
         </div>
 
@@ -132,7 +134,7 @@ export const DebugPanel: React.FC<DebugPanelProps> = ({
           <button
             type="button"
             onClick={handleExportJSON}
-            className="inline-flex items-center gap-1.5 px-2.5 py-1 text-xs font-sans text-[var(--lab-secondary)] hover:text-[var(--lab-text)] bg-[var(--lab-surface)] hover:bg-[var(--lab-border)] border border-[var(--lab-border)] rounded-md transition-colors cursor-pointer"
+            className="btn-secondary text-xs"
             title="Download complete verified experiment record as JSON"
           >
             <Download className="w-3.5 h-3.5" />
@@ -142,7 +144,7 @@ export const DebugPanel: React.FC<DebugPanelProps> = ({
           <button
             type="button"
             onClick={() => setExpanded(!expanded)}
-            className="inline-flex items-center gap-1 px-2.5 py-1 text-xs font-sans text-[var(--lab-secondary)] hover:text-[var(--lab-text)] hover:bg-[var(--lab-surface)] rounded-md transition-colors cursor-pointer"
+            className="btn-tertiary text-xs"
             aria-expanded={expanded}
           >
             <span>{expanded ? 'Collapse' : 'Expand'}</span>
@@ -152,77 +154,77 @@ export const DebugPanel: React.FC<DebugPanelProps> = ({
       </div>
 
       {expanded && (
-        <div className="space-y-4 animate-in fade-in duration-200">
+        <div className="space-y-4">
           {/* Scientific Status Notification (Non-neon, semantic, quiet) */}
-          <div className="flex items-center justify-between gap-3">
+          <div className="flex flex-wrap items-center justify-between gap-3">
             <div
               className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-sans font-medium border ${
                 isCorrect
-                  ? 'bg-[var(--accent-green)] text-[var(--accent-green-text)] border-[var(--border)]'
+                  ? 'bg-[var(--accent-green)] text-[var(--accent-green-text)] border-[var(--color-success-border)]'
                   : isInterference
-                  ? 'bg-[var(--accent-pink)] text-[var(--accent-pink-text)] border-[var(--border)]'
-                  : 'bg-[var(--lab-surface)] text-[var(--lab-secondary)] border-[var(--lab-border)]'
+                  ? 'bg-[var(--accent-pink)] text-[var(--accent-pink-text)] border-[var(--color-danger-border)]'
+                  : 'bg-[var(--surface-soft)] text-[var(--text-secondary)] border-[var(--border)]'
               }`}
             >
               {isCorrect ? (
                 <>
-                  <CheckCircle2 className="w-4 h-4 text-[var(--accent-green-text)] shrink-0" />
-                  <span>✓ Correct retrieval: probe &quot;{activeProbe}&quot; matches ground truth</span>
+                  <CheckCircle2 className="w-4 h-4 shrink-0" />
+                  <span>Correct retrieval: probe &ldquo;{activeProbe}&rdquo; matches ground truth</span>
                 </>
               ) : isInterference ? (
                 <>
-                  <AlertTriangle className="w-4 h-4 text-[var(--accent-pink-text)] shrink-0" />
+                  <AlertTriangle className="w-4 h-4 shrink-0" />
                   <span>Interference detected: probe vector diverged from ground truth</span>
                 </>
               ) : (
-                <span>State initialised</span>
+                <span>State initialized</span>
               )}
             </div>
 
-            <div className="text-xs font-mono text-[var(--lab-secondary)] hidden sm:block">
-              ID: {currentRunId}
+            <div className="text-xs font-mono tabular-nums text-[var(--text-muted)] hidden sm:block">
+              Run ID: {currentRunId}
             </div>
           </div>
 
           {/* 4 Conceptual Columns: Experiment, Current state, Probe, Result */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
             {/* 1. Experiment Section */}
-            <div className="p-3.5 rounded-xl bg-[var(--lab-surface)] border border-[var(--lab-border)] space-y-2">
-              <span className="text-[11px] font-mono font-bold text-[var(--lab-secondary)] uppercase tracking-wider block">
-                EXPERIMENT
+            <div className="metric-panel space-y-1.5">
+              <span className="text-[11px] font-mono font-medium text-[var(--text-muted)] block">
+                Experiment
               </span>
-              <div className="space-y-1">
-                <div className="font-mono text-sm text-[var(--lab-text)] font-semibold">{activeFactsCount} facts</div>
-                <div className="font-mono text-xs text-[var(--lab-secondary)]">t = {step}</div>
-                <div className="font-mono text-xs text-[var(--lab-secondary)]">D = 16</div>
+              <div className="space-y-0.5 tabular-nums">
+                <div className="font-mono text-sm text-[var(--text-primary)] font-semibold">{activeFactsCount} facts</div>
+                <div className="font-mono text-xs text-[var(--text-secondary)]">t = {step}</div>
+                <div className="font-mono text-xs text-[var(--text-secondary)]">D = {activeDim}</div>
               </div>
             </div>
 
             {/* 2. Current State Section */}
-            <div className="p-3.5 rounded-xl bg-[var(--lab-surface)] border border-[var(--lab-border)] space-y-2">
-              <span className="text-[11px] font-mono font-bold text-[var(--lab-secondary)] uppercase tracking-wider block">
-                CURRENT STATE
+            <div className="metric-panel space-y-1.5">
+              <span className="text-[11px] font-mono font-medium text-[var(--text-muted)] block">
+                Current state
               </span>
-              <div className="space-y-1">
-                <div className="font-mono text-sm text-[var(--lab-text)] font-semibold">
+              <div className="space-y-0.5 tabular-nums">
+                <div className="font-mono text-sm text-[var(--text-primary)] font-semibold">
                   ‖M‖<sub>F</sub> = {matrixNorm.toFixed(4)}
                 </div>
-                <div className="font-mono text-xs text-[var(--lab-secondary)]">
-                  M ∈ ℝ<sup>16×16</sup>
+                <div className="font-mono text-xs text-[var(--text-secondary)]">
+                  M ∈ ℝ<sup>{activeDim}×{activeDim}</sup>
                 </div>
               </div>
             </div>
 
             {/* 3. Probe Section */}
-            <div className="p-3.5 rounded-xl bg-[var(--lab-surface)] border border-[var(--lab-border)] space-y-2">
-              <span className="text-[11px] font-mono font-bold text-[var(--lab-secondary)] uppercase tracking-wider block">
-                PROBE
+            <div className="metric-panel space-y-1.5">
+              <span className="text-[11px] font-mono font-medium text-[var(--text-muted)] block">
+                Probe
               </span>
-              <div className="space-y-1">
-                <div className="font-serif text-lg font-bold text-[var(--lab-text)] truncate" title={activeProbe || 'None'}>
+              <div className="space-y-0.5">
+                <div className="font-serif text-lg font-semibold text-[var(--text-primary)] truncate" title={activeProbe || 'None'}>
                   {activeProbe || 'None'}
                 </div>
-                <div className="font-mono text-xs text-[var(--lab-secondary)]">
+                <div className="font-mono text-xs text-[var(--text-secondary)]">
                   qᵀ M
                 </div>
               </div>
@@ -230,51 +232,51 @@ export const DebugPanel: React.FC<DebugPanelProps> = ({
 
             {/* 4. Result Section */}
             <div
-              className={`p-3.5 rounded-xl border space-y-2 bg-[var(--lab-surface)] ${
+              className={`metric-panel space-y-1.5 ${
                 isCorrect
-                  ? 'border-[var(--accent-green-text)]/40'
-                  : 'border-[var(--accent-pink-text)]/40'
+                  ? 'border-[var(--color-success-border)]'
+                  : 'border-[var(--color-danger-border)]'
               }`}
             >
-              <span className="text-[11px] font-mono font-bold text-[var(--lab-secondary)] uppercase tracking-wider block">
-                RESULT
+              <span className="text-[11px] font-mono font-medium text-[var(--text-muted)] block">
+                Result
               </span>
-              <div className="space-y-1">
+              <div className="space-y-1 tabular-nums">
                 <div
-                  className={`font-serif text-lg font-bold truncate ${
+                  className={`font-serif text-lg font-semibold truncate ${
                     isCorrect ? 'text-[var(--accent-green-text)]' : 'text-[var(--accent-pink-text)]'
                   }`}
                   title={prediction}
                 >
                   {prediction}
                 </div>
-                <div className="text-xs text-[var(--lab-secondary)] flex items-center justify-between">
-                  <span>Ground truth:</span>
-                  <span className="font-semibold text-[var(--lab-text)]">{groundTruth}</span>
+                <div className="text-xs text-[var(--text-secondary)] flex items-center justify-between gap-2">
+                  <span>Ground truth</span>
+                  <span className="font-semibold text-[var(--text-primary)]">{groundTruth}</span>
                 </div>
-                <div className="text-xs text-[var(--lab-secondary)] flex items-center justify-between">
-                  <span>Retrieval score:</span>
-                  <span className="font-mono font-medium text-[var(--lab-text)]">{retrievalScore.toFixed(4)}</span>
+                <div className="text-xs text-[var(--text-secondary)] flex items-center justify-between gap-2">
+                  <span>Similarity</span>
+                  <span className="font-mono font-medium text-[var(--text-primary)]">{retrievalScore.toFixed(4)}</span>
                 </div>
-                <div className="text-xs text-[var(--lab-secondary)] flex items-center justify-between">
-                  <span>Top-1 margin:</span>
-                  <span className="font-mono font-medium text-[var(--lab-text)]">{top1Margin.toFixed(4)}</span>
+                <div className="text-xs text-[var(--text-secondary)] flex items-center justify-between gap-2">
+                  <span>Top-1 margin</span>
+                  <span className="font-mono font-medium text-[var(--text-primary)]">{top1Margin.toFixed(4)}</span>
                 </div>
               </div>
             </div>
           </div>
 
           {/* Secondary Quantitative Metrics Strip */}
-          <div className="flex flex-wrap items-center justify-between gap-4 px-3.5 py-2 rounded-xl bg-[var(--lab-surface)] border border-[var(--lab-border)] text-xs font-sans">
-            <div className="flex flex-wrap items-center gap-6 text-[var(--lab-secondary)]">
+          <div className="flex flex-wrap items-center justify-between gap-4 px-4 py-2.5 rounded-lg bg-[var(--surface-soft)] border border-[var(--border)] text-xs font-sans">
+            <div className="flex flex-wrap items-center gap-6 text-[var(--text-secondary)] tabular-nums">
               <div
                 className="flex items-center gap-2"
                 title="Cosine similarity between the retrieved representation and a candidate value representation. This is not a calibrated probability."
               >
                 <span>Retrieval score:</span>
-                <span className="font-mono font-bold text-[var(--accent-blue-text)]">{retrievalScore.toFixed(4)}</span>
+                <span className="font-mono font-semibold text-[var(--accent-blue-text)]">{retrievalScore.toFixed(4)}</span>
                 <span
-                  className="cursor-help text-[var(--lab-secondary)] hover:text-[var(--lab-text)]"
+                  className="cursor-help text-[var(--text-muted)] hover:text-[var(--text-primary)]"
                   title="Cosine similarity between the retrieved representation and a candidate value representation. This is not a calibrated probability."
                 >
                   <HelpCircle className="w-3.5 h-3.5 inline" />
@@ -286,12 +288,12 @@ export const DebugPanel: React.FC<DebugPanelProps> = ({
                 title="Difference between the top candidate similarity score and the runner-up candidate score."
               >
                 <span>Top-1 margin:</span>
-                <span className="font-mono font-semibold text-[var(--lab-text)]">{top1Margin.toFixed(4)}</span>
+                <span className="font-mono font-semibold text-[var(--text-primary)]">{top1Margin.toFixed(4)}</span>
               </div>
             </div>
 
-            <p className="text-[11px] text-[var(--lab-secondary)] italic">
-              Cosine similarity is representation alignment, not a calibrated probability.
+            <p className="text-xs text-[var(--text-muted)]">
+              Cosine similarity reflects representation alignment, not a calibrated probability.
             </p>
           </div>
         </div>

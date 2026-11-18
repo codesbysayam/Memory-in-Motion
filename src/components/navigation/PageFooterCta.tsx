@@ -34,14 +34,14 @@ export const PageFooterCta: React.FC<PageFooterCtaProps> = ({
   };
 
   return (
-    <div className="w-full border-t border-[#E5E0D8] bg-[#F4F1EA] py-8 px-4 sm:px-6 mt-12 no-print">
-      <div className="max-w-[1200px] mx-auto space-y-6">
+    <div className="w-full border-t border-[var(--border)] bg-[var(--surface-soft)] py-8 mt-14 no-print">
+      <div className="research-container space-y-6">
         <div className="flex flex-col sm:flex-row items-center justify-between gap-6">
           {/* Previous stage button */}
           {prevPage ? (
             <button
               onClick={handlePrev}
-              className="flex items-center gap-2 text-xs font-sans text-[#716F68] hover:text-[#151515] py-2 px-3 rounded-lg hover:bg-[#FAF8F5] transition-all cursor-pointer"
+              className="btn-tertiary text-xs cursor-pointer"
             >
               <ArrowLeft className="w-4 h-4" />
               <span>Previous stage</span>
@@ -54,13 +54,13 @@ export const PageFooterCta: React.FC<PageFooterCtaProps> = ({
           {nextPage && (
             <div className="flex flex-col sm:flex-row items-center gap-3 sm:gap-4 text-center sm:text-right">
               {subtext && (
-                <span className="text-xs text-[#716F68] font-sans">
+                <span className="text-xs text-[var(--text-secondary)] font-sans">
                   {subtext}
                 </span>
               )}
               <button
                 onClick={handleNext}
-                className="btn btn-primary px-5 py-2.5 text-sm font-semibold transition-all cursor-pointer"
+                className="btn-primary text-sm cursor-pointer"
               >
                 <span>{ctaText}</span>
                 <ArrowRight className="w-4 h-4" />
@@ -70,8 +70,8 @@ export const PageFooterCta: React.FC<PageFooterCtaProps> = ({
         </div>
 
         {/* Legal & Disclosures Sub-footer */}
-        <div className="border-t border-[#E5E0D8]/60 pt-4 flex flex-wrap items-center justify-between gap-3 text-xs font-mono text-[#716F68]">
-          <span>Memory in Motion · Interactive Research & Pedagogical Laboratory</span>
+        <div className="border-t border-[var(--border)] pt-4 flex flex-wrap items-center justify-between gap-3 text-xs font-mono text-[var(--text-muted)]">
+          <span>Memory in Motion · Interactive Research &amp; Pedagogical Laboratory</span>
           <div className="flex items-center gap-3 font-sans">
             <a
               href="/privacy"
@@ -80,11 +80,11 @@ export const PageFooterCta: React.FC<PageFooterCtaProps> = ({
                 onNavigate('privacy');
                 window.scrollTo({ top: 0, behavior: 'smooth' });
               }}
-              className="hover:text-[#151515] hover:underline cursor-pointer"
+              className="hover:text-[var(--text-primary)] hover:underline cursor-pointer"
             >
               Privacy Policy
             </a>
-            <span className="text-[#D0CCC3]">·</span>
+            <span aria-hidden="true" className="text-[var(--border)]">·</span>
             <a
               href="/terms"
               onClick={(e) => {
@@ -92,11 +92,11 @@ export const PageFooterCta: React.FC<PageFooterCtaProps> = ({
                 onNavigate('terms');
                 window.scrollTo({ top: 0, behavior: 'smooth' });
               }}
-              className="hover:text-[#151515] hover:underline cursor-pointer"
+              className="hover:text-[var(--text-primary)] hover:underline cursor-pointer"
             >
               Terms of Use
             </a>
-            <span className="text-[#D0CCC3]">·</span>
+            <span aria-hidden="true" className="text-[var(--border)]">·</span>
             <a
               href="/docs"
               onClick={(e) => {
@@ -104,7 +104,7 @@ export const PageFooterCta: React.FC<PageFooterCtaProps> = ({
                 onNavigate('docs');
                 window.scrollTo({ top: 0, behavior: 'smooth' });
               }}
-              className="hover:text-[#151515] hover:underline cursor-pointer"
+              className="hover:text-[var(--text-primary)] hover:underline cursor-pointer"
             >
               Docs
             </a>

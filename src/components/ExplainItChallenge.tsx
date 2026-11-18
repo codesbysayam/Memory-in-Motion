@@ -66,29 +66,29 @@ export const ExplainItChallenge: React.FC = () => {
   };
 
   return (
-    <div className="rounded-xl border border-[#D8DCD8] bg-[#FFFFFF] p-6 space-y-5 text-[#252525] shadow-xs">
+    <div className="rounded-xl border border-[var(--border)] bg-[var(--surface)] p-6 space-y-5 text-[var(--text-primary)] shadow-xs">
       {/* Header */}
-      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[#EAE6DF] pb-4">
+      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[var(--border)] pb-4">
         <div className="flex items-center gap-3">
-          <div className="p-2.5 rounded-xl bg-[#E7F2FA] border border-[#B8D7ED] text-[#31566E]">
+          <div className="p-2.5 rounded-xl bg-[var(--accent-blue)] border border-[var(--border)] text-[var(--accent-blue-text)]">
             <HelpCircle className="w-5 h-5" />
           </div>
           <div>
-            <div className="flex items-center gap-2">
-              <span className="text-xs uppercase tracking-wider text-[#31566E] font-semibold">
+            <div className="flex flex-wrap items-center gap-2">
+              <span className="text-xs text-[var(--accent-blue-text)] font-semibold">
                 Concept check
               </span>
-              <span className="text-xs text-[#5F625F] bg-[#F7F5EF] border border-[#D8DCD8] px-2 py-0.5 rounded-full">
+              <span className="text-xs text-[var(--text-muted)] bg-[var(--surface-soft)] border border-[var(--border)] px-2 py-0.5 rounded-md">
                 Deterministic keyword analysis · No LLM grading
               </span>
             </div>
-            <h3 className="text-base font-serif font-bold text-[#252525] mt-0.5">
+            <h3 className="text-base font-sans font-semibold text-[var(--text-primary)] mt-0.5">
               A friend asks: &ldquo;Why did the system forget Tokyo?&rdquo;
             </h3>
           </div>
         </div>
 
-        <span className="text-xs text-[#5F625F]">
+        <span className="text-xs text-[var(--text-muted)]">
           Explain in your own words
         </span>
       </div>
@@ -103,19 +103,19 @@ export const ExplainItChallenge: React.FC = () => {
             if (hasEvaluated) setHasEvaluated(false);
           }}
           placeholder="Type your explanation here (e.g., The system uses a fixed-size state, so ingesting distractors compressed too much information, causing interference that corrupted retrieval)..."
-          className="w-full rounded-xl bg-[#FFFFFF] border border-[#D8DCD8] focus:border-[#31566E] focus:ring-1 focus:ring-[#31566E] p-4 text-sm text-[#252525] placeholder-[#8F96A3] font-sans resize-none transition-all outline-hidden"
+          className="w-full rounded-xl bg-[var(--surface)] border border-[var(--border)] focus:border-[var(--color-accent)] focus:ring-1 focus:ring-[var(--color-accent)] p-4 text-sm text-[var(--text-primary)] placeholder:text-[var(--text-muted)] font-sans resize-none transition-all outline-hidden"
         />
 
         <div className="flex flex-wrap items-center justify-between gap-3">
-          <div className="text-xs font-mono text-[#5F625F]">
+          <div className="text-xs font-mono text-[var(--text-muted)]">
             {userText.trim().length} characters
           </div>
 
-          <div className="flex items-center gap-2">
+          <div className="flex flex-wrap items-center gap-2">
             {hasEvaluated && (
               <button
                 onClick={handleReset}
-                className="px-3 py-1.5 rounded-lg bg-[#FFFFFF] hover:bg-[#F7F5EF] border border-[#D8DCD8] text-[#5F625F] text-xs font-medium flex items-center gap-1.5 transition cursor-pointer"
+                className="px-3 py-1.5 rounded-lg bg-[var(--surface)] hover:bg-[var(--surface-soft)] border border-[var(--border)] text-[var(--text-secondary)] text-xs font-medium flex items-center gap-1.5 transition cursor-pointer"
               >
                 <RotateCcw className="w-3.5 h-3.5" />
                 <span>Try again</span>
@@ -124,16 +124,16 @@ export const ExplainItChallenge: React.FC = () => {
 
             <button
               onClick={() => setShowModelAnswer(!showModelAnswer)}
-              className="px-3 py-1.5 rounded-lg bg-[#FFFFFF] hover:bg-[#F7F5EF] border border-[#D8DCD8] text-[#5F625F] text-xs font-medium flex items-center gap-1.5 transition cursor-pointer"
+              className="px-3 py-1.5 rounded-lg bg-[var(--surface)] hover:bg-[var(--surface-soft)] border border-[var(--border)] text-[var(--text-secondary)] text-xs font-medium flex items-center gap-1.5 transition cursor-pointer"
             >
-              <Lightbulb className="w-3.5 h-3.5 text-[#8C5D17]" />
+              <Lightbulb className="w-3.5 h-3.5 text-[var(--accent-yellow-text)]" />
               <span>{showModelAnswer ? 'Hide model explanation' : 'Show model explanation'}</span>
             </button>
 
             <button
               onClick={handleCheck}
               disabled={userText.trim().length === 0}
-              className="px-3.5 py-1.5 rounded-lg bg-[#DCEFE2] hover:bg-[#CDE8D5] text-[#245B38] border border-[#BCE2C9] text-xs font-semibold disabled:opacity-40 disabled:pointer-events-none transition flex items-center gap-1.5 cursor-pointer shadow-2xs"
+              className="px-3.5 py-1.5 rounded-lg bg-[var(--accent-green)] hover:opacity-90 text-[var(--accent-green-text)] border border-[var(--color-success-border)] text-xs font-semibold disabled:opacity-40 disabled:pointer-events-none transition flex items-center gap-1.5 cursor-pointer shadow-2xs"
             >
               <span>Check my explanation</span>
               <ArrowRight className="w-3.5 h-3.5" />
@@ -144,12 +144,12 @@ export const ExplainItChallenge: React.FC = () => {
 
       {/* Evaluation Results */}
       {hasEvaluated && (
-        <div className="p-4 rounded-xl bg-[#F7F5EF] border border-[#D8DCD8] space-y-3 text-xs animate-in fade-in duration-200">
-          <div className="flex items-center justify-between border-b border-[#EAE6DF] pb-2">
-            <span className="text-[#252525] font-semibold uppercase tracking-wider text-xs">
+        <div className="p-4 rounded-xl bg-[var(--surface-soft)] border border-[var(--border)] space-y-3 text-xs animate-in fade-in duration-200">
+          <div className="flex items-center justify-between border-b border-[var(--border)] pb-2">
+            <span className="text-[var(--text-primary)] font-semibold text-xs">
               Concept detection summary ({matchedCount} / {CONCEPT_GROUPS.length} identified)
             </span>
-            <span className={`text-xs font-semibold ${matchedCount >= 3 ? 'text-[#247A4B]' : 'text-[#8C5D17]'}`}>
+            <span className={`text-xs font-semibold ${matchedCount >= 3 ? 'text-[var(--accent-green-text)]' : 'text-[var(--accent-yellow-text)]'}`}>
               {matchedCount >= 3 ? 'Strong synthesis ✓' : 'Partial explanation'}
             </span>
           </div>
@@ -160,34 +160,34 @@ export const ExplainItChallenge: React.FC = () => {
                 key={r.id}
                 className={`p-2.5 rounded-lg border flex items-center gap-2 ${
                   r.matched
-                    ? 'bg-[#DCEFE2] border-[#BCE2C9] text-[#247A4B] font-semibold'
-                    : 'bg-[#FFFFFF] border-[#D8DCD8] text-[#5F625F]'
+                    ? 'bg-[var(--accent-green)] border-[var(--color-success-border)] text-[var(--accent-green-text)] font-semibold'
+                    : 'bg-[var(--surface)] border-[var(--border)] text-[var(--text-secondary)]'
                 }`}
               >
                 {r.matched ? (
-                  <CheckCircle2 className="w-4 h-4 text-[#247A4B] shrink-0" />
+                  <CheckCircle2 className="w-4 h-4 text-[var(--accent-green-text)] shrink-0" />
                 ) : (
-                  <XCircle className="w-4 h-4 text-[#8F96A3] shrink-0" />
+                  <XCircle className="w-4 h-4 text-[var(--text-muted)] shrink-0" />
                 )}
                 <span className="text-xs truncate">{r.name}</span>
               </div>
             ))}
           </div>
 
-          <p className="text-[#5F625F] text-xs font-sans leading-relaxed pt-1">
-            A strong scientific explanation connects the <strong>fixed-size state</strong> with <strong>compression</strong>, <strong>superposition interference</strong>, and <strong>retrieval failure</strong>.
+          <p className="text-[var(--text-secondary)] text-xs font-sans leading-relaxed pt-1">
+            A strong scientific explanation connects the <strong className="text-[var(--text-primary)]">fixed-size state</strong> with <strong className="text-[var(--text-primary)]">compression</strong>, <strong className="text-[var(--text-primary)]">superposition interference</strong>, and <strong className="text-[var(--text-primary)]">retrieval failure</strong>.
           </p>
         </div>
       )}
 
       {/* Reference / Model Answer */}
       {showModelAnswer && (
-        <div className="p-4 rounded-xl bg-[#FFF5D8] border border-[#E8D9A8] text-xs text-[#252525] space-y-2 animate-in fade-in duration-200">
-          <div className="flex items-center gap-2 font-semibold text-[#8C5D17]">
-            <Sparkles className="w-4 h-4 text-[#8C5D17]" />
+        <div className="p-4 rounded-xl bg-[var(--accent-yellow)] border border-[var(--color-warning-border)] text-xs text-[var(--text-primary)] space-y-2 animate-in fade-in duration-200">
+          <div className="flex items-center gap-2 font-semibold text-[var(--accent-yellow-text)]">
+            <Sparkles className="w-4 h-4 text-[var(--accent-yellow-text)]" />
             <span>Model reference explanation:</span>
           </div>
-          <p className="text-[#252525] font-sans leading-relaxed text-xs">
+          <p className="text-[var(--text-primary)] font-sans leading-relaxed text-xs">
             &ldquo;In this recurrent architecture, memory is compressed into a fixed-size vector matrix rather than expanding dynamically like a Transformer KV-cache. When new associations and distractors are ingested sequentially, their outer-product coordinate updates superimpose onto the existing coordinates. Because the state dimension is finite, adding competing facts causes geometric crosstalk (interference), shifting the readout vector closer to distractor candidates and causing retrieval failure.&rdquo;
           </p>
         </div>

@@ -9,17 +9,24 @@ interface EvidenceBadgeProps {
 
 export function EvidenceBadge({ category, className = '' }: EvidenceBadgeProps) {
   const styles: Record<EvidenceCategory, string> = {
-    'PRIMARY SOURCE': 'bg-violet-950/40 text-violet-300 border-violet-500/40',
-    'OFFICIAL PATHWAY MATERIAL': 'bg-cyan-950/40 text-cyan-300 border-cyan-500/40',
-    'OUR TOY EXPERIMENT': 'bg-amber-950/40 text-amber-300 border-amber-500/40',
-    'ILLUSTRATION': 'bg-zinc-900 text-zinc-400 border-zinc-700/60',
+    'PRIMARY SOURCE': 'bg-[var(--accent-blue)] text-[var(--accent-blue-text)] border-[var(--border)]',
+    'OFFICIAL PATHWAY MATERIAL': 'bg-[var(--accent-green)] text-[var(--accent-green-text)] border-[var(--color-success-border)]',
+    'OUR TOY EXPERIMENT': 'bg-[var(--accent-yellow)] text-[var(--accent-yellow-text)] border-[var(--color-warning-border)]',
+    'ILLUSTRATION': 'bg-[var(--surface-soft)] text-[var(--text-secondary)] border-[var(--border)]',
+  };
+
+  const labels: Record<EvidenceCategory, string> = {
+    'PRIMARY SOURCE': 'Primary Source',
+    'OFFICIAL PATHWAY MATERIAL': 'Official Material',
+    'OUR TOY EXPERIMENT': 'Toy Experiment',
+    'ILLUSTRATION': 'Illustration',
   };
 
   return (
     <span
-      className={`inline-flex items-center text-[10px] font-mono font-medium px-2 py-0.5 rounded border uppercase tracking-wider ${styles[category]} ${className}`}
+      className={`inline-flex items-center text-[11px] font-mono font-medium px-2 py-0.5 rounded-md border ${styles[category]} ${className}`}
     >
-      {category}
+      {labels[category] ?? category}
     </span>
   );
 }
@@ -46,20 +53,20 @@ export function SourceCard({
   id
 }: SourceCardProps) {
   return (
-    <div id={id} className="rounded-xl border border-[#252A35] bg-[#11141A] p-4 text-[#F4F5F7] space-y-2.5">
-      <div className="flex items-center justify-between">
+    <div id={id} className="rounded-xl border border-[var(--border)] bg-[var(--surface)] p-5 text-[var(--text-primary)] space-y-3">
+      <div className="flex items-center justify-between gap-2">
         <EvidenceBadge category={category} />
-        {year && <span className="font-mono text-xs text-[#8F96A3]">{year}</span>}
+        {year && <span className="font-mono text-xs tabular-nums text-[var(--text-muted)]">{year}</span>}
       </div>
 
       <div>
-        <h4 className="font-semibold text-white text-sm leading-snug">
+        <h4 className="font-serif font-semibold text-[var(--text-primary)] text-base leading-snug">
           {link ? (
             <a
               href={link}
               target="_blank"
               rel="noreferrer"
-              className="hover:text-[#22D3EE] transition-colors underline decoration-[#252A35] underline-offset-4"
+              className="hover:text-[var(--accent-blue-text)] transition-colors underline decoration-[var(--border)] underline-offset-4"
             >
               {title}
             </a>
@@ -67,12 +74,12 @@ export function SourceCard({
             title
           )}
         </h4>
-        {authors && <p className="text-xs text-[#8F96A3] mt-0.5">{authors}</p>}
-        <p className="text-[11px] font-mono text-[#8B5CF6] mt-0.5">{source}</p>
+        {authors && <p className="text-xs text-[var(--text-secondary)] mt-1">{authors}</p>}
+        <p className="text-xs font-mono text-[var(--accent-blue-text)] mt-1">{source}</p>
       </div>
 
-      <div className="rounded-lg bg-[#151922] p-2.5 border border-[#252A35]/60 text-xs text-[#8F96A3] leading-relaxed">
-        <span className="text-white font-medium block mb-0.5">Why it matters here:</span>
+      <div className="rounded-lg bg-[var(--surface-soft)] p-3 border border-[var(--border)] text-xs text-[var(--text-secondary)] leading-relaxed">
+        <span className="text-[var(--text-primary)] font-medium block mb-0.5">Why it matters here</span>
         {whyItMatters}
       </div>
     </div>

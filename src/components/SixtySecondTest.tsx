@@ -133,50 +133,55 @@ export const SixtySecondTest: React.FC = () => {
   };
 
   return (
-    <div id="sixty-second-test" className="w-full space-y-6">
-      {/* Stage Header */}
-      <div className="flex flex-wrap items-center justify-between gap-4 border-b border-[#E5E0D8] pb-4">
-        <div>
-          <div className="flex items-center gap-2">
-            <span className="font-mono text-xs font-bold text-[#1B4D7E] px-2 py-0.5 rounded bg-[#EAF2FA] border border-[#CDE1F2]">
-              07.1 VERIFICATION
-            </span>
-            <span className="text-xs text-[#726E65]">·</span>
-            <span className="text-xs font-mono text-[#52504A]">Interactive Assessment</span>
+    <section id="sixty-second-test" className="w-full space-y-6">
+      {/* Assessment Header & Integrated Mode Switcher */}
+      <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-[var(--border)] pb-5">
+        <div className="space-y-1.5 max-w-2xl">
+          <div className="flex items-center gap-2 text-xs font-mono text-[var(--text-muted)]">
+            <span className="font-semibold text-[var(--accent-blue-text)] tabular-nums">07.1</span>
+            <span aria-hidden="true" className="text-[var(--border)]">·</span>
+            <span>Interactive assessment</span>
           </div>
-          <h2 className="text-2xl sm:text-3xl font-serif font-bold text-[#1C1B19] tracking-tight mt-1">
+          <h2 className="text-2xl sm:text-3xl font-serif font-semibold text-[var(--text-primary)] tracking-[-0.02em]">
             60-Second Fast Verification
           </h2>
-          <p className="text-xs sm:text-sm text-[#5A574E] font-sans mt-0.5 max-w-2xl">
-            A real-time evaluation testing your experimental understanding across 5 sequential stages:
-            Remember, Break, Trace, Measure, and BDH Synthesis.
+          <p className="text-sm sm:text-[15px] text-[var(--text-secondary)] font-sans leading-relaxed">
+            A real-time evaluation testing your experimental understanding across 5 sequential stages: Remember, Break, Trace, Measure, and BDH Synthesis.
           </p>
         </div>
 
-        {/* View Toggle */}
-        <div className="flex items-center gap-1.5 p-1 rounded-xl bg-[#F0EEEA] border border-[#DCD9CF]">
+        {/* Mode Selector integrated cleanly into section header */}
+        <div
+          className="inline-flex items-center gap-1 p-1 rounded-lg bg-[var(--surface-soft)] border border-[var(--border)] self-start md:self-auto shrink-0"
+          role="tablist"
+          aria-label="Assessment mode"
+        >
           <button
             type="button"
+            role="tab"
+            aria-selected={activeTab === 'assessment'}
             onClick={() => setActiveTab('assessment')}
-            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-sans font-semibold transition cursor-pointer ${
+            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-sans font-medium transition-colors cursor-pointer whitespace-nowrap ${
               activeTab === 'assessment'
-                ? 'bg-white text-[#1B4D7E] shadow-xs'
-                : 'text-[#6E6B62] hover:text-[#252525]'
+                ? 'bg-[var(--surface)] text-[var(--text-primary)] font-semibold border border-[var(--border)] shadow-[var(--shadow-panel)]'
+                : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)] border border-transparent'
             }`}
           >
-            <Clock className="w-3.5 h-3.5" />
+            <Clock className="w-3.5 h-3.5 text-[var(--accent-blue-text)] shrink-0" />
             <span>Interactive 60s Test</span>
           </button>
           <button
             type="button"
+            role="tab"
+            aria-selected={activeTab === 'conceptual'}
             onClick={() => setActiveTab('conceptual')}
-            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-sans font-semibold transition cursor-pointer ${
+            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-sans font-medium transition-colors cursor-pointer whitespace-nowrap ${
               activeTab === 'conceptual'
-                ? 'bg-white text-[#1B4D7E] shadow-xs'
-                : 'text-[#6E6B62] hover:text-[#252525]'
+                ? 'bg-[var(--surface)] text-[var(--text-primary)] font-semibold border border-[var(--border)] shadow-[var(--shadow-panel)]'
+                : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)] border border-transparent'
             }`}
           >
-            <HelpCircle className="w-3.5 h-3.5" />
+            <HelpCircle className="w-3.5 h-3.5 text-[var(--accent-blue-text)] shrink-0" />
             <span>Theory Check (3 Qs)</span>
           </button>
         </div>
@@ -189,16 +194,14 @@ export const SixtySecondTest: React.FC = () => {
         </div>
       ) : (
         /* Conceptual 3-Question Verification */
-        <div className="rounded-2xl border border-[#DCD9CF] bg-[#FFFFFF] p-6 space-y-6 animate-in fade-in duration-200 shadow-xs">
-          <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[#EFECE6] pb-4">
+        <div className="rounded-xl border border-[var(--border)] bg-[var(--surface)] overflow-hidden animate-in fade-in duration-200">
+          <div className="px-5 py-4 sm:px-6 border-b border-[var(--border)] bg-[var(--surface-soft)] flex flex-wrap items-center justify-between gap-3">
             <div>
-              <div className="flex items-center gap-2">
-                <HelpCircle className="w-4 h-4 text-[#1B4D7E]" />
-                <h3 className="font-serif text-base sm:text-lg font-bold text-[#1C1B19]">
-                  Conceptual Principles of Recurrent State
-                </h3>
-              </div>
-              <p className="text-xs text-[#6A675E] font-sans mt-0.5">
+              <h3 className="text-base font-sans font-semibold text-[var(--text-primary)] flex items-center gap-2">
+                <HelpCircle className="w-4 h-4 text-[var(--accent-blue-text)] shrink-0" />
+                <span>Conceptual Principles of Recurrent State</span>
+              </h3>
+              <p className="text-xs sm:text-sm text-[var(--text-secondary)] font-sans mt-0.5">
                 Verify the algebraic reasoning behind coordinate superposition and BDH synapses.
               </p>
             </div>
@@ -207,7 +210,7 @@ export const SixtySecondTest: React.FC = () => {
               <button
                 type="button"
                 onClick={handleReset}
-                className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-[#D5D2C9] bg-[#FAF9F6] text-xs font-sans font-medium text-[#4B4840] hover:bg-[#F2EFE8] transition cursor-pointer"
+                className="btn-secondary text-xs"
               >
                 <RotateCcw className="w-3.5 h-3.5" />
                 <span>Retry Questions</span>
@@ -215,7 +218,7 @@ export const SixtySecondTest: React.FC = () => {
             )}
           </div>
 
-          <div className="space-y-5">
+          <div className="divide-y divide-[var(--border)]">
             {QUESTIONS.map((q) => {
               const selectedIdx = selectedAnswers[q.id];
               const selectedOption = selectedIdx !== undefined ? q.options[selectedIdx] : null;
@@ -223,27 +226,40 @@ export const SixtySecondTest: React.FC = () => {
               return (
                 <div
                   key={q.id}
-                  className="rounded-xl border border-[#E5E0D8] bg-[#FAF8F5] p-5 space-y-3 font-sans text-xs"
+                  className="p-5 sm:p-6 space-y-4 font-sans"
                 >
-                  <h4 className="text-[#191919] font-serif font-bold text-sm leading-snug">
+                  <h4 className="text-[var(--text-primary)] font-sans font-semibold text-base sm:text-[17px] leading-snug">
                     {q.question}
                   </h4>
 
-                  <div className="space-y-2">
+                  <div className="space-y-2.5">
                     {q.options.map((opt, optIdx) => {
                       const isSelected = selectedIdx === optIdx;
-                      let borderClass = 'border-[#DCD9CF] bg-[#FFFFFF] text-[#33312B] hover:border-[#B5B2A8]';
+                      let optionStyle =
+                        'border-[var(--border)] bg-[var(--surface)] text-[var(--text-primary)] hover:bg-[var(--surface-soft)] hover:border-[var(--color-border-strong)]';
+                      let badgeStyle =
+                        'bg-[var(--surface-soft)] border-[var(--border)] text-[var(--text-secondary)]';
 
                       if (submitted) {
                         if (opt.isCorrect) {
-                          borderClass = 'border-[#2E7D4E] bg-[#F0F8F3] text-[#1E5635] font-bold';
+                          optionStyle =
+                            'border-[var(--color-success)] bg-[var(--accent-green)] text-[var(--accent-green-text)] font-medium';
+                          badgeStyle =
+                            'bg-[var(--color-success)] border-[var(--color-success)] text-[var(--surface)]';
                         } else if (isSelected && !opt.isCorrect) {
-                          borderClass = 'border-[#C53939] bg-[#FFF5F5] text-[#9A2222]';
+                          optionStyle =
+                            'border-[var(--color-danger)] bg-[var(--accent-pink)] text-[var(--accent-pink-text)]';
+                          badgeStyle =
+                            'bg-[var(--color-danger)] border-[var(--color-danger)] text-[var(--surface)]';
                         } else {
-                          borderClass = 'border-[#EAE7DF] bg-[#F7F5F0] text-[#8C887E] opacity-60';
+                          optionStyle =
+                            'border-[var(--border)] bg-[var(--surface-soft)] text-[var(--text-muted)] opacity-60 cursor-default';
                         }
                       } else if (isSelected) {
-                        borderClass = 'border-[#1B4D7E] bg-[#EAF2FA] text-[#1B4D7E] font-bold ring-1 ring-[#1B4D7E]';
+                        optionStyle =
+                          'border-[var(--color-accent)] bg-[var(--accent-blue)] text-[var(--text-primary)] font-medium ring-1 ring-[var(--color-accent)]';
+                        badgeStyle =
+                          'bg-[var(--color-accent)] border-[var(--color-accent)] text-[var(--surface)]';
                       }
 
                       return (
@@ -252,12 +268,16 @@ export const SixtySecondTest: React.FC = () => {
                           type="button"
                           onClick={() => handleSelect(q.id, optIdx)}
                           disabled={submitted}
-                          className={`w-full text-left p-3 rounded-lg border transition flex items-start gap-3 cursor-pointer ${borderClass}`}
+                          className={`w-full text-left p-3.5 rounded-lg border transition-colors flex items-start gap-3 ${
+                            submitted ? 'cursor-default' : 'cursor-pointer'
+                          } ${optionStyle}`}
                         >
-                          <span className="w-5 h-5 rounded-md bg-[#FAF9F6] border border-[#D5D2C9] flex items-center justify-center font-mono font-bold text-[11px] shrink-0">
+                          <span
+                            className={`w-6 h-6 rounded-md border flex items-center justify-center font-mono font-semibold text-xs shrink-0 mt-0.5 transition-colors ${badgeStyle}`}
+                          >
                             {opt.label}
                           </span>
-                          <span className="text-[12px] leading-relaxed flex-1 font-sans">{opt.text}</span>
+                          <span className="text-sm leading-relaxed flex-1 font-sans">{opt.text}</span>
                         </button>
                       );
                     })}
@@ -265,26 +285,28 @@ export const SixtySecondTest: React.FC = () => {
 
                   {submitted && selectedOption && (
                     <div
-                      className={`p-3 rounded-lg text-[11px] leading-relaxed border font-sans ${
+                      className={`p-4 rounded-lg text-xs sm:text-sm leading-relaxed border font-sans ${
                         selectedOption.isCorrect
-                          ? 'bg-[#F0F8F3] border-[#BDE0C8] text-[#1E5635]'
-                          : 'bg-[#FFF5F5] border-[#F5CACA] text-[#9A2222]'
+                          ? 'bg-[var(--accent-green)] border-[var(--color-success-border)] text-[var(--accent-green-text)]'
+                          : 'bg-[var(--accent-pink)] border-[var(--color-danger-border)] text-[var(--accent-pink-text)]'
                       }`}
                     >
-                      <div className="font-bold flex items-center gap-1.5 mb-1 font-serif">
+                      <div className="font-semibold flex items-center gap-1.5 mb-1">
                         {selectedOption.isCorrect ? (
                           <>
-                            <CheckCircle2 className="w-3.5 h-3.5 text-[#2E7D4E]" />
-                            <span>Scientific Insight:</span>
+                            <CheckCircle2 className="w-4 h-4 shrink-0" />
+                            <span>Scientific insight</span>
                           </>
                         ) : (
                           <>
-                            <XCircle className="w-3.5 h-3.5 text-[#C53939]" />
-                            <span>Conceptual Correction:</span>
+                            <XCircle className="w-4 h-4 shrink-0" />
+                            <span>Conceptual correction</span>
                           </>
                         )}
                       </div>
-                      {selectedOption.explanation}
+                      <p className="text-[var(--text-primary)] leading-relaxed">
+                        {selectedOption.explanation}
+                      </p>
                     </div>
                   )}
                 </div>
@@ -292,52 +314,64 @@ export const SixtySecondTest: React.FC = () => {
             })}
           </div>
 
-          <div className="pt-2">
+          <div className="px-5 py-4 sm:px-6 border-t border-[var(--border)] bg-[var(--surface-soft)]">
             {!submitted ? (
-              <button
-                type="button"
-                onClick={() => setSubmitted(true)}
-                disabled={!isComplete}
-                className={`w-full py-3 px-4 rounded-xl font-sans text-xs font-bold flex items-center justify-center gap-2 transition cursor-pointer ${
-                  isComplete
-                    ? 'bg-[#1B4D7E] text-white hover:bg-[#153E65] shadow-xs'
-                    : 'bg-[#EDEAE4] text-[#9A968C] border border-[#DDD9CF] cursor-not-allowed'
-                }`}
-              >
-                <span>Submit Answers ({answeredCount}/3 Complete)</span>
-                <ArrowRight className="w-4 h-4" />
-              </button>
+              <div className="flex flex-wrap items-center justify-between gap-3">
+                <span className="text-xs font-mono tabular-nums text-[var(--text-secondary)]">
+                  {answeredCount} of {QUESTIONS.length} questions answered
+                </span>
+                <button
+                  type="button"
+                  onClick={() => setSubmitted(true)}
+                  disabled={!isComplete}
+                  className="btn-primary text-sm"
+                >
+                  <span>Submit Answers ({answeredCount}/3 Complete)</span>
+                  <ArrowRight className="w-4 h-4" />
+                </button>
+              </div>
             ) : (
               <div
-                className={`rounded-xl border p-5 text-center font-sans space-y-2 ${
+                className={`rounded-lg border p-4 sm:p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4 font-sans ${
                   isSuccess
-                    ? 'border-[#BDE0C8] bg-[#F0F8F3] text-[#1E5635]'
-                    : 'border-[#F8DDB3] bg-[#FEF9EE] text-[#8C6212]'
+                    ? 'border-[var(--color-success-border)] bg-[var(--accent-green)] text-[var(--accent-green-text)]'
+                    : 'border-[var(--color-warning-border)] bg-[var(--accent-yellow)] text-[var(--accent-yellow-text)]'
                 }`}
               >
-                <div className="flex items-center justify-center gap-2 text-base font-serif font-bold">
-                  {isSuccess ? (
-                    <>
-                      <Award className="w-5 h-5 text-[#2E7D4E]" />
-                      <span>Conceptual Mastery Verified ({score}/3)</span>
-                    </>
-                  ) : (
-                    <>
-                      <RotateCcw className="w-5 h-5 text-[#B87D17]" />
-                      <span>Review the Laboratory ({score}/3 Correct)</span>
-                    </>
-                  )}
+                <div className="space-y-1">
+                  <div className="flex items-center gap-2 text-base font-semibold">
+                    {isSuccess ? (
+                      <>
+                        <Award className="w-5 h-5 shrink-0" />
+                        <span>Conceptual Mastery Verified ({score}/3)</span>
+                      </>
+                    ) : (
+                      <>
+                        <RotateCcw className="w-5 h-5 shrink-0" />
+                        <span>Review the Laboratory ({score}/3 Correct)</span>
+                      </>
+                    )}
+                  </div>
+                  <p className="text-xs sm:text-sm text-[var(--text-primary)] leading-relaxed">
+                    {isSuccess
+                      ? 'You have clearly differentiated fixed-size coordinate state representations from token tapes and understood how plastic synapses in BDH avoid catastrophic forgetting.'
+                      : 'Review the interference curves and capacity experiments in Stage 02 and Stage 04 to solidify the algebraic foundation.'}
+                  </p>
                 </div>
-                <p className="text-xs text-[#55524B] max-w-xl mx-auto leading-relaxed font-sans">
-                  {isSuccess
-                    ? 'You have clearly differentiated fixed-size coordinate state representations from token tapes and understood how plastic synapses in BDH avoid catastrophic forgetting.'
-                    : 'Review the interference curves and capacity experiments in Stage 02 and Stage 04 to solidify the algebraic foundation.'}
-                </p>
+
+                <button
+                  type="button"
+                  onClick={handleReset}
+                  className="btn-secondary text-xs shrink-0"
+                >
+                  <RotateCcw className="w-3.5 h-3.5" />
+                  <span>Try again</span>
+                </button>
               </div>
             )}
           </div>
         </div>
       )}
-    </div>
+    </section>
   );
 };

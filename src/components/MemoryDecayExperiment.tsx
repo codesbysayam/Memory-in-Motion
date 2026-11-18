@@ -251,12 +251,12 @@ export const MemoryDecayExperiment: React.FC = () => {
             Plot: number of updates vs. retrieval score
           </span>
           <div className="flex items-center gap-3 text-xs">
-            <span className="flex items-center gap-1 text-[var(--accent-green-text)]">
-              <span className="w-2.5 h-2.5 rounded-full bg-[var(--accent-green-text)]" />
+            <span className="flex items-center gap-1.5 text-[var(--accent-green-text)]">
+              <span className="w-2.5 h-2.5 rounded-[2px] bg-[var(--accent-green-text)]" />
               Correct (Paris)
             </span>
-            <span className="flex items-center gap-1 text-[var(--accent-yellow-text)]">
-              <span className="w-2.5 h-2.5 rounded-full bg-[var(--accent-yellow-text)]" />
+            <span className="flex items-center gap-1.5 text-[var(--accent-yellow-text)]">
+              <span className="w-2.5 h-2.5 rounded-[2px] bg-[var(--accent-yellow-text)]" />
               Degraded / fail
             </span>
           </div>
@@ -385,7 +385,7 @@ export const MemoryDecayExperiment: React.FC = () => {
             <span className="text-[var(--accent-blue-text)]">Live in-memory state</span>
           </div>
 
-          <div className="grid grid-cols-16 gap-[1.5px] p-2 bg-[var(--surface-soft)] rounded-lg border border-[var(--border)]">
+          <div className="grid grid-cols-16 gap-[1.5px] p-2 bg-[var(--color-matrix-bg)] rounded-lg border border-[var(--color-matrix-border)]">
             {currentStepData.matrix.flatMap((row, rIdx) =>
               row.map((val, cIdx) => {
                 const absVal = Math.min(Math.abs(val) * 1.5, 1);
@@ -397,8 +397,8 @@ export const MemoryDecayExperiment: React.FC = () => {
                     className="w-full h-2.5 rounded-[1px] transition-colors"
                     style={{
                       backgroundColor: isPos
-                        ? `rgba(40, 91, 115, ${0.15 + absVal * 0.85})`
-                        : `rgba(168, 62, 54, ${0.15 + absVal * 0.85})`,
+                        ? `rgba(76, 154, 255, ${0.18 + absVal * 0.82})`
+                        : `rgba(229, 98, 90, ${0.18 + absVal * 0.82})`,
                     }}
                   />
                 );

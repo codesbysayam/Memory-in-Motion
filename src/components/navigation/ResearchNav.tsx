@@ -406,18 +406,27 @@ export function ResearchNav({
   const [moreDropdownOpen, setMoreDropdownOpen] = useState(false);
   const moreDropdownRef = useRef<HTMLDivElement | null>(null);
 
-  // Close "More" dropdown when clicking outside
+  // Close "More" dropdown when clicking outside and support Escape to dismiss open drawers/menus
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (moreDropdownRef.current && !moreDropdownRef.current.contains(event.target as Node)) {
         setMoreDropdownOpen(false);
       }
     };
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        setActiveDropdownPage(null);
+        setTocDrawerOpen(false);
+        setMobileMenuOpen(false);
+      }
+    };
     if (moreDropdownOpen) {
       document.addEventListener('mousedown', handleClickOutside);
     }
+    document.addEventListener('keydown', handleKeyDown);
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener('keydown', handleKeyDown);
     };
   }, [moreDropdownOpen]);
 
@@ -431,48 +440,41 @@ export function ResearchNav({
           {/* LEFT: Brand / Logo Area */}
           <div className="header-brand">
             <button
+              type="button"
               onClick={() => handleSelect('memory')}
-              className="flex items-center gap-2 sm:gap-2.5 text-left group cursor-pointer"
+              className="flex items-center gap-2.5 text-left group cursor-pointer whitespace-nowrap shrink-0"
               title="Return to Stage 01: Memory"
               aria-label="Memory in Motion home"
             >
-              <LogoMark size={28} variant="editorial" />
-              <div className="flex flex-col">
-                <span className="header-brand-title group-hover:text-[var(--accent-blue-text)] transition-colors">
-                  Memory in Motion
-                </span>
-                <span className="text-[10px] font-sans text-[var(--text-muted)] leading-tight hidden xl:block whitespace-nowrap">
-                  Interactive Research Laboratory
-                </span>
-              </div>
+              <LogoMark size={26} variant="editorial" />
+              <span className="header-brand-title group-hover:text-[var(--accent-blue-text)] transition-colors">
+                Memory in Motion
+              </span>
             </button>
-          </div>
 
-          {/* COMPACT VIEWPORTS (< 1200px): Stage Selector Button with Dropdown Trigger */}
-          <div className="flex xl:hidden items-center">
+            {/* TABLET (768px - 1279px): Compact current stage indicator */}
             <button
               type="button"
               onClick={() => setTocDrawerOpen(true)}
-              className="inline-flex items-center gap-2 px-2.5 py-1.5 rounded-lg border border-[var(--border)] bg-[var(--surface-soft)] text-xs font-sans hover:bg-[var(--surface)] transition-colors cursor-pointer"
+              className="hidden md:inline-flex xl:hidden items-center gap-2 px-2.5 py-1 rounded-md border border-[var(--border)] bg-[var(--surface-soft)] text-xs font-sans hover:bg-[var(--surface)] transition-colors cursor-pointer whitespace-nowrap shrink-0 ml-1"
               title="Open Stages Navigation"
               aria-label="Open Stages Navigation"
             >
-              <span className="font-mono text-[11px] font-bold text-[var(--accent-blue-text)] bg-[var(--accent-blue)] px-1.5 py-0.5 rounded">
+              <span className="font-mono text-[11px] font-semibold tabular-nums text-[var(--accent-blue-text)]">
                 {currentPageInfo.num}
               </span>
-              <span className="font-semibold text-[var(--text-primary)] max-w-[140px] truncate">
+              <span className="font-medium text-[var(--text-primary)] max-w-[110px] truncate">
                 {currentPageInfo.title}
               </span>
               <ChevronDown className="w-3.5 h-3.5 text-[var(--text-secondary)]" />
             </button>
           </div>
 
-          {/* DESKTOP (>= 1200px): Primary Navigation (01–07 stages) - Never Clipped */}
+          {/* CENTER: DESKTOP (>= 1280px) Primary Navigation (01–07 stages) */}
           <nav className="hidden xl:flex primary-nav" aria-label="Primary stages navigation">
-            {PAGES.map((page, index) => {
+            {PAGES.map((page) => {
               const isActive = page.id === currentPage;
               const isDropdownOpen = activeDropdownPage === page.id;
-              const hasSubsections = Boolean(page.subsections && page.subsections.length > 0);
 
               return (
                 <div
@@ -482,80 +484,60 @@ export function ResearchNav({
                   onMouseLeave={handleMouseLeaveNav}
                 >
                   <button
+                    type="button"
                     onClick={() => handleSelect(page.id)}
                     className={`primary-nav-item ${isActive ? 'active' : ''}`}
                     aria-current={isActive ? 'page' : undefined}
                   >
                     <span
-                      className={`font-mono text-xs ${
-                        isActive ? 'text-[var(--accent-blue-text)] font-bold' : 'text-[var(--text-muted)]'
+                      className={`font-mono text-[11px] tabular-nums ${
+                        isActive ? 'text-[var(--accent-blue-text)] font-semibold' : 'text-[var(--text-muted)]'
                       }`}
                     >
                       {page.num}
                     </span>
-                    <span className="font-semibold">
-                      {page.title}
-                    </span>
-                    {hasSubsections && (
-                      <span
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          setActiveDropdownPage(isDropdownOpen ? null : page.id);
-                        }}
-                        className="p-0.5 text-[var(--text-muted)] hover:text-[var(--text-primary)] cursor-pointer ml-0.5"
-                        title={`View Stage ${page.num} Subsections`}
-                        aria-label={`Toggle Stage ${page.num} subsections`}
-                      >
-                        <ChevronDown
-                          className={`w-3 h-3 transition-transform duration-200 ${
-                            isDropdownOpen ? 'rotate-180 text-[var(--accent-blue-text)]' : 'opacity-70'
-                          }`}
-                        />
-                      </span>
-                    )}
+                    <span>{page.title}</span>
                   </button>
 
-                  {/* Table of Contents Popover for this Page */}
+                  {/* Table of Contents Popover on hover */}
                   {isDropdownOpen && page.subsections && (
                     <div
-                      className="absolute top-full left-0 mt-1 w-84 sm:w-96 rounded-xl border border-[var(--border)] bg-[var(--surface)] text-[var(--text-primary)] p-3 shadow-lg z-50 animate-in fade-in slide-in-from-top-1 duration-150"
+                      className="absolute top-full left-0 mt-1.5 w-84 sm:w-96 rounded-xl border border-[var(--border)] bg-[var(--surface)] text-[var(--text-primary)] p-3 shadow-[var(--shadow-popover)] z-50"
                       onMouseEnter={() => handleMouseEnterNav(page.id)}
                       onMouseLeave={handleMouseLeaveNav}
                     >
-                      {/* TOC Header */}
                       <div className="flex items-center justify-between pb-2 mb-2 border-b border-[var(--border)]">
-                        <div className="flex items-center gap-1.5">
-                          <span className="text-xs font-sans font-medium text-[var(--accent-blue-text)] bg-[var(--accent-blue)] px-2 py-0.5 rounded border border-[var(--border)]">
-                            Stage {page.num} · Subsections
-                          </span>
-                        </div>
+                        <span className="text-xs font-mono font-medium text-[var(--accent-blue-text)]">
+                          Stage {page.num} · {page.title}
+                        </span>
                         <button
+                          type="button"
                           onClick={() => handleSelect(page.id)}
                           className="text-xs font-sans text-[var(--accent-blue-text)] hover:underline flex items-center gap-1 cursor-pointer"
                         >
-                          <span>Overview Top</span>
+                          <span>Stage overview</span>
                           <ArrowRight className="w-3 h-3" />
                         </button>
                       </div>
 
-                      {/* Subsection List */}
                       <div className="space-y-1">
                         {page.subsections.map((sub) => (
                           <button
                             key={sub.id}
+                            type="button"
                             onClick={() => handleSubsectionSelect(page.id, sub.id)}
-                            className="w-full text-left p-2 rounded-lg hover:bg-[var(--surface-soft)] border border-transparent hover:border-[var(--border)] transition-all group cursor-pointer flex items-start gap-2.5"
+                            className="w-full text-left p-2 rounded-lg hover:bg-[var(--surface-soft)] transition-colors group cursor-pointer flex items-start gap-2.5"
                           >
-                            <span className="font-mono text-xs font-semibold text-[var(--accent-blue-text)] bg-[var(--surface-soft)] group-hover:bg-[var(--accent-blue)] px-1.5 py-0.5 rounded border border-[var(--border)] shrink-0 mt-0.5">
+                            <span className="font-mono text-xs font-medium tabular-nums text-[var(--accent-blue-text)] shrink-0 mt-0.5">
                               {sub.num}
                             </span>
                             <div className="flex-1 min-w-0">
-                              <div className="flex items-center justify-between gap-1">
-                                <span className="text-xs font-semibold text-[var(--text-primary)] group-hover:text-[var(--accent-blue-text)] transition-colors truncate font-sans">
+                              <div className="flex items-center justify-between gap-2">
+                                <span className="text-xs font-medium text-[var(--text-primary)] group-hover:text-[var(--accent-blue-text)] transition-colors truncate font-sans">
                                   {sub.title}
                                 </span>
                                 {sub.badge && (
-                                  <span className="text-xs font-sans px-1.5 py-0.5 rounded bg-[var(--surface-soft)] border border-[var(--border)] text-[var(--text-secondary)] shrink-0">
+                                  <span className="text-[11px] font-sans text-[var(--text-muted)] shrink-0">
                                     {sub.badge}
                                   </span>
                                 )}
@@ -574,26 +556,32 @@ export function ResearchNav({
             })}
           </nav>
 
-          {/* RIGHT: Secondary Actions Area */}
+          {/* RIGHT: Utility Controls (Separated by subtle vertical hairline on desktop) */}
           <div className="header-actions">
-            {/* The Single Global Segmented Theme Switcher */}
+            <span className="hidden xl:block header-divider" aria-hidden="true" />
+
+            {/* Single Global Segmented Theme Switcher */}
             <ThemeSwitcher />
 
-            {/* Contents Trigger - Opens full research drawer */}
+            {/* Contents Trigger - Hidden below md where Mobile Menu already hosts full Contents */}
             <button
+              type="button"
               onClick={() => setTocDrawerOpen(true)}
-              className="header-secondary-button"
+              className="hidden md:inline-flex items-center justify-center header-secondary-button"
               title="Open Complete Research Table of Contents"
               aria-label="Open Table of Contents"
             >
               <ListTree className="w-3.5 h-3.5 text-[var(--text-secondary)] shrink-0" />
-              <span className="hidden sm:inline">Contents</span>
+              <span>Contents</span>
             </button>
+
             {/* Mobile / Tablet Menu Trigger */}
             <button
+              type="button"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="xl:hidden flex items-center justify-center w-9 h-9 rounded-lg bg-[var(--surface)] hover:bg-[var(--surface-soft)] text-[var(--text-primary)] border border-[var(--border)] transition-all cursor-pointer shrink-0"
+              className="xl:hidden flex items-center justify-center w-[34px] h-[34px] rounded-md bg-[var(--surface)] hover:bg-[var(--surface-soft)] text-[var(--text-primary)] border border-[var(--border)] transition-colors cursor-pointer shrink-0"
               aria-label="Toggle navigation menu"
+              aria-expanded={mobileMenuOpen}
             >
               {mobileMenuOpen ? <X className="w-4 h-4 text-[var(--text-primary)]" /> : <Menu className="w-4 h-4 text-[var(--text-secondary)]" />}
             </button>
@@ -787,12 +775,16 @@ export function ResearchNav({
 
       {/* Global Table of Contents Slide-Over Drawer */}
       {tocDrawerOpen && (
-        <div className="fixed inset-0 z-50 flex justify-end bg-black/40 backdrop-blur-xs animate-in fade-in duration-200">
+        <div
+          className="fixed inset-0 z-50 flex justify-end bg-black/50"
+          onClick={() => setTocDrawerOpen(false)}
+        >
           <div
-            className="w-full max-w-lg bg-[var(--surface)] text-[var(--text-primary)] h-full shadow-2xl flex flex-col border-l border-[var(--border)] animate-in slide-in-from-right duration-250"
+            className="w-full max-w-lg bg-[var(--surface)] text-[var(--text-primary)] h-full shadow-[var(--shadow-popover)] flex flex-col border-l border-[var(--border)]"
             role="dialog"
             aria-modal="true"
             aria-label="Table of Contents"
+            onClick={(e) => e.stopPropagation()}
           >
             {/* Drawer Header */}
             <div className="p-5 border-b border-[var(--border)] bg-[var(--surface)] flex items-center justify-between">
@@ -801,11 +793,11 @@ export function ResearchNav({
                   <ListTree className="w-4 h-4 text-[var(--accent-blue-text)]" />
                 </div>
                 <div>
-                  <h3 className="font-serif font-bold text-base text-[var(--text-primary)] leading-tight">
+                  <h3 className="font-sans font-semibold text-base text-[var(--text-primary)] leading-tight">
                     Table of Contents
                   </h3>
                   <p className="text-xs text-[var(--text-secondary)] font-sans">
-                    Navigate all 7 stages & research subsections
+                    Navigate all 7 stages &amp; research subsections
                   </p>
                 </div>
               </div>
@@ -826,7 +818,7 @@ export function ResearchNav({
                 placeholder="Search topics (e.g., 'Hebbian plasticity', 'bounds', 'KV-cache')..."
                 value={tocSearch}
                 onChange={(e) => setTocSearch(e.target.value)}
-                className="w-full px-3 py-2 rounded-md bg-[var(--surface)] border border-[var(--border)] text-xs font-sans text-[var(--text-primary)] placeholder:text-[var(--text-muted)] focus:outline-none focus:border-[var(--accent-blue-text)]"
+                className="w-full px-3 py-2 rounded-md bg-[var(--surface)] border border-[var(--border)] text-xs font-sans text-[var(--text-primary)] placeholder:text-[var(--text-muted)] focus:outline-none focus:border-[var(--color-accent)]"
               />
             </div>
 
@@ -840,17 +832,18 @@ export function ResearchNav({
                 filteredPages.map((page) => (
                   <div
                     key={page.id}
-                    className="rounded-lg border border-[var(--border)] bg-[var(--surface)] p-4 space-y-3 shadow-xs"
+                    className="rounded-lg border border-[var(--border)] bg-[var(--surface)] p-4 space-y-3"
                   >
                     <div className="flex items-center justify-between border-b border-[var(--border)] pb-2">
                       <button
                         onClick={() => handleSelect(page.id)}
                         className="text-left group flex items-center gap-2 cursor-pointer"
                       >
-                        <span className="font-mono text-xs font-bold text-[var(--accent-blue-text)] bg-[var(--accent-blue)] px-2 py-0.5 rounded border border-[var(--border)]">
+                        <span className="font-mono text-xs font-semibold tabular-nums text-[var(--accent-blue-text)]">
                           Stage {page.num}
                         </span>
-                        <span className="font-serif font-bold text-sm text-[var(--text-primary)] group-hover:text-[var(--accent-blue-text)] transition-colors">
+                        <span aria-hidden="true" className="text-[var(--border)]">·</span>
+                        <span className="font-serif font-semibold text-sm text-[var(--text-primary)] group-hover:text-[var(--accent-blue-text)] transition-colors">
                           {page.title}
                         </span>
                       </button>
@@ -865,23 +858,23 @@ export function ResearchNav({
                     </div>
 
                     {page.subsections && page.subsections.length > 0 && (
-                      <div className="space-y-1.5 pl-1">
+                      <div className="space-y-1 pl-1">
                         {page.subsections.map((sub) => (
                           <button
                             key={sub.id}
                             onClick={() => handleSubsectionSelect(page.id, sub.id)}
-                            className="w-full text-left p-2.5 rounded-md hover:bg-[var(--surface-soft)] border border-transparent hover:border-[var(--border)] transition-all flex items-start gap-3 group cursor-pointer"
+                            className="w-full text-left p-2 rounded-md hover:bg-[var(--surface-soft)] transition-colors flex items-start gap-3 group cursor-pointer"
                           >
-                            <span className="font-mono text-xs font-bold text-[var(--accent-blue-text)] bg-[var(--surface-soft)] group-hover:bg-[var(--accent-blue)] px-1.5 py-0.5 rounded border border-[var(--border)] shrink-0 mt-0.5">
+                            <span className="font-mono text-xs font-semibold tabular-nums text-[var(--accent-blue-text)] shrink-0 mt-0.5">
                               {sub.num}
                             </span>
                             <div className="flex-1 min-w-0">
                               <div className="flex items-center justify-between gap-2">
-                                <span className="text-xs font-bold text-[var(--text-primary)] group-hover:text-[var(--accent-blue-text)] transition-colors">
+                                <span className="text-xs font-semibold text-[var(--text-primary)] group-hover:text-[var(--accent-blue-text)] transition-colors">
                                   {sub.title}
                                 </span>
                                 {sub.badge && (
-                                  <span className="text-xs font-sans px-1.5 py-0.5 rounded bg-[var(--surface-soft)] border border-[var(--border)] text-[var(--text-secondary)] shrink-0">
+                                  <span className="text-[11px] font-sans text-[var(--text-muted)] shrink-0">
                                     {sub.badge}
                                   </span>
                                 )}

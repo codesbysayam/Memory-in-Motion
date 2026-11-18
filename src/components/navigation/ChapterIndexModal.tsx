@@ -190,13 +190,13 @@ export const ChapterIndexModal: React.FC<ChapterIndexModalProps> = ({
   const getCategoryBadge = (cat: ChapterInfo['category']) => {
     switch (cat) {
       case 'Foundation':
-        return 'text-[#6842C2] bg-[#F3EFFF] border-[#E2D8FA]';
+        return 'text-[var(--color-accent-ink)] bg-[var(--accent-blue)] border-[var(--border)]';
       case 'Laboratory':
-        return 'text-[#167C80] bg-[#EDF7F7] border-[#CFE8E8]';
+        return 'text-[var(--color-success)] bg-[var(--color-success-soft)] border-[var(--color-success-border)]';
       case 'BDH':
-        return 'text-[#84387E] bg-[#FAEFF8] border-[#F0D5ED]';
+        return 'text-[var(--color-warning)] bg-[var(--color-warning-soft)] border-[var(--color-warning-border)]';
       case 'Evaluation':
-        return 'text-[#247A4B] bg-[#EDF8F2] border-[#CDEEDB]';
+        return 'text-[var(--color-success)] bg-[var(--color-success-soft)] border-[var(--color-success-border)]';
     }
   };
 
@@ -205,60 +205,58 @@ export const ChapterIndexModal: React.FC<ChapterIndexModalProps> = ({
       role="dialog"
       aria-modal="true"
       aria-labelledby="index-modal-title"
-      className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-stone-900/40 backdrop-blur-sm animate-in fade-in duration-200"
+      className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-black/45 backdrop-blur-sm animate-in fade-in duration-200"
       onClick={onClose}
     >
       <div
-        className="w-full max-w-5xl max-h-[85vh] flex flex-col rounded-2xl border border-[#E2DDD5] bg-[#FBF9F5] shadow-2xl overflow-hidden text-[#151515]"
+        className="w-full max-w-5xl max-h-[85vh] flex flex-col rounded-2xl border border-[var(--border)] bg-[var(--page-bg)] shadow-2xl overflow-hidden text-[var(--text-primary)]"
         onClick={(e) => e.stopPropagation()}
       >
         {/* 1. Header */}
-        <div className="px-6 py-5 border-b border-[#EAE6DF] bg-[#FAF8F3] flex items-start justify-between gap-4 shrink-0">
+        <div className="px-6 py-5 border-b border-[var(--border)] bg-[var(--surface-soft)] flex items-start justify-between gap-4 shrink-0">
           <div className="space-y-1">
-            <div className="flex items-center gap-2">
-              <span className="text-[10px] font-mono uppercase tracking-widest text-[#716F68] font-bold">
-                TABLE OF CONTENTS
-              </span>
-              <span className="text-[#BDB7AB]">·</span>
-              <span className="text-xs font-mono text-[#716F68]">
-                {CHAPTER_DIRECTORY.length} SCIENTIFIC CHAPTERS
-              </span>
+            <div className="flex items-center gap-2 text-xs font-mono text-[var(--text-muted)]">
+              <span>Table of contents</span>
+              <span>·</span>
+              <span>{CHAPTER_DIRECTORY.length} scientific chapters</span>
             </div>
 
             <h2
               id="index-modal-title"
-              className="text-2xl sm:text-3xl font-serif font-normal text-[#151515] tracking-tight"
+              className="text-2xl sm:text-3xl font-serif font-normal text-[var(--text-primary)] tracking-tight"
             >
               Investigation Roadmap
             </h2>
 
-            <p className="text-xs sm:text-sm text-[#52504A] font-sans">
+            <p className="text-xs sm:text-sm text-[var(--text-secondary)] font-sans">
               Follow the investigation from first principles, or jump straight into an experiment.
             </p>
           </div>
 
           <button
+            type="button"
             onClick={onClose}
-            className="p-2 rounded-xl border border-[#E2DDD5] bg-[#FFFFFF] hover:bg-[#F4F1EA] text-[#716F68] hover:text-[#151515] transition-colors cursor-pointer shrink-0"
+            className="p-2 rounded-lg border border-[var(--border)] bg-[var(--surface)] hover:bg-[var(--page-bg)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors cursor-pointer shrink-0"
             aria-label="Close chapter index"
           >
             <X className="w-4 h-4" />
           </button>
         </div>
 
-        {/* 2. Category Filters (Segmented Control) */}
-        <div className="px-6 py-3 border-b border-[#EAE6DF] bg-[#F7F5EE] flex flex-wrap items-center justify-between gap-2 shrink-0">
-          <div className="flex items-center gap-1.5 p-1 rounded-xl bg-[#EFECE6] border border-[#E2DDD5] text-xs font-mono">
+        {/* 2. Category Filters */}
+        <div className="px-6 py-3 border-b border-[var(--border)] bg-[var(--surface)] flex flex-wrap items-center justify-between gap-2 shrink-0">
+          <div className="flex flex-wrap items-center gap-1 p-1 rounded-lg bg-[var(--surface-soft)] border border-[var(--border)] text-xs font-mono">
             {['All', 'Foundation', 'Laboratory', 'BDH', 'Evaluation'].map((cat) => {
               const isActive = activeCategoryFilter === cat;
               return (
                 <button
                   key={cat}
+                  type="button"
                   onClick={() => setActiveCategoryFilter(cat)}
-                  className={`px-3 py-1 rounded-lg transition-all cursor-pointer ${
+                  className={`px-3 py-1 rounded-md transition-all cursor-pointer ${
                     isActive
-                      ? 'bg-[#FFFFFF] text-[#151515] font-bold shadow-xs border border-[#D8D4CB]'
-                      : 'text-[#716F68] hover:text-[#151515] hover:bg-[#FAF8F5]'
+                      ? 'bg-[var(--surface)] text-[var(--text-primary)] font-semibold border border-[var(--border)]'
+                      : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
                   }`}
                 >
                   {cat === 'All' ? `All (${CHAPTER_DIRECTORY.length})` : cat}
@@ -267,13 +265,13 @@ export const ChapterIndexModal: React.FC<ChapterIndexModalProps> = ({
             })}
           </div>
 
-          <span className="text-[11px] font-mono text-[#8C887E] hidden sm:inline-block">
-            Press <kbd className="px-1.5 py-0.5 bg-[#FFFFFF] border border-[#D8D4CB] rounded text-[#151515]">ESC</kbd> to close
+          <span className="text-[11px] font-mono text-[var(--text-muted)] hidden sm:inline-block">
+            Press <kbd className="px-1.5 py-0.5 bg-[var(--surface-soft)] border border-[var(--border)] rounded text-[var(--text-primary)]">ESC</kbd> to close
           </span>
         </div>
 
-        {/* 3. Scrollable Chapter Grid (Guaranteed Never Clipped) */}
-        <div className="flex-1 min-h-0 overflow-y-auto p-5 sm:p-6 grid grid-cols-1 md:grid-cols-2 gap-4 custom-scrollbar bg-[#FBF9F5]">
+        {/* 3. Scrollable Chapter Grid */}
+        <div className="flex-1 min-h-0 overflow-y-auto p-5 sm:p-6 grid grid-cols-1 md:grid-cols-2 gap-3.5 custom-scrollbar bg-[var(--page-bg)]">
           {filteredChapters.map((ch) => {
             const isCurrent = currentSectionId === ch.sectionElementId;
 
@@ -281,20 +279,20 @@ export const ChapterIndexModal: React.FC<ChapterIndexModalProps> = ({
               <div
                 key={ch.id}
                 onClick={() => handleSelectChapter(ch)}
-                className={`group p-4 sm:p-5 rounded-xl border transition-all cursor-pointer flex flex-col justify-between hover:-translate-y-0.5 ${
+                className={`group p-4 sm:p-5 rounded-xl border transition-all cursor-pointer flex flex-col justify-between ${
                   isCurrent
-                    ? 'border-[#6842C2] bg-[#FFFFFF] ring-1 ring-[#6842C2]/40 shadow-sm'
-                    : 'border-[#E5E0D8] bg-[#FFFFFF] hover:border-[#C8C3B8] hover:shadow-xs'
+                    ? 'border-[var(--color-accent)] bg-[var(--surface)] ring-1 ring-[var(--color-accent)]/30'
+                    : 'border-[var(--border)] bg-[var(--surface)] hover:border-[var(--color-border-strong)]'
                 }`}
               >
                 <div className="space-y-2">
                   <div className="flex items-center justify-between gap-2">
                     <div className="flex items-center gap-2">
-                      <span className="text-base font-serif font-bold text-[#6842C2]">
+                      <span className="text-sm font-mono font-semibold text-[var(--color-accent-ink)]">
                         {ch.num}
                       </span>
                       <span
-                        className={`text-[9px] font-mono uppercase tracking-wider px-2 py-0.5 rounded-full border font-bold ${getCategoryBadge(
+                        className={`text-[11px] font-mono px-2 py-0.5 rounded border font-medium ${getCategoryBadge(
                           ch.category
                         )}`}
                       >
@@ -303,27 +301,27 @@ export const ChapterIndexModal: React.FC<ChapterIndexModalProps> = ({
                     </div>
 
                     {isCurrent && (
-                      <span className="flex items-center gap-1 text-[10px] font-mono text-[#6842C2] bg-[#F3EFFF] border border-[#E2D8FA] px-2 py-0.5 rounded-full font-bold">
-                        <span className="w-1.5 h-1.5 rounded-full bg-[#6842C2]" />
-                        ACTIVE
+                      <span className="flex items-center gap-1.5 text-[11px] font-mono text-[var(--color-accent-ink)] font-semibold">
+                        <span className="w-1.5 h-1.5 rounded-full bg-[var(--color-accent)]" />
+                        Active
                       </span>
                     )}
                   </div>
 
-                  <h3 className="font-serif text-base font-bold text-[#151515] group-hover:text-[#6842C2] transition-colors leading-snug">
+                  <h3 className="font-sans text-base font-semibold text-[var(--text-primary)] group-hover:text-[var(--color-accent-ink)] transition-colors leading-snug">
                     {ch.title}
                   </h3>
 
-                  <p className="text-xs text-[#52504A] font-sans leading-relaxed line-clamp-2">
+                  <p className="text-xs text-[var(--text-secondary)] font-sans leading-relaxed line-clamp-2">
                     {ch.shortDesc}
                   </p>
                 </div>
 
-                <div className="mt-4 pt-3 border-t border-[#F0ECE4] flex items-center justify-between text-xs font-mono">
-                  <span className="truncate max-w-[72%] text-[10px] text-[#716F68]">
+                <div className="mt-4 pt-3 border-t border-[var(--border)] flex items-center justify-between text-xs font-mono">
+                  <span className="truncate max-w-[72%] text-[11px] text-[var(--text-muted)]">
                     <FormattedMathText text={ch.keyFormulaOrConcept} />
                   </span>
-                  <span className="flex items-center gap-1 text-xs font-serif italic text-[#6842C2] group-hover:translate-x-0.5 transition-transform shrink-0 font-medium">
+                  <span className="flex items-center gap-1 text-xs font-sans text-[var(--color-accent-ink)] group-hover:translate-x-0.5 transition-transform shrink-0 font-medium">
                     Explore <ArrowRight className="w-3.5 h-3.5" />
                   </span>
                 </div>
@@ -333,15 +331,16 @@ export const ChapterIndexModal: React.FC<ChapterIndexModalProps> = ({
         </div>
 
         {/* 4. Footer */}
-        <div className="px-6 py-3.5 border-t border-[#EAE6DF] bg-[#FAF8F3] flex flex-wrap items-center justify-between gap-2 text-xs font-mono text-[#716F68] shrink-0">
+        <div className="px-6 py-3.5 border-t border-[var(--border)] bg-[var(--surface-soft)] flex flex-wrap items-center justify-between gap-2 text-xs font-mono text-[var(--text-muted)] shrink-0">
           <div className="flex items-center gap-2">
-            <span className="w-2 h-2 rounded-full bg-[#247A4B]" />
+            <span className="w-2 h-2 rounded-full bg-[var(--color-success)]" />
             <span>Educational computation · Sources and methodology</span>
           </div>
 
           <button
+            type="button"
             onClick={onClose}
-            className="px-4 py-1.5 rounded-lg bg-[#FFFFFF] hover:bg-[#F4F1EA] text-[#151515] border border-[#D8D4CB] transition-colors cursor-pointer font-sans text-xs font-medium"
+            className="px-4 py-1.5 rounded-lg bg-[var(--surface)] hover:bg-[var(--page-bg)] text-[var(--text-primary)] border border-[var(--border)] transition-colors cursor-pointer font-sans text-xs font-medium"
           >
             Close Index
           </button>

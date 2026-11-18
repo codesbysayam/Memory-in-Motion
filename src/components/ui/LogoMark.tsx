@@ -18,31 +18,31 @@ export const LogoMark: React.FC<LogoMarkProps> = ({
   className = '',
   variant = 'editorial',
 }) => {
-  let strokeColor = '#252525';
-  let accentNodeColor = '#2B6282';
-  let bgFill = '#F0F1EF';
-  let borderColor = '#D9DCD8';
+  let strokeColor = 'var(--text-primary)';
+  let accentNodeColor = 'var(--color-accent)';
+  let bgFill = 'var(--surface-soft)';
+  let borderColor = 'var(--border)';
 
   if (variant === 'soft-blue') {
-    strokeColor = '#21445B';
-    accentNodeColor = '#2B6282';
-    bgFill = '#E7F2FA';
-    borderColor = '#CDE1F0';
+    strokeColor = 'var(--accent-blue-text)';
+    accentNodeColor = 'var(--color-accent)';
+    bgFill = 'var(--accent-blue)';
+    borderColor = 'var(--border)';
   } else if (variant === 'soft-green') {
-    strokeColor = '#24452E';
-    accentNodeColor = '#24452E';
-    bgFill = '#DCEFE2';
-    borderColor = '#C5DDCB';
+    strokeColor = 'var(--accent-green-text)';
+    accentNodeColor = 'var(--color-success)';
+    bgFill = 'var(--accent-green)';
+    borderColor = 'var(--color-success-border)';
   } else if (variant === 'monochrome') {
-    strokeColor = '#252525';
-    accentNodeColor = '#252525';
-    bgFill = '#F7F5EF';
-    borderColor = '#D9DCD8';
+    strokeColor = 'var(--text-primary)';
+    accentNodeColor = 'var(--text-primary)';
+    bgFill = 'var(--surface-soft)';
+    borderColor = 'var(--border)';
   } else if (variant === 'light') {
-    strokeColor = '#FFFFFF';
-    accentNodeColor = '#CFE8D6';
-    bgFill = '#252525';
-    borderColor = '#3F423F';
+    strokeColor = 'var(--color-matrix-ink)';
+    accentNodeColor = 'var(--color-accent)';
+    bgFill = 'var(--color-matrix-surface)';
+    borderColor = 'var(--color-matrix-border)';
   }
 
   return (

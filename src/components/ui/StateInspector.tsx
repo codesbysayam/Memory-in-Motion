@@ -32,25 +32,25 @@ export function StateInspector({
   return (
     <div
       id={id}
-      className="rounded-xl border border-[#252A35] bg-[#11141A] p-4 text-[#F4F5F7] space-y-3"
+      className="rounded-xl border border-[var(--color-matrix-border)] bg-[var(--color-matrix-bg)] p-4 text-[var(--color-matrix-ink)] space-y-3"
     >
-      <div className="flex items-center justify-between border-b border-[#252A35] pb-2.5">
+      <div className="flex items-center justify-between border-b border-[var(--color-matrix-border)] pb-2.5 gap-2">
         <div className="flex items-center gap-2">
-          <Activity className="w-3.5 h-3.5 text-[#22D3EE]" />
-          <span className="text-[11px] font-mono uppercase tracking-widest text-[#8F96A3]">
-            CURRENT INTERNAL STATE · LIVE TOY MODEL
+          <Activity className="w-3.5 h-3.5 text-sky-300" />
+          <span className="text-xs font-mono font-medium text-[var(--color-matrix-ink)]">
+            Current internal state · Live toy model
           </span>
         </div>
-        <span className="text-[10px] font-mono text-[#8F96A3] bg-[#151922] px-2 py-0.5 rounded border border-[#252A35]">
-          STEP {step}
+        <span className="text-[11px] font-mono tabular-nums text-[var(--color-matrix-muted)] bg-[var(--color-matrix-surface)] px-2 py-0.5 rounded border border-[var(--color-matrix-border)] shrink-0">
+          Step {step}
         </span>
       </div>
 
       {/* Grid of vector units */}
       <div className="space-y-1.5">
-        <div className="text-[11px] text-[#8F96A3] flex items-center justify-between">
+        <div className="text-xs text-[var(--color-matrix-muted)] flex items-center justify-between gap-2">
           <span>Hover or click any state coordinate to inspect numerical delta:</span>
-          <span className="font-mono text-[10px] text-[#22D3EE]">{dimensions}-D Vector</span>
+          <span className="font-mono text-[11px] tabular-nums text-sky-300 shrink-0">{dimensions}-D vector</span>
         </div>
 
         <div className="grid grid-cols-4 sm:grid-cols-8 gap-1.5">
@@ -59,31 +59,32 @@ export function StateInspector({
             const isPositive = val >= 0;
             const isInspected = inspectedIdx === idx;
 
-            const bgOpacity = Math.min(Math.max(absVal, 0.08), 1);
+            const bgOpacity = Math.min(Math.max(absVal, 0.1), 1);
             const style = {
               backgroundColor: isPositive
-                ? `rgba(139, 92, 246, ${bgOpacity * 0.7})`
-                : `rgba(239, 68, 68, ${bgOpacity * 0.6})`,
+                ? `rgba(78, 134, 240, ${bgOpacity * 0.72})`
+                : `rgba(220, 76, 76, ${bgOpacity * 0.65})`,
             };
 
             return (
               <button
                 key={idx}
+                type="button"
                 onClick={() => setSelectedIdx(selectedIdx === idx ? null : idx)}
                 onMouseEnter={() => setHoveredIdx(idx)}
                 onMouseLeave={() => setHoveredIdx(null)}
                 style={style}
-                className={`flex flex-col items-center justify-center p-2 rounded border transition-all text-left ${
+                className={`flex flex-col items-center justify-center p-2 rounded border transition-colors text-left cursor-pointer ${
                   isInspected
-                    ? 'border-[#22D3EE] ring-1 ring-[#22D3EE] scale-105 z-10'
-                    : 'border-[#252A35]/80 hover:border-[#8F96A3]'
+                    ? 'border-sky-300 ring-1 ring-sky-300 z-10'
+                    : 'border-[var(--color-matrix-border)] hover:border-[var(--color-matrix-muted)]'
                 }`}
                 title={`Coordinate ${unitPrefix}[${idx}]: ${val.toFixed(3)}`}
               >
-                <span className="text-[9px] font-mono text-zinc-400 leading-none">
+                <span className="text-[10px] font-mono tabular-nums text-[var(--color-matrix-muted)] leading-none">
                   {unitPrefix}[{idx}]
                 </span>
-                <span className="font-mono text-xs font-semibold text-white mt-1">
+                <span className="font-mono text-xs font-semibold tabular-nums text-[var(--color-matrix-ink)] mt-1">
                   {val.toFixed(2)}
                 </span>
               </button>
@@ -93,76 +94,76 @@ export function StateInspector({
       </div>
 
       {/* Technical detail panel */}
-      <div className="rounded-lg bg-[#151922] border border-[#252A35] p-3 text-xs space-y-2 font-mono">
-        <div className="flex items-center justify-between text-[#22D3EE] text-[11px] font-semibold border-b border-[#252A35] pb-1.5">
+      <div className="rounded-lg bg-[var(--color-matrix-surface)] border border-[var(--color-matrix-border)] p-3 text-xs space-y-2.5 font-mono">
+        <div className="flex items-center justify-between text-sky-300 text-[11px] font-semibold border-b border-[var(--color-matrix-border)] pb-1.5">
           <span className="flex items-center gap-1.5">
             <Layers className="w-3.5 h-3.5" />
-            TECHNICAL DETAIL PANEL
+            Coordinate inspection
           </span>
-          <span>
+          <span className="tabular-nums">
             {inspectedIdx !== null
-              ? `COORDINATE ${unitPrefix}[${inspectedIdx}]`
-              : 'HOVER A CELL TO INSPECT DELTA'}
+              ? `${unitPrefix}[${inspectedIdx}]`
+              : 'Hover a cell to inspect'}
           </span>
         </div>
 
         {inspectedIdx !== null ? (
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-[11px]">
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs tabular-nums">
             <div>
-              <span className="text-[#8F96A3] block text-[10px]">CURRENT VALUE</span>
-              <span className="font-semibold text-white">
+              <span className="text-[var(--color-matrix-muted)] block text-[10px]">Current</span>
+              <span className="font-semibold text-[var(--color-matrix-ink)]">
                 {stateVector[inspectedIdx]?.toFixed(4)}
               </span>
             </div>
             <div>
-              <span className="text-[#8F96A3] block text-[10px]">PREVIOUS VALUE</span>
-              <span className="text-[#8F96A3]">
+              <span className="text-[var(--color-matrix-muted)] block text-[10px]">Previous</span>
+              <span className="text-[var(--color-matrix-muted)]">
                 {prevStateVector ? prevStateVector[inspectedIdx]?.toFixed(4) : '0.0000'}
               </span>
             </div>
             <div>
-              <span className="text-[#8F96A3] block text-[10px]">SPECIFIC DELTA (Δ)</span>
+              <span className="text-[var(--color-matrix-muted)] block text-[10px]">Delta (Δ)</span>
               {prevStateVector ? (
                 <span
                   className={
                     stateVector[inspectedIdx] - prevStateVector[inspectedIdx] >= 0
-                      ? 'text-emerald-400 font-bold'
-                      : 'text-rose-400 font-bold'
+                      ? 'text-emerald-300 font-semibold'
+                      : 'text-rose-300 font-semibold'
                   }
                 >
                   {stateVector[inspectedIdx] - prevStateVector[inspectedIdx] >= 0 ? '+' : ''}
                   {(stateVector[inspectedIdx] - prevStateVector[inspectedIdx]).toFixed(4)}
                 </span>
               ) : (
-                <span className="text-[#8F96A3]">--</span>
+                <span className="text-[var(--color-matrix-muted)]">--</span>
               )}
             </div>
             <div>
-              <span className="text-[#8F96A3] block text-[10px]">ACTIVE UNIT STATUS</span>
-              <span className={Math.abs(stateVector[inspectedIdx]) > 0.05 ? 'text-[#22D3EE]' : 'text-zinc-500'}>
-                {Math.abs(stateVector[inspectedIdx]) > 0.05 ? 'ACTIVE (>0.05)' : 'SPARSE / QUIET'}
+              <span className="text-[var(--color-matrix-muted)] block text-[10px]">Activity</span>
+              <span className={Math.abs(stateVector[inspectedIdx]) > 0.05 ? 'text-sky-300' : 'text-[var(--color-matrix-muted)]'}>
+                {Math.abs(stateVector[inspectedIdx]) > 0.05 ? 'Active (>0.05)' : 'Sparse'}
               </span>
             </div>
           </div>
         ) : (
-          <div className="text-[11px] text-[#8F96A3]">
-            Hover over any vector coordinate cell above to see exact numerical delta Δ, previous value, and unit activity.
+          <div className="text-xs text-[var(--color-matrix-muted)] font-sans">
+            Hover over any vector coordinate cell above to inspect its numerical delta Δ, previous value, and unit activity.
           </div>
         )}
 
         {/* Global vector stats */}
-        <div className="grid grid-cols-3 gap-2 pt-2 border-t border-[#252A35]/60 text-[11px]">
+        <div className="grid grid-cols-3 gap-2 pt-2 border-t border-[var(--color-matrix-border)] text-xs tabular-nums">
           <div>
-            <span className="text-[#8F96A3] text-[10px] block">CURRENT STATE NORM:</span>
-            <span className="font-bold text-white">||h|| = {stateNorm.toFixed(3)}</span>
+            <span className="text-[var(--color-matrix-muted)] text-[10px] block">State norm</span>
+            <span className="font-semibold text-[var(--color-matrix-ink)]">||h|| = {stateNorm.toFixed(3)}</span>
           </div>
           <div>
-            <span className="text-[#8F96A3] text-[10px] block">ACTIVE UNITS:</span>
-            <span className="font-bold text-[#22D3EE]">{activeCount} / {dimensions}</span>
+            <span className="text-[var(--color-matrix-muted)] text-[10px] block">Active units</span>
+            <span className="font-semibold text-sky-300">{activeCount} / {dimensions}</span>
           </div>
           <div>
-            <span className="text-[#8F96A3] text-[10px] block">LAST INPUT:</span>
-            <span className="text-zinc-300 truncate block">{lastInputLabel || 'Initialization'}</span>
+            <span className="text-[var(--color-matrix-muted)] text-[10px] block">Last input</span>
+            <span className="text-[var(--color-matrix-ink)] truncate block">{lastInputLabel || 'Initialization'}</span>
           </div>
         </div>
       </div>

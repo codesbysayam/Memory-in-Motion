@@ -29,7 +29,7 @@ export const MemoryLens: React.FC<MemoryLensProps> = ({ currentFocus, className 
       id: 'write',
       label: '1. WRITE',
       sub: 'Input key-value ingested',
-      icon: <ArrowRight className="w-3.5 h-3.5 text-[#167C80]" />,
+      icon: <ArrowRight className="w-3.5 h-3.5 text-[var(--accent-blue-text)]" />,
       math: '\\Delta M_t = \\eta (k_t v_t^T)',
       detail: 'The fact pair (key, value) is projected into dense continuous vectors k and v. A rank-1 outer product matrix update is prepared for ingestion.',
     },
@@ -37,7 +37,7 @@ export const MemoryLens: React.FC<MemoryLensProps> = ({ currentFocus, className 
       id: 'state',
       label: '2. STATE',
       sub: 'Superposed in fixed matrix',
-      icon: <Database className="w-3.5 h-3.5 text-[#2F6399]" />,
+      icon: <Database className="w-3.5 h-3.5 text-[var(--accent-blue-text)]" />,
       math: 'M_t \\in \\mathbb{R}^{D \\times D}',
       detail: 'Information no longer exists as tokens or text. It lives entirely as superposed floating-point weights within the fixed-size matrix coordinates.',
     },
@@ -45,7 +45,7 @@ export const MemoryLens: React.FC<MemoryLensProps> = ({ currentFocus, className 
       id: 'persistence',
       label: '3. PERSISTENCE',
       sub: 'Exponential decay over time',
-      icon: <Cpu className="w-3.5 h-3.5 text-[#6842C2]" />,
+      icon: <Cpu className="w-3.5 h-3.5 text-[var(--accent-blue-text)]" />,
       math: 'M_t = \\lambda M_{t-1} + \\Delta M_t',
       detail: 'At each subsequent timestep, previous weights decay by factor λ (retention). As sequence length grows, early facts exponentially attenuate.',
     },
@@ -53,7 +53,7 @@ export const MemoryLens: React.FC<MemoryLensProps> = ({ currentFocus, className 
       id: 'query',
       label: '4. QUERY',
       sub: 'Probe projection applied',
-      icon: <Search className="w-3.5 h-3.5 text-[#A46622]" />,
+      icon: <Search className="w-3.5 h-3.5 text-[var(--accent-yellow-text)]" />,
       math: '\\hat{v} = q^T M_t',
       detail: 'A query key vector q probes the memory matrix via matrix multiplication, exciting the superposed directions associated with the key.',
     },
@@ -61,7 +61,7 @@ export const MemoryLens: React.FC<MemoryLensProps> = ({ currentFocus, className 
       id: 'retrieval',
       label: '5. RETRIEVAL',
       sub: 'Nearest cosine decode',
-      icon: <CheckCircle2 className="w-3.5 h-3.5 text-[#247A4B]" />,
+      icon: <CheckCircle2 className="w-3.5 h-3.5 text-[var(--accent-green-text)]" />,
       math: '\\text{score} = \\cos(\\hat{v}, v_{\\text{cand}})',
       detail: 'The retrieved representation v̂ is compared against candidate representations. The candidate with maximum cosine similarity becomes the decoded answer.',
     },
@@ -73,7 +73,7 @@ export const MemoryLens: React.FC<MemoryLensProps> = ({ currentFocus, className 
     <div
       className={`rounded-2xl border transition-all duration-300 ${
         isLensActive
-          ? 'border-[var(--accent-blue-text)]/40 bg-[var(--surface)] shadow-xs'
+          ? 'border-[var(--color-accent)] bg-[var(--surface)] shadow-xs'
           : 'border-[var(--border)] bg-[var(--surface)] shadow-xs'
       } p-5 ${className}`}
     >
@@ -91,17 +91,17 @@ export const MemoryLens: React.FC<MemoryLensProps> = ({ currentFocus, className 
           <div>
             <div className="flex items-center gap-2">
               <span className="text-xs font-mono font-bold tracking-wide text-[var(--text-primary)] uppercase flex items-center gap-1.5">
-                MEMORY LENS INSTRUMENT
+                Memory lens instrument
                 {isLensActive && <Sparkles className="w-3 h-3 text-[var(--accent-blue-text)]" />}
               </span>
               <span
-                className={`px-2 py-0.5 rounded-full text-[10px] font-mono font-bold transition-colors ${
+                className={`px-2 py-0.5 rounded-md text-[11px] font-mono font-semibold transition-colors ${
                   isLensActive
                     ? 'bg-[var(--accent-blue)] text-[var(--accent-blue-text)] border border-[var(--border)]'
                     : 'bg-[var(--surface-soft)] text-[var(--text-secondary)] border border-[var(--border)]'
                 }`}
               >
-                {isLensActive ? 'ACTIVE' : 'STANDBY'}
+                {isLensActive ? 'Active' : 'Standby'}
               </span>
             </div>
             <p className="text-[11px] text-[var(--text-secondary)] font-sans mt-0.5">

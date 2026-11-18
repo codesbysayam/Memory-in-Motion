@@ -46,32 +46,32 @@ export const GlossaryTerm: React.FC<GlossaryTermProps> = ({
         onClick={handleClick}
         onKeyDown={handleKeyDown}
         title={matched ? `${matched.term}: ${matched.shortDefinition} (Click to open Concept Glossary)` : 'Click to inspect in Concept Glossary'}
-        className={`inline-flex items-baseline font-medium cursor-pointer border-b border-dashed border-[#31566E]/50 hover:border-[#31566E] text-inherit hover:text-[#31566E] hover:bg-[#E7F2FA]/50 transition-all rounded-xs px-0.5 -mx-0.5 focus:outline-none focus:ring-1 focus:ring-[#31566E]/40 ${className}`}
+        className={`inline-flex items-baseline font-medium cursor-pointer border-b border-dashed border-[var(--color-accent)]/50 hover:border-[var(--color-accent)] text-inherit hover:text-[var(--accent-blue-text)] hover:bg-[var(--accent-blue)]/60 transition-all rounded-xs px-0.5 -mx-0.5 focus:outline-none focus:ring-1 focus:ring-[var(--color-accent)]/40 ${className}`}
       >
         <span>{displayText}</span>
         {showIcon && (
-          <BookOpen className="w-2.5 h-2.5 ml-0.5 text-[#31566E] opacity-70 inline" />
+          <BookOpen className="w-2.5 h-2.5 ml-0.5 text-[var(--accent-blue-text)] opacity-80 inline" />
         )}
       </button>
 
       {/* Floating Hover Card Preview */}
       {isHovered && matched && (
         <span
-          className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-64 p-3 bg-[#FFFFFF] border border-[#D8DCD8] text-[#252525] rounded-xl shadow-lg z-50 pointer-events-none text-left animate-in fade-in zoom-in-95 duration-150"
+          className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-64 p-3 bg-[var(--surface)] border border-[var(--border)] text-[var(--text-primary)] rounded-xl shadow-[var(--shadow-popover)] z-50 pointer-events-none text-left animate-in fade-in zoom-in-95 duration-150"
           role="tooltip"
         >
-          <span className="block text-xs uppercase tracking-wider text-[#5F625F] font-semibold mb-0.5">
+          <span className="block text-xs uppercase tracking-wider text-[var(--text-muted)] font-semibold mb-0.5">
             {matched.category} · Concept
           </span>
-          <span className="block font-bold text-xs text-[#252525] mb-1">
+          <span className="block font-bold text-xs text-[var(--text-primary)] mb-1">
             {matched.term}
           </span>
-          <span className="block text-xs text-[#5F625F] font-sans leading-relaxed line-clamp-3">
+          <span className="block text-xs text-[var(--text-secondary)] font-sans leading-relaxed line-clamp-3">
             {matched.shortDefinition}
           </span>
-          <span className="mt-2 pt-1.5 border-t border-[#EAE6DF] flex items-center justify-between text-xs text-[#31566E] font-medium">
+          <span className="mt-2 pt-1.5 border-t border-[var(--border)] flex items-center justify-between text-xs text-[var(--accent-blue-text)] font-medium">
             <span>Click to inspect</span>
-            <span className="text-[#5F625F]">→</span>
+            <span className="text-[var(--text-muted)]">→</span>
           </span>
         </span>
       )}

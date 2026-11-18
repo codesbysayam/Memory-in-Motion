@@ -202,11 +202,11 @@ export const ExperimentHistorySidebar: React.FC<ExperimentHistorySidebarProps> =
         <button
           onClick={toggleOpen}
           aria-label="Open Experiment History Panel"
-          className="fixed right-0 top-1/2 -translate-y-1/2 z-40 bg-[#FFFFFF] dark:bg-[#202428] text-[#252525] dark:text-[#F5F3EE] border-l border-y border-[#D8DCD8] dark:border-[#3A4044] rounded-l-xl px-2.5 py-3 shadow-md hover:bg-[#F7F5EF] dark:hover:bg-[#272C30] transition flex flex-col items-center gap-1.5 cursor-pointer group"
+          className="fixed right-0 top-1/2 -translate-y-1/2 z-40 bg-[var(--surface)] text-[var(--text-primary)] border-l border-y border-[var(--border)] rounded-l-xl px-2.5 py-3 shadow-md hover:bg-[var(--surface-soft)] transition flex flex-col items-center gap-1.5 cursor-pointer group"
           title="Experiment History (Last 10 Runs)"
         >
-          <History className="w-4 h-4 text-[#31566E] group-hover:scale-110 transition-transform" />
-          <span className="text-[11px] font-sans font-medium writing-mode-vertical rotate-180 tracking-wide">
+          <History className="w-4 h-4 text-[var(--accent-blue-text)] group-hover:scale-110 transition-transform" />
+          <span className="text-[11px] font-sans font-medium writing-mode-vertical rotate-180 tracking-wide tabular-nums">
             History ({records.length})
           </span>
         </button>
@@ -216,19 +216,19 @@ export const ExperimentHistorySidebar: React.FC<ExperimentHistorySidebarProps> =
       {isOpen && (
         <aside
           aria-label="Experiment History Sidebar"
-          className="fixed inset-y-0 right-0 z-50 w-full sm:w-[420px] bg-[#FFFFFF] dark:bg-[#202428] border-l border-[#D8DCD8] dark:border-[#3A4044] shadow-2xl flex flex-col h-full animate-in slide-in-from-right duration-200"
+          className="fixed inset-y-0 right-0 z-50 w-full sm:w-[420px] bg-[var(--surface)] border-l border-[var(--border)] shadow-2xl flex flex-col h-full animate-in slide-in-from-right duration-200"
         >
           {/* Header */}
-          <div className="p-4 sm:p-5 border-b border-[#D8DCD8] dark:border-[#3A4044] bg-[#F7F5EF] dark:bg-[#171A1D] flex items-center justify-between gap-3">
+          <div className="p-4 sm:p-5 border-b border-[var(--border)] bg-[var(--surface-soft)] flex items-center justify-between gap-3">
             <div className="flex items-center gap-2.5">
-              <div className="p-2 rounded-lg bg-[#E7F2FA] dark:bg-[#263C4B] text-[#31566E] dark:text-[#89C0E8]">
+              <div className="p-2 rounded-lg bg-[var(--accent-blue)] text-[var(--accent-blue-text)]">
                 <History className="w-4 h-4" />
               </div>
               <div>
-                <h3 className="font-serif text-base font-bold text-[#252525] dark:text-[#F5F3EE]">
-                  Experiment History
+                <h3 className="font-serif text-base font-bold text-[var(--text-primary)]">
+                  Experiment history
                 </h3>
-                <p className="text-xs text-[#5F625F] dark:text-[#C4C8C5]">
+                <p className="text-xs text-[var(--text-secondary)] tabular-nums">
                   Last {records.length} runs in Interference Lab
                 </p>
               </div>
@@ -241,7 +241,7 @@ export const ExperimentHistorySidebar: React.FC<ExperimentHistorySidebarProps> =
                     onClick={handleExportJSON}
                     title="Export history as JSON"
                     aria-label="Export history as JSON"
-                    className="p-1.5 rounded-md hover:bg-[#FFFFFF] dark:hover:bg-[#202428] text-[#5F625F] dark:text-[#C4C8C5] border border-transparent hover:border-[#D8DCD8] dark:hover:border-[#3A4044] transition cursor-pointer"
+                    className="p-1.5 rounded-md hover:bg-[var(--surface)] text-[var(--text-secondary)] border border-transparent hover:border-[var(--border)] transition cursor-pointer"
                   >
                     <Download className="w-4 h-4" />
                   </button>
@@ -249,7 +249,7 @@ export const ExperimentHistorySidebar: React.FC<ExperimentHistorySidebarProps> =
                     onClick={handleClearHistory}
                     title="Clear history"
                     aria-label="Clear history"
-                    className="p-1.5 rounded-md hover:bg-[#F9E9ED] text-[#B64235] transition cursor-pointer"
+                    className="p-1.5 rounded-md hover:bg-[var(--accent-pink)] text-[var(--accent-pink-text)] transition cursor-pointer"
                   >
                     <Trash2 className="w-4 h-4" />
                   </button>
@@ -258,7 +258,7 @@ export const ExperimentHistorySidebar: React.FC<ExperimentHistorySidebarProps> =
               <button
                 onClick={toggleOpen}
                 aria-label="Close sidebar"
-                className="p-1.5 rounded-md hover:bg-[#EAE6DF] dark:hover:bg-[#272C30] text-[#5F625F] dark:text-[#C4C8C5] transition cursor-pointer"
+                className="p-1.5 rounded-md hover:bg-[var(--color-surface-muted)] text-[var(--text-secondary)] transition cursor-pointer"
               >
                 <X className="w-4 h-4" />
               </button>
@@ -267,7 +267,7 @@ export const ExperimentHistorySidebar: React.FC<ExperimentHistorySidebarProps> =
 
           {/* Revert Feedback Notification */}
           {revertedBanner && (
-            <div className="bg-[#DCEFE2] dark:bg-[#253B2D] text-[#247A4B] dark:text-[#70B98A] text-xs px-4 py-2 border-b border-[#D8DCD8] dark:border-[#3A4044] flex items-center gap-2 animate-in fade-in">
+            <div className="bg-[var(--accent-green)] text-[var(--accent-green-text)] text-xs px-4 py-2 border-b border-[var(--border)] flex items-center gap-2 animate-in fade-in">
               <CheckCircle2 className="w-4 h-4 shrink-0" />
               <span>{revertedBanner}</span>
             </div>
@@ -277,13 +277,13 @@ export const ExperimentHistorySidebar: React.FC<ExperimentHistorySidebarProps> =
           <div className="flex-1 overflow-y-auto p-4 space-y-3 safe-pb">
             {records.length === 0 ? (
               <div className="text-center py-12 px-4 space-y-3">
-                <div className="w-10 h-10 mx-auto rounded-full bg-[#F7F5EF] dark:bg-[#171A1D] border border-[#D8DCD8] dark:border-[#3A4044] flex items-center justify-center text-[#5F625F]">
+                <div className="w-10 h-10 mx-auto rounded-lg bg-[var(--surface-soft)] border border-[var(--border)] flex items-center justify-center text-[var(--text-secondary)]">
                   <Sliders className="w-5 h-5" />
                 </div>
-                <h4 className="font-serif font-bold text-sm text-[#252525] dark:text-[#F5F3EE]">
+                <h4 className="font-serif font-bold text-sm text-[var(--text-primary)]">
                   No experiments recorded yet
                 </h4>
-                <p className="text-xs text-[#5F625F] dark:text-[#C4C8C5] leading-relaxed">
+                <p className="text-xs text-[var(--text-secondary)] leading-relaxed">
                   Run experiments in the Interference Lab by changing retention, dimension, distractors, or running probes. The last 10 states are saved here so you can quickly inspect and revert to any configuration.
                 </p>
               </div>
@@ -297,17 +297,17 @@ export const ExperimentHistorySidebar: React.FC<ExperimentHistorySidebarProps> =
                     key={rec.id}
                     className={`rounded-xl border transition p-3.5 space-y-2.5 ${
                       isSelected
-                        ? 'border-[#31566E] bg-[#E7F2FA]/50 dark:bg-[#263C4B]/50 ring-1 ring-[#31566E]'
-                        : 'border-[#D8DCD8] dark:border-[#3A4044] bg-[#FFFFFF] dark:bg-[#202428] hover:border-[#5F625F]'
+                        ? 'border-[var(--accent-blue-text)] bg-[var(--accent-blue)] ring-1 ring-[var(--accent-blue-text)]'
+                        : 'border-[var(--border)] bg-[var(--surface)] hover:border-[var(--color-border-strong)]'
                     }`}
                   >
                     {/* Top Row: Index, Timestamp, Status */}
                     <div className="flex items-center justify-between gap-2 text-xs">
                       <div className="flex items-center gap-1.5">
-                        <span className="font-mono text-[11px] font-bold text-[#5F625F] dark:text-[#C4C8C5]">
+                        <span className="font-mono text-[11px] font-bold text-[var(--text-secondary)] tabular-nums">
                           #{records.length - idx}
                         </span>
-                        <span className="font-mono text-[11px] text-[#5F625F] dark:text-[#C4C8C5]">
+                        <span className="font-mono text-[11px] text-[var(--text-secondary)] tabular-nums">
                           {rec.timestamp}
                         </span>
                       </div>
@@ -316,8 +316,8 @@ export const ExperimentHistorySidebar: React.FC<ExperimentHistorySidebarProps> =
                         <span
                           className={`inline-flex items-center gap-1 text-[11px] font-medium px-2 py-0.5 rounded ${
                             isCorrect
-                              ? 'bg-[#DCEFE2] dark:bg-[#253B2D] text-[#247A4B] dark:text-[#70B98A]'
-                              : 'bg-[#F9E9ED] dark:bg-[#452C31] text-[#B64235] dark:text-[#E27D72]'
+                              ? 'bg-[var(--accent-green)] text-[var(--accent-green-text)]'
+                              : 'bg-[var(--accent-pink)] text-[var(--accent-pink-text)]'
                           }`}
                         >
                           {isCorrect ? (
@@ -331,28 +331,28 @@ export const ExperimentHistorySidebar: React.FC<ExperimentHistorySidebarProps> =
                     </div>
 
                     {/* Parameters Grid */}
-                    <div className="grid grid-cols-3 gap-2 text-xs bg-[#F7F5EF] dark:bg-[#171A1D] p-2 rounded-lg border border-[#D8DCD8] dark:border-[#3A4044]">
+                    <div className="grid grid-cols-3 gap-2 text-xs bg-[var(--surface-soft)] p-2 rounded-lg border border-[var(--border)] tabular-nums">
                       <div>
-                        <span className="text-[10px] text-[#5F625F] dark:text-[#C4C8C5] block">
+                        <span className="text-[10px] text-[var(--text-muted)] block">
                           Dim <InlineMath math="D" />
                         </span>
-                        <strong className="font-mono text-xs text-[#252525] dark:text-[#F5F3EE]">
+                        <strong className="font-mono text-xs text-[var(--text-primary)]">
                           {rec.config.dimension}
                         </strong>
                       </div>
                       <div>
-                        <span className="text-[10px] text-[#5F625F] dark:text-[#C4C8C5] block">
+                        <span className="text-[10px] text-[var(--text-muted)] block">
                           Retention <InlineMath math="\lambda" />
                         </span>
-                        <strong className="font-mono text-xs text-[#252525] dark:text-[#F5F3EE]">
+                        <strong className="font-mono text-xs text-[var(--text-primary)]">
                           {rec.config.retention.toFixed(2)}
                         </strong>
                       </div>
                       <div>
-                        <span className="text-[10px] text-[#5F625F] dark:text-[#C4C8C5] block">
+                        <span className="text-[10px] text-[var(--text-muted)] block">
                           Facts / Seq
                         </span>
-                        <strong className="font-mono text-xs text-[#252525] dark:text-[#F5F3EE]">
+                        <strong className="font-mono text-xs text-[var(--text-primary)]">
                           {rec.factsCount}
                         </strong>
                       </div>
@@ -360,31 +360,31 @@ export const ExperimentHistorySidebar: React.FC<ExperimentHistorySidebarProps> =
 
                     {/* Outcome: Probe, Prediction, Ground Truth */}
                     <div className="text-xs space-y-1">
-                      <div className="flex items-center justify-between text-[#5F625F] dark:text-[#C4C8C5]">
-                        <span>Probe: <strong className="text-[#252525] dark:text-[#F5F3EE]">{rec.probe}</strong></span>
-                        <span>Score: <strong className="font-mono text-[#252525] dark:text-[#F5F3EE]">{(rec.retrievalScore * 100).toFixed(1)}%</strong></span>
+                      <div className="flex items-center justify-between text-[var(--text-secondary)]">
+                        <span>Probe: <strong className="text-[var(--text-primary)]">{rec.probe}</strong></span>
+                        <span>Score: <strong className="font-mono tabular-nums text-[var(--text-primary)]">{(rec.retrievalScore * 100).toFixed(1)}%</strong></span>
                       </div>
                       <div className="flex items-center justify-between">
-                        <span className="text-[#5F625F] dark:text-[#C4C8C5]">
-                          Output: <strong className={isCorrect ? 'text-[#247A4B] dark:text-[#70B98A]' : 'text-[#B64235] dark:text-[#E27D72]'}>{rec.prediction}</strong>
+                        <span className="text-[var(--text-secondary)]">
+                          Output: <strong className={isCorrect ? 'text-[var(--accent-green-text)]' : 'text-[var(--accent-pink-text)]'}>{rec.prediction}</strong>
                         </span>
-                        <span className="text-[11px] text-[#5F625F] dark:text-[#C4C8C5]">
+                        <span className="text-[11px] text-[var(--text-muted)]">
                           Truth: {rec.groundTruth}
                         </span>
                       </div>
                     </div>
 
                     {/* Revert Action */}
-                    <div className="pt-2 border-t border-[#D8DCD8] dark:border-[#3A4044] flex items-center justify-between">
-                      <span className="font-mono text-[10px] text-[#5F625F] dark:text-[#C4C8C5] truncate max-w-[170px]" title={rec.id}>
+                    <div className="pt-2 border-t border-[var(--border)] flex items-center justify-between">
+                      <span className="font-mono text-[10px] text-[var(--text-muted)] truncate max-w-[170px]" title={rec.id}>
                         {rec.id}
                       </span>
                       <button
                         onClick={() => handleRevert(rec)}
-                        className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#FFFFFF] dark:bg-[#202428] hover:bg-[#DCEFE2] dark:hover:bg-[#253B2D] text-[#247A4B] dark:text-[#70B98A] border border-[#D8DCD8] dark:border-[#3A4044] hover:border-[#247A4B] text-xs font-medium transition cursor-pointer shadow-2xs"
+                        className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[var(--surface)] hover:bg-[var(--accent-green)] text-[var(--accent-green-text)] border border-[var(--border)] hover:border-[var(--color-success-border)] text-xs font-medium transition cursor-pointer"
                       >
                         <RotateCcw className="w-3 h-3" />
-                        <span>Revert to State</span>
+                        <span>Revert to state</span>
                       </button>
                     </div>
                   </div>
@@ -394,7 +394,7 @@ export const ExperimentHistorySidebar: React.FC<ExperimentHistorySidebarProps> =
           </div>
 
           {/* Footer */}
-          <div className="p-3 border-t border-[#D8DCD8] dark:border-[#3A4044] bg-[#F7F5EF] dark:bg-[#171A1D] text-xs text-[#5F625F] dark:text-[#C4C8C5] flex items-center justify-between">
+          <div className="p-3 border-t border-[var(--border)] bg-[var(--surface-soft)] text-xs text-[var(--text-secondary)] flex items-center justify-between">
             <span>Deterministic state snapshot</span>
             <span className="font-mono text-[11px]">Storage: localStorage</span>
           </div>

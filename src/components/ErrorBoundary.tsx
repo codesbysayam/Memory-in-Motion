@@ -279,41 +279,38 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
       const configToRetry = lastValidConfig || (capturedConfig as InterferenceConfig) || DEFAULT_INTERFERENCE_CONFIG;
 
       return (
-        <div className="w-full max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 py-10">
-          <div className="bg-[#FAF8F5] border-2 border-[#D96B43]/40 rounded-2xl p-6 sm:p-10 shadow-sm relative overflow-hidden">
-            {/* Subtle background glow */}
-            <div className="absolute top-0 right-0 w-96 h-96 bg-[#D96B43]/5 rounded-full blur-3xl pointer-events-none -mr-20 -mt-20" />
-
+        <div className="research-container py-10">
+          <div className="bg-[var(--surface-soft)] border border-[var(--color-danger-border)] rounded-2xl p-6 sm:p-10 shadow-sm relative overflow-hidden">
             {/* Header / Badge Strip */}
-            <div className="flex flex-wrap items-center justify-between gap-3 pb-6 border-b border-[#E5E0D8]">
+            <div className="flex flex-wrap items-center justify-between gap-3 pb-6 border-b border-[var(--border)]">
               <div className="flex items-center gap-2.5">
-                <span className="inline-flex items-center justify-center w-8 h-8 rounded-lg bg-[#FBEAE5] text-[#D96B43] border border-[#F5C6B8]">
+                <span className="inline-flex items-center justify-center w-8 h-8 rounded-lg bg-[var(--accent-pink)] text-[var(--accent-pink-text)] border border-[var(--color-danger-border)]">
                   <AlertOctagon className="w-4 h-4" />
                 </span>
                 <div>
                   <div className="flex items-center gap-2">
-                    <span className="text-xs font-mono font-bold tracking-wider uppercase px-2 py-0.5 rounded bg-[#FBEAE5] text-[#D96B43] border border-[#F5C6B8]">
-                      Runtime Recovery
+                    <span className="text-xs font-mono font-bold tracking-wider uppercase px-2 py-0.5 rounded bg-[var(--accent-pink)] text-[var(--accent-pink-text)] border border-[var(--color-danger-border)]">
+                      Runtime recovery
                     </span>
                     {retryCount > 0 && (
-                      <span className="text-xs font-mono font-bold px-2 py-0.5 rounded bg-[#FEF3C7] text-[#92400E] border border-[#FDE68A]">
+                      <span className="text-xs font-mono font-bold px-2 py-0.5 rounded bg-[var(--accent-yellow)] text-[var(--accent-yellow-text)] border border-[var(--color-warning-border)] tabular-nums">
                         Attempt #{retryCount + 1}
                       </span>
                     )}
-                    <span className="text-xs font-mono text-[#7D776D]">
+                    <span className="text-xs font-mono text-[var(--text-secondary)]">
                       {sectionName || 'Section 04 · Interference Lab'}
                     </span>
                   </div>
                 </div>
               </div>
 
-              <div className="flex items-center gap-3 font-mono text-xs text-[#7D776D]">
+              <div className="flex items-center gap-3 font-mono text-xs text-[var(--text-secondary)]">
                 {diagnosticLogId && (
-                  <span className="px-2 py-0.5 rounded bg-[#EAE6DF] text-[#4A4742] border border-[#D9DCD8]">
+                  <span className="px-2 py-0.5 rounded bg-[var(--surface)] text-[var(--text-primary)] border border-[var(--border)] tabular-nums">
                     LOG: {diagnosticLogId}
                   </span>
                 )}
-                <div className="flex items-center gap-1 text-[#21445B]">
+                <div className="flex items-center gap-1 text-[var(--accent-blue-text)]">
                   <Cpu className="w-3.5 h-3.5" />
                   <span>Associative Engine</span>
                 </div>
@@ -322,94 +319,94 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
 
             {/* Main Error Details */}
             <div className="py-6 space-y-4">
-              <h2 className="text-2xl sm:text-3xl font-serif font-bold text-[#252525] tracking-tight">
-                {title || 'Matrix Computation Interrupted'}
+              <h2 className="text-2xl sm:text-3xl font-serif font-bold text-[var(--text-primary)] tracking-tight">
+                {title || 'Matrix computation interrupted'}
               </h2>
-              <p className="text-sm sm:text-base text-[#52504A] font-sans max-w-3xl leading-relaxed">
+              <p className="text-sm sm:text-base text-[var(--text-secondary)] font-sans max-w-3xl leading-relaxed">
                 {description ||
                   'An unexpected mathematical or state exception occurred during recurrent associative memory computation. You can retry re-executing the last valid experiment configuration before the failure occurred or perform a full reset to default baseline.'}
               </p>
 
               {/* Exception notification box */}
               {error && (
-                <div className="p-4 rounded-xl bg-white border border-[#E5E0D8] font-mono text-xs space-y-2">
+                <div className="p-4 rounded-xl bg-[var(--surface)] border border-[var(--border)] font-mono text-xs space-y-2">
                   <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-1.5 font-bold text-[#9B2C2C]">
+                    <div className="flex items-center gap-1.5 font-bold text-[var(--accent-pink-text)]">
                       <Terminal className="w-3.5 h-3.5" />
                       <span>Exception: {error.name || 'ComputationError'}</span>
                     </div>
-                    <span className="text-[10px] text-[#7D776D] uppercase">Logged to Console & Internal Diagnostic Log</span>
+                    <span className="text-[10px] text-[var(--text-muted)] uppercase">Logged to console & internal diagnostic log</span>
                   </div>
-                  <div className="pl-5 break-words font-sans text-xs text-[#252525] font-medium">
+                  <div className="pl-5 break-words font-sans text-xs text-[var(--text-primary)] font-medium">
                     {error.message || 'Unknown matrix computation anomaly.'}
                   </div>
                 </div>
               )}
 
               {/* Last Valid Experiment Configuration (To Be Re-Executed on Retry) */}
-              <div className="p-4 rounded-xl bg-[#F0F6FA] border border-[#CDE1F0] space-y-2.5">
+              <div className="p-4 rounded-xl bg-[var(--accent-blue)] border border-[var(--border)] space-y-2.5">
                 <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-2 text-xs font-mono font-bold text-[#21445B]">
+                  <div className="flex items-center gap-2 text-xs font-mono font-bold text-[var(--accent-blue-text)]">
                     <Sliders className="w-3.5 h-3.5" />
                     <span>LAST VALID CONFIGURATION (RE-EXECUTED ON &quot;RETRY LAST OPERATION&quot;)</span>
                   </div>
-                  <span className="text-[11px] font-sans text-[#21445B] font-medium">
+                  <span className="text-[11px] font-sans text-[var(--accent-blue-text)] font-medium">
                     Verified valid parameter state prior to failure
                   </span>
                 </div>
-                <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-7 gap-2 font-mono text-xs">
-                  <div className="bg-white p-2 rounded border border-[#CDE1F0]">
-                    <span className="text-[10px] text-[#5A778D] block">DIMENSION (D)</span>
-                    <span className="font-bold text-[#21445B]">{configToRetry.dimension ?? 'N/A'}</span>
+                <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-7 gap-2 font-mono text-xs tabular-nums">
+                  <div className="bg-[var(--surface)] p-2 rounded border border-[var(--border)]">
+                    <span className="text-[10px] text-[var(--text-muted)] block">DIMENSION (D)</span>
+                    <span className="font-bold text-[var(--accent-blue-text)]">{configToRetry.dimension ?? 'N/A'}</span>
                   </div>
-                  <div className="bg-white p-2 rounded border border-[#CDE1F0]">
-                    <span className="text-[10px] text-[#5A778D] block">SEQ LENGTH (L)</span>
-                    <span className="font-bold text-[#21445B]">{configToRetry.sequenceLength ?? 'N/A'}</span>
+                  <div className="bg-[var(--surface)] p-2 rounded border border-[var(--border)]">
+                    <span className="text-[10px] text-[var(--text-muted)] block">SEQ LENGTH (L)</span>
+                    <span className="font-bold text-[var(--accent-blue-text)]">{configToRetry.sequenceLength ?? 'N/A'}</span>
                   </div>
-                  <div className="bg-white p-2 rounded border border-[#CDE1F0]">
-                    <span className="text-[10px] text-[#5A778D] block">RETENTION (λ)</span>
-                    <span className="font-bold text-[#21445B]">
+                  <div className="bg-[var(--surface)] p-2 rounded border border-[var(--border)]">
+                    <span className="text-[10px] text-[var(--text-muted)] block">RETENTION (λ)</span>
+                    <span className="font-bold text-[var(--accent-blue-text)]">
                       {configToRetry.retention !== undefined
                         ? `${Math.round(configToRetry.retention * 100)}%`
                         : 'N/A'}
                     </span>
                   </div>
-                  <div className="bg-white p-2 rounded border border-[#CDE1F0]">
-                    <span className="text-[10px] text-[#5A778D] block">INTERFERENCE</span>
-                    <span className="font-bold text-[#21445B]">
+                  <div className="bg-[var(--surface)] p-2 rounded border border-[var(--border)]">
+                    <span className="text-[10px] text-[var(--text-muted)] block">INTERFERENCE</span>
+                    <span className="font-bold text-[var(--accent-blue-text)]">
                       {configToRetry.interference !== undefined
                         ? `${Math.round(configToRetry.interference * 100)}%`
                         : 'N/A'}
                     </span>
                   </div>
-                  <div className="bg-white p-2 rounded border border-[#CDE1F0]">
-                    <span className="text-[10px] text-[#5A778D] block">WRITE STRENGTH</span>
-                    <span className="font-bold text-[#21445B]">{configToRetry.writeStrength ?? 'N/A'}</span>
+                  <div className="bg-[var(--surface)] p-2 rounded border border-[var(--border)]">
+                    <span className="text-[10px] text-[var(--text-muted)] block">WRITE STRENGTH</span>
+                    <span className="font-bold text-[var(--accent-blue-text)]">{configToRetry.writeStrength ?? 'N/A'}</span>
                   </div>
-                  <div className="bg-white p-2 rounded border border-[#CDE1F0]">
-                    <span className="text-[10px] text-[#5A778D] block">SEED</span>
-                    <span className="font-bold text-[#21445B]">{configToRetry.seed ?? 'N/A'}</span>
+                  <div className="bg-[var(--surface)] p-2 rounded border border-[var(--border)]">
+                    <span className="text-[10px] text-[var(--text-muted)] block">SEED</span>
+                    <span className="font-bold text-[var(--accent-blue-text)]">{configToRetry.seed ?? 'N/A'}</span>
                   </div>
-                  <div className="bg-white p-2 rounded border border-[#CDE1F0]">
-                    <span className="text-[10px] text-[#5A778D] block">TARGET KEY</span>
-                    <span className="font-bold text-[#21445B] truncate">{configToRetry.targetKey ?? 'N/A'}</span>
+                  <div className="bg-[var(--surface)] p-2 rounded border border-[var(--border)]">
+                    <span className="text-[10px] text-[var(--text-muted)] block">TARGET KEY</span>
+                    <span className="font-bold text-[var(--accent-blue-text)] truncate">{configToRetry.targetKey ?? 'N/A'}</span>
                   </div>
                 </div>
               </div>
             </div>
 
             {/* Recovery Actions */}
-            <div className="flex flex-wrap items-center gap-3 pt-2 pb-6 border-b border-[#E5E0D8]">
-              {/* 1. Retry Last Operation (Calls function to re-execute last valid experiment configuration) */}
+            <div className="flex flex-wrap items-center gap-3 pt-2 pb-6 border-b border-[var(--border)]">
+              {/* 1. Retry Last Operation */}
               <button
                 type="button"
                 onClick={this.handleRetryLastOperation}
-                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-[#21445B] hover:bg-[#163041] text-white font-sans text-sm font-semibold shadow-sm transition-colors cursor-pointer"
+                className="btn-primary text-sm cursor-pointer"
                 title={`Re-executes last valid configuration before failure (D=${configToRetry.dimension}, L=${configToRetry.sequenceLength}, λ=${Math.round(configToRetry.retention * 100)}%)`}
               >
                 <RotateCw className="w-4 h-4" />
                 <span>
-                  {retryLabel || (retryCount > 0 ? `Retry Last Operation (Attempt #${retryCount + 1})` : 'Retry Last Operation')}
+                  {retryLabel || (retryCount > 0 ? `Retry last operation (Attempt #${retryCount + 1})` : 'Retry last operation')}
                 </span>
               </button>
 
@@ -417,31 +414,31 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
               <button
                 type="button"
                 onClick={this.handleFullReset}
-                className="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg bg-white hover:bg-[#F2EFE9] text-[#252525] border border-[#D9DCD8] font-sans text-sm font-medium transition-colors cursor-pointer"
+                className="btn-secondary text-sm cursor-pointer"
                 title="Clear failed configuration and restore default baseline parameters (D=8, L=7, 85% retention)"
               >
-                <RotateCcw className="w-4 h-4 text-[#7D776D]" />
-                <span>{resetLabel || 'Full Reset to Defaults'}</span>
+                <RotateCcw className="w-4 h-4 text-[var(--text-secondary)]" />
+                <span>{resetLabel || 'Full reset to defaults'}</span>
               </button>
 
               {/* 3. Re-Log to Console */}
               <button
                 type="button"
                 onClick={this.handleLogToConsoleAgain}
-                className="inline-flex items-center gap-1.5 px-3 py-2.5 rounded-lg bg-white hover:bg-[#F2EFE9] text-[#252525] border border-[#D9DCD8] font-sans text-xs font-medium transition-colors cursor-pointer"
+                className="btn-secondary text-xs cursor-pointer"
                 title="Print error object, last valid configuration, and failure config into the browser console"
               >
-                <FileCode className="w-3.5 h-3.5 text-[#21445B]" />
-                <span>Re-Log to Console</span>
+                <FileCode className="w-3.5 h-3.5 text-[var(--accent-blue-text)]" />
+                <span>Re-log to console</span>
               </button>
 
               {/* 4. Diagnostic Trace Toggle */}
               <button
                 type="button"
                 onClick={() => this.setState((prev) => ({ showDetails: !prev.showDetails }))}
-                className="inline-flex items-center gap-1.5 px-3 py-2.5 rounded-lg text-xs font-mono text-[#52504A] hover:text-[#252525] hover:bg-[#EAE6DF]/60 transition-colors ml-auto cursor-pointer"
+                className="inline-flex items-center gap-1.5 px-3 py-2.5 rounded-lg text-xs font-mono text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--surface)] transition-colors ml-auto cursor-pointer"
               >
-                <span>Diagnostic Trace & State JSON</span>
+                <span>Diagnostic trace & state JSON</span>
                 {showDetails ? <ChevronUp className="w-3.5 h-3.5" /> : <ChevronDown className="w-3.5 h-3.5" />}
               </button>
             </div>
@@ -450,23 +447,23 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
             {showDetails && (
               <div className="mt-5 space-y-4 animate-in fade-in duration-200">
                 <div className="flex items-center justify-between">
-                  <span className="text-xs font-mono text-[#7D776D] font-bold uppercase tracking-wider">
-                    Full Diagnostic Report (Error Object + State Configurations)
+                  <span className="text-xs font-mono text-[var(--text-muted)] font-bold uppercase tracking-wider">
+                    Full diagnostic report (error object + state configurations)
                   </span>
                   <button
                     type="button"
                     onClick={this.handleCopyDiagnostics}
-                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded bg-white hover:bg-[#F2EFE9] border border-[#D9DCD8] text-xs font-mono text-[#52504A] transition-colors cursor-pointer"
+                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded bg-[var(--surface)] hover:bg-[var(--surface-soft)] border border-[var(--border)] text-xs font-mono text-[var(--text-secondary)] transition-colors cursor-pointer"
                   >
                     {copied ? (
                       <>
-                        <Check className="w-3.5 h-3.5 text-emerald-600" />
-                        <span className="text-emerald-700 font-bold">Copied JSON Trace</span>
+                        <Check className="w-3.5 h-3.5 text-[var(--accent-green-text)]" />
+                        <span className="text-[var(--accent-green-text)] font-bold">Copied JSON trace</span>
                       </>
                     ) : (
                       <>
                         <Copy className="w-3.5 h-3.5" />
-                        <span>Copy Diagnostic Report</span>
+                        <span>Copy diagnostic report</span>
                       </>
                     )}
                   </button>
@@ -474,24 +471,24 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
 
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
                   {/* Shared State JSON */}
-                  <div className="p-4 rounded-lg bg-[#191D24] text-[#E0E2DB] font-mono text-xs overflow-x-auto max-h-72 space-y-3">
+                  <div className="p-4 rounded-lg bg-[var(--color-matrix-bg)] text-[var(--color-matrix-ink)] border border-[var(--color-matrix-border)] font-mono text-xs overflow-x-auto max-h-72 space-y-3">
                     <div>
-                      <div className="text-[#38BDF8] pb-1 font-bold border-b border-[#2C3340] mb-1 flex items-center justify-between">
+                      <div className="text-sky-300 pb-1 font-bold border-b border-[var(--color-matrix-border)] mb-1 flex items-center justify-between">
                         <span>Last Valid Config (Re-Executed on Retry):</span>
-                        <span className="text-[10px] text-[#94A3B8]">InterferenceConfig</span>
+                        <span className="text-[10px] text-[var(--color-matrix-muted)]">InterferenceConfig</span>
                       </div>
-                      <pre className="whitespace-pre text-[#A5F3FC]">
+                      <pre className="whitespace-pre text-[var(--color-matrix-ink)]">
                         {JSON.stringify(configToRetry, null, 2)}
                       </pre>
                     </div>
 
                     {capturedConfig && (
                       <div>
-                        <div className="text-[#FBBF24] pb-1 font-bold border-b border-[#2C3340] mb-1 flex items-center justify-between">
+                        <div className="text-amber-300 pb-1 font-bold border-b border-[var(--color-matrix-border)] mb-1 flex items-center justify-between">
                           <span>Configuration at Interruption:</span>
-                          <span className="text-[10px] text-[#94A3B8]">InterferenceConfig</span>
+                          <span className="text-[10px] text-[var(--color-matrix-muted)]">InterferenceConfig</span>
                         </div>
-                        <pre className="whitespace-pre text-[#FDE68A]">
+                        <pre className="whitespace-pre text-amber-200">
                           {JSON.stringify(capturedConfig, null, 2)}
                         </pre>
                       </div>
@@ -499,21 +496,21 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
                   </div>
 
                   {/* Error Object Stack */}
-                  <div className="p-4 rounded-lg bg-[#1F2421] text-[#E0E2DB] font-mono text-xs overflow-x-auto max-h-72 leading-relaxed space-y-2">
-                    <div className="text-[#F5A623] font-bold pb-1 border-b border-[#333A35] mb-2">
+                  <div className="p-4 rounded-lg bg-[var(--color-matrix-bg)] text-[var(--color-matrix-ink)] border border-[var(--color-matrix-border)] font-mono text-xs overflow-x-auto max-h-72 leading-relaxed space-y-2">
+                    <div className="text-amber-300 font-bold pb-1 border-b border-[var(--color-matrix-border)] mb-2">
                       Exception Stack Trace:
                     </div>
-                    <div className="text-[#F87171]">{error?.stack || error?.message || 'No stack trace'}</div>
+                    <div className="text-rose-300">{error?.stack || error?.message || 'No stack trace'}</div>
                     {errorInfo?.componentStack && (
-                      <div className="text-[#8E9B90] pt-2 border-t border-[#333A35]">
+                      <div className="text-[var(--color-matrix-muted)] pt-2 border-t border-[var(--color-matrix-border)]">
                         {errorInfo.componentStack}
                       </div>
                     )}
                   </div>
                 </div>
 
-                <p className="text-xs text-[#7D776D] font-sans">
-                  The &quot;Retry Last Operation&quot; button calls <span className="font-mono font-semibold">reexecuteLastValidExperiment()</span> to restore the verified deterministic parameters that succeeded prior to the exception.
+                <p className="text-xs text-[var(--text-secondary)] font-sans">
+                  The &quot;Retry last operation&quot; button calls <span className="font-mono font-semibold">reexecuteLastValidExperiment()</span> to restore the verified deterministic parameters that succeeded prior to the exception.
                 </p>
               </div>
             )}

@@ -52,77 +52,80 @@ export const RepresentationInspector: React.FC<RepresentationInspectorProps> = (
   }, [vec]);
 
   return (
-    <div className="rounded-2xl border border-[#E5E0D8] bg-[#FFFFFF] p-5 text-[#151515] space-y-4 font-mono shadow-xs">
-      <div className="flex flex-wrap items-center justify-between gap-2 border-b border-[#EAE6DF] pb-3">
+    <div className="diagram-frame p-5 text-[var(--text-primary)] space-y-4 font-mono tabular-nums">
+      <div className="flex flex-wrap items-center justify-between gap-2 border-b border-[var(--border)] pb-3">
         <div className="flex items-center gap-2">
-          <Binary className="w-4 h-4 text-[#167C80]" />
-          <h4 className="text-xs font-bold text-[#151515] uppercase tracking-wider">
-            Representation Inspector · What the Model Actually Sees
+          <Binary className="w-4 h-4 text-[var(--accent-blue-text)]" />
+          <h4 className="text-xs font-bold text-[var(--text-primary)]">
+            Representation inspector · what the model actually sees
           </h4>
         </div>
-        <span className="text-xs px-2 py-0.5 rounded bg-[#EDF7F7] border border-[#CFE8E8] text-[#167C80] font-bold">
-          LATENT REPRESENTATION
+        <span className="text-xs px-2 py-0.5 rounded-md bg-[var(--accent-blue)] border border-[var(--border)] text-[var(--accent-blue-text)] font-semibold">
+          Latent representation
         </span>
       </div>
 
       {/* Human-Readable vs Encoded Latent Representation Split */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
         {/* Human Input */}
-        <div className="p-3.5 rounded-xl bg-[#FAF8F5] border border-[#EAE6DF] space-y-2">
-          <span className="text-xs text-[#716F68] uppercase font-bold block">
-            HUMAN-READABLE INPUT
+        <div className="p-3.5 rounded-xl bg-[var(--surface-soft)] border border-[var(--border)] space-y-2">
+          <span className="text-xs text-[var(--text-muted)] font-semibold block">
+            Human-readable input
           </span>
-          <div className="flex items-center gap-2">
-            <span className="text-[#716F68]">Key:</span>
-            <strong className="text-[#151515] bg-[#FFFFFF] px-2 py-0.5 rounded border border-[#E5E0D8]">
+          <div className="flex flex-wrap items-center gap-2">
+            <span className="text-[var(--text-muted)]">Key:</span>
+            <strong className="text-[var(--text-primary)] bg-[var(--surface)] px-2 py-0.5 rounded border border-[var(--border)]">
               {currentKey}
             </strong>
-            <span className="text-[#716F68]">→</span>
-            <span className="text-[#716F68]">Value:</span>
-            <strong className="text-[#167C80] bg-[#FFFFFF] px-2 py-0.5 rounded border border-[#E5E0D8]">
+            <span className="text-[var(--text-muted)]">→</span>
+            <span className="text-[var(--text-muted)]">Value:</span>
+            <strong className="text-[var(--accent-blue-text)] bg-[var(--surface)] px-2 py-0.5 rounded border border-[var(--border)]">
               {currentValue}
             </strong>
           </div>
-          <p className="text-xs text-[#716F68] font-sans mt-1">
+          <p className="text-xs text-[var(--text-secondary)] font-sans mt-1">
             The toy does not store the word &ldquo;{currentKey}&rdquo; literally. It converts each item into a deterministic numerical representation.
           </p>
         </div>
 
         {/* Tab Selection */}
-        <div className="p-3.5 rounded-xl bg-[#FAF8F5] border border-[#EAE6DF] space-y-2">
-          <span className="text-xs text-[#716F68] uppercase font-bold block">
-            SELECT VECTOR TO INSPECT
+        <div className="p-3.5 rounded-xl bg-[var(--surface-soft)] border border-[var(--border)] space-y-2">
+          <span className="text-xs text-[var(--text-muted)] font-semibold block">
+            Select vector to inspect
           </span>
           <div className="grid grid-cols-3 gap-1.5">
             <button
+              type="button"
               onClick={() => setActiveTab('key')}
-              className={`py-1 px-2 rounded-lg text-xs font-bold transition border cursor-pointer ${
+              className={`py-1.5 px-2 rounded-lg text-xs font-semibold transition border cursor-pointer truncate ${
                 activeTab === 'key'
-                  ? 'bg-[#F3EFFF] text-[#6842C2] border-[#E2D8FA] shadow-xs'
-                  : 'bg-[#FFFFFF] text-[#716F68] border-[#E5E0D8] hover:text-[#151515]'
+                  ? 'bg-[var(--accent-blue)] text-[var(--accent-blue-text)] border-[var(--color-accent)]'
+                  : 'bg-[var(--surface)] text-[var(--text-secondary)] border-[var(--border)] hover:text-[var(--text-primary)]'
               }`}
             >
-              KEY: {currentKey}
+              Key: {currentKey}
             </button>
             <button
+              type="button"
               onClick={() => setActiveTab('value')}
-              className={`py-1 px-2 rounded-lg text-xs font-bold transition border cursor-pointer ${
+              className={`py-1.5 px-2 rounded-lg text-xs font-semibold transition border cursor-pointer truncate ${
                 activeTab === 'value'
-                  ? 'bg-[#F3EFFF] text-[#6842C2] border-[#E2D8FA] shadow-xs'
-                  : 'bg-[#FFFFFF] text-[#716F68] border-[#E5E0D8] hover:text-[#151515]'
+                  ? 'bg-[var(--accent-blue)] text-[var(--accent-blue-text)] border-[var(--color-accent)]'
+                  : 'bg-[var(--surface)] text-[var(--text-secondary)] border-[var(--border)] hover:text-[var(--text-primary)]'
               }`}
             >
-              VALUE: {currentValue}
+              Value: {currentValue}
             </button>
             <button
+              type="button"
               onClick={() => setActiveTab('query')}
-              className={`py-1 px-2 rounded-lg text-xs font-bold transition border cursor-pointer ${
+              className={`py-1.5 px-2 rounded-lg text-xs font-semibold transition border cursor-pointer truncate ${
                 activeTab === 'query'
-                  ? 'bg-[#F3EFFF] text-[#6842C2] border-[#E2D8FA] shadow-xs'
-                  : 'bg-[#FFFFFF] text-[#716F68] border-[#E5E0D8] hover:text-[#151515]'
+                  ? 'bg-[var(--accent-blue)] text-[var(--accent-blue-text)] border-[var(--color-accent)]'
+                  : 'bg-[var(--surface)] text-[var(--text-secondary)] border-[var(--border)] hover:text-[var(--text-primary)]'
               }`}
             >
-              QUERY: {queryKey}
+              Query: {queryKey}
             </button>
           </div>
         </div>
@@ -130,25 +133,25 @@ export const RepresentationInspector: React.FC<RepresentationInspectorProps> = (
 
       {/* Latent Vector Coordinates Strip */}
       <div className="space-y-2">
-        <div className="flex items-center justify-between text-xs text-[#52504A]">
+        <div className="flex flex-wrap items-center justify-between gap-2 text-xs text-[var(--text-secondary)]">
           <span>
-            Encoded Vector for <strong className="text-[#167C80]">&ldquo;{activeText}&rdquo;</strong> (Dimension D={dimension}):
+            Encoded vector for <strong className="text-[var(--accent-blue-text)]">&ldquo;{activeText}&rdquo;</strong> (d={dimension}):
           </span>
-          <span className="text-xs text-[#716F68]">Range: [-1.0, +1.0]</span>
+          <span className="text-xs text-[var(--text-muted)]">Range: [-1.0, +1.0]</span>
         </div>
 
         {/* Coordinate Cells */}
-        <div className="grid grid-cols-4 sm:grid-cols-8 md:grid-cols-16 gap-1 p-2 bg-[#FFFFFF] rounded-xl border border-[#E5E0D8] overflow-x-auto">
+        <div className="grid grid-cols-4 sm:grid-cols-8 gap-1.5 p-2.5 bg-[var(--surface-soft)] rounded-xl border border-[var(--border)] overflow-x-auto">
           {vec.map((v, i) => (
             <div
               key={i}
-              className="flex flex-col items-center p-1 rounded-lg bg-[#FAF8F5] border border-[#EAE6DF] text-center"
+              className="flex flex-col items-center p-1.5 rounded-lg bg-[var(--surface)] border border-[var(--border)] text-center"
               title={`Dimension [${i}]: ${v.toFixed(4)}`}
             >
-              <span className="text-xs text-[#716F68]">d{i}</span>
+              <span className="text-[11px] text-[var(--text-muted)]">d{i}</span>
               <span
                 className={`text-xs font-bold ${
-                  v >= 0 ? 'text-[#167C80]' : 'text-[#B64235]'
+                  v >= 0 ? 'text-[var(--accent-blue-text)]' : 'text-[var(--accent-pink-text)]'
                 }`}
               >
                 {v.toFixed(2)}
@@ -160,33 +163,33 @@ export const RepresentationInspector: React.FC<RepresentationInspectorProps> = (
 
       {/* Numerical Telemetry Metrics */}
       <div className="grid grid-cols-2 sm:grid-cols-5 gap-2 pt-1 text-xs">
-        <div className="p-2.5 rounded-xl bg-[#FAF8F5] border border-[#EAE6DF]">
-          <span className="text-xs text-[#716F68] block uppercase font-bold">DIMENSION</span>
-          <strong className="text-[#151515] text-xs">{dimension}</strong>
+        <div className="metric-panel">
+          <span className="text-xs text-[var(--text-muted)] block font-semibold">Dimension</span>
+          <strong className="text-[var(--text-primary)] text-xs">{dimension}</strong>
         </div>
-        <div className="p-2.5 rounded-xl bg-[#FAF8F5] border border-[#EAE6DF]">
-          <span className="text-xs text-[#716F68] block uppercase font-bold">MIN VALUE</span>
-          <strong className="text-[#B64235] text-xs">{stats.min.toFixed(3)}</strong>
+        <div className="metric-panel">
+          <span className="text-xs text-[var(--text-muted)] block font-semibold">Min value</span>
+          <strong className="text-[var(--accent-pink-text)] text-xs">{stats.min.toFixed(3)}</strong>
         </div>
-        <div className="p-2.5 rounded-xl bg-[#FAF8F5] border border-[#EAE6DF]">
-          <span className="text-xs text-[#716F68] block uppercase font-bold">MAX VALUE</span>
-          <strong className="text-[#167C80] text-xs">{stats.max.toFixed(3)}</strong>
+        <div className="metric-panel">
+          <span className="text-xs text-[var(--text-muted)] block font-semibold">Max value</span>
+          <strong className="text-[var(--accent-blue-text)] text-xs">{stats.max.toFixed(3)}</strong>
         </div>
-        <div className="p-2.5 rounded-xl bg-[#FAF8F5] border border-[#EAE6DF]">
-          <span className="text-xs text-[#716F68] block uppercase font-bold">MEAN</span>
-          <strong className="text-[#52504A] text-xs">{stats.mean.toFixed(3)}</strong>
+        <div className="metric-panel">
+          <span className="text-xs text-[var(--text-muted)] block font-semibold">Mean</span>
+          <strong className="text-[var(--text-secondary)] text-xs">{stats.mean.toFixed(3)}</strong>
         </div>
-        <div className="p-2.5 rounded-xl bg-[#FAF8F5] border border-[#EAE6DF]">
-          <span className="text-xs text-[#716F68] block uppercase font-bold">L2 NORM</span>
-          <strong className="text-[#247A4B] text-xs">{stats.l2.toFixed(3)}</strong>
+        <div className="metric-panel">
+          <span className="text-xs text-[var(--text-muted)] block font-semibold">L2 norm</span>
+          <strong className="text-[var(--accent-green-text)] text-xs">{stats.l2.toFixed(3)}</strong>
         </div>
       </div>
 
       {/* Epistemic disclaimer note */}
-      <div className="p-3 rounded-xl bg-[#FAF8F5] border border-[#EAE6DF] text-xs text-[#52504A] font-sans flex items-start gap-2">
-        <Info className="w-4 h-4 text-[#167C80] shrink-0 mt-0.5" />
+      <div className="research-callout text-xs text-[var(--text-secondary)] font-sans flex items-start gap-2">
+        <Info className="w-4 h-4 text-[var(--accent-blue-text)] shrink-0 mt-0.5" />
         <span>
-          <strong className="text-[#151515]">Scientific Principle:</strong> The educational model does not manipulate the text directly. It converts each item into a deterministic numerical representation. These coordinates are abstract latent dimensions; they do not have predefined human or linguistic meanings.
+          <strong className="text-[var(--text-primary)]">Scientific principle:</strong> The educational model does not manipulate the text directly. It converts each item into a deterministic numerical representation. These coordinates are abstract latent dimensions; they do not have predefined human or linguistic meanings.
         </span>
       </div>
     </div>

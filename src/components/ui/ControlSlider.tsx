@@ -32,28 +32,32 @@ export function ControlSlider({
   const displayValue = formatValue ? formatValue(value) : `${value}${unit ? ` ${unit}` : ''}`;
 
   return (
-    <div id={id} className="space-y-1.5">
-      <div className="flex items-center justify-between text-xs">
-        <span className="font-mono uppercase tracking-wider font-medium text-[var(--text-secondary)]">
+    <div id={id} className="space-y-2">
+      <div className="flex items-center justify-between gap-2 text-xs">
+        <label
+          htmlFor={id ? `${id}-input` : undefined}
+          className="font-sans font-medium text-[var(--text-primary)]"
+        >
           {label}
-        </span>
-        <span className="font-mono font-semibold px-2 py-0.5 rounded border shadow-2xs text-[var(--text-primary)] bg-[var(--surface)] border-[var(--border)]">
+        </label>
+        <span className="font-mono text-xs font-semibold tabular-nums text-[var(--accent-blue-text)]">
           {displayValue}
         </span>
       </div>
 
       <input
+        id={id ? `${id}-input` : undefined}
         type="range"
         min={min}
         max={max}
         step={step}
         value={value}
         onChange={(e) => onChange(parseFloat(e.target.value))}
-        className="w-full h-1.5 rounded-lg appearance-none cursor-pointer accent-[var(--accent-blue-text)] focus:outline-none bg-[var(--surface-soft)] border border-[var(--border)]"
+        className="w-full h-1.5 rounded-lg appearance-none cursor-pointer accent-[var(--color-accent)] bg-[var(--surface-soft)] border border-[var(--border)]"
       />
 
       {textDesc && (
-        <div className="text-[11px] leading-relaxed font-sans text-[var(--text-muted)]">
+        <div className="text-xs leading-relaxed font-sans text-[var(--text-muted)]">
           {textDesc}
         </div>
       )}

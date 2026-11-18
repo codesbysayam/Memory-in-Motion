@@ -73,27 +73,27 @@ export const StatePersistenceExperiment: React.FC = () => {
   const currentInspection = simulationData[Math.min(activeStepInspection, simulationData.length - 1)] || simulationData[0];
 
   return (
-    <div className="rounded-2xl border border-[#E5E0D8] bg-[#FFFFFF] p-5 sm:p-6 text-[#151515] space-y-5 font-mono shadow-xs">
+    <div className="diagram-frame p-5 sm:p-6 text-[var(--text-primary)] space-y-5 font-mono tabular-nums">
       {/* Header */}
-      <div className="flex flex-wrap items-center justify-between gap-2 border-b border-[#EAE6DF] pb-3">
+      <div className="flex flex-wrap items-center justify-between gap-2 border-b border-[var(--border)] pb-3">
         <div>
           <div className="flex items-center gap-2">
-            <Clock className="w-4 h-4 text-[#167C80]" />
-            <h4 className="text-sm font-bold text-[#151515] uppercase tracking-wider">
-              State Persistence Experiment · Information Retention Under Intervening Updates
+            <Clock className="w-4 h-4 text-[var(--accent-blue-text)]" />
+            <h4 className="text-sm font-bold text-[var(--text-primary)]">
+              State persistence experiment · information retention under intervening updates
             </h4>
           </div>
-          <p className="text-xs text-[#716F68] mt-1 font-sans">
+          <p className="text-xs text-[var(--text-secondary)] mt-1 font-sans">
             This experiment asks whether information written earlier remains recoverable after later state updates.
           </p>
         </div>
 
         <div className="flex items-center gap-2">
-          <span className="text-xs px-2.5 py-0.5 rounded bg-[#EDF7F7] border border-[#CFE8E8] text-[#167C80] font-bold">
-            LIVE COMPUTATION
+          <span className="text-xs px-2.5 py-0.5 rounded-md bg-[var(--accent-blue)] border border-[var(--border)] text-[var(--accent-blue-text)] font-semibold">
+            Live computation
           </span>
-          <span className="text-xs px-2 py-0.5 rounded bg-[#FAF8F5] border border-[#EAE6DF] text-[#716F68]">
-            D={dimension}
+          <span className="text-xs px-2 py-0.5 rounded-md bg-[var(--surface-soft)] border border-[var(--border)] text-[var(--text-muted)]">
+            d={dimension}
           </span>
         </div>
       </div>
@@ -101,10 +101,10 @@ export const StatePersistenceExperiment: React.FC = () => {
       {/* Controls Deck */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
         {/* Intervening updates slider */}
-        <div className="p-3.5 rounded-xl bg-[#FAF8F5] border border-[#EAE6DF] space-y-1.5">
+        <div className="p-3.5 rounded-xl bg-[var(--surface-soft)] border border-[var(--border)] space-y-1.5">
           <div className="flex justify-between">
-            <span className="text-[#716F68] font-bold">INTERVENING UPDATES:</span>
-            <strong className="text-[#167C80]">{interveningCount} facts</strong>
+            <span className="text-[var(--text-muted)] font-semibold">Intervening updates:</span>
+            <strong className="text-[var(--accent-blue-text)]">{interveningCount} facts</strong>
           </div>
           <input
             type="range"
@@ -117,18 +117,18 @@ export const StatePersistenceExperiment: React.FC = () => {
               setInterveningCount(val);
               if (activeStepInspection > val) setActiveStepInspection(val);
             }}
-            className="w-full accent-[#167C80] cursor-pointer"
+            className="w-full accent-[var(--color-accent)] cursor-pointer"
           />
-          <span className="text-xs text-[#716F68] font-sans block">
+          <span className="text-xs text-[var(--text-muted)] font-sans block">
             Number of subsequent writes applied over the target fact.
           </span>
         </div>
 
         {/* Retention factor */}
-        <div className="p-3.5 rounded-xl bg-[#FAF8F5] border border-[#EAE6DF] space-y-1.5">
+        <div className="p-3.5 rounded-xl bg-[var(--surface-soft)] border border-[var(--border)] space-y-1.5">
           <div className="flex justify-between">
-            <span className="text-[#716F68] font-bold">RETENTION (λ):</span>
-            <strong className="text-[#A46622]">{(retention * 100).toFixed(0)}%</strong>
+            <span className="text-[var(--text-muted)] font-semibold">Retention (λ):</span>
+            <strong className="text-[var(--accent-yellow-text)]">{(retention * 100).toFixed(0)}%</strong>
           </div>
           <input
             type="range"
@@ -137,20 +137,20 @@ export const StatePersistenceExperiment: React.FC = () => {
             step="0.05"
             value={retention}
             onChange={(e) => setRetention(parseFloat(e.target.value))}
-            className="w-full accent-[#A46622] cursor-pointer"
+            className="w-full accent-[var(--color-warning)] cursor-pointer"
           />
-          <span className="text-xs text-[#716F68] font-sans block">
+          <span className="text-xs text-[var(--text-muted)] font-sans block">
             Memory decay rate per update step.
           </span>
         </div>
 
         {/* Dimension */}
-        <div className="p-3.5 rounded-xl bg-[#FAF8F5] border border-[#EAE6DF] space-y-1.5">
+        <div className="p-3.5 rounded-xl bg-[var(--surface-soft)] border border-[var(--border)] space-y-1.5">
           <div className="flex justify-between">
-            <span className="text-[#716F68] font-semibold text-xs">Dimension:</span>
-            <strong className="text-[#151515] text-xs">d={dimension}</strong>
+            <span className="text-[var(--text-muted)] font-semibold text-xs">Dimension:</span>
+            <strong className="text-[var(--text-primary)] text-xs">d={dimension}</strong>
           </div>
-          <div className="flex flex-wrap gap-2 pt-1">
+          <div className="grid grid-cols-3 gap-1.5 pt-1">
             {[8, 16, 32].map((d) => (
               <button
                 key={d}
@@ -158,31 +158,31 @@ export const StatePersistenceExperiment: React.FC = () => {
                 onClick={() => setDimension(d)}
                 className={`dimension-delta ${dimension === d ? 'active' : ''}`}
               >
-                d = {d}
+                d={d}
               </button>
             ))}
           </div>
-          <span className="text-xs text-[#716F68] font-sans block pt-1">
+          <span className="text-xs text-[var(--text-muted)] font-sans block pt-1">
             Capacity scaling in vector space.
           </span>
         </div>
       </div>
 
       {/* Persistence Trajectory Chart & Table */}
-      <div className="rounded-xl bg-[#FAF8F5] border border-[#EAE6DF] p-4 space-y-3 text-xs">
-        <div className="flex justify-between items-center border-b border-[#EAE6DF] pb-2">
-          <span className="font-bold text-[#151515] uppercase text-xs flex items-center gap-1.5">
-            <TrendingDown className="w-3.5 h-3.5 text-[#167C80]" />
-            MEASURED RETRIEVAL SCORE TRAJECTORY ACROSS TIME
+      <div className="rounded-xl bg-[var(--surface-soft)] border border-[var(--border)] p-4 space-y-3 text-xs">
+        <div className="flex flex-wrap justify-between items-center gap-2 border-b border-[var(--border)] pb-2">
+          <span className="font-semibold text-[var(--text-primary)] text-xs flex items-center gap-1.5">
+            <TrendingDown className="w-3.5 h-3.5 text-[var(--accent-blue-text)]" />
+            Measured retrieval score trajectory across time
           </span>
-          <span className="text-xs text-[#716F68]">Query: &ldquo;Japan&rdquo; → &ldquo;Tokyo&rdquo;</span>
+          <span className="text-xs text-[var(--text-muted)]">Query: &ldquo;Japan&rdquo; → &ldquo;Tokyo&rdquo;</span>
         </div>
 
-        {/* Horizontal Segmented Timeline (Audit Item 8) */}
+        {/* Horizontal Segmented Timeline */}
         <div className="space-y-2">
-          <div className="flex items-center justify-between text-xs text-[#70736F] font-sans">
-            <span className="font-semibold text-[#252525]">Select Timestep Snapshot:</span>
-            <span className="text-xs">Active: t{currentInspection.step}</span>
+          <div className="flex items-center justify-between text-xs text-[var(--text-muted)] font-sans">
+            <span className="font-semibold text-[var(--text-primary)]">Select timestep snapshot:</span>
+            <span className="text-xs font-mono">Active: t{currentInspection.step}</span>
           </div>
           <div className="timeline overflow-x-auto">
             {simulationData.map((s, idx) => {
@@ -204,7 +204,7 @@ export const StatePersistenceExperiment: React.FC = () => {
 
         {/* Bar Timeline Visual */}
         <div className="overflow-x-auto py-1">
-          <div className="flex gap-2 items-end min-w-[500px] h-28 pt-4 px-3 bg-[#FFFFFF] rounded-lg border border-[#E5E0D8]">
+          <div className="flex gap-2 items-end min-w-[500px] h-28 pt-4 px-3 bg-[var(--surface)] rounded-lg border border-[var(--border)]">
             {simulationData.map((s, idx) => {
               const scorePct = Math.max(8, Math.min(100, Math.round(s.score * 100)));
               const isInspected = idx === activeStepInspection;
@@ -216,21 +216,21 @@ export const StatePersistenceExperiment: React.FC = () => {
                   onClick={() => setActiveStepInspection(idx)}
                   className={`flex-1 flex flex-col items-center justify-end h-full cursor-pointer p-1 rounded-md transition-all ${
                     isInspected
-                      ? 'bg-[#E7F2FA] ring-1 ring-[#7AA8C2]'
-                      : 'hover:bg-[#FAF8F5]'
+                      ? 'bg-[var(--accent-blue)] ring-1 ring-[var(--color-accent)]'
+                      : 'hover:bg-[var(--surface-soft)]'
                   }`}
                   title={`Step ${s.step}: Score ${(s.score * 100).toFixed(1)}%, Margin: ${s.margin.toFixed(3)}`}
                 >
-                  <span className="text-xs font-mono text-[#4F514E] mb-1 font-bold">
+                  <span className="text-xs font-mono text-[var(--text-secondary)] mb-1 font-bold">
                     {(s.score * 100).toFixed(0)}%
                   </span>
                   <div
                     className={`w-full rounded-t transition-all ${
-                      s.isCorrect ? 'bg-[#167C80]' : 'bg-[#8A352E]'
+                      s.isCorrect ? 'bg-[var(--color-accent)]' : 'bg-[var(--color-danger)]'
                     }`}
                     style={{ height: `${scorePct}%` }}
                   />
-                  <span className={`text-xs font-mono mt-1 font-semibold ${isInspected ? 'text-[#21445B] font-bold' : 'text-[#70736F]'}`}>
+                  <span className={`text-xs font-mono mt-1 font-semibold ${isInspected ? 'text-[var(--accent-blue-text)] font-bold' : 'text-[var(--text-muted)]'}`}>
                     t{s.step}
                   </span>
                 </button>
@@ -240,32 +240,32 @@ export const StatePersistenceExperiment: React.FC = () => {
         </div>
 
         {/* Inspected Step Telemetry */}
-        <div className="p-3.5 rounded-xl bg-[#FFFFFF] border border-[#E5E0D8] text-xs flex flex-wrap items-center justify-between gap-3">
+        <div className="p-3.5 rounded-xl bg-[var(--surface)] border border-[var(--border)] text-xs flex flex-wrap items-center justify-between gap-3">
           <div>
-            <span className="text-[#716F68] text-xs uppercase block font-bold">
-              INSPECTED TIMESTEP t={currentInspection.step}:
+            <span className="text-[var(--text-muted)] text-xs block font-semibold">
+              Inspected timestep t={currentInspection.step}:
             </span>
-            <div className="text-sm font-bold text-[#151515] mt-0.5">
+            <div className="text-sm font-bold text-[var(--text-primary)] mt-0.5">
               {currentInspection.event}
             </div>
           </div>
 
           <div className="flex items-center gap-4 text-xs font-mono">
             <div>
-              <span className="text-[#716F68] text-xs block">RETRIEVAL SCORE:</span>
-              <strong className={currentInspection.isCorrect ? 'text-[#167C80]' : 'text-[#B64235]'}>
+              <span className="text-[var(--text-muted)] text-xs block">Retrieval score:</span>
+              <strong className={currentInspection.isCorrect ? 'text-[var(--accent-blue-text)]' : 'text-[var(--accent-pink-text)]'}>
                 {(currentInspection.score * 100).toFixed(1)}%
               </strong>
             </div>
 
             <div>
-              <span className="text-[#716F68] text-xs block">TOP-1 MARGIN:</span>
-              <strong className="text-[#A46622]">{currentInspection.margin.toFixed(3)}</strong>
+              <span className="text-[var(--text-muted)] text-xs block">Top-1 margin:</span>
+              <strong className="text-[var(--accent-yellow-text)]">{currentInspection.margin.toFixed(3)}</strong>
             </div>
 
             <div>
-              <span className="text-[#716F68] text-xs block">PREDICTION:</span>
-              <strong className={currentInspection.isCorrect ? 'text-[#247A4B]' : 'text-[#B64235]'}>
+              <span className="text-[var(--text-muted)] text-xs block">Prediction:</span>
+              <strong className={currentInspection.isCorrect ? 'text-[var(--accent-green-text)]' : 'text-[var(--accent-pink-text)]'}>
                 &ldquo;{currentInspection.prediction}&rdquo;
               </strong>
             </div>
@@ -274,10 +274,10 @@ export const StatePersistenceExperiment: React.FC = () => {
       </div>
 
       {/* Epistemic note */}
-      <div className="p-3.5 rounded-xl bg-[#FAF8F5] border border-[#EAE6DF] text-xs text-[#52504A] font-sans flex items-start gap-2">
-        <HelpCircle className="w-4 h-4 text-[#167C80] shrink-0 mt-0.5" />
+      <div className="research-callout text-xs text-[var(--text-secondary)] font-sans flex items-start gap-2">
+        <HelpCircle className="w-4 h-4 text-[var(--accent-blue-text)] shrink-0 mt-0.5" />
         <div>
-          <strong className="text-[#151515]">Scientific Principle:</strong> This experiment asks whether information written earlier remains recoverable after later state updates. Do not call this result a universal forgetting curve; it is a direct measurement of linear associative decay under this toy&apos;s specific parameters.
+          <strong className="text-[var(--text-primary)]">Scientific principle:</strong> This experiment asks whether information written earlier remains recoverable after later state updates. Do not call this result a universal forgetting curve; it is a direct measurement of linear associative decay under this toy&apos;s specific parameters.
         </div>
       </div>
     </div>

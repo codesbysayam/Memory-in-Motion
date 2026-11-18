@@ -112,10 +112,10 @@ export function usePersistentNavigation() {
         });
 
         // Visual highlight pulse
-        el.classList.add('ring-2', 'ring-[#6842C2]', 'ring-offset-4', 'rounded-xl', 'transition-all', 'duration-500');
+        el.classList.add('ring-2', 'ring-[var(--color-accent)]', 'ring-offset-4', 'rounded-xl', 'transition-all', 'duration-300');
         setTimeout(() => {
-          el.classList.remove('ring-2', 'ring-[#6842C2]', 'ring-offset-4', 'rounded-xl');
-        }, 2200);
+          el.classList.remove('ring-2', 'ring-[var(--color-accent)]', 'ring-offset-4', 'rounded-xl');
+        }, 2000);
       } else if (attempts < maxAttempts) {
         attempts++;
         setTimeout(tryScroll, delays[attempts] || 200);

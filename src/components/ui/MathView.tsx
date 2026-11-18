@@ -26,7 +26,7 @@ export const MathView: React.FC<MathViewProps> = ({ math, block = false, classNa
       title={title}
       className={`katex-wrapper ${
         block
-          ? 'block my-3.5 overflow-x-auto py-2 text-center font-serif text-base text-[#151515] bg-[#FAF8F5] border border-[#EAE6DF] rounded-xl px-4'
+          ? 'block my-3.5 overflow-x-auto py-2 text-center font-serif text-base text-[var(--text-primary)] bg-[var(--surface-soft)] border border-[var(--border)] rounded-xl px-4'
           : 'inline-block align-baseline mx-0.5 px-0.5'
       } ${className}`}
       dangerouslySetInnerHTML={{ __html: html }}

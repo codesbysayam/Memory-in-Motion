@@ -26,7 +26,7 @@ export const MemoryHeatmap: React.FC<MemoryHeatmapProps> = ({
 
   if (!data || data.length === 0) {
     return (
-      <div className="rounded-xl border border-[#252A35] bg-[#11141A] p-4 text-center text-xs text-[#8F96A3]">
+      <div className="rounded-xl border border-[var(--color-matrix-border)] bg-[var(--color-matrix-bg)] p-4 text-center text-xs text-[var(--color-matrix-muted)]">
         No state history available.
       </div>
     );
@@ -37,28 +37,25 @@ export const MemoryHeatmap: React.FC<MemoryHeatmapProps> = ({
   const displaySteps = data.slice(0, 24);
 
   return (
-    <div id={id} className="rounded-xl border border-[#252A35] bg-[#11141A] p-4 text-[#F4F5F7] space-y-3">
-      <div className="flex items-center justify-between border-b border-[#252A35] pb-2">
-        <div className="flex items-center gap-2">
-          <span className="w-2 h-2 rounded-full bg-[#22D3EE] animate-pulse" />
-          <span className="text-[11px] font-mono uppercase tracking-widest text-[#22D3EE] font-semibold">
-            {title}
-          </span>
-        </div>
-        <span className="text-[10px] font-mono text-[#8F96A3]">
-          {data.length} Steps × {numDims} Dimensions
+    <div id={id} className="rounded-xl border border-[var(--color-matrix-border)] bg-[var(--color-matrix-bg)] p-4 text-[var(--color-matrix-ink)] space-y-3">
+      <div className="flex items-center justify-between border-b border-[var(--color-matrix-border)] pb-2.5 gap-2">
+        <span className="text-xs font-mono font-semibold text-[var(--color-matrix-ink)]">
+          {title}
+        </span>
+        <span className="text-xs font-mono tabular-nums text-[var(--color-matrix-muted)] shrink-0">
+          {data.length} steps × {numDims} dims
         </span>
       </div>
 
-      <p className="text-[11px] text-[#8F96A3] leading-relaxed">
-        Each row represents the fixed-size vector state <code className="text-violet-400 font-mono">h_t</code> after ingesting that step's information. Notice how new data superimposes and compresses into the same coordinates.
+      <p className="text-xs text-[var(--color-matrix-muted)] leading-relaxed">
+        Each row represents the fixed-size vector state <code className="text-sky-300 font-mono">h_t</code> after ingesting that step&apos;s information. Notice how new data superimposes and compresses into the same coordinates.
       </p>
 
       {/* Heatmap Grid */}
       <div className="overflow-x-auto pb-2">
         <div className="min-w-[340px] space-y-1">
           {/* Header row: dimension indices */}
-          <div className="flex items-center gap-1 text-[9px] font-mono text-[#8F96A3] pl-16">
+          <div className="flex items-center gap-1 text-[10px] font-mono tabular-nums text-[var(--color-matrix-muted)] pl-16">
             {Array.from({ length: numDims }, (_, d) => (
               <div key={d} className="flex-1 text-center truncate">
                 d{d}
@@ -75,18 +72,18 @@ export const MemoryHeatmap: React.FC<MemoryHeatmapProps> = ({
               <div
                 key={t}
                 onClick={() => onSelectStep && onSelectStep(t)}
-                className={`flex items-center gap-1 p-1 rounded transition-all cursor-pointer ${
+                className={`flex items-center gap-1 p-1 rounded transition-colors cursor-pointer ${
                   isHighlighted
-                    ? 'bg-violet-950/60 ring-1 ring-[#22D3EE]'
-                    : 'hover:bg-[#151922]'
+                    ? 'bg-sky-950/70 ring-1 ring-sky-400'
+                    : 'hover:bg-[var(--color-matrix-surface)]'
                 }`}
               >
                 {/* Step label */}
                 <div
-                  className="w-16 shrink-0 font-mono text-[10px] truncate text-[#8F96A3] text-left"
+                  className="w-16 shrink-0 font-mono text-[11px] tabular-nums truncate text-[var(--color-matrix-muted)] text-left"
                   title={label}
                 >
-                  <span className={isHighlighted ? 'text-[#22D3EE] font-bold' : ''}>
+                  <span className={isHighlighted ? 'text-sky-300 font-semibold' : ''}>
                     {t === 0 ? 'init' : `t_${t}`}
                   </span>
                 </div>
@@ -98,12 +95,9 @@ export const MemoryHeatmap: React.FC<MemoryHeatmapProps> = ({
                     const isPos = val >= 0;
                     const prev = t > 0 ? data[t - 1][d] : undefined;
 
-                    // Restrained color mapping:
-                    // Positive: violet opacity
-                    // Negative: rose/red opacity
                     const bg = isPos
-                      ? `rgba(139, 92, 246, ${Math.max(0.12, abs * 0.85)})`
-                      : `rgba(244, 63, 94, ${Math.max(0.12, abs * 0.75)})`;
+                      ? `rgba(78, 134, 240, ${Math.max(0.14, abs * 0.85)})`
+                      : `rgba(220, 76, 76, ${Math.max(0.14, abs * 0.78)})`;
 
                     const isCellHovered =
                       hoveredCell?.step === t && hoveredCell?.dim === d;
@@ -116,10 +110,10 @@ export const MemoryHeatmap: React.FC<MemoryHeatmapProps> = ({
                         }
                         onMouseLeave={() => setHoveredCell(null)}
                         style={{ backgroundColor: bg }}
-                        className={`flex-1 h-6 rounded flex items-center justify-center font-mono text-[9px] transition-transform ${
+                        className={`flex-1 h-6 rounded flex items-center justify-center font-mono text-[10px] tabular-nums transition-transform ${
                           isCellHovered
-                            ? 'scale-125 z-20 ring-1 ring-white shadow-lg font-bold text-white'
-                            : 'text-zinc-200/80 hover:brightness-125'
+                            ? 'scale-115 z-20 ring-1 ring-[var(--color-matrix-ink)] font-semibold text-[var(--color-matrix-ink)]'
+                            : 'text-[var(--color-matrix-ink)]/90'
                         }`}
                         title={`t=${t}, d=${d}: ${val.toFixed(3)}`}
                       >
@@ -137,23 +131,23 @@ export const MemoryHeatmap: React.FC<MemoryHeatmapProps> = ({
 
       {/* Hover inspection tooltip / footer */}
       {hoveredCell ? (
-        <div className="rounded-lg bg-[#151922] border border-[#252A35] p-2.5 font-mono text-[11px] flex items-center justify-between text-[#8F96A3]">
+        <div className="rounded-lg bg-[var(--color-matrix-surface)] border border-[var(--color-matrix-border)] p-2.5 font-mono text-xs tabular-nums flex flex-wrap items-center justify-between gap-2 text-[var(--color-matrix-muted)]">
           <div>
-            <span className="text-[#22D3EE] font-bold">
+            <span className="text-sky-300 font-semibold">
               h_{hoveredCell.step}[d{hoveredCell.dim}]:
             </span>{' '}
-            <span className="text-white font-semibold">
+            <span className="text-[var(--color-matrix-ink)] font-semibold">
               {hoveredCell.val.toFixed(4)}
             </span>
           </div>
           {hoveredCell.prevVal !== undefined && (
             <div>
-              <span>Prior: {hoveredCell.prevVal.toFixed(4)}</span> |{' '}
+              <span>Prior: {hoveredCell.prevVal.toFixed(4)}</span> ·{' '}
               <span
                 className={
                   hoveredCell.val - hoveredCell.prevVal >= 0
-                    ? 'text-emerald-400'
-                    : 'text-rose-400'
+                    ? 'text-emerald-300'
+                    : 'text-rose-300'
                 }
               >
                 Δ: {(hoveredCell.val - hoveredCell.prevVal >= 0 ? '+' : '')}
@@ -161,14 +155,14 @@ export const MemoryHeatmap: React.FC<MemoryHeatmapProps> = ({
               </span>
             </div>
           )}
-          <span className="text-[10px] text-zinc-500">
+          <span className="text-[11px] text-[var(--color-matrix-muted)]">
             {stepLabels[hoveredCell.step] || `Step ${hoveredCell.step}`}
           </span>
         </div>
       ) : (
-        <div className="text-[10px] font-mono text-[#8F96A3] flex items-center justify-between pt-1 border-t border-[#252A35]">
-          <span>Hover coordinates to view numerical Δ (delta) across transitions</span>
-          <span className="text-violet-400">Purple: (+) / Rose: (-)</span>
+        <div className="text-[11px] font-mono text-[var(--color-matrix-muted)] flex flex-wrap items-center justify-between gap-2 pt-2 border-t border-[var(--color-matrix-border)]">
+          <span>Hover coordinates to view numerical Δ across transitions</span>
+          <span className="text-sky-300">Blue: (+) · Coral: (-)</span>
         </div>
       )}
     </div>

@@ -165,7 +165,7 @@ export const Section05FindTheFailure: React.FC = () => {
     <section id="section-05" className="w-full scroll-mt-20 border-b border-[var(--border)] bg-[var(--page-bg)] text-[var(--text-primary)] py-10">
       <div id="section-05-deltas" className="scroll-mt-24" />
       <div id="debug-panel-section" className="scroll-mt-24" />
-      <div className="w-full max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="w-full space-y-6">
         <SectionHeader
           number="05"
           category="FIND THE FAILURE CHALLENGE"
@@ -176,7 +176,6 @@ export const Section05FindTheFailure: React.FC = () => {
             </span>
           }
           discovery="Human intuition often underestimates interference: adding just 2 distractor vectors in low dimensions can catastrophically corrupt prior memory associations."
-          theme="light"
         />
 
         {/* Epistemic Evidence Classification */}
@@ -198,11 +197,11 @@ export const Section05FindTheFailure: React.FC = () => {
           <div className="lg:col-span-5 space-y-5">
             <div className="rounded-xl border border-[var(--border)] bg-[var(--surface-soft)] p-5 space-y-4">
               <div className="flex items-center justify-between border-b border-[var(--border)] pb-2 font-sans">
-                <span className="text-xs font-semibold text-[var(--accent-blue-text)]">
+                <span className="text-xs font-semibold text-[var(--accent-blue-text)] tabular-nums">
                   Round {String(trial.round).padStart(2, '0')} / 05
                 </span>
-                <span className="text-xs text-[var(--text-secondary)]">
-                  Score: <strong className="text-[var(--text-primary)] font-mono">{score}</strong> / {TRIALS.length}
+                <span className="text-xs text-[var(--text-secondary)] tabular-nums">
+                  Score: <strong className="text-[var(--text-primary)] font-mono tabular-nums">{score}</strong> / {TRIALS.length}
                 </span>
               </div>
 
@@ -210,11 +209,11 @@ export const Section05FindTheFailure: React.FC = () => {
               <div className="grid grid-cols-3 gap-2 text-xs font-sans">
                 <div className="rounded-lg bg-[var(--surface)] p-2.5 border border-[var(--border)]">
                   <span className="text-[var(--text-secondary)] block text-xs">Capacity</span>
-                  <span className="font-bold text-[var(--text-primary)] font-mono"><InlineMath math={`D = ${trial.dim}`} /></span>
+                  <span className="font-bold text-[var(--text-primary)] font-mono tabular-nums"><InlineMath math={`D = ${trial.dim}`} /></span>
                 </div>
                 <div className="rounded-lg bg-[var(--surface)] p-2.5 border border-[var(--border)]">
                   <span className="text-[var(--text-secondary)] block text-xs">Facts (<InlineMath math="T" />)</span>
-                  <span className="font-bold text-[var(--text-primary)] font-mono">{trial.factsCount} pairs</span>
+                  <span className="font-bold text-[var(--text-primary)] font-mono tabular-nums">{trial.factsCount} pairs</span>
                 </div>
                 <div className="rounded-lg bg-[var(--surface)] p-2.5 border border-[var(--border)]">
                   <span className="text-[var(--text-secondary)] block text-xs">Crosstalk</span>
