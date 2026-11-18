@@ -1,6 +1,5 @@
 import React from 'react';
 import { EVIDENCE, EvidenceType } from '../../constants/evidence';
-import { ShieldCheck, BookOpen, Binary, Eye, Sparkles } from 'lucide-react';
 
 interface EvidenceStripProps {
   type: EvidenceType;
@@ -9,49 +8,33 @@ interface EvidenceStripProps {
 }
 
 export function EvidenceStrip({ type, detail, className = '' }: EvidenceStripProps) {
-  const getIcon = () => {
+  const getToneClass = () => {
     switch (type) {
       case 'live':
-        return <Binary className="w-3.5 h-3.5 shrink-0" />;
+        return 'text-[var(--accent-blue-text)]';
       case 'published':
-        return <BookOpen className="w-3.5 h-3.5 shrink-0" />;
+        return 'text-[var(--color-success)]';
       case 'abstraction':
-        return <ShieldCheck className="w-3.5 h-3.5 shrink-0" />;
+        return 'text-[var(--text-primary)]';
       case 'illustration':
-        return <Eye className="w-3.5 h-3.5 shrink-0" />;
+        return 'text-[var(--color-warning)]';
       case 'precomputed':
-        return <Sparkles className="w-3.5 h-3.5 shrink-0" />;
-    }
-  };
-
-  const getBadgeStyle = () => {
-    switch (type) {
-      case 'live':
-        return 'border-[var(--border)] bg-[var(--accent-blue)] text-[var(--accent-blue-text)]';
-      case 'published':
-        return 'border-[var(--color-success-border)] bg-[var(--accent-green)] text-[var(--accent-green-text)]';
-      case 'abstraction':
-        return 'border-[var(--border)] bg-[var(--surface-soft)] text-[var(--text-primary)]';
-      case 'illustration':
-        return 'border-[var(--color-warning-border)] bg-[var(--accent-yellow)] text-[var(--accent-yellow-text)]';
-      case 'precomputed':
-        return 'border-[var(--border)] bg-[var(--accent-blue)] text-[var(--accent-blue-text)]';
+        return 'text-[var(--accent-blue-text)]';
     }
   };
 
   return (
     <div
-      className={`inline-flex items-center gap-2 px-2.5 py-1 rounded-md border text-xs font-mono select-none ${getBadgeStyle()} ${className}`}
+      className={`inline-flex flex-wrap items-center gap-2 text-xs font-mono ${className}`}
       title={detail ? `${EVIDENCE[type]} — ${detail}` : EVIDENCE[type]}
     >
-      <span className="flex items-center gap-1.5 font-medium text-[11px] whitespace-nowrap">
-        {getIcon()}
-        <span>{EVIDENCE[type]}</span>
+      <span className={`font-semibold whitespace-nowrap ${getToneClass()}`}>
+        {EVIDENCE[type]}
       </span>
       {detail && (
         <>
-          <span aria-hidden="true" className="opacity-40">·</span>
-          <span className="text-[11px] text-[var(--text-secondary)] font-sans truncate max-w-[280px]">
+          <span aria-hidden="true" className="text-[var(--mm-rule-strong)]">·</span>
+          <span className="text-xs text-[var(--text-secondary)] font-sans">
             {detail}
           </span>
         </>

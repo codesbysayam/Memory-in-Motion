@@ -1,18 +1,10 @@
 import React, { useState, useMemo } from 'react';
 import {
-  BarChart2,
-  Sliders,
   Filter,
-  ArrowRight,
   Download,
-  CheckCircle2,
-  AlertOctagon,
-  Sparkles,
-  Layers,
   FileSpreadsheet,
 } from 'lucide-react';
-import { Fact, vector, cosine, CANONICAL_FACTS } from '../../models/associativeMemory';
-import { InlineMath, BlockMath } from '../ui/MathView';
+import { vector, cosine, CANONICAL_FACTS } from '../../models/associativeMemory';
 
 export interface SweepTrialResult {
   id: string;
@@ -173,22 +165,20 @@ export const Page04MeasureInteractions: React.FC = () => {
   };
 
   return (
-    <div className="space-y-8 mt-6">
+    <div className="space-y-8 mt-8">
       {/* 1. PARAMETER SWEEP BUILDER */}
-      <div className="diagram-frame p-5 sm:p-6 space-y-4">
-        <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[var(--border)] pb-3">
-          <div className="flex items-center gap-2">
-            <div className="p-1.5 rounded-lg bg-[var(--accent-blue)] text-[var(--accent-blue-text)]">
-              <BarChart2 className="w-4 h-4" />
-            </div>
-            <div>
-              <h3 className="font-serif text-base font-bold text-[var(--text-primary)]">
-                1. Empirical parameter sweep builder
-              </h3>
-              <p className="text-xs text-[var(--text-secondary)]">
-                Configure sweep axes, fix background hyperparameters, and execute deterministic trials to map empirical capacity bounds.
-              </p>
-            </div>
+      <div className="essay-figure-stage p-5 sm:p-6 space-y-5">
+        <div className="flex flex-wrap items-baseline justify-between gap-3 border-b border-[var(--mm-rule)] pb-4">
+          <div>
+            <span className="font-mono text-[11px] uppercase tracking-[0.14em] text-[var(--mm-signal)] font-semibold block mb-1">
+              04.1 · Parameter sweep builder
+            </span>
+            <h3 className="font-serif text-lg sm:text-xl font-normal text-[var(--mm-ink)]">
+              Build and export a reproducible sweep dataset
+            </h3>
+            <p className="text-xs text-[var(--mm-muted)] mt-1">
+              Fix hyperparameters and inspect how sequence length N affects probe accuracy, score margin, and matrix norm.
+            </p>
           </div>
 
           <button
@@ -330,14 +320,11 @@ export const Page04MeasureInteractions: React.FC = () => {
                     <td className="font-mono">{t.norm.toFixed(3)}</td>
                     <td>
                       <span
-                        className={`inline-flex items-center gap-1 px-2 py-0.5 rounded border text-[11px] font-medium ${
-                          t.isCorrect
-                            ? 'bg-[var(--accent-green)] border-[var(--color-success-border)] text-[var(--accent-green-text)]'
-                            : 'bg-[var(--accent-pink)] border-[var(--color-danger-border)] text-[var(--accent-pink-text)]'
+                        className={`font-mono text-xs font-medium ${
+                          t.isCorrect ? 'text-[var(--accent-green-text)]' : 'text-[var(--mm-coral)]'
                         }`}
                       >
-                        {t.isCorrect ? <CheckCircle2 className="w-3 h-3" /> : <AlertOctagon className="w-3 h-3" />}
-                        {t.isCorrect ? 'Correct' : 'Interference'}
+                        {t.isCorrect ? '● Correct' : '▲ Interference'}
                       </span>
                     </td>
                   </tr>
@@ -349,47 +336,45 @@ export const Page04MeasureInteractions: React.FC = () => {
       </div>
 
       {/* 3. COMPARE RUNS */}
-      <div className="diagram-frame p-5 sm:p-6 space-y-4">
-        <div className="flex items-center gap-2 border-b border-[var(--border)] pb-3">
-          <div className="p-1.5 rounded-lg bg-[var(--accent-yellow)] text-[var(--accent-yellow-text)]">
-            <Sliders className="w-4 h-4" />
-          </div>
-          <div>
-            <h3 className="font-serif text-base font-bold text-[var(--text-primary)]">
-              3. Differential run comparison
-            </h3>
-            <p className="text-xs text-[var(--text-secondary)]">
-              Select two experiment runs to inspect coordinate shifts, prediction divergence, and margin deltas.
-            </p>
-          </div>
+      <div className="essay-figure-stage p-5 sm:p-6 space-y-4">
+        <div className="border-b border-[var(--mm-rule)] pb-3">
+          <span className="font-mono text-[11px] uppercase tracking-[0.14em] text-[var(--mm-amber)] font-semibold block mb-1">
+            04.2 · Differential comparison
+          </span>
+          <h3 className="font-serif text-lg sm:text-xl font-normal text-[var(--mm-ink)]">
+            Compare any two deterministic runs
+          </h3>
+          <p className="text-xs text-[var(--mm-muted)] mt-1">
+            Inspect score shifts, prediction divergence, and margin deltas across two fact counts.
+          </p>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
           <div>
-            <label className="text-[var(--text-secondary)] block font-semibold mb-1">Run A:</label>
+            <label className="text-[var(--mm-muted)] block font-semibold mb-1">Run A:</label>
             <select
               value={selectedRunA}
               onChange={(e) => setSelectedRunA(e.target.value)}
-              className="w-full p-2 rounded-lg border border-[var(--border)] bg-[var(--surface-soft)] text-[var(--text-primary)] cursor-pointer tabular-nums"
+              className="w-full p-2 rounded-md border border-[var(--mm-rule)] bg-[var(--mm-paper-bright)] text-[var(--mm-ink)] cursor-pointer tabular-nums"
             >
               {sweepResults.map((r) => (
                 <option key={r.id} value={r.id}>
-                  {r.id} ({r.factsCount} facts - {r.prediction})
+                  {r.id} ({r.factsCount} facts — {r.prediction})
                 </option>
               ))}
             </select>
           </div>
 
           <div>
-            <label className="text-[var(--text-secondary)] block font-semibold mb-1">Run B:</label>
+            <label className="text-[var(--mm-muted)] block font-semibold mb-1">Run B:</label>
             <select
               value={selectedRunB}
               onChange={(e) => setSelectedRunB(e.target.value)}
-              className="w-full p-2 rounded-lg border border-[var(--border)] bg-[var(--surface-soft)] text-[var(--text-primary)] cursor-pointer tabular-nums"
+              className="w-full p-2 rounded-md border border-[var(--mm-rule)] bg-[var(--mm-paper-bright)] text-[var(--mm-ink)] cursor-pointer tabular-nums"
             >
               {sweepResults.map((r) => (
                 <option key={r.id} value={r.id}>
-                  {r.id} ({r.factsCount} facts - {r.prediction})
+                  {r.id} ({r.factsCount} facts — {r.prediction})
                 </option>
               ))}
             </select>
@@ -397,33 +382,33 @@ export const Page04MeasureInteractions: React.FC = () => {
         </div>
 
         {runComparison && (
-          <div className="metric-panel grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs tabular-nums">
-            <div>
-              <span className="text-[var(--text-secondary)] block text-[11px]">Sequence Length Delta (ΔN)</span>
-              <strong className="text-sm font-mono text-[var(--text-primary)]">
+          <div className="grid grid-cols-2 sm:grid-cols-4 divide-y sm:divide-y-0 sm:divide-x divide-[var(--mm-rule)] border border-[var(--mm-rule)] bg-[var(--mm-paper-bright)] rounded-md text-xs tabular-nums">
+            <div className="p-3.5">
+              <span className="text-[var(--mm-muted)] block text-[11px]">Sequence delta (ΔN)</span>
+              <strong className="text-sm font-mono text-[var(--mm-ink)] mt-0.5 block">
                 {runComparison.seqDiff >= 0 ? `+${runComparison.seqDiff}` : runComparison.seqDiff} facts
               </strong>
             </div>
-            <div>
-              <span className="text-[var(--text-secondary)] block text-[11px]">Retrieval Score Delta</span>
-              <strong className="text-sm font-mono text-[var(--accent-blue-text)]">
+            <div className="p-3.5">
+              <span className="text-[var(--mm-muted)] block text-[11px]">Score delta</span>
+              <strong className="text-sm font-mono text-[var(--mm-signal)] mt-0.5 block">
                 {runComparison.scoreDiff >= 0
                   ? `+${(runComparison.scoreDiff * 100).toFixed(1)}%`
                   : `${(runComparison.scoreDiff * 100).toFixed(1)}%`}
               </strong>
             </div>
-            <div>
-              <span className="text-[var(--text-secondary)] block text-[11px]">Top-1 Margin Shift</span>
-              <strong className="text-sm font-mono text-[var(--text-primary)]">
+            <div className="p-3.5">
+              <span className="text-[var(--mm-muted)] block text-[11px]">Margin shift</span>
+              <strong className="text-sm font-mono text-[var(--mm-ink)] mt-0.5 block">
                 {runComparison.marginDiff >= 0
                   ? `+${runComparison.marginDiff.toFixed(3)}`
                   : runComparison.marginDiff.toFixed(3)}
               </strong>
             </div>
-            <div>
-              <span className="text-[var(--text-secondary)] block text-[11px]">Prediction Divergence</span>
-              <strong className={`text-sm ${runComparison.predictionChanged ? 'text-[var(--accent-pink-text)]' : 'text-[var(--accent-green-text)]'}`}>
-                {runComparison.predictionChanged ? 'Output Diverged' : 'Identical Output'}
+            <div className="p-3.5">
+              <span className="text-[var(--mm-muted)] block text-[11px]">Output divergence</span>
+              <strong className={`text-sm mt-0.5 block ${runComparison.predictionChanged ? 'text-[var(--mm-coral)]' : 'text-[var(--accent-green-text)]'}`}>
+                {runComparison.predictionChanged ? 'Diverged' : 'Identical'}
               </strong>
             </div>
           </div>

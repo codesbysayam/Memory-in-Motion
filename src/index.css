@@ -32,52 +32,76 @@
 }
 
 /* ==================================================
-   UNIFIED DESIGN TOKENS — LIGHT (PRIMARY EDITORIAL)
+   UNIFIED DESIGN TOKENS — LIGHT (WARM EDITORIAL NOTEBOOK)
    ================================================== */
 :root,
 [data-theme="light"],
 .light {
-  /* Core Surfaces */
-  --color-canvas: #FBFBFA;
-  --color-surface: #FFFFFF;
-  --color-surface-soft: #F5F5F3;
-  --color-surface-muted: #ECECE8;
+  /* Pudding-Inspired Editorial Research Notebook Palette */
+  --mm-paper: #F4F1E9;
+  --mm-paper-bright: #FBFAF6;
+  --mm-paper-inset: #ECE8DD;
+  --mm-ink: #202124;
+  --mm-ink-soft: #42454A;
+  --mm-muted: #707378;
+  --mm-rule: #D8D5CC;
+  --mm-rule-strong: #B8B3A7;
+  --mm-signal: #315BCB;
+  --mm-signal-hover: #2547A8;
+  --mm-signal-soft: #E8EDFC;
+  --mm-coral: #C96C55;
+  --mm-coral-soft: #F9EAE6;
+  --mm-coral-border: #E5B9AD;
+  --mm-teal: #43877E;
+  --mm-teal-soft: #E6F2F0;
+  --mm-teal-border: #B4D5D0;
+  --mm-amber: #8E5B14;
+  --mm-amber-soft: #F6EEDD;
+  --mm-amber-border: #DFC89E;
+  --mm-dark: #202326;
+  --mm-dark-paper: #F2F0E9;
+
+  /* Core Surfaces mapped from --mm-* */
+  --color-canvas: var(--mm-paper);
+  --color-surface: var(--mm-paper-bright);
+  --color-surface-soft: var(--mm-paper-inset);
+  --color-surface-muted: #E3DFD3;
 
   /* Ink & Typography */
-  --color-ink: #191918;
-  --color-ink-secondary: #52524D;
-  --color-ink-muted: #6B6B65;
+  --color-ink: var(--mm-ink);
+  --color-ink-secondary: var(--mm-ink-soft);
+  --color-ink-muted: var(--mm-muted);
 
   /* Borders */
-  --color-border: #E6E6E1;
-  --color-border-strong: #CFCFC7;
+  --color-border: var(--mm-rule);
+  --color-border-strong: var(--mm-rule-strong);
 
-  /* Restrained Primary Accent (Editorial Cobalt / Slate Blue) */
-  --color-accent: #2857C5;
-  --color-accent-hover: #1E46A8;
-  --color-accent-soft: #EEF4FF;
-  --color-accent-ink: #1E46A8;
+  /* Primary Signal Accent (Single Active Accent Family) */
+  --color-accent: var(--mm-signal);
+  --color-accent-hover: var(--mm-signal-hover);
+  --color-accent-soft: var(--mm-signal-soft);
+  --color-accent-ink: var(--mm-signal-hover);
 
-  /* Semantic Status */
-  --color-success: #1F6F4A;
-  --color-success-soft: #ECF7F1;
-  --color-success-border: #C4E5D2;
+  /* Semantic Status (Strictly Meaningful Encoding) */
+  --color-success: #2C6E66;
+  --color-success-soft: var(--mm-teal-soft);
+  --color-success-border: var(--mm-teal-border);
 
-  --color-warning: #9A5B13;
-  --color-warning-soft: #FDF6E9;
-  --color-warning-border: #F2DFB8;
+  --color-warning: var(--mm-amber);
+  --color-warning-soft: var(--mm-amber-soft);
+  --color-warning-border: var(--mm-amber-border);
 
-  --color-danger: #B43832;
-  --color-danger-soft: #FDF0EF;
-  --color-danger-border: #F3CBC8;
+  --color-danger: #B34D36;
+  --color-danger-soft: var(--mm-coral-soft);
+  --color-danger-border: var(--mm-coral-border);
 
   /* Technical / Code / Matrix Canvases */
-  --color-code-bg: #F3F3F0;
-  --color-matrix-bg: #14171C;
-  --color-matrix-surface: #1B2028;
-  --color-matrix-border: #2C333E;
-  --color-matrix-ink: #F3F4F6;
-  --color-matrix-muted: #B8C0CC;
+  --color-code-bg: #EFECE3;
+  --color-matrix-bg: #1A1D21;
+  --color-matrix-surface: #23272D;
+  --color-matrix-border: #343A43;
+  --color-matrix-ink: #F2F0E9;
+  --color-matrix-muted: #B6BAC0;
 
   /* Application Semantic Tokens */
   --page-bg: var(--color-canvas);
@@ -143,7 +167,7 @@
   --font-body: 'DM Sans', 'Inter', system-ui, -apple-system, sans-serif;
   --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, monospace;
 
-  /* 8px Spacing Scale */
+  /* Spacing Scale */
   --space-1: 4px;
   --space-2: 8px;
   --space-3: 12px;
@@ -155,68 +179,91 @@
   --space-12: 88px;
 
   /* Radii & Shadows */
-  --radius-sm: 6px;
-  --radius-md: 10px;
-  --radius-lg: 14px;
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
   --radius-pill: 999px;
-  --radius: 10px;
+  --radius: 8px;
 
-  --shadow-panel: 0 1px 2px rgba(25, 25, 24, 0.04);
-  --shadow-popover: 0 8px 24px rgba(25, 25, 24, 0.09);
+  --shadow-panel: 0 1px 2px rgba(32, 33, 36, 0.04);
+  --shadow-popover: 0 10px 28px rgba(32, 33, 36, 0.11);
 
   /* Layout Widths */
-  --content-width: 1200px;
-  --reading-width: 760px;
-  --diagram-width: 1080px;
-  --max: 1200px;
+  --content-width: 1280px;
+  --reading-width: 720px;
+  --diagram-width: 1120px;
+  --max: 1280px;
 
   /* Motion */
   --duration-fast: 140ms;
-  --duration-medium: 200ms;
-  --duration-panel: 280ms;
+  --duration-medium: 220ms;
+  --duration-panel: 300ms;
   --ease-editorial: cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
 /* ==================================================
-   UNIFIED DESIGN TOKENS — DARK
+   UNIFIED DESIGN TOKENS — DARK (HIGH-CONTRAST STUDIO INK)
    ================================================== */
 [data-theme="dark"],
 .dark {
-  --color-canvas: #141517;
-  --color-surface: #1C1E21;
-  --color-surface-soft: #24272B;
-  --color-surface-muted: #2D3136;
+  --mm-paper: #16181B;
+  --mm-paper-bright: #1E2126;
+  --mm-paper-inset: #252930;
+  --mm-ink: #F2F0E9;
+  --mm-ink-soft: #CAC8C0;
+  --mm-muted: #989790;
+  --mm-rule: #2F333B;
+  --mm-rule-strong: #464C57;
+  --mm-signal: #7CA2FF;
+  --mm-signal-hover: #9BB8FF;
+  --mm-signal-soft: #1E2A45;
+  --mm-coral: #E48B76;
+  --mm-coral-soft: #36211D;
+  --mm-coral-border: #633B33;
+  --mm-teal: #65B2A8;
+  --mm-teal-soft: #1A2F2D;
+  --mm-teal-border: #2F5753;
+  --mm-amber: #E8BA67;
+  --mm-amber-soft: #332A1A;
+  --mm-amber-border: #594728;
+  --mm-dark: #101215;
+  --mm-dark-paper: #F2F0E9;
 
-  --color-ink: #F2F2EE;
-  --color-ink-secondary: #C8CAC4;
-  --color-ink-muted: #989B95;
+  --color-canvas: var(--mm-paper);
+  --color-surface: var(--mm-paper-bright);
+  --color-surface-soft: var(--mm-paper-inset);
+  --color-surface-muted: #2F343D;
 
-  --color-border: #2E3238;
-  --color-border-strong: #444A52;
+  --color-ink: var(--mm-ink);
+  --color-ink-secondary: var(--mm-ink-soft);
+  --color-ink-muted: var(--mm-muted);
 
-  --color-accent: #7EA8FF;
-  --color-accent-hover: #9BBDFE;
-  --color-accent-soft: #1E2B45;
-  --color-accent-ink: #B4CDFF;
+  --color-border: var(--mm-rule);
+  --color-border-strong: var(--mm-rule-strong);
 
-  --color-success: #75C99A;
-  --color-success-soft: #1B2F25;
-  --color-success-border: #2C513D;
+  --color-accent: var(--mm-signal);
+  --color-accent-hover: var(--mm-signal-hover);
+  --color-accent-soft: var(--mm-signal-soft);
+  --color-accent-ink: #AFC8FF;
 
-  --color-warning: #E8BA67;
-  --color-warning-soft: #332A1A;
-  --color-warning-border: #564527;
+  --color-success: var(--mm-teal);
+  --color-success-soft: var(--mm-teal-soft);
+  --color-success-border: var(--mm-teal-border);
 
-  --color-danger: #F08A84;
-  --color-danger-soft: #362020;
-  --color-danger-border: #5E3434;
+  --color-warning: var(--mm-amber);
+  --color-warning-soft: var(--mm-amber-soft);
+  --color-warning-border: var(--mm-amber-border);
 
-  --color-code-bg: #202327;
-  --color-matrix-bg: #0E1013;
-  --color-matrix-surface: #171A1F;
-  --color-matrix-border: #292E36;
-  --color-matrix-ink: #F2F2EE;
-  --color-matrix-muted: #A3A8B0;
+  --color-danger: var(--mm-coral);
+  --color-danger-soft: var(--mm-coral-soft);
+  --color-danger-border: var(--mm-coral-border);
+
+  --color-code-bg: #1D2025;
+  --color-matrix-bg: #111316;
+  --color-matrix-surface: #1A1D22;
+  --color-matrix-border: #2D323A;
+  --color-matrix-ink: #F2F0E9;
+  --color-matrix-muted: #A6A9B0;
 
   --page-bg: var(--color-canvas);
   --surface: var(--color-surface);
@@ -275,8 +322,8 @@
   --grey-600: var(--color-ink-secondary);
   --grey-700: var(--color-ink);
 
-  --shadow-panel: 0 1px 2px rgba(0, 0, 0, 0.25);
-  --shadow-popover: 0 10px 28px rgba(0, 0, 0, 0.45);
+  --shadow-panel: 0 1px 2px rgba(0, 0, 0, 0.28);
+  --shadow-popover: 0 10px 28px rgba(0, 0, 0, 0.48);
 }
 
 [data-theme="dark"] .katex,
@@ -475,7 +522,7 @@ select {
    HERO TYPOGRAPHY & FIRST-SCREEN PROPOSITION
    ================================================== */
 .hero {
-  padding-block: clamp(40px, 5vw, 72px);
+  padding-block: clamp(44px, 6vw, 88px);
 }
 
 .hero-copy {
@@ -484,11 +531,11 @@ select {
 
 .hero-title {
   font-family: var(--font-display);
-  font-weight: 600;
-  letter-spacing: -0.025em;
-  line-height: 1.08;
-  max-width: 820px;
-  font-size: clamp(36px, 5vw, 60px);
+  font-weight: 500;
+  letter-spacing: -0.028em;
+  line-height: 0.98;
+  max-width: 960px;
+  font-size: clamp(44px, 6.2vw, 92px);
   color: var(--text-primary);
 }
 
@@ -496,8 +543,75 @@ select {
   max-width: 680px;
   color: var(--text-secondary);
   font-family: var(--font-body);
+  font-size: clamp(17px, 1.45vw, 21px);
+  line-height: 1.58;
+}
+
+/* ==================================================
+   PUDDING-INSPIRED VISUAL ESSAY PRIMITIVES
+   ================================================== */
+.essay-eyebrow {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.essay-stage-title {
+  font-family: var(--font-display);
+  font-weight: 500;
+  letter-spacing: -0.025em;
+  line-height: 1.04;
+  font-size: clamp(36px, 4.8vw, 66px);
+  color: var(--text-primary);
+  text-wrap: balance;
+}
+
+.essay-section-title {
+  font-family: var(--font-display);
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+  font-size: clamp(28px, 3.2vw, 44px);
+  color: var(--text-primary);
+  text-wrap: balance;
+}
+
+.essay-lead {
+  font-family: var(--font-body);
   font-size: clamp(16px, 1.35vw, 19px);
-  line-height: 1.6;
+  line-height: 1.62;
+  color: var(--text-secondary);
+  max-width: var(--reading-width);
+}
+
+.essay-rule {
+  border-top: 1px solid var(--mm-rule);
+}
+
+.essay-figure-stage {
+  background: var(--mm-paper-bright);
+  border-top: 1px solid var(--mm-rule);
+  border-bottom: 1px solid var(--mm-rule);
+}
+
+.scrolly-step {
+  padding: 20px 0 20px 18px;
+  border-left: 2px solid var(--mm-rule);
+  opacity: 0.56;
+  transition: opacity var(--duration-medium) var(--ease-editorial), border-color var(--duration-medium) var(--ease-editorial);
+}
+
+.scrolly-step.is-active {
+  opacity: 1;
+  border-left-color: var(--mm-signal);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scrolly-step {
+    opacity: 1;
+  }
 }
 
 /* ==================================================

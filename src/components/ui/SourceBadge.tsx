@@ -1,5 +1,4 @@
 import React from 'react';
-import { BookOpen, ShieldCheck, Cpu, Sparkles, Activity, FileText } from 'lucide-react';
 
 export type SourceBadgeType =
   | 'primary'
@@ -21,22 +20,20 @@ export const SourceBadge: React.FC<SourceBadgeProps> = ({ type, className = '' }
     case 'primary':
       return (
         <span
-          className={`inline-flex items-center gap-1.5 px-2 py-0.5 rounded-md border border-[var(--border)] bg-[var(--accent-blue)] text-[var(--accent-blue-text)] font-mono text-[11px] font-medium whitespace-nowrap ${className}`}
+          className={`font-mono text-[11px] font-medium text-[var(--accent-blue-text)] whitespace-nowrap ${className}`}
           title="Peer-reviewed or formal technical preprint literature"
         >
-          <BookOpen className="w-3 h-3 shrink-0" />
-          <span>Primary Paper</span>
+          Primary Paper
         </span>
       );
 
     case 'official':
       return (
         <span
-          className={`inline-flex items-center gap-1.5 px-2 py-0.5 rounded-md border border-[var(--color-success-border)] bg-[var(--accent-green)] text-[var(--accent-green-text)] font-mono text-[11px] font-medium whitespace-nowrap ${className}`}
+          className={`font-mono text-[11px] font-medium text-[var(--color-success)] whitespace-nowrap ${className}`}
           title="Official Pathway technical releases, documentation, or code repositories"
         >
-          <ShieldCheck className="w-3 h-3 shrink-0" />
-          <span>Official Pathway</span>
+          Official Pathway
         </span>
       );
 
@@ -44,33 +41,30 @@ export const SourceBadge: React.FC<SourceBadgeProps> = ({ type, className = '' }
     case 'TOY COMPUTATION':
       return (
         <span
-          className={`inline-flex items-center gap-1.5 px-2 py-0.5 rounded-md border border-[var(--color-warning-border)] bg-[var(--accent-yellow)] text-[var(--accent-yellow-text)] font-mono text-[11px] font-medium whitespace-nowrap ${className}`}
+          className={`font-mono text-[11px] font-medium text-[var(--color-warning)] whitespace-nowrap ${className}`}
           title="Educational in-browser simulation built to demonstrate principles"
         >
-          <Cpu className="w-3 h-3 shrink-0" />
-          <span>Toy Experiment</span>
+          Toy Experiment
         </span>
       );
 
     case 'OBSERVED RESULT':
       return (
         <span
-          className={`inline-flex items-center gap-1.5 px-2 py-0.5 rounded-md border border-[var(--color-success-border)] bg-[var(--accent-green)] text-[var(--accent-green-text)] font-mono text-[11px] font-medium whitespace-nowrap ${className}`}
+          className={`font-mono text-[11px] font-medium text-[var(--color-success)] whitespace-nowrap ${className}`}
           title="Direct measurement observed in current simulation session"
         >
-          <Activity className="w-3 h-3 shrink-0" />
-          <span>Observed Result</span>
+          Observed Result
         </span>
       );
 
     case 'EXPLANATION':
       return (
         <span
-          className={`inline-flex items-center gap-1.5 px-2 py-0.5 rounded-md border border-[var(--border)] bg-[var(--accent-blue)] text-[var(--accent-blue-text)] font-mono text-[11px] font-medium whitespace-nowrap ${className}`}
+          className={`font-mono text-[11px] font-medium text-[var(--accent-blue-text)] whitespace-nowrap ${className}`}
           title="Theoretical deduction explaining the empirical phenomena"
         >
-          <FileText className="w-3 h-3 shrink-0" />
-          <span>Explanation</span>
+          Explanation
         </span>
       );
 
@@ -78,11 +72,10 @@ export const SourceBadge: React.FC<SourceBadgeProps> = ({ type, className = '' }
     default:
       return (
         <span
-          className={`inline-flex items-center gap-1.5 px-2 py-0.5 rounded-md border border-[var(--border)] bg-[var(--surface-soft)] text-[var(--text-secondary)] font-mono text-[11px] font-medium whitespace-nowrap ${className}`}
+          className={`font-mono text-[11px] font-medium text-[var(--text-secondary)] whitespace-nowrap ${className}`}
           title="Schematic visual representation to aid conceptual intuition"
         >
-          <Sparkles className="w-3 h-3 shrink-0" />
-          <span>Illustration</span>
+          Illustration
         </span>
       );
   }

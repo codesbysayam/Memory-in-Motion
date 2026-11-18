@@ -7,26 +7,23 @@ import {
   RotateCcw,
   ChevronDown,
   ChevronUp,
-  Search,
   CheckCircle2,
   AlertTriangle,
   HelpCircle,
   Clock,
-  ArrowDown,
   Sliders,
-  Sparkles,
-  Info,
-  Maximize2,
   Activity,
   Layers,
   Gauge,
-  BookOpen,
+  ArrowRight,
+  ArrowDown,
 } from 'lucide-react';
-import { Fact, createAssociativeMemory, vector, norm, dot, cosine } from '../models/associativeMemory';
-import { InlineMath, BlockMath, FormattedMathText } from './ui/MathView';
+import { Fact, vector, norm, cosine } from '../models/associativeMemory';
+import { InlineMath, FormattedMathText } from './ui/MathView';
 import { ControlSlider } from './ui/ControlSlider';
 import { useExperiment } from '../context/ExperimentContext';
 import { DebugPanel } from './DebugPanel';
+import { FigureCaption } from './essay/FigureCaption';
 
 interface LandingDemoProps {
   onExploreClick?: () => void;
@@ -341,6 +338,9 @@ export const LandingDemo: React.FC<LandingDemoProps> = ({
   // Panel toggle state
   const [showConditions, setShowConditions] = useState<boolean>(false);
 
+  // Interactive prelude diagram active stage (Fig. 0.1)
+  const [preludeStage, setPreludeStage] = useState<0 | 1 | 2 | 3>(2);
+
   // Ref to always access current config inside timer
   const configRef = useRef(config);
   useEffect(() => {
@@ -641,15 +641,15 @@ export const LandingDemo: React.FC<LandingDemoProps> = ({
   return (
     <section
       id="landing-hero"
-      className="w-full border-b border-[var(--border)] bg-[var(--page-bg)] text-[var(--text-primary)] hero relative"
+      className="w-full border-b border-[var(--mm-rule)] bg-[var(--page-bg)] text-[var(--text-primary)] hero relative"
     >
-      <div className="research-container space-y-8">
+      <div className="research-container space-y-10">
         {/* Top Research Context Line */}
-        <div className="flex flex-wrap items-center justify-between gap-3 pb-3 border-b border-[var(--border)] text-xs font-mono text-[var(--text-secondary)]">
+        <div className="flex flex-wrap items-center justify-between gap-3 pb-3 border-b border-[var(--mm-rule)] text-xs font-mono text-[var(--text-muted)]">
           <div className="flex items-center gap-2">
-            <span className="font-semibold text-[var(--accent-blue-text)]">Stage 01 · Foundation</span>
-            <span aria-hidden="true" className="text-[var(--border)]">·</span>
-            <span>In-context learning with recurrent memory</span>
+            <span className="font-semibold text-[var(--mm-signal)]">A visual research essay</span>
+            <span aria-hidden="true" className="text-[var(--mm-rule-strong)]">·</span>
+            <span>Stage 01 · In-context learning with recurrent memory</span>
           </div>
 
           <div className="text-xs font-mono tabular-nums text-[var(--text-secondary)]">
@@ -657,64 +657,275 @@ export const LandingDemo: React.FC<LandingDemoProps> = ({
           </div>
         </div>
 
-        {/* Framing Question & Editorial Statement */}
-        <div className="max-w-[780px] space-y-4">
-          <h1 className="hero-title">
-            Can a fixed-size state remember what matters?
-          </h1>
-          <p className="hero-description">
-            A recurrent state carries task-relevant information forward without growing a token-by-token cache.
-            Compressing sequential facts into fixed matrix coordinates saves memory—but creates interference and forgetting.
-          </p>
+        {/* Asymmetric Editorial Hero Opening + Interactive Fig 0.1 Mechanism Prelude */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
+          <div className="lg:col-span-7 space-y-5">
+            <div className="space-y-2">
+              <p className="essay-eyebrow text-[var(--mm-signal)]">
+                In-Context Learning with Recurrent Memory
+              </p>
+              <h1 className="hero-title">
+                Memory in Motion
+              </h1>
+            </div>
 
-          {/* Primary CTA + Quiet Secondary Action */}
-          <div className="flex flex-wrap items-center gap-3 pt-1">
-            <button
-              type="button"
-              onClick={() => {
-                const el = document.getElementById('live-experiment-instrument');
-                if (el) el.scrollIntoView({ behavior: 'smooth' });
-                if (onExploreClick) onExploreClick();
-              }}
-              className="btn-primary"
-            >
-              <span>Run live experiment →</span>
-            </button>
+            <p className="hero-description">
+              How can a fixed-size recurrent state carry task-relevant information forward without growing a token-by-token cache—and what interference or forgetting can result from compressing information into that state?
+            </p>
 
-            <button
-              type="button"
-              onClick={() => {
-                const el = document.getElementById('section-01');
-                if (el) el.scrollIntoView({ behavior: 'smooth' });
-              }}
-              className="btn-secondary"
-            >
-              <BookOpen className="w-4 h-4 text-[var(--accent-blue-text)]" />
-              <span>Read the mechanism</span>
-            </button>
-
-            {onStartJudgeMode && (
+            {/* Primary + Secondary Editorial Actions */}
+            <div className="flex flex-wrap items-center gap-4 pt-2">
               <button
                 type="button"
-                onClick={onStartJudgeMode}
-                className="btn-tertiary"
+                onClick={() => {
+                  if (onExploreClick) {
+                    onExploreClick();
+                  } else {
+                    const el = document.getElementById('section-01');
+                    if (el) el.scrollIntoView({ behavior: 'smooth' });
+                  }
+                }}
+                className="btn-primary whitespace-nowrap"
               >
-                <Clock className="w-4 h-4" />
-                <span>60s guided verification</span>
+                <span>Explore the research</span>
+                <ArrowDown className="w-4 h-4" />
               </button>
-            )}
+
+              <button
+                type="button"
+                onClick={() => {
+                  const el = document.getElementById('live-experiment-instrument');
+                  if (el) el.scrollIntoView({ behavior: 'smooth' });
+                }}
+                className="btn-secondary whitespace-nowrap"
+              >
+                <span>See how the state changes</span>
+                <ArrowRight className="w-4 h-4 text-[var(--mm-signal)]" />
+              </button>
+
+              {onStartJudgeMode && (
+                <button
+                  type="button"
+                  onClick={onStartJudgeMode}
+                  className="btn-tertiary whitespace-nowrap"
+                >
+                  <Clock className="w-4 h-4" />
+                  <span>60s verification</span>
+                </button>
+              )}
+            </div>
+          </div>
+
+          {/* Interactive SVG Mechanism Prelude (Fig. 0.1) */}
+          <div className="lg:col-span-5">
+            <figure className="border-y border-[var(--mm-rule)] py-4 space-y-3">
+              <div className="flex items-center justify-between gap-2 text-xs font-mono text-[var(--text-muted)]">
+                <span>Interactive mechanism preview</span>
+                <div className="flex items-center gap-1">
+                  {(['Write', 'Mix', 'State', 'Read'] as const).map((label, idx) => (
+                    <button
+                      key={label}
+                      type="button"
+                      onClick={() => setPreludeStage(idx as 0 | 1 | 2 | 3)}
+                      className={`px-2 py-0.5 rounded text-[11px] font-mono cursor-pointer transition-colors ${
+                        preludeStage === idx
+                          ? 'bg-[var(--mm-signal)] text-[var(--surface)] font-semibold'
+                          : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--surface-soft)]'
+                      }`}
+                    >
+                      {label}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              <svg
+                viewBox="0 0 420 195"
+                className="w-full h-auto block select-none"
+                role="img"
+                aria-label="Diagram showing incoming key-value fact outer product writing into fixed matrix state and query readout"
+              >
+                {/* Step 1: Fact Stream */}
+                <g
+                  className="cursor-pointer"
+                  onClick={() => setPreludeStage(0)}
+                  opacity={preludeStage === 0 ? 1 : 0.65}
+                >
+                  <rect
+                    x="8"
+                    y="38"
+                    width="82"
+                    height="86"
+                    rx="4"
+                    fill="var(--surface)"
+                    stroke={preludeStage === 0 ? 'var(--mm-signal)' : 'var(--mm-rule-strong)'}
+                    strokeWidth={preludeStage === 0 ? 2 : 1}
+                  />
+                  <text x="49" y="60" textAnchor="middle" fontSize="10" fontFamily="var(--font-mono)" fill="var(--text-muted)">
+                    FACT t={experiment.step}
+                  </text>
+                  <text x="49" y="84" textAnchor="middle" fontSize="12" fontWeight="600" fontFamily="var(--font-sans)" fill="var(--text-primary)">
+                    {experiment.facts[Math.max(0, experiment.step - 1)]?.key || 'Japan'}
+                  </text>
+                  <text x="49" y="102" textAnchor="middle" fontSize="11" fontFamily="var(--font-mono)" fill="var(--mm-signal)">
+                    → {experiment.facts[Math.max(0, experiment.step - 1)]?.value || 'Tokyo'}
+                  </text>
+                </g>
+
+                {/* Arrow 1 -> 2 */}
+                <line x1="92" y1="81" x2="118" y2="81" stroke="var(--mm-rule-strong)" strokeWidth="1.5" />
+                <polygon points="118,77 125,81 118,85" fill="var(--mm-rule-strong)" />
+
+                {/* Step 2: Outer product k v^T */}
+                <g
+                  className="cursor-pointer"
+                  onClick={() => setPreludeStage(1)}
+                  opacity={preludeStage === 1 ? 1 : 0.65}
+                >
+                  <rect
+                    x="127"
+                    y="38"
+                    width="74"
+                    height="86"
+                    rx="4"
+                    fill="var(--surface)"
+                    stroke={preludeStage === 1 ? 'var(--mm-signal)' : 'var(--mm-rule-strong)'}
+                    strokeWidth={preludeStage === 1 ? 2 : 1}
+                  />
+                  <text x="164" y="58" textAnchor="middle" fontSize="9.5" fontFamily="var(--font-mono)" fill="var(--text-muted)">
+                    OUTER PROD
+                  </text>
+                  <text x="164" y="84" textAnchor="middle" fontSize="12" fontWeight="600" fontFamily="var(--font-mono)" fill="var(--text-primary)">
+                    η k · vᵀ
+                  </text>
+                  <text x="164" y="106" textAnchor="middle" fontSize="9.5" fontFamily="var(--font-mono)" fill="var(--mm-teal)">
+                    rank-1 ΔM
+                  </text>
+                </g>
+
+                {/* Arrow 2 -> 3 */}
+                <line x1="203" y1="81" x2="225" y2="81" stroke="var(--mm-rule-strong)" strokeWidth="1.5" />
+                <polygon points="225,77 232,81 225,85" fill="var(--mm-rule-strong)" />
+
+                {/* Step 3: Live Mini Matrix M_t */}
+                <g
+                  className="cursor-pointer"
+                  onClick={() => setPreludeStage(2)}
+                  opacity={preludeStage === 2 ? 1 : 0.72}
+                >
+                  <rect
+                    x="234"
+                    y="24"
+                    width="90"
+                    height="114"
+                    rx="4"
+                    fill="var(--color-matrix-bg)"
+                    stroke={preludeStage === 2 ? 'var(--mm-signal)' : 'var(--color-matrix-border)'}
+                    strokeWidth={preludeStage === 2 ? 2 : 1}
+                  />
+                  <text x="279" y="41" textAnchor="middle" fontSize="9.5" fontFamily="var(--font-mono)" fill="var(--color-matrix-muted)">
+                    STATE M ({dim}×{dim})
+                  </text>
+                  {Array.from({ length: 4 }).map((_, r) =>
+                    Array.from({ length: 4 }).map((__, c) => {
+                      const val = experiment.matrix[r]?.[c] ?? 0;
+                      const intensity = Math.min(1, Math.abs(val) * 1.4 + 0.18);
+                      const fill =
+                        val >= 0
+                          ? `rgba(78, 134, 240, ${intensity})`
+                          : `rgba(201, 108, 85, ${intensity})`;
+                      return (
+                        <rect
+                          key={`${r}-${c}`}
+                          x={247 + c * 16}
+                          y={50 + r * 16}
+                          width="13"
+                          height="13"
+                          rx="1.5"
+                          fill={fill}
+                        />
+                      );
+                    })
+                  )}
+                  <text x="279" y="129" textAnchor="middle" fontSize="9.5" fontFamily="var(--font-mono)" fill="var(--color-matrix-ink)">
+                    ‖M‖={matrixNorm.toFixed(2)}
+                  </text>
+                </g>
+
+                {/* Arrow 3 -> 4 */}
+                <line x1="326" y1="81" x2="342" y2="81" stroke="var(--mm-rule-strong)" strokeWidth="1.5" />
+                <polygon points="342,77 349,81 342,85" fill="var(--mm-rule-strong)" />
+
+                {/* Step 4: Readout & Collision indicator */}
+                <g
+                  className="cursor-pointer"
+                  onClick={() => setPreludeStage(3)}
+                  opacity={preludeStage === 3 ? 1 : 0.72}
+                >
+                  <rect
+                    x="351"
+                    y="38"
+                    width="63"
+                    height="86"
+                    rx="4"
+                    fill="var(--surface)"
+                    stroke={
+                      experiment.evaluation.isInterference
+                        ? 'var(--mm-coral)'
+                        : preludeStage === 3
+                        ? 'var(--mm-teal)'
+                        : 'var(--mm-rule-strong)'
+                    }
+                    strokeWidth={preludeStage === 3 ? 2 : 1}
+                  />
+                  <text x="382.5" y="58" textAnchor="middle" fontSize="9" fontFamily="var(--font-mono)" fill="var(--text-muted)">
+                    READOUT
+                  </text>
+                  <text
+                    x="382.5"
+                    y="84"
+                    textAnchor="middle"
+                    fontSize="11"
+                    fontWeight="600"
+                    fontFamily="var(--font-sans)"
+                    fill={experiment.evaluation.isCorrect ? 'var(--mm-teal)' : 'var(--mm-coral)'}
+                  >
+                    {experiment.evaluation.prediction}
+                  </text>
+                  <text x="382.5" y="106" textAnchor="middle" fontSize="9.5" fontFamily="var(--font-mono)" fill="var(--text-secondary)">
+                    Δs={experiment.evaluation.top1Margin.toFixed(2)}
+                  </text>
+                </g>
+
+                {/* Bottom explanation annotation */}
+                <text x="8" y="170" fontSize="10.5" fontFamily="var(--font-sans)" fill="var(--text-secondary)">
+                  {preludeStage === 0 && '1. Incoming key-value pairs enter sequentially without storing raw tokens.'}
+                  {preludeStage === 1 && '2. Each pair forms a rank-1 outer product scaled by write strength η.'}
+                  {preludeStage === 2 && `3. All pairs superpose into the same ${dim}×${dim} grid decayed by λ=${retention.toFixed(2)}.`}
+                  {preludeStage === 3 && `4. Probing "${experiment.activeProbe}" yields "${experiment.evaluation.prediction}" (margin ${experiment.evaluation.top1Margin.toFixed(3)}).`}
+                </text>
+              </svg>
+
+              <FigureCaption
+                number="FIG. 0.1"
+                title="Fixed-size recurrent state update & query projection."
+                description="Live state matrix cells reflect the instrument below in real time."
+                source="Toy matrix model"
+              />
+            </figure>
           </div>
         </div>
 
         {/* THE HERO SCIENTIFIC INSTRUMENT */}
-        <div id="live-experiment-instrument" className="diagram-frame">
+        <div id="live-experiment-instrument" className="essay-figure-stage">
           {/* Instrument Header Bar */}
-          <div className="px-5 sm:px-6 py-4 border-b border-[var(--border)] bg-[var(--surface-soft)] flex flex-wrap items-center justify-between gap-3">
+          <div className="px-4 sm:px-6 py-4 border-b border-[var(--mm-rule)] flex flex-wrap items-center justify-between gap-3">
             <div className="flex flex-wrap items-center gap-3">
-              <h2 className="font-sans font-semibold text-base sm:text-lg text-[var(--text-primary)]">
+              <span className="font-mono text-xs font-semibold text-[var(--mm-signal)]">FIG. 0.2</span>
+              <h2 className="font-serif font-medium text-lg sm:text-xl text-[var(--text-primary)]">
                 Live Recurrent Memory Instrument
               </h2>
-              <span className="font-mono text-xs text-[var(--text-secondary)] hidden md:inline border-l border-[var(--border)] pl-3">
+              <span className="font-mono text-xs text-[var(--text-secondary)] hidden md:inline border-l border-[var(--mm-rule)] pl-3">
                 <InlineMath math="M_{t+1} = \lambda M_t + \eta k_t v_t^\top" />
               </span>
             </div>

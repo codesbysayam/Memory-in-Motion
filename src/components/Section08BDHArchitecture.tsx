@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from 'react';
-import { ArrowRight, Sliders } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 import { BDHToyModel } from '../models/bdhToyModel';
 import { SectionHeader } from './ui/SectionHeader';
 import { ControlSlider } from './ui/ControlSlider';
@@ -9,6 +9,7 @@ import { BDHExplorer } from './BDHExplorer';
 import { SynapticHeatmap } from './synaptic/SynapticHeatmap';
 import { SynapticWeightHeatmap } from './synaptic/SynapticWeightHeatmap';
 import { ClaimEvidenceLimitation } from './ClaimEvidenceLimitation';
+import { FigureCaption } from './essay/FigureCaption';
 
 export const Section08BDHArchitecture: React.FC = () => {
   const [numNeurons, setNumNeurons] = useState<16 | 24 | 32 | 64>(24);
@@ -47,7 +48,7 @@ export const Section08BDHArchitecture: React.FC = () => {
 
   return (
     <section id="section-08" className="w-full scroll-mt-20 border-b border-[var(--border)] bg-[var(--page-bg)] py-16 sm:py-20 text-[var(--text-primary)]">
-      <div className="space-y-10">
+      <div className="research-container space-y-10">
         <SectionHeader
           number="08"
           category="BDH Architecture & Graph Particles"
@@ -66,40 +67,34 @@ export const Section08BDHArchitecture: React.FC = () => {
             </div>
 
             {/* Inference Data Flow */}
-            <div className="rounded-xl border border-[var(--border)] bg-[var(--surface)] p-5 space-y-3">
-              <span className="font-sans text-xs font-semibold text-[var(--text-muted)] block">
-                BDH inference data flow
+            <div className="pt-4 border-t border-[var(--mm-rule)] space-y-3">
+              <span className="font-mono text-[11px] uppercase tracking-[0.12em] font-semibold text-[var(--mm-muted)] block">
+                BDH inference pipeline
               </span>
 
               <div className="flex flex-wrap items-center gap-2 text-xs font-mono">
-                <span className="bg-[var(--surface-soft)] text-[var(--accent-blue-text)] border border-[var(--border)] px-2.5 py-1 rounded-md font-medium">
-                  Input Pattern
-                </span>
-                <ArrowRight className="w-3.5 h-3.5 text-[var(--text-muted)]" />
-                <span className="bg-[var(--surface-soft)] text-[var(--text-primary)] border border-[var(--border)] px-2.5 py-1 rounded-md font-medium">
-                  Neuron Particles
-                </span>
-                <ArrowRight className="w-3.5 h-3.5 text-[var(--text-muted)]" />
-                <span className="bg-[var(--color-accent-soft)] text-[var(--color-accent-ink)] border border-[var(--color-border-strong)] px-2.5 py-1 rounded-md font-semibold">
+                <span className="text-[var(--mm-signal)] font-medium">Input Pattern</span>
+                <ArrowRight className="w-3.5 h-3.5 text-[var(--mm-muted)]" />
+                <span className="text-[var(--mm-ink)] font-medium">Sparse Particles</span>
+                <ArrowRight className="w-3.5 h-3.5 text-[var(--mm-muted)]" />
+                <span className="text-[var(--mm-signal)] font-semibold underline decoration-[var(--mm-rule-strong)] underline-offset-4">
                   Synaptic Update
                 </span>
-                <ArrowRight className="w-3.5 h-3.5 text-[var(--text-muted)]" />
-                <span className="bg-[var(--color-success-soft)] text-[var(--color-success)] border border-[var(--color-success-border)] px-2.5 py-1 rounded-md font-medium">
-                  Output State
-                </span>
+                <ArrowRight className="w-3.5 h-3.5 text-[var(--mm-muted)]" />
+                <span className="text-[var(--accent-green-text)] font-medium">Output State</span>
               </div>
             </div>
 
             {/* Published BDH Formalism vs Simplified Update */}
             <div id="section-bdh-plasticity" className="space-y-2 scroll-mt-24">
               <div className="flex items-center justify-between">
-                <span className="text-xs font-sans font-semibold text-[var(--text-muted)]">
+                <span className="text-xs font-sans font-semibold text-[var(--mm-muted)]">
                   Synaptic update formalism
                 </span>
                 <button
                   type="button"
                   onClick={() => setShowPublishedEquation(!showPublishedEquation)}
-                  className="text-xs font-sans font-medium text-[var(--accent-blue-text)] hover:underline transition cursor-pointer"
+                  className="text-xs font-sans font-medium text-[var(--mm-signal)] hover:underline transition cursor-pointer"
                 >
                   {showPublishedEquation ? 'Show Educational Equation' : 'Show Published Equation'}
                 </button>
@@ -123,12 +118,12 @@ export const Section08BDHArchitecture: React.FC = () => {
             </div>
 
             {/* Hyperparameter Controls */}
-            <div className="rounded-xl border border-[var(--border)] bg-[var(--surface)] p-6 space-y-5">
-              <div className="flex items-center gap-2 border-b border-[var(--border)] pb-3">
-                <Sliders className="w-4 h-4 text-[var(--accent-blue-text)]" />
-                <h4 className="font-sans text-sm font-semibold text-[var(--text-primary)]">
-                  Graph Dynamics &amp; Plasticity Controls
+            <div className="essay-figure-stage p-5 space-y-5">
+              <div className="flex items-center justify-between border-b border-[var(--mm-rule)] pb-3">
+                <h4 className="font-serif text-base text-[var(--mm-ink)]">
+                  Graph dynamics &amp; plasticity controls
                 </h4>
+                <span className="font-mono text-[11px] text-[var(--mm-muted)]">Toy graph</span>
               </div>
 
               {/* Input Pattern Selector */}
@@ -214,38 +209,38 @@ export const Section08BDHArchitecture: React.FC = () => {
 
           {/* Right Column: Scale-Free Graph Visualizer & Inspector */}
           <div className="lg:col-span-7 space-y-6">
-            <div className="rounded-xl border border-[var(--border)] bg-[var(--surface)] p-6 space-y-6">
-              <div className="flex flex-wrap items-center justify-between gap-2 border-b border-[var(--border)] pb-3">
-                <h3 className="text-base font-sans font-semibold text-[var(--text-primary)]">
+            <figure className="essay-figure-stage p-5 sm:p-6 space-y-6">
+              <div className="flex flex-wrap items-baseline justify-between gap-2 border-b border-[var(--mm-rule)] pb-3">
+                <h3 className="text-lg font-serif font-normal text-[var(--mm-ink)]">
                   Scale-free particle graph &amp; synaptic flow
                 </h3>
-                <span className="text-xs font-mono tabular-nums text-[var(--text-muted)]">
+                <span className="text-xs font-mono tabular-nums text-[var(--mm-muted)]">
                   Step {recurrentSteps} / {recurrentSteps} completed
                 </span>
               </div>
 
-              {/* Metrics Row */}
-              <div className="grid grid-cols-3 gap-3 text-center font-mono text-xs tabular-nums">
-                <div className="p-3 rounded-lg bg-[var(--surface-soft)] border border-[var(--border)]">
-                  <span className="text-[var(--text-muted)] block text-[11px] font-sans">Active neurons</span>
-                  <span className="text-[var(--accent-blue-text)] font-bold">
+              {/* Metrics Row (Hairline Divide) */}
+              <div className="grid grid-cols-3 divide-x divide-[var(--mm-rule)] border border-[var(--mm-rule)] bg-[var(--mm-paper-bright)] rounded-md text-center font-mono text-xs tabular-nums">
+                <div className="p-3">
+                  <span className="text-[var(--mm-muted)] block text-[11px] font-sans">Active neurons</span>
+                  <span className="text-[var(--mm-signal)] font-semibold">
                     {bdhNetwork.activeCount} / {numNeurons} ({(100 - bdhNetwork.sparsityRatio * 100).toFixed(0)}%)
                   </span>
                 </div>
-                <div className="p-3 rounded-lg bg-[var(--surface-soft)] border border-[var(--border)]">
-                  <span className="text-[var(--text-muted)] block text-[11px] font-sans">Inactive (sparse)</span>
-                  <span className="text-[var(--text-secondary)] font-bold">
+                <div className="p-3">
+                  <span className="text-[var(--mm-muted)] block text-[11px] font-sans">Inactive (sparse)</span>
+                  <span className="text-[var(--mm-ink-soft)] font-semibold">
                     {numNeurons - bdhNetwork.activeCount} units
                   </span>
                 </div>
-                <div className="p-3 rounded-lg bg-[var(--surface-soft)] border border-[var(--border)]">
-                  <span className="text-[var(--text-muted)] block text-[11px] font-sans">Relaxation updates</span>
-                  <span className="text-[var(--color-success)] font-bold">{bdhNetwork.updatedCount} events</span>
+                <div className="p-3">
+                  <span className="text-[var(--mm-muted)] block text-[11px] font-sans">Relaxation events</span>
+                  <span className="text-[var(--color-success)] font-semibold">{bdhNetwork.updatedCount}</span>
                 </div>
               </div>
 
               {/* SVG Graph Visualizer */}
-              <div className="flex items-center justify-center p-6 bg-[var(--surface-soft)] rounded-xl border border-[var(--border)] relative overflow-x-auto">
+              <div className="flex items-center justify-center p-4 bg-[var(--mm-paper-bright)] rounded-md border border-[var(--mm-rule)] relative overflow-x-auto">
                 <svg width="340" height="340" className="overflow-visible select-none">
                   {/* Synapse Lines */}
                   {bdhNetwork.synapses.map((syn) => {
@@ -375,37 +370,43 @@ export const Section08BDHArchitecture: React.FC = () => {
                 </div>
               )}
 
-              {/* Selected Neuron Inspector Box */}
-              <div className="rounded-lg border border-[var(--border)] bg-[var(--surface-soft)] p-4 text-xs space-y-3 font-mono">
-                <div className="flex items-center justify-between border-b border-[var(--border)] pb-2">
-                  <span className="text-[var(--text-primary)] font-semibold">
-                    Neuron n_{selectedNeuron.id} telemetry &amp; local neighborhood
+              {/* Selected Neuron Inspector (Hairline Divide) */}
+              <div className="pt-3 border-t border-[var(--mm-rule)] text-xs space-y-3 font-mono">
+                <div className="flex items-center justify-between">
+                  <span className="text-[var(--mm-ink)] font-semibold">
+                    Neuron n_{selectedNeuron.id} local neighborhood
                   </span>
-                  <span className="text-[11px] text-[var(--accent-blue-text)] bg-[var(--accent-blue)] px-2 py-0.5 rounded border border-[var(--border)] font-semibold">
+                  <span className="text-[11px] text-[var(--mm-signal)] font-semibold">
                     Layer: {selectedNeuron.layer}
                   </span>
                 </div>
 
-                <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs tabular-nums">
-                  <div className="bg-[var(--surface)] p-2.5 rounded-lg border border-[var(--border)]">
-                    <span className="text-[var(--text-muted)] block text-[10px] font-sans">Activation (z_i)</span>
-                    <span className="text-[var(--accent-blue-text)] font-bold">{selectedNeuron.activation.toFixed(3)}</span>
+                <div className="grid grid-cols-2 sm:grid-cols-4 divide-y sm:divide-y-0 sm:divide-x divide-[var(--mm-rule)] border border-[var(--mm-rule)] bg-[var(--mm-paper-bright)] rounded-md text-xs tabular-nums">
+                  <div className="p-2.5">
+                    <span className="text-[var(--mm-muted)] block text-[10px] font-sans">Activation (z_i)</span>
+                    <span className="text-[var(--mm-signal)] font-semibold">{selectedNeuron.activation.toFixed(3)}</span>
                   </div>
-                  <div className="bg-[var(--surface)] p-2.5 rounded-lg border border-[var(--border)]">
-                    <span className="text-[var(--text-muted)] block text-[10px] font-sans">Incoming synapses</span>
-                    <span className="text-[var(--text-primary)] font-bold">{incomingSynapses.length} links</span>
+                  <div className="p-2.5">
+                    <span className="text-[var(--mm-muted)] block text-[10px] font-sans">Incoming links</span>
+                    <span className="text-[var(--mm-ink)] font-semibold">{incomingSynapses.length}</span>
                   </div>
-                  <div className="bg-[var(--surface)] p-2.5 rounded-lg border border-[var(--border)]">
-                    <span className="text-[var(--text-muted)] block text-[10px] font-sans">Outgoing synapses</span>
-                    <span className="text-[var(--text-primary)] font-bold">{outgoingSynapses.length} links</span>
+                  <div className="p-2.5">
+                    <span className="text-[var(--mm-muted)] block text-[10px] font-sans">Outgoing links</span>
+                    <span className="text-[var(--mm-ink)] font-semibold">{outgoingSynapses.length}</span>
                   </div>
-                  <div className="bg-[var(--surface)] p-2.5 rounded-lg border border-[var(--border)]">
-                    <span className="text-[var(--text-muted)] block text-[10px] font-sans">Local input sum</span>
-                    <span className="text-[var(--color-success)] font-bold">{totalInputFromNeighbors.toFixed(3)}</span>
+                  <div className="p-2.5">
+                    <span className="text-[var(--mm-muted)] block text-[10px] font-sans">Local input sum</span>
+                    <span className="text-[var(--color-success)] font-semibold">{totalInputFromNeighbors.toFixed(3)}</span>
                   </div>
                 </div>
               </div>
-            </div>
+
+              <FigureCaption
+                figure="Fig. 8.1"
+                title="Co-active neuron pairs strengthen their connecting edges; quiet nodes leave neighboring weights undisturbed."
+                source={`Deterministic BDH toy particle graph (${numNeurons} particles, top-${Math.round(activeFraction * 100)}% firing, L=${recurrentSteps})`}
+              />
+            </figure>
           </div>
         </div>
 

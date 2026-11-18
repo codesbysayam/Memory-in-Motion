@@ -7,7 +7,6 @@ import {
   Flame,
   Binary,
   RotateCcw,
-  Sparkles,
   Award,
   Play,
   Pause,
@@ -15,9 +14,6 @@ import {
   ArrowLeft,
   X,
   HelpCircle,
-  BarChart3,
-  Layers,
-  ChevronRight,
 } from 'lucide-react';
 import {
   CANONICAL_FACTS,
@@ -618,48 +614,47 @@ export const SixtySecondAssessment: React.FC<SixtySecondAssessmentProps> = ({
     return disturbedMemory.history[idx] || disturbedMemory.finalMatrix;
   }, [disturbedMemory, selectedSnapshotIdx]);
 
+  const isRunningTest = testStarted && !testCompleted && !timedOut;
+
   return (
     <div
-      className={`w-full font-sans text-[var(--text-primary)] ${
+      data-assessment-active={isRunningTest ? 'true' : undefined}
+      className={`w-full font-sans text-[var(--mm-ink)] ${
         isModal
-          ? 'max-w-4xl mx-auto rounded-2xl border border-[var(--border)] bg-[var(--surface)] shadow-2xl overflow-hidden flex flex-col max-h-[92vh]'
-          : 'rounded-xl border border-[var(--border)] bg-[var(--surface)] overflow-hidden'
+          ? 'max-w-4xl mx-auto rounded-xl border border-[var(--mm-rule)] bg-[var(--mm-paper-bright)] shadow-[var(--shadow-popover)] overflow-hidden flex flex-col max-h-[92vh]'
+          : 'essay-figure-stage overflow-hidden'
       }`}
     >
       {/* ============================================================ */}
       {/* TOP HEADER: Clean Restrained Assessment Bar                  */}
       {/* ============================================================ */}
-      <div className="px-5 py-3.5 sm:px-6 sm:py-4 border-b border-[var(--border)] bg-[var(--surface-soft)] flex flex-wrap items-center justify-between gap-3">
-        <div className="flex items-center gap-3">
-          <div className="p-2 rounded-lg bg-[var(--accent-blue)] border border-[var(--border)] text-[var(--color-accent-ink)]">
-            <Clock className="w-4 h-4" />
+      <div className="px-5 py-4 sm:px-8 border-b border-[var(--mm-rule)] flex flex-wrap items-center justify-between gap-3">
+        <div className="space-y-1">
+          <div className="flex flex-wrap items-center gap-2">
+            <span className="inline-flex items-center gap-1.5 text-[11px] font-mono text-[var(--mm-signal)] font-semibold uppercase tracking-[0.06em]">
+              <Clock className="w-3.5 h-3.5" />
+              <span>60s fast verification</span>
+            </span>
+            <EvidenceStrip type="live" detail="Associative fast-weight matrix engine" />
           </div>
-          <div>
-            <div className="flex flex-wrap items-center gap-2">
-              <span className="text-[11px] font-mono text-[var(--color-accent-ink)] font-semibold">
-                60s fast verification
-              </span>
-              <EvidenceStrip type="live" detail="Real associative fast-weight engine" />
-            </div>
-            <h3 className="text-sm sm:text-base font-sans font-semibold text-[var(--text-primary)] mt-0.5">
-              {testStarted
-                ? `${STEPS[currentStep - 1].label} · ${STEPS[currentStep - 1].title}`
-                : 'Interactive Mechanistic Assessment'}
-            </h3>
-          </div>
+          <h3 className="text-base sm:text-lg font-serif font-medium text-[var(--mm-ink)]">
+            {testStarted
+              ? `${STEPS[currentStep - 1].label} · ${STEPS[currentStep - 1].title}`
+              : 'Interactive Mechanistic Assessment'}
+          </h3>
         </div>
 
-        <div className="flex items-center gap-2 sm:gap-2.5">
-          {testStarted && !testCompleted && !timedOut && (
+        <div className="flex items-center gap-2.5">
+          {isRunningTest && (
             <>
               {/* Auto-Pace Toggle */}
               <button
                 type="button"
                 onClick={() => setAutoPace((p) => !p)}
-                className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-sans transition border cursor-pointer ${
+                className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-md text-xs font-sans transition border cursor-pointer ${
                   autoPace
                     ? 'bg-[var(--color-success-soft)] border-[var(--color-success-border)] text-[var(--color-success)] font-semibold'
-                    : 'bg-[var(--surface)] border-[var(--border)] text-[var(--text-secondary)] hover:border-[var(--color-border-strong)] hover:text-[var(--text-primary)]'
+                    : 'bg-[var(--page-bg)] border-[var(--mm-rule)] text-[var(--mm-ink-soft)] hover:border-[var(--mm-rule-strong)] hover:text-[var(--mm-ink)]'
                 }`}
                 title="When active, advances 1.5s after checking an answer"
               >
@@ -668,20 +663,20 @@ export const SixtySecondAssessment: React.FC<SixtySecondAssessmentProps> = ({
               </button>
 
               {/* Real Continuous Timer Display */}
-              <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[var(--surface)] border border-[var(--border)] text-xs font-mono tabular-nums">
-                <span className="text-[var(--text-muted)]">Elapsed</span>
+              <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-md bg-[var(--page-bg)] border border-[var(--mm-rule)] text-xs font-mono tabular-nums">
+                <span className="text-[var(--mm-muted)]">Elapsed</span>
                 <strong
                   className={`font-bold ${
                     timer.elapsedMs <= 45000
-                      ? 'text-[var(--color-accent-ink)]'
+                      ? 'text-[var(--mm-ink)]'
                       : timer.elapsedMs <= 55000
-                      ? 'text-[var(--color-warning)]'
-                      : 'text-[var(--color-danger)]'
+                      ? 'text-[var(--mm-amber)]'
+                      : 'text-[var(--mm-coral)]'
                   }`}
                 >
                   {formattedSecondsInt < 10 ? `0${formattedSecondsInt}` : formattedSecondsInt}s
                 </strong>
-                <span className="text-[var(--text-muted)]">/ 60s</span>
+                <span className="text-[var(--mm-muted)]">/ 60s</span>
               </div>
             </>
           )}
@@ -693,7 +688,7 @@ export const SixtySecondAssessment: React.FC<SixtySecondAssessmentProps> = ({
                 if (timer.running) setShowExitConfirm(true);
                 else onClose();
               }}
-              className="p-1.5 rounded-lg bg-[var(--surface)] hover:bg-[var(--surface-soft)] border border-[var(--border)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition cursor-pointer"
+              className="p-1.5 rounded-md bg-[var(--page-bg)] hover:bg-[var(--surface-soft)] border border-[var(--mm-rule)] text-[var(--mm-ink-soft)] hover:text-[var(--mm-ink)] transition cursor-pointer"
               aria-label="Close"
               title="Close assessment"
             >
@@ -704,22 +699,22 @@ export const SixtySecondAssessment: React.FC<SixtySecondAssessmentProps> = ({
       </div>
 
       {/* ============================================================ */}
-      {/* 5-STAGE PROGRESS TIMELINE (Active during test)               */}
+      {/* 5-STAGE PROGRESS TIMELINE (Quiet Hairline Strip)             */}
       {/* ============================================================ */}
       {testStarted && (
-        <div className="grid grid-cols-5 border-b border-[var(--border)] bg-[var(--page-bg)] text-xs font-mono">
+        <div className="grid grid-cols-5 border-b border-[var(--mm-rule)] text-xs font-mono divide-x divide-[var(--mm-rule)]">
           {STEPS.map((st) => {
             const isDone = stageResults[st.index] !== undefined;
             const isCurrent = currentStep === st.index;
             const isLocked = !isDone && !isCurrent;
 
-            let tabClass = 'bg-transparent text-[var(--text-muted)] cursor-not-allowed';
+            let tabClass = 'text-[var(--mm-muted)] cursor-not-allowed';
             if (isCurrent) {
               tabClass =
-                'bg-[var(--accent-blue)] text-[var(--color-accent-ink)] border-b-2 border-b-[var(--color-accent)] font-semibold';
+                'text-[var(--mm-signal)] border-b-2 border-b-[var(--mm-signal)] font-semibold bg-[var(--mm-signal-soft)]/40';
             } else if (isDone) {
               tabClass =
-                'bg-[var(--color-success-soft)] text-[var(--color-success)] border-b-2 border-b-[var(--color-success)] hover:opacity-90 cursor-pointer';
+                'text-[var(--color-success)] border-b-2 border-b-[var(--color-success)] hover:bg-[var(--page-bg)] cursor-pointer';
             }
 
             return (
@@ -730,13 +725,13 @@ export const SixtySecondAssessment: React.FC<SixtySecondAssessmentProps> = ({
                 onClick={() => {
                   if (!isLocked) setCurrentStep(st.index);
                 }}
-                className={`py-2.5 px-2 text-center border-r border-[var(--border)] last:border-r-0 transition-all relative ${tabClass}`}
+                className={`py-2.5 px-2 text-center transition-colors relative ${tabClass}`}
               >
                 <div className="text-[10px] tracking-wider opacity-85">{st.label}</div>
                 <div className="truncate text-xs font-sans font-medium hidden sm:block mt-0.5">
                   {st.shortTitle}
                 </div>
-                <div className="text-[10px] text-[var(--text-muted)] font-mono hidden md:block">
+                <div className="text-[10px] text-[var(--mm-muted)] font-mono hidden md:block tabular-nums">
                   ~{st.targetSeconds}s
                 </div>
               </button>
@@ -748,28 +743,26 @@ export const SixtySecondAssessment: React.FC<SixtySecondAssessmentProps> = ({
       {/* ============================================================ */}
       {/* MAIN CONTENT AREA                                            */}
       {/* ============================================================ */}
-      <div className="p-5 sm:p-7 overflow-y-auto flex-1 space-y-6">
+      <div className="px-5 py-6 sm:px-8 overflow-y-auto flex-1 space-y-6">
         {/* ------------------------------------------------------------ */}
         {/* START SCREEN                                                 */}
         {/* ------------------------------------------------------------ */}
         {!testStarted && !testCompleted && !timedOut && (
-          <div className="max-w-3xl mx-auto space-y-6 py-2 animate-in fade-in">
-            <div className="space-y-2.5">
-              <div className="inline-flex items-center gap-1.5 text-xs font-mono text-[var(--color-accent-ink)] font-medium">
-                <Sparkles className="w-3.5 h-3.5" />
-                <span>Empirical verification protocol</span>
+          <div className="max-w-[780px] mx-auto space-y-7 py-2 animate-in fade-in">
+            <div className="space-y-3">
+              <div className="essay-eyebrow text-[var(--mm-signal)] font-semibold">
+                Empirical protocol · 5-stage evaluation
               </div>
-              <h3 className="text-2xl sm:text-[28px] font-serif font-semibold text-[var(--text-primary)] tracking-tight leading-snug">
+              <h3 className="text-2xl sm:text-[32px] font-serif font-medium text-[var(--mm-ink)] tracking-[-0.02em] leading-[1.15]">
                 Can you predict, break, trace and explain a fixed-size recurrent memory?
               </h3>
-              <p className="text-sm sm:text-[15px] text-[var(--text-secondary)] leading-relaxed max-w-2xl">
-                Take the genuine 5-stage assessment. Every answer is evaluated against live matrix
-                calculations from the educational fast-weight engine.
+              <p className="text-sm sm:text-[15px] text-[var(--mm-ink-soft)] leading-relaxed max-w-2xl">
+                Complete the 5-stage mechanistic evaluation. Every prediction is checked live against deterministic associative fast-weight matrix updates.
               </p>
             </div>
 
-            {/* 5 Stages Structured Overview (Hairline List) */}
-            <div className="rounded-xl border border-[var(--border)] bg-[var(--page-bg)] divide-y divide-[var(--border)] overflow-hidden">
+            {/* 5 Stages Structured Overview (Pure Hairline List) */}
+            <div className="border-y border-[var(--mm-rule)] divide-y divide-[var(--mm-rule)]">
               {[
                 {
                   num: '01',
@@ -804,42 +797,41 @@ export const SixtySecondAssessment: React.FC<SixtySecondAssessmentProps> = ({
               ].map((item) => (
                 <div
                   key={item.num}
-                  className="px-4 py-3 grid grid-cols-1 sm:grid-cols-[180px_1fr] gap-1 sm:gap-4 items-baseline"
+                  className="py-3.5 grid grid-cols-1 sm:grid-cols-[190px_1fr] gap-1 sm:gap-5 items-baseline"
                 >
-                  <div className="flex items-center gap-2 font-mono text-xs">
-                    <span className="text-[var(--color-accent-ink)] font-semibold">{item.num}</span>
-                    <span className="font-sans font-semibold text-sm text-[var(--text-primary)]">
+                  <div className="flex items-center gap-2.5 font-mono text-xs tabular-nums">
+                    <span className="text-[var(--mm-signal)] font-semibold">{item.num}</span>
+                    <span className="font-sans font-semibold text-sm text-[var(--mm-ink)]">
                       {item.name}
                     </span>
-                    <span className="text-[11px] text-[var(--text-muted)]">({item.target})</span>
+                    <span className="text-[11px] text-[var(--mm-muted)]">({item.target})</span>
                   </div>
-                  <p className="text-xs sm:text-[13px] text-[var(--text-secondary)] leading-relaxed">
+                  <p className="text-xs sm:text-[13px] text-[var(--mm-ink-soft)] leading-relaxed">
                     {item.desc}
                   </p>
                 </div>
               ))}
             </div>
 
-            {/* Scientific Honesty Notice */}
-            <div className="p-3.5 rounded-xl bg-[var(--surface-soft)] border border-[var(--border)] flex items-start gap-2.5 text-xs text-[var(--text-secondary)] leading-relaxed">
-              <HelpCircle className="w-4 h-4 text-[var(--text-muted)] shrink-0 mt-0.5" />
+            {/* Scientific Honesty Footnote (Unboxed border-l accent) */}
+            <div className="pl-4 border-l-2 border-[var(--mm-rule-strong)] flex items-start gap-2.5 text-xs text-[var(--mm-ink-soft)] leading-relaxed">
+              <HelpCircle className="w-4 h-4 text-[var(--mm-muted)] shrink-0 mt-0.5" />
               <div>
-                <strong className="text-[var(--text-primary)]">Educational Toy Computation:</strong> This
-                assessment evaluates your understanding using an associative linear fast-weight model.
-                It illustrates fixed-state recurrence; it is not the full official BDH PyTorch graph
-                implementation.
+                <strong className="text-[var(--mm-ink)]">Educational Toy Computation:</strong> This
+                assessment runs in real time over a 16×16 associative fast-weight matrix. It
+                illustrates fixed-state recurrence and does not execute the full official BDH PyTorch graph.
               </div>
             </div>
 
-            {/* Start CTA Button */}
-            <div className="pt-1 flex flex-col sm:flex-row items-center justify-between gap-4">
-              <div className="text-xs text-[var(--text-muted)] font-mono">
+            {/* Start CTA Row */}
+            <div className="pt-1 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+              <div className="text-xs text-[var(--mm-muted)] font-mono tabular-nums">
                 5 stages · 20 pts each · 60s target pacing
               </div>
               <button
                 type="button"
                 onClick={handleStartTest}
-                className="w-full sm:w-auto px-6 py-2.5 rounded-lg bg-[var(--color-accent)] hover:bg-[var(--color-accent-hover)] text-[var(--surface)] font-sans text-sm font-semibold transition flex items-center justify-center gap-2 cursor-pointer"
+                className="btn-primary w-full sm:w-auto px-6 py-2.5 text-sm"
               >
                 <span>Start Test</span>
                 <ArrowRight className="w-4 h-4" />
@@ -848,30 +840,28 @@ export const SixtySecondAssessment: React.FC<SixtySecondAssessmentProps> = ({
 
             {/* Past Attempts History (if available) */}
             {testAttempts.length > 0 && (
-              <div className="pt-4 border-t border-[var(--border)] space-y-2">
-                <span className="text-xs font-mono text-[var(--text-muted)] font-medium block">
-                  Previous session attempts
-                </span>
-                <div className="space-y-1.5 max-h-32 overflow-y-auto">
+              <div className="pt-4 border-t border-[var(--mm-rule)] space-y-2">
+                <span className="essay-eyebrow block">Previous session attempts</span>
+                <div className="divide-y divide-[var(--mm-rule)] border-y border-[var(--mm-rule)] max-h-32 overflow-y-auto">
                   {testAttempts.slice(0, 3).map((att) => (
                     <div
                       key={att.id}
-                      className="px-3 py-2 rounded-lg bg-[var(--surface-soft)] border border-[var(--border)] flex items-center justify-between text-xs font-mono text-[var(--text-secondary)]"
+                      className="py-2 flex items-center justify-between text-xs font-mono text-[var(--mm-ink-soft)] tabular-nums"
                     >
                       <div className="flex items-center gap-2">
                         <span
                           className={
                             att.score >= 80
                               ? 'text-[var(--color-success)] font-bold'
-                              : 'text-[var(--color-warning)] font-semibold'
+                              : 'text-[var(--mm-amber)] font-semibold'
                           }
                         >
                           {att.score}/100 pts
                         </span>
-                        <span>·</span>
+                        <span className="text-[var(--mm-muted)]">·</span>
                         <span>{(att.elapsedMs / 1000).toFixed(1)}s</span>
                       </div>
-                      <span className="text-[var(--text-muted)] text-[11px]">
+                      <span className="text-[var(--mm-muted)] text-[11px]">
                         {new Date(att.completedAt || att.startedAt).toLocaleTimeString([], {
                           hour: '2-digit',
                           minute: '2-digit',

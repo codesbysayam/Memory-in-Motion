@@ -1,17 +1,7 @@
 import React, { useState, useMemo } from 'react';
-import {
-  Cpu,
-  RotateCcw,
-  Play,
-  Sliders,
-  CheckCircle2,
-  Sparkles,
-  ArrowRight,
-  TrendingUp,
-  Activity,
-} from 'lucide-react';
 import { cosine } from '../../models/associativeMemory';
-import { InlineMath, BlockMath } from '../ui/MathView';
+import { InlineMath } from '../ui/MathView';
+import { FigureCaption } from '../essay/FigureCaption';
 
 export const Page06ReasonInteractions: React.FC = () => {
   // 1. Latent Step Controller
@@ -94,25 +84,23 @@ export const Page06ReasonInteractions: React.FC = () => {
   const activePertStep = trajectory.pertTraj[Math.min(inspectedStep, trajectory.pertTraj.length - 1)] || trajectory.pertTraj[0];
 
   return (
-    <div className="space-y-8 mt-6">
+    <div className="space-y-8 mt-8">
       {/* 1. LATENT STEP CONTROLLER */}
-      <div className="rounded-xl border border-[var(--border)] bg-[var(--surface)] p-5 sm:p-6 shadow-xs space-y-4">
-        <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[var(--border)] pb-3">
-          <div className="flex items-center gap-2">
-            <div className="p-1.5 rounded-lg bg-[var(--accent-blue)] text-[var(--accent-blue-text)]">
-              <Cpu className="w-4 h-4" />
-            </div>
-            <div>
-              <h3 className="font-sans text-base font-semibold text-[var(--text-primary)]">
-                1. Continuous Latent Relaxation Controller
-              </h3>
-              <p className="text-xs text-[var(--text-secondary)]">
-                Adjust the number of internal recurrent relaxation passes executed before token emission.
-              </p>
-            </div>
+      <figure className="essay-figure-stage p-5 sm:p-6 space-y-5">
+        <div className="flex flex-wrap items-baseline justify-between gap-3 border-b border-[var(--mm-rule)] pb-3">
+          <div>
+            <span className="font-mono text-[11px] uppercase tracking-[0.14em] text-[var(--mm-signal)] font-semibold block mb-1">
+              06.1 · Continuous latent relaxation
+            </span>
+            <h3 className="font-serif text-lg sm:text-xl font-normal text-[var(--mm-ink)]">
+              Vary internal relaxation passes before decoding
+            </h3>
+            <p className="text-xs text-[var(--mm-muted)] mt-1">
+              Adjust K to observe how fixed-point iteration filters small coordinate perturbations.
+            </p>
           </div>
-          <span className="text-xs italic text-[var(--text-muted)]">
-            Educational abstraction of continuous test-time reasoning.
+          <span className="font-mono text-[11px] text-[var(--mm-muted)]">
+            Toy relaxation ODE
           </span>
         </div>
 
@@ -172,8 +160,8 @@ export const Page06ReasonInteractions: React.FC = () => {
           </div>
 
           {/* State Coordinate Vector Display */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
-            <div className="p-3.5 rounded-xl bg-[var(--surface-soft)] border border-[var(--border)] space-y-2">
+          <div className="grid grid-cols-1 sm:grid-cols-2 border-y border-[var(--mm-rule)] divide-y sm:divide-y-0 sm:divide-x divide-[var(--mm-rule)] text-xs">
+            <div className="py-4 sm:pr-5 space-y-2">
               <span className="text-[var(--text-secondary)] font-semibold text-xs block">
                 Original trajectory vector at step {activeOrigStep.step}
               </span>
@@ -181,7 +169,7 @@ export const Page06ReasonInteractions: React.FC = () => {
                 {activeOrigStep.state.map((val, idx) => (
                   <span
                     key={idx}
-                    className="font-mono text-xs px-2 py-1 rounded bg-[var(--surface)] border border-[var(--border)] text-[var(--text-primary)] tabular-nums"
+                    className="font-mono text-xs px-2 py-0.5 rounded bg-[var(--mm-paper-bright)] border border-[var(--mm-rule)] text-[var(--text-primary)] tabular-nums"
                   >
                     z_{idx}: {val.toFixed(2)}
                   </span>
@@ -192,7 +180,7 @@ export const Page06ReasonInteractions: React.FC = () => {
               </span>
             </div>
 
-            <div className="p-3.5 rounded-xl bg-[var(--surface-soft)] border border-[var(--border)] space-y-2">
+            <div className="py-4 sm:pl-5 space-y-2">
               <span className="text-[var(--text-secondary)] font-semibold text-xs block">
                 Perturbed trajectory vector at step {activePertStep.step}
               </span>
@@ -200,7 +188,7 @@ export const Page06ReasonInteractions: React.FC = () => {
                 {activePertStep.state.map((val, idx) => (
                   <span
                     key={idx}
-                    className="font-mono text-xs px-2 py-1 rounded bg-[var(--surface)] border border-[var(--border)] text-[var(--text-primary)] tabular-nums"
+                    className="font-mono text-xs px-2 py-0.5 rounded bg-[var(--mm-paper-bright)] border border-[var(--mm-rule)] text-[var(--text-primary)] tabular-nums"
                   >
                     z&apos;_{idx}: {val.toFixed(2)}
                   </span>
@@ -212,31 +200,13 @@ export const Page06ReasonInteractions: React.FC = () => {
             </div>
           </div>
         </div>
-      </div>
-
-      {/* 3 & 4. INPUT PERTURBATION & REASONING COMPARISON */}
-      <div className="rounded-xl border border-[var(--border)] bg-[var(--surface)] p-5 sm:p-6 shadow-xs space-y-4">
-        <div className="flex items-center gap-2 border-b border-[var(--border)] pb-3">
-          <div className="p-1.5 rounded-lg bg-[var(--accent-yellow)] text-[var(--accent-yellow-text)]">
-            <Activity className="w-4 h-4" />
-          </div>
-          <div>
-            <h3 className="font-sans text-base font-semibold text-[var(--text-primary)]">
-              2. Input Perturbation &amp; Reasoning Divergence
-            </h3>
-            <p className="text-xs text-[var(--text-secondary)]">
-              Inject small perturbations into the initial state to evaluate trajectory stability and attractor dynamics.
-            </p>
-          </div>
-        </div>
-
-        {/* Perturbation slider */}
-        <div className="space-y-2">
+        {/* Perturbation & Trajectory Divergence inside same coherent stage */}
+        <div className="pt-4 border-t border-[var(--mm-rule)] space-y-4">
           <div className="flex items-center justify-between text-xs">
-            <span className="text-[var(--text-secondary)]">
-              Perturbation Magnitude (<InlineMath math="\delta" />):
+            <span className="text-[var(--mm-ink-soft)]">
+              Initial input perturbation (<InlineMath math="\delta" />):
             </span>
-            <span className="font-mono text-xs font-bold text-[var(--accent-yellow-text)] tabular-nums">
+            <span className="font-mono text-xs font-bold text-[var(--mm-amber)] tabular-nums">
               ±{perturbationMagnitude.toFixed(2)}
             </span>
           </div>
@@ -247,49 +217,54 @@ export const Page06ReasonInteractions: React.FC = () => {
             step={0.05}
             value={perturbationMagnitude}
             onChange={(e) => setPerturbationMagnitude(parseFloat(e.target.value))}
-            className="w-full accent-[var(--color-warning)] cursor-pointer"
+            className="w-full accent-[var(--mm-amber)] cursor-pointer"
           />
+
+          <div className="grid grid-cols-1 sm:grid-cols-3 divide-y sm:divide-y-0 sm:divide-x divide-[var(--mm-rule)] border border-[var(--mm-rule)] bg-[var(--mm-paper-bright)] rounded-md text-xs">
+            <div className="p-3.5 space-y-1">
+              <span className="text-[var(--mm-muted)] font-semibold text-xs block">
+                Trajectory cosine similarity
+              </span>
+              <div className="text-lg font-mono font-semibold text-[var(--mm-signal)] tabular-nums">
+                {(trajectory.finalCosine * 100).toFixed(1)}%
+              </div>
+              <p className="text-[11px] text-[var(--mm-muted)]">
+                Alignment between unperturbed and perturbed final states.
+              </p>
+            </div>
+
+            <div className="p-3.5 space-y-1">
+              <span className="text-[var(--mm-muted)] font-semibold text-xs block">
+                Final state delta
+              </span>
+              <div className="text-lg font-mono font-semibold text-[var(--mm-ink)] tabular-nums">
+                ||Δz_K|| = {trajectory.diffNorm.toFixed(3)}
+              </div>
+              <p className="text-[11px] text-[var(--mm-muted)]">
+                Euclidean distance after {latentSteps} relaxation passes.
+              </p>
+            </div>
+
+            <div className="p-3.5 space-y-1">
+              <span className="text-[var(--mm-signal)] font-semibold text-xs block">
+                Attractor convergence
+              </span>
+              <div className="text-sm font-semibold text-[var(--mm-ink)]">
+                {trajectory.finalCosine > 0.9 ? 'Converged (Robust basin)' : 'Diverged (Sensitive)'}
+              </div>
+              <p className="text-[11px] text-[var(--mm-muted)] leading-relaxed">
+                Contractive dynamics dampen initial coordinate jitter over steps.
+              </p>
+            </div>
+          </div>
         </div>
 
-        {/* Trajectory Divergence Telemetry */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
-          <div className="p-3.5 rounded-xl bg-[var(--surface-soft)] border border-[var(--border)] space-y-1">
-            <span className="text-[var(--text-secondary)] font-semibold text-xs block">
-              Trajectory cosine similarity
-            </span>
-            <div className="text-lg font-mono font-bold text-[var(--accent-blue-text)] tabular-nums">
-              {(trajectory.finalCosine * 100).toFixed(1)}%
-            </div>
-            <p className="text-[11px] text-[var(--text-muted)]">
-              Alignment between original and perturbed steady states.
-            </p>
-          </div>
-
-          <div className="p-3.5 rounded-xl bg-[var(--surface-soft)] border border-[var(--border)] space-y-1">
-            <span className="text-[var(--text-secondary)] font-semibold text-xs block">
-              Final state vector delta
-            </span>
-            <div className="text-lg font-mono font-bold text-[var(--text-primary)] tabular-nums">
-              ||Δz_K|| = {trajectory.diffNorm.toFixed(3)}
-            </div>
-            <p className="text-[11px] text-[var(--text-muted)]">
-              Euclidean distance between final latent states.
-            </p>
-          </div>
-
-          <div className="p-3.5 rounded-xl bg-[var(--accent-blue)] border border-[var(--border)] text-[var(--accent-blue-text)] space-y-1">
-            <span className="font-semibold text-xs block">
-              Attractor stability
-            </span>
-            <div className="text-sm font-bold text-[var(--text-primary)]">
-              {trajectory.finalCosine > 0.9 ? 'Attractor Converged (Robust)' : 'Trajectory Bifurcated (Sensitive)'}
-            </div>
-            <p className="text-[11px] text-[var(--text-secondary)] leading-relaxed">
-              Iterative latent steps act as a regularizing relaxation filter that dampens small input perturbations.
-            </p>
-          </div>
-        </div>
-      </div>
+        <FigureCaption
+          figure="Fig. 10.2"
+          title="Iterative latent passes contract perturbed inputs back toward a shared steady state without emitting intermediate tokens."
+          source="Deterministic 6D contractive recurrent map z_{k+1} = tanh(W z_k + 0.5 x)"
+        />
+      </figure>
     </div>
   );
 };

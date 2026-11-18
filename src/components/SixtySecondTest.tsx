@@ -7,9 +7,9 @@ import {
   XCircle,
   ArrowRight,
   Clock,
-  Sparkles,
 } from 'lucide-react';
 import { SixtySecondAssessment } from './SixtySecondAssessment';
+import { FigureCaption } from './essay/FigureCaption';
 
 interface Question {
   id: number;
@@ -134,25 +134,25 @@ export const SixtySecondTest: React.FC = () => {
 
   return (
     <section id="sixty-second-test" className="w-full space-y-6">
-      {/* Assessment Header & Integrated Mode Switcher */}
-      <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-[var(--border)] pb-5">
+      {/* Assessment Header & Editorial Underline Mode Switcher */}
+      <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-[var(--mm-rule)] pb-4">
         <div className="space-y-1.5 max-w-2xl">
-          <div className="flex items-center gap-2 text-xs font-mono text-[var(--text-muted)]">
-            <span className="font-semibold text-[var(--accent-blue-text)] tabular-nums">07.1</span>
-            <span aria-hidden="true" className="text-[var(--border)]">·</span>
+          <div className="essay-eyebrow flex items-center gap-2">
+            <span className="font-semibold text-[var(--mm-signal)] tabular-nums">07.1</span>
+            <span aria-hidden="true" className="text-[var(--mm-rule-strong)]">·</span>
             <span>Interactive assessment</span>
           </div>
-          <h2 className="text-2xl sm:text-3xl font-serif font-semibold text-[var(--text-primary)] tracking-[-0.02em]">
+          <h2 className="essay-section-title">
             60-Second Fast Verification
           </h2>
-          <p className="text-sm sm:text-[15px] text-[var(--text-secondary)] font-sans leading-relaxed">
+          <p className="essay-lead">
             A real-time evaluation testing your experimental understanding across 5 sequential stages: Remember, Break, Trace, Measure, and BDH Synthesis.
           </p>
         </div>
 
-        {/* Mode Selector integrated cleanly into section header */}
+        {/* Clean Underline Mode Selector (Zero boxed pills) */}
         <div
-          className="inline-flex items-center gap-1 p-1 rounded-lg bg-[var(--surface-soft)] border border-[var(--border)] self-start md:self-auto shrink-0"
+          className="flex items-center gap-6 self-start md:self-end shrink-0 border-b border-transparent -mb-[17px]"
           role="tablist"
           aria-label="Assessment mode"
         >
@@ -161,13 +161,13 @@ export const SixtySecondTest: React.FC = () => {
             role="tab"
             aria-selected={activeTab === 'assessment'}
             onClick={() => setActiveTab('assessment')}
-            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-sans font-medium transition-colors cursor-pointer whitespace-nowrap ${
+            className={`flex items-center gap-1.5 pb-3 text-xs font-sans transition-colors cursor-pointer whitespace-nowrap border-b-2 ${
               activeTab === 'assessment'
-                ? 'bg-[var(--surface)] text-[var(--text-primary)] font-semibold border border-[var(--border)] shadow-[var(--shadow-panel)]'
-                : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)] border border-transparent'
+                ? 'border-[var(--mm-signal)] text-[var(--mm-ink)] font-semibold'
+                : 'border-transparent text-[var(--mm-muted)] hover:text-[var(--mm-ink)]'
             }`}
           >
-            <Clock className="w-3.5 h-3.5 text-[var(--accent-blue-text)] shrink-0" />
+            <Clock className="w-3.5 h-3.5 text-[var(--mm-signal)] shrink-0" />
             <span>Interactive 60s Test</span>
           </button>
           <button
@@ -175,13 +175,13 @@ export const SixtySecondTest: React.FC = () => {
             role="tab"
             aria-selected={activeTab === 'conceptual'}
             onClick={() => setActiveTab('conceptual')}
-            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-sans font-medium transition-colors cursor-pointer whitespace-nowrap ${
+            className={`flex items-center gap-1.5 pb-3 text-xs font-sans transition-colors cursor-pointer whitespace-nowrap border-b-2 ${
               activeTab === 'conceptual'
-                ? 'bg-[var(--surface)] text-[var(--text-primary)] font-semibold border border-[var(--border)] shadow-[var(--shadow-panel)]'
-                : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)] border border-transparent'
+                ? 'border-[var(--mm-signal)] text-[var(--mm-ink)] font-semibold'
+                : 'border-transparent text-[var(--mm-muted)] hover:text-[var(--mm-ink)]'
             }`}
           >
-            <HelpCircle className="w-3.5 h-3.5 text-[var(--accent-blue-text)] shrink-0" />
+            <HelpCircle className="w-3.5 h-3.5 text-[var(--mm-signal)] shrink-0" />
             <span>Theory Check (3 Qs)</span>
           </button>
         </div>
@@ -193,15 +193,14 @@ export const SixtySecondTest: React.FC = () => {
           <SixtySecondAssessment isModal={false} />
         </div>
       ) : (
-        /* Conceptual 3-Question Verification */
-        <div className="rounded-xl border border-[var(--border)] bg-[var(--surface)] overflow-hidden animate-in fade-in duration-200">
-          <div className="px-5 py-4 sm:px-6 border-b border-[var(--border)] bg-[var(--surface-soft)] flex flex-wrap items-center justify-between gap-3">
+        /* Conceptual 3-Question Verification in Editorial Figure Stage */
+        <div className="essay-figure-stage px-5 sm:px-8 py-6 animate-in fade-in duration-200 space-y-6">
+          <div className="flex flex-wrap items-baseline justify-between gap-3 border-b border-[var(--mm-rule)] pb-4">
             <div>
-              <h3 className="text-base font-sans font-semibold text-[var(--text-primary)] flex items-center gap-2">
-                <HelpCircle className="w-4 h-4 text-[var(--accent-blue-text)] shrink-0" />
-                <span>Conceptual Principles of Recurrent State</span>
+              <h3 className="text-lg font-serif font-medium text-[var(--mm-ink)]">
+                Conceptual Principles of Recurrent State
               </h3>
-              <p className="text-xs sm:text-sm text-[var(--text-secondary)] font-sans mt-0.5">
+              <p className="text-xs sm:text-sm text-[var(--mm-ink-soft)] font-sans mt-0.5">
                 Verify the algebraic reasoning behind coordinate superposition and BDH synapses.
               </p>
             </div>
@@ -218,7 +217,7 @@ export const SixtySecondTest: React.FC = () => {
             )}
           </div>
 
-          <div className="divide-y divide-[var(--border)]">
+          <div className="divide-y divide-[var(--mm-rule)]">
             {QUESTIONS.map((q) => {
               const selectedIdx = selectedAnswers[q.id];
               const selectedOption = selectedIdx !== undefined ? q.options[selectedIdx] : null;
@@ -226,40 +225,40 @@ export const SixtySecondTest: React.FC = () => {
               return (
                 <div
                   key={q.id}
-                  className="p-5 sm:p-6 space-y-4 font-sans"
+                  className="py-5 first:pt-1 last:pb-1 space-y-4 font-sans"
                 >
-                  <h4 className="text-[var(--text-primary)] font-sans font-semibold text-base sm:text-[17px] leading-snug">
+                  <h4 className="text-[var(--mm-ink)] font-sans font-semibold text-base sm:text-[17px] leading-snug">
                     {q.question}
                   </h4>
 
-                  <div className="space-y-2.5">
+                  <div className="space-y-2">
                     {q.options.map((opt, optIdx) => {
                       const isSelected = selectedIdx === optIdx;
                       let optionStyle =
-                        'border-[var(--border)] bg-[var(--surface)] text-[var(--text-primary)] hover:bg-[var(--surface-soft)] hover:border-[var(--color-border-strong)]';
+                        'border-[var(--mm-rule)] bg-[var(--page-bg)] text-[var(--mm-ink)] hover:border-[var(--mm-rule-strong)]';
                       let badgeStyle =
-                        'bg-[var(--surface-soft)] border-[var(--border)] text-[var(--text-secondary)]';
+                        'text-[var(--mm-muted)] border-[var(--mm-rule)] bg-[var(--mm-paper-bright)]';
 
                       if (submitted) {
                         if (opt.isCorrect) {
                           optionStyle =
-                            'border-[var(--color-success)] bg-[var(--accent-green)] text-[var(--accent-green-text)] font-medium';
+                            'border-[var(--color-success-border)] bg-[var(--color-success-soft)] text-[var(--color-success)] font-medium';
                           badgeStyle =
                             'bg-[var(--color-success)] border-[var(--color-success)] text-[var(--surface)]';
                         } else if (isSelected && !opt.isCorrect) {
                           optionStyle =
-                            'border-[var(--color-danger)] bg-[var(--accent-pink)] text-[var(--accent-pink-text)]';
+                            'border-[var(--color-danger-border)] bg-[var(--color-danger-soft)] text-[var(--color-danger)]';
                           badgeStyle =
                             'bg-[var(--color-danger)] border-[var(--color-danger)] text-[var(--surface)]';
                         } else {
                           optionStyle =
-                            'border-[var(--border)] bg-[var(--surface-soft)] text-[var(--text-muted)] opacity-60 cursor-default';
+                            'border-[var(--mm-rule)] bg-[var(--page-bg)] text-[var(--mm-muted)] opacity-60 cursor-default';
                         }
                       } else if (isSelected) {
                         optionStyle =
-                          'border-[var(--color-accent)] bg-[var(--accent-blue)] text-[var(--text-primary)] font-medium ring-1 ring-[var(--color-accent)]';
+                          'border-[var(--mm-signal)] bg-[var(--mm-signal-soft)] text-[var(--mm-ink)] font-medium';
                         badgeStyle =
-                          'bg-[var(--color-accent)] border-[var(--color-accent)] text-[var(--surface)]';
+                          'bg-[var(--mm-signal)] border-[var(--mm-signal)] text-[var(--surface)]';
                       }
 
                       return (
@@ -268,12 +267,12 @@ export const SixtySecondTest: React.FC = () => {
                           type="button"
                           onClick={() => handleSelect(q.id, optIdx)}
                           disabled={submitted}
-                          className={`w-full text-left p-3.5 rounded-lg border transition-colors flex items-start gap-3 ${
+                          className={`w-full text-left p-3.5 rounded-md border transition-colors flex items-start gap-3 ${
                             submitted ? 'cursor-default' : 'cursor-pointer'
                           } ${optionStyle}`}
                         >
                           <span
-                            className={`w-6 h-6 rounded-md border flex items-center justify-center font-mono font-semibold text-xs shrink-0 mt-0.5 transition-colors ${badgeStyle}`}
+                            className={`w-6 h-6 rounded border flex items-center justify-center font-mono font-semibold text-xs shrink-0 mt-0.5 transition-colors ${badgeStyle}`}
                           >
                             {opt.label}
                           </span>
@@ -285,10 +284,10 @@ export const SixtySecondTest: React.FC = () => {
 
                   {submitted && selectedOption && (
                     <div
-                      className={`p-4 rounded-lg text-xs sm:text-sm leading-relaxed border font-sans ${
+                      className={`pt-3 pl-4 border-l-2 text-xs sm:text-sm leading-relaxed font-sans ${
                         selectedOption.isCorrect
-                          ? 'bg-[var(--accent-green)] border-[var(--color-success-border)] text-[var(--accent-green-text)]'
-                          : 'bg-[var(--accent-pink)] border-[var(--color-danger-border)] text-[var(--accent-pink-text)]'
+                          ? 'border-[var(--color-success)] text-[var(--color-success)]'
+                          : 'border-[var(--color-danger)] text-[var(--color-danger)]'
                       }`}
                     >
                       <div className="font-semibold flex items-center gap-1.5 mb-1">
@@ -304,7 +303,7 @@ export const SixtySecondTest: React.FC = () => {
                           </>
                         )}
                       </div>
-                      <p className="text-[var(--text-primary)] leading-relaxed">
+                      <p className="text-[var(--mm-ink)] leading-relaxed">
                         {selectedOption.explanation}
                       </p>
                     </div>
@@ -314,10 +313,10 @@ export const SixtySecondTest: React.FC = () => {
             })}
           </div>
 
-          <div className="px-5 py-4 sm:px-6 border-t border-[var(--border)] bg-[var(--surface-soft)]">
+          <div className="pt-4 border-t border-[var(--mm-rule)]">
             {!submitted ? (
               <div className="flex flex-wrap items-center justify-between gap-3">
-                <span className="text-xs font-mono tabular-nums text-[var(--text-secondary)]">
+                <span className="text-xs font-mono tabular-nums text-[var(--mm-muted)]">
                   {answeredCount} of {QUESTIONS.length} questions answered
                 </span>
                 <button
@@ -332,10 +331,10 @@ export const SixtySecondTest: React.FC = () => {
               </div>
             ) : (
               <div
-                className={`rounded-lg border p-4 sm:p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4 font-sans ${
+                className={`p-4 border-l-2 flex flex-col sm:flex-row sm:items-center justify-between gap-4 font-sans ${
                   isSuccess
-                    ? 'border-[var(--color-success-border)] bg-[var(--accent-green)] text-[var(--accent-green-text)]'
-                    : 'border-[var(--color-warning-border)] bg-[var(--accent-yellow)] text-[var(--accent-yellow-text)]'
+                    ? 'border-[var(--color-success)] bg-[var(--color-success-soft)]/50 text-[var(--color-success)]'
+                    : 'border-[var(--color-warning)] bg-[var(--color-warning-soft)]/50 text-[var(--color-warning)]'
                 }`}
               >
                 <div className="space-y-1">
@@ -352,7 +351,7 @@ export const SixtySecondTest: React.FC = () => {
                       </>
                     )}
                   </div>
-                  <p className="text-xs sm:text-sm text-[var(--text-primary)] leading-relaxed">
+                  <p className="text-xs sm:text-sm text-[var(--mm-ink)] leading-relaxed">
                     {isSuccess
                       ? 'You have clearly differentiated fixed-size coordinate state representations from token tapes and understood how plastic synapses in BDH avoid catastrophic forgetting.'
                       : 'Review the interference curves and capacity experiments in Stage 02 and Stage 04 to solidify the algebraic foundation.'}
@@ -370,8 +369,15 @@ export const SixtySecondTest: React.FC = () => {
               </div>
             )}
           </div>
+
+          <FigureCaption
+            figure="Fig. 7.1b"
+            title="Conceptual theory check across superposition, dimension D scaling, and BDH plasticity."
+            source="Educational Synthesis"
+          />
         </div>
       )}
     </section>
   );
 };
+

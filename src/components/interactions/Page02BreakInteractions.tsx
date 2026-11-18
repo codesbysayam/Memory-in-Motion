@@ -1,20 +1,6 @@
 import React, { useState, useMemo } from 'react';
-import {
-  Lock,
-  Unlock,
-  AlertTriangle,
-  RotateCcw,
-  Sliders,
-  CheckCircle2,
-  AlertOctagon,
-  ArrowRight,
-  TrendingDown,
-  Scissors,
-  Split,
-  Search,
-} from 'lucide-react';
-import { Fact, vector, cosine, CANONICAL_FACTS } from '../../models/associativeMemory';
-import { InlineMath, BlockMath } from '../ui/MathView';
+import { CANONICAL_FACTS, Fact, vector, cosine } from '../../models/associativeMemory';
+import { InlineMath } from '../ui/MathView';
 
 export const Page02BreakInteractions: React.FC = () => {
   // ============================================================
@@ -218,35 +204,30 @@ export const Page02BreakInteractions: React.FC = () => {
   }, [baseFacts, counterfactualFacts]);
 
   return (
-    <div className="space-y-8 mt-6">
+    <div className="space-y-12 mt-8">
       {/* 1. ONE-VARIABLE-AT-A-TIME MODE */}
-      <div className="diagram-frame p-5 sm:p-6 space-y-4">
-        <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[var(--border)] pb-3">
-          <div className="flex items-center gap-2">
-            <div className="p-1.5 rounded-lg bg-[var(--accent-blue)] text-[var(--accent-blue-text)]">
-              <Lock className="w-4 h-4" />
-            </div>
-            <div>
-              <h3 className="font-serif text-base font-bold text-[var(--text-primary)]">
-                1. One-variable-at-a-time mode
-              </h3>
-              <p className="text-xs text-[var(--text-secondary)]">
-                Locks all extraneous conditions to establish strict causal attribution. Only retention <InlineMath math="\lambda" /> varies.
-              </p>
-            </div>
+      <div className="border-t border-[var(--mm-rule)] pt-6 space-y-5">
+        <div className="flex flex-wrap items-baseline justify-between gap-3 border-b border-[var(--mm-rule)] pb-3">
+          <div>
+            <h3 className="font-serif text-xl font-medium text-[var(--text-primary)]">
+              1. One-variable-at-a-time isolation
+            </h3>
+            <p className="text-sm text-[var(--text-secondary)] mt-0.5">
+              Locks all extraneous conditions to establish strict causal attribution. Only retention <InlineMath math="\lambda" /> varies.
+            </p>
           </div>
-          <span className="text-xs font-mono text-[var(--accent-green-text)] bg-[var(--accent-green)] border border-[var(--color-success-border)] px-2.5 py-1 rounded-md font-semibold">
-            Strict isolation active
+          <span className="text-xs font-mono text-[var(--mm-teal)] font-medium">
+            Strict single-variable sweep
           </span>
         </div>
 
         {/* Retention Slider */}
-        <div className="space-y-2">
+        <div className="space-y-2 max-w-xl">
           <div className="flex items-center justify-between text-xs">
-            <span className="font-semibold text-[var(--text-primary)]">
+            <span className="font-medium text-[var(--text-primary)]">
               Retention <InlineMath math="\lambda" /> (active variable):
             </span>
-            <span className="font-mono text-[var(--accent-blue-text)] font-bold tabular-nums">
+            <span className="font-mono text-[var(--mm-signal)] font-semibold tabular-nums">
               {retentionVal.toFixed(2)}
             </span>
           </div>
@@ -257,92 +238,89 @@ export const Page02BreakInteractions: React.FC = () => {
             step={0.05}
             value={retentionVal}
             onChange={(e) => setRetentionVal(parseFloat(e.target.value))}
-            className="w-full accent-[var(--accent-blue-text)] cursor-pointer"
+            className="w-full accent-[var(--mm-signal)] cursor-pointer"
           />
         </div>
 
-        {/* Before vs After Difference Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-3 pt-2 text-xs">
-          <div className="metric-panel p-3.5 space-y-1.5">
-            <span className="text-[var(--text-secondary)] uppercase font-semibold text-[11px] block">
-              Baseline state (<InlineMath math="\lambda = 0.95" />)
+        {/* Before vs After Difference Hairline Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-3 border-y border-[var(--mm-rule)] divide-y md:divide-y-0 md:divide-x divide-[var(--mm-rule)] bg-[var(--mm-paper-bright)] text-xs">
+          <div className="p-4 space-y-2">
+            <span className="text-[var(--text-muted)] font-mono text-[11px] block">
+              Clean condition (<InlineMath math="\lambda = 0.95" />)
             </span>
             <div className="flex items-center justify-between">
-              <span>Prediction:</span>
-              <strong className="text-[var(--accent-green-text)]">{beforeEval.top.val}</strong>
+              <span className="text-[var(--text-secondary)]">Prediction</span>
+              <strong className="text-[var(--mm-teal)] font-mono">{beforeEval.top.val}</strong>
             </div>
             <div className="flex items-center justify-between">
-              <span>Retrieval score:</span>
+              <span className="text-[var(--text-secondary)]">Retrieval score</span>
               <strong className="font-mono tabular-nums">{(beforeEval.top.score * 100).toFixed(1)}%</strong>
             </div>
             <div className="flex items-center justify-between">
-              <span>State norm:</span>
+              <span className="text-[var(--text-secondary)]">State norm</span>
               <span className="font-mono tabular-nums">{beforeEval.norm.toFixed(3)}</span>
             </div>
           </div>
 
-          <div className="metric-panel p-3.5 space-y-1.5">
-            <span className="text-[var(--text-secondary)] uppercase font-semibold text-[11px] block">
-              Active state (<InlineMath math={`\\lambda = ${retentionVal.toFixed(2)}`} />)
+          <div className="p-4 space-y-2">
+            <span className="text-[var(--text-muted)] font-mono text-[11px] block">
+              Active condition (<InlineMath math={`\\lambda = ${retentionVal.toFixed(2)}`} />)
             </span>
             <div className="flex items-center justify-between">
-              <span>Prediction:</span>
-              <strong className={afterEval.isCorrect ? 'text-[var(--accent-green-text)]' : 'text-[var(--accent-pink-text)]'}>
+              <span className="text-[var(--text-secondary)]">Prediction</span>
+              <strong className={`font-mono ${afterEval.isCorrect ? 'text-[var(--mm-teal)]' : 'text-[var(--mm-coral)]'}`}>
                 {afterEval.top.val}
               </strong>
             </div>
             <div className="flex items-center justify-between">
-              <span>Retrieval score:</span>
+              <span className="text-[var(--text-secondary)]">Retrieval score</span>
               <strong className="font-mono tabular-nums">{(afterEval.top.score * 100).toFixed(1)}%</strong>
             </div>
             <div className="flex items-center justify-between">
-              <span>State norm:</span>
+              <span className="text-[var(--text-secondary)]">State norm</span>
               <span className="font-mono tabular-nums">{afterEval.norm.toFixed(3)}</span>
             </div>
           </div>
 
-          <div className="p-3.5 rounded-xl border border-[var(--border)] bg-[var(--accent-blue)] text-[var(--accent-blue-text)] space-y-1.5">
-            <span className="uppercase font-semibold text-[11px] block">
+          <div className="p-4 space-y-2">
+            <span className="text-[var(--mm-signal)] font-mono text-[11px] font-semibold block">
               Causal difference (<InlineMath math="\Delta" />)
             </span>
             <div className="flex items-center justify-between">
-              <span>Score shift:</span>
-              <strong className="font-mono tabular-nums">
+              <span className="text-[var(--text-secondary)]">Score shift</span>
+              <strong className="font-mono tabular-nums text-[var(--text-primary)]">
                 {diff.scoreDiff >= 0 ? `+${(diff.scoreDiff * 100).toFixed(1)}%` : `${(diff.scoreDiff * 100).toFixed(1)}%`}
               </strong>
             </div>
             <div className="flex items-center justify-between">
-              <span>Norm shift:</span>
-              <strong className="font-mono tabular-nums">
+              <span className="text-[var(--text-secondary)]">Norm shift</span>
+              <strong className="font-mono tabular-nums text-[var(--text-primary)]">
                 {diff.normDiff >= 0 ? `+${diff.normDiff.toFixed(3)}` : diff.normDiff.toFixed(3)}
               </strong>
             </div>
             <div className="flex items-center justify-between">
-              <span>Prediction shifted:</span>
-              <span className="font-semibold">{diff.predictionChanged ? 'Yes (Flip)' : 'No'}</span>
+              <span className="text-[var(--text-secondary)]">Prediction shifted</span>
+              <span className={`font-mono font-semibold ${diff.predictionChanged ? 'text-[var(--mm-coral)]' : 'text-[var(--text-secondary)]'}`}>
+                {diff.predictionChanged ? 'Yes (Flip)' : 'No'}
+              </span>
             </div>
           </div>
         </div>
       </div>
 
       {/* 2. FAILURE BOUNDARY FINDER */}
-      <div className="diagram-frame p-5 sm:p-6 space-y-4">
-        <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[var(--border)] pb-3">
-          <div className="flex items-center gap-2">
-            <div className="p-1.5 rounded-lg bg-[var(--accent-pink)] text-[var(--accent-pink-text)]">
-              <Search className="w-4 h-4" />
-            </div>
-            <div>
-              <h3 className="font-serif text-base font-bold text-[var(--text-primary)]">
-                2. Failure boundary finder
-              </h3>
-              <p className="text-xs text-[var(--text-secondary)]">
-                Automated parameter scanning to locate the critical threshold where retrieval switches from Correct to Incorrect.
-              </p>
-            </div>
+      <div className="border-t border-[var(--mm-rule)] pt-6 space-y-4">
+        <div className="flex flex-wrap items-baseline justify-between gap-3 border-b border-[var(--mm-rule)] pb-3">
+          <div>
+            <h3 className="font-serif text-xl font-medium text-[var(--text-primary)]">
+              2. Failure boundary finder
+            </h3>
+            <p className="text-sm text-[var(--text-secondary)] mt-0.5">
+              Automated parameter scan locating the critical threshold where retrieval switches from Match to Collision.
+            </p>
           </div>
-          <span className="text-xs italic text-[var(--text-secondary)]">
-            Observed threshold in the educational toy experiment, not a universal physical constant.
+          <span className="text-xs font-mono text-[var(--text-muted)]">
+            Observed in educational toy model
           </span>
         </div>
 
@@ -367,22 +345,22 @@ export const Page02BreakInteractions: React.FC = () => {
         </div>
 
         {scannedBoundary && (
-          <div className="p-4 rounded-xl bg-[var(--surface-soft)] border border-[var(--border)] grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs animate-in fade-in">
-            <div>
+          <div className="border-y border-[var(--mm-rule)] grid grid-cols-2 sm:grid-cols-4 divide-y sm:divide-y-0 sm:divide-x divide-[var(--mm-rule)] bg-[var(--mm-paper-bright)] text-xs animate-in fade-in">
+            <div className="p-3.5">
               <span className="text-[var(--text-secondary)] block text-[11px]">Observed critical threshold</span>
               <strong className="text-sm font-mono tabular-nums text-[var(--accent-pink-text)]">
                 {boundaryParam === 'retention' ? `λ ≈ ${scannedBoundary.thresholdValue}` : `N ≈ ${scannedBoundary.thresholdValue} facts`}
               </strong>
             </div>
-            <div>
+            <div className="p-3.5">
               <span className="text-[var(--text-secondary)] block text-[11px]">Flipped output</span>
               <strong className="text-sm text-[var(--text-primary)]">{scannedBoundary.prediction}</strong>
             </div>
-            <div>
+            <div className="p-3.5">
               <span className="text-[var(--text-secondary)] block text-[11px]">Retrieval score at flip</span>
               <strong className="text-sm font-mono tabular-nums">{(scannedBoundary.score * 100).toFixed(1)}%</strong>
             </div>
-            <div>
+            <div className="p-3.5">
               <span className="text-[var(--text-secondary)] block text-[11px]">Top-1 margin</span>
               <strong className="text-sm font-mono tabular-nums text-[var(--accent-pink-text)]">{scannedBoundary.margin.toFixed(3)}</strong>
             </div>
@@ -391,41 +369,38 @@ export const Page02BreakInteractions: React.FC = () => {
       </div>
 
       {/* 3. COUNTERFACTUAL MEMORY INTERACTION */}
-      <div className="diagram-frame p-5 sm:p-6 space-y-4">
-        <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[var(--border)] pb-3">
-          <div className="flex items-center gap-2">
-            <div className="p-1.5 rounded-lg bg-[var(--accent-yellow)] text-[var(--accent-yellow-text)]">
-              <Split className="w-4 h-4" />
-            </div>
-            <div>
-              <h3 className="font-serif text-base font-bold text-[var(--text-primary)]">
-                3. Counterfactual memory surgery
-              </h3>
-              <p className="text-xs text-[var(--text-secondary)]">
-                Compare the original memory trajectory against an intervention: removing or replacing a specific fact in history.
-              </p>
-            </div>
+      <div className="border-t border-[var(--mm-rule)] pt-6 space-y-4">
+        <div className="flex flex-wrap items-baseline justify-between gap-3 border-b border-[var(--mm-rule)] pb-3">
+          <div>
+            <h3 className="font-serif text-xl font-medium text-[var(--text-primary)]">
+              3. Counterfactual memory surgery
+            </h3>
+            <p className="text-sm text-[var(--text-secondary)] mt-0.5">
+              Compare the original trajectory against removing or replacing a specific fact in sequence history.
+            </p>
           </div>
         </div>
 
         <div className="flex flex-wrap items-center gap-3">
-          <span className="text-xs text-[var(--text-secondary)] font-semibold">Intervention:</span>
+          <span className="text-xs text-[var(--text-muted)] font-mono">Intervention:</span>
           <button
+            type="button"
             onClick={() => setCounterfactualMode('remove')}
-            className={`px-3 py-1.5 rounded-lg text-xs font-medium border transition cursor-pointer ${
+            className={`px-3 py-1.5 rounded text-xs font-medium border transition cursor-pointer ${
               counterfactualMode === 'remove'
-                ? 'border-[var(--accent-blue-text)] bg-[var(--accent-blue)] text-[var(--accent-blue-text)] font-bold'
-                : 'border-[var(--border)] bg-[var(--surface-soft)] text-[var(--text-secondary)]'
+                ? 'border-[var(--mm-signal)] bg-[var(--accent-blue)] text-[var(--accent-blue-text)] font-semibold'
+                : 'border-[var(--mm-rule)] bg-[var(--surface)] text-[var(--text-secondary)]'
             }`}
           >
             Remove fact: France → Paris
           </button>
           <button
+            type="button"
             onClick={() => setCounterfactualMode('replace')}
-            className={`px-3 py-1.5 rounded-lg text-xs font-medium border transition cursor-pointer ${
+            className={`px-3 py-1.5 rounded text-xs font-medium border transition cursor-pointer ${
               counterfactualMode === 'replace'
-                ? 'border-[var(--accent-blue-text)] bg-[var(--accent-blue)] text-[var(--accent-blue-text)] font-bold'
-                : 'border-[var(--border)] bg-[var(--surface-soft)] text-[var(--text-secondary)]'
+                ? 'border-[var(--mm-signal)] bg-[var(--accent-blue)] text-[var(--accent-blue-text)] font-semibold'
+                : 'border-[var(--mm-rule)] bg-[var(--surface)] text-[var(--text-secondary)]'
             }`}
           >
             Replace fact with: Germany → Berlin
@@ -433,26 +408,26 @@ export const Page02BreakInteractions: React.FC = () => {
         </div>
 
         {/* Counterfactual Telemetry */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
-          <div className="metric-panel p-3.5 space-y-1">
-            <span className="text-[var(--text-secondary)] uppercase font-semibold text-[11px] block">Original experiment</span>
+        <div className="grid grid-cols-1 sm:grid-cols-3 border-y border-[var(--mm-rule)] divide-y sm:divide-y-0 sm:divide-x divide-[var(--mm-rule)] bg-[var(--mm-paper-bright)] text-xs">
+          <div className="p-4 space-y-1">
+            <span className="text-[var(--text-muted)] font-mono text-[11px] block">Original experiment</span>
             <div>Probe: <strong className="text-[var(--text-primary)]">{probeKey}</strong></div>
-            <div>Prediction: <strong className="text-[var(--accent-green-text)]">{counterfactualEval.origPred}</strong></div>
+            <div>Prediction: <strong className="text-[var(--mm-teal)]">{counterfactualEval.origPred}</strong></div>
             <div>Score: <span className="font-mono tabular-nums">{(counterfactualEval.origScore * 100).toFixed(1)}%</span></div>
           </div>
 
-          <div className="metric-panel p-3.5 space-y-1">
-            <span className="text-[var(--text-secondary)] uppercase font-semibold text-[11px] block">Counterfactual state</span>
+          <div className="p-4 space-y-1">
+            <span className="text-[var(--text-muted)] font-mono text-[11px] block">Counterfactual state</span>
             <div>Probe: <strong className="text-[var(--text-primary)]">{probeKey}</strong></div>
-            <div>Prediction: <strong className="text-[var(--accent-green-text)]">{counterfactualEval.modPred}</strong></div>
+            <div>Prediction: <strong className="text-[var(--mm-teal)]">{counterfactualEval.modPred}</strong></div>
             <div>Score: <span className="font-mono tabular-nums">{(counterfactualEval.modScore * 100).toFixed(1)}%</span></div>
           </div>
 
-          <div className="p-3.5 rounded-xl border border-[var(--border)] bg-[var(--accent-blue)] text-[var(--accent-blue-text)] space-y-1">
-            <span className="uppercase font-semibold text-[11px] block">State matrix divergence</span>
-            <div>Delta norm: <strong className="font-mono text-sm tabular-nums">{counterfactualEval.matrixDeltaNorm.toFixed(4)}</strong></div>
-            <p className="text-[11px] leading-relaxed pt-1 text-[var(--accent-blue-text)]">
-              Quantifies the causal footprint of the omitted update across the full coordinate matrix <InlineMath math="M" />.
+          <div className="p-4 space-y-1">
+            <span className="text-[var(--mm-signal)] font-mono font-semibold text-[11px] block">State matrix divergence</span>
+            <div>Delta norm: <strong className="font-mono text-sm tabular-nums text-[var(--text-primary)]">{counterfactualEval.matrixDeltaNorm.toFixed(4)}</strong></div>
+            <p className="text-[11px] leading-relaxed pt-1 text-[var(--text-secondary)]">
+              Quantifies the causal footprint of the omitted update across <InlineMath math="M" />.
             </p>
           </div>
         </div>

@@ -1,19 +1,13 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import {
-  Clock,
   Play,
   Pause,
   SkipForward,
   RotateCcw,
-  Layers,
-  ArrowRight,
-  Sparkles,
-  Search,
-  Eye,
-  Info,
 } from 'lucide-react';
 import { Fact, vector, CANONICAL_FACTS } from '../../models/associativeMemory';
-import { InlineMath, BlockMath } from '../ui/MathView';
+import { InlineMath } from '../ui/MathView';
+import { FigureCaption } from '../essay/FigureCaption';
 
 export const Page03TraceInteractions: React.FC = () => {
   const dim = 8;
@@ -113,26 +107,24 @@ export const Page03TraceInteractions: React.FC = () => {
   }, [selectedCoord, currentStep, recordedSteps, initialSnapshot, activeSnapshot]);
 
   return (
-    <div className="space-y-8 mt-6">
+    <div className="space-y-8 mt-8">
       {/* 1. TIMELINE SCRUBBER & ANIMATION CONTROLLER */}
-      <div className="diagram-frame p-5 sm:p-6 space-y-4">
-        <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[var(--border)] pb-3">
-          <div className="flex items-center gap-2">
-            <div className="p-1.5 rounded-lg bg-[var(--accent-blue)] text-[var(--accent-blue-text)]">
-              <Clock className="w-4 h-4" />
-            </div>
-            <div>
-              <h3 className="font-serif text-base font-bold text-[var(--text-primary)]">
-                1. Trajectory timeline scrubber &amp; replay
-              </h3>
-              <p className="text-xs text-[var(--text-secondary)]">
-                Drag the scrubber to inspect recorded states across sequence ingestion without recalculating divergent trajectories.
-              </p>
-            </div>
+      <figure className="essay-figure-stage p-5 sm:p-7 space-y-5">
+        <div className="flex flex-wrap items-baseline justify-between gap-3 border-b border-[var(--mm-rule)] pb-4">
+          <div>
+            <span className="font-mono text-[11px] uppercase tracking-[0.14em] text-[var(--mm-signal)] font-semibold block mb-1">
+              Fig. 3.1 · Timeline scrubber &amp; replay
+            </span>
+            <h3 className="font-serif text-lg sm:text-xl font-normal text-[var(--mm-ink)]">
+              Walk backward through saved matrices without recalculating
+            </h3>
+            <p className="text-xs text-[var(--mm-muted)] mt-1">
+              Drag the scrubber to inspect recorded states across sequence ingestion (<InlineMath math="t_0 \rightarrow t_N" />).
+            </p>
           </div>
 
           {/* Animation Controls */}
-          <div className="flex items-center gap-1.5">
+          <div className="flex items-center gap-2">
             <button
               type="button"
               onClick={() => setIsPlaying(!isPlaying)}
@@ -200,52 +192,39 @@ export const Page03TraceInteractions: React.FC = () => {
         </div>
 
         {/* 2. BEFORE / AFTER TOGGLE & MATRIX DISPLAY */}
-        <div className="pt-2 border-t border-[var(--border)] space-y-3">
+        <div className="pt-3 border-t border-[var(--mm-rule)] space-y-4">
           <div className="flex flex-wrap items-center justify-between gap-3 text-xs">
-            <div className="flex flex-wrap items-center gap-1.5">
-              <span className="font-semibold text-[var(--text-secondary)]">View state:</span>
-              <button
-                type="button"
-                onClick={() => setViewMode('current')}
-                className={`px-2.5 py-1 rounded-md border transition cursor-pointer ${
-                  viewMode === 'current'
-                    ? 'bg-[var(--accent-blue)] border-[var(--color-accent)] text-[var(--accent-blue-text)] font-bold'
-                    : 'bg-[var(--surface-soft)] border-[var(--border)] text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
-                }`}
-              >
-                Current state (M_{activeSnapshot.step})
-              </button>
-              <button
-                type="button"
-                onClick={() => setViewMode('initial')}
-                className={`px-2.5 py-1 rounded-md border transition cursor-pointer ${
-                  viewMode === 'initial'
-                    ? 'bg-[var(--accent-blue)] border-[var(--color-accent)] text-[var(--accent-blue-text)] font-bold'
-                    : 'bg-[var(--surface-soft)] border-[var(--border)] text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
-                }`}
-              >
-                Initial (M_0)
-              </button>
-              <button
-                type="button"
-                onClick={() => setViewMode('delta')}
-                className={`px-2.5 py-1 rounded-md border transition cursor-pointer ${
-                  viewMode === 'delta'
-                    ? 'bg-[var(--accent-blue)] border-[var(--color-accent)] text-[var(--accent-blue-text)] font-bold'
-                    : 'bg-[var(--surface-soft)] border-[var(--border)] text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
-                }`}
-              >
-                Delta shift (ΔM)
-              </button>
+            <div className="flex flex-wrap items-center gap-1 border-b border-[var(--mm-rule)]">
+              <span className="font-mono text-[11px] uppercase tracking-[0.1em] text-[var(--mm-muted)] pr-3 pb-1.5">
+                Snapshot
+              </span>
+              {([
+                { key: 'current', label: `Current state (M_${activeSnapshot.step})` },
+                { key: 'initial', label: 'Initial (M_0)' },
+                { key: 'delta', label: 'Delta shift (ΔM)' },
+              ] as const).map((tab) => (
+                <button
+                  key={tab.key}
+                  type="button"
+                  onClick={() => setViewMode(tab.key)}
+                  className={`px-3 pb-1.5 font-mono text-xs transition cursor-pointer border-b-2 -mb-[1px] ${
+                    viewMode === tab.key
+                      ? 'border-[var(--mm-signal)] text-[var(--mm-ink)] font-semibold'
+                      : 'border-transparent text-[var(--mm-muted)] hover:text-[var(--mm-ink)]'
+                  }`}
+                >
+                  {tab.label}
+                </button>
+              ))}
             </div>
 
-            <span className="font-mono text-xs text-[var(--text-secondary)] tabular-nums">
-              Frobenius norm: <strong className="text-[var(--text-primary)]">{activeSnapshot.norm.toFixed(4)}</strong>
+            <span className="font-mono text-xs text-[var(--mm-muted)] tabular-nums">
+              Frobenius norm <strong className="text-[var(--mm-ink)]">{activeSnapshot.norm.toFixed(4)}</strong>
             </span>
           </div>
 
           {/* Matrix Heatmap with Clickable Coordinates */}
-          <div className="matrix-scroll overflow-x-auto bg-[var(--color-matrix-bg)] p-4 rounded-xl border border-[var(--color-matrix-border)]">
+          <div className="matrix-scroll overflow-x-auto bg-[var(--color-matrix-bg)] p-4 rounded-md border border-[var(--color-matrix-border)]">
             <div
               className="grid gap-1 min-w-[320px]"
               style={{ gridTemplateColumns: `repeat(${dim}, minmax(0, 1fr))` }}
@@ -269,7 +248,7 @@ export const Page03TraceInteractions: React.FC = () => {
                       type="button"
                       onClick={() => setSelectedCoord({ r, c })}
                       title={`Click to inspect M[${r},${c}]`}
-                      className={`h-7 rounded text-[11px] font-mono tabular-nums flex items-center justify-center transition cursor-pointer ${
+                      className={`h-7 rounded-sm text-[11px] font-mono tabular-nums flex items-center justify-center transition cursor-pointer ${
                         isSelected ? 'ring-2 ring-[var(--color-matrix-ink)] scale-105 z-10 font-bold' : ''
                       }`}
                       style={{
@@ -287,58 +266,60 @@ export const Page03TraceInteractions: React.FC = () => {
             </div>
           </div>
         </div>
-      </div>
 
-      {/* 3. COORDINATE INSPECTOR CARD */}
-      <div className="diagram-frame p-5 sm:p-6 space-y-3">
-        <div className="flex items-center gap-2 border-b border-[var(--border)] pb-3">
-          <div className="p-1.5 rounded-lg bg-[var(--accent-yellow)] text-[var(--accent-yellow-text)]">
-            <Search className="w-4 h-4" />
+        {/* 3. COORDINATE INSPECTOR STRIP (Hairline Divide) */}
+        <div className="pt-4 border-t border-[var(--mm-rule)] space-y-3">
+          <div className="flex flex-wrap items-baseline justify-between gap-2">
+            <span className="font-mono text-xs text-[var(--mm-ink)] font-semibold">
+              Cell coordinate <InlineMath math={`M[${selectedCoord.r}, ${selectedCoord.c}]`} /> at step <InlineMath math={`t = ${currentStep}`} />
+            </span>
+            <span className="text-xs text-[var(--mm-muted)]">
+              Click any matrix cell above to inspect its local outer-product update.
+            </span>
           </div>
-          <div>
-            <h3 className="font-serif text-base font-bold text-[var(--text-primary)]">
-              2. Coordinate inspector (cell level)
-            </h3>
-            <p className="text-xs text-[var(--text-secondary)]">
-              Inspecting cell coordinate <InlineMath math={`M[${selectedCoord.r}, ${selectedCoord.c}]`} /> at step <InlineMath math={`t = ${currentStep}`} />.
-            </p>
+
+          <div className="grid grid-cols-1 sm:grid-cols-3 divide-y sm:divide-y-0 sm:divide-x divide-[var(--mm-rule)] border border-[var(--mm-rule)] bg-[var(--mm-paper-bright)] rounded-md text-xs">
+            <div className="p-3.5 space-y-1">
+              <span className="font-mono text-[11px] uppercase tracking-[0.08em] text-[var(--mm-muted)] block">
+                Before (<InlineMath math="t_{k-1}" />)
+              </span>
+              <div className="text-base font-mono font-semibold text-[var(--mm-ink)] tabular-nums">
+                {coordInspection.beforeVal.toFixed(4)}
+              </div>
+              <span className="text-[11px] text-[var(--mm-muted)]">Prior coordinate value</span>
+            </div>
+
+            <div className="p-3.5 space-y-1">
+              <span className="font-mono text-[11px] uppercase tracking-[0.08em] text-[var(--mm-muted)] block">
+                After (<InlineMath math="t_k" />)
+              </span>
+              <div className="text-base font-mono font-semibold text-[var(--mm-signal)] tabular-nums">
+                {coordInspection.afterVal.toFixed(4)}
+              </div>
+              <span className="text-[11px] text-[var(--mm-muted)]">Superposed coordinate charge</span>
+            </div>
+
+            <div className="p-3.5 space-y-1">
+              <span className="font-mono text-[11px] uppercase tracking-[0.08em] text-[var(--mm-signal)] block">
+                Delta (<InlineMath math="\Delta M_{ij}" />)
+              </span>
+              <div className="text-base font-mono font-semibold text-[var(--mm-ink)] tabular-nums">
+                {coordInspection.deltaVal >= 0 ? `+${coordInspection.deltaVal.toFixed(4)}` : coordInspection.deltaVal.toFixed(4)}
+              </div>
+              <span className="text-[11px] text-[var(--mm-muted)]">
+                Outer-product contribution: <InlineMath math="\eta k_i v_j" />
+              </span>
+            </div>
           </div>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
-          <div className="metric-panel space-y-1">
-            <span className="text-[var(--text-secondary)] uppercase font-semibold text-[11px] block">
-              Before ingestion (<InlineMath math="t_{k-1}" />)
-            </span>
-            <div className="text-base font-mono font-bold text-[var(--text-primary)] tabular-nums">
-              {coordInspection.beforeVal.toFixed(4)}
-            </div>
-            <span className="text-[11px] text-[var(--text-secondary)]">Prior coordinate charge</span>
-          </div>
-
-          <div className="metric-panel space-y-1">
-            <span className="text-[var(--text-secondary)] uppercase font-semibold text-[11px] block">
-              After ingestion (<InlineMath math="t_k" />)
-            </span>
-            <div className="text-base font-mono font-bold text-[var(--accent-blue-text)] tabular-nums">
-              {coordInspection.afterVal.toFixed(4)}
-            </div>
-            <span className="text-[11px] text-[var(--text-secondary)]">Superimposed coordinate charge</span>
-          </div>
-
-          <div className="p-3.5 rounded-xl border border-[var(--border)] bg-[var(--accent-blue)] text-[var(--accent-blue-text)] space-y-1">
-            <span className="uppercase font-semibold text-[11px] block">
-              Coordinate delta (<InlineMath math="\Delta M_{ij}" />)
-            </span>
-            <div className="text-base font-mono font-bold tabular-nums">
-              {coordInspection.deltaVal >= 0 ? `+${coordInspection.deltaVal.toFixed(4)}` : coordInspection.deltaVal.toFixed(4)}
-            </div>
-            <span className="text-[11px]">
-              Exact Hebbian outer-product contribution: <InlineMath math="\eta k_i v_j" />
-            </span>
-          </div>
-        </div>
-      </div>
+        <FigureCaption
+          figure="Fig. 3.1"
+          title="Every incoming fact adds a rank-1 matrix update across the exact same D×D coordinates."
+          source="Deterministic replay over 8×8 toy matrix state (λ = 0.95, η = 0.80)"
+          note="Units are raw coordinate weights in ℝ^(8×8)."
+        />
+      </figure>
     </div>
   );
 };

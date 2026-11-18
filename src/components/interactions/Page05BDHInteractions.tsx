@@ -1,17 +1,5 @@
 import React, { useState } from 'react';
-import {
-  Network,
-  Share2,
-  Info,
-  BookOpen,
-  Sparkles,
-  Layers,
-  ArrowRight,
-  Database,
-  Cpu,
-  Zap,
-} from 'lucide-react';
-import { InlineMath, BlockMath } from '../ui/MathView';
+import { InlineMath } from '../ui/MathView';
 
 export const Page05BDHInteractions: React.FC = () => {
   // 1. Interactive Architecture Diagram Node Selection
@@ -28,183 +16,171 @@ export const Page05BDHInteractions: React.FC = () => {
 
   // Deterministic toy synaptic state calculation
   const synapseData = {
-    source: `Neuron #${selectedSynapse.i} (Sensory/Feature projection)`,
-    target: `Neuron #${selectedSynapse.j} (Associative latent hub)`,
+    source: `Neuron #${selectedSynapse.i} (Feature projection)`,
+    target: `Neuron #${selectedSynapse.j} (Latent hub)`,
     prevWeight: 0.428,
     hebbianUpdate: 0.185,
-    nextWeight: 0.591, // with decay 0.95: 0.428 * 0.95 + 0.185 = 0.5916
+    nextWeight: 0.591,
   };
 
   const ARCH_DETAILS = {
     rnn: {
       name: 'Standard Recurrent Neural Network (Elman RNN)',
       memoryRep: 'Dense vector activation h_t in R^d',
-      stateBehavior: 'Updated via single matrix multiplication and non-linearity: h_{t+1} = tanh(W h_t + U x_t)',
-      seqDep: 'Strong recency bias, severe gradient vanishing over long sequences',
+      stateBehavior: 'Single matrix transformation + tanh nonlinearity: h_{t+1} = tanh(W h_t + U x_t)',
+      seqDep: 'Strong recency bias and gradient vanishing across long spans',
       scaling: 'Constant memory O(1), linear compute O(T)',
-      evidenceType: 'Historical architecture baseline (Rumelhart et al., 1986)',
+      evidenceType: 'Historical baseline (Rumelhart et al., 1986)',
     },
     lstm: {
       name: 'Long Short-Term Memory (LSTM / GRU)',
-      memoryRep: 'Dual state: hidden activation h_t and cell carousel c_t with additive flow',
-      stateBehavior: 'Gated linear updates: input, forget, and output gating prevent gradient collapse',
-      seqDep: 'Significantly longer memory retention than standard RNN, but still bounded fixed capacity',
+      memoryRep: 'Dual vector state: hidden h_t and gated cell memory c_t',
+      stateBehavior: 'Multiplicative input, forget, and output gates modulate additive carry',
+      seqDep: 'Improved retention over plain RNNs, still constrained by fixed vector width',
       scaling: 'Constant memory O(1), linear compute O(T)',
       evidenceType: 'Established sequential baseline (Hochreiter & Schmidhuber, 1997)',
     },
     transformer: {
       name: 'Standard Transformer Self-Attention',
-      memoryRep: 'Full historical token buffer in Key-Value cache tensors (K, V)',
-      stateBehavior: 'No compression during sequence ingestion: each token attends to all prior tokens verbatim',
-      seqDep: 'Unbounded sequence context fidelity without forgetting',
-      scaling: 'Linear memory growth O(T) RAM, quadratic attention compute O(T^2) without KV caching optimizations',
-      evidenceType: 'Dominant modern paradigm (Vaswani et al., 2017)',
+      memoryRep: 'Growing token Key-Value cache tensors (K, V)',
+      stateBehavior: 'Zero lossy compression: every token attends directly to prior cached keys/values',
+      seqDep: 'Unbounded verbatim context up to the memory/context cap',
+      scaling: 'Linear cache RAM growth O(T), quadratic full attention compute O(T^2)',
+      evidenceType: 'Standard modern baseline (Vaswani et al., 2017)',
     },
     bdh: {
       name: 'Biological Dragon Hatchling (BDH)',
-      memoryRep: 'Decentralized sparse particle graph with plastic synaptic weights sigma_ij',
-      stateBehavior: 'Local Hebbian co-activation updates and continuous latent relaxation loops',
-      seqDep: 'Iterative synaptic consolidation without growing a monolithic token cache',
-      scaling: 'Sub-linear active memory, scale-free connectivity topology',
-      evidenceType: 'Published frontier research (Pathway, 2024)',
+      memoryRep: 'Sparse particle graph with plastic synaptic edge weights σ_ij',
+      stateBehavior: 'Local Hebbian updates paired with internal relaxation sweeps per step',
+      seqDep: 'Associative consolidation without storing an expanding raw token log',
+      scaling: 'Sparse sub-linear activation load on scale-free graph hubs',
+      evidenceType: 'Published frontier architecture (Pathway, arXiv:2509.26507)',
     },
   };
 
   const currentArch = ARCH_DETAILS[selectedArch];
 
   return (
-    <div className="space-y-8 mt-6 text-[var(--text-primary)]">
-      {/* 4. TOY VS PUBLISHED RESEARCH MODE BANNER */}
-      <div className="rounded-xl border border-[var(--border)] bg-[var(--surface-soft)] p-4 flex flex-wrap items-center justify-between gap-3">
-        <div className="flex flex-wrap items-center gap-2.5">
-          <span className="text-xs font-sans font-semibold text-[var(--text-secondary)]">Perspective mode:</span>
-          <div className="flex items-center gap-1 bg-[var(--surface)] p-1 rounded-lg border border-[var(--border)]">
-            <button
-              type="button"
-              onClick={() => setMode('toy')}
-              className={`px-3 py-1 rounded text-xs font-medium transition-colors cursor-pointer ${
-                mode === 'toy'
-                  ? 'bg-[var(--color-accent)] text-[var(--surface)] font-semibold'
-                  : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
-              }`}
-            >
-              Educational Toy Model
-            </button>
-            <button
-              type="button"
-              onClick={() => setMode('research')}
-              className={`px-3 py-1 rounded text-xs font-medium transition-colors cursor-pointer ${
-                mode === 'research'
-                  ? 'bg-[var(--color-accent)] text-[var(--surface)] font-semibold'
-                  : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
-              }`}
-            >
-              Published Research
-            </button>
-          </div>
+    <div className="space-y-8 mt-8 text-[var(--text-primary)]">
+      {/* Perspective Underline Strip */}
+      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[var(--mm-rule)] pb-2">
+        <div className="flex items-center gap-1">
+          <span className="font-mono text-[11px] uppercase tracking-[0.1em] text-[var(--mm-muted)] pr-3">Perspective:</span>
+          <button
+            type="button"
+            onClick={() => setMode('toy')}
+            className={`px-3 pb-1.5 text-xs font-medium transition-colors cursor-pointer border-b-2 -mb-[9px] ${
+              mode === 'toy'
+                ? 'border-[var(--mm-signal)] text-[var(--mm-ink)] font-semibold'
+                : 'border-transparent text-[var(--mm-muted)] hover:text-[var(--mm-ink)]'
+            }`}
+          >
+            Educational Toy Model
+          </button>
+          <button
+            type="button"
+            onClick={() => setMode('research')}
+            className={`px-3 pb-1.5 text-xs font-medium transition-colors cursor-pointer border-b-2 -mb-[9px] ${
+              mode === 'research'
+                ? 'border-[var(--mm-signal)] text-[var(--mm-ink)] font-semibold'
+                : 'border-transparent text-[var(--mm-muted)] hover:text-[var(--mm-ink)]'
+            }`}
+          >
+            Published Research Context
+          </button>
         </div>
 
-        <span className="text-xs text-[var(--text-secondary)]">
+        <span className="text-xs text-[var(--mm-muted)]">
           {mode === 'toy'
-            ? 'Educational toy: simplified mathematical demonstration, not the official BDH codebase.'
-            : 'Published research context: grounded in Pathway technical publications and peer benchmarks.'}
+            ? 'Simplified math abstraction running locally—not the production BDH binary.'
+            : 'Grounded in Pathway architectural specification (arXiv:2509.26507).'}
         </span>
       </div>
 
-      {/* 1. INTERACTIVE ARCHITECTURE DIAGRAM */}
-      <div className="rounded-xl border border-[var(--border)] bg-[var(--surface)] p-5 sm:p-6 space-y-4">
-        <div className="flex items-center gap-2.5 border-b border-[var(--border)] pb-3">
-          <div className="p-1.5 rounded-lg bg-[var(--accent-blue)] text-[var(--accent-blue-text)]">
-            <Network className="w-4 h-4" />
-          </div>
-          <div>
-            <h3 className="font-sans text-base font-semibold text-[var(--text-primary)]">
-              1. Interactive Architecture Nodes
-            </h3>
-            <p className="text-xs text-[var(--text-secondary)]">
-              Click on any structural element of the BDH graph topology to inspect its role.
-            </p>
-          </div>
+      {/* 1. INTERACTIVE ARCHITECTURE ELEMENTS */}
+      <div className="essay-figure-stage p-5 sm:p-6 space-y-5">
+        <div className="border-b border-[var(--mm-rule)] pb-3">
+          <span className="font-mono text-[11px] uppercase tracking-[0.14em] text-[var(--mm-signal)] font-semibold block mb-1">
+            05.1 · Structural graph elements
+          </span>
+          <h3 className="font-serif text-lg sm:text-xl font-normal text-[var(--mm-ink)]">
+            Inspect how memory flows through the BDH graph
+          </h3>
         </div>
 
-        <div className="grid grid-cols-2 sm:grid-cols-5 gap-2">
+        <div className="grid grid-cols-2 sm:grid-cols-5 divide-y sm:divide-y-0 sm:divide-x divide-[var(--mm-rule)] border border-[var(--mm-rule)] bg-[var(--mm-paper-bright)] rounded-md overflow-hidden">
           {[
-            { id: 'input', label: '1. Input Stream', desc: 'Token sequence projected into sparse spatial activation pulses.' },
-            { id: 'neuron', label: '2. Neuron State', desc: 'Continuous latent firing threshold and membrane relaxation potential.' },
-            { id: 'synapse', label: '3. Plastic Synapse', desc: 'Dynamic weight sigma_ij modulated via localized Hebbian co-activation.' },
-            { id: 'memory', label: '4. Synaptic Memory', desc: 'Decentralized connectivity matrix storing associative relations.' },
-            { id: 'update', label: '5. Recurrent Loop', desc: 'Iterative latent thought passes before discrete token projection.' },
+            { id: 'input', label: '1. Input Stream', desc: 'Sparse spatial activation pulses.' },
+            { id: 'neuron', label: '2. Neuron State', desc: 'Non-negative firing potential.' },
+            { id: 'synapse', label: '3. Plastic Synapse', desc: 'Co-activation weight σ_ij.' },
+            { id: 'memory', label: '4. Synaptic Memory', desc: 'Distributed edge associations.' },
+            { id: 'update', label: '5. Recurrent Loop', desc: 'Multi-hop latent relaxation.' },
           ].map((node) => (
             <button
               key={node.id}
               type="button"
               onClick={() => setSelectedNode(node.id as any)}
-              className={`p-3 rounded-lg border text-left transition cursor-pointer space-y-1 ${
+              className={`p-3 text-left transition cursor-pointer space-y-1 ${
                 selectedNode === node.id
-                  ? 'border-[var(--color-border-strong)] bg-[var(--accent-blue)] text-[var(--accent-blue-text)] font-semibold'
-                  : 'border-[var(--border)] bg-[var(--surface-soft)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:border-[var(--color-border-strong)]'
+                  ? 'bg-[var(--mm-signal-soft)] text-[var(--mm-ink)]'
+                  : 'text-[var(--mm-muted)] hover:bg-[var(--mm-paper-inset)]'
               }`}
             >
-              <div className="text-xs font-semibold">{node.label}</div>
-              <p className="text-[11px] leading-relaxed line-clamp-2 text-[var(--text-muted)]">
+              <div className={`text-xs font-semibold ${selectedNode === node.id ? 'text-[var(--mm-signal)]' : 'text-[var(--mm-ink)]'}`}>
+                {node.label}
+              </div>
+              <p className="text-[11px] leading-relaxed text-[var(--mm-muted)]">
                 {node.desc}
               </p>
             </button>
           ))}
         </div>
 
-        {/* Selected Node Detailed Explanation */}
-        <div className="p-4 rounded-lg bg-[var(--surface-soft)] border border-[var(--border)] text-xs space-y-1.5">
-          <span className="font-semibold text-[var(--accent-blue-text)] text-xs block">
-            Node inspection: {selectedNode}
+        <div className="pt-2 text-xs space-y-1">
+          <span className="font-mono text-[11px] uppercase tracking-[0.1em] text-[var(--mm-signal)] font-semibold block">
+            Selected element: {selectedNode}
           </span>
-          <p className="text-xs sm:text-sm text-[var(--text-primary)] leading-relaxed">
+          <p className="text-xs sm:text-sm text-[var(--mm-ink-soft)] leading-relaxed">
             {selectedNode === 'input' &&
-              'In BDH, incoming sequence data does not simply sit in an expanding matrix buffer. It activates specific topological entry neurons in the sparse graph, emitting signal waves across plastic connections.'}
+              'In BDH, incoming tokens activate sparse entry neurons in the scale-free graph instead of appending into an expanding key-value list.'}
             {selectedNode === 'neuron' &&
-              'Each neuron retains a local activation potential. Rather than forcing all computation into a feedforward layer, neurons interact continuously via recurrent relaxation loops.'}
+              'Each neuron particle maintains a non-negative firing level (y ≥ 0) and exchanges signals exclusively with its local neighborhood.'}
             {selectedNode === 'synapse' &&
-              'Synapses between neurons obey local plasticity: when neuron i and neuron j fire simultaneously, their connecting synaptic weight sigma_ij strengthens according to Hebbian learning rules.'}
+              'Synapses follow local Hebbian plasticity: whenever pre-synaptic neuron i and post-synaptic neuron j co-fire, edge weight σ_ij strengthens.'}
             {selectedNode === 'memory' &&
-              'Memory is not a standalone storage module. It resides intrinsically within the collective synaptic weights across the scale-free network.'}
+              'Memory is distributed across millions of sparse plastic synapses rather than jammed inside one fixed dense vector.'}
             {selectedNode === 'update' &&
-              'Recurrent update law: sigma_ij(t+1) = lambda sigma_ij(t) + eta x_i(t) y_j(t). Allows memory retention to unfold continuously.'}
+              'Recurrent law: σ_ij(t+1) = λ σ_ij(t) + η x_i(t) y_j(t), letting associations reinforce and decay selectively across local circuits.'}
           </p>
         </div>
       </div>
 
-      {/* 2. RNN VS TRANSFORMER VS BDH ARCHITECTURE COMPARISON */}
-      <div className="rounded-xl border border-[var(--border)] bg-[var(--surface)] p-5 sm:p-6 space-y-4">
-        <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[var(--border)] pb-3">
-          <div className="flex items-center gap-2.5">
-            <div className="p-1.5 rounded-lg bg-[var(--color-warning-soft)] text-[var(--color-warning)]">
-              <Layers className="w-4 h-4" />
-            </div>
-            <div>
-              <h3 className="font-sans text-base font-semibold text-[var(--text-primary)]">
-                2. Architectural Paradigm Comparison
-              </h3>
-              <p className="text-xs text-[var(--text-secondary)]">
-                Select an architecture to inspect how memory representation, scaling, and sequence dependence fundamentally diverge.
-              </p>
-            </div>
+      {/* 2. ARCHITECTURE COMPARISON */}
+      <div className="essay-figure-stage p-5 sm:p-6 space-y-4">
+        <div className="flex flex-wrap items-baseline justify-between gap-3 border-b border-[var(--mm-rule)] pb-3">
+          <div>
+            <span className="font-mono text-[11px] uppercase tracking-[0.14em] text-[var(--mm-amber)] font-semibold block mb-1">
+              05.2 · Paradigm comparison
+            </span>
+            <h3 className="font-serif text-lg sm:text-xl font-normal text-[var(--mm-ink)]">
+              Contrast how four architectures represent sequence state
+            </h3>
           </div>
-          <span className="text-xs text-[var(--text-muted)]">
-            Educational comparison, not a cherry-picked benchmark claim.
+          <span className="text-xs text-[var(--mm-muted)]">
+            Conceptual reference (not a benchmark ranking)
           </span>
         </div>
 
-        {/* Architecture Selector Tabs */}
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+        <div className="flex flex-wrap items-center gap-1 border-b border-[var(--mm-rule)]">
           {(['rnn', 'lstm', 'transformer', 'bdh'] as const).map((archKey) => (
             <button
               key={archKey}
               type="button"
               onClick={() => setSelectedArch(archKey)}
-              className={`p-2.5 rounded-lg border text-xs font-medium transition cursor-pointer text-center ${
+              className={`px-4 pb-2 font-mono text-xs transition cursor-pointer border-b-2 -mb-[1px] ${
                 selectedArch === archKey
-                  ? 'border-[var(--color-border-strong)] bg-[var(--accent-blue)] text-[var(--accent-blue-text)] font-semibold'
-                  : 'border-[var(--border)] bg-[var(--surface-soft)] text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
+                  ? 'border-[var(--mm-signal)] text-[var(--mm-ink)] font-semibold'
+                  : 'border-transparent text-[var(--mm-muted)] hover:text-[var(--mm-ink)]'
               }`}
             >
               {archKey.toUpperCase()}
@@ -212,98 +188,95 @@ export const Page05BDHInteractions: React.FC = () => {
           ))}
         </div>
 
-        {/* Selected Architecture Detailed Telemetry */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
-          <div className="p-3.5 rounded-lg bg-[var(--surface-soft)] border border-[var(--border)] space-y-1">
-            <span className="text-[var(--text-muted)] font-semibold text-xs block">Architecture</span>
-            <strong className="text-[var(--text-primary)] text-sm block">{currentArch.name}</strong>
-            <span className="text-[var(--text-secondary)] block pt-1">
-              <strong className="text-[var(--text-primary)]">Memory Representation: </strong>{currentArch.memoryRep}
-            </span>
+        <div className="grid grid-cols-1 sm:grid-cols-2 divide-y sm:divide-y-0 sm:divide-x divide-[var(--mm-rule)] border border-[var(--mm-rule)] bg-[var(--mm-paper-bright)] rounded-md text-xs">
+          <div className="p-4 space-y-3">
+            <div>
+              <span className="text-[var(--mm-muted)] font-mono text-[11px] uppercase block">Architecture</span>
+              <strong className="text-[var(--mm-ink)] text-sm block mt-0.5">{currentArch.name}</strong>
+              <span className="text-[var(--mm-ink-soft)] block pt-1">
+                <strong className="text-[var(--mm-ink)]">Memory state: </strong>{currentArch.memoryRep}
+              </span>
+            </div>
+            <div className="pt-2 border-t border-[var(--mm-rule)]">
+              <span className="text-[var(--mm-muted)] font-mono text-[11px] uppercase block">Update dynamics</span>
+              <p className="text-[var(--mm-ink-soft)] leading-relaxed mt-0.5">{currentArch.stateBehavior}</p>
+            </div>
           </div>
 
-          <div className="p-3.5 rounded-lg bg-[var(--surface-soft)] border border-[var(--border)] space-y-1">
-            <span className="text-[var(--text-muted)] font-semibold text-xs block">State Dynamics Law</span>
-            <p className="text-[var(--text-primary)] leading-relaxed">{currentArch.stateBehavior}</p>
-          </div>
-
-          <div className="p-3.5 rounded-lg bg-[var(--surface-soft)] border border-[var(--border)] space-y-1">
-            <span className="text-[var(--text-muted)] font-semibold text-xs block">Computational Scaling</span>
-            <p className="font-mono text-[var(--accent-blue-text)] font-semibold">{currentArch.scaling}</p>
-            <p className="text-[var(--text-secondary)] text-xs pt-1">{currentArch.seqDep}</p>
-          </div>
-
-          <div className="p-3.5 rounded-lg bg-[var(--accent-blue)] border border-[var(--color-border-strong)] text-[var(--accent-blue-text)] space-y-1">
-            <span className="font-semibold text-xs block">Evidence Context</span>
-            <p className="text-xs leading-relaxed">{currentArch.evidenceType}</p>
+          <div className="p-4 space-y-3">
+            <div>
+              <span className="text-[var(--mm-muted)] font-mono text-[11px] uppercase block">Complexity &amp; scaling</span>
+              <p className="font-mono text-[var(--mm-signal)] font-semibold mt-0.5">{currentArch.scaling}</p>
+              <p className="text-[var(--mm-ink-soft)] text-xs pt-1">{currentArch.seqDep}</p>
+            </div>
+            <div className="pt-2 border-t border-[var(--mm-rule)]">
+              <span className="text-[var(--mm-muted)] font-mono text-[11px] uppercase block">Primary reference</span>
+              <p className="text-xs text-[var(--mm-ink)] mt-0.5">{currentArch.evidenceType}</p>
+            </div>
           </div>
         </div>
       </div>
 
       {/* 3. SYNAPTIC UPDATE INSPECTOR */}
-      <div className="rounded-xl border border-[var(--border)] bg-[var(--surface)] p-5 sm:p-6 space-y-4">
-        <div className="flex items-center gap-2.5 border-b border-[var(--border)] pb-3">
-          <div className="p-1.5 rounded-lg bg-[var(--color-success-soft)] text-[var(--color-success)]">
-            <Zap className="w-4 h-4" />
-          </div>
-          <div>
-            <h3 className="font-sans text-base font-semibold text-[var(--text-primary)]">
-              3. Synaptic Update Inspector (Hebb&apos;s Rule)
-            </h3>
-            <p className="text-xs text-[var(--text-secondary)]">
-              Select a synapse between neuron pair <InlineMath math="(i, j)" /> to view its weight modification under local co-activation.
-            </p>
-          </div>
+      <div className="essay-figure-stage p-5 sm:p-6 space-y-4">
+        <div className="border-b border-[var(--mm-rule)] pb-3">
+          <span className="font-mono text-[11px] uppercase tracking-[0.14em] text-[var(--mm-signal)] font-semibold block mb-1">
+            05.3 · Local synapse rule
+          </span>
+          <h3 className="font-serif text-lg sm:text-xl font-normal text-[var(--mm-ink)]">
+            Inspect Hebbian weight change across edge <InlineMath math="(i, j)" />
+          </h3>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-4 gap-3 text-xs tabular-nums">
-          <div className="p-3.5 rounded-lg bg-[var(--surface-soft)] border border-[var(--border)] space-y-1.5">
-            <span className="text-[var(--text-muted)] font-semibold text-xs block">Synapse selection</span>
+        <div className="grid grid-cols-1 sm:grid-cols-4 divide-y sm:divide-y-0 sm:divide-x divide-[var(--mm-rule)] border border-[var(--mm-rule)] bg-[var(--mm-paper-bright)] rounded-md text-xs tabular-nums">
+          <div className="p-3.5 space-y-1.5">
+            <span className="text-[var(--mm-muted)] font-semibold text-xs block">Pair selection</span>
             <div className="flex flex-wrap items-center gap-2 pt-0.5">
-              <label className="text-[var(--text-secondary)]">Source i:</label>
               <select
                 value={selectedSynapse.i}
                 onChange={(e) => setSelectedSynapse((prev) => ({ ...prev, i: parseInt(e.target.value, 10) }))}
-                className="p-1 rounded border border-[var(--border)] bg-[var(--surface)] text-[var(--text-primary)] cursor-pointer"
+                aria-label="Source neuron i"
+                className="p-1 rounded border border-[var(--mm-rule)] bg-[var(--mm-paper)] text-[var(--mm-ink)] cursor-pointer"
               >
                 {[1, 2, 3, 4, 5, 6].map((n) => (
-                  <option key={n} value={n}>Neuron {n}</option>
+                  <option key={n} value={n}>Pre #{n}</option>
                 ))}
               </select>
 
-              <label className="text-[var(--text-secondary)]">Target j:</label>
               <select
                 value={selectedSynapse.j}
                 onChange={(e) => setSelectedSynapse((prev) => ({ ...prev, j: parseInt(e.target.value, 10) }))}
-                className="p-1 rounded border border-[var(--border)] bg-[var(--surface)] text-[var(--text-primary)] cursor-pointer"
+                aria-label="Target neuron j"
+                className="p-1 rounded border border-[var(--mm-rule)] bg-[var(--mm-paper)] text-[var(--mm-ink)] cursor-pointer"
               >
                 {[1, 2, 3, 4, 5, 6].map((n) => (
-                  <option key={n} value={n}>Neuron {n}</option>
+                  <option key={n} value={n}>Post #{n}</option>
                 ))}
               </select>
             </div>
-            <span className="text-[11px] text-[var(--text-muted)] block pt-1">{synapseData.source} → {synapseData.target}</span>
+            <span className="text-[11px] text-[var(--mm-muted)] block">{synapseData.source} → {synapseData.target}</span>
           </div>
 
-          <div className="p-3.5 rounded-lg bg-[var(--surface-soft)] border border-[var(--border)] space-y-1">
-            <span className="text-[var(--text-muted)] font-semibold text-xs block">Previous Weight <InlineMath math="\sigma_{ij}(t)" /></span>
-            <div className="text-base font-mono font-bold text-[var(--text-primary)]">{synapseData.prevWeight.toFixed(4)}</div>
-            <span className="text-[11px] text-[var(--text-muted)]">Prior synaptic conductance</span>
+          <div className="p-3.5 space-y-1">
+            <span className="text-[var(--mm-muted)] font-semibold text-xs block">Prior <InlineMath math="\sigma_{ij}(t)" /></span>
+            <div className="text-base font-mono font-semibold text-[var(--mm-ink)]">{synapseData.prevWeight.toFixed(4)}</div>
+            <span className="text-[11px] text-[var(--mm-muted)]">Initial conductance</span>
           </div>
 
-          <div className="p-3.5 rounded-lg bg-[var(--surface-soft)] border border-[var(--border)] space-y-1">
-            <span className="text-[var(--text-muted)] font-semibold text-xs block">Hebbian Delta <InlineMath math="\eta x_i y_j" /></span>
-            <div className="text-base font-mono font-bold text-[var(--color-success)]">+{synapseData.hebbianUpdate.toFixed(4)}</div>
-            <span className="text-[11px] text-[var(--text-muted)]">Concurrent firing update</span>
+          <div className="p-3.5 space-y-1">
+            <span className="text-[var(--mm-muted)] font-semibold text-xs block">Delta <InlineMath math="\eta x_i y_j" /></span>
+            <div className="text-base font-mono font-semibold text-[var(--color-success)]">+{synapseData.hebbianUpdate.toFixed(4)}</div>
+            <span className="text-[11px] text-[var(--mm-muted)]">Co-firing pulse</span>
           </div>
 
-          <div className="p-3.5 rounded-lg bg-[var(--accent-blue)] border border-[var(--color-border-strong)] text-[var(--accent-blue-text)] space-y-1">
-            <span className="font-semibold text-xs block">New Weight <InlineMath math="\sigma_{ij}(t+1)" /></span>
-            <div className="text-base font-mono font-bold">{synapseData.nextWeight.toFixed(4)}</div>
-            <span className="text-[11px]">Updated synaptic strength</span>
+          <div className="p-3.5 space-y-1">
+            <span className="text-[var(--mm-signal)] font-semibold text-xs block">Next <InlineMath math="\sigma_{ij}(t+1)" /></span>
+            <div className="text-base font-mono font-semibold text-[var(--mm-ink)]">{synapseData.nextWeight.toFixed(4)}</div>
+            <span className="text-[11px] text-[var(--mm-muted)]">Updated synapse (λ=0.95)</span>
           </div>
         </div>
       </div>
     </div>
   );
 };
+

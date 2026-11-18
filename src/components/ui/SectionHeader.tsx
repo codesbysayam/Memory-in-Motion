@@ -1,6 +1,5 @@
 import React from 'react';
 import { FormattedMathText } from './MathView';
-import { ResearchCallout } from './ResearchCallout';
 
 interface SectionHeaderProps {
   number: string;
@@ -21,14 +20,14 @@ export function SectionHeader({
   id,
 }: SectionHeaderProps) {
   return (
-    <div id={id} className="mb-8 border-b border-[var(--border)] pb-6">
-      <div className="flex flex-wrap items-center gap-2 mb-2.5 font-mono text-xs text-[var(--text-muted)]">
-        <span className="font-semibold text-[var(--accent-blue-text)] tabular-nums">
+    <header id={id} className="mb-10 border-b border-[var(--mm-rule)] pb-8">
+      <div className="flex flex-wrap items-center gap-2.5 mb-3 font-mono text-[11px] uppercase tracking-[0.08em] text-[var(--text-muted)]">
+        <span className="font-semibold text-[var(--mm-signal)] tabular-nums">
           {number}
         </span>
         {category && (
           <>
-            <span aria-hidden="true" className="text-[var(--border)]">·</span>
+            <span aria-hidden="true" className="text-[var(--mm-rule-strong)]">/</span>
             <span className="text-[var(--text-secondary)]">
               {category}
             </span>
@@ -36,19 +35,24 @@ export function SectionHeader({
         )}
       </div>
 
-      <h2 className="text-2xl sm:text-3xl lg:text-[34px] font-serif font-semibold tracking-tight mb-3 leading-[1.15] text-[var(--text-primary)] max-w-[760px]">
+      <h2 className="essay-section-title mb-4 max-w-[820px]">
         {title}
       </h2>
 
-      <div className="text-[15px] sm:text-[17px] max-w-[760px] leading-relaxed font-sans text-[var(--text-secondary)]">
+      <div className="essay-lead">
         {typeof subtitle === 'string' ? <FormattedMathText text={subtitle} /> : subtitle}
       </div>
 
       {discovery && (
-        <ResearchCallout tone="info" title="Key observation" className="mt-5 max-w-[760px]">
-          {typeof discovery === 'string' ? <FormattedMathText text={discovery} /> : discovery}
-        </ResearchCallout>
+        <div className="mt-6 pt-4 border-t border-[var(--mm-rule)] max-w-[720px] grid grid-cols-1 sm:grid-cols-[120px_1fr] gap-2 sm:gap-4 items-baseline">
+          <span className="font-mono text-[11px] uppercase tracking-[0.06em] text-[var(--mm-signal)] font-semibold">
+            Observation
+          </span>
+          <div className="text-sm text-[var(--text-primary)] font-sans leading-relaxed">
+            {typeof discovery === 'string' ? <FormattedMathText text={discovery} /> : discovery}
+          </div>
+        </div>
       )}
-    </div>
+    </header>
   );
 }

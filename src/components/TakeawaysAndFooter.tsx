@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ShieldCheck, Sparkles, ArrowUpRight, Shield, FileText } from 'lucide-react';
+import { ShieldCheck, ArrowUpRight } from 'lucide-react';
 import { FinalClaimCard } from './FinalClaimCard';
 import { LegalModal } from './LegalModals';
 
@@ -45,57 +45,55 @@ export const TakeawaysAndFooter: React.FC<TakeawaysAndFooterProps> = ({
   ];
 
   return (
-    <footer id="takeaways" className="scroll-mt-20 border-t border-[var(--border)] bg-[var(--page-bg)] py-16 text-[var(--text-primary)]">
+    <footer id="takeaways" className="scroll-mt-20 border-t border-[var(--mm-rule)] bg-[var(--page-bg)] py-16 text-[var(--mm-ink)]">
       <div className="research-container space-y-12">
         {/* Five Takeaways */}
         <div className="space-y-6">
-          <div className="flex items-center gap-2 text-xs font-mono text-[var(--text-muted)]">
-            <span className="font-semibold text-[var(--accent-blue-text)]">Synthesis</span>
-            <span aria-hidden="true" className="text-[var(--border)]">·</span>
+          <div className="essay-eyebrow flex items-center gap-2">
+            <span className="font-semibold text-[var(--mm-signal)]">Synthesis</span>
+            <span aria-hidden="true" className="text-[var(--mm-rule-strong)]">·</span>
             <span>What to carry forward</span>
           </div>
 
-          <h2 className="text-2xl sm:text-3xl font-serif font-semibold tracking-tight text-[var(--text-primary)]">
+          <h2 className="essay-section-title">
             Five core scientific takeaways
           </h2>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div className="divide-y divide-[var(--mm-rule)] border-y border-[var(--mm-rule)]">
             {takeaways.map((t) => (
               <div
                 key={t.num}
-                className="flex flex-col justify-between rounded-xl border border-[var(--border)] bg-[var(--surface)] p-5 space-y-2.5"
+                className="py-4 grid grid-cols-1 md:grid-cols-[260px_1fr] gap-2 md:gap-8 items-baseline"
               >
-                <div className="space-y-1.5">
-                  <span className="font-mono text-xs font-semibold tabular-nums text-[var(--accent-blue-text)] block">
+                <div className="flex items-baseline gap-3">
+                  <span className="font-mono text-xs font-semibold tabular-nums text-[var(--mm-signal)]">
                     {t.num}
                   </span>
-                  <h4 className="text-base font-serif font-semibold text-[var(--text-primary)]">
+                  <h4 className="text-base font-serif font-medium text-[var(--mm-ink)]">
                     {t.title}
                   </h4>
-                  <p className="text-xs sm:text-sm text-[var(--text-secondary)] leading-relaxed font-sans">
-                    {t.desc}
-                  </p>
                 </div>
+                <p className="text-xs sm:text-sm text-[var(--mm-ink-soft)] leading-relaxed font-sans">
+                  {t.desc}
+                </p>
               </div>
             ))}
           </div>
         </div>
 
-        {/* Final Claim & Disclaimer Card */}
-        <div>
-          <FinalClaimCard />
-        </div>
+        {/* Final Claim & Disclaimer */}
+        <FinalClaimCard />
 
         {/* Technical Honesty & AI Disclosure */}
-        <div className="rounded-xl border border-[var(--border)] bg-[var(--surface)] p-5 sm:p-6 text-xs sm:text-sm text-[var(--text-secondary)] leading-relaxed space-y-2">
-          <div className="flex items-center gap-2 font-sans text-[var(--text-primary)] font-semibold">
-            <ShieldCheck className="w-4 h-4 text-[var(--accent-green-text)] shrink-0" />
+        <div className="pl-4 border-l-2 border-[var(--color-success)] text-xs sm:text-sm text-[var(--mm-ink-soft)] leading-relaxed space-y-2 max-w-4xl">
+          <div className="flex items-center gap-2 font-sans text-[var(--mm-ink)] font-semibold">
+            <ShieldCheck className="w-4 h-4 text-[var(--color-success)] shrink-0" />
             <span>Technical Honesty &amp; AI Assistance Disclosure</span>
           </div>
           <p>
             This laboratory was created for <strong>DataForge 2026 — Pathway Track (&ldquo;Explain the Frontier&rdquo;)</strong>. All simulations execute deterministically in your browser using PRNG-seeded vector arithmetic and local graph updates. No benchmark numbers or experimental claims were fabricated.
           </p>
-          <p className="font-mono text-xs text-[var(--text-muted)]">
+          <p className="font-mono text-xs text-[var(--mm-muted)]">
             &ldquo;This project uses AI-assisted development. The author is responsible for understanding, verifying, and defending every component.&rdquo;
           </p>
         </div>

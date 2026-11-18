@@ -1,98 +1,70 @@
 import React from 'react';
-import { AlertCircle, Database, Cpu } from 'lucide-react';
 import { SectionHeader } from './ui/SectionHeader';
 
 export const SoWhatSection: React.FC = () => {
   return (
-    <section id="section-so-what" className="scroll-mt-20 border-b border-[var(--border)] bg-[var(--page-bg)] py-20 text-[var(--text-primary)]">
-      <div className="max-w-[1400px] mx-auto px-4 sm:px-6 space-y-10">
+    <section id="section-so-what" className="scroll-mt-20 border-b border-[var(--mm-rule)] bg-[var(--page-bg)] py-16 sm:py-20 text-[var(--text-primary)]">
+      <div className="space-y-10">
         <SectionHeader
           number="11"
-          category="THE ARCHITECTURAL HORIZON"
-          title="So what? Why does memory architecture matter?"
-          subtitle="Beyond the equations and toy matrices: why rethinking how neural networks store working memory is foundational to the future of machine intelligence."
-          discovery="Context windows cannot grow forever. Moving from external token caches to internal synaptic states transforms computation from memory-bound retrieval into active reasoning."
+          category="Synthesis & Architectural Horizon"
+          title="So what? Why memory geometry decides what a model can do"
+          subtitle="Moving beyond matrices and sparse graphs: how a neural system stores working memory separates passive look-up from real-time recurrent reasoning."
+          discovery="Context buffers cannot expand indefinitely. Shifting working memory from external token caches into plastic state lets deliberation run in bounded RAM."
         />
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 font-mono">
-          {/* Pillar 1 */}
-          <div className="rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-6 sm:p-7 space-y-4 shadow-xs">
-            <div className="p-3 rounded-xl bg-[var(--accent-yellow)] border border-[var(--border)] text-[var(--accent-yellow-text)] w-fit">
-              <AlertCircle className="w-5 h-5" />
-            </div>
-            <h3 className="text-base font-serif font-bold text-[var(--text-primary)] tracking-tight">
-              1. Context windows cannot grow forever
+        <div className="grid grid-cols-1 md:grid-cols-3 divide-y md:divide-y-0 md:divide-x divide-[var(--mm-rule)] border-t border-b border-[var(--mm-rule)]">
+          {/* Column 01: Evidence */}
+          <div className="py-6 md:py-8 md:pr-8 space-y-3">
+            <span className="font-mono text-[11px] uppercase tracking-[0.14em] text-[var(--mm-amber)] font-semibold block">
+              01 · Evidence · Context Limits
+            </span>
+            <h3 className="text-xl font-serif font-normal text-[var(--mm-ink)]">
+              Context windows cannot grow forever
             </h3>
-            <p className="text-xs text-[var(--text-secondary)] font-sans leading-relaxed">
-              Standard transformers store every previous token in an expanding KV-cache. Even with quantization and flash attention:
+            <p className="text-xs sm:text-sm text-[var(--mm-ink-soft)] font-sans leading-relaxed">
+              Standard Transformers keep every prior token inside an expanding KV cache:
             </p>
-            <ul className="space-y-2.5 text-xs text-[var(--text-secondary)] font-sans">
-              <li className="flex items-start gap-2">
-                <span className="text-[var(--accent-yellow-text)] font-bold">•</span>
-                <span><strong>Hardware Cost:</strong> Gigabytes of GPU VRAM consumed solely by passive token history.</span>
-              </li>
-              <li className="flex items-start gap-2">
-                <span className="text-[var(--accent-yellow-text)] font-bold">•</span>
-                <span><strong>Latency & Energy:</strong> Every token generation must attend over millions of historical key-values.</span>
-              </li>
-              <li className="flex items-start gap-2">
-                <span className="text-[var(--accent-yellow-text)] font-bold">•</span>
-                <span><strong>Attention Decay:</strong> &ldquo;Lost-in-the-middle&rdquo; effects degrade retrieval accuracy as context expands.</span>
-              </li>
+            <ul className="space-y-2 text-xs text-[var(--mm-muted)] font-sans">
+              <li><strong className="text-[var(--mm-ink)]">Hardware cost:</strong> Passive history consumes gigabytes of GPU memory and bandwidth.</li>
+              <li><strong className="text-[var(--mm-ink)]">Attention cost:</strong> Every newly generated token scans millions of stored key-values.</li>
+              <li><strong className="text-[var(--mm-ink)]">Middle dilution:</strong> Long contexts still exhibit lost-in-the-middle degradation.</li>
             </ul>
           </div>
 
-          {/* Pillar 2 */}
-          <div className="rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-6 sm:p-7 space-y-4 shadow-xs">
-            <div className="p-3 rounded-xl bg-[var(--accent-blue)] border border-[var(--border)] text-[var(--accent-blue-text)] w-fit">
-              <Database className="w-5 h-5" />
-            </div>
-            <h3 className="text-base font-serif font-bold text-[var(--text-primary)] tracking-tight">
-              2. Recurrent compression binds memory
+          {/* Column 02: Interpretation */}
+          <div className="py-6 md:py-8 md:px-8 space-y-3">
+            <span className="font-mono text-[11px] uppercase tracking-[0.14em] text-[var(--mm-signal)] font-semibold block">
+              02 · Interpretation · Compression Tension
+            </span>
+            <h3 className="text-xl font-serif font-normal text-[var(--mm-ink)]">
+              Fixed states trade fidelity for O(1) cost
             </h3>
-            <p className="text-xs text-[var(--text-secondary)] font-sans leading-relaxed">
-              As demonstrated throughout our interactive lab:
+            <p className="text-xs sm:text-sm text-[var(--mm-ink-soft)] font-sans leading-relaxed">
+              What our deterministic matrix experiments demonstrated directly:
             </p>
-            <ul className="space-y-2.5 text-xs text-[var(--text-secondary)] font-sans">
-              <li className="flex items-start gap-2">
-                <span className="text-[var(--accent-blue-text)] font-bold">•</span>
-                <span><strong>Bounded Footprint:</strong> A fixed recurrent state operates within constant O(1) memory bounds.</span>
-              </li>
-              <li className="flex items-start gap-2">
-                <span className="text-[var(--accent-blue-text)] font-bold">•</span>
-                <span><strong>Fundamental Tension:</strong> Compression inherently forces a trade-off between recall fidelity and coordinate capacity.</span>
-              </li>
-              <li className="flex items-start gap-2">
-                <span className="text-[var(--accent-blue-text)] font-bold">•</span>
-                <span><strong>Continuous Ingestion:</strong> The model absorbs incoming information online without rebooting attention passes.</span>
-              </li>
+            <ul className="space-y-2 text-xs text-[var(--mm-muted)] font-sans">
+              <li><strong className="text-[var(--mm-ink)]">Bounded footprint:</strong> State matrix dimensions remain O(1) regardless of stream length T.</li>
+              <li><strong className="text-[var(--mm-ink)]">Geometric limit:</strong> Packing more items than orthogonal dimensions D introduces crosstalk.</li>
+              <li><strong className="text-[var(--mm-ink)]">Online streaming:</strong> Information absorbs incrementally without re-reading raw transcripts.</li>
             </ul>
           </div>
 
-          {/* Pillar 3 */}
-          <div className="rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-6 sm:p-7 space-y-4 shadow-xs">
-            <div className="p-3 rounded-xl bg-[var(--accent-green)] border border-[var(--border)] text-[var(--accent-green-text)] w-fit">
-              <Cpu className="w-5 h-5" />
-            </div>
-            <h3 className="text-base font-serif font-bold text-[var(--text-primary)] tracking-tight">
-              3. Synapses replace the KV cache
+          {/* Column 03: Boundaries */}
+          <div className="py-6 md:py-8 md:pl-8 space-y-3">
+            <span className="font-mono text-[11px] uppercase tracking-[0.14em] text-[var(--accent-green-text)] font-semibold block">
+              03 · Boundaries · Synaptic State
+            </span>
+            <h3 className="text-xl font-serif font-normal text-[var(--mm-ink)]">
+              Synapses separate storage from vectors
             </h3>
-            <p className="text-xs text-[var(--text-secondary)] font-sans leading-relaxed">
-              The biological brain does not maintain a linear tape of every sensory token experienced:
+            <p className="text-xs sm:text-sm text-[var(--mm-ink-soft)] font-sans leading-relaxed">
+              Where Pathway&apos;s BDH &amp; BDH-CQ research extends classical recurrence:
             </p>
-            <ul className="space-y-2.5 text-xs text-[var(--text-secondary)] font-sans">
-              <li className="flex items-start gap-2">
-                <span className="text-[var(--accent-green-text)] font-bold">•</span>
-                <span><strong>Plastic Connections:</strong> Memory is etched directly into synaptic connections that rewire dynamically during thought.</span>
-              </li>
-              <li className="flex items-start gap-2">
-                <span className="text-[var(--accent-green-text)] font-bold">•</span>
-                <span><strong>Latent Reasoning:</strong> Multi-step problem solving occurs in recurrent state space without vocalizing verbal scratchpads.</span>
-              </li>
-              <li className="flex items-start gap-2">
-                <span className="text-[var(--accent-green-text)] font-bold">•</span>
-                <span><strong>Scale-Free Efficiency:</strong> Local Hebbian updates allow parallel execution across sparse connection graphs.</span>
-              </li>
+            <ul className="space-y-2 text-xs text-[var(--mm-muted)] font-sans">
+              <li><strong className="text-[var(--mm-ink)]">Plastic edges:</strong> Memory shifts into sparse Hebbian connections that update selectively.</li>
+              <li><strong className="text-[var(--mm-ink)]">Latent deliberation:</strong> Multi-step graph relaxation refines states before token output.</li>
+              <li><strong className="text-[var(--mm-ink)]">Epistemic humility:</strong> In-browser toy runs clarify mechanisms; full scale belongs to trained weights.</li>
             </ul>
           </div>
         </div>
@@ -100,3 +72,4 @@ export const SoWhatSection: React.FC = () => {
     </section>
   );
 };
+

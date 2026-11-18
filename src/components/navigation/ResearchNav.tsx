@@ -2,16 +2,13 @@ import React, { useState, useRef, useEffect } from 'react';
 import {
   Menu,
   X,
-  ChevronRight,
   ChevronDown,
   Clock,
   Award,
   BookOpen,
   ListTree,
-  Bookmark,
-  Sparkles,
   ArrowRight,
-  Hash,
+  Keyboard,
 } from 'lucide-react';
 import { LogoMark } from '../ui/LogoMark';
 import { ThemeSwitcher } from '../ui/ThemeSwitcher';
@@ -403,16 +400,8 @@ export function ResearchNav({
     return null;
   }).filter(Boolean) as PageInfo[];
 
-  const [moreDropdownOpen, setMoreDropdownOpen] = useState(false);
-  const moreDropdownRef = useRef<HTMLDivElement | null>(null);
-
-  // Close "More" dropdown when clicking outside and support Escape to dismiss open drawers/menus
+  // Listen for global 'C' shortcut ('toggle_toc_drawer') and Escape key
   useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (moreDropdownRef.current && !moreDropdownRef.current.contains(event.target as Node)) {
-        setMoreDropdownOpen(false);
-      }
-    };
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === 'Escape') {
         setActiveDropdownPage(null);
@@ -420,15 +409,27 @@ export function ResearchNav({
         setMobileMenuOpen(false);
       }
     };
-    if (moreDropdownOpen) {
-      document.addEventListener('mousedown', handleClickOutside);
-    }
-    document.addEventListener('keydown', handleKeyDown);
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-      document.removeEventListener('keydown', handleKeyDown);
+    const handleToggleToc = () => {
+      setMobileMenuOpen(false);
+      setActiveDropdownPage(null);
+      setTocDrawerOpen((prev) => !prev);
     };
-  }, [moreDropdownOpen]);
+
+    const handleCloseOverlays = () => {
+      setActiveDropdownPage(null);
+      setTocDrawerOpen(false);
+      setMobileMenuOpen(false);
+    };
+
+    document.addEventListener('keydown', handleKeyDown);
+    window.addEventListener('toggle_toc_drawer', handleToggleToc);
+    window.addEventListener('close_all_overlays', handleCloseOverlays);
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown);
+      window.removeEventListener('toggle_toc_drawer', handleToggleToc);
+      window.removeEventListener('close_all_overlays', handleCloseOverlays);
+    };
+  }, []);
 
   // Current page object for compact tablet/mobile display
   const currentPageInfo = PAGES.find((p) => p.id === currentPage) || PAGES[0];
@@ -682,55 +683,71 @@ export function ResearchNav({
             {/* Mobile Drawer Actions (Theme Switcher is in the header, single source of truth) */}
             <div className="pt-3 border-t border-[var(--border)] space-y-2">
               <div className="grid grid-cols-2 gap-2">
-              <button
-                onClick={() => {
-                  setMobileMenuOpen(false);
-                  setTocDrawerOpen(true);
-                }}
-                className="flex items-center justify-center gap-2 px-3 py-2.5 rounded-lg bg-[var(--surface)] text-[var(--text-primary)] border border-[var(--border)] font-sans text-xs font-semibold col-span-2 cursor-pointer"
-              >
-                <ListTree className="w-4 h-4 text-[var(--text-secondary)]" />
-                <span>Complete Table of Contents</span>
-              </button>
-
-              {onOpenGlossary && (
                 <button
+                  type="button"
                   onClick={() => {
                     setMobileMenuOpen(false);
-                    onOpenGlossary();
+                    setTocDrawerOpen(true);
                   }}
-                  className="flex items-center justify-center gap-2 px-3 py-2.5 rounded-lg bg-[var(--accent-blue)] text-[var(--accent-blue-text)] border border-[var(--border)] font-sans text-xs font-semibold col-span-2 cursor-pointer"
+                  className="flex items-center justify-center gap-2 px-3 py-2.5 rounded-md bg-[var(--surface)] text-[var(--text-primary)] border border-[var(--border)] font-sans text-xs font-semibold col-span-2 cursor-pointer"
                 >
-                  <BookOpen className="w-4 h-4" />
-                  <span>Concept Glossary</span>
+                  <ListTree className="w-4 h-4 text-[var(--text-secondary)]" />
+                  <span>Complete Table of Contents</span>
                 </button>
-              )}
 
-              {onStartJudgeMode && (
+                {onOpenGlossary && (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setMobileMenuOpen(false);
+                      onOpenGlossary();
+                    }}
+                    className="flex items-center justify-center gap-2 px-3 py-2.5 rounded-md bg-[var(--surface-soft)] text-[var(--text-primary)] border border-[var(--border)] font-sans text-xs font-semibold cursor-pointer"
+                  >
+                    <BookOpen className="w-4 h-4 text-[var(--mm-signal)]" />
+                    <span>Glossary</span>
+                  </button>
+                )}
+
                 <button
+                  type="button"
                   onClick={() => {
                     setMobileMenuOpen(false);
-                    onStartJudgeMode();
+                    window.dispatchEvent(new CustomEvent('open_shortcuts_help'));
                   }}
-                  className="flex items-center justify-center gap-2 px-3 py-2.5 rounded-lg bg-[var(--accent-yellow)] text-[var(--accent-yellow-text)] border border-[var(--border)] font-sans text-xs font-semibold cursor-pointer"
+                  className="flex items-center justify-center gap-2 px-3 py-2.5 rounded-md bg-[var(--surface-soft)] text-[var(--text-primary)] border border-[var(--border)] font-sans text-xs font-semibold cursor-pointer"
                 >
-                  <Clock className="w-4 h-4" />
-                  <span>60s Test</span>
+                  <Keyboard className="w-4 h-4 text-[var(--text-secondary)]" />
+                  <span>Shortcuts</span>
                 </button>
-              )}
 
-              {onOpenCertificate && (
-                <button
-                  onClick={() => {
-                    setMobileMenuOpen(false);
-                    onOpenCertificate();
-                  }}
-                  className="flex items-center justify-center gap-2 px-3 py-2.5 rounded-lg bg-[var(--accent-green)] text-[var(--accent-green-text)] border border-[var(--border)] font-sans text-xs font-semibold cursor-pointer"
-                >
-                  <Award className="w-4 h-4" />
-                  <span>Certificate</span>
-                </button>
-              )}
+                {onStartJudgeMode && (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setMobileMenuOpen(false);
+                      onStartJudgeMode();
+                    }}
+                    className="flex items-center justify-center gap-2 px-3 py-2.5 rounded-md bg-[var(--accent-yellow)] text-[var(--accent-yellow-text)] border border-[var(--color-warning-border)] font-sans text-xs font-semibold cursor-pointer"
+                  >
+                    <Clock className="w-4 h-4" />
+                    <span>60s Test</span>
+                  </button>
+                )}
+
+                {onOpenCertificate && (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setMobileMenuOpen(false);
+                      onOpenCertificate();
+                    }}
+                    className="flex items-center justify-center gap-2 px-3 py-2.5 rounded-md bg-[var(--accent-green)] text-[var(--accent-green-text)] border border-[var(--color-success-border)] font-sans text-xs font-semibold cursor-pointer"
+                  >
+                    <Award className="w-4 h-4" />
+                    <span>Certificate</span>
+                  </button>
+                )}
               </div>
             </div>
 
@@ -893,9 +910,35 @@ export function ResearchNav({
             </div>
 
             {/* Drawer Footer */}
-            <div className="p-4 border-t border-[var(--border)] bg-[var(--surface)] flex items-center justify-between text-xs text-[var(--text-secondary)]">
-              <span>Clicking any item scrolls directly to the subsection</span>
+            <div className="p-4 border-t border-[var(--border)] bg-[var(--surface)] flex flex-wrap items-center justify-between gap-2 text-xs text-[var(--text-secondary)]">
+              <div className="flex items-center gap-3">
+                {onOpenGlossary && (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setTocDrawerOpen(false);
+                      onOpenGlossary();
+                    }}
+                    className="inline-flex items-center gap-1.5 text-xs font-sans font-medium text-[var(--mm-signal)] hover:underline cursor-pointer"
+                  >
+                    <BookOpen className="w-3.5 h-3.5" />
+                    <span>Glossary (G)</span>
+                  </button>
+                )}
+                <button
+                  type="button"
+                  onClick={() => {
+                    setTocDrawerOpen(false);
+                    window.dispatchEvent(new CustomEvent('open_shortcuts_help'));
+                  }}
+                  className="inline-flex items-center gap-1.5 text-xs font-sans font-medium text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:underline cursor-pointer"
+                >
+                  <Keyboard className="w-3.5 h-3.5" />
+                  <span>Shortcuts (?)</span>
+                </button>
+              </div>
               <button
+                type="button"
                 onClick={() => setTocDrawerOpen(false)}
                 className="btn btn-secondary text-xs"
               >

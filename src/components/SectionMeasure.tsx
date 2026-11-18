@@ -1,20 +1,18 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import {
-  TrendingUp,
-  PieChart as PieChartIcon,
-  GitCommit,
-  ArrowRight,
   Info,
   CheckCircle2,
   XCircle,
   AlertTriangle,
-  Activity,
+  ArrowRight,
 } from 'lucide-react';
 import { Fact, createAssociativeMemory, cosine, vector } from '../models/associativeMemory';
 import { MathView } from './ui/MathView';
 import { GlossaryTerm } from './GlossaryTerm';
 import { markMilestoneCompleted } from '../utils/progressTracker';
 import { FrobeniusDriftExperiment } from './FrobeniusDriftExperiment';
+import { FigureCaption } from './essay/FigureCaption';
+import { DataFallbackTable } from './essay/DataFallbackTable';
 
 export const SectionMeasure: React.FC = () => {
   const [activeView, setActiveView] = useState<'time' | 'outcome' | 'mechanism' | 'frobenius'>('time');
@@ -275,81 +273,52 @@ export const SectionMeasure: React.FC = () => {
       <div className="w-full space-y-8">
         {/* Editorial Section Header */}
         <div className="space-y-3">
-          <div className="flex items-center gap-2 text-xs font-sans text-[var(--text-secondary)]">
-            <span className="font-semibold text-[var(--accent-blue-text)]">04 · Measure</span>
-            <span aria-hidden="true" className="text-[var(--border)]">·</span>
+          <div className="essay-eyebrow">
+            <span>04 · Measure</span>
+            <span aria-hidden="true">·</span>
             <span>State persistence &amp; empirical analytics</span>
           </div>
 
-          <h2 className="text-2xl sm:text-4xl font-serif tracking-tight text-[var(--text-primary)] font-semibold">
-            Watch memory change.
+          <h2 className="essay-section-title">
+            Watch a single memory fade as new facts arrive.
           </h2>
 
-          <p className="text-sm sm:text-base text-[var(--text-secondary)] font-sans max-w-3xl leading-relaxed">
-            The <GlossaryTerm term="recurrent state">recurrent state</GlossaryTerm> is fixed in size (<MathView math={`D \\times D = ${dimension} \\times ${dimension}`} /> coordinates). What changes is what survives inside it. Follow the empirical trajectory of retained memories as new facts arrive.
+          <p className="essay-lead">
+            The <GlossaryTerm term="recurrent state">recurrent state</GlossaryTerm> stays fixed at <MathView math={`D \\times D = ${dimension} \\times ${dimension}`} /> coordinates. What shifts is what survives inside it. Track how the first stored fact (&ldquo;France → Paris&rdquo;) degrades over five subsequent writes.
           </p>
         </div>
 
-        {/* View Selection Bar */}
-        <div className="diagram-frame p-2.5 flex flex-wrap items-center justify-between gap-4">
-          <div className="flex flex-wrap items-center gap-1.5 font-sans text-xs">
-            <span className="text-[var(--text-muted)] px-2 py-1 text-xs font-medium hidden sm:inline-block">
-              One experiment, four views:
+        {/* Hairline View Selection & Parameter Strip */}
+        <div className="flex flex-wrap items-center justify-between gap-4 border-b border-[var(--mm-rule)] pb-1">
+          <div className="flex flex-wrap items-center gap-1 font-sans text-xs">
+            <span className="font-mono text-[11px] uppercase tracking-[0.1em] text-[var(--mm-muted)] pr-3 pb-2 hidden sm:inline-block">
+              One trial, four views:
             </span>
-            <button
-              type="button"
-              onClick={() => setActiveView('time')}
-              className={`px-3 py-1.5 rounded-md font-medium transition-colors flex items-center gap-2 cursor-pointer whitespace-nowrap ${
-                activeView === 'time'
-                  ? 'bg-[var(--accent-green)] text-[var(--accent-green-text)] border border-[var(--color-success-border)] font-semibold'
-                  : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--surface-soft)] border border-transparent'
-              }`}
-            >
-              <TrendingUp className="w-3.5 h-3.5 shrink-0" />
-              <span>01: Time (Line)</span>
-            </button>
-            <button
-              type="button"
-              onClick={() => setActiveView('outcome')}
-              className={`px-3 py-1.5 rounded-md font-medium transition-colors flex items-center gap-2 cursor-pointer whitespace-nowrap ${
-                activeView === 'outcome'
-                  ? 'bg-[var(--accent-green)] text-[var(--accent-green-text)] border border-[var(--color-success-border)] font-semibold'
-                  : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--surface-soft)] border border-transparent'
-              }`}
-            >
-              <PieChartIcon className="w-3.5 h-3.5 shrink-0" />
-              <span>02: Outcome (Donut)</span>
-            </button>
-            <button
-              type="button"
-              onClick={() => setActiveView('mechanism')}
-              className={`px-3 py-1.5 rounded-md font-medium transition-colors flex items-center gap-2 cursor-pointer whitespace-nowrap ${
-                activeView === 'mechanism'
-                  ? 'bg-[var(--accent-green)] text-[var(--accent-green-text)] border border-[var(--color-success-border)] font-semibold'
-                  : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--surface-soft)] border border-transparent'
-              }`}
-            >
-              <GitCommit className="w-3.5 h-3.5 shrink-0" />
-              <span>03: Mechanism (Flow)</span>
-            </button>
-            <button
-              type="button"
-              onClick={() => setActiveView('frobenius')}
-              className={`px-3 py-1.5 rounded-md font-medium transition-colors flex items-center gap-2 cursor-pointer whitespace-nowrap ${
-                activeView === 'frobenius'
-                  ? 'bg-[var(--accent-yellow)] text-[var(--accent-yellow-text)] border border-[var(--color-warning-border)] font-semibold'
-                  : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--surface-soft)] border border-transparent'
-              }`}
-            >
-              <Activity className="w-3.5 h-3.5 shrink-0" />
-              <span>04: Frobenius Drift</span>
-            </button>
+            {([
+              { key: 'time', label: '01: Time Trail' },
+              { key: 'outcome', label: '02: Outcome Split' },
+              { key: 'mechanism', label: '03: Matrix Flow' },
+              { key: 'frobenius', label: '04: Frobenius Drift' },
+            ] as const).map((tab) => (
+              <button
+                key={tab.key}
+                type="button"
+                onClick={() => setActiveView(tab.key)}
+                className={`px-3 pb-2 text-xs font-medium transition-colors cursor-pointer whitespace-nowrap border-b-2 -mb-[5px] ${
+                  activeView === tab.key
+                    ? 'border-[var(--mm-signal)] text-[var(--mm-ink)] font-semibold'
+                    : 'border-transparent text-[var(--mm-muted)] hover:text-[var(--mm-ink)]'
+                }`}
+              >
+                {tab.label}
+              </button>
+            ))}
           </div>
 
-          {/* Interactive Parameters Quick Bar */}
-          <div className="flex items-center gap-3 font-mono text-xs text-[var(--text-secondary)] px-2 tabular-nums">
-            <label htmlFor="measure-retention-slider" className="text-xs text-[var(--text-secondary)]">
-              λ: {retention.toFixed(2)}
+          {/* Inline Parameter Control */}
+          <div className="flex items-center gap-3 font-mono text-xs text-[var(--mm-muted)] pb-2 tabular-nums">
+            <label htmlFor="measure-retention-slider" className="text-xs">
+              λ = <strong className="text-[var(--mm-ink)]">{retention.toFixed(2)}</strong>
             </label>
             <input
               id="measure-retention-slider"
@@ -362,64 +331,46 @@ export const SectionMeasure: React.FC = () => {
                 setRetention(parseFloat(e.target.value));
                 markMilestoneCompleted('adjust_params');
               }}
-              className="w-20 sm:w-28 accent-[var(--color-accent)] cursor-pointer"
+              className="w-20 sm:w-28 accent-[var(--mm-signal)] cursor-pointer"
               title="Retention attenuation factor λ"
             />
-            <span className="text-xs text-[var(--text-secondary)]">D: {dimension}</span>
+            <span className="text-xs">D = {dimension}</span>
           </div>
         </div>
 
         {/* VIEW 01: TIME (RETRIEVAL ACROSS SEQUENCE) */}
         {activeView === 'time' && (
-          <div className="diagram-frame p-5 sm:p-7 space-y-6">
-            <div className="flex flex-wrap items-center justify-between gap-4 border-b border-[var(--border)] pb-4">
+          <figure className="essay-figure-stage p-5 sm:p-7 space-y-6">
+            <div className="flex flex-wrap items-baseline justify-between gap-4 border-b border-[var(--mm-rule)] pb-4">
               <div>
-                <h3 className="text-base sm:text-lg font-serif font-semibold text-[var(--text-primary)] flex flex-wrap items-center gap-2.5">
-                  <span>Retrieval Performance Across the Sequence</span>
-                  <span className="text-xs font-mono font-medium text-[var(--accent-blue-text)] bg-[var(--accent-blue)] px-2.5 py-0.5 rounded-md border border-[var(--border)]">
-                    Fact #1: France → Paris
-                  </span>
+                <span className="font-mono text-[11px] uppercase tracking-[0.14em] text-[var(--mm-signal)] font-semibold block mb-1">
+                  Fig. 4.1 · Probing Fact #1 (&ldquo;France → Paris&rdquo;)
+                </span>
+                <h3 className="text-lg sm:text-xl font-serif font-normal text-[var(--mm-ink)]">
+                  Retrieval strength falls as new facts superpose onto the same coordinates
                 </h3>
-                <p className="text-xs text-[var(--text-secondary)] font-sans mt-1">
-                  Track how Fact #1 (&ldquo;France → Paris&rdquo;) decays and interferes as 5 subsequent facts are written.
-                </p>
               </div>
 
               {/* Metric Selector */}
-              <div className="flex items-center gap-1 bg-[var(--surface-soft)] p-1 rounded-lg border border-[var(--border)] text-xs font-sans">
-                <button
-                  type="button"
-                  onClick={() => setMetricMode('retrievalScore')}
-                  className={`px-3 py-1 rounded-md transition-colors cursor-pointer whitespace-nowrap ${
-                    metricMode === 'retrievalScore'
-                      ? 'bg-[var(--surface)] text-[var(--text-primary)] border border-[var(--border)] font-semibold shadow-2xs'
-                      : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
-                  }`}
-                >
-                  Retrieval score
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setMetricMode('top1Margin')}
-                  className={`px-3 py-1 rounded-md transition-colors cursor-pointer whitespace-nowrap ${
-                    metricMode === 'top1Margin'
-                      ? 'bg-[var(--surface)] text-[var(--text-primary)] border border-[var(--border)] font-semibold shadow-2xs'
-                      : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
-                  }`}
-                >
-                  Top-1 margin
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setMetricMode('stateSimilarity')}
-                  className={`px-3 py-1 rounded-md transition-colors cursor-pointer whitespace-nowrap ${
-                    metricMode === 'stateSimilarity'
-                      ? 'bg-[var(--surface)] text-[var(--text-primary)] border border-[var(--border)] font-semibold shadow-2xs'
-                      : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
-                  }`}
-                >
-                  State overlap
-                </button>
+              <div className="flex items-center border-b border-[var(--mm-rule)] text-xs font-sans">
+                {([
+                  { key: 'retrievalScore', label: 'Retrieval score' },
+                  { key: 'top1Margin', label: 'Top-1 margin' },
+                  { key: 'stateSimilarity', label: 'State overlap' },
+                ] as const).map((m) => (
+                  <button
+                    key={m.key}
+                    type="button"
+                    onClick={() => setMetricMode(m.key)}
+                    className={`px-3 pb-1.5 transition-colors cursor-pointer whitespace-nowrap border-b-2 -mb-[1px] ${
+                      metricMode === m.key
+                        ? 'border-[var(--mm-signal)] text-[var(--mm-ink)] font-semibold'
+                        : 'border-transparent text-[var(--mm-muted)] hover:text-[var(--mm-ink)]'
+                    }`}
+                  >
+                    {m.label}
+                  </button>
+                ))}
               </div>
             </div>
 
@@ -541,76 +492,96 @@ export const SectionMeasure: React.FC = () => {
                 </div>
               </div>
 
-              {/* Data Point Telemetry Card */}
-              <div className="metric-panel space-y-3 font-mono text-xs tabular-nums">
-                <div className="flex items-center justify-between border-b border-[var(--border)] pb-2">
-                  <span className="text-xs font-semibold text-[var(--text-secondary)] font-sans">
-                    Step telemetry
+                {/* Step telemetry */}
+              <div className="border-t lg:border-t-0 lg:border-l border-[var(--mm-rule)] pt-4 lg:pt-0 lg:pl-6 space-y-3 font-mono text-xs tabular-nums">
+                <div className="flex items-center justify-between border-b border-[var(--mm-rule)] pb-2">
+                  <span className="font-sans text-xs font-semibold text-[var(--mm-muted)]">
+                    Point inspection
                   </span>
-                  <span className="text-xs text-[var(--accent-blue-text)] bg-[var(--accent-blue)] border border-[var(--border)] px-2 py-0.5 rounded-md font-semibold">
-                    {hoveredDataPoint ? `Step ${hoveredDataPoint.step}` : 'Hover a node'}
+                  <span className="text-xs text-[var(--mm-signal)] font-semibold">
+                    {hoveredDataPoint ? `Step ${hoveredDataPoint.step}` : 'Hover or click node'}
                   </span>
                 </div>
 
                 {hoveredDataPoint ? (
                   <div className="space-y-2.5">
                     <div className="flex justify-between">
-                      <span className="text-[var(--text-secondary)]">Probed fact:</span>
-                      <strong className="text-[var(--text-primary)]">France → Paris</strong>
+                      <span className="text-[var(--mm-muted)]">Probed fact:</span>
+                      <strong className="text-[var(--mm-ink)]">France → Paris</strong>
                     </div>
                     <div className="flex justify-between items-center">
-                      <span className="text-[var(--text-secondary)]">Decoded output:</span>
-                      <span
-                        className={`px-2 py-0.5 rounded-md font-semibold text-xs border ${
-                          hoveredDataPoint.isCorrect
-                            ? 'text-[var(--accent-green-text)] bg-[var(--accent-green)] border-[var(--color-success-border)]'
-                            : 'text-[var(--accent-pink-text)] bg-[var(--accent-pink)] border-[var(--color-danger-border)]'
-                        }`}
-                      >
+                      <span className="text-[var(--mm-muted)]">Decoded output:</span>
+                      <span className={`font-semibold ${hoveredDataPoint.isCorrect ? 'text-[var(--accent-green-text)]' : 'text-[var(--mm-coral)]'}`}>
                         {hoveredDataPoint.retrieved}
                       </span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-[var(--text-secondary)]">Ground truth:</span>
-                      <span className="text-[var(--text-primary)] font-medium">Paris</span>
+                      <span className="text-[var(--mm-muted)]">Cosine score:</span>
+                      <strong className="text-[var(--mm-signal)]">{hoveredDataPoint.score.toFixed(4)}</strong>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-[var(--text-secondary)]">Cosine score:</span>
-                      <strong className="text-[var(--accent-blue-text)]">{hoveredDataPoint.score.toFixed(4)}</strong>
-                    </div>
-                    <div className="flex justify-between">
-                      <span className="text-[var(--text-secondary)]">Top-1 margin:</span>
+                      <span className="text-[var(--mm-muted)]">Top-1 margin:</span>
                       <strong className="text-[var(--accent-green-text)]">{hoveredDataPoint.margin.toFixed(4)}</strong>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-[var(--text-secondary)]">Fact written:</span>
-                      <span className="text-[var(--text-primary)] font-bold">+{hoveredDataPoint.factName}</span>
+                      <span className="text-[var(--mm-muted)]">Fact written:</span>
+                      <span className="text-[var(--mm-ink)] font-semibold">+{hoveredDataPoint.factName}</span>
                     </div>
-                    <div className="flex justify-between items-center pt-2 border-t border-[var(--border)]">
-                      <span className="text-[var(--text-secondary)]">
-                        <GlossaryTerm term="Frobenius norm">State norm ||M||_F:</GlossaryTerm>
+                    <div className="flex justify-between items-center pt-2 border-t border-[var(--mm-rule)]">
+                      <span className="text-[var(--mm-muted)]">
+                        <GlossaryTerm term="Frobenius norm">||M||_F:</GlossaryTerm>
                       </span>
-                      <strong className="text-[var(--accent-yellow-text)] font-mono">
+                      <strong className="text-[var(--mm-amber)] font-mono">
                         {measurementData.find((s) => s.step === hoveredDataPoint.step)?.matrixNorm.toFixed(4) || '—'}
                       </strong>
                     </div>
                   </div>
                 ) : (
-                  <div className="text-[var(--text-secondary)] py-8 text-center font-sans text-xs">
-                    Hover over or click any point along the curve to inspect step-level cosine margin and output.
+                  <div className="text-[var(--mm-muted)] py-6 font-sans text-xs leading-relaxed">
+                    Hover or click any circle on the trajectory curve to inspect the exact cosine score, top-1 margin, and matrix norm at that timestep.
                   </div>
                 )}
               </div>
             </div>
-          </div>
+
+            <FigureCaption
+              figure="Fig. 4.1"
+              title="Attenuation (λ) exponentially lowers older write magnitudes while newer facts superpose across the matrix."
+              source={`Live toy matrix simulation (D = ${dimension}, λ = ${retention.toFixed(2)}, η = ${writeStrength.toFixed(2)})`}
+              note="Cosine similarity is unitless [-1, 1] and is not a calibrated softmax probability."
+            />
+
+            <DataFallbackTable
+              caption="Step-by-step readout measurements for Fact #1 (France → Paris)"
+              columns={[
+                { key: 'step', label: 'Step', align: 'left' },
+                { key: 'written', label: 'Written Fact', align: 'left' },
+                { key: 'score', label: 'Cosine Score', align: 'right' },
+                { key: 'margin', label: 'Top-1 Margin', align: 'right' },
+                { key: 'norm', label: '||M||_F', align: 'right' },
+                { key: 'decoded', label: 'Decoded Value', align: 'right' },
+              ]}
+              rows={firstFactTrajectory.map((pt) => {
+                const mNorm = measurementData.find((s) => s.step === pt.step)?.matrixNorm || 0;
+                return {
+                  step: pt.step,
+                  written: `+${pt.factName}`,
+                  score: pt.score.toFixed(4),
+                  margin: pt.margin.toFixed(4),
+                  norm: mNorm.toFixed(4),
+                  decoded: pt.retrieved,
+                };
+              })}
+            />
+          </figure>
         )}
 
         {/* VIEW 02: OUTCOME (DONUT CHART & SURVIVAL BREAKDOWN) */}
         {activeView === 'outcome' && (
-          <div className="diagram-frame p-5 sm:p-7 space-y-6">
-            <div className="flex flex-wrap items-center justify-between gap-4 border-b border-[var(--border)] pb-4">
+          <figure className="essay-figure-stage p-5 sm:p-7 space-y-6">
+            <div className="flex flex-wrap items-end justify-between gap-4 border-b border-[var(--mm-rule)] pb-3">
               <div>
-                <h3 className="text-base sm:text-lg font-serif font-semibold text-[var(--text-primary)]">
+                <h3 className="text-base sm:text-lg font-serif font-medium text-[var(--text-primary)]">
                   What Survived in Memory? (Final Outcome)
                 </h3>
                 <p className="text-xs text-[var(--text-secondary)] font-sans mt-0.5 tabular-nums">
@@ -618,15 +589,15 @@ export const SectionMeasure: React.FC = () => {
                 </p>
               </div>
 
-              {/* Segment Filter */}
-              <div className="flex flex-wrap items-center gap-1 bg-[var(--surface-soft)] p-1 rounded-lg border border-[var(--border)] text-xs font-sans tabular-nums">
+              {/* Hairline Underline Segment Filter */}
+              <div className="flex flex-wrap items-center gap-4 text-xs font-sans tabular-nums">
                 <button
                   type="button"
                   onClick={() => setSelectedOutcomeSegment('all')}
-                  className={`px-2.5 py-1 rounded-md transition-colors cursor-pointer whitespace-nowrap ${
+                  className={`pb-1.5 -mb-3.5 border-b-2 transition-colors cursor-pointer whitespace-nowrap ${
                     selectedOutcomeSegment === 'all'
-                      ? 'bg-[var(--surface)] text-[var(--text-primary)] font-semibold border border-[var(--border)] shadow-2xs'
-                      : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
+                      ? 'border-[var(--mm-signal)] text-[var(--text-primary)] font-semibold'
+                      : 'border-transparent text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
                   }`}
                 >
                   All ({outcomeBreakdown.total})
@@ -634,10 +605,10 @@ export const SectionMeasure: React.FC = () => {
                 <button
                   type="button"
                   onClick={() => setSelectedOutcomeSegment('correct')}
-                  className={`px-2.5 py-1 rounded-md transition-colors cursor-pointer whitespace-nowrap ${
+                  className={`pb-1.5 -mb-3.5 border-b-2 transition-colors cursor-pointer whitespace-nowrap ${
                     selectedOutcomeSegment === 'correct'
-                      ? 'bg-[var(--accent-green)] text-[var(--accent-green-text)] font-semibold border border-[var(--color-success-border)]'
-                      : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
+                      ? 'border-[var(--color-success)] text-[var(--accent-green-text)] font-semibold'
+                      : 'border-transparent text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
                   }`}
                 >
                   Correct ({outcomeBreakdown.correct.length})
@@ -645,10 +616,10 @@ export const SectionMeasure: React.FC = () => {
                 <button
                   type="button"
                   onClick={() => setSelectedOutcomeSegment('incorrect')}
-                  className={`px-2.5 py-1 rounded-md transition-colors cursor-pointer whitespace-nowrap ${
+                  className={`pb-1.5 -mb-3.5 border-b-2 transition-colors cursor-pointer whitespace-nowrap ${
                     selectedOutcomeSegment === 'incorrect'
-                      ? 'bg-[var(--accent-pink)] text-[var(--accent-pink-text)] font-semibold border border-[var(--color-danger-border)]'
-                      : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
+                      ? 'border-[var(--color-danger)] text-[var(--accent-pink-text)] font-semibold'
+                      : 'border-transparent text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
                   }`}
                 >
                   Incorrect ({outcomeBreakdown.incorrect.length})
@@ -656,10 +627,10 @@ export const SectionMeasure: React.FC = () => {
                 <button
                   type="button"
                   onClick={() => setSelectedOutcomeSegment('unresolved')}
-                  className={`px-2.5 py-1 rounded-md transition-colors cursor-pointer whitespace-nowrap ${
+                  className={`pb-1.5 -mb-3.5 border-b-2 transition-colors cursor-pointer whitespace-nowrap ${
                     selectedOutcomeSegment === 'unresolved'
-                      ? 'bg-[var(--accent-yellow)] text-[var(--accent-yellow-text)] font-semibold border border-[var(--color-warning-border)]'
-                      : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
+                      ? 'border-[var(--color-warning)] text-[var(--accent-yellow-text)] font-semibold'
+                      : 'border-transparent text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
                   }`}
                 >
                   Unresolved ({outcomeBreakdown.unresolved.length})
@@ -757,8 +728,8 @@ export const SectionMeasure: React.FC = () => {
                 </div>
               </div>
 
-              {/* Filtered Fact Cards */}
-              <div className="md:col-span-2 space-y-2 max-h-[320px] overflow-y-auto pr-1 custom-scrollbar tabular-nums">
+              {/* Filtered Fact Rows (Hairline Divided List) */}
+              <div className="md:col-span-2 divide-y divide-[var(--mm-rule)] border-y border-[var(--mm-rule)] max-h-[320px] overflow-y-auto custom-scrollbar tabular-nums">
                 {finalStep?.queryResults
                   .filter((qr) => {
                     if (selectedOutcomeSegment === 'correct') return qr.isCorrect;
@@ -769,13 +740,7 @@ export const SectionMeasure: React.FC = () => {
                   .map((qr, idx) => (
                     <div
                       key={idx}
-                      className={`p-3 rounded-xl border flex items-center justify-between gap-3 text-xs font-mono ${
-                        qr.isCorrect
-                          ? 'bg-[var(--accent-green)] border-[var(--color-success-border)] text-[var(--accent-green-text)]'
-                          : qr.score > 0.15
-                          ? 'bg-[var(--accent-pink)] border-[var(--color-danger-border)] text-[var(--accent-pink-text)]'
-                          : 'bg-[var(--accent-yellow)] border-[var(--color-warning-border)] text-[var(--accent-yellow-text)]'
-                      }`}
+                      className="py-3 px-2 flex items-center justify-between gap-3 text-xs font-mono"
                     >
                       <div className="flex items-center gap-2 min-w-0">
                         {qr.isCorrect ? (
@@ -792,14 +757,16 @@ export const SectionMeasure: React.FC = () => {
                         </span>
                       </div>
 
-                      <div className="flex items-center gap-3 shrink-0">
+                      <div className="flex items-center gap-4 shrink-0">
                         <div className="text-right">
                           <span className="text-[11px] text-[var(--text-muted)] block">Output</span>
-                          <span className="font-bold text-[var(--text-primary)]">{qr.retrievedVal}</span>
+                          <span className={`font-bold ${qr.isCorrect ? 'text-[var(--accent-green-text)]' : 'text-[var(--accent-pink-text)]'}`}>
+                            {qr.retrievedVal}
+                          </span>
                         </div>
                         <div className="text-right">
                           <span className="text-[11px] text-[var(--text-muted)] block">Cosine</span>
-                          <span className="text-[var(--accent-blue-text)] font-bold">{qr.score.toFixed(3)}</span>
+                          <span className="text-[var(--mm-signal)] font-bold">{qr.score.toFixed(3)}</span>
                         </div>
                       </div>
                     </div>
@@ -808,20 +775,26 @@ export const SectionMeasure: React.FC = () => {
             </div>
 
             {/* Honest Annotation */}
-            <div className="research-callout text-xs font-sans text-[var(--text-secondary)] flex items-start gap-2">
-              <Info className="w-4 h-4 text-[var(--accent-blue-text)] shrink-0 mt-0.5" />
+            <div className="pt-3 border-t border-[var(--mm-rule)] text-xs font-sans text-[var(--text-secondary)] flex items-start gap-2">
+              <Info className="w-4 h-4 text-[var(--mm-signal)] shrink-0 mt-0.5" />
               <div>
                 <strong className="text-[var(--text-primary)]">Scientific grounding:</strong> Decoded via <MathView math="\operatorname{argmax}_v \operatorname{sim}(\hat{v}, v)" /> against candidate value representations. Collisions and cross-talk directly stem from finite coordinate dimension <MathView math={`D=${dimension}`} />.
               </div>
             </div>
-          </div>
+
+            <FigureCaption
+              figure="Fig. 4.1b"
+              title="Empirical survival breakdown across all 6 ingested country-capital bindings at the end of the sequence."
+              source={`Live toy matrix simulation (D = ${dimension}, λ = ${retention.toFixed(2)}, η = ${writeStrength.toFixed(2)})`}
+            />
+          </figure>
         )}
 
         {/* VIEW 03: MECHANISM (FLOWCHART OF HOW FACTS BECOME MEMORY) */}
         {activeView === 'mechanism' && (
-          <div className="diagram-frame p-5 sm:p-7 space-y-6">
-            <div className="border-b border-[var(--border)] pb-4">
-              <h3 className="text-base sm:text-lg font-serif font-semibold text-[var(--text-primary)]">
+          <figure className="essay-figure-stage p-5 sm:p-7 space-y-6">
+            <div className="border-b border-[var(--mm-rule)] pb-4">
+              <h3 className="text-base sm:text-lg font-serif font-medium text-[var(--text-primary)]">
                 How Does One Fact Become Memory? (Computational Graph)
               </h3>
               <p className="text-xs text-[var(--text-secondary)] font-sans mt-0.5">
@@ -830,7 +803,7 @@ export const SectionMeasure: React.FC = () => {
             </div>
 
             {/* Horizontal / Responsive Interactive Flowchart */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-7 gap-2.5">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-7 gap-2">
               {mechanismStages.map((stage) => {
                 const isActive = activeMechanismStep === stage.id;
                 return (
@@ -838,10 +811,10 @@ export const SectionMeasure: React.FC = () => {
                     type="button"
                     key={stage.id}
                     onClick={() => setActiveMechanismStep(stage.id)}
-                    className={`p-3.5 rounded-xl border text-left transition-all flex flex-col justify-between space-y-2 cursor-pointer ${
+                    className={`p-3 rounded-md border text-left transition-colors flex flex-col justify-between space-y-2 cursor-pointer ${
                       isActive
-                        ? 'border-[var(--color-accent)] bg-[var(--accent-blue)] text-[var(--text-primary)] shadow-2xs'
-                        : 'border-[var(--border)] bg-[var(--surface-soft)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:border-[var(--color-border-strong)]'
+                        ? 'border-[var(--mm-signal)] bg-[var(--accent-blue)] text-[var(--text-primary)]'
+                        : 'border-[var(--mm-rule)] bg-[var(--surface-soft)] text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
                     }`}
                   >
                     <div>
@@ -863,22 +836,22 @@ export const SectionMeasure: React.FC = () => {
               })}
             </div>
 
-            {/* Detailed Stage Deep Dive Card */}
+            {/* Detailed Stage Deep Dive (Hairline Top Rule) */}
             {(() => {
               const currentStage = mechanismStages.find((s) => s.id === activeMechanismStep) || mechanismStages[0];
               return (
-                <div className="metric-panel space-y-3 font-mono">
-                  <div className="flex flex-wrap items-center justify-between gap-2 border-b border-[var(--border)] pb-3">
+                <div className="pt-5 border-t border-[var(--mm-rule)] space-y-3 font-mono">
+                  <div className="flex flex-wrap items-center justify-between gap-2">
                     <div className="flex items-center gap-2">
-                      <span className="text-xs font-semibold text-[var(--accent-blue-text)]">
+                      <span className="text-xs font-semibold text-[var(--mm-signal)]">
                         Active stage {currentStage.id}:
                       </span>
-                      <span className="text-sm font-bold text-[var(--text-primary)]">
+                      <span className="text-sm font-bold text-[var(--text-primary)] font-sans">
                         {currentStage.title}
                       </span>
                     </div>
 
-                    <div className="text-xs text-[var(--accent-blue-text)] bg-[var(--accent-blue)] px-3 py-1 rounded-lg border border-[var(--border)] font-semibold">
+                    <div className="text-xs text-[var(--mm-signal)] font-semibold tabular-nums">
                       <MathView math={currentStage.math} />
                     </div>
                   </div>
@@ -903,7 +876,7 @@ export const SectionMeasure: React.FC = () => {
                       type="button"
                       disabled={activeMechanismStep >= 7}
                       onClick={() => setActiveMechanismStep((s) => Math.min(7, s + 1))}
-                      className="btn-secondary text-xs text-[var(--accent-blue-text)] disabled:opacity-40 cursor-pointer"
+                      className="btn-secondary text-xs text-[var(--mm-signal)] disabled:opacity-40 cursor-pointer"
                     >
                       Next step →
                     </button>
@@ -911,7 +884,13 @@ export const SectionMeasure: React.FC = () => {
                 </div>
               );
             })()}
-          </div>
+
+            <FigureCaption
+              figure="Fig. 4.1c"
+              title="Seven mathematical steps translating discrete symbol pairs into superposed recurrent weights and cosine probe readouts."
+              source="Deterministic associative memory algebra (linear outer-product recurrence)"
+            />
+          </figure>
         )}
 
         {/* VIEW 04: FROBENIUS DRIFT (RECHARTS DYNAMIC PLOT) */}
@@ -927,59 +906,56 @@ export const SectionMeasure: React.FC = () => {
         )}
 
         {/* STATE CHANGE MINI-GRAPH: COORDINATE DELTAS ΔM_t */}
-        <div className="diagram-frame p-5 sm:p-6 space-y-4 font-mono text-xs tabular-nums">
-          <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[var(--border)] pb-3">
-            <div className="flex items-center gap-2">
-              <Activity className="w-4 h-4 text-[var(--accent-blue-text)]" />
-              <span className="font-semibold text-[var(--text-primary)] font-sans text-sm">
-                State coordinate deltas (<MathView math="\Delta M_t = M_t - M_{t-1}" />)
-              </span>
-            </div>
-            <span className="text-xs text-[var(--text-secondary)] font-sans">
-              Final ingestion step: +{finalStep?.factWritten.key} → {finalStep?.factWritten.value}
+        <div className="essay-figure-stage p-5 sm:p-6 space-y-4 font-mono text-xs tabular-nums">
+          <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[var(--mm-rule)] pb-3">
+            <span className="font-semibold text-[var(--mm-ink)] font-sans text-sm">
+              State coordinate deltas (<MathView math="\Delta M_t = M_t - M_{t-1}" />)
+            </span>
+            <span className="text-xs text-[var(--mm-muted)] font-sans">
+              Final step: +{finalStep?.factWritten.key} → {finalStep?.factWritten.value}
             </span>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-            <div className="p-3.5 rounded-xl bg-[var(--accent-green)] border border-[var(--color-success-border)] space-y-1">
-              <span className="text-xs text-[var(--accent-green-text)] font-sans font-semibold block">
+          <div className="grid grid-cols-1 sm:grid-cols-3 divide-y sm:divide-y-0 sm:divide-x divide-[var(--mm-rule)] border border-[var(--mm-rule)] bg-[var(--mm-paper-bright)] rounded-md">
+            <div className="p-3.5 space-y-1">
+              <span className="font-mono text-[11px] uppercase tracking-[0.08em] text-[var(--accent-green-text)] font-semibold block">
                 Largest positive shift
               </span>
-              <div className="text-sm font-bold text-[var(--accent-green-text)]">
+              <div className="text-base font-semibold text-[var(--mm-ink)]">
                 +{finalStep?.maxPosDelta.val.toFixed(4)}
               </div>
-              <div className="text-xs font-sans text-[var(--text-secondary)]">
+              <div className="text-xs font-sans text-[var(--mm-muted)]">
                 Coordinate #{finalStep?.maxPosDelta.index} (constructive binding)
               </div>
             </div>
 
-            <div className="p-3.5 rounded-xl bg-[var(--accent-pink)] border border-[var(--color-danger-border)] space-y-1">
-              <span className="text-xs text-[var(--accent-pink-text)] font-sans font-semibold block">
+            <div className="p-3.5 space-y-1">
+              <span className="font-mono text-[11px] uppercase tracking-[0.08em] text-[var(--mm-coral)] font-semibold block">
                 Largest negative shift
               </span>
-              <div className="text-sm font-bold text-[var(--accent-pink-text)]">
+              <div className="text-base font-semibold text-[var(--mm-coral)]">
                 {finalStep?.maxNegDelta.val.toFixed(4)}
               </div>
-              <div className="text-xs font-sans text-[var(--text-secondary)]">
+              <div className="text-xs font-sans text-[var(--mm-muted)]">
                 Coordinate #{finalStep?.maxNegDelta.index} (destructive attenuation)
               </div>
             </div>
 
-            <div className="metric-panel space-y-1">
-              <span className="text-xs text-[var(--accent-blue-text)] font-sans font-semibold block">
+            <div className="p-3.5 space-y-1">
+              <span className="font-mono text-[11px] uppercase tracking-[0.08em] text-[var(--mm-signal)] font-semibold block">
                 Near-zero coordinates
               </span>
-              <div className="text-sm font-bold text-[var(--text-primary)]">
+              <div className="text-base font-semibold text-[var(--mm-ink)]">
                 {finalStep?.nearZeroCount} / {dimension * dimension}
               </div>
-              <div className="text-xs font-sans text-[var(--text-secondary)]">
-                Coordinates unaffected (|Δ| &lt; 0.005)
+              <div className="text-xs font-sans text-[var(--mm-muted)]">
+                Unaffected (|Δ| &lt; 0.005)
               </div>
             </div>
           </div>
 
-          <div className="text-xs text-[var(--text-secondary)] font-sans leading-relaxed pt-1">
-            <strong className="text-[var(--text-primary)]">Scientific note:</strong> Latent dimensions are continuous mathematical coordinates in <MathView math="\mathbb{R}^{D \times D}" /> without human-interpretable single-neuron labels. Interference happens because information is distributed across these superposed linear coordinates.
+          <div className="text-xs text-[var(--mm-muted)] font-sans leading-relaxed pt-1">
+            <strong className="text-[var(--mm-ink)]">Scientific note:</strong> Latent dimensions are continuous mathematical coordinates in <MathView math="\mathbb{R}^{D \times D}" /> without human-interpretable single-neuron labels. Interference happens because information is distributed across these superposed linear coordinates.
           </div>
         </div>
 

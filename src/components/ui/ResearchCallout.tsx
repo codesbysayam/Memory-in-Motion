@@ -11,29 +11,29 @@ export interface ResearchCalloutProps {
   id?: string;
 }
 
-const TONE_CLASSES: Record<ResearchCalloutTone, { container: string; iconColor: string; titleColor: string }> = {
+const TONE_CLASSES: Record<ResearchCalloutTone, { rule: string; iconColor: string; titleColor: string }> = {
   info: {
-    container: 'bg-[var(--accent-blue)] border-[var(--border)]',
-    iconColor: 'text-[var(--accent-blue-text)]',
-    titleColor: 'text-[var(--accent-blue-text)]',
+    rule: 'border-[var(--mm-rule)] bg-[var(--mm-paper-bright)]',
+    iconColor: 'text-[var(--mm-signal)]',
+    titleColor: 'text-[var(--text-primary)]',
   },
   warning: {
-    container: 'bg-[var(--accent-yellow)] border-[var(--color-warning-border)]',
+    rule: 'border-[var(--color-warning-border)] bg-[var(--accent-yellow)]',
     iconColor: 'text-[var(--accent-yellow-text)]',
     titleColor: 'text-[var(--accent-yellow-text)]',
   },
   danger: {
-    container: 'bg-[var(--accent-pink)] border-[var(--color-danger-border)]',
+    rule: 'border-[var(--color-danger-border)] bg-[var(--accent-pink)]',
     iconColor: 'text-[var(--accent-pink-text)]',
     titleColor: 'text-[var(--accent-pink-text)]',
   },
   success: {
-    container: 'bg-[var(--accent-green)] border-[var(--color-success-border)]',
+    rule: 'border-[var(--color-success-border)] bg-[var(--accent-green)]',
     iconColor: 'text-[var(--accent-green-text)]',
     titleColor: 'text-[var(--accent-green-text)]',
   },
   neutral: {
-    container: 'bg-[var(--surface-soft)] border-[var(--border)]',
+    rule: 'border-[var(--mm-rule)] bg-[var(--surface-soft)]',
     iconColor: 'text-[var(--text-secondary)]',
     titleColor: 'text-[var(--text-primary)]',
   },
@@ -62,13 +62,13 @@ export const ResearchCallout: React.FC<ResearchCalloutProps> = ({
   return (
     <div
       id={id}
-      className={`rounded-xl border p-4 sm:p-5 text-sm leading-relaxed ${style.container} ${className}`}
+      className={`border-y py-4 px-5 text-sm leading-relaxed ${style.rule} ${className}`}
     >
       <div className="flex items-start gap-3">
         <Icon className={`w-4 h-4 mt-0.5 shrink-0 ${style.iconColor}`} aria-hidden="true" />
-        <div className="min-w-0 flex-1 space-y-1.5">
+        <div className="min-w-0 flex-1 space-y-1">
           {title && (
-            <div className={`font-sans text-sm font-semibold leading-snug ${style.titleColor}`}>
+            <div className={`font-sans text-xs font-semibold uppercase tracking-wider font-mono ${style.titleColor}`}>
               {title}
             </div>
           )}

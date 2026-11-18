@@ -11,6 +11,7 @@ interface GlossaryContextType {
   activeTerm: GlossaryTerm;
   openGlossary: (termIdOrQuery?: string) => void;
   closeGlossary: () => void;
+  toggleGlossary: () => void;
   selectTerm: (termId: string) => void;
   searchQuery: string;
   setSearchQuery: (query: string) => void;
@@ -25,6 +26,7 @@ const GlossaryContext = createContext<GlossaryContextType>({
   activeTerm: DEFAULT_TERM,
   openGlossary: () => {},
   closeGlossary: () => {},
+  toggleGlossary: () => {},
   selectTerm: () => {},
   searchQuery: '',
   setSearchQuery: () => {},
@@ -62,12 +64,17 @@ export const GlossaryProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     setIsOpen(false);
   }, []);
 
+  const toggleGlossary = useCallback(() => {
+    setIsOpen((prev) => !prev);
+  }, []);
+
   const value = useMemo(
     () => ({
       isOpen,
       activeTerm,
       openGlossary,
       closeGlossary,
+      toggleGlossary,
       selectTerm,
       searchQuery,
       setSearchQuery,
@@ -79,6 +86,7 @@ export const GlossaryProvider: React.FC<{ children: React.ReactNode }> = ({ chil
       activeTerm,
       openGlossary,
       closeGlossary,
+      toggleGlossary,
       selectTerm,
       searchQuery,
       selectedCategory,

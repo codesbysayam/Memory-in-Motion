@@ -1,27 +1,20 @@
 import React, { useState, useMemo, useCallback, useEffect } from 'react';
 import {
   AlertOctagon,
-  CheckCircle,
   BarChart2,
   TrendingDown,
   Layers,
-  HelpCircle,
   Sliders,
   Database,
-  ArrowRight,
   Clock,
   Grid,
   ArrowLeftRight,
   Scissors,
   RotateCcw,
-  Sparkles,
   Play,
   Keyboard,
   Zap,
   BookOpen,
-  Activity,
-  Info,
-  Maximize2,
   Hash,
   History,
 } from 'lucide-react';
@@ -375,7 +368,7 @@ export const Section04InterferenceLab: React.FC<Section04InterferenceLabProps> =
               <Hash className="w-3.5 h-3.5 text-[var(--accent-blue-text)]" />
               Experiment ID:
             </span>
-            <span className="bg-[var(--surface-soft)] px-2.5 py-1 rounded border border-[var(--border)] text-[var(--accent-blue-text)] font-mono font-semibold tabular-nums">
+            <span className="text-[var(--mm-signal)] font-mono font-semibold tabular-nums">
               {experimentId}
             </span>
             <button
@@ -390,83 +383,74 @@ export const Section04InterferenceLab: React.FC<Section04InterferenceLabProps> =
           </div>
         </div>
 
-        {/* Preset Experiments Bar */}
-        <div className="flex flex-wrap items-center justify-between gap-2 bg-[var(--surface-soft)] p-3 rounded-xl border border-[var(--border)] text-xs">
-          <div className="flex items-center gap-2 text-[var(--text-primary)] font-semibold">
-            <Sparkles className="w-4 h-4 text-[var(--accent-yellow-text)]" />
-            <span>Quick presets:</span>
-          </div>
+        {/* Preset Experiments Strip (Hairline) */}
+        <div className="flex flex-wrap items-center justify-between gap-3 py-3 border-y border-[var(--mm-rule)] text-xs">
+          <span className="font-mono text-[var(--text-muted)]">Quick presets:</span>
           <div className="flex flex-wrap items-center gap-2">
             {presets.map((preset) => (
               <button
                 key={preset.id}
+                type="button"
                 onClick={() => handleApplyPreset(preset)}
-                className="px-3 py-1.5 rounded-lg border border-[var(--border)] bg-[var(--surface)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:border-[var(--color-border-strong)] transition-all text-xs cursor-pointer"
+                className="btn-secondary text-xs py-1 px-2.5 min-h-[30px]"
                 title={preset.desc}
               >
                 {preset.label}
               </button>
             ))}
             <button
+              type="button"
               onClick={handleRerun}
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-[var(--color-success-border)] bg-[var(--accent-green)] text-[var(--accent-green-text)] hover:opacity-90 transition-all text-xs font-semibold cursor-pointer"
+              className="flex items-center gap-1.5 px-3 py-1 rounded border border-[var(--color-success-border)] bg-[var(--accent-green)] text-[var(--accent-green-text)] hover:opacity-90 transition-all text-xs font-semibold cursor-pointer min-h-[30px]"
               title="Re-run the current experiment and log observation to notebook (Enter)"
             >
-              <Play className="w-3.5 h-3.5 fill-current" />
+              <Play className="w-3 h-3 fill-current" />
               <span>Re-run</span>
-              <kbd className="text-[10px] px-1.5 py-0.2 rounded bg-[var(--surface)] border border-[var(--color-success-border)] text-[var(--accent-green-text)] font-mono">↵</kbd>
+              <kbd className="text-[10px] px-1 rounded bg-[var(--surface)] border border-[var(--color-success-border)] font-mono">↵</kbd>
             </button>
             <button
+              type="button"
               onClick={handleReset}
-              className="flex items-center gap-1 px-3 py-1.5 rounded-lg border border-[var(--border)] bg-[var(--surface)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--color-surface-muted)] transition-all text-xs cursor-pointer"
+              className="btn-secondary text-xs py-1 px-2.5 min-h-[30px]"
               title="Reset all parameters to default baseline (R)"
             >
-              <RotateCcw className="w-3.5 h-3.5" />
+              <RotateCcw className="w-3 h-3" />
               <span>Reset</span>
-              <kbd className="text-[10px] px-1.5 py-0.2 rounded bg-[var(--surface-soft)] border border-[var(--border)] text-[var(--text-secondary)] font-mono">R</kbd>
+              <kbd className="text-[10px] px-1 rounded bg-[var(--surface-soft)] border border-[var(--mm-rule)] font-mono">R</kbd>
             </button>
           </div>
         </div>
 
-        {/* Global Keyboard Shortcuts Help Strip & Action Notification */}
-        <div className="flex flex-wrap items-center justify-between gap-3 bg-[var(--surface)] px-3.5 py-2 rounded-xl border border-[var(--border)] text-[11px]">
-          <div className="flex flex-wrap items-center gap-3 sm:gap-4 text-[var(--text-secondary)]">
-            <span className="flex items-center gap-1.5 text-[var(--text-primary)] font-semibold">
-              <Keyboard className="w-3.5 h-3.5 text-[var(--accent-blue-text)]" />
-              <span>Shortcuts:</span>
+        {/* Quiet Shortcut Hint & Action Feedback */}
+        <div className="flex flex-wrap items-center justify-between gap-3 text-[11px] font-mono text-[var(--text-muted)]">
+          <div className="flex flex-wrap items-center gap-3 sm:gap-4">
+            <span className="inline-flex items-center gap-1.5 text-[var(--text-secondary)]">
+              <Keyboard className="w-3.5 h-3.5 text-[var(--mm-signal)]" />
+              <span>Lab keys:</span>
             </span>
-            <span className="inline-flex items-center gap-1.5">
-              <kbd className="px-1.5 py-0.5 rounded bg-[var(--surface-soft)] border border-[var(--border)] text-[var(--text-primary)] font-mono font-semibold">R</kbd>
-              <span>Reset lab</span>
-            </span>
-            <span className="inline-flex items-center gap-1.5">
-              <kbd className="px-1.5 py-0.5 rounded bg-[var(--surface-soft)] border border-[var(--border)] text-[var(--text-primary)] font-mono font-semibold">↵ Enter</kbd>
-              <span>Re-run trial</span>
-            </span>
-            <span className="inline-flex items-center gap-1.5">
-              <kbd className="px-1.5 py-0.5 rounded bg-[var(--surface-soft)] border border-[var(--border)] text-[var(--text-secondary)] font-mono">1-4</kbd>
-              <span>Dimension (D=4/8/16/32)</span>
-            </span>
+            <span><kbd className="px-1 py-0.5 rounded border border-[var(--mm-rule)] bg-[var(--surface)] text-[var(--text-primary)]">R</kbd> reset</span>
+            <span><kbd className="px-1 py-0.5 rounded border border-[var(--mm-rule)] bg-[var(--surface)] text-[var(--text-primary)]">↵</kbd> re-run</span>
+            <span><kbd className="px-1 py-0.5 rounded border border-[var(--mm-rule)] bg-[var(--surface)] text-[var(--text-primary)]">1-4</kbd> D∈&#123;4,8,16,32&#125;</span>
           </div>
 
           {lastActionToast && (
-            <div className="flex items-center gap-2 text-[var(--accent-green-text)] bg-[var(--accent-green)] border border-[var(--color-success-border)] px-2.5 py-1 rounded-md animate-in fade-in duration-150 ml-auto">
-              <Zap className="w-3 h-3 text-[var(--accent-green-text)]" />
-              <span className="font-sans font-medium text-xs">{lastActionToast.message}</span>
+            <div className="flex items-center gap-1.5 text-[var(--mm-teal)] font-sans font-medium text-xs ml-auto">
+              <Zap className="w-3 h-3" />
+              <span>{lastActionToast.message}</span>
             </div>
           )}
         </div>
 
-        {/* Experiment Tab Selector */}
-        <div className="flex flex-wrap items-center gap-2 border-b border-[var(--border)] pb-3 text-xs font-sans">
+        {/* Hairline Experiment Tab Selector */}
+        <div className="flex flex-wrap items-center gap-5 border-b border-[var(--mm-rule)] text-xs font-sans">
           {[
-            { id: 'pipeline', label: '0. Write & read pipeline', icon: Database },
+            { id: 'pipeline', label: '0. Write & read', icon: Database },
             { id: 'collision', label: '1. When memory collides', icon: TrendingDown },
             { id: 'capacity', label: '2. Capacity limits', icon: BarChart2 },
-            { id: 'distraction', label: '3. Distraction resilience', icon: AlertOctagon },
-            { id: 'decay', label: '4. Decay & forgetting rate', icon: Clock },
-            { id: 'sweep', label: '5. Interference 2D sweep', icon: Grid },
-            { id: 'ab_compare', label: '6. KV-cache vs recurrent A/B', icon: ArrowLeftRight },
+            { id: 'distraction', label: '3. Distraction', icon: AlertOctagon },
+            { id: 'decay', label: '4. Decay rate', icon: Clock },
+            { id: 'sweep', label: '5. 2D sweep', icon: Grid },
+            { id: 'ab_compare', label: '6. KV vs recurrent', icon: ArrowLeftRight },
             { id: 'surgery', label: '7. Memory surgery', icon: Scissors },
           ].map((tab) => {
             const Icon = tab.icon;
@@ -474,14 +458,15 @@ export const Section04InterferenceLab: React.FC<Section04InterferenceLabProps> =
             return (
               <button
                 key={tab.id}
+                type="button"
                 onClick={() => setActiveExperiment(tab.id as any)}
-                className={`flex items-center gap-2 px-3.5 py-2 rounded-lg border transition-all cursor-pointer ${
+                className={`flex items-center gap-1.5 pb-3 -mb-px border-b-2 transition-colors cursor-pointer whitespace-nowrap ${
                   isActive
-                    ? 'border-[var(--accent-blue-text)] bg-[var(--accent-blue)] text-[var(--accent-blue-text)] font-semibold'
-                    : 'border-[var(--border)] bg-[var(--surface)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--surface-soft)]'
+                    ? 'border-[var(--mm-signal)] text-[var(--text-primary)] font-semibold'
+                    : 'border-transparent text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
                 }`}
               >
-                <Icon className="w-3.5 h-3.5" />
+                <Icon className={`w-3.5 h-3.5 ${isActive ? 'text-[var(--mm-signal)]' : ''}`} />
                 <span>{tab.label}</span>
               </button>
             );
@@ -505,8 +490,8 @@ export const Section04InterferenceLab: React.FC<Section04InterferenceLabProps> =
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
               {/* Left Col (5 cols): Controls & Procedure */}
               <div className="lg:col-span-5 space-y-4 text-xs">
-                <div className="diagram-frame p-5 space-y-5">
-                  <div className="flex items-center justify-between border-b border-[var(--border)] pb-2">
+                <div className="essay-figure-stage p-5 space-y-5">
+                  <div className="flex items-center justify-between border-b border-[var(--mm-rule)] pb-2.5">
                     <span className="font-semibold text-[var(--text-primary)] flex items-center gap-1.5">
                       <Sliders className="w-3.5 h-3.5 text-[var(--accent-blue-text)]" />
                       Collision procedure
@@ -514,8 +499,8 @@ export const Section04InterferenceLab: React.FC<Section04InterferenceLabProps> =
                     <SourceBadge type="toy" />
                   </div>
 
-                  {/* 5-Step Scientific Procedure Box */}
-                  <div className="rounded-lg bg-[var(--surface-soft)] p-3 text-xs text-[var(--text-secondary)] space-y-1.5 border border-[var(--border)]">
+                  {/* 5-Step Scientific Procedure (Hairline) */}
+                  <div className="border-y border-[var(--mm-rule)] py-3 text-xs text-[var(--text-secondary)] space-y-1.5">
                     <div className="text-[var(--text-primary)] font-semibold font-sans">Experimental protocol:</div>
                     <div className="space-y-0.5">
                       <div>1. Learn fact A ("{config.targetKey} → {experimentResult.groundTruth}").</div>
@@ -615,24 +600,24 @@ export const Section04InterferenceLab: React.FC<Section04InterferenceLabProps> =
                     </div>
                   </div>
 
-                  {/* Metadata Stats Strip */}
-                  <div className="grid grid-cols-4 gap-2 pt-2 border-t border-[var(--border)] text-xs text-center font-mono tabular-nums">
-                    <div className="bg-[var(--surface-soft)] p-1.5 rounded-lg border border-[var(--border)]">
+                  {/* Metadata Stats Strip (Hairline Divided) */}
+                  <div className="grid grid-cols-4 border-y border-[var(--mm-rule)] divide-x divide-[var(--mm-rule)] text-xs text-center font-mono tabular-nums py-2">
+                    <div className="px-2">
                       <span className="text-[var(--text-muted)] block text-[10px]">CAPACITY</span>
                       <strong className="text-[var(--text-primary)]">D={config.dimension}</strong>
                     </div>
-                    <div className="bg-[var(--surface-soft)] p-1.5 rounded-lg border border-[var(--border)]">
+                    <div className="px-2">
                       <span className="text-[var(--text-muted)] block text-[10px]">RETENTION</span>
                       <strong className="text-[var(--text-primary)]">{Math.round(config.retention * 100)}%</strong>
                     </div>
-                    <div className="bg-[var(--surface-soft)] p-1.5 rounded-lg border border-[var(--border)]">
+                    <div className="px-2">
                       <span className="text-[var(--text-muted)] block text-[10px]">PERTURB</span>
                       <strong className="text-[var(--text-primary)]">{Math.round(config.interference * 100)}%</strong>
                     </div>
-                    <div className="bg-[var(--surface-soft)] p-1.5 rounded-lg border border-[var(--border)]">
+                    <div className="px-2">
                       <span className="text-[var(--text-muted)] block text-[10px]">STATUS</span>
-                      <strong className={experimentResult.correct ? 'text-[var(--accent-green-text)]' : 'text-[var(--accent-pink-text)]'}>
-                        {experimentResult.correct ? 'CORRECT' : 'COLLISION'}
+                      <strong className={experimentResult.correct ? 'text-[var(--mm-teal)]' : 'text-[var(--mm-coral)]'}>
+                        {experimentResult.correct ? 'CLEAN' : 'COLLISION'}
                       </strong>
                     </div>
                   </div>
@@ -669,28 +654,28 @@ export const Section04InterferenceLab: React.FC<Section04InterferenceLabProps> =
                   </button>
                 </div>
 
-                {/* Automatic Failure Explanation Card */}
+                {/* Automatic Failure Explanation (Hairline Strip) */}
                 {failureExplanation && (
-                  <div className="rounded-xl border border-[var(--color-danger-border)] bg-[var(--accent-pink)] p-4 space-y-3 font-sans text-xs">
+                  <div className="border-t-2 border-[var(--color-danger)] bg-[var(--accent-pink)]/40 p-4 space-y-3 font-sans text-xs">
                     <div className="flex items-center gap-2 text-[var(--accent-pink-text)] font-bold">
                       <AlertOctagon className="w-4 h-4" />
                       <span>Interference explanation</span>
                     </div>
 
-                    <div className="grid grid-cols-2 gap-2 font-mono bg-[var(--surface)] p-2.5 rounded-lg border border-[var(--color-danger-border)] tabular-nums">
-                      <div>
+                    <div className="grid grid-cols-2 border-y border-[var(--color-danger-border)] divide-x divide-y divide-[var(--color-danger-border)] font-mono tabular-nums">
+                      <div className="p-2">
                         <span className="text-[var(--text-muted)] block text-[10px]">TARGET:</span>
                         <span className="text-[var(--text-primary)] font-semibold">{failureExplanation.target}</span>
                       </div>
-                      <div>
+                      <div className="p-2">
                         <span className="text-[var(--text-muted)] block text-[10px]">RETRIEVED:</span>
                         <span className="text-[var(--accent-pink-text)] font-semibold">{failureExplanation.retrieved}</span>
                       </div>
-                      <div>
+                      <div className="p-2">
                         <span className="text-[var(--text-muted)] block text-[10px]" title="Cosine similarity between retrieved vector and candidate.">RETRIEVAL SCORE:</span>
                         <span className="text-[var(--accent-blue-text)] font-semibold">{failureExplanation.score}%</span>
                       </div>
-                      <div>
+                      <div className="p-2">
                         <span className="text-[var(--text-muted)] block text-[10px]" title="Difference between highest and second-highest candidate score.">TOP-1 MARGIN:</span>
                         <span className="text-[var(--accent-yellow-text)] font-semibold">{failureExplanation.margin}%</span>
                       </div>
@@ -716,8 +701,8 @@ export const Section04InterferenceLab: React.FC<Section04InterferenceLabProps> =
                 />
 
                 {/* Live Curve: Sequence Length -> Retrieval Score */}
-                <div className="diagram-frame p-5 space-y-4 text-xs">
-                  <div className="flex flex-wrap items-center justify-between gap-2 border-b border-[var(--border)] pb-2">
+                <figure className="essay-figure-stage p-5 space-y-4 text-xs">
+                  <div className="flex flex-wrap items-center justify-between gap-2 border-b border-[var(--mm-rule)] pb-2.5">
                     <span className="font-semibold text-[var(--text-primary)] flex items-center gap-1.5 font-sans">
                       <TrendingDown className="w-4 h-4 text-[var(--accent-blue-text)]" />
                       Live curve: retrieval score by sequence length
@@ -729,28 +714,29 @@ export const Section04InterferenceLab: React.FC<Section04InterferenceLabProps> =
                     Each row runs the deterministic engine with <InlineMath math={`D = ${config.dimension}`} />, retention <InlineMath math={`\\lambda = ${config.retention}`} />, and perturbation <InlineMath math={`${Math.round(config.interference * 100)}\\%`} /> across different fact load lengths.
                   </p>
 
-                  {/* Graph Bars */}
-                  <div className="space-y-1.5 max-h-[380px] overflow-y-auto pr-1 font-mono tabular-nums">
+                  {/* Hairline Graph Rows */}
+                  <div className="divide-y divide-[var(--mm-rule)] border-y border-[var(--mm-rule)] max-h-[380px] overflow-y-auto font-mono tabular-nums">
                     {liveCurveData.map((pt) => {
                       const isSelected = pt.length === config.sequenceLength;
                       const scorePct = Math.round(pt.score * 100);
 
                       return (
-                        <div
+                        <button
                           key={pt.length}
+                          type="button"
                           onClick={() => setConfig((prev) => ({ ...prev, sequenceLength: pt.length }))}
-                          className={`p-2.5 rounded-lg border cursor-pointer transition-all ${
+                          className={`w-full text-left py-2.5 px-3 cursor-pointer transition-colors block ${
                             isSelected
-                              ? 'border-[var(--accent-blue-text)] bg-[var(--accent-blue)]'
-                              : 'border-[var(--border)] bg-[var(--surface-soft)] hover:bg-[var(--color-surface-muted)]'
+                              ? 'bg-[var(--accent-blue)]/60'
+                              : 'hover:bg-[var(--surface-soft)]'
                           }`}
                         >
-                          <div className="flex items-center justify-between text-xs mb-1.5">
+                          <div className="flex items-center justify-between gap-2 text-xs mb-1.5">
                             <span className="font-semibold text-[var(--text-primary)]">
                               Length = {pt.length} facts{' '}
-                              {isSelected && <span className="text-[var(--accent-blue-text)] text-[11px] font-bold font-sans">(Current)</span>}
+                              {isSelected && <span className="text-[var(--mm-signal)] text-[11px] font-bold font-sans">(Current)</span>}
                             </span>
-                            <span className="flex items-center gap-2">
+                            <span className="flex items-center gap-2.5">
                               <span className={pt.correct ? 'text-[var(--accent-green-text)] font-medium' : 'text-[var(--accent-pink-text)] font-medium'}>
                                 → {pt.prediction}
                               </span>
@@ -758,17 +744,17 @@ export const Section04InterferenceLab: React.FC<Section04InterferenceLabProps> =
                                 ({scorePct}%)
                               </span>
                               <span
-                                className={`text-[10px] px-2 py-0.5 rounded font-sans font-semibold ${
-                                  pt.correct ? 'bg-[var(--accent-green)] text-[var(--accent-green-text)]' : 'bg-[var(--accent-pink)] text-[var(--accent-pink-text)]'
+                                className={`text-[11px] font-sans font-semibold ${
+                                  pt.correct ? 'text-[var(--accent-green-text)]' : 'text-[var(--accent-pink-text)]'
                                 }`}
                               >
-                                {pt.correct ? 'Correct' : 'Collision'}
+                                {pt.correct ? '● Correct' : '▲ Collision'}
                               </span>
                             </span>
                           </div>
 
                           {/* Retrieval Score Bar */}
-                          <div className="w-full bg-[var(--border)] h-1.5 rounded-full overflow-hidden">
+                          <div className="w-full bg-[var(--mm-rule)] h-1 rounded-full overflow-hidden">
                             <div
                               className={`h-full transition-all ${
                                 pt.correct ? 'bg-[var(--color-success)]' : 'bg-[var(--color-danger)]'
@@ -776,34 +762,34 @@ export const Section04InterferenceLab: React.FC<Section04InterferenceLabProps> =
                               style={{ width: `${Math.max(5, Math.min(100, scorePct))}%` }}
                             />
                           </div>
-                        </div>
+                        </button>
                       );
                     })}
                   </div>
 
                   {/* Educational Model Principle */}
-                  <div className="p-3 rounded-lg bg-[var(--surface-soft)] border border-[var(--border)] text-xs text-[var(--text-secondary)] space-y-1 font-sans">
+                  <div className="pt-1 text-xs text-[var(--text-secondary)] space-y-1 font-sans">
                     <span className="text-[var(--text-primary)] font-semibold block">Educational model principle:</span>
                     <p>
                       A fixed-size state matrix (<InlineMath math="D \times D" />) has a finite capacity <InlineMath math="\mathcal{O}(D)" />. As more facts are packed via outer-product superposition, early facts either decay or overlap geometrically, creating crosstalk that eventually flips the nearest-neighbor retrieval.
                     </p>
-                    <span className="text-[var(--accent-blue-text)] italic text-[11px]">Observed in this educational toy model.</span>
+                    <span className="text-[var(--mm-signal)] italic text-[11px]">Observed in this educational toy model.</span>
                   </div>
-                </div>
+                </figure>
               </div>
             </div>
 
             {/* REAL MATRIX & STATE INSPECTOR */}
-            <div className="diagram-frame p-5 space-y-5 text-xs">
-              <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[var(--border)] pb-3">
+            <figure className="essay-figure-stage p-5 space-y-5 text-xs">
+              <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[var(--mm-rule)] pb-3">
                 <div className="flex items-center gap-2">
                   <Layers className="w-4 h-4 text-[var(--accent-blue-text)]" />
-                  <span className="font-bold text-[var(--text-primary)] text-sm font-sans">
+                  <span className="font-bold text-[var(--text-primary)] text-sm font-serif">
                     Actual recorded matrix state (<InlineMath math={`M \\in \\mathbb{R}^{${config.dimension} \\times ${config.dimension}}`} />)
                   </span>
                 </div>
                 <div className="text-xs text-[var(--text-secondary)]">
-                  Hover or click cell to inspect coordinate values & updates
+                  Hover or click cell to inspect coordinate values &amp; updates
                 </div>
               </div>
 
@@ -852,11 +838,11 @@ export const Section04InterferenceLab: React.FC<Section04InterferenceLabProps> =
                   </div>
                 </div>
 
-                {/* Cell Inspector & State Summary (5 cols) */}
-                <div className="lg:col-span-5 space-y-3 font-sans text-xs">
-                  <div className="bg-[var(--surface-soft)] p-4 rounded-lg border border-[var(--border)] space-y-2">
-                    <span className="text-[var(--text-muted)] font-mono text-[11px] uppercase block">
-                      COORDINATE INSPECTOR
+                {/* Cell Inspector & State Summary (5 cols - Hairline) */}
+                <div className="lg:col-span-5 space-y-4 font-sans text-xs">
+                  <div className="border-b border-[var(--mm-rule)] pb-3 space-y-1.5">
+                    <span className="text-[var(--text-muted)] font-mono text-[11px] uppercase tracking-wider block">
+                      Coordinate inspector
                     </span>
                     {selectedMatrixCell ? (
                       <div className="space-y-1 font-mono tabular-nums">
@@ -877,13 +863,13 @@ export const Section04InterferenceLab: React.FC<Section04InterferenceLabProps> =
                     )}
                   </div>
 
-                  {/* State Statistics */}
-                  <div className="grid grid-cols-2 gap-2 font-mono text-xs tabular-nums">
-                    <div className="bg-[var(--surface)] p-2.5 rounded-lg border border-[var(--border)]">
+                  {/* State Statistics (Hairline 2x2) */}
+                  <div className="grid grid-cols-2 border-y border-[var(--mm-rule)] divide-x divide-y divide-[var(--mm-rule)] font-mono text-xs tabular-nums">
+                    <div className="p-2.5">
                       <span className="text-[var(--text-muted)] block text-[10px]">TOTAL FACTS PACKED:</span>
                       <strong className="text-[var(--text-primary)]">{config.sequenceLength} facts</strong>
                     </div>
-                    <div className="bg-[var(--surface)] p-2.5 rounded-lg border border-[var(--border)]">
+                    <div className="p-2.5">
                       <span className="text-[var(--text-muted)] block text-[10px]">FROBENIUS MATRIX NORM:</span>
                       <strong className="text-[var(--accent-blue-text)]">
                         {Math.sqrt(
@@ -891,30 +877,30 @@ export const Section04InterferenceLab: React.FC<Section04InterferenceLabProps> =
                         ).toFixed(3)}
                       </strong>
                     </div>
-                    <div className="bg-[var(--surface)] p-2.5 rounded-lg border border-[var(--border)]">
+                    <div className="p-2.5">
                       <span className="text-[var(--text-muted)] block text-[10px]">TOP CANDIDATE:</span>
                       <strong className="text-[var(--text-primary)]">{experimentResult.prediction}</strong>
                     </div>
-                    <div className="bg-[var(--surface)] p-2.5 rounded-lg border border-[var(--border)]">
+                    <div className="p-2.5">
                       <span className="text-[var(--text-muted)] block text-[10px]">TOP-1 MARGIN:</span>
                       <strong className="text-[var(--accent-yellow-text)]">{(experimentResult.top1Margin * 100).toFixed(1)}%</strong>
                     </div>
                   </div>
 
                   {/* Fact Sequence Stored */}
-                  <div className="bg-[var(--surface)] p-3 rounded-lg border border-[var(--border)] space-y-1.5">
-                    <span className="text-[var(--text-muted)] font-mono text-[10px] uppercase block">
-                      STORED FACTS IN CHRONOLOGICAL SEQUENCE:
+                  <div className="space-y-1.5 pt-1">
+                    <span className="text-[var(--text-muted)] font-mono text-[10px] uppercase tracking-wider block">
+                      Stored facts in chronological sequence
                     </span>
-                    <div className="flex flex-wrap gap-1 max-h-20 overflow-y-auto">
+                    <div className="flex flex-wrap gap-x-3 gap-y-1 max-h-20 overflow-y-auto font-mono text-[11px] tabular-nums">
                       {currentFacts.map((f, idx) => (
                         <span
                           key={f.key}
-                          className={`px-1.5 py-0.5 rounded text-[10px] font-mono border tabular-nums ${
+                          className={
                             f.key === config.targetKey
-                              ? 'bg-[var(--accent-blue)] border-[var(--accent-blue-text)] text-[var(--accent-blue-text)] font-bold'
-                              : 'bg-[var(--surface-soft)] border-[var(--border)] text-[var(--text-primary)]'
-                          }`}
+                              ? 'text-[var(--mm-signal)] font-bold underline decoration-[var(--mm-signal)]/40 underline-offset-4'
+                              : 'text-[var(--text-secondary)]'
+                          }
                         >
                           #{idx + 1} {f.key} → {f.value}
                         </span>
@@ -923,7 +909,7 @@ export const Section04InterferenceLab: React.FC<Section04InterferenceLabProps> =
                   </div>
                 </div>
               </div>
-            </div>
+            </figure>
 
             {/* EXPERIMENT NOTEBOOK CONTAINER */}
             <div className="pt-2">
@@ -945,11 +931,11 @@ export const Section04InterferenceLab: React.FC<Section04InterferenceLabProps> =
         {/* EXPERIMENT 3: CAN MEMORY SURVIVE DISTRACTION? */}
         {activeExperiment === 'distraction' && (
           <div className="space-y-6">
-            <div className="diagram-frame p-5 space-y-4">
-              <div className="flex items-center justify-between border-b border-[var(--border)] pb-2">
+            <div className="essay-figure-stage p-5 space-y-4">
+              <div className="flex items-center justify-between border-b border-[var(--mm-rule)] pb-2.5">
                 <span className="font-semibold text-[var(--text-primary)] text-xs flex items-center gap-1.5">
                   <AlertOctagon className="w-4 h-4 text-[var(--accent-yellow-text)]" />
-                  Distraction & intervening fact overwriting
+                  Distraction &amp; intervening fact overwriting
                 </span>
                 <SourceBadge type="toy" />
               </div>

@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from 'react';
-import { Award, CheckCircle2, XCircle, RotateCcw, ArrowRight, HelpCircle } from 'lucide-react';
+import { CheckCircle2, XCircle, RotateCcw, ArrowRight } from 'lucide-react';
 import { SectionHeader } from './ui/SectionHeader';
 import { TruthModel } from './ui/TruthModel';
 import { SeededRandom } from '../utils/seededRandom';
@@ -7,7 +7,7 @@ import { normalizeVector, cosineSimilarity } from '../utils/metrics';
 import { DiscoveryMode } from './DiscoveryMode';
 import { ScientificHonestyPanel } from './ScientificHonestyPanel';
 import { EvidenceStrip } from './ui/EvidenceStrip';
-import { InlineMath, FormattedMathText } from './ui/MathView';
+import { InlineMath } from './ui/MathView';
 
 interface TrialConfig {
   round: number;
@@ -162,10 +162,10 @@ export const Section05FindTheFailure: React.FC = () => {
       (userPrediction === 'forget' && !result.modelRemembers));
 
   return (
-    <section id="section-05" className="w-full scroll-mt-20 border-b border-[var(--border)] bg-[var(--page-bg)] text-[var(--text-primary)] py-10">
+    <section id="section-05" className="w-full scroll-mt-20 border-b border-[var(--mm-rule)] bg-[var(--page-bg)] text-[var(--text-primary)] py-10">
       <div id="section-05-deltas" className="scroll-mt-24" />
       <div id="debug-panel-section" className="scroll-mt-24" />
-      <div className="w-full space-y-6">
+      <div className="w-full space-y-8">
         <SectionHeader
           number="05"
           category="FIND THE FAILURE CHALLENGE"
@@ -179,45 +179,43 @@ export const Section05FindTheFailure: React.FC = () => {
         />
 
         {/* Epistemic Evidence Classification */}
-        <div className="flex flex-wrap items-center gap-3 mb-6">
-          <EvidenceStrip
-            type="live"
-            detail="Deterministic synthetic memory trials with active vector cosine probing"
-          />
-        </div>
+        <EvidenceStrip
+          type="live"
+          detail="Deterministic synthetic memory trials with active vector cosine probing"
+        />
 
         {/* Interactive Discovery Mode: Can your memory hold this? */}
-        <div className="mb-12">
+        <div className="mb-10">
           <DiscoveryMode />
         </div>
 
         {/* 12-Column Responsive Layout for Pre-computed Challenge Trials */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start pt-6 border-t border-[var(--mm-rule)]">
           {/* Left Column: Challenge Trial Interface */}
           <div className="lg:col-span-5 space-y-5">
-            <div className="rounded-xl border border-[var(--border)] bg-[var(--surface-soft)] p-5 space-y-4">
-              <div className="flex items-center justify-between border-b border-[var(--border)] pb-2 font-sans">
-                <span className="text-xs font-semibold text-[var(--accent-blue-text)] tabular-nums">
+            <div className="essay-figure-stage p-5 space-y-5">
+              <div className="flex items-center justify-between border-b border-[var(--mm-rule)] pb-2.5 font-mono text-xs">
+                <span className="font-semibold text-[var(--mm-signal)] tabular-nums">
                   Round {String(trial.round).padStart(2, '0')} / 05
                 </span>
-                <span className="text-xs text-[var(--text-secondary)] tabular-nums">
-                  Score: <strong className="text-[var(--text-primary)] font-mono tabular-nums">{score}</strong> / {TRIALS.length}
+                <span className="text-[var(--mm-muted)] tabular-nums">
+                  Score <strong className="text-[var(--mm-ink)]">{score}</strong> / {TRIALS.length}
                 </span>
               </div>
 
-              {/* Trial Specifications */}
-              <div className="grid grid-cols-3 gap-2 text-xs font-sans">
-                <div className="rounded-lg bg-[var(--surface)] p-2.5 border border-[var(--border)]">
-                  <span className="text-[var(--text-secondary)] block text-xs">Capacity</span>
-                  <span className="font-bold text-[var(--text-primary)] font-mono tabular-nums"><InlineMath math={`D = ${trial.dim}`} /></span>
+              {/* Trial Specifications — unified hairline strip */}
+              <div className="grid grid-cols-3 divide-x divide-[var(--mm-rule)] border border-[var(--mm-rule)] bg-[var(--mm-paper-bright)] rounded-md text-xs font-sans">
+                <div className="p-2.5">
+                  <span className="text-[var(--mm-muted)] block text-[11px]">Capacity</span>
+                  <span className="font-semibold text-[var(--mm-ink)] font-mono tabular-nums"><InlineMath math={`D = ${trial.dim}`} /></span>
                 </div>
-                <div className="rounded-lg bg-[var(--surface)] p-2.5 border border-[var(--border)]">
-                  <span className="text-[var(--text-secondary)] block text-xs">Facts (<InlineMath math="T" />)</span>
-                  <span className="font-bold text-[var(--text-primary)] font-mono tabular-nums">{trial.factsCount} pairs</span>
+                <div className="p-2.5">
+                  <span className="text-[var(--mm-muted)] block text-[11px]">Facts (<InlineMath math="T" />)</span>
+                  <span className="font-semibold text-[var(--mm-ink)] font-mono tabular-nums">{trial.factsCount} pairs</span>
                 </div>
-                <div className="rounded-lg bg-[var(--surface)] p-2.5 border border-[var(--border)]">
-                  <span className="text-[var(--text-secondary)] block text-xs">Crosstalk</span>
-                  <span className={`font-bold font-sans ${trial.similarity === 'High' ? 'text-[var(--accent-yellow-text)]' : 'text-[var(--accent-green-text)]'}`}>
+                <div className="p-2.5">
+                  <span className="text-[var(--mm-muted)] block text-[11px]">Crosstalk</span>
+                  <span className={`font-semibold font-sans ${trial.similarity === 'High' ? 'text-[var(--accent-yellow-text)]' : 'text-[var(--accent-green-text)]'}`}>
                     {trial.similarity}
                   </span>
                 </div>
@@ -225,8 +223,8 @@ export const Section05FindTheFailure: React.FC = () => {
 
               {/* Variable stream tokens */}
               <div>
-                <span className="text-xs font-sans text-[var(--text-secondary)] block mb-1.5">
-                  Stream sequence (Target key is B):
+                <span className="text-xs font-sans text-[var(--mm-muted)] block mb-1.5">
+                  Stream sequence (target key: B):
                 </span>
                 <div className="flex flex-wrap gap-1.5">
                   {result.pairs.map((p) => {
@@ -248,20 +246,21 @@ export const Section05FindTheFailure: React.FC = () => {
               </div>
 
               {/* Prediction Decision Buttons */}
-              <div className="pt-2 border-t border-[var(--border)] space-y-2">
+              <div className="pt-3 border-t border-[var(--mm-rule)] space-y-2.5">
                 <span className="text-xs font-sans text-[var(--text-secondary)] block">
                   Your hypothesis for Round {trial.round}:
                 </span>
-                <div className="grid grid-cols-2 gap-3">
+                <div className="grid grid-cols-2 gap-2.5">
                   <button
+                    type="button"
                     onClick={() => handlePredict('remember')}
                     disabled={userPrediction !== null}
-                    className={`py-2 px-3 rounded-lg border text-xs font-sans font-semibold transition-all ${
+                    className={`py-2.5 px-3 rounded-md border text-xs font-sans font-semibold transition-colors ${
                       userPrediction === 'remember'
-                        ? 'border-[var(--accent-green-text)] bg-[var(--accent-green)] text-[var(--accent-green-text)] ring-1 ring-[var(--accent-green-text)]'
+                        ? 'border-[var(--color-success)] bg-[var(--accent-green)] text-[var(--accent-green-text)]'
                         : userPrediction !== null
-                        ? 'opacity-40 border-[var(--border)] bg-[var(--surface)] text-[var(--text-muted)]'
-                        : 'border-[var(--border)] bg-[var(--accent-green)] hover:opacity-90 text-[var(--accent-green-text)] cursor-pointer'
+                        ? 'opacity-40 border-[var(--mm-rule)] bg-[var(--page-bg)] text-[var(--text-muted)]'
+                        : 'border-[var(--mm-rule)] bg-[var(--page-bg)] hover:border-[var(--color-success)] text-[var(--accent-green-text)] cursor-pointer'
                     }`}
                   >
                     <span className="inline-flex items-center justify-center gap-1">
@@ -271,14 +270,15 @@ export const Section05FindTheFailure: React.FC = () => {
                   </button>
 
                   <button
+                    type="button"
                     onClick={() => handlePredict('forget')}
                     disabled={userPrediction !== null}
-                    className={`py-2 px-3 rounded-lg border text-xs font-sans font-semibold transition-all ${
+                    className={`py-2.5 px-3 rounded-md border text-xs font-sans font-semibold transition-colors ${
                       userPrediction === 'forget'
-                        ? 'border-[var(--accent-pink-text)] bg-[var(--accent-pink)] text-[var(--accent-pink-text)] ring-1 ring-[var(--accent-pink-text)]'
+                        ? 'border-[var(--color-danger)] bg-[var(--accent-pink)] text-[var(--accent-pink-text)]'
                         : userPrediction !== null
-                        ? 'opacity-40 border-[var(--border)] bg-[var(--surface)] text-[var(--text-muted)]'
-                        : 'border-[var(--border)] bg-[var(--accent-pink)] hover:opacity-90 text-[var(--accent-pink-text)] cursor-pointer'
+                        ? 'opacity-40 border-[var(--mm-rule)] bg-[var(--page-bg)] text-[var(--text-muted)]'
+                        : 'border-[var(--mm-rule)] bg-[var(--page-bg)] hover:border-[var(--color-danger)] text-[var(--accent-pink-text)] cursor-pointer'
                     }`}
                   >
                     Will forget (Interference)
@@ -289,13 +289,13 @@ export const Section05FindTheFailure: React.FC = () => {
               {/* User Outcome Evaluation */}
               {userPrediction !== null && (
                 <div
-                  className={`rounded-lg p-3 border text-xs space-y-2 animate-in fade-in font-sans ${
+                  className={`pl-4 py-2 border-l-2 text-xs space-y-2 animate-in fade-in font-sans ${
                     isUserCorrect
-                      ? 'bg-[var(--accent-green)] border-[var(--border)] text-[var(--accent-green-text)]'
-                      : 'bg-[var(--accent-yellow)] border-[var(--border)] text-[var(--accent-yellow-text)]'
+                      ? 'border-[var(--color-success)] text-[var(--accent-green-text)]'
+                      : 'border-[var(--color-warning)] text-[var(--accent-yellow-text)]'
                   }`}
                 >
-                  <div className="flex items-center gap-1.5 font-bold">
+                  <div className="flex items-center gap-1.5 font-semibold">
                     {isUserCorrect ? (
                       <>
                         <CheckCircle2 className="w-4 h-4 text-[var(--accent-green-text)]" />
@@ -312,10 +312,11 @@ export const Section05FindTheFailure: React.FC = () => {
                     {trial.explanation}
                   </p>
 
-                  <div className="pt-2 flex justify-end">
+                  <div className="pt-1 flex justify-end">
                     <button
+                      type="button"
                       onClick={handleNextRound}
-                      className="btn-primary py-1.5 px-3 rounded-lg text-xs font-semibold cursor-pointer"
+                      className="btn-primary py-1.5 px-3 text-xs font-semibold cursor-pointer"
                     >
                       <span>{currentRoundIdx === TRIALS.length - 1 ? 'Finish challenge' : 'Next trial'}</span>
                       <ArrowRight className="w-3.5 h-3.5" />

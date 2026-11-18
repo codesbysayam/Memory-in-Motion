@@ -1,36 +1,19 @@
-import React, { useState } from 'react';
-import { ExternalLink, ShieldCheck, CheckCircle2, Bookmark, BookOpen, Layers } from 'lucide-react';
-import { getVerifiedResearch } from '../data/research';
+import React from 'react';
+import { ExternalLink, BookOpen } from 'lucide-react';
 import { OFFICIAL_SOURCES, PAPER_LANDSCAPE } from '../data/sources';
-import { RESEARCH_SOURCES, ResearchSource } from '../data/researchSources';
+import { RESEARCH_SOURCES } from '../data/researchSources';
 import { SectionHeader } from './ui/SectionHeader';
-import { SourceBadge, SourceBadgeType } from './ui/SourceBadge';
+import { SourceBadge } from './ui/SourceBadge';
 import { EvidenceLadder } from './EvidenceLadder';
 
 export const EvidenceAndSources: React.FC = () => {
-  const [filterType, setFilterType] = useState<string>('ALL');
-
-  const verifiedResearch = getVerifiedResearch();
-
-  const types: { key: string; label: string }[] = [
-    { key: 'ALL', label: 'ALL SOURCES' },
-    { key: 'primary', label: 'PRIMARY PAPERS' },
-    { key: 'official', label: 'OFFICIAL PATHWAY' },
-    { key: 'toy', label: 'TOY EXPERIMENTS' },
-  ];
-
-  const filteredEntries =
-    filterType === 'ALL'
-      ? verifiedResearch
-      : verifiedResearch.filter((entry) => entry.type === filterType);
-
   return (
-    <section id="evidence-sources" className="scroll-mt-20 border-t border-[var(--border)] bg-[var(--page-bg)] text-[var(--text-primary)] py-12 space-y-12">
+    <section id="evidence-sources" className="scroll-mt-20 border-t border-[var(--mm-rule)] bg-[var(--page-bg)] text-[var(--mm-ink)] py-12 space-y-12">
       <SectionHeader
-        number="11"
+        number="07.5"
         category="Bibliography & Provenance"
         title="Research Evidence & Epistemic Dossier"
-        subtitle="All mathematical definitions, recurrent state equations, and complexity proofs across this laboratory are explicitly grounded in peer-reviewed literature, primary technical preprints, and verifiable toy formulations."
+        subtitle="All mathematical definitions, recurrent state equations, and complexity proofs across this visual essay are grounded in peer-reviewed literature, primary preprints, and deterministic toy models."
         discovery="Decoupling claims into primary academic literature, official benchmarks, and toy computational models preserves strict epistemic rigor."
       />
 
@@ -38,55 +21,55 @@ export const EvidenceAndSources: React.FC = () => {
       <EvidenceLadder />
 
       {/* Primary Source Dossier */}
-      <div className="space-y-4">
-        <div className="flex flex-wrap items-center justify-between gap-2 border-b border-[var(--border)] pb-3">
-          <h3 className="font-serif text-xl sm:text-2xl font-normal text-[var(--text-primary)] flex items-center gap-2">
-            <BookOpen className="w-5 h-5 text-[var(--color-accent-ink)]" />
-            <span>Primary Recurrent & BDH Bibliography</span>
+      <div className="space-y-5">
+        <div className="flex flex-wrap items-baseline justify-between gap-2 border-b border-[var(--mm-rule)] pb-3">
+          <h3 className="font-serif text-xl sm:text-2xl font-medium text-[var(--mm-ink)] flex items-center gap-2">
+            <BookOpen className="w-5 h-5 text-[var(--mm-signal)]" />
+            <span>Primary Recurrent &amp; BDH Bibliography</span>
           </h3>
-          <span className="font-mono text-xs text-[var(--text-muted)]">
+          <span className="font-mono text-xs text-[var(--mm-muted)] tabular-nums">
             Annotated canonical citations [1]–[{RESEARCH_SOURCES.length}]
           </span>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 font-mono text-xs">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 border-y border-[var(--mm-rule)] divide-y md:divide-x divide-[var(--mm-rule)] font-mono text-xs">
           {RESEARCH_SOURCES.map((src, idx) => (
             <div
               key={src.id}
-              className="rounded-xl border border-[var(--border)] bg-[var(--surface)] p-5 flex flex-col justify-between space-y-4 hover:border-[var(--color-border-strong)] transition-colors"
+              className="p-5 flex flex-col justify-between space-y-4 bg-[var(--mm-paper-bright)]"
             >
               <div className="space-y-2.5">
                 <div className="flex items-center justify-between">
-                  <span className="px-2 py-0.5 rounded text-xs font-semibold bg-[var(--accent-blue)] border border-[var(--border)] text-[var(--color-accent-ink)]">
+                  <span className="text-[11px] font-semibold uppercase tracking-[0.05em] text-[var(--mm-signal)]">
                     [{idx + 1}] {src.badge}
                   </span>
-                  <span className="text-xs font-medium text-[var(--text-muted)]">{src.year}</span>
+                  <span className="text-xs font-medium text-[var(--mm-muted)] tabular-nums">{src.year}</span>
                 </div>
 
-                <h4 className="font-sans font-semibold text-sm text-[var(--text-primary)] leading-snug">
+                <h4 className="font-sans font-semibold text-sm text-[var(--mm-ink)] leading-snug">
                   {src.title}
                 </h4>
-                <div className="text-xs text-[var(--text-muted)] font-sans italic">
+                <div className="text-xs text-[var(--mm-muted)] font-sans italic">
                   {src.authors}
                 </div>
 
-                <div className="pt-2.5 border-t border-[var(--border)] space-y-1">
-                  <span className="text-xs text-[var(--color-warning)] block font-semibold">
-                    Empirical & theoretical basis
+                <div className="pt-2.5 border-t border-[var(--mm-rule)] space-y-1">
+                  <span className="text-[11px] uppercase tracking-[0.05em] text-[var(--mm-amber)] block font-semibold">
+                    Empirical &amp; theoretical basis
                   </span>
-                  <p className="text-xs text-[var(--text-secondary)] font-sans leading-relaxed">
+                  <p className="text-xs text-[var(--mm-ink-soft)] font-sans leading-relaxed">
                     {src.whatItSupports}
                   </p>
                 </div>
               </div>
 
-              <div className="pt-2.5 border-t border-[var(--border)] flex items-center justify-between text-xs">
-                <span className="text-[var(--text-muted)] capitalize">{src.type} source</span>
+              <div className="pt-2.5 border-t border-[var(--mm-rule)] flex items-center justify-between text-xs">
+                <span className="text-[var(--mm-muted)] capitalize">{src.type} source</span>
                 <a
                   href={src.url}
                   target="_blank"
                   rel="noreferrer"
-                  className="text-[var(--color-accent-ink)] hover:underline flex items-center gap-1 font-semibold"
+                  className="text-[var(--mm-signal)] hover:underline flex items-center gap-1 font-semibold"
                 >
                   <span>View Preprint</span>
                   <ExternalLink className="w-3.5 h-3.5" />
@@ -99,50 +82,48 @@ export const EvidenceAndSources: React.FC = () => {
 
       {/* Paper Landscape Table */}
       <div className="space-y-4">
-        <div className="flex flex-wrap items-center justify-between gap-2 border-b border-[var(--border)] pb-2">
-          <h3 className="font-serif text-xl sm:text-2xl font-normal text-[var(--text-primary)]">
+        <div className="flex flex-wrap items-baseline justify-between gap-2 border-b border-[var(--mm-rule)] pb-2">
+          <h3 className="font-serif text-xl sm:text-2xl font-medium text-[var(--mm-ink)]">
             Comparative Academic Landscape (2022–2026)
           </h3>
-          <span className="font-mono text-xs text-[var(--text-muted)]">
-            Peer-reviewed & technical reports
+          <span className="font-mono text-xs text-[var(--mm-muted)]">
+            Peer-reviewed &amp; technical reports
           </span>
         </div>
 
-        <div className="research-table-wrap bg-[var(--surface)]">
+        <div className="research-table-wrap">
           <table className="research-table w-full text-left text-xs font-mono">
-            <thead className="border-b border-[var(--border)] bg-[var(--surface-soft)] text-[var(--text-secondary)] text-xs">
+            <thead>
               <tr>
-                <th className="py-3 px-4 font-semibold">Paper Title & Authors</th>
-                <th className="py-3 px-3 font-semibold">Year / Venue</th>
-                <th className="py-3 px-3 font-semibold">Core Contribution</th>
-                <th className="py-3 px-3 font-semibold">Class</th>
-                <th className="py-3 px-4 text-right font-semibold">Link</th>
+                <th>Paper Title &amp; Authors</th>
+                <th>Year / Venue</th>
+                <th>Core Contribution</th>
+                <th>Class</th>
+                <th className="text-right">Link</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-[var(--border)] text-[var(--text-secondary)]">
+            <tbody>
               {PAPER_LANDSCAPE.map((paper, idx) => (
-                <tr key={idx} className="hover:bg-[var(--surface-soft)] transition-colors">
-                  <td className="py-3.5 px-4">
-                    <div className="font-sans font-semibold text-sm text-[var(--text-primary)]">{paper.title}</div>
-                    <div className="text-xs text-[var(--text-muted)] font-sans mt-0.5">{paper.authors}</div>
+                <tr key={idx}>
+                  <td>
+                    <div className="font-sans font-semibold text-sm text-[var(--mm-ink)]">{paper.title}</div>
+                    <div className="text-xs text-[var(--mm-muted)] font-sans mt-0.5">{paper.authors}</div>
                   </td>
-                  <td className="py-3.5 px-3 whitespace-nowrap">
-                    <span className="rounded bg-[var(--surface-soft)] border border-[var(--border)] px-2 py-0.5 text-xs text-[var(--text-primary)] font-medium">
-                      {paper.year} · {paper.venue}
-                    </span>
+                  <td className="whitespace-nowrap font-mono text-xs text-[var(--mm-ink-soft)] tabular-nums">
+                    {paper.year} · {paper.venue}
                   </td>
-                  <td className="py-3.5 px-3 font-sans text-xs text-[var(--text-secondary)] max-w-xs leading-relaxed">
+                  <td className="font-sans text-xs text-[var(--mm-ink-soft)] max-w-xs leading-relaxed">
                     {paper.conceptContribution}
                   </td>
-                  <td className="py-3.5 px-3">
+                  <td>
                     <SourceBadge type="primary" />
                   </td>
-                  <td className="py-3.5 px-4 text-right whitespace-nowrap">
+                  <td className="text-right whitespace-nowrap">
                     <a
                       href={paper.url}
                       target="_blank"
                       rel="noreferrer"
-                      className="inline-flex items-center gap-1 font-mono text-xs text-[var(--color-accent-ink)] font-semibold hover:underline"
+                      className="inline-flex items-center gap-1 font-mono text-xs text-[var(--mm-signal)] font-semibold hover:underline"
                     >
                       <span>arXiv</span>
                       <ExternalLink className="w-3 h-3" />
@@ -155,28 +136,28 @@ export const EvidenceAndSources: React.FC = () => {
         </div>
       </div>
 
-      {/* Official Sources Reference Box */}
-      <div className="rounded-xl border border-[var(--border)] bg-[var(--surface)] p-5 sm:p-6 space-y-4 font-mono text-xs">
-        <div className="text-xs font-semibold text-[var(--text-primary)]">
-          Official research repositories & specifications
+      {/* Official Sources Reference List */}
+      <div className="space-y-4 font-mono text-xs">
+        <div className="essay-eyebrow font-semibold">
+          Official research repositories &amp; specifications
         </div>
-        <div className="grid grid-cols-1 gap-3.5 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 border-y border-[var(--mm-rule)] divide-y sm:divide-x divide-[var(--mm-rule)] bg-[var(--mm-paper-bright)]">
           {OFFICIAL_SOURCES.map((src, i) => (
             <a
               key={i}
               href={src.url}
               target="_blank"
               rel="noreferrer"
-              className="group rounded-lg border border-[var(--border)] bg-[var(--surface-soft)] p-4 transition-colors hover:border-[var(--color-accent)]"
+              className="group p-4 transition-colors hover:bg-[var(--page-bg)]"
             >
               <div className="flex items-center justify-between">
                 <span className="font-mono text-xs font-semibold text-[var(--color-success)]">{src.venue}</span>
-                <ExternalLink className="w-3.5 h-3.5 text-[var(--text-muted)] group-hover:text-[var(--color-accent-ink)] transition-colors" />
+                <ExternalLink className="w-3.5 h-3.5 text-[var(--mm-muted)] group-hover:text-[var(--mm-signal)] transition-colors" />
               </div>
-              <div className="mt-1 font-sans text-sm font-semibold text-[var(--text-primary)] group-hover:text-[var(--color-accent-ink)] transition-colors">
+              <div className="mt-1 font-sans text-sm font-semibold text-[var(--mm-ink)] group-hover:text-[var(--mm-signal)] transition-colors">
                 {src.title}
               </div>
-              <p className="mt-1 text-xs text-[var(--text-secondary)] font-sans line-clamp-2 leading-relaxed">
+              <p className="mt-1 text-xs text-[var(--mm-ink-soft)] font-sans line-clamp-2 leading-relaxed">
                 {src.description}
               </p>
             </a>
@@ -186,3 +167,4 @@ export const EvidenceAndSources: React.FC = () => {
     </section>
   );
 };
+

@@ -55,15 +55,22 @@ export const ConceptGlossaryDrawer: React.FC<ConceptGlossaryDrawerProps> = ({
     }
   }, [isOpen]);
 
-  // Close on Escape key
+  // Close on Escape key or close_all_overlays event
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape' && isOpen) {
         closeGlossary();
       }
     };
+    const handleCloseOverlays = () => {
+      if (isOpen) closeGlossary();
+    };
     window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
+    window.addEventListener('close_all_overlays', handleCloseOverlays);
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+      window.removeEventListener('close_all_overlays', handleCloseOverlays);
+    };
   }, [isOpen, closeGlossary]);
 
   // Reset scroll when switching view or term

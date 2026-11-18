@@ -434,83 +434,59 @@ export const Section03RecurrentMemory: React.FC = () => {
         {/* Global Memory Lens Strip */}
         <MemoryLens currentFocus="state" />
 
-        {/* 3. MEMORY AT A GLANCE (Real-time computed metrics) */}
-        <div className="diagram-frame p-5">
-          <div className="text-xs text-[var(--text-muted)] mb-3 font-semibold flex flex-wrap items-center justify-between gap-2">
-            <span className="flex items-center gap-1.5 text-[var(--text-primary)]">
-              <span>Memory at a glance: actual computed state</span>
-              <span className="text-[var(--accent-blue-text)] font-mono">(<InlineMath math={`\\hat{v} \\in \\mathbb{R}^{${config.dimension}}`} />)</span>
+        {/* 3. MEMORY AT A GLANCE (Unified hairline telemetry band) */}
+        <div className="essay-figure-stage">
+          <div className="px-4 sm:px-6 py-3 border-b border-[var(--mm-rule)] text-xs font-mono flex flex-wrap items-center justify-between gap-2">
+            <span className="flex items-center gap-2 text-[var(--text-primary)] font-medium">
+              <span>Computed state telemetry</span>
+              <span className="text-[var(--mm-signal)]">(<InlineMath math={`\\hat{v} \\in \\mathbb{R}^{${config.dimension}}`} />)</span>
             </span>
-            <span className="text-[var(--accent-green-text)] font-mono text-xs">
-              Real-time recomputation
-            </span>
+            <span className="text-[var(--mm-teal)]">Live deterministic readout</span>
           </div>
 
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 tabular-nums">
-            {/* DIMENSION */}
-            <div className="metric-panel flex flex-col justify-between">
-              <span className="text-[var(--text-muted)] text-xs font-semibold">
-                Dimension (<InlineMath math="d" />)
-              </span>
-              <span className="text-2xl font-bold font-mono text-[var(--text-primary)] mt-1">{config.dimension}D</span>
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 divide-y sm:divide-y-0 sm:divide-x divide-[var(--mm-rule)] tabular-nums">
+            <div className="p-4 flex flex-col justify-between">
+              <span className="text-[var(--text-muted)] text-xs font-mono">Dimension (d)</span>
+              <span className="text-2xl font-medium font-mono text-[var(--text-primary)] mt-1">{config.dimension}D</span>
               <span className="text-xs text-[var(--text-muted)] font-mono mt-0.5">
                 <InlineMath math={`\\mathbb{R}^{${config.dimension} \\times ${config.dimension}}`} />
               </span>
             </div>
 
-            {/* FACTS STORED */}
-            <div className="metric-panel flex flex-col justify-between">
-              <span className="text-[var(--text-muted)] text-xs font-semibold">Facts stored</span>
-              <span className="text-2xl font-bold font-mono text-[var(--accent-blue-text)] mt-1">{activeFacts.length}</span>
+            <div className="p-4 flex flex-col justify-between">
+              <span className="text-[var(--text-muted)] text-xs font-mono">Facts stored</span>
+              <span className="text-2xl font-medium font-mono text-[var(--mm-signal)] mt-1">{activeFacts.length}</span>
               <span className="text-xs text-[var(--text-muted)] mt-0.5">{distractorCount} distractors</span>
             </div>
 
-            {/* STATE VECTOR NORM */}
-            <div className="metric-panel flex flex-col justify-between" title="Euclidean norm of retrieved representation vector ||v_hat||">
-              <span className="text-[var(--text-muted)] text-xs font-semibold">
-                Norm (<InlineMath math="\|\hat{v}\|" />)
-              </span>
-              <span className="text-2xl font-bold font-mono text-[var(--text-secondary)] mt-1">
-                {stateVectorNorm.toFixed(3)}
-              </span>
+            <div className="p-4 flex flex-col justify-between" title="Euclidean norm of retrieved representation vector ||v_hat||">
+              <span className="text-[var(--text-muted)] text-xs font-mono">Norm (<InlineMath math="\|\hat{v}\|" />)</span>
+              <span className="text-2xl font-medium font-mono text-[var(--text-primary)] mt-1">{stateVectorNorm.toFixed(3)}</span>
               <span className="text-xs text-[var(--text-muted)] mt-0.5">Retrieved energy</span>
             </div>
 
-            {/* RETRIEVAL SCORE */}
-            <div className="metric-panel flex flex-col justify-between" title="Normalized cosine similarity between retrieved state vector and candidate value vector">
-              <span className="text-[var(--text-muted)] text-xs font-semibold">
-                Score (<InlineMath math="s_1" />)
-              </span>
-              <span className={`text-2xl font-bold font-mono mt-1 ${experimentResult.correct ? 'text-[var(--accent-green-text)]' : 'text-[var(--accent-pink-text)]'}`}>
+            <div className="p-4 flex flex-col justify-between" title="Normalized cosine similarity between retrieved state vector and candidate value vector">
+              <span className="text-[var(--text-muted)] text-xs font-mono">Score (<InlineMath math="s_1" />)</span>
+              <span className={`text-2xl font-medium font-mono mt-1 ${experimentResult.correct ? 'text-[var(--mm-teal)]' : 'text-[var(--mm-coral)]'}`}>
                 {experimentResult.retrievalScore.toFixed(3)}
               </span>
-              <span className="text-xs text-[var(--text-muted)] font-mono mt-0.5">
-                <InlineMath math="s_1 = \cos(\hat{v}, v_c)" />
-              </span>
+              <span className="text-xs text-[var(--text-muted)] font-mono mt-0.5"><InlineMath math="\cos(\hat{v}, v_c)" /></span>
             </div>
 
-            {/* TOP-1 MARGIN */}
-            <div className="metric-panel flex flex-col justify-between" title="Margin between top candidate score and runner-up: Δs = s_1 - s_2">
-              <span className="text-[var(--text-muted)] text-xs font-semibold">
-                Margin (<InlineMath math="\Delta s" />)
-              </span>
-              <span className={`text-2xl font-bold font-mono mt-1 ${experimentResult.top1Margin > 0.05 ? 'text-[var(--accent-green-text)]' : 'text-[var(--accent-pink-text)]'}`}>
+            <div className="p-4 flex flex-col justify-between" title="Margin between top candidate score and runner-up: Δs = s_1 - s_2">
+              <span className="text-[var(--text-muted)] text-xs font-mono">Margin (<InlineMath math="\Delta s" />)</span>
+              <span className={`text-2xl font-medium font-mono mt-1 ${experimentResult.top1Margin > 0.05 ? 'text-[var(--mm-teal)]' : 'text-[var(--mm-coral)]'}`}>
                 {experimentResult.top1Margin.toFixed(3)}
               </span>
-              <span className="text-xs text-[var(--text-muted)] font-mono mt-0.5">
-                <InlineMath math="\Delta s = s_1 - s_2" />
-              </span>
+              <span className="text-xs text-[var(--text-muted)] font-mono mt-0.5"><InlineMath math="s_1 - s_2" /></span>
             </div>
 
-            {/* PREDICTION STATUS */}
-            <div className="metric-panel flex flex-col justify-between">
-              <span className="text-[var(--text-muted)] text-xs font-semibold">Prediction</span>
-              <span className={`text-lg font-bold font-mono mt-1 truncate ${experimentResult.correct ? 'text-[var(--accent-green-text)]' : 'text-[var(--accent-pink-text)]'}`}>
+            <div className="p-4 flex flex-col justify-between">
+              <span className="text-[var(--text-muted)] text-xs font-mono">Prediction</span>
+              <span className={`text-lg font-semibold font-mono mt-1 truncate ${experimentResult.correct ? 'text-[var(--mm-teal)]' : 'text-[var(--mm-coral)]'}`}>
                 {experimentResult.prediction}
               </span>
-              <span className="text-xs text-[var(--text-muted)] mt-0.5 truncate">
-                Target: {groundTruth}
-              </span>
+              <span className="text-xs text-[var(--text-muted)] mt-0.5 truncate">Target: {groundTruth}</span>
             </div>
           </div>
         </div>
@@ -519,8 +495,8 @@ export const Section03RecurrentMemory: React.FC = () => {
         <div className="experiment-layout">
           {/* Left Column: Compact Sticky Control Sidebar */}
           <div className="experiment-sidebar space-y-4 text-xs">
-            <div className="diagram-frame p-4 sm:p-5 space-y-4">
-              <div className="flex items-center justify-between border-b border-[var(--border)] pb-3">
+            <div className="essay-figure-stage p-4 sm:p-5 space-y-4">
+              <div className="flex items-center justify-between border-b border-[var(--mm-rule)] pb-3">
                 <h3 className="font-semibold text-sm text-[var(--text-primary)] flex items-center gap-1.5">
                   <Sliders className="w-4 h-4 text-[var(--accent-blue-text)]" />
                   <span>Experiment parameters</span>
@@ -629,7 +605,7 @@ export const Section03RecurrentMemory: React.FC = () => {
               {showSecondaryParams && (
                 <div className="space-y-3.5 pt-3 border-t border-[var(--border)]">
                   {/* Controlled Mode Toggle */}
-                  <div className="p-3 rounded-xl bg-[var(--surface-soft)] border border-[var(--border)] space-y-2">
+                  <div className="pt-3 border-t border-[var(--mm-rule)] space-y-2">
                     <div className="flex items-center justify-between">
                       <span className="font-semibold text-[var(--text-primary)] text-xs flex items-center gap-1.5">
                         {isControlledMode ? <Lock className="w-3.5 h-3.5 text-[var(--accent-blue-text)]" /> : <Unlock className="w-3.5 h-3.5 text-[var(--text-muted)]" />}
@@ -638,10 +614,10 @@ export const Section03RecurrentMemory: React.FC = () => {
                       <button
                         type="button"
                         onClick={toggleControlledMode}
-                        className={`px-2.5 py-1 rounded-lg text-xs font-semibold transition border cursor-pointer ${
+                        className={`px-2.5 py-1 rounded-md text-xs font-semibold transition border cursor-pointer ${
                           isControlledMode
                             ? 'bg-[var(--accent-blue)] text-[var(--accent-blue-text)] border-[var(--color-accent)]'
-                            : 'bg-[var(--surface)] text-[var(--text-secondary)] border-[var(--border)] hover:text-[var(--text-primary)]'
+                            : 'bg-[var(--surface)] text-[var(--text-secondary)] border-[var(--mm-rule)] hover:text-[var(--text-primary)]'
                         }`}
                       >
                         {isControlledMode ? 'Active ✓' : 'Enable'}
@@ -649,7 +625,7 @@ export const Section03RecurrentMemory: React.FC = () => {
                     </div>
 
                     {isControlledMode && (
-                      <div className="text-xs space-y-1.5 pt-1 text-[var(--text-secondary)] border-t border-[var(--border)]">
+                      <div className="text-xs space-y-2 pt-2 text-[var(--text-secondary)] border-t border-[var(--mm-rule)]">
                         <div className="flex items-center justify-between">
                           <span>Baseline frozen:</span>
                           <button
@@ -663,9 +639,9 @@ export const Section03RecurrentMemory: React.FC = () => {
                         </div>
 
                         {controlledDeltas && controlledDeltas.length > 0 && (
-                          <div className="p-2 rounded-lg bg-[var(--surface)] border border-[var(--border)] space-y-1 tabular-nums">
+                          <div className="divide-y divide-[var(--mm-rule)] border-y border-[var(--mm-rule)] py-1 tabular-nums">
                             {controlledDeltas.map((d, i) => (
-                              <div key={i} className="flex justify-between text-[var(--text-secondary)]">
+                              <div key={i} className="flex justify-between py-1 text-[var(--text-secondary)]">
                                 <span className="text-[var(--accent-blue-text)] font-semibold">{d.name}:</span>
                                 <span>{d.base} → <strong className="text-[var(--text-primary)]">{d.curr}</strong></span>
                               </div>
@@ -674,7 +650,7 @@ export const Section03RecurrentMemory: React.FC = () => {
                         )}
 
                         {controlledWarning && (
-                          <div className="p-2 rounded-lg bg-[var(--accent-yellow)] border border-[var(--color-warning-border)] text-[var(--accent-yellow-text)] text-xs leading-tight flex items-start gap-1">
+                          <div className="py-1.5 px-2.5 rounded-md bg-[var(--accent-yellow)] text-[var(--accent-yellow-text)] text-xs leading-tight flex items-start gap-1.5">
                             <AlertTriangle className="w-3.5 h-3.5 text-[var(--accent-yellow-text)] shrink-0 mt-0.5" />
                             <span>{controlledWarning}</span>
                           </div>
@@ -766,10 +742,10 @@ export const Section03RecurrentMemory: React.FC = () => {
               )}
             </div>
 
-            {/* Compare Before / After (Compact Card) */}
+            {/* Compare Before / After (Compact Hairline Figure) */}
             {prevSnapshot && (
-              <div className="diagram-frame p-4 text-xs space-y-3 tabular-nums">
-                <div className="flex items-center justify-between border-b border-[var(--border)] pb-2">
+              <div className="essay-figure-stage p-4 text-xs space-y-3 tabular-nums">
+                <div className="flex items-center justify-between border-b border-[var(--mm-rule)] pb-2">
                   <h4 className="font-semibold text-xs text-[var(--text-primary)] flex items-center gap-1">
                     <TrendingUp className="w-3.5 h-3.5 text-[var(--accent-blue-text)]" />
                     <span>Compare before / after</span>
@@ -777,9 +753,9 @@ export const Section03RecurrentMemory: React.FC = () => {
                   <span className="text-[var(--text-muted)] text-xs font-mono">Live delta</span>
                 </div>
 
-                <div className="grid grid-cols-2 gap-2.5 text-xs">
-                  <div className="p-2.5 rounded-xl bg-[var(--surface-soft)] border border-[var(--border)] space-y-1">
-                    <span className="text-xs text-[var(--text-muted)] font-semibold block">Before</span>
+                <div className="grid grid-cols-2 divide-x divide-[var(--mm-rule)] border-b border-[var(--mm-rule)] pb-3 text-xs">
+                  <div className="pr-3 space-y-1">
+                    <span className="text-xs text-[var(--text-muted)] font-mono uppercase tracking-wider block">Before</span>
                     <div>Dim: <strong className="text-[var(--text-primary)] font-mono">{prevSnapshot.dimension}</strong></div>
                     <div>Score: <strong className="text-[var(--text-primary)] font-mono">{prevSnapshot.confidence}%</strong></div>
                     <div>State: <strong className={prevSnapshot.correct ? 'text-[var(--accent-green-text)]' : 'text-[var(--accent-pink-text)]'}>
@@ -787,8 +763,8 @@ export const Section03RecurrentMemory: React.FC = () => {
                     </strong></div>
                   </div>
 
-                  <div className="p-2.5 rounded-xl bg-[var(--surface-soft)] border border-[var(--border)] space-y-1">
-                    <span className="text-xs text-[var(--accent-blue-text)] font-semibold block">After</span>
+                  <div className="pl-3 space-y-1">
+                    <span className="text-xs text-[var(--mm-signal)] font-mono uppercase tracking-wider block">After</span>
                     <div>Dim: <strong className="text-[var(--text-primary)] font-mono">{currentSnapshot.dimension}</strong></div>
                     <div>Score: <strong className="text-[var(--text-primary)] font-mono">{currentSnapshot.confidence}%</strong></div>
                     <div>State: <strong className={currentSnapshot.correct ? 'text-[var(--accent-green-text)]' : 'text-[var(--accent-pink-text)]'}>
@@ -797,7 +773,7 @@ export const Section03RecurrentMemory: React.FC = () => {
                   </div>
                 </div>
 
-                <div className="p-2.5 rounded-xl bg-[var(--surface-soft)] border border-[var(--border)] text-xs space-y-0.5">
+                <div className="text-xs space-y-0.5">
                   <span className="text-[var(--text-muted)] font-semibold block">What changed?</span>
                   <div className="text-[var(--text-primary)] font-semibold font-mono">
                     {currentSnapshot.confidence - prevSnapshot.confidence >= 0 ? '+' : ''}
@@ -823,16 +799,16 @@ export const Section03RecurrentMemory: React.FC = () => {
 
           {/* Right Column: Progressive Disclosure Workspace */}
           <div className="space-y-6">
-            {/* Progressive Disclosure Segmented Switcher */}
-            <div className="flex items-center justify-between flex-wrap gap-2 p-1.5 bg-[var(--surface-soft)] border border-[var(--border)] rounded-xl">
-              <div className="flex items-center gap-1.5">
+            {/* Hairline Underline Instrument Switcher */}
+            <div className="flex items-center justify-between flex-wrap gap-3 border-b border-[var(--mm-rule)]">
+              <div className="flex items-center gap-5">
                 <button
                   type="button"
                   onClick={() => setActiveInstrumentView('matrix')}
-                  className={`px-3.5 py-2 rounded-lg text-xs font-semibold transition cursor-pointer ${
+                  className={`pb-2.5 -mb-px border-b-2 text-xs font-sans font-medium transition-colors cursor-pointer whitespace-nowrap ${
                     activeInstrumentView === 'matrix'
-                      ? 'bg-[var(--surface)] text-[var(--text-primary)] shadow-xs border border-[var(--border)]'
-                      : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--surface)]/60'
+                      ? 'border-[var(--mm-signal)] text-[var(--text-primary)] font-semibold'
+                      : 'border-transparent text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
                   }`}
                 >
                   Inspect matrix
@@ -840,10 +816,10 @@ export const Section03RecurrentMemory: React.FC = () => {
                 <button
                   type="button"
                   onClick={() => setActiveInstrumentView('analyze')}
-                  className={`px-3.5 py-2 rounded-lg text-xs font-semibold transition cursor-pointer ${
+                  className={`pb-2.5 -mb-px border-b-2 text-xs font-sans font-medium transition-colors cursor-pointer whitespace-nowrap ${
                     activeInstrumentView === 'analyze'
-                      ? 'bg-[var(--surface)] text-[var(--text-primary)] shadow-xs border border-[var(--border)]'
-                      : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--surface)]/60'
+                      ? 'border-[var(--mm-signal)] text-[var(--text-primary)] font-semibold'
+                      : 'border-transparent text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
                   }`}
                 >
                   Analyze state
@@ -851,16 +827,16 @@ export const Section03RecurrentMemory: React.FC = () => {
                 <button
                   type="button"
                   onClick={() => setActiveInstrumentView('configure')}
-                  className={`px-3.5 py-2 rounded-lg text-xs font-semibold transition cursor-pointer ${
+                  className={`pb-2.5 -mb-px border-b-2 text-xs font-sans font-medium transition-colors cursor-pointer whitespace-nowrap ${
                     activeInstrumentView === 'configure'
-                      ? 'bg-[var(--surface)] text-[var(--text-primary)] shadow-xs border border-[var(--border)]'
-                      : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--surface)]/60'
+                      ? 'border-[var(--mm-signal)] text-[var(--text-primary)] font-semibold'
+                      : 'border-transparent text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
                   }`}
                 >
                   Configure
                 </button>
               </div>
-              <div className="text-xs text-[var(--text-muted)] font-sans pr-2 hidden sm:block">
+              <div className="text-xs text-[var(--text-muted)] font-sans pb-2.5 hidden sm:block">
                 View: <strong className="text-[var(--text-primary)]">{activeInstrumentView === 'matrix' ? 'Matrix & ingestion timeline' : activeInstrumentView === 'analyze' ? 'State vectors & dimension deltas' : 'Experiment conditions & notebook'}</strong>
               </div>
             </div>
@@ -909,15 +885,17 @@ export const Section03RecurrentMemory: React.FC = () => {
             {/* VIEW 3: CONFIGURE */}
             {activeInstrumentView === 'configure' && (
               <div className="space-y-6">
-                <div className="diagram-frame p-6 space-y-4">
-                  <h3 className="text-base font-semibold text-[var(--text-primary)]">Experiment parameters &amp; conditions</h3>
-                  <p className="text-sm text-[var(--text-secondary)]">
-                    Adjust variables in the sticky sidebar or review the snapshot logs below. You can test retention factor, write strength, and noise interference under strictly controlled conditions.
-                  </p>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2 tabular-nums">
-                    <div className="metric-panel">
-                      <span className="text-xs font-semibold text-[var(--text-muted)] block">Active matrix configuration</span>
-                      <div className="mt-2 space-y-1 text-xs">
+                <figure className="essay-figure-stage p-5 sm:p-6 space-y-5">
+                  <div className="space-y-1">
+                    <h3 className="text-base font-serif font-medium text-[var(--text-primary)]">Experiment parameters &amp; conditions</h3>
+                    <p className="text-sm text-[var(--text-secondary)] leading-relaxed">
+                      Adjust variables in the sticky sidebar or review the snapshot logs below. You can test retention factor, write strength, and noise interference under strictly controlled conditions.
+                    </p>
+                  </div>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 divide-y sm:divide-y-0 sm:divide-x divide-[var(--mm-rule)] border-y border-[var(--mm-rule)] tabular-nums">
+                    <div className="py-4 sm:pr-5">
+                      <span className="text-xs font-mono uppercase tracking-wider text-[var(--text-muted)] block">Active matrix configuration</span>
+                      <div className="mt-2.5 space-y-1.5 text-xs">
                         <div>Dimension: <strong className="font-mono">{config.dimension}D</strong></div>
                         <div>Sequence length: <strong className="font-mono">{sequenceLength} facts</strong></div>
                         <div>Retention: <strong className="font-mono">{retentionPct}%</strong></div>
@@ -925,9 +903,9 @@ export const Section03RecurrentMemory: React.FC = () => {
                         <div>Interference noise: <strong className="font-mono">{interferencePct}%</strong></div>
                       </div>
                     </div>
-                    <div className="metric-panel">
-                      <span className="text-xs font-semibold text-[var(--text-muted)] block">Retrieval status</span>
-                      <div className="mt-2 space-y-1 text-xs">
+                    <div className="py-4 sm:pl-5">
+                      <span className="text-xs font-mono uppercase tracking-wider text-[var(--text-muted)] block">Retrieval status</span>
+                      <div className="mt-2.5 space-y-1.5 text-xs">
                         <div>Target query: <strong className="font-mono">{selectedQuery}</strong></div>
                         <div>Target ground truth: <strong className="font-mono">{groundTruth}</strong></div>
                         <div>Model prediction: <strong className={`font-mono ${experimentResult.correct ? 'text-[var(--accent-green-text)]' : 'text-[var(--accent-pink-text)]'}`}>{experimentResult.prediction}</strong></div>
@@ -936,49 +914,52 @@ export const Section03RecurrentMemory: React.FC = () => {
                       </div>
                     </div>
                   </div>
-                </div>
+                </figure>
               </div>
             )}
 
             {/* MECHANISTIC WORKBENCH SUITE */}
-            <div id="section-context-order" className="diagram-frame p-5 sm:p-6 space-y-5 scroll-mt-24">
-              <div className="flex flex-wrap items-center justify-between gap-2 border-b border-[var(--border)] pb-3">
+            <div id="section-context-order" className="essay-figure-stage p-5 sm:p-6 space-y-5 scroll-mt-24">
+              <div className="flex flex-wrap items-center justify-between gap-2 border-b border-[var(--mm-rule)] pb-3">
                 <div>
-                  <h3 className="text-sm font-semibold text-[var(--text-primary)] block">
-                    Mechanistic inspector and experimental suite
+                  <h3 className="text-base font-serif font-medium text-[var(--text-primary)] block">
+                    Mechanistic inspector &amp; experimental suite
                   </h3>
                   <p className="text-xs text-[var(--text-secondary)] font-sans mt-0.5">
-                    Step inside the internal algebra: inspect intermediate vectors, state persistence, ordering sensitivity, and overwrite mechanics.
+                    Step inside the internal algebra: intermediate vectors, state persistence, ordering sensitivity, and overwrite mechanics.
                   </p>
                 </div>
 
-                <span className="text-xs font-mono px-2.5 py-1 rounded-md bg-[var(--accent-blue)] border border-[var(--border)] text-[var(--accent-blue-text)] font-semibold">
-                  Deterministic suite
+                <span className="text-xs font-mono text-[var(--mm-signal)]">
+                  Deterministic toy computation
                 </span>
               </div>
 
-              {/* Workbench Tab Navigation */}
-              <div className="flex flex-wrap gap-1.5 text-xs border-b border-[var(--border)] pb-3">
+              {/* Workbench Hairline Tab Navigation */}
+              <div className="flex flex-wrap gap-4 text-xs border-b border-[var(--mm-rule)]">
                 {[
                   { id: 'pipeline', label: 'Write / Read Pipeline' },
                   { id: 'persistence', label: 'State Persistence' },
                   { id: 'order', label: 'Context Ordering' },
                   { id: 'overwrite', label: 'Memory Overwrite' },
                   { id: 'representations', label: 'Latent Vectors' },
-                ].map((tab) => (
-                  <button
-                    key={tab.id}
-                    type="button"
-                    onClick={() => setWorkbenchTab(tab.id as any)}
-                    className={`btn text-xs py-1.5 px-3 min-h-[34px] ${
-                      workbenchTab === tab.id
-                        ? 'btn-blue font-semibold shadow-xs'
-                        : 'btn-secondary'
-                    }`}
-                  >
-                    {tab.label}
-                  </button>
-                ))}
+                ].map((tab) => {
+                  const active = workbenchTab === tab.id;
+                  return (
+                    <button
+                      key={tab.id}
+                      type="button"
+                      onClick={() => setWorkbenchTab(tab.id as any)}
+                      className={`pb-2.5 -mb-px text-xs font-sans font-medium border-b-2 transition-colors cursor-pointer whitespace-nowrap ${
+                        active
+                          ? 'border-[var(--mm-signal)] text-[var(--text-primary)] font-semibold'
+                          : 'border-transparent text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
+                      }`}
+                    >
+                      {tab.label}
+                    </button>
+                  );
+                })}
               </div>
 
               {/* Active Tab Component */}

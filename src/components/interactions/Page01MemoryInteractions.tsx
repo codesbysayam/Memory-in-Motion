@@ -1,21 +1,10 @@
 import React, { useState, useMemo } from 'react';
 import {
-  Clock,
-  Search,
-  RotateCcw,
   Download,
   Trash2,
-  Play,
-  Layers,
-  Sparkles,
-  CheckCircle2,
-  AlertOctagon,
-  ArrowRight,
-  Sliders,
-  Filter,
 } from 'lucide-react';
 import { Fact, vector, cosine } from '../../models/associativeMemory';
-import { InlineMath, BlockMath } from '../ui/MathView';
+import { InlineMath } from '../ui/MathView';
 
 interface ProbeRecord {
   id: string;
@@ -178,39 +167,34 @@ export const Page01MemoryInteractions: React.FC = () => {
   };
 
   return (
-    <div className="space-y-8 mt-6 tabular-nums">
+    <div className="space-y-12 mt-8 tabular-nums">
       {/* 1. MEMORY TIMELINE INTERACTION */}
-      <div className="diagram-frame p-5 sm:p-6 space-y-4">
-        <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[var(--border)] pb-3">
-          <div className="flex items-center gap-2">
-            <div className="p-1.5 rounded-lg bg-[var(--accent-blue)] text-[var(--accent-blue-text)]">
-              <Clock className="w-4 h-4" />
-            </div>
-            <div>
-              <h3 className="font-serif text-base font-bold text-[var(--text-primary)]">
-                1. Sequential memory timeline
-              </h3>
-              <p className="text-xs text-[var(--text-secondary)]">
-                Click any timestep <InlineMath math="t_i" /> to inspect the exact matrix coordinates and Frobenius norm at that point in time.
-              </p>
-            </div>
+      <div className="border-t border-[var(--mm-rule)] pt-6 space-y-4">
+        <div className="flex flex-wrap items-baseline justify-between gap-3 pb-3 border-b border-[var(--mm-rule)]">
+          <div>
+            <h3 className="font-serif text-xl font-medium text-[var(--text-primary)]">
+              1. Sequential memory timeline
+            </h3>
+            <p className="text-sm text-[var(--text-secondary)] mt-0.5">
+              Select any timestep <InlineMath math="t_i" /> to inspect exact matrix coordinates and Frobenius norm.
+            </p>
           </div>
           <span className="text-xs font-mono text-[var(--text-secondary)]">
-            Selected: <strong className="text-[var(--accent-blue-text)]">t = {activeTimelineState.step}</strong>
+            Selected: <strong className="text-[var(--mm-signal)]">t = {activeTimelineState.step}</strong>
           </span>
         </div>
 
         {/* Timestep scrubber buttons */}
-        <div className="flex items-center gap-2 overflow-x-auto pb-2 pt-1">
+        <div className="flex items-center gap-1.5 overflow-x-auto pb-2 pt-1">
           {timelineStates.map((st) => (
             <button
               type="button"
               key={st.step}
               onClick={() => setSelectedTimestep(st.step)}
-              className={`px-3 py-2 rounded-lg border text-xs font-mono transition cursor-pointer shrink-0 flex flex-col items-center gap-0.5 ${
+              className={`px-3 py-1.5 rounded-md border text-xs font-mono transition cursor-pointer shrink-0 flex flex-col items-center gap-0.5 ${
                 selectedTimestep === st.step
-                  ? 'border-[var(--color-accent)] bg-[var(--accent-blue)] text-[var(--accent-blue-text)] font-bold shadow-xs'
-                  : 'border-[var(--border)] bg-[var(--surface-soft)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:border-[var(--color-border-strong)]'
+                  ? 'border-[var(--mm-signal)] bg-[var(--mm-signal-soft)] text-[var(--mm-ink)] font-semibold'
+                  : 'border-[var(--mm-rule)] bg-[var(--mm-paper-bright)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:border-[var(--mm-rule-strong)]'
               }`}
             >
               <span>t_{st.step}</span>
@@ -222,9 +206,9 @@ export const Page01MemoryInteractions: React.FC = () => {
         </div>
 
         {/* State Display at Timestep */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-2">
-          <div className="metric-panel space-y-2 text-xs">
-            <span className="font-semibold text-[var(--text-muted)] block text-xs">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-2">
+          <div className="border-y border-[var(--mm-rule)] py-4 space-y-2.5 text-xs">
+            <span className="essay-eyebrow block">
               Step details
             </span>
             <div>
@@ -292,41 +276,33 @@ export const Page01MemoryInteractions: React.FC = () => {
       </div>
 
       {/* 2. FACT PRIORITY INTERACTION */}
-      <div className="diagram-frame p-5 sm:p-6 space-y-4">
-        <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[var(--border)] pb-3">
-          <div className="flex items-center gap-2">
-            <div className="p-1.5 rounded-lg bg-[var(--accent-yellow)] text-[var(--accent-yellow-text)]">
-              <Sliders className="w-4 h-4" />
-            </div>
-            <div>
-              <h3 className="font-serif text-base font-bold text-[var(--text-primary)]">
-                2. Fact priority stream weights
-              </h3>
-              <p className="text-xs text-[var(--text-secondary)]">
-                Adjust fact priority to alter the associative write weight <InlineMath math="\eta" />. Visibly observe how prioritizing or deprioritizing facts shifts retrieval.
-              </p>
-            </div>
+      <div className="border-t border-[var(--mm-rule)] pt-6 space-y-4">
+        <div className="flex flex-wrap items-baseline justify-between gap-3 pb-3 border-b border-[var(--mm-rule)]">
+          <div>
+            <h3 className="font-serif text-xl font-medium text-[var(--text-primary)]">
+              2. Fact priority stream weights
+            </h3>
+            <p className="text-sm text-[var(--text-secondary)] mt-0.5">
+              Adjust write weight <InlineMath math="\eta" /> per fact to test how weighting alters retrieval competition.
+            </p>
           </div>
-          <span className="text-xs text-[var(--text-muted)] italic">
-            Note: &ldquo;Important&rdquo; is an experimental weight parameter, not semantic comprehension.
+          <span className="text-xs font-mono text-[var(--text-muted)]">
+            Weight η ∈ &#123;0.4, 0.8, 1.2&#125;
           </span>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 border-y border-[var(--mm-rule)] divide-y sm:divide-y-0 sm:divide-x divide-[var(--mm-rule)] bg-[var(--mm-paper-bright)]">
           {facts.map((fact, idx) => (
-            <div
-              key={fact.key}
-              className="p-3.5 rounded-xl border border-[var(--border)] bg-[var(--surface-soft)] space-y-2 text-xs"
-            >
-              <div className="flex items-center justify-between">
-                <span className="font-mono text-[11px] text-[var(--text-muted)]">#{idx + 1}</span>
+            <div key={fact.key} className="p-4 space-y-3 text-xs">
+              <div className="flex items-center justify-between font-mono">
+                <span className="text-[11px] text-[var(--text-muted)]">#{idx + 1}</span>
                 <span
-                  className={`text-[11px] font-semibold px-1.5 py-0.5 rounded capitalize ${
+                  className={`text-[11px] font-medium capitalize ${
                     fact.priority === 'important'
-                      ? 'bg-[var(--accent-green)] text-[var(--accent-green-text)]'
+                      ? 'text-[var(--mm-teal)]'
                       : fact.priority === 'distractor'
-                      ? 'bg-[var(--accent-pink)] text-[var(--accent-pink-text)]'
-                      : 'bg-[var(--accent-blue)] text-[var(--accent-blue-text)]'
+                      ? 'text-[var(--mm-coral)]'
+                      : 'text-[var(--mm-signal)]'
                   }`}
                 >
                   {fact.priority}
@@ -334,18 +310,18 @@ export const Page01MemoryInteractions: React.FC = () => {
               </div>
 
               <div>
-                <strong className="text-sm font-serif block text-[var(--text-primary)]">{fact.key}</strong>
-                <span className="text-xs text-[var(--text-secondary)]">{fact.value}</span>
+                <strong className="text-base font-serif font-medium block text-[var(--text-primary)]">{fact.key}</strong>
+                <span className="text-xs text-[var(--text-secondary)] font-mono">{fact.value}</span>
               </div>
 
-              <div className="pt-2 border-t border-[var(--border)] flex items-center justify-between gap-1">
+              <div className="pt-2 border-t border-[var(--mm-rule)] flex items-center justify-between gap-1">
                 <button
                   type="button"
                   onClick={() => handlePriorityChange(idx, 'important')}
                   className={`px-2 py-1 rounded text-[11px] cursor-pointer transition ${
                     fact.priority === 'important'
-                      ? 'bg-[var(--color-success)] text-[var(--surface)] font-bold'
-                      : 'hover:bg-[var(--border)] text-[var(--text-secondary)]'
+                      ? 'bg-[var(--mm-teal)] text-[var(--surface)] font-semibold'
+                      : 'hover:bg-[var(--surface-soft)] text-[var(--text-secondary)]'
                   }`}
                 >
                   High
@@ -355,8 +331,8 @@ export const Page01MemoryInteractions: React.FC = () => {
                   onClick={() => handlePriorityChange(idx, 'normal')}
                   className={`px-2 py-1 rounded text-[11px] cursor-pointer transition ${
                     fact.priority === 'normal'
-                      ? 'bg-[var(--color-accent)] text-[var(--surface)] font-bold'
-                      : 'hover:bg-[var(--border)] text-[var(--text-secondary)]'
+                      ? 'bg-[var(--mm-signal)] text-[var(--surface)] font-semibold'
+                      : 'hover:bg-[var(--surface-soft)] text-[var(--text-secondary)]'
                   }`}
                 >
                   Norm
@@ -366,8 +342,8 @@ export const Page01MemoryInteractions: React.FC = () => {
                   onClick={() => handlePriorityChange(idx, 'distractor')}
                   className={`px-2 py-1 rounded text-[11px] cursor-pointer transition ${
                     fact.priority === 'distractor'
-                      ? 'bg-[var(--color-danger)] text-[var(--surface)] font-bold'
-                      : 'hover:bg-[var(--border)] text-[var(--text-secondary)]'
+                      ? 'bg-[var(--mm-coral)] text-[var(--surface)] font-semibold'
+                      : 'hover:bg-[var(--surface-soft)] text-[var(--text-secondary)]'
                   }`}
                 >
                   Low
@@ -379,20 +355,15 @@ export const Page01MemoryInteractions: React.FC = () => {
       </div>
 
       {/* 3. PROBE HISTORY INTERACTION */}
-      <div className="diagram-frame p-5 sm:p-6 space-y-4">
-        <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[var(--border)] pb-3">
-          <div className="flex items-center gap-2">
-            <div className="p-1.5 rounded-lg bg-[var(--accent-green)] text-[var(--accent-green-text)]">
-              <Search className="w-4 h-4" />
-            </div>
-            <div>
-              <h3 className="font-serif text-base font-bold text-[var(--text-primary)]">
-                3. Probe history &amp; replay
-              </h3>
-              <p className="text-xs text-[var(--text-secondary)]">
-                Every query is evaluated against the current associative state and recorded with retrieval metrics.
-              </p>
-            </div>
+      <div className="border-t border-[var(--mm-rule)] pt-6 space-y-4">
+        <div className="flex flex-wrap items-baseline justify-between gap-3 pb-3 border-b border-[var(--mm-rule)]">
+          <div>
+            <h3 className="font-serif text-xl font-medium text-[var(--text-primary)]">
+              3. Probe history &amp; replay
+            </h3>
+            <p className="text-sm text-[var(--text-secondary)] mt-0.5">
+              Each query reads from the selected timestep matrix and logs cosine retrieval margins.
+            </p>
           </div>
 
           <div className="flex items-center gap-2">
@@ -407,7 +378,7 @@ export const Page01MemoryInteractions: React.FC = () => {
             <button
               type="button"
               onClick={() => setProbeHistory([])}
-              className="btn-failure text-xs px-3 py-1.5 rounded-md border"
+              className="btn-failure text-xs px-3 py-1.5 rounded border"
             >
               <Trash2 className="w-3.5 h-3.5" />
               <span>Clear</span>
@@ -417,7 +388,7 @@ export const Page01MemoryInteractions: React.FC = () => {
 
         {/* Quick Query Bar */}
         <div className="flex flex-wrap items-center gap-2">
-          <span className="text-xs text-[var(--text-muted)] font-semibold">Test probe:</span>
+          <span className="text-xs text-[var(--text-muted)] font-mono">Test probe:</span>
           {facts.map((f) => (
             <button
               type="button"
@@ -433,7 +404,7 @@ export const Page01MemoryInteractions: React.FC = () => {
           ))}
         </div>
 
-        {/* History Table / Cards */}
+        {/* History Table */}
         <div className="research-table-wrap">
           <table className="research-table text-xs">
             <thead>
@@ -450,23 +421,20 @@ export const Page01MemoryInteractions: React.FC = () => {
             <tbody>
               {probeHistory.map((rec) => (
                 <tr key={rec.id}>
-                  <td className="font-bold">{rec.query}</td>
+                  <td className="font-semibold">{rec.query}</td>
                   <td>{rec.prediction}</td>
                   <td className="text-[var(--text-secondary)]">{rec.groundTruth}</td>
                   <td className="font-mono">{(rec.retrievalScore * 100).toFixed(1)}%</td>
-                  <td className="font-mono text-[var(--accent-blue-text)]">
+                  <td className="font-mono text-[var(--mm-signal)]">
                     {rec.top1Margin > 0 ? `+${rec.top1Margin.toFixed(3)}` : rec.top1Margin.toFixed(3)}
                   </td>
                   <td>
                     <span
-                      className={`inline-flex items-center gap-1 px-2 py-0.5 rounded text-[11px] font-medium ${
-                        rec.isCorrect
-                          ? 'bg-[var(--accent-green)] text-[var(--accent-green-text)]'
-                          : 'bg-[var(--accent-pink)] text-[var(--accent-pink-text)]'
+                      className={`font-mono text-[11px] font-medium ${
+                        rec.isCorrect ? 'text-[var(--mm-teal)]' : 'text-[var(--mm-coral)]'
                       }`}
                     >
-                      {rec.isCorrect ? <CheckCircle2 className="w-3 h-3" /> : <AlertOctagon className="w-3 h-3" />}
-                      {rec.isCorrect ? 'Correct' : 'Interference'}
+                      {rec.isCorrect ? '● Correct' : '▲ Interference'}
                     </span>
                   </td>
                   <td>

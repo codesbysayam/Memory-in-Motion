@@ -1,12 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { ExperimentProvider } from './context/ExperimentContext';
 import { MemoryLensProvider } from './context/MemoryLensContext';
 import { GlossaryProvider, useGlossary } from './context/GlossaryContext';
-import { ResearchNav, PageId, PAGES } from './components/navigation/ResearchNav';
+import { ResearchNav, PageId } from './components/navigation/ResearchNav';
 import { PageFooterCta } from './components/navigation/PageFooterCta';
 import { JudgeMode } from './components/JudgeMode';
 import { CertificateModal } from './components/CertificateModal';
 import { ConceptGlossaryDrawer } from './components/ConceptGlossaryDrawer';
+import { ShortcutsHelpModal } from './components/ui/ShortcutsHelpModal';
+import { useKeyboardShortcuts } from './hooks/useKeyboardShortcuts';
 import { getCompletedMilestones } from './utils/progressTracker';
 
 // Components mapped to the 7 learning stages
@@ -48,7 +50,7 @@ import { Page06ReasonInteractions } from './components/interactions/Page06Reason
 import { Page07ProveInteractions } from './components/interactions/Page07ProveInteractions';
 
 function AppContent() {
-  const { openGlossary } = useGlossary();
+  const { isOpen: isGlossaryOpen, openGlossary, closeGlossary } = useGlossary();
   const {
     currentPage,
     handlePageChange,
@@ -56,7 +58,42 @@ function AppContent() {
 
   const [isJudgeModeOpen, setIsJudgeModeOpen] = useState<boolean>(false);
   const [isCertificateModalOpen, setIsCertificateModalOpen] = useState<boolean>(false);
+  const [isShortcutsHelpOpen, setIsShortcutsHelpOpen] = useState<boolean>(false);
+  const [shortcutFeedback, setShortcutFeedback] = useState<string | null>(null);
+  const feedbackTimerRef = useRef<number | null>(null);
   const [milestonesCount, setMilestonesCount] = useState<number>(() => getCompletedMilestones().length);
+
+  const showShortcutFeedback = useCallback((msg: string) => {
+    setShortcutFeedback(msg);
+    if (feedbackTimerRef.current) {
+      window.clearTimeout(feedbackTimerRef.current);
+    }
+    feedbackTimerRef.current = window.setTimeout(() => {
+      setShortcutFeedback(null);
+    }, 1800);
+  }, []);
+
+  const toggleGlossary = useCallback(() => {
+    if (isGlossaryOpen) {
+      closeGlossary();
+    } else {
+      openGlossary();
+    }
+  }, [isGlossaryOpen, openGlossary, closeGlossary]);
+
+  const toggleShortcutsHelp = useCallback(() => {
+    setIsShortcutsHelpOpen((prev) => !prev);
+  }, []);
+
+  useKeyboardShortcuts({
+    currentPage,
+    onPageChange: handlePageChange,
+    onToggleGlossary: toggleGlossary,
+    onToggleHelp: toggleShortcutsHelp,
+    onShortcutTriggered: showShortcutFeedback,
+    isHelpOpen: isShortcutsHelpOpen,
+    onCloseHelp: () => setIsShortcutsHelpOpen(false),
+  });
 
   useEffect(() => {
     const handleMilestoneUpdate = (e: any) => {
@@ -78,14 +115,27 @@ function AppContent() {
       setIsCertificateModalOpen(true);
     };
 
+    const handleOpenShortcuts = () => {
+      setIsShortcutsHelpOpen(true);
+    };
+
+    const handleCloseAllOverlays = () => {
+      setIsCertificateModalOpen(false);
+      setIsShortcutsHelpOpen(false);
+    };
+
     window.addEventListener('milestone_updated', handleMilestoneUpdate);
     window.addEventListener('final_challenge_completed', handleFinalChallenge);
     window.addEventListener('open_certificate_modal', handleOpenCert);
+    window.addEventListener('open_shortcuts_help', handleOpenShortcuts);
+    window.addEventListener('close_all_overlays', handleCloseAllOverlays);
 
     return () => {
       window.removeEventListener('milestone_updated', handleMilestoneUpdate);
       window.removeEventListener('final_challenge_completed', handleFinalChallenge);
       window.removeEventListener('open_certificate_modal', handleOpenCert);
+      window.removeEventListener('open_shortcuts_help', handleOpenShortcuts);
+      window.removeEventListener('close_all_overlays', handleCloseAllOverlays);
     };
   }, []);
 
@@ -136,6 +186,23 @@ function AppContent() {
         onNavigateToProve={() => handlePageChange('prove')}
       />
 
+      {/* Keyboard Shortcuts Reference Modal */}
+      <ShortcutsHelpModal
+        isOpen={isShortcutsHelpOpen}
+        onClose={() => setIsShortcutsHelpOpen(false)}
+      />
+
+      {/* Quiet auto-dismissing keyboard navigation feedback */}
+      {shortcutFeedback && (
+        <div
+          role="status"
+          aria-live="polite"
+          className="fixed bottom-5 right-5 z-50 px-3.5 py-2 rounded-md border border-[var(--mm-rule-strong)] bg-[var(--surface)] text-[var(--text-primary)] font-mono text-xs shadow-[var(--shadow-popover)] pointer-events-none no-print"
+        >
+          {shortcutFeedback}
+        </div>
+      )}
+
       {/* 7 Educational Stages */}
       <main className="w-full flex-1">
           {/* ============================================================ */}
@@ -173,23 +240,23 @@ function AppContent() {
           {/* ============================================================ */}
           {currentPage === 'break' && (
             <div className="animate-in fade-in duration-300 w-full">
-              <div className="w-full border-b border-[var(--border)] bg-[var(--page-bg)]">
-                <div className="research-container py-9 sm:py-12">
-                  <div className="space-y-3 max-w-2xl">
-                    <div className="flex items-center gap-2 text-xs font-mono text-[var(--text-muted)]">
-                      <span className="font-semibold text-[var(--accent-blue-text)] tabular-nums">Stage 02</span>
-                      <span aria-hidden="true" className="text-[var(--border)]">·</span>
-                      <span>Experimentation &amp; stress-testing</span>
+              <header className="w-full border-b border-[var(--mm-rule)] bg-[var(--page-bg)]">
+                <div className="research-container py-12 sm:py-16">
+                  <div className="space-y-4 max-w-3xl">
+                    <div className="essay-eyebrow">
+                      <span className="text-[var(--mm-coral)] font-semibold">Stage 02</span>
+                      <span className="mx-2 text-[var(--mm-rule-strong)]">·</span>
+                      <span>Interference &amp; stress-testing</span>
                     </div>
-                    <h1 className="text-3xl sm:text-4xl lg:text-[42px] font-serif font-semibold text-[var(--text-primary)] tracking-[-0.02em] leading-[1.12]">
-                      Can You Make It Forget?
+                    <h1 className="essay-stage-title">
+                      When compression collides.
                     </h1>
-                    <p className="text-[15px] sm:text-[17px] text-[var(--text-secondary)] font-sans leading-relaxed">
-                      Stress-test the recurrent state. Tune retention, inject distractors, and discover the exact boundary where associative memory begins to collide.
+                    <p className="essay-lead">
+                      Tune decay, shrink state dimension, and inject overlapping keys to locate the exact threshold where fixed-size associative memory begins to cross-talk.
                     </p>
                   </div>
                 </div>
-              </div>
+              </header>
 
               <div className="w-full">
                 <ErrorBoundary
@@ -224,23 +291,23 @@ function AppContent() {
           {/* ============================================================ */}
           {currentPage === 'trace' && (
             <div className="animate-in fade-in duration-300 w-full">
-              <div className="w-full border-b border-[var(--border)] bg-[var(--page-bg)]">
-                <div className="research-container py-9 sm:py-12">
-                  <div className="space-y-3 max-w-2xl">
-                    <div className="flex items-center gap-2 text-xs font-mono text-[var(--text-muted)]">
-                      <span className="font-semibold text-[var(--accent-blue-text)] tabular-nums">Stage 03</span>
-                      <span aria-hidden="true" className="text-[var(--border)]">·</span>
-                      <span>Diagnostics &amp; coordinate inspection</span>
+              <header className="w-full border-b border-[var(--mm-rule)] bg-[var(--page-bg)]">
+                <div className="research-container py-12 sm:py-16">
+                  <div className="space-y-4 max-w-3xl">
+                    <div className="essay-eyebrow">
+                      <span className="text-[var(--mm-signal)] font-semibold">Stage 03</span>
+                      <span className="mx-2 text-[var(--mm-rule-strong)]">·</span>
+                      <span>Coordinate diagnostics &amp; interventions</span>
                     </div>
-                    <h1 className="text-3xl sm:text-4xl lg:text-[42px] font-serif font-semibold text-[var(--text-primary)] tracking-[-0.02em] leading-[1.12]">
-                      What Changed Inside the State?
+                    <h1 className="essay-stage-title">
+                      Inside the state update.
                     </h1>
-                    <p className="text-[15px] sm:text-[17px] text-[var(--text-secondary)] font-sans leading-relaxed">
-                      Step through the sequence timeline. Inspect state coordinate deltas (ΔM), observe counterfactual interventions with Memory Surgery, and isolate the exact moment of interference.
+                    <p className="essay-lead">
+                      Follow the sequence step by step. Inspect per-write coordinate shifts (ΔM), run counterfactual Memory Surgery, and isolate the moment a fact is overwritten.
                     </p>
                   </div>
                 </div>
-              </div>
+              </header>
 
               <div className="research-container py-6 space-y-8">
                 <Section05FindTheFailure />
@@ -263,23 +330,23 @@ function AppContent() {
           {/* ============================================================ */}
           {currentPage === 'measure' && (
             <div className="animate-in fade-in duration-300 w-full">
-              <div className="w-full border-b border-[var(--border)] bg-[var(--page-bg)]">
-                <div className="research-container py-9 sm:py-12">
-                  <div className="space-y-3 max-w-2xl">
-                    <div className="flex items-center gap-2 text-xs font-mono text-[var(--text-muted)]">
-                      <span className="font-semibold text-[var(--accent-green-text)] tabular-nums">Stage 04</span>
-                      <span aria-hidden="true" className="text-[var(--border)]">·</span>
-                      <span>Empirical capacity measurements</span>
+              <header className="w-full border-b border-[var(--mm-rule)] bg-[var(--page-bg)]">
+                <div className="research-container py-12 sm:py-16">
+                  <div className="space-y-4 max-w-3xl">
+                    <div className="essay-eyebrow">
+                      <span className="text-[var(--mm-teal)] font-semibold">Stage 04</span>
+                      <span className="mx-2 text-[var(--mm-rule-strong)]">·</span>
+                      <span>Empirical capacity &amp; scaling</span>
                     </div>
-                    <h1 className="text-3xl sm:text-4xl lg:text-[42px] font-serif font-semibold text-[var(--text-primary)] tracking-[-0.02em] leading-[1.12]">
-                      Turn Observations into Evidence
+                    <h1 className="essay-stage-title">
+                      How much fits before it fades.
                     </h1>
-                    <p className="text-[15px] sm:text-[17px] text-[var(--text-secondary)] font-sans leading-relaxed">
-                      Plot real empirical performance data. Measure retrieval accuracy against memory dimension, track Frobenius norm drift, and verify theoretical capacity limits.
+                    <p className="essay-lead">
+                      Measure retrieval accuracy across state dimensions D, track Frobenius norm drift, and test theoretical O(D) capacity bounds against live runs.
                     </p>
                   </div>
                 </div>
-              </div>
+              </header>
 
               <div className="research-container space-y-12 py-8">
                 <SectionMeasure />
@@ -303,23 +370,23 @@ function AppContent() {
           {/* ============================================================ */}
           {currentPage === 'bdh' && (
             <div className="animate-in fade-in duration-300 w-full">
-              <div className="w-full border-b border-[var(--border)] bg-[var(--page-bg)]">
-                <div className="research-container py-9 sm:py-12">
-                  <div className="space-y-3 max-w-2xl">
-                    <div className="flex items-center gap-2 text-xs font-mono text-[var(--text-muted)]">
-                      <span className="font-semibold text-[var(--accent-yellow-text)] tabular-nums">Stage 05</span>
-                      <span aria-hidden="true" className="text-[var(--border)]">·</span>
-                      <span>Synaptic network architecture</span>
+              <header className="w-full border-b border-[var(--mm-rule)] bg-[var(--page-bg)]">
+                <div className="research-container py-12 sm:py-16">
+                  <div className="space-y-4 max-w-3xl">
+                    <div className="essay-eyebrow">
+                      <span className="text-[var(--mm-amber)] font-semibold">Stage 05</span>
+                      <span className="mx-2 text-[var(--mm-rule-strong)]">·</span>
+                      <span>Architecture · Pathway Dragon Hatchling</span>
                     </div>
-                    <h1 className="text-3xl sm:text-4xl lg:text-[42px] font-serif font-semibold text-[var(--text-primary)] tracking-[-0.02em] leading-[1.12]">
-                      From Vector States to Synaptic Networks
+                    <h1 className="essay-stage-title">
+                      From dense matrices to plastic synapses.
                     </h1>
-                    <p className="text-[15px] sm:text-[17px] text-[var(--text-secondary)] font-sans leading-relaxed">
-                      Discover Pathway's Dragon Hatchling (BDH) architecture. Explore how biological Hebbian plasticity and scale-free connectivity turn recurrent state into decentralized synaptic memory.
+                    <p className="essay-lead">
+                      How Pathway’s Dragon Hatchling (BDH) replaces dense recurrent mixing with sparse, scale-free particle graphs governed by local Hebbian plasticity.
                     </p>
                   </div>
                 </div>
-              </div>
+              </header>
 
               <div className="w-full space-y-12 py-8">
                 <div className="research-container space-y-12">
@@ -346,23 +413,23 @@ function AppContent() {
           {/* ============================================================ */}
           {currentPage === 'reason' && (
             <div className="animate-in fade-in duration-300 w-full">
-              <div className="w-full border-b border-[var(--border)] bg-[var(--page-bg)]">
-                <div className="research-container py-9 sm:py-12">
-                  <div className="space-y-3 max-w-2xl">
-                    <div className="flex items-center gap-2 text-xs font-mono text-[var(--text-muted)]">
-                      <span className="font-semibold text-[var(--accent-blue-text)] tabular-nums">Stage 06</span>
-                      <span aria-hidden="true" className="text-[var(--border)]">·</span>
-                      <span>Continuous state dynamics &amp; BDH-CQ</span>
+              <header className="w-full border-b border-[var(--mm-rule)] bg-[var(--page-bg)]">
+                <div className="research-container py-12 sm:py-16">
+                  <div className="space-y-4 max-w-3xl">
+                    <div className="essay-eyebrow">
+                      <span className="text-[var(--mm-signal)] font-semibold">Stage 06</span>
+                      <span className="mx-2 text-[var(--mm-rule-strong)]">·</span>
+                      <span>Latent dynamics &amp; BDH-CQ</span>
                     </div>
-                    <h1 className="text-3xl sm:text-4xl lg:text-[42px] font-serif font-semibold text-[var(--text-primary)] tracking-[-0.02em] leading-[1.12]">
-                      Recurrent Latent Computation
+                    <h1 className="essay-stage-title">
+                      Reasoning without token emission.
                     </h1>
-                    <p className="text-[15px] sm:text-[17px] text-[var(--text-secondary)] font-sans leading-relaxed">
-                      What if reasoning happens in continuous state before tokens are emitted? Explore BDH-CQ and iterative synaptic relaxation loops.
+                    <p className="essay-lead">
+                      Instead of thinking only out loud through discrete tokens, inspect how BDH-CQ iterates continuously across plastic synapses before emitting an answer.
                     </p>
                   </div>
                 </div>
-              </div>
+              </header>
 
               <div className="research-container space-y-12 py-8">
                 <Section09BDHPlayground />
@@ -387,23 +454,23 @@ function AppContent() {
           {/* ============================================================ */}
           {currentPage === 'prove' && (
             <div className="animate-in fade-in duration-300 w-full">
-              <div className="w-full border-b border-[var(--border)] bg-[var(--page-bg)]">
-                <div className="research-container py-9 sm:py-12">
-                  <div className="space-y-3 max-w-2xl">
-                    <div className="flex items-center gap-2 text-xs font-mono text-[var(--text-muted)]">
-                      <span className="font-semibold text-[var(--accent-green-text)] tabular-nums">Stage 07</span>
-                      <span aria-hidden="true" className="text-[var(--border)]">·</span>
-                      <span>Evaluation &amp; Capstone</span>
+              <header className="w-full border-b border-[var(--mm-rule)] bg-[var(--page-bg)]">
+                <div className="research-container py-12 sm:py-16">
+                  <div className="space-y-4 max-w-3xl">
+                    <div className="essay-eyebrow">
+                      <span className="text-[var(--mm-teal)] font-semibold">Stage 07</span>
+                      <span className="mx-2 text-[var(--mm-rule-strong)]">·</span>
+                      <span>Synthesis &amp; verification</span>
                     </div>
-                    <h1 className="text-3xl sm:text-4xl lg:text-[42px] font-serif font-semibold text-[var(--text-primary)] tracking-[-0.02em] leading-[1.12]">
-                      Demonstrate Your Understanding
+                    <h1 className="essay-stage-title">
+                      Demonstrate your understanding.
                     </h1>
-                    <p className="text-[15px] sm:text-[17px] text-[var(--text-secondary)] font-sans leading-relaxed">
-                      Complete the 60-second guided challenge, verify empirical predictions against live matrix computations, synthesize core concepts, and claim your Certificate of Completion.
+                    <p className="essay-lead">
+                      Predict the state. Trace the update. Explain the trade-off. Verify predictions against live matrix computations and unlock your research certificate.
                     </p>
                   </div>
                 </div>
-              </div>
+              </header>
 
               <div className="research-container space-y-14 py-10">
                 <SixtySecondTest />
