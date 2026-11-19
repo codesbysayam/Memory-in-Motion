@@ -28,7 +28,7 @@ export const TermsPage: React.FC<TermsPageProps> = ({ onBackToLab }) => {
               <span className="text-[var(--text-muted)]">·</span>
               <span className="text-[var(--text-muted)]">Terms of service</span>
             </div>
-            <h1 className="text-3xl sm:text-4xl font-serif font-semibold text-[var(--text-primary)] tracking-tight">
+            <h1 className="text-3xl sm:text-4xl font-serif font-normal text-[var(--text-primary)] tracking-tight">
               Terms of Service
             </h1>
             <p className="text-sm sm:text-base text-[var(--text-secondary)] max-w-2xl leading-relaxed">
@@ -55,7 +55,7 @@ export const TermsPage: React.FC<TermsPageProps> = ({ onBackToLab }) => {
           <span className="text-xs font-mono text-[var(--text-muted)] font-medium block">
             Last Updated: March 2026 · Canonical Version 1.0
           </span>
-          <h2 className="text-xl sm:text-2xl font-serif font-semibold text-[var(--text-primary)]">
+          <h2 className="text-xl sm:text-2xl font-serif font-normal text-[var(--text-primary)]">
             1. Acceptance of Terms
           </h2>
           <p>
@@ -64,7 +64,7 @@ export const TermsPage: React.FC<TermsPageProps> = ({ onBackToLab }) => {
         </div>
 
         <div className="space-y-3 pt-2">
-          <h2 className="text-xl sm:text-2xl font-serif font-semibold text-[var(--text-primary)]">
+          <h2 className="text-xl sm:text-2xl font-serif font-normal text-[var(--text-primary)]">
             2. Permitted Use &amp; Academic Exploration
           </h2>
           <p>
@@ -78,7 +78,7 @@ export const TermsPage: React.FC<TermsPageProps> = ({ onBackToLab }) => {
         </div>
 
         <div className="space-y-3 pt-2">
-          <h2 className="text-xl sm:text-2xl font-serif font-semibold text-[var(--text-primary)]">
+          <h2 className="text-xl sm:text-2xl font-serif font-normal text-[var(--text-primary)]">
             3. Scientific Attribution &amp; Research Papers
           </h2>
           <p>
@@ -92,7 +92,7 @@ export const TermsPage: React.FC<TermsPageProps> = ({ onBackToLab }) => {
         </div>
 
         <div className="space-y-3 pt-2">
-          <h2 className="text-xl sm:text-2xl font-serif font-semibold text-[var(--text-primary)]">
+          <h2 className="text-xl sm:text-2xl font-serif font-normal text-[var(--text-primary)]">
             4. Disclaimer of Warranties
           </h2>
           <div className="p-4 rounded-xl bg-[var(--color-warning-soft)] border border-[var(--color-warning-border)] space-y-2 text-xs sm:text-sm text-[var(--color-warning)]">
@@ -107,7 +107,7 @@ export const TermsPage: React.FC<TermsPageProps> = ({ onBackToLab }) => {
         </div>
 
         <div className="space-y-3 pt-2">
-          <h2 className="text-xl sm:text-2xl font-serif font-semibold text-[var(--text-primary)]">
+          <h2 className="text-xl sm:text-2xl font-serif font-normal text-[var(--text-primary)]">
             5. Limitation of Liability
           </h2>
           <p>
@@ -116,7 +116,7 @@ export const TermsPage: React.FC<TermsPageProps> = ({ onBackToLab }) => {
         </div>
 
         <div className="space-y-3 pt-2">
-          <h2 className="text-xl sm:text-2xl font-serif font-semibold text-[var(--text-primary)]">
+          <h2 className="text-xl sm:text-2xl font-serif font-normal text-[var(--text-primary)]">
             6. Contact Information
           </h2>
           <p>

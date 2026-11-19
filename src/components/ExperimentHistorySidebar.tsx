@@ -225,7 +225,7 @@ export const ExperimentHistorySidebar: React.FC<ExperimentHistorySidebarProps> =
                 <History className="w-4 h-4" />
               </div>
               <div>
-                <h3 className="font-serif text-base font-bold text-[var(--text-primary)]">
+                <h3 className="font-sans text-base font-semibold text-[var(--text-primary)]">
                   Experiment history
                 </h3>
                 <p className="text-xs text-[var(--text-secondary)] tabular-nums">
@@ -280,7 +280,7 @@ export const ExperimentHistorySidebar: React.FC<ExperimentHistorySidebarProps> =
                 <div className="w-10 h-10 mx-auto rounded-lg bg-[var(--surface-soft)] border border-[var(--border)] flex items-center justify-center text-[var(--text-secondary)]">
                   <Sliders className="w-5 h-5" />
                 </div>
-                <h4 className="font-serif font-bold text-sm text-[var(--text-primary)]">
+                <h4 className="font-sans font-semibold text-sm text-[var(--text-primary)]">
                   No experiments recorded yet
                 </h4>
                 <p className="text-xs text-[var(--text-secondary)] leading-relaxed">

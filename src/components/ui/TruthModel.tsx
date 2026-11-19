@@ -49,12 +49,12 @@ export function TruthModel({
       <div className="grid grid-cols-2 gap-3 text-sm">
         <div className="rounded-lg border border-[var(--border)] bg-[var(--surface-soft)] p-3">
           <div className="text-[11px] text-[var(--text-muted)] font-mono mb-1">Ground truth</div>
-          <div className="font-serif font-semibold text-[var(--text-primary)] text-base">{truth}</div>
+          <div className="font-mono font-semibold text-[var(--text-primary)] text-sm sm:text-base">{truth}</div>
         </div>
 
         <div className={`rounded-lg border p-3 ${statusColor}`}>
           <div className="text-[11px] opacity-85 font-mono mb-1">Model prediction</div>
-          <div className="font-serif font-semibold text-base">{model}</div>
+          <div className="font-mono font-semibold text-sm sm:text-base">{model}</div>
         </div>
       </div>
 

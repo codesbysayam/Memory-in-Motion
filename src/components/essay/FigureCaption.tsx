@@ -37,7 +37,7 @@ export const FigureCaption: React.FC<FigureCaptionProps> = ({
     <figcaption
       className={`pt-3 mt-3 border-t border-[var(--mm-rule)] space-y-2 text-xs leading-relaxed ${className}`}
     >
-      <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-2">
+      <div className="flex flex-col lg:flex-row lg:items-baseline justify-between gap-2">
         <div className="text-[var(--text-secondary)] font-sans max-w-3xl">
           {figLabel && (
             <span className="font-mono font-semibold text-[var(--text-primary)] mr-2 tabular-nums">
@@ -50,7 +50,7 @@ export const FigureCaption: React.FC<FigureCaptionProps> = ({
           )}
         </div>
         {source && (
-          <span className="font-mono text-[11px] text-[var(--text-muted)] shrink-0 sm:text-right">
+          <span className="font-mono text-[11px] text-[var(--text-muted)] lg:shrink-0 lg:text-right">
             {source}
           </span>
         )}

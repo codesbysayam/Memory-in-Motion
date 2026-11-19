@@ -438,7 +438,7 @@ export function ResearchNav({
             </button>
 
             {currentPageInfo && (
-              <div className="hidden md:flex items-center gap-2.5 pl-3 ml-1 border-l border-[var(--mm-rule)] text-xs font-mono tabular-nums text-[var(--text-muted)] truncate">
+              <div className="hidden lg:flex items-center gap-2.5 pl-3 ml-1 border-l border-[var(--mm-rule)] text-xs font-mono tabular-nums text-[var(--text-muted)] truncate">
                 <span>
                   Ch. {currentPageInfo.num} / {String(PAGES.length).padStart(2, '0')}
                 </span>

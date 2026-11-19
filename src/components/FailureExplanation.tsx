@@ -112,7 +112,7 @@ export const FailureExplanation: React.FC<FailureExplanationProps> = ({
               </span>
               <SourceBadge type="OBSERVED RESULT" />
             </div>
-            <h3 className="text-lg font-serif font-bold text-[var(--text-primary)] mt-0.5">
+            <h3 className="text-lg font-sans font-semibold text-[var(--text-primary)] mt-0.5">
               Why did this retrieval change occur?
             </h3>
           </div>
@@ -185,7 +185,7 @@ export const FailureExplanation: React.FC<FailureExplanationProps> = ({
           <div className="p-4 rounded-xl bg-[var(--surface-soft)] border border-[var(--border)]">
             <div className="flex items-center gap-2 mb-2">
               <SourceBadge type="EXPLANATION" />
-              <h4 className="text-sm font-serif font-bold text-[var(--text-primary)]">Mechanistic explanation</h4>
+              <h4 className="text-sm font-sans font-semibold text-[var(--text-primary)]">Mechanistic explanation</h4>
             </div>
             <p className="text-xs sm:text-sm text-[var(--text-secondary)] leading-relaxed font-sans">
               The educational model keeps a <strong>fixed-size internal representation</strong> (a {dimension}×{dimension} fast-weight matrix).
@@ -218,7 +218,7 @@ export const FailureExplanation: React.FC<FailureExplanationProps> = ({
           <div className="p-4 rounded-xl bg-[var(--surface-soft)] border border-[var(--border)] space-y-3">
             <div className="flex flex-wrap items-center justify-between gap-3">
               <div>
-                <h5 className="text-xs sm:text-sm font-serif font-bold text-[var(--text-primary)]">
+                <h5 className="text-xs sm:text-sm font-sans font-semibold text-[var(--text-primary)]">
                   Trace the recorded computation
                 </h5>
                 <p className="text-xs text-[var(--text-secondary)] font-sans mt-0.5">

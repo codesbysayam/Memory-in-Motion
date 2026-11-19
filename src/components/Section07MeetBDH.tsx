@@ -80,7 +80,7 @@ export const Section07MeetBDH: React.FC = () => {
                     />
                   ))
                 )}
-                <text x="140" y="116" textAnchor="middle" fill="var(--mm-muted)" fontSize="9.5" fontFamily="JetBrains Mono, monospace">
+                <text x="140" y="116" textAnchor="middle" fill="var(--mm-muted)" fontSize="9.5" fontFamily="var(--font-mono)">
                   All facts overwrite every cell simultaneously
                 </text>
               </svg>
@@ -132,7 +132,7 @@ export const Section07MeetBDH: React.FC = () => {
                     strokeWidth="1.5"
                   />
                 ))}
-                <text x="140" y="116" textAnchor="middle" fill="var(--mm-muted)" fontSize="9.5" fontFamily="JetBrains Mono, monospace">
+                <text x="140" y="116" textAnchor="middle" fill="var(--mm-muted)" fontSize="9.5" fontFamily="var(--font-mono)">
                   Only co-active hub synapses update along sparse paths
                 </text>
               </svg>

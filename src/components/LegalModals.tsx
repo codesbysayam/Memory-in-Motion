@@ -57,7 +57,7 @@ export const LegalModal: React.FC<LegalModalProps> = ({ type, onClose }) => {
 
               <h4 className="font-sans font-semibold text-[var(--text-primary)] text-base">2. Third-Party Services</h4>
               <p>
-                This application is hosted on Google Cloud Run and loads standard open-source typography from Google Fonts (DM Sans, Newsreader, and JetBrains Mono). We do not embed third-party advertising or cross-site tracking cookies.
+                This application is hosted on Google Cloud Run and loads standard open-source typography from Google Fonts (Instrument Serif, Manrope, and IBM Plex Mono). We do not embed third-party advertising or cross-site tracking cookies.
               </p>
 
               <h4 className="font-sans font-semibold text-[var(--text-primary)] text-base">3. Analytics & Telemetry</h4>

@@ -197,7 +197,7 @@ export const MemoryABComparison: React.FC = () => {
               Controlled comparison
             </span>
           </div>
-          <h3 className="text-xl sm:text-2xl font-serif font-bold text-[var(--text-primary)] tracking-tight">
+          <h3 className="text-lg sm:text-xl font-sans font-semibold text-[var(--text-primary)] tracking-tight">
             Same information. Different memory.
           </h3>
           <p className="text-xs sm:text-sm text-[var(--text-secondary)] font-sans max-w-2xl">
@@ -281,7 +281,7 @@ export const MemoryABComparison: React.FC = () => {
           <div className="flex items-center justify-between border-b border-[var(--border)] pb-2 font-sans text-xs">
             <div className="flex items-center gap-2">
               <span className="w-2.5 h-2.5 rounded-[2px] bg-[var(--accent-blue-text)]" />
-              <strong className="text-[var(--text-primary)] font-serif font-semibold text-base">Memory system A</strong>
+              <strong className="text-[var(--text-primary)] font-sans font-semibold text-base">Memory system A</strong>
               {isAFrozen && (
                 <span className="text-[10px] font-sans bg-[var(--accent-yellow)] text-[var(--accent-yellow-text)] px-2 py-0.5 rounded border border-[var(--color-warning-border)] font-semibold">
                   Frozen
@@ -358,12 +358,12 @@ export const MemoryABComparison: React.FC = () => {
           <div className="p-3.5 rounded-lg bg-[var(--surface)] border border-[var(--border)] space-y-2 font-sans text-xs">
             <div className="flex justify-between">
               <span className="text-[var(--text-secondary)]">Query target:</span>
-              <span className="text-[var(--text-primary)] font-serif font-bold">{testQueryKey}</span>
+              <span className="text-[var(--text-primary)] font-mono font-semibold">{testQueryKey}</span>
             </div>
             <div className="flex justify-between">
               <span className="text-[var(--text-secondary)]">Decoded prediction:</span>
               <span
-                className={`font-serif font-bold ${
+                className={`font-mono font-semibold ${
                   resultsA.isTargetCorrect ? 'text-[var(--accent-green-text)]' : 'text-[var(--accent-pink-text)]'
                 }`}
               >
@@ -386,7 +386,7 @@ export const MemoryABComparison: React.FC = () => {
           <div className="flex items-center justify-between border-b border-[var(--border)] pb-2 font-sans text-xs">
             <div className="flex items-center gap-2">
               <span className="w-2.5 h-2.5 rounded-[2px] bg-[var(--accent-green-text)]" />
-              <strong className="text-[var(--text-primary)] font-serif font-semibold text-base">Memory system B</strong>
+              <strong className="text-[var(--text-primary)] font-sans font-semibold text-base">Memory system B</strong>
             </div>
             <span className="text-[var(--accent-green-text)] font-mono font-bold text-sm tabular-nums">
               {resultsB.accuracy.toFixed(0)}% accuracy
@@ -455,12 +455,12 @@ export const MemoryABComparison: React.FC = () => {
           <div className="p-3.5 rounded-lg bg-[var(--surface)] border border-[var(--border)] space-y-2 font-sans text-xs">
             <div className="flex justify-between">
               <span className="text-[var(--text-secondary)]">Query target:</span>
-              <span className="text-[var(--text-primary)] font-serif font-bold">{testQueryKey}</span>
+              <span className="text-[var(--text-primary)] font-mono font-semibold">{testQueryKey}</span>
             </div>
             <div className="flex justify-between">
               <span className="text-[var(--text-secondary)]">Decoded prediction:</span>
               <span
-                className={`font-serif font-bold ${
+                className={`font-mono font-semibold ${
                   resultsB.isTargetCorrect ? 'text-[var(--accent-green-text)]' : 'text-[var(--accent-pink-text)]'
                 }`}
               >

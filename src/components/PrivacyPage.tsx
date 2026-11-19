@@ -28,7 +28,7 @@ export const PrivacyPage: React.FC<LegalPageProps> = ({ onBackToLab }) => {
               <span className="text-[var(--text-muted)]">·</span>
               <span className="text-[var(--text-muted)]">Mandatory transparency notice</span>
             </div>
-            <h1 className="text-3xl sm:text-4xl font-serif font-semibold text-[var(--text-primary)] tracking-tight">
+            <h1 className="text-3xl sm:text-4xl font-serif font-normal text-[var(--text-primary)] tracking-tight">
               Privacy Policy
             </h1>
             <p className="text-sm sm:text-base text-[var(--text-secondary)] max-w-2xl leading-relaxed">
@@ -55,7 +55,7 @@ export const PrivacyPage: React.FC<LegalPageProps> = ({ onBackToLab }) => {
           <span className="text-xs font-mono text-[var(--text-muted)] font-medium block">
             Effective Date: March 2026 · Canonical Version 1.0
           </span>
-          <h2 className="text-xl sm:text-2xl font-serif font-semibold text-[var(--text-primary)]">
+          <h2 className="text-xl sm:text-2xl font-serif font-normal text-[var(--text-primary)]">
             1. Information We Collect (And What We Do Not)
           </h2>
           <p>
@@ -84,7 +84,7 @@ export const PrivacyPage: React.FC<LegalPageProps> = ({ onBackToLab }) => {
         </div>
 
         <div className="space-y-3 pt-2">
-          <h2 className="text-xl sm:text-2xl font-serif font-semibold text-[var(--text-primary)]">
+          <h2 className="text-xl sm:text-2xl font-serif font-normal text-[var(--text-primary)]">
             2. Infrastructure &amp; Hosting
           </h2>
           <p>
@@ -93,16 +93,16 @@ export const PrivacyPage: React.FC<LegalPageProps> = ({ onBackToLab }) => {
         </div>
 
         <div className="space-y-3 pt-2">
-          <h2 className="text-xl sm:text-2xl font-serif font-semibold text-[var(--text-primary)]">
+          <h2 className="text-xl sm:text-2xl font-serif font-normal text-[var(--text-primary)]">
             3. Typography &amp; External Fonts
           </h2>
           <p>
-            This application loads open-source fonts (DM Sans, Newsreader, and JetBrains Mono) through Google Fonts, and mathematical rendering stylesheets via KaTeX CDN. Requests for these static assets follow standard web browser caching policies.
+            This application loads open-source fonts (Instrument Serif, Manrope, and IBM Plex Mono) through Google Fonts, and mathematical rendering stylesheets via KaTeX CDN. Requests for these static assets follow standard web browser caching policies.
           </p>
         </div>
 
         <div className="space-y-3 pt-2">
-          <h2 className="text-xl sm:text-2xl font-serif font-semibold text-[var(--text-primary)]">
+          <h2 className="text-xl sm:text-2xl font-serif font-normal text-[var(--text-primary)]">
             4. User Rights &amp; Data Deletion
           </h2>
           <p>
@@ -111,7 +111,7 @@ export const PrivacyPage: React.FC<LegalPageProps> = ({ onBackToLab }) => {
         </div>
 
         <div className="space-y-3 pt-2">
-          <h2 className="text-xl sm:text-2xl font-serif font-semibold text-[var(--text-primary)]">
+          <h2 className="text-xl sm:text-2xl font-serif font-normal text-[var(--text-primary)]">
             5. Contact &amp; Privacy Inquiries
           </h2>
           <p>

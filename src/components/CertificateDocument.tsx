@@ -64,7 +64,7 @@ export const CertificateDocument: React.FC<CertificateDocumentProps> = ({ data, 
       {/* Central Content */}
       <div className="text-center space-y-3 sm:space-y-4 px-3 sm:px-6 relative z-10 my-auto">
         <div className="space-y-2">
-          <h2 className="text-xl sm:text-2xl md:text-3xl font-serif font-bold tracking-tight text-[#252525]">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-serif font-normal tracking-tight text-[#252525]">
             CERTIFICATE OF COMPLETION
           </h2>
           <div className="w-16 sm:w-20 h-px bg-[#D9DCD8] mx-auto" />
@@ -75,7 +75,7 @@ export const CertificateDocument: React.FC<CertificateDocumentProps> = ({ data, 
             This certifies that
           </p>
           <div
-            className={`font-serif font-bold text-[#252525] tracking-wide break-words px-2 leading-tight ${getNameSizeClass(
+            className={`font-serif font-normal text-[#252525] tracking-wide break-words px-2 leading-tight ${getNameSizeClass(
               name.length
             )}`}
           >

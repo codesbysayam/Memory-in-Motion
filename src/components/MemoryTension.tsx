@@ -73,7 +73,7 @@ export const MemoryTension: React.FC<MemoryTensionProps> = ({
                 The two extremes
               </span>
             </div>
-            <h3 className="text-lg font-serif font-bold text-[var(--text-primary)] mt-0.5">
+            <h3 className="text-lg font-sans font-semibold text-[var(--text-primary)] mt-0.5">
               The fundamental memory tension
             </h3>
           </div>

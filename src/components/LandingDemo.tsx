@@ -1117,7 +1117,7 @@ export const LandingDemo: React.FC<LandingDemoProps> = ({
           <div className="px-4 sm:px-6 py-4 border-b border-[var(--mm-rule)] flex flex-wrap items-center justify-between gap-3">
             <div className="flex flex-wrap items-center gap-3">
               <span className="font-mono text-xs font-semibold text-[var(--mm-signal)]">FIG. 0.2</span>
-              <h2 className="font-serif font-medium text-lg sm:text-xl text-[var(--text-primary)]">
+              <h2 className="font-serif font-normal text-xl sm:text-2xl text-[var(--text-primary)]">
                 Live Recurrent Memory Instrument
               </h2>
               <span className="font-mono text-xs text-[var(--text-secondary)] hidden md:inline border-l border-[var(--mm-rule)] pl-3">

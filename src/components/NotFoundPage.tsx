@@ -20,10 +20,10 @@ export const NotFoundPage: React.FC<NotFoundPageProps> = ({ onReturnToMemory }) 
           <div className="font-mono text-xs font-medium text-[var(--color-accent-ink)]">
             Status 404 · Unmapped coordinate
           </div>
-          <h1 className="text-5xl sm:text-6xl font-serif font-semibold text-[var(--text-primary)] tracking-tight">
+          <h1 className="text-5xl sm:text-6xl font-serif font-normal text-[var(--text-primary)] tracking-tight">
             404
           </h1>
-          <p className="text-base sm:text-lg text-[var(--text-secondary)] font-serif">
+          <p className="text-base sm:text-lg text-[var(--text-secondary)] font-sans">
             This page is not part of the experiment.
           </p>
         </div>

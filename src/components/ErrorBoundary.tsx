@@ -319,7 +319,7 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
 
             {/* Main Error Details */}
             <div className="py-6 space-y-4">
-              <h2 className="text-2xl sm:text-3xl font-serif font-bold text-[var(--text-primary)] tracking-tight">
+              <h2 className="text-2xl sm:text-3xl font-serif font-normal text-[var(--text-primary)] tracking-tight">
                 {title || 'Matrix computation interrupted'}
               </h2>
               <p className="text-sm sm:text-base text-[var(--text-secondary)] font-sans max-w-3xl leading-relaxed">

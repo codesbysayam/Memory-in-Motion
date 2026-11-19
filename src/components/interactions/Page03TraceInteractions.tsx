@@ -128,7 +128,7 @@ export const Page03TraceInteractions: React.FC = () => {
             <span className="font-mono text-[11px] uppercase tracking-[0.14em] text-[var(--mm-signal)] font-semibold block mb-1">
               Fig. 3.1 · Forensic timeline scrubber &amp; manual trace
             </span>
-            <h3 className="font-serif text-lg sm:text-xl font-normal text-[var(--mm-ink)]">
+            <h3 className="font-sans text-lg sm:text-xl font-semibold text-[var(--mm-ink)]">
               Step forward and backward through saved matrices without recalculating
             </h3>
             <p className="text-xs text-[var(--mm-muted)] mt-1">

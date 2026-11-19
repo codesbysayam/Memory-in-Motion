@@ -19,7 +19,7 @@ export const UnderTheHoodPanel: React.FC = () => {
           </span>
         </div>
 
-        <h3 className="text-xl sm:text-2xl font-serif font-bold text-[var(--text-primary)] tracking-tight">
+        <h3 className="text-lg sm:text-xl font-sans font-semibold text-[var(--text-primary)] tracking-tight">
           The three-layer model contract
         </h3>
         <p className="text-xs sm:text-sm text-[var(--text-secondary)] font-sans max-w-3xl leading-relaxed">

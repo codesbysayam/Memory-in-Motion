@@ -70,7 +70,7 @@ export const InterferenceMap: React.FC = () => {
               Observed in educational model
             </span>
           </div>
-          <h3 className="text-xl sm:text-2xl font-serif font-bold text-[var(--text-primary)] tracking-tight">
+          <h3 className="text-lg sm:text-xl font-sans font-semibold text-[var(--text-primary)] tracking-tight">
             The 2D interference map
           </h3>
           <p className="text-xs sm:text-sm text-[var(--text-secondary)] font-sans max-w-2xl">
@@ -191,7 +191,7 @@ export const InterferenceMap: React.FC = () => {
             <div className="metric-panel p-3">
               <div className="text-[var(--text-secondary)] text-xs font-sans">Retrieval accuracy</div>
               <div
-                className={`text-lg font-serif font-bold mt-0.5 tabular-nums ${
+                className={`text-lg font-mono font-bold mt-0.5 tabular-nums ${
                   activeResult.accuracy >= 0.8
                     ? 'text-[var(--accent-green-text)]'
                     : activeResult.accuracy >= 0.5

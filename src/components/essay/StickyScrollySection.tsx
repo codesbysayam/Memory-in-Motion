@@ -91,7 +91,7 @@ export const StickyScrollySection: React.FC<StickyScrollySectionProps> = ({
               aria-current={isActive ? 'step' : undefined}
             >
               {eyebrowText && <div className="essay-eyebrow mb-1">{eyebrowText}</div>}
-              <h3 className="font-serif text-lg sm:text-xl font-medium text-[var(--text-primary)] leading-snug mb-1.5">
+              <h3 className="font-serif text-xl sm:text-2xl font-normal text-[var(--text-primary)] leading-snug mb-1.5">
                 {step.title}
               </h3>
               <div className="text-sm text-[var(--text-secondary)] font-sans leading-relaxed">

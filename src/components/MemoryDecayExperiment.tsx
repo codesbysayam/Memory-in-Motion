@@ -146,7 +146,7 @@ export const MemoryDecayExperiment: React.FC = () => {
               Educational toy
             </span>
           </div>
-          <h3 className="text-xl sm:text-2xl font-serif font-bold text-[var(--text-primary)] tracking-tight">
+          <h3 className="text-lg sm:text-xl font-sans font-semibold text-[var(--text-primary)] tracking-tight">
             What happens over repeated recurrent updates?
           </h3>
           <p className="text-xs sm:text-sm text-[var(--text-secondary)] font-sans max-w-2xl">
@@ -353,16 +353,16 @@ export const MemoryDecayExperiment: React.FC = () => {
             </div>
             <div className="flex justify-between">
               <span className="text-[var(--text-secondary)]">Query cue:</span>
-              <span className="text-[var(--text-primary)] font-serif font-bold">&quot;France&quot;</span>
+              <span className="text-[var(--text-primary)] font-mono font-semibold">&quot;France&quot;</span>
             </div>
             <div className="flex justify-between">
               <span className="text-[var(--text-secondary)]">Ground truth:</span>
-              <span className="text-[var(--text-primary)] font-serif font-semibold">Paris</span>
+              <span className="text-[var(--text-primary)] font-mono font-semibold">Paris</span>
             </div>
             <div className="flex justify-between">
               <span className="text-[var(--text-secondary)]">Predicted answer:</span>
               <span
-                className={`font-serif font-bold ${
+                className={`font-mono font-semibold ${
                   currentStepData.isCorrect ? 'text-[var(--accent-green-text)]' : 'text-[var(--accent-pink-text)]'
                 }`}
               >

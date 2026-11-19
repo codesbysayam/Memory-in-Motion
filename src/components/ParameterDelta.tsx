@@ -156,7 +156,7 @@ export const ParameterDelta: React.FC<ParameterDeltaProps> = ({
             {/* Prediction */}
             <div className="p-2 rounded-lg bg-[var(--surface)] border border-[var(--border)]">
               <span className="text-xs text-[var(--text-secondary)] block uppercase font-medium">Prediction</span>
-              <div className="flex items-center justify-center gap-1 mt-0.5 font-serif font-semibold">
+              <div className="flex items-center justify-center gap-1 mt-0.5 font-mono font-semibold">
                 <span className={prevResult.isCorrect ? 'text-[var(--accent-green-text)]' : 'text-[var(--accent-pink-text)]'}>
                   {prevResult.prediction}
                 </span>

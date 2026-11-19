@@ -639,7 +639,7 @@ export const SixtySecondAssessment: React.FC<SixtySecondAssessmentProps> = ({
             </span>
             <EvidenceStrip type="live" detail="Associative fast-weight matrix engine" />
           </div>
-          <h3 className="text-base sm:text-lg font-serif font-medium text-[var(--mm-ink)]">
+          <h3 className="text-base sm:text-lg font-sans font-semibold text-[var(--mm-ink)]">
             {testStarted
               ? `${STEPS[currentStep - 1].label} · ${STEPS[currentStep - 1].title}`
               : 'Interactive Mechanistic Assessment'}

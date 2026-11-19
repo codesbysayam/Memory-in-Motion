@@ -52,7 +52,7 @@ export const ExperimentNarrator: React.FC<ExperimentNarratorProps> = ({
             <Target className="w-5 h-5" />
           </div>
           <div>
-            <h3 className="text-base sm:text-lg font-serif font-bold text-[var(--text-primary)]">
+            <h3 className="text-base sm:text-lg font-sans font-semibold text-[var(--text-primary)]">
               Memory challenge: Can fixed memory preserve this fact?
             </h3>
             <p className="text-xs sm:text-sm text-[var(--text-secondary)] mt-1 leading-relaxed">

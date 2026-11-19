@@ -36,7 +36,7 @@ export const ResearchDrawer: React.FC<ResearchDrawerProps> = ({ isOpen, onClose 
               <div className="text-xs font-mono text-[var(--color-accent-ink)] font-medium">
                 Primary citations &amp; contract
               </div>
-              <h3 className="text-lg font-serif font-semibold text-[var(--text-primary)]">Research archive</h3>
+              <h3 className="text-lg font-sans font-semibold text-[var(--text-primary)]">Research archive</h3>
             </div>
           </div>
 

@@ -208,7 +208,7 @@ export const MemorySurgery: React.FC = () => {
           <Scissors className="w-4 h-4" />
           <span>Memory surgery: counterfactual comparison</span>
         </div>
-        <h3 className="text-xl sm:text-2xl font-serif font-bold text-[var(--text-primary)] tracking-tight">
+        <h3 className="text-lg sm:text-xl font-sans font-semibold text-[var(--text-primary)] tracking-tight">
           What would have happened if a specific memory write had never occurred?
         </h3>
         <p className="text-sm text-[var(--text-secondary)] leading-relaxed max-w-4xl font-sans">
@@ -328,7 +328,7 @@ export const MemorySurgery: React.FC = () => {
                   )}
                 </div>
 
-                <div className="text-sm font-serif font-bold text-[var(--text-primary)] flex items-center gap-2">
+                <div className="text-sm font-mono font-semibold text-[var(--text-primary)] flex items-center gap-2">
                   <span className={isRemoved ? 'line-through text-[var(--accent-pink-text)] opacity-75' : 'text-[var(--text-primary)]'}>
                     {fact.key}
                   </span>
@@ -425,7 +425,7 @@ export const MemorySurgery: React.FC = () => {
             <div className="metric-panel flex items-center justify-between">
               <div>
                 <span className="text-xs text-[var(--text-secondary)] block">Query → Ground truth</span>
-                <span className="text-sm font-serif font-bold text-[var(--text-primary)]">
+                <span className="text-sm font-mono font-semibold text-[var(--text-primary)]">
                   &quot;{targetKey}&quot; → <span className="text-[var(--accent-blue-text)]">{groundTruth}</span>
                 </span>
               </div>
@@ -434,7 +434,7 @@ export const MemorySurgery: React.FC = () => {
             <div className="metric-panel flex items-center justify-between">
               <div>
                 <span className="text-xs text-[var(--text-secondary)] block">Model prediction</span>
-                <span className="text-base font-serif font-bold text-[var(--text-primary)] flex items-center gap-1.5 mt-0.5">
+                <span className="text-base font-mono font-semibold text-[var(--text-primary)] flex items-center gap-1.5 mt-0.5">
                   {originalRun.prediction}
                   {originalRun.isCorrect ? (
                     <CheckCircle2 className="w-4 h-4 text-[var(--accent-green-text)]" />
@@ -507,7 +507,7 @@ export const MemorySurgery: React.FC = () => {
             <div className="metric-panel flex items-center justify-between">
               <div>
                 <span className="text-xs text-[var(--text-secondary)] block">Query → Ground truth</span>
-                <span className="text-sm font-serif font-bold text-[var(--text-primary)]">
+                <span className="text-sm font-mono font-semibold text-[var(--text-primary)]">
                   &quot;{targetKey}&quot; → <span className="text-[var(--accent-blue-text)]">{groundTruth}</span>
                 </span>
               </div>
@@ -516,7 +516,7 @@ export const MemorySurgery: React.FC = () => {
             <div className="metric-panel flex items-center justify-between">
               <div>
                 <span className="text-xs text-[var(--text-secondary)] block">Model prediction</span>
-                <span className="text-base font-serif font-bold text-[var(--text-primary)] flex items-center gap-1.5 mt-0.5">
+                <span className="text-base font-mono font-semibold text-[var(--text-primary)] flex items-center gap-1.5 mt-0.5">
                   {counterfactualRun.prediction}
                   {counterfactualRun.isCorrect ? (
                     <CheckCircle2 className="w-4 h-4 text-[var(--accent-green-text)]" />
@@ -588,7 +588,7 @@ export const MemorySurgery: React.FC = () => {
           <div className="p-3 rounded-lg bg-[var(--surface)] border border-[var(--border)]">
             <div className="text-xs text-[var(--text-secondary)]">Prediction changed?</div>
             <div
-              className={`text-sm font-serif font-bold mt-1 ${
+              className={`text-sm font-sans font-semibold mt-1 ${
                 causalDelta.predictionChanged ? 'text-[var(--accent-pink-text)]' : 'text-[var(--accent-green-text)]'
               }`}
             >

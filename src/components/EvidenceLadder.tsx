@@ -100,7 +100,7 @@ export const EvidenceLadder: React.FC<{ theme?: 'dark' | 'light' }> = () => {
       {/* Header */}
       <div className="flex flex-wrap items-baseline justify-between gap-2 border-b border-[var(--mm-rule)] pb-4">
         <div>
-          <h4 className="text-lg sm:text-xl font-serif font-medium text-[var(--mm-ink)]">
+          <h4 className="text-lg sm:text-xl font-sans font-semibold text-[var(--mm-ink)]">
             The Evidence Ladder · Epistemic Contract
           </h4>
           <p className="text-xs sm:text-sm mt-1 font-sans text-[var(--mm-ink-soft)]">

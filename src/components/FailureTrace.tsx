@@ -131,7 +131,7 @@ export const FailureTrace: React.FC<FailureTraceProps> = ({
                 Exact experiment states
               </span>
             </div>
-            <h3 className="text-lg font-serif font-bold text-[var(--text-primary)] mt-0.5">
+            <h3 className="text-lg font-sans font-semibold text-[var(--text-primary)] mt-0.5">
               Step-by-step memory degradation trace
             </h3>
           </div>

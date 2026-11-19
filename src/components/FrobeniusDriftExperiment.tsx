@@ -301,7 +301,7 @@ export const FrobeniusDriftExperiment: React.FC<FrobeniusDriftExperimentProps> =
             </span>
             <span className="text-xs font-mono text-[var(--text-secondary)]">Dynamic drift plot</span>
           </div>
-          <h3 className="text-lg sm:text-xl font-serif font-bold text-[var(--text-primary)] flex items-center gap-2">
+          <h3 className="text-lg sm:text-xl font-sans font-semibold text-[var(--text-primary)] flex items-center gap-2">
             <TrendingUp className="w-5 h-5 text-[var(--accent-blue-text)]" />
             <span>Frobenius Norm Drift &amp; Memory Trace Decay</span>
           </h3>

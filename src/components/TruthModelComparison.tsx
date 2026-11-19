@@ -25,7 +25,7 @@ export function TruthModelComparison({
         <span className="text-xs block uppercase font-semibold text-[var(--text-secondary)]">
           Ground truth
         </span>
-        <strong className="font-serif text-base font-bold block mt-1 text-[var(--text-primary)]">
+        <strong className="font-mono text-sm font-semibold block mt-1 text-[var(--text-primary)]">
           {truth}
         </strong>
       </div>
@@ -35,7 +35,7 @@ export function TruthModelComparison({
           Model output
         </span>
         <strong
-          className={`font-serif text-base font-bold block mt-1 ${
+          className={`font-mono text-sm font-semibold block mt-1 ${
             correct ? 'text-[var(--accent-green-text)]' : 'text-[var(--accent-pink-text)]'
           }`}
         >

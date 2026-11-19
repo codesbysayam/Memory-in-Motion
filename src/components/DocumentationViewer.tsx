@@ -233,7 +233,7 @@ export const DocumentationViewer: React.FC<DocumentationViewerProps> = ({
                   <span className="text-xs font-mono font-medium text-[var(--color-accent-ink)]">
                     docs/PRD.md
                   </span>
-                  <h1 className="text-2xl sm:text-3xl font-serif font-semibold text-[var(--text-primary)] tracking-tight mt-1.5">
+                  <h1 className="text-2xl sm:text-3xl font-serif font-normal text-[var(--text-primary)] tracking-tight mt-1.5">
                     Product Requirements Document (PRD)
                   </h1>
                   <p className="text-sm text-[var(--text-secondary)] mt-1">
@@ -290,7 +290,7 @@ export const DocumentationViewer: React.FC<DocumentationViewerProps> = ({
                   <span className="text-xs font-mono font-medium text-[var(--color-accent-ink)]">
                     docs/ARCHITECTURE.md
                   </span>
-                  <h1 className="text-2xl sm:text-3xl font-serif font-semibold text-[var(--text-primary)] tracking-tight mt-1.5">
+                  <h1 className="text-2xl sm:text-3xl font-serif font-normal text-[var(--text-primary)] tracking-tight mt-1.5">
                     System Architecture & Technical Specifications
                   </h1>
                   <p className="text-sm text-[var(--text-secondary)] mt-1">
@@ -335,7 +335,7 @@ export const DocumentationViewer: React.FC<DocumentationViewerProps> = ({
                   <span className="text-xs font-mono font-medium text-[var(--color-accent-ink)]">
                     docs/DESIGN.md
                   </span>
-                  <h1 className="text-2xl sm:text-3xl font-serif font-semibold text-[var(--text-primary)] tracking-tight mt-1.5">
+                  <h1 className="text-2xl sm:text-3xl font-serif font-normal text-[var(--text-primary)] tracking-tight mt-1.5">
                     Design System Specification
                   </h1>
                   <p className="text-sm text-[var(--text-secondary)] mt-1">
@@ -370,9 +370,9 @@ export const DocumentationViewer: React.FC<DocumentationViewerProps> = ({
 
                   <h3 className="font-sans font-semibold text-base text-[var(--text-primary)]">2. Typography Hierarchy</h3>
                   <ul className="list-disc pl-5 space-y-1.5">
-                    <li><strong className="text-[var(--text-primary)]">Display Headlines (h1, h2):</strong> Newsreader for authoritative editorial presence.</li>
-                    <li><strong className="text-[var(--text-primary)]">Interface &amp; Body:</strong> DM Sans for dense, legible controls, questions, and paragraphs.</li>
-                    <li><strong className="text-[var(--text-primary)]">Formulas &amp; Coordinates:</strong> JetBrains Mono (tabular numerals) and KaTeX for technical precision.</li>
+                    <li><strong className="text-[var(--text-primary)]">Display Headlines (h1, h2):</strong> Instrument Serif (weight 400) for authoritative editorial presence.</li>
+                    <li><strong className="text-[var(--text-primary)]">Interface &amp; Body:</strong> Manrope for dense, legible controls, questions, and paragraphs.</li>
+                    <li><strong className="text-[var(--text-primary)]">Formulas &amp; Coordinates:</strong> IBM Plex Mono (tabular numerals) and KaTeX for technical precision.</li>
                   </ul>
                 </div>
               </article>
@@ -385,7 +385,7 @@ export const DocumentationViewer: React.FC<DocumentationViewerProps> = ({
                   <span className="text-xs font-mono font-medium text-[var(--color-accent-ink)]">
                     docs/RULES.md
                   </span>
-                  <h1 className="text-2xl sm:text-3xl font-serif font-semibold text-[var(--text-primary)] tracking-tight mt-1.5">
+                  <h1 className="text-2xl sm:text-3xl font-serif font-normal text-[var(--text-primary)] tracking-tight mt-1.5">
                     Scientific Honesty & Development Rules
                   </h1>
                   <p className="text-sm text-[var(--text-secondary)] mt-1">
@@ -421,7 +421,7 @@ export const DocumentationViewer: React.FC<DocumentationViewerProps> = ({
                   <span className="text-xs font-mono font-medium text-[var(--color-accent-ink)]">
                     docs/TASKS.md
                   </span>
-                  <h1 className="text-2xl sm:text-3xl font-serif font-semibold text-[var(--text-primary)] tracking-tight mt-1.5">
+                  <h1 className="text-2xl sm:text-3xl font-serif font-normal text-[var(--text-primary)] tracking-tight mt-1.5">
                     Tasks & Verification Log
                   </h1>
                   <p className="text-sm text-[var(--text-secondary)] mt-1">
@@ -469,7 +469,7 @@ export const DocumentationViewer: React.FC<DocumentationViewerProps> = ({
                   <span className="text-xs font-mono font-medium text-[var(--color-accent-ink)]">
                     docs/MEMORY.md
                   </span>
-                  <h1 className="text-2xl sm:text-3xl font-serif font-semibold text-[var(--text-primary)] tracking-tight mt-1.5">
+                  <h1 className="text-2xl sm:text-3xl font-serif font-normal text-[var(--text-primary)] tracking-tight mt-1.5">
                     Project Memory: Mechanistic Deep Dive
                   </h1>
                   <p className="text-sm text-[var(--text-secondary)] mt-1">

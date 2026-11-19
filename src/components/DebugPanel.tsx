@@ -124,7 +124,7 @@ export const DebugPanel: React.FC<DebugPanelProps> = ({
           <div className="text-xs font-mono text-[var(--text-muted)]">
             Run summary &amp; telemetry
           </div>
-          <h2 className="font-serif text-lg sm:text-xl font-semibold text-[var(--text-primary)] mt-0.5">
+          <h2 className="font-serif text-xl sm:text-2xl font-normal text-[var(--text-primary)] mt-0.5">
             Experiment state snapshot
           </h2>
         </div>
@@ -221,7 +221,7 @@ export const DebugPanel: React.FC<DebugPanelProps> = ({
                 Probe
               </span>
               <div className="space-y-0.5">
-                <div className="font-serif text-lg font-semibold text-[var(--text-primary)] truncate" title={activeProbe || 'None'}>
+                <div className="font-mono text-base font-semibold text-[var(--text-primary)] truncate" title={activeProbe || 'None'}>
                   {activeProbe || 'None'}
                 </div>
                 <div className="font-mono text-xs text-[var(--text-secondary)]">
@@ -243,7 +243,7 @@ export const DebugPanel: React.FC<DebugPanelProps> = ({
               </span>
               <div className="space-y-1 tabular-nums">
                 <div
-                  className={`font-serif text-lg font-semibold truncate ${
+                  className={`font-mono text-base font-semibold truncate ${
                     isCorrect ? 'text-[var(--accent-green-text)]' : 'text-[var(--accent-pink-text)]'
                   }`}
                   title={prediction}
