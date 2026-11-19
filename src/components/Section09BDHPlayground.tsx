@@ -1,4 +1,5 @@
 import React, { useState, useMemo } from 'react';
+import { motion, useReducedMotion } from 'motion/react';
 import { BDHToyModel, BDHSimulationConfig } from '../models/bdhToyModel';
 import { SectionHeader } from './ui/SectionHeader';
 import { ControlSlider } from './ui/ControlSlider';
@@ -6,6 +7,7 @@ import { RepeatedInputBDHExperiment } from './RepeatedInputBDHExperiment';
 import { FigureCaption } from './essay/FigureCaption';
 
 export const Section09BDHPlayground: React.FC = () => {
+  const reducedMotion = useReducedMotion();
   const [numNeurons, setNumNeurons] = useState<8 | 16 | 32>(16);
   const [sparsity, setSparsity] = useState<number>(0.4);
   const [recurrentSteps, setRecurrentSteps] = useState<number>(4);
@@ -198,10 +200,18 @@ export const Section09BDHPlayground: React.FC = () => {
                         n_{neuron.id}
                       </span>
                       <div className="my-2 h-16 w-3.5 rounded-sm bg-[var(--mm-rule)] relative flex items-end overflow-hidden">
-                        <div
-                          className="w-full transition-all duration-300"
-                          style={{
+                        <motion.div
+                          className="w-full"
+                          initial={false}
+                          animate={{
                             height: `${Math.min(100, Math.max(isZero ? 0 : 4, Math.round(act * 100)))}%`,
+                            opacity: isZero ? 0.35 : 1,
+                          }}
+                          transition={{
+                            duration: reducedMotion ? 0 : 0.34,
+                            ease: [0.22, 1, 0.36, 1],
+                          }}
+                          style={{
                             backgroundColor: isZero ? 'var(--mm-rule-strong)' : 'var(--mm-signal)',
                           }}
                         />

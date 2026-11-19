@@ -197,12 +197,12 @@ export const ExperimentHistorySidebar: React.FC<ExperimentHistorySidebarProps> =
 
   return (
     <>
-      {/* Floating Persistent Launch Tab (when sidebar is closed) */}
+      {/* Floating Persistent Launch Tab (desktop/tablet edge, avoids mobile content overlap) */}
       {!isOpen && (
         <button
           onClick={toggleOpen}
           aria-label="Open Experiment History Panel"
-          className="fixed right-0 top-1/2 -translate-y-1/2 z-40 bg-[var(--surface)] text-[var(--text-primary)] border-l border-y border-[var(--border)] rounded-l-xl px-2.5 py-3 shadow-md hover:bg-[var(--surface-soft)] transition flex flex-col items-center gap-1.5 cursor-pointer group"
+          className="hidden md:flex fixed right-0 bottom-24 z-40 bg-[var(--surface)] text-[var(--text-primary)] border-l border-y border-[var(--border)] rounded-l-lg px-2 py-2.5 shadow-sm hover:bg-[var(--surface-soft)] transition flex-col items-center gap-1.5 cursor-pointer group"
           title="Experiment History (Last 10 Runs)"
         >
           <History className="w-4 h-4 text-[var(--accent-blue-text)] group-hover:scale-110 transition-transform" />

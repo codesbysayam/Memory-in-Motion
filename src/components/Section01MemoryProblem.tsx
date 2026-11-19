@@ -100,7 +100,7 @@ export const Section01MemoryProblem: React.FC = () => {
             if (idx === 0 && tokenCount > 20) setTokenCount(12);
           }}
           figure={
-            <div className="p-5 sm:p-7 space-y-6">
+            <div data-editorial-reveal="scale" className="p-5 sm:p-7 space-y-6">
               {/* Interactive Parameter Control Strip */}
               <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 pb-5 border-b border-[var(--mm-rule)]">
                 <div className="flex-1 max-w-md">
@@ -160,6 +160,7 @@ export const Section01MemoryProblem: React.FC = () => {
                     height="10"
                     rx="2"
                     fill="var(--mm-amber)"
+                    style={{ transition: 'width 320ms cubic-bezier(0.22, 1, 0.36, 1)' }}
                   />
 
                   {/* Token cells rendered cleanly */}
@@ -265,6 +266,10 @@ export const Section01MemoryProblem: React.FC = () => {
                           height={Math.max(3, barHeight)}
                           rx="1"
                           fill={isPos ? 'var(--mm-signal)' : 'var(--mm-coral)'}
+                          style={{
+                            transition:
+                              'height 320ms cubic-bezier(0.22, 1, 0.36, 1), y 320ms cubic-bezier(0.22, 1, 0.36, 1), fill 240ms ease',
+                          }}
                         />
                         <text
                           x={x + 8}

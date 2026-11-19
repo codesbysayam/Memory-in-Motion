@@ -54,7 +54,7 @@ export const ThemeSwitcher: React.FC<ThemeSwitcherProps> = ({
             key={option.id}
             type="button"
             onClick={() => setTheme(option.id)}
-            className={`theme-option ${isActive ? 'active' : ''}`}
+            className={`theme-option min-h-[32px] sm:min-h-[28px] ${isActive ? 'active' : ''}`}
             title={option.tooltip}
             aria-label={option.tooltip}
             aria-pressed={isActive}

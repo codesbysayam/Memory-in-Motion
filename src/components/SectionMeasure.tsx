@@ -1,4 +1,5 @@
 import React, { useState, useMemo, useEffect } from 'react';
+import { motion, useReducedMotion } from 'motion/react';
 import {
   Info,
   CheckCircle2,
@@ -15,6 +16,7 @@ import { FigureCaption } from './essay/FigureCaption';
 import { DataFallbackTable } from './essay/DataFallbackTable';
 
 export const SectionMeasure: React.FC = () => {
+  const reducedMotion = useReducedMotion();
   const [activeView, setActiveView] = useState<'time' | 'outcome' | 'mechanism' | 'frobenius'>('time');
   const [metricMode, setMetricMode] = useState<'retrievalScore' | 'top1Margin' | 'stateSimilarity'>('retrievalScore');
   const [retention, setRetention] = useState<number>(0.92);
@@ -206,6 +208,9 @@ export const SectionMeasure: React.FC = () => {
   });
 
   const polylinePath = points.map((p) => `${p.x},${p.y}`).join(' ');
+  const linePathD = points
+    .map((p, idx) => `${idx === 0 ? 'M' : 'L'} ${p.x} ${p.y}`)
+    .join(' ');
 
   // Mechanism Flowchart Steps
   const mechanismStages = [
@@ -374,12 +379,12 @@ export const SectionMeasure: React.FC = () => {
               </div>
             </div>
 
-            {/* SVG Line Chart */}
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
-              <div className="lg:col-span-2 overflow-x-auto">
+            {/* SVG Line Chart (Wide Chart Prominence) */}
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+              <div className="lg:col-span-8 overflow-x-auto">
                 <svg
                   viewBox={`0 0 ${chartWidth} ${chartHeight}`}
-                  className="w-full h-auto max-h-[300px] select-none"
+                  className="w-full h-auto max-h-[340px] select-none"
                 >
                   <defs>
                     <linearGradient id="lineGrad" x1="0" y1="0" x2="1" y2="0">
@@ -423,39 +428,51 @@ export const SectionMeasure: React.FC = () => {
                     <polygon
                       points={`
                         ${points[0].x},${padding.top + innerH}
-                        ${points.map((p) => `${p.x},${p.y}`).join(' ')}
+                        ${polylinePath}
                         ${points[points.length - 1].x},${padding.top + innerH}
                       `}
                       fill="url(#areaGrad)"
                     />
                   )}
 
-                  {/* Main Line */}
-                  <polyline
+                  {/* Main Animated Trajectory Path */}
+                  <motion.path
+                    key={`measure-path-${metricMode}-${retention}-${dimension}`}
+                    d={linePathD}
                     fill="none"
                     stroke="url(#lineGrad)"
                     strokeWidth="2.5"
                     strokeLinecap="round"
                     strokeLinejoin="round"
-                    points={polylinePath}
+                    initial={reducedMotion ? false : { pathLength: 0.12, opacity: 0.4 }}
+                    whileInView={{ pathLength: 1, opacity: 1 }}
+                    viewport={{ once: true, amount: 0.2 }}
+                    transition={{ duration: reducedMotion ? 0 : 0.7, ease: [0.22, 1, 0.36, 1] }}
                   />
 
                   {/* Interactive Points */}
                   {points.map((p, i) => (
                     <g
-                      key={i}
+                      key={`${i}-${metricMode}-${retention}-${dimension}`}
                       className="cursor-pointer"
                       onMouseEnter={() => setHoveredDataPoint(p)}
                       onClick={() => setHoveredDataPoint(p)}
                     >
-                      <circle
+                      <motion.circle
                         cx={p.x}
                         cy={p.y}
                         r={hoveredDataPoint?.step === p.step ? 6.5 : 4.5}
                         fill={p.isCorrect ? 'var(--color-success)' : 'var(--color-danger)'}
                         stroke="var(--surface)"
                         strokeWidth="2"
-                        className="transition-all"
+                        initial={reducedMotion ? false : { scale: 0.65, opacity: 0.5 }}
+                        animate={{ scale: 1, opacity: 1 }}
+                        transition={{
+                          duration: reducedMotion ? 0 : 0.3,
+                          delay: reducedMotion ? 0 : i * 0.045,
+                          ease: [0.22, 1, 0.36, 1],
+                        }}
+                        style={{ transformBox: 'fill-box', transformOrigin: 'center' }}
                       />
                       {/* X Axis Label */}
                       <text
@@ -492,8 +509,8 @@ export const SectionMeasure: React.FC = () => {
                 </div>
               </div>
 
-                {/* Step telemetry */}
-              <div className="border-t lg:border-t-0 lg:border-l border-[var(--mm-rule)] pt-4 lg:pt-0 lg:pl-6 space-y-3 font-mono text-xs tabular-nums">
+              {/* Step telemetry */}
+              <div className="lg:col-span-4 border-t lg:border-t-0 lg:border-l border-[var(--mm-rule)] pt-4 lg:pt-0 lg:pl-6 space-y-3 font-mono text-xs tabular-nums">
                 <div className="flex items-center justify-between border-b border-[var(--mm-rule)] pb-2">
                   <span className="font-sans text-xs font-semibold text-[var(--mm-muted)]">
                     Point inspection

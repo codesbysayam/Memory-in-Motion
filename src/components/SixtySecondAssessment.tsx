@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef, useMemo, useCallback } from 'react';
+import { motion, useReducedMotion } from 'motion/react';
 import {
   Clock,
   CheckCircle2,
@@ -115,6 +116,7 @@ export const SixtySecondAssessment: React.FC<SixtySecondAssessmentProps> = ({
   onEnterSandbox,
   onNavigate,
 }) => {
+  const reducedMotion = useReducedMotion();
   // Test Lifecycle
   const [testStarted, setTestStarted] = useState<boolean>(false);
   const [currentStep, setCurrentStep] = useState<number>(1);
@@ -876,9 +878,19 @@ export const SixtySecondAssessment: React.FC<SixtySecondAssessmentProps> = ({
         )}
 
         {/* ------------------------------------------------------------ */}
+        {/* ACTIVE SINGLE-QUESTION STAGE (Steps 01–05)                   */}
+        {/* ------------------------------------------------------------ */}
+        {testStarted && !testCompleted && !timedOut && (
+          <motion.div
+            key={`assessment-step-${currentStep}`}
+            initial={reducedMotion ? false : { opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: reducedMotion ? 0 : 0.25, ease: [0.22, 1, 0.36, 1] }}
+          >
+        {/* ------------------------------------------------------------ */}
         {/* STEP 01: REMEMBER                                            */}
         {/* ------------------------------------------------------------ */}
-        {testStarted && currentStep === 1 && !testCompleted && !timedOut && (
+        {currentStep === 1 && (
           <div className="space-y-5 animate-in fade-in">
             {/* Context Box */}
             <div className="p-4 rounded-xl bg-[var(--surface-soft)] border border-[var(--border)] space-y-2.5">
@@ -1012,7 +1024,7 @@ export const SixtySecondAssessment: React.FC<SixtySecondAssessmentProps> = ({
         {/* ------------------------------------------------------------ */}
         {/* STEP 02: BREAK IT                                            */}
         {/* ------------------------------------------------------------ */}
-        {testStarted && currentStep === 2 && !testCompleted && !timedOut && (
+        {currentStep === 2 && (
           <div className="space-y-5 animate-in fade-in">
             <div className="p-4 rounded-xl bg-[var(--surface-soft)] border border-[var(--border)] space-y-3">
               <div className="flex flex-wrap items-center justify-between gap-2">
@@ -1593,6 +1605,8 @@ export const SixtySecondAssessment: React.FC<SixtySecondAssessmentProps> = ({
               </div>
             )}
           </div>
+        )}
+          </motion.div>
         )}
 
         {/* ------------------------------------------------------------ */}

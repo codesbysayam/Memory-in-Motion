@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
+import { motion, useReducedMotion } from 'motion/react';
 import {
   HelpCircle,
   Award,
   RotateCcw,
   CheckCircle2,
   XCircle,
+  ArrowLeft,
   ArrowRight,
   Clock,
 } from 'lucide-react';
@@ -25,7 +27,7 @@ interface Question {
 const QUESTIONS: Question[] = [
   {
     id: 1,
-    question: '1. Why can fixed-size recurrent memory forget earlier information?',
+    question: 'Why can fixed-size recurrent memory forget earlier information?',
     options: [
       {
         label: 'A',
@@ -39,7 +41,7 @@ const QUESTIONS: Question[] = [
         text: 'Representations are packed into a bounded coordinate space; accumulating updates cause geometric overlap, crosstalk, and decay.',
         isCorrect: true,
         explanation:
-          'Correct! Superposition in ℝ^D can only support ~D quasi-orthogonal facts before coordinate interference and coordinate decay degrade retrieval.',
+          'Correct. Superposition in ℝ^D can only support ~D quasi-orthogonal facts before coordinate interference and decay degrade retrieval.',
       },
       {
         label: 'C',
@@ -52,14 +54,14 @@ const QUESTIONS: Question[] = [
   },
   {
     id: 2,
-    question: '2. What fundamentally changes when memory capacity (dimension D) increases?',
+    question: 'What fundamentally changes when memory capacity (dimension D) increases?',
     options: [
       {
         label: 'A',
         text: 'The state space supports more nearly-orthogonal directions, delaying interference and accommodating longer sequences before collision.',
         isCorrect: true,
         explanation:
-          'Correct! Higher dimensions provide exponentially more quasi-orthogonal directions, allowing more distinct facts to be superimposed without crosstalk.',
+          'Correct. Higher dimensions provide more quasi-orthogonal directions, allowing more distinct facts to be superimposed without crosstalk.',
       },
       {
         label: 'B',
@@ -79,7 +81,7 @@ const QUESTIONS: Question[] = [
   },
   {
     id: 3,
-    question: '3. Where does contextual memory live in the Dragon Hatchling (BDH) architecture?',
+    question: 'Where does contextual memory live in the Dragon Hatchling (BDH) architecture?',
     options: [
       {
         label: 'A',
@@ -98,14 +100,16 @@ const QUESTIONS: Question[] = [
         text: 'Inside dynamic synaptic connection weights σ(i, j) and sparse neuron activations on a scale-free graph.',
         isCorrect: true,
         explanation:
-          'Correct! BDH stores in-context memory in plastic synaptic states σ(i, j) modulated by local Hebbian-like activity rather than an external KV cache.',
+          'Correct. BDH stores in-context memory in plastic synaptic states σ(i, j) modulated by local Hebbian-like activity rather than an external KV cache.',
       },
     ],
   },
 ];
 
 export const SixtySecondTest: React.FC = () => {
+  const reducedMotion = useReducedMotion();
   const [activeTab, setActiveTab] = useState<'assessment' | 'conceptual'>('assessment');
+  const [currentQuestionIdx, setCurrentQuestionIdx] = useState<number>(0);
   const [selectedAnswers, setSelectedAnswers] = useState<Record<number, number>>({});
   const [submitted, setSubmitted] = useState<boolean>(false);
 
@@ -116,6 +120,9 @@ export const SixtySecondTest: React.FC = () => {
 
   const answeredCount = Object.keys(selectedAnswers).length;
   const isComplete = answeredCount === QUESTIONS.length;
+  const activeQuestion = QUESTIONS[currentQuestionIdx] || QUESTIONS[0];
+  const selectedIdx = selectedAnswers[activeQuestion.id];
+  const selectedOption = selectedIdx !== undefined ? activeQuestion.options[selectedIdx] : null;
 
   const score = QUESTIONS.reduce((acc, q) => {
     const selected = selectedAnswers[q.id];
@@ -129,12 +136,12 @@ export const SixtySecondTest: React.FC = () => {
 
   const handleReset = () => {
     setSelectedAnswers({});
+    setCurrentQuestionIdx(0);
     setSubmitted(false);
   };
 
   return (
     <section id="sixty-second-test" className="w-full space-y-6">
-      {/* Assessment Header & Editorial Underline Mode Switcher */}
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-[var(--mm-rule)] pb-4">
         <div className="space-y-1.5 max-w-2xl">
           <div className="essay-eyebrow flex items-center gap-2">
@@ -146,11 +153,10 @@ export const SixtySecondTest: React.FC = () => {
             60-Second Fast Verification
           </h2>
           <p className="essay-lead">
-            A real-time evaluation testing your experimental understanding across 5 sequential stages: Remember, Break, Trace, Measure, and BDH Synthesis.
+            A focused evaluation testing your experimental understanding across five sequential stages: Remember, Break, Trace, Measure, and BDH Synthesis.
           </p>
         </div>
 
-        {/* Clean Underline Mode Selector (Zero boxed pills) */}
         <div
           className="flex items-center gap-6 self-start md:self-end shrink-0 border-b border-transparent -mb-[17px]"
           role="tablist"
@@ -187,149 +193,187 @@ export const SixtySecondTest: React.FC = () => {
         </div>
       </div>
 
-      {/* Main Interactive 60-Second Assessment */}
       {activeTab === 'assessment' ? (
         <div className="animate-in fade-in duration-200">
           <SixtySecondAssessment isModal={false} />
         </div>
       ) : (
-        /* Conceptual 3-Question Verification in Editorial Figure Stage */
-        <div className="essay-figure-stage px-5 sm:px-8 py-6 animate-in fade-in duration-200 space-y-6">
-          <div className="flex flex-wrap items-baseline justify-between gap-3 border-b border-[var(--mm-rule)] pb-4">
-            <div>
-              <h3 className="text-lg font-serif font-medium text-[var(--mm-ink)]">
-                Conceptual Principles of Recurrent State
-              </h3>
-              <p className="text-xs sm:text-sm text-[var(--mm-ink-soft)] font-sans mt-0.5">
-                Verify the algebraic reasoning behind coordinate superposition and BDH synapses.
-              </p>
-            </div>
+        <div className="essay-figure-stage px-5 sm:px-8 py-6 sm:py-8 animate-in fade-in duration-200">
+          <div className="essay-column space-y-6">
+            {/* Single-Question Progress Bar */}
+            <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[var(--mm-rule)] pb-4">
+              <div>
+                <span className="font-mono text-xs text-[var(--mm-signal)] font-semibold">
+                  QUESTION {currentQuestionIdx + 1} OF {QUESTIONS.length}
+                </span>
+                <h3 className="text-lg font-serif font-medium text-[var(--mm-ink)] mt-0.5">
+                  Conceptual Principles of Recurrent State
+                </h3>
+              </div>
 
-            {submitted && (
-              <button
-                type="button"
-                onClick={handleReset}
-                className="btn-secondary text-xs"
-              >
-                <RotateCcw className="w-3.5 h-3.5" />
-                <span>Retry Questions</span>
-              </button>
-            )}
-          </div>
-
-          <div className="divide-y divide-[var(--mm-rule)]">
-            {QUESTIONS.map((q) => {
-              const selectedIdx = selectedAnswers[q.id];
-              const selectedOption = selectedIdx !== undefined ? q.options[selectedIdx] : null;
-
-              return (
-                <div
-                  key={q.id}
-                  className="py-5 first:pt-1 last:pb-1 space-y-4 font-sans"
-                >
-                  <h4 className="text-[var(--mm-ink)] font-sans font-semibold text-base sm:text-[17px] leading-snug">
-                    {q.question}
-                  </h4>
-
-                  <div className="space-y-2">
-                    {q.options.map((opt, optIdx) => {
-                      const isSelected = selectedIdx === optIdx;
-                      let optionStyle =
-                        'border-[var(--mm-rule)] bg-[var(--page-bg)] text-[var(--mm-ink)] hover:border-[var(--mm-rule-strong)]';
-                      let badgeStyle =
-                        'text-[var(--mm-muted)] border-[var(--mm-rule)] bg-[var(--mm-paper-bright)]';
-
-                      if (submitted) {
-                        if (opt.isCorrect) {
-                          optionStyle =
-                            'border-[var(--color-success-border)] bg-[var(--color-success-soft)] text-[var(--color-success)] font-medium';
-                          badgeStyle =
-                            'bg-[var(--color-success)] border-[var(--color-success)] text-[var(--surface)]';
-                        } else if (isSelected && !opt.isCorrect) {
-                          optionStyle =
-                            'border-[var(--color-danger-border)] bg-[var(--color-danger-soft)] text-[var(--color-danger)]';
-                          badgeStyle =
-                            'bg-[var(--color-danger)] border-[var(--color-danger)] text-[var(--surface)]';
-                        } else {
-                          optionStyle =
-                            'border-[var(--mm-rule)] bg-[var(--page-bg)] text-[var(--mm-muted)] opacity-60 cursor-default';
-                        }
-                      } else if (isSelected) {
-                        optionStyle =
-                          'border-[var(--mm-signal)] bg-[var(--mm-signal-soft)] text-[var(--mm-ink)] font-medium';
-                        badgeStyle =
-                          'bg-[var(--mm-signal)] border-[var(--mm-signal)] text-[var(--surface)]';
-                      }
-
-                      return (
-                        <button
-                          key={opt.label}
-                          type="button"
-                          onClick={() => handleSelect(q.id, optIdx)}
-                          disabled={submitted}
-                          className={`w-full text-left p-3.5 rounded-md border transition-colors flex items-start gap-3 ${
-                            submitted ? 'cursor-default' : 'cursor-pointer'
-                          } ${optionStyle}`}
-                        >
-                          <span
-                            className={`w-6 h-6 rounded border flex items-center justify-center font-mono font-semibold text-xs shrink-0 mt-0.5 transition-colors ${badgeStyle}`}
-                          >
-                            {opt.label}
-                          </span>
-                          <span className="text-sm leading-relaxed flex-1 font-sans">{opt.text}</span>
-                        </button>
-                      );
-                    })}
-                  </div>
-
-                  {submitted && selectedOption && (
-                    <div
-                      className={`pt-3 pl-4 border-l-2 text-xs sm:text-sm leading-relaxed font-sans ${
-                        selectedOption.isCorrect
-                          ? 'border-[var(--color-success)] text-[var(--color-success)]'
-                          : 'border-[var(--color-danger)] text-[var(--color-danger)]'
+              <div className="flex items-center gap-1.5" role="tablist" aria-label="Theory questions">
+                {QUESTIONS.map((q, idx) => {
+                  const isAnswered = selectedAnswers[q.id] !== undefined;
+                  const isCurrent = idx === currentQuestionIdx;
+                  return (
+                    <button
+                      key={q.id}
+                      type="button"
+                      role="tab"
+                      aria-selected={isCurrent}
+                      onClick={() => setCurrentQuestionIdx(idx)}
+                      className={`w-8 h-8 rounded-sm font-mono text-xs transition-colors cursor-pointer border ${
+                        isCurrent
+                          ? 'border-[var(--mm-signal)] bg-[var(--mm-signal)] text-[var(--surface)] font-semibold'
+                          : isAnswered
+                          ? 'border-[var(--mm-teal-border)] bg-[var(--mm-teal-soft)] text-[var(--color-success)] font-medium'
+                          : 'border-[var(--mm-rule)] bg-[var(--page-bg)] text-[var(--mm-muted)]'
                       }`}
                     >
-                      <div className="font-semibold flex items-center gap-1.5 mb-1">
-                        {selectedOption.isCorrect ? (
-                          <>
-                            <CheckCircle2 className="w-4 h-4 shrink-0" />
-                            <span>Scientific insight</span>
-                          </>
-                        ) : (
-                          <>
-                            <XCircle className="w-4 h-4 shrink-0" />
-                            <span>Conceptual correction</span>
-                          </>
-                        )}
-                      </div>
-                      <p className="text-[var(--mm-ink)] leading-relaxed">
-                        {selectedOption.explanation}
-                      </p>
-                    </div>
-                  )}
-                </div>
-              );
-            })}
-          </div>
+                      {idx + 1}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
 
-          <div className="pt-4 border-t border-[var(--mm-rule)]">
-            {!submitted ? (
-              <div className="flex flex-wrap items-center justify-between gap-3">
-                <span className="text-xs font-mono tabular-nums text-[var(--mm-muted)]">
-                  {answeredCount} of {QUESTIONS.length} questions answered
-                </span>
+            {/* Active Single Question */}
+            <motion.div
+              key={`q-${activeQuestion.id}`}
+              initial={reducedMotion ? false : { opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
+              className="space-y-4 font-sans"
+            >
+              <h4 className="text-[var(--mm-ink)] font-serif text-xl sm:text-2xl font-medium leading-snug">
+                {activeQuestion.question}
+              </h4>
+
+              <div className="space-y-2.5">
+                {activeQuestion.options.map((opt, optIdx) => {
+                  const isSelected = selectedIdx === optIdx;
+                  let optionStyle =
+                    'border-[var(--mm-rule)] bg-[var(--page-bg)] text-[var(--mm-ink)] hover:border-[var(--mm-rule-strong)]';
+                  let badgeStyle =
+                    'text-[var(--mm-muted)] border-[var(--mm-rule)] bg-[var(--mm-paper-bright)]';
+
+                  if (submitted) {
+                    if (opt.isCorrect) {
+                      optionStyle =
+                        'border-[var(--color-success-border)] bg-[var(--color-success-soft)] text-[var(--color-success)] font-medium';
+                      badgeStyle =
+                        'bg-[var(--color-success)] border-[var(--color-success)] text-[var(--surface)]';
+                    } else if (isSelected && !opt.isCorrect) {
+                      optionStyle =
+                        'border-[var(--color-danger-border)] bg-[var(--color-danger-soft)] text-[var(--color-danger)]';
+                      badgeStyle =
+                        'bg-[var(--color-danger)] border-[var(--color-danger)] text-[var(--surface)]';
+                    } else {
+                      optionStyle =
+                        'border-[var(--mm-rule)] bg-[var(--page-bg)] text-[var(--mm-muted)] opacity-60 cursor-default';
+                    }
+                  } else if (isSelected) {
+                    optionStyle =
+                      'border-[var(--mm-signal)] bg-[var(--mm-signal-soft)] text-[var(--mm-ink)] font-medium';
+                    badgeStyle =
+                      'bg-[var(--mm-signal)] border-[var(--mm-signal)] text-[var(--surface)]';
+                  }
+
+                  return (
+                    <button
+                      key={opt.label}
+                      type="button"
+                      onClick={() => handleSelect(activeQuestion.id, optIdx)}
+                      disabled={submitted}
+                      className={`w-full text-left p-4 rounded-md border transition-colors flex items-start gap-3 min-h-[48px] ${
+                        submitted ? 'cursor-default' : 'cursor-pointer'
+                      } ${optionStyle}`}
+                    >
+                      <span
+                        className={`w-6 h-6 rounded-sm border flex items-center justify-center font-mono font-semibold text-xs shrink-0 mt-0.5 transition-colors ${badgeStyle}`}
+                      >
+                        {opt.label}
+                      </span>
+                      <span className="text-sm leading-relaxed flex-1 font-sans">{opt.text}</span>
+                    </button>
+                  );
+                })}
+              </div>
+
+              {submitted && selectedOption && (
+                <div
+                  className={`pt-3 pl-4 border-l-2 text-xs sm:text-sm leading-relaxed font-sans ${
+                    selectedOption.isCorrect
+                      ? 'border-[var(--color-success)] text-[var(--color-success)]'
+                      : 'border-[var(--color-danger)] text-[var(--color-danger)]'
+                  }`}
+                >
+                  <div className="font-semibold flex items-center gap-1.5 mb-1">
+                    {selectedOption.isCorrect ? (
+                      <>
+                        <CheckCircle2 className="w-4 h-4 shrink-0" />
+                        <span>Scientific insight</span>
+                      </>
+                    ) : (
+                      <>
+                        <XCircle className="w-4 h-4 shrink-0" />
+                        <span>Conceptual correction</span>
+                      </>
+                    )}
+                  </div>
+                  <p className="text-[var(--mm-ink)] leading-relaxed">
+                    {selectedOption.explanation}
+                  </p>
+                </div>
+              )}
+            </motion.div>
+
+            {/* Single-Question Navigation + Submit Footer */}
+            <div className="pt-4 border-t border-[var(--mm-rule)] flex flex-wrap items-center justify-between gap-3">
+              <div className="flex items-center gap-2">
+                <button
+                  type="button"
+                  disabled={currentQuestionIdx === 0}
+                  onClick={() => setCurrentQuestionIdx((i) => Math.max(0, i - 1))}
+                  className="btn-secondary text-xs disabled:opacity-40"
+                >
+                  <ArrowLeft className="w-3.5 h-3.5" />
+                  <span>Previous</span>
+                </button>
+                <button
+                  type="button"
+                  disabled={currentQuestionIdx >= QUESTIONS.length - 1}
+                  onClick={() => setCurrentQuestionIdx((i) => Math.min(QUESTIONS.length - 1, i + 1))}
+                  className="btn-secondary text-xs disabled:opacity-40"
+                >
+                  <span>Next</span>
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </button>
+              </div>
+
+              {!submitted ? (
                 <button
                   type="button"
                   onClick={() => setSubmitted(true)}
                   disabled={!isComplete}
-                  className="btn-primary text-sm"
+                  className="btn-primary text-xs"
                 >
-                  <span>Submit Answers ({answeredCount}/3 Complete)</span>
-                  <ArrowRight className="w-4 h-4" />
+                  <span>Verify All ({answeredCount}/3 Answered)</span>
+                  <ArrowRight className="w-3.5 h-3.5" />
                 </button>
-              </div>
-            ) : (
+              ) : (
+                <button
+                  type="button"
+                  onClick={handleReset}
+                  className="btn-secondary text-xs"
+                >
+                  <RotateCcw className="w-3.5 h-3.5" />
+                  <span>Retry Questions</span>
+                </button>
+              )}
+            </div>
+
+            {submitted && (
               <div
                 className={`p-4 border-l-2 flex flex-col sm:flex-row sm:items-center justify-between gap-4 font-sans ${
                   isSuccess
@@ -354,30 +398,20 @@ export const SixtySecondTest: React.FC = () => {
                   <p className="text-xs sm:text-sm text-[var(--mm-ink)] leading-relaxed">
                     {isSuccess
                       ? 'You have clearly differentiated fixed-size coordinate state representations from token tapes and understood how plastic synapses in BDH avoid catastrophic forgetting.'
-                      : 'Review the interference curves and capacity experiments in Stage 02 and Stage 04 to solidify the algebraic foundation.'}
+                      : 'Use the 1–3 selector above to review feedback on each question, or revisit Chapters 02 and 04.'}
                   </p>
                 </div>
-
-                <button
-                  type="button"
-                  onClick={handleReset}
-                  className="btn-secondary text-xs shrink-0"
-                >
-                  <RotateCcw className="w-3.5 h-3.5" />
-                  <span>Try again</span>
-                </button>
               </div>
             )}
-          </div>
 
-          <FigureCaption
-            figure="Fig. 7.1b"
-            title="Conceptual theory check across superposition, dimension D scaling, and BDH plasticity."
-            source="Educational Synthesis"
-          />
+            <FigureCaption
+              figure="Fig. 7.1b"
+              title="One-question-at-a-time conceptual check across superposition, dimension scaling, and BDH plasticity."
+              source="Educational Synthesis"
+            />
+          </div>
         </div>
       )}
     </section>
   );
 };
-

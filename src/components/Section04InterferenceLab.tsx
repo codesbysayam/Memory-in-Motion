@@ -17,7 +17,13 @@ import {
   BookOpen,
   Hash,
   History,
+  Compass,
 } from 'lucide-react';
+import {
+  InterferenceLabTutorial,
+  INTERFERENCE_TUTORIAL_STEPS,
+  TutorialStepSpec,
+} from './InterferenceLabTutorial';
 import { ExperimentHistorySidebar, ExperimentHistoryRecord } from './ExperimentHistorySidebar';
 import {
   InterferenceConfig,
@@ -83,6 +89,20 @@ export const Section04InterferenceLab: React.FC<Section04InterferenceLabProps> =
 
   // Persistent Experiment History Sidebar state
   const [isHistoryOpen, setIsHistoryOpen] = useState<boolean>(false);
+
+  // Step-by-step control knob onboarding tutorial state
+  const [isTutorialOpen, setIsTutorialOpen] = useState<boolean>(() => {
+    try {
+      return localStorage.getItem('mm_interference_tutorial_dismissed') !== 'true';
+    } catch {
+      return true;
+    }
+  });
+  const [tutorialStepIndex, setTutorialStepIndex] = useState<number>(0);
+
+  const activeTutorialKnob = isTutorialOpen
+    ? INTERFERENCE_TUTORIAL_STEPS[tutorialStepIndex]?.id
+    : null;
 
   // Listen for revert events from ExperimentHistorySidebar
   useEffect(() => {
@@ -363,7 +383,7 @@ export const Section04InterferenceLab: React.FC<Section04InterferenceLabProps> =
             />
           </div>
 
-          <div className="flex items-center gap-2 text-xs">
+          <div className="flex flex-wrap items-center gap-2 text-xs">
             <span className="text-[var(--text-secondary)] flex items-center gap-1 font-medium">
               <Hash className="w-3.5 h-3.5 text-[var(--accent-blue-text)]" />
               Experiment ID:
@@ -373,8 +393,25 @@ export const Section04InterferenceLab: React.FC<Section04InterferenceLabProps> =
             </span>
             <button
               type="button"
+              onClick={() => {
+                setActiveExperiment('collision');
+                setTutorialStepIndex(0);
+                setIsTutorialOpen((v) => !v);
+              }}
+              className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md border font-medium transition cursor-pointer ${
+                isTutorialOpen
+                  ? 'bg-[var(--mm-signal-soft)] text-[var(--mm-signal)] border-[var(--mm-signal)]'
+                  : 'bg-[var(--surface)] hover:bg-[var(--surface-soft)] text-[var(--text-primary)] border-[var(--border)]'
+              }`}
+              title="Step-by-step onboarding walkthrough for the 5 lab control knobs"
+            >
+              <Compass className="w-3.5 h-3.5 text-[var(--mm-signal)]" />
+              <span>{isTutorialOpen ? 'Hide knob guide' : 'Knob walkthrough (5 steps)'}</span>
+            </button>
+            <button
+              type="button"
               onClick={() => setIsHistoryOpen((v) => !v)}
-              className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-[var(--surface)] hover:bg-[var(--surface-soft)] text-[var(--accent-blue-text)] border border-[var(--border)] font-medium transition cursor-pointer"
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md bg-[var(--surface)] hover:bg-[var(--surface-soft)] text-[var(--accent-blue-text)] border border-[var(--border)] font-medium transition cursor-pointer"
               title="Open persistent experiment history panel (last 10 runs)"
             >
               <History className="w-3.5 h-3.5 text-[var(--accent-blue-text)]" />
@@ -383,6 +420,61 @@ export const Section04InterferenceLab: React.FC<Section04InterferenceLabProps> =
           </div>
         </div>
 
+        {/* Step-by-step Onboarding Tutorial for Control Knobs */}
+        <InterferenceLabTutorial
+          isOpen={isTutorialOpen}
+          currentStepIndex={tutorialStepIndex}
+          config={config}
+          onStepChange={(idx) => {
+            setActiveExperiment('collision');
+            setTutorialStepIndex(idx);
+          }}
+          onApplyExample={(patch: Partial<InterferenceConfig>, stepSpec: TutorialStepSpec) => {
+            setActiveExperiment('collision');
+            const nextCfg: InterferenceConfig = { ...config, ...patch };
+            setConfig(nextCfg);
+            setNotebookEntries((prev) => [
+              {
+                id: `entry-tut-${Date.now()}`,
+                timestamp: new Date().toLocaleTimeString(),
+                type: 'preset',
+                title: `Tutorial Example (${stepSpec.knobName})`,
+                detail: `${stepSpec.exampleLabel} applied: D=${nextCfg.dimension}, L=${nextCfg.sequenceLength}, λ=${Math.round(nextCfg.retention * 100)}%, σ=${Math.round(nextCfg.interference * 100)}%.`,
+                tags: ['Walkthrough', stepSpec.id],
+              },
+              ...prev,
+            ]);
+            setLastActionToast({
+              message: `Applied tutorial example: ${stepSpec.exampleLabel}`,
+              timestamp: Date.now(),
+            });
+          }}
+          onClose={() => {
+            setIsTutorialOpen(false);
+            try {
+              localStorage.setItem('mm_interference_tutorial_dismissed', 'true');
+            } catch {
+              // ignore storage restriction
+            }
+          }}
+          onComplete={() => {
+            setIsTutorialOpen(false);
+            try {
+              localStorage.setItem('mm_interference_tutorial_dismissed', 'true');
+            } catch {
+              // ignore storage restriction
+            }
+            setLastActionToast({
+              message: 'Completed 5-step Interference Lab control knob walkthrough',
+              timestamp: Date.now(),
+            });
+          }}
+        />
+      </div>
+
+      {/* High-Contrast Dark Experiment Theatre for Break Lab */}
+      <div className="essay-night-band border-y border-[var(--mm-rule)] py-8 sm:py-10">
+        <div className="research-container space-y-6">
         {/* Preset Experiments Strip (Hairline) */}
         <div className="flex flex-wrap items-center justify-between gap-3 py-3 border-y border-[var(--mm-rule)] text-xs">
           <span className="font-mono text-[var(--text-muted)]">Quick presets:</span>
@@ -512,7 +604,14 @@ export const Section04InterferenceLab: React.FC<Section04InterferenceLabProps> =
                   </div>
 
                   {/* Dimension selector: 4, 8, 16, 32 */}
-                  <div className="space-y-1.5">
+                  <div
+                    data-tutorial-knob="dimension"
+                    className={`space-y-1.5 transition-all rounded-md ${
+                      activeTutorialKnob === 'dimension'
+                        ? 'ring-2 ring-[var(--mm-signal)] bg-[var(--mm-signal-soft)]/30 p-2.5 -mx-2.5'
+                        : ''
+                    }`}
+                  >
                     <div className="flex justify-between text-xs">
                       <span className="text-[var(--text-secondary)] flex items-center gap-1 font-sans">
                         State dimension (<InlineMath math="D" />):
@@ -524,7 +623,7 @@ export const Section04InterferenceLab: React.FC<Section04InterferenceLabProps> =
                         <button
                           key={d}
                           onClick={() => setConfig((prev) => ({ ...prev, dimension: d }))}
-                          className={`py-2 rounded-lg border text-center transition-all cursor-pointer tabular-nums ${
+                          className={`py-2 rounded-md border text-center transition-all cursor-pointer tabular-nums ${
                             config.dimension === d
                               ? 'border-[var(--accent-blue-text)] bg-[var(--accent-blue)] text-[var(--accent-blue-text)] font-bold'
                               : 'border-[var(--border)] bg-[var(--surface)] text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
@@ -535,123 +634,162 @@ export const Section04InterferenceLab: React.FC<Section04InterferenceLabProps> =
                       ))}
                     </div>
                     <span className="text-[11px] text-[var(--text-secondary)] block">
-                      Allocates a fixed <InlineMath math={`${config.dimension} \times ${config.dimension}`} /> outer-product state matrix.
+                      Allocates a fixed <InlineMath math={`${config.dimension} \\times ${config.dimension}`} /> outer-product state matrix.
                     </span>
                   </div>
 
                   {/* Sequence Length Slider */}
-                  <ControlSlider
-                    label="Sequence Length"
-                    value={config.sequenceLength}
-                    min={2}
-                    max={14}
-                    step={1}
-                    unit=" facts"
-                    onChange={(val) => setConfig((prev) => ({ ...prev, sequenceLength: val }))}
-                    description="Total facts packed into state before testing Japan."
-                  />
+                  <div
+                    data-tutorial-knob="sequenceLength"
+                    className={`transition-all rounded-md ${
+                      activeTutorialKnob === 'sequenceLength'
+                        ? 'ring-2 ring-[var(--mm-signal)] bg-[var(--mm-signal-soft)]/30 p-2.5 -mx-2.5'
+                        : ''
+                    }`}
+                  >
+                    <ControlSlider
+                      id="lab-sequence-length"
+                      label="Sequence Length"
+                      value={config.sequenceLength}
+                      min={2}
+                      max={14}
+                      step={1}
+                      unit=" facts"
+                      onChange={(val) => setConfig((prev) => ({ ...prev, sequenceLength: val }))}
+                      description="Total facts packed into state before testing Japan."
+                    />
+                  </div>
 
                   {/* Retention Slider */}
-                  <ControlSlider
-                    label={
-                      <span className="flex items-center gap-1">
-                        <span>Retention</span>
-                        <InlineMath math="(\lambda)" />
-                      </span>
-                    }
-                    value={Math.round(config.retention * 100)}
-                    min={20}
-                    max={100}
-                    step={5}
-                    unit="%"
-                    onChange={(val) => setConfig((prev) => ({ ...prev, retention: val / 100 }))}
-                    description="Memory-state retention per update (M = λM + ηkv^T)."
-                  />
+                  <div
+                    data-tutorial-knob="retention"
+                    className={`transition-all rounded-md ${
+                      activeTutorialKnob === 'retention'
+                        ? 'ring-2 ring-[var(--mm-signal)] bg-[var(--mm-signal-soft)]/30 p-2.5 -mx-2.5'
+                        : ''
+                    }`}
+                  >
+                    <ControlSlider
+                      id="lab-retention"
+                      label={
+                        <span className="flex items-center gap-1">
+                          <span>Retention</span>
+                          <InlineMath math="(\lambda)" />
+                        </span>
+                      }
+                      value={Math.round(config.retention * 100)}
+                      min={20}
+                      max={100}
+                      step={5}
+                      unit="%"
+                      onChange={(val) => setConfig((prev) => ({ ...prev, retention: val / 100 }))}
+                      description="Memory-state retention per update (M = λM + ηkv^T)."
+                    />
+                  </div>
 
                   {/* Interference Perturbation Slider */}
-                  <ControlSlider
-                    label="Interference Perturbation"
-                    value={Math.round(config.interference * 100)}
-                    min={0}
-                    max={60}
-                    step={5}
-                    unit="%"
-                    onChange={(val) => setConfig((prev) => ({ ...prev, interference: val / 100 }))}
-                    description="Controlled perturbation applied to stored representations."
-                  />
+                  <div
+                    data-tutorial-knob="interference"
+                    className={`transition-all rounded-md ${
+                      activeTutorialKnob === 'interference'
+                        ? 'ring-2 ring-[var(--mm-signal)] bg-[var(--mm-signal-soft)]/30 p-2.5 -mx-2.5'
+                        : ''
+                    }`}
+                  >
+                    <ControlSlider
+                      id="lab-interference"
+                      label="Interference Perturbation"
+                      value={Math.round(config.interference * 100)}
+                      min={0}
+                      max={60}
+                      step={5}
+                      unit="%"
+                      onChange={(val) => setConfig((prev) => ({ ...prev, interference: val / 100 }))}
+                      description="Controlled perturbation applied to stored representations."
+                    />
+                  </div>
 
-                  {/* Reproducible Seed Control */}
-                  <div className="flex items-center justify-between pt-2 border-t border-[var(--border)]">
-                    <span className="text-[var(--text-secondary)] font-sans text-xs">Deterministic seed:</span>
-                    <div className="flex items-center gap-2">
-                      <input
-                        type="number"
-                        value={config.seed}
-                        onChange={(e) => setConfig((prev) => ({ ...prev, seed: Number(e.target.value) || 42 }))}
-                        className="w-20 bg-[var(--surface-soft)] border border-[var(--border)] rounded-md px-2 py-1 text-center text-[var(--accent-blue-text)] font-mono text-xs tabular-nums focus:outline-hidden focus:border-[var(--accent-blue-text)]"
-                      />
+                  {/* Reproducible Seed + Action Controls */}
+                  <div
+                    data-tutorial-knob="seedActions"
+                    className={`space-y-3 pt-2 border-t border-[var(--border)] transition-all rounded-md ${
+                      activeTutorialKnob === 'seedActions'
+                        ? 'ring-2 ring-[var(--mm-signal)] bg-[var(--mm-signal-soft)]/30 p-2.5 -mx-2.5'
+                        : ''
+                    }`}
+                  >
+                    <div className="flex items-center justify-between">
+                      <span className="text-[var(--text-secondary)] font-sans text-xs">Deterministic seed:</span>
+                      <div className="flex items-center gap-2">
+                        <input
+                          type="number"
+                          value={config.seed}
+                          onChange={(e) => setConfig((prev) => ({ ...prev, seed: Number(e.target.value) || 42 }))}
+                          className="w-20 bg-[var(--surface-soft)] border border-[var(--border)] rounded-md px-2 py-1 text-center text-[var(--accent-blue-text)] font-mono text-xs tabular-nums focus:outline-hidden focus:border-[var(--accent-blue-text)]"
+                        />
+                        <button
+                          onClick={() => setConfig((prev) => ({ ...prev, seed: prev.seed + 1 }))}
+                          className="px-2 py-1 rounded-md bg-[var(--surface)] border border-[var(--border)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] text-xs cursor-pointer"
+                          title="Increment seed"
+                        >
+                          +1
+                        </button>
+                      </div>
+                    </div>
+
+                    {/* Metadata Stats Strip (Hairline Divided) */}
+                    <div className="grid grid-cols-4 border-y border-[var(--mm-rule)] divide-x divide-[var(--mm-rule)] text-xs text-center font-mono tabular-nums py-2">
+                      <div className="px-2">
+                        <span className="text-[var(--text-muted)] block text-[10px]">CAPACITY</span>
+                        <strong className="text-[var(--text-primary)]">D={config.dimension}</strong>
+                      </div>
+                      <div className="px-2">
+                        <span className="text-[var(--text-muted)] block text-[10px]">RETENTION</span>
+                        <strong className="text-[var(--text-primary)]">{Math.round(config.retention * 100)}%</strong>
+                      </div>
+                      <div className="px-2">
+                        <span className="text-[var(--text-muted)] block text-[10px]">PERTURB</span>
+                        <strong className="text-[var(--text-primary)]">{Math.round(config.interference * 100)}%</strong>
+                      </div>
+                      <div className="px-2">
+                        <span className="text-[var(--text-muted)] block text-[10px]">STATUS</span>
+                        <strong className={experimentResult.correct ? 'text-[var(--mm-teal)]' : 'text-[var(--mm-coral)]'}>
+                          {experimentResult.correct ? 'CLEAN' : 'COLLISION'}
+                        </strong>
+                      </div>
+                    </div>
+
+                    {/* Action Buttons: Re-run & Reset */}
+                    <div className="grid grid-cols-2 gap-2 pt-1">
                       <button
-                        onClick={() => setConfig((prev) => ({ ...prev, seed: prev.seed + 1 }))}
-                        className="px-2 py-1 rounded-md bg-[var(--surface)] border border-[var(--border)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] text-xs cursor-pointer"
-                        title="Increment seed"
+                        onClick={handleRerun}
+                        className="flex items-center justify-center gap-1.5 py-2 rounded-md border border-[var(--color-success-border)] bg-[var(--accent-green)] hover:opacity-90 text-[var(--accent-green-text)] font-sans text-xs font-semibold transition-all cursor-pointer"
+                        title="Re-run the current experiment and log observation to notebook (Enter)"
                       >
-                        +1
+                        <Play className="w-3.5 h-3.5 fill-current" />
+                        <span>Re-run trial</span>
+                        <kbd className="text-[10px] px-1.5 py-0.2 rounded bg-[var(--surface)] border border-[var(--color-success-border)] text-[var(--accent-green-text)] font-mono">↵</kbd>
+                      </button>
+                      <button
+                        onClick={handleReset}
+                        className="flex items-center justify-center gap-1.5 py-2 rounded-md border border-[var(--border)] bg-[var(--surface)] hover:bg-[var(--surface-soft)] text-[var(--text-secondary)] font-sans text-xs font-semibold transition-all cursor-pointer"
+                        title="Reset lab to default baseline parameters (R)"
+                      >
+                        <RotateCcw className="w-3.5 h-3.5" />
+                        <span>Reset lab</span>
+                        <kbd className="text-[10px] px-1.5 py-0.2 rounded bg-[var(--surface-soft)] border border-[var(--border)] text-[var(--text-secondary)] font-mono">R</kbd>
                       </button>
                     </div>
-                  </div>
 
-                  {/* Metadata Stats Strip (Hairline Divided) */}
-                  <div className="grid grid-cols-4 border-y border-[var(--mm-rule)] divide-x divide-[var(--mm-rule)] text-xs text-center font-mono tabular-nums py-2">
-                    <div className="px-2">
-                      <span className="text-[var(--text-muted)] block text-[10px]">CAPACITY</span>
-                      <strong className="text-[var(--text-primary)]">D={config.dimension}</strong>
-                    </div>
-                    <div className="px-2">
-                      <span className="text-[var(--text-muted)] block text-[10px]">RETENTION</span>
-                      <strong className="text-[var(--text-primary)]">{Math.round(config.retention * 100)}%</strong>
-                    </div>
-                    <div className="px-2">
-                      <span className="text-[var(--text-muted)] block text-[10px]">PERTURB</span>
-                      <strong className="text-[var(--text-primary)]">{Math.round(config.interference * 100)}%</strong>
-                    </div>
-                    <div className="px-2">
-                      <span className="text-[var(--text-muted)] block text-[10px]">STATUS</span>
-                      <strong className={experimentResult.correct ? 'text-[var(--mm-teal)]' : 'text-[var(--mm-coral)]'}>
-                        {experimentResult.correct ? 'CLEAN' : 'COLLISION'}
-                      </strong>
-                    </div>
-                  </div>
-
-                  {/* Action Buttons: Re-run & Reset */}
-                  <div className="grid grid-cols-2 gap-2 pt-1">
+                    {/* Record Observation to Notebook Button */}
                     <button
-                      onClick={handleRerun}
-                      className="flex items-center justify-center gap-1.5 py-2 rounded-lg border border-[var(--color-success-border)] bg-[var(--accent-green)] hover:opacity-90 text-[var(--accent-green-text)] font-sans text-xs font-semibold transition-all cursor-pointer"
-                      title="Re-run the current experiment and log observation to notebook (Enter)"
+                      onClick={handleRecordNotebook}
+                      className="w-full flex items-center justify-center gap-2 py-1.5 rounded-md border border-[var(--border)] bg-[var(--surface)] hover:bg-[var(--surface-soft)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] font-sans text-xs transition-all cursor-pointer"
                     >
-                      <Play className="w-3.5 h-3.5 fill-current" />
-                      <span>Re-run trial</span>
-                      <kbd className="text-[10px] px-1.5 py-0.2 rounded bg-[var(--surface)] border border-[var(--color-success-border)] text-[var(--accent-green-text)] font-mono">↵</kbd>
-                    </button>
-                    <button
-                      onClick={handleReset}
-                      className="flex items-center justify-center gap-1.5 py-2 rounded-lg border border-[var(--border)] bg-[var(--surface)] hover:bg-[var(--surface-soft)] text-[var(--text-secondary)] font-sans text-xs font-semibold transition-all cursor-pointer"
-                      title="Reset lab to default baseline parameters (R)"
-                    >
-                      <RotateCcw className="w-3.5 h-3.5" />
-                      <span>Reset lab</span>
-                      <kbd className="text-[10px] px-1.5 py-0.2 rounded bg-[var(--surface-soft)] border border-[var(--border)] text-[var(--text-secondary)] font-mono">R</kbd>
+                      <BookOpen className="w-3.5 h-3.5 text-[var(--accent-blue-text)]" />
+                      <span>Log observation to notebook</span>
                     </button>
                   </div>
-
-                  {/* Record Observation to Notebook Button */}
-                  <button
-                    onClick={handleRecordNotebook}
-                    className="w-full flex items-center justify-center gap-2 py-1.5 rounded-lg border border-[var(--border)] bg-[var(--surface)] hover:bg-[var(--surface-soft)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] font-sans text-xs transition-all cursor-pointer"
-                  >
-                    <BookOpen className="w-3.5 h-3.5 text-[var(--accent-blue-text)]" />
-                    <span>Log observation to notebook</span>
-                  </button>
                 </div>
 
                 {/* Automatic Failure Explanation (Hairline Strip) */}
@@ -958,9 +1096,12 @@ export const Section04InterferenceLab: React.FC<Section04InterferenceLabProps> =
 
         {/* EXPERIMENT 7: MEMORY SURGERY (TRUE COUNTERFACTUAL EXPERIMENT) */}
         {activeExperiment === 'surgery' && <MemorySurgery />}
+        </div>
+      </div>
 
+      <div className="research-container space-y-6 pt-8">
         {/* Scientific Evidence & Honesty Panel */}
-        <div className="pt-6">
+        <div className="pt-2">
           <ScientificHonestyPanel />
         </div>
 

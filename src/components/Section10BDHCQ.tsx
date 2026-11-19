@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { motion, useReducedMotion } from 'motion/react';
 import { ArrowUpRight } from 'lucide-react';
 import { SectionHeader } from './ui/SectionHeader';
 import { EvidenceBadge } from './ui/EvidenceBadge';
@@ -10,6 +11,7 @@ import { ExplainItChallenge } from './ExplainItChallenge';
 import { FigureCaption } from './essay/FigureCaption';
 
 export const Section10BDHCQ: React.FC = () => {
+  const reducedMotion = useReducedMotion();
   const [activeTab, setActiveTab] = useState<'traditional' | 'bdhcq'>('bdhcq');
 
   return (
@@ -80,9 +82,13 @@ export const Section10BDHCQ: React.FC = () => {
           </div>
 
           {/* Side-by-Side Split Layout */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 divide-y lg:divide-y-0 lg:divide-x divide-[var(--mm-rule)] border border-[var(--mm-rule)] bg-[var(--mm-paper-bright)] rounded-md">
+          <div className="grid grid-cols-1 lg:grid-cols-2 divide-y lg:divide-y-0 lg:divide-x divide-[var(--mm-rule)] border border-[var(--mm-rule)] bg-[var(--mm-paper-bright)] rounded-md overflow-hidden">
             {/* Left: Traditional Token CoT */}
-            <div className={`p-5 space-y-3 transition-opacity ${activeTab === 'traditional' ? 'opacity-100' : 'opacity-65'}`}>
+            <motion.div
+              animate={{ opacity: activeTab === 'traditional' ? 1 : 0.62 }}
+              transition={{ duration: reducedMotion ? 0 : 0.25 }}
+              className={`p-5 space-y-3 ${activeTab === 'traditional' ? 'bg-[var(--surface-soft)]/50' : ''}`}
+            >
               <div className="flex items-center justify-between">
                 <span className="font-mono text-xs font-semibold text-[var(--mm-amber)]">
                   01 · Standard Transformer CoT
@@ -95,10 +101,14 @@ export const Section10BDHCQ: React.FC = () => {
               <div className="pt-2 border-t border-[var(--mm-rule)] font-mono text-xs text-[var(--mm-ink)]">
                 Prompt → <span className="text-[var(--mm-amber)]">Token₁</span> → <span className="text-[var(--mm-amber)]">Token₂</span> → … → <span className="text-[var(--mm-amber)]">Token₂₅₀</span> → Answer
               </div>
-            </div>
+            </motion.div>
 
             {/* Right: Continuous BDH-CQ */}
-            <div className={`p-5 space-y-3 transition-opacity ${activeTab === 'bdhcq' ? 'opacity-100' : 'opacity-65'}`}>
+            <motion.div
+              animate={{ opacity: activeTab === 'bdhcq' ? 1 : 0.62 }}
+              transition={{ duration: reducedMotion ? 0 : 0.25 }}
+              className={`p-5 space-y-3 ${activeTab === 'bdhcq' ? 'bg-[var(--mm-signal-soft)]/35' : ''}`}
+            >
               <div className="flex items-center justify-between">
                 <span className="font-mono text-xs font-semibold text-[var(--mm-signal)]">
                   02 · BDH-CQ Latent Reasoning
@@ -108,10 +118,20 @@ export const Section10BDHCQ: React.FC = () => {
               <p className="text-xs text-[var(--mm-ink-soft)] leading-relaxed">
                 1. Demonstration enters particle activations · 2. Synapses update across K internal relaxation rounds · 3. Stable attractor settles · 4. Answer emits with zero intermediate scratchpad tokens.
               </p>
-              <div className="pt-2 border-t border-[var(--mm-rule)] font-mono text-xs text-[var(--mm-ink)]">
-                Demonstration → <span className="text-[var(--mm-signal)] font-semibold">[Synaptic Relaxation t = 1..K]</span> → Direct Answer
+              <div className="pt-2 border-t border-[var(--mm-rule)] font-mono text-xs text-[var(--mm-ink)] flex flex-wrap items-center gap-1.5">
+                <span>Demonstration →</span>
+                <motion.span
+                  key={activeTab}
+                  initial={reducedMotion ? false : { opacity: 0.6, scale: 0.98 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ duration: reducedMotion ? 0 : 0.28 }}
+                  className="text-[var(--mm-signal)] font-semibold"
+                >
+                  [Latent Synaptic Cycles t = 1..K]
+                </motion.span>
+                <span>→ Emitted Answer Token</span>
               </div>
-            </div>
+            </motion.div>
           </div>
 
           {/* 4 BDH-CQ Key Capabilities (Hairline 4-col Row) */}

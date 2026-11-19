@@ -1,9 +1,30 @@
-import React, { useState, useMemo, useCallback } from 'react';
+import React, { useState, useMemo, useCallback, useEffect } from 'react';
+import { motion, useReducedMotion } from 'motion/react';
 import { runCapacitySweep, SweepPointResult, BENCHMARK_DIMENSIONS, BENCHMARK_FACT_COUNTS } from '../models/benchmarkEngine';
 import { Play, RotateCcw, CheckCircle2, XCircle } from 'lucide-react';
 import { SourceBadge } from './ui/SourceBadge';
 import { FigureCaption } from './essay/FigureCaption';
 import { DataFallbackTable } from './essay/DataFallbackTable';
+
+const CAPACITY_CACHE_KEY = 'mm_capacity_experiment_state';
+const DEFAULT_TAB: 'accuracy' | 'confidence' = 'accuracy';
+const DEFAULT_POINT_ID = 'dim-16-facts-4';
+
+function loadCachedCapacityState(): { activeTab: 'accuracy' | 'confidence'; selectedPointId: string } {
+  try {
+    const raw = localStorage.getItem(CAPACITY_CACHE_KEY);
+    if (raw) {
+      const parsed = JSON.parse(raw);
+      return {
+        activeTab: parsed?.activeTab === 'confidence' ? 'confidence' : DEFAULT_TAB,
+        selectedPointId: typeof parsed?.selectedPointId === 'string' && parsed.selectedPointId ? parsed.selectedPointId : DEFAULT_POINT_ID,
+      };
+    }
+  } catch {
+    // ignore cache parse errors
+  }
+  return { activeTab: DEFAULT_TAB, selectedPointId: DEFAULT_POINT_ID };
+}
 
 interface CapacityExperimentProps {
   id?: string;
@@ -12,25 +33,58 @@ interface CapacityExperimentProps {
 export const CapacityExperiment: React.FC<CapacityExperimentProps> = ({
   id = 'capacity-experiment-sweep',
 }) => {
+  const reducedMotion = useReducedMotion();
+  const initialCache = useMemo(() => loadCachedCapacityState(), []);
   const [retention] = useState<number>(0.95);
   const [writeStrength] = useState<number>(0.8);
-  const [activeTab, setActiveTab] = useState<'accuracy' | 'confidence'>('accuracy');
-  const [selectedPointId, setSelectedPointId] = useState<string>('dim-16-facts-4');
+  const [activeTab, setActiveTab] = useState<'accuracy' | 'confidence'>(initialCache.activeTab);
+  const [selectedPointId, setSelectedPointId] = useState<string>(initialCache.selectedPointId);
   const [runCounter, setRunCounter] = useState<number>(1);
   const [isSweeping, setIsSweeping] = useState<boolean>(false);
+  const [resetNotice, setResetNotice] = useState<string | null>(null);
+
+  useEffect(() => {
+    try {
+      if (activeTab === DEFAULT_TAB && selectedPointId === DEFAULT_POINT_ID) {
+        localStorage.removeItem(CAPACITY_CACHE_KEY);
+      } else {
+        localStorage.setItem(
+          CAPACITY_CACHE_KEY,
+          JSON.stringify({ activeTab, selectedPointId })
+        );
+      }
+    } catch {
+      // ignore storage errors
+    }
+  }, [activeTab, selectedPointId]);
 
   // Run the reproducible sweep
   const benchmarkResults = useMemo(() => {
-    // runCounter ensures clean re-triggering when "RUN SWEEP AGAIN" is clicked
+    // runCounter ensures clean re-triggering when "Re-run deterministic sweep" or "Reset" is clicked
     return runCapacitySweep(BENCHMARK_DIMENSIONS, BENCHMARK_FACT_COUNTS, retention, writeStrength);
   }, [runCounter, retention, writeStrength]);
 
   const handleRunSweepAgain = useCallback(() => {
     setIsSweeping(true);
+    setResetNotice(null);
     setTimeout(() => {
       setRunCounter((c) => c + 1);
       setIsSweeping(false);
-    }, 250);
+    }, 220);
+  }, []);
+
+  const handleResetBaseline = useCallback(() => {
+    try {
+      localStorage.removeItem(CAPACITY_CACHE_KEY);
+    } catch {
+      // ignore storage errors
+    }
+    setActiveTab(DEFAULT_TAB);
+    setSelectedPointId(DEFAULT_POINT_ID);
+    setIsSweeping(false);
+    setRunCounter(1);
+    setResetNotice('Baseline restored (D=16 · N=4)');
+    window.setTimeout(() => setResetNotice(null), 2400);
   }, []);
 
   const selectedPoint = useMemo<SweepPointResult | undefined>(() => {
@@ -87,19 +141,36 @@ export const CapacityExperiment: React.FC<CapacityExperimentProps> = ({
           </p>
         </div>
 
-        <button
-          type="button"
-          onClick={handleRunSweepAgain}
-          disabled={isSweeping}
-          className="btn-secondary text-xs disabled:opacity-50"
-        >
-          {isSweeping ? (
-            <RotateCcw className="w-3.5 h-3.5 animate-spin" />
-          ) : (
-            <Play className="w-3.5 h-3.5 fill-current" />
+        <div className="flex flex-wrap items-center gap-2">
+          {resetNotice && (
+            <span className="font-mono text-[11px] text-[var(--color-success)]" role="status" aria-live="polite">
+              {resetNotice}
+            </span>
           )}
-          <span>Re-run deterministic sweep</span>
-        </button>
+          <button
+            type="button"
+            onClick={handleResetBaseline}
+            className="btn-secondary text-xs min-h-[36px]"
+            title="Clear local cached selection and restore initial baseline"
+            aria-label="Reset capacity experiment"
+          >
+            <RotateCcw className="w-3.5 h-3.5" />
+            <span>Reset</span>
+          </button>
+          <button
+            type="button"
+            onClick={handleRunSweepAgain}
+            disabled={isSweeping}
+            className="btn-secondary text-xs disabled:opacity-50 min-h-[36px]"
+          >
+            {isSweeping ? (
+              <RotateCcw className="w-3.5 h-3.5 animate-spin" />
+            ) : (
+              <Play className="w-3.5 h-3.5 fill-current" />
+            )}
+            <span>Re-run deterministic sweep</span>
+          </button>
+        </div>
       </div>
 
       {/* Metric Mode Underline Toggle */}
@@ -134,10 +205,10 @@ export const CapacityExperiment: React.FC<CapacityExperimentProps> = ({
         </span>
       </div>
 
-      {/* Main Interactive Chart Grid */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
-        {/* Left 2 Cols: SVG Curves */}
-        <div className="lg:col-span-2 flex flex-col">
+      {/* Main Interactive Chart Grid (Wide Chart Prominence) */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+        {/* Left 8 Cols: SVG Curves */}
+        <div className="lg:col-span-8 flex flex-col">
           <div className="flex items-center justify-between mb-2 font-mono text-[11px] text-[var(--mm-muted)]">
             <span>
               {activeTab === 'accuracy' ? 'RETRIEVAL ACCURACY (% CORRECT)' : 'MEAN RETRIEVAL SCORE (%)'}
@@ -149,7 +220,7 @@ export const CapacityExperiment: React.FC<CapacityExperimentProps> = ({
             <svg
               viewBox={`0 0 ${svgWidth} ${svgHeight}`}
               className="w-full h-auto select-none"
-              style={{ minWidth: '480px' }}
+              style={{ minWidth: '460px' }}
             >
               {/* Y-axis grid lines */}
               {[0, 25, 50, 75, 100].map((val) => {
@@ -232,37 +303,76 @@ export const CapacityExperiment: React.FC<CapacityExperimentProps> = ({
                 const col = dimColors[dim];
 
                 return (
-                  <g key={dim}>
-                    <path
+                  <g key={`${dim}-${activeTab}-${runCounter}`}>
+                    <motion.path
                       d={pathD}
                       fill="none"
                       stroke={col.stroke}
                       strokeWidth="2.5"
                       strokeLinecap="round"
                       strokeLinejoin="round"
+                      initial={reducedMotion ? false : { pathLength: 0.15, opacity: 0.45 }}
+                      whileInView={{ pathLength: 1, opacity: 1 }}
+                      viewport={{ once: true, amount: 0.25 }}
+                      transition={{ duration: reducedMotion ? 0 : 0.72, ease: [0.22, 1, 0.36, 1] }}
                     />
-                    {dimPoints.map((p) => {
+                    {dimPoints.map((p, pIdx) => {
                       const x = xCoords[p.factCount];
                       const val = activeTab === 'accuracy' ? p.accuracy : p.meanConfidence;
                       const y = getYCoord(val);
                       const isSelected = selectedPointId === p.id;
+                      const pointStateKey = `${p.id}-${activeTab}-${runCounter}-${retention}-${writeStrength}`;
 
                       return (
-                        <circle
-                          key={p.id}
-                          cx={x}
-                          cy={y}
-                          r={isSelected ? 6.5 : 4}
-                          fill={isSelected ? 'var(--surface)' : col.stroke}
-                          stroke={col.stroke}
-                          strokeWidth={isSelected ? 3 : 1.5}
-                          className="cursor-pointer transition-all hover:scale-125"
+                        <g
+                          key={pointStateKey}
+                          className="cursor-pointer"
                           onClick={() => setSelectedPointId(p.id)}
                         >
-                          <title>
-                            Dim D={p.dimension}, Facts={p.factCount}: Acc={p.accuracy}%, Conf={p.meanConfidence}%
-                          </title>
-                        </circle>
+                          {/* Subtle state-driven pulse halo on sweep / metric update */}
+                          {!reducedMotion && (
+                            <motion.circle
+                              cx={x}
+                              cy={y}
+                              r={isSelected ? 10 : 7}
+                              fill="none"
+                              stroke={col.stroke}
+                              strokeWidth={1.25}
+                              initial={{ scale: 0.65, opacity: 0.65 }}
+                              animate={{ scale: 1.35, opacity: 0 }}
+                              transition={{
+                                duration: 0.52,
+                                delay: pIdx * 0.045,
+                                ease: [0.22, 1, 0.36, 1],
+                              }}
+                              style={{ transformBox: 'fill-box', transformOrigin: 'center' }}
+                            />
+                          )}
+                          <motion.circle
+                            cx={x}
+                            cy={y}
+                            r={isSelected ? 6.5 : 4}
+                            fill={isSelected ? 'var(--surface)' : col.stroke}
+                            stroke={col.stroke}
+                            strokeWidth={isSelected ? 3 : 1.5}
+                            initial={reducedMotion ? false : { scale: 0.72, opacity: 0.55 }}
+                            animate={{
+                              scale: isSelected ? 1.08 : 1,
+                              opacity: 1,
+                            }}
+                            whileHover={reducedMotion ? undefined : { scale: 1.25 }}
+                            transition={{
+                              duration: reducedMotion ? 0 : 0.32,
+                              delay: reducedMotion ? 0 : pIdx * 0.035,
+                              ease: [0.22, 1, 0.36, 1],
+                            }}
+                            style={{ transformBox: 'fill-box', transformOrigin: 'center' }}
+                          >
+                            <title>
+                              Dim D={p.dimension}, Facts={p.factCount}: Acc={p.accuracy}%, Conf={p.meanConfidence}%
+                            </title>
+                          </motion.circle>
+                        </g>
                       );
                     })}
                   </g>
@@ -288,9 +398,9 @@ export const CapacityExperiment: React.FC<CapacityExperimentProps> = ({
           </div>
         </div>
 
-        {/* Right Col: Selected Point Inspection */}
+        {/* Right 4 Cols: Selected Point Inspection */}
         {selectedPoint && (
-          <div className="border-t lg:border-t-0 lg:border-l border-[var(--mm-rule)] pt-4 lg:pt-0 lg:pl-6 flex flex-col justify-between">
+          <div className="lg:col-span-4 border-t lg:border-t-0 lg:border-l border-[var(--mm-rule)] pt-4 lg:pt-0 lg:pl-6 flex flex-col justify-between">
             <div>
               <div className="flex items-center justify-between border-b border-[var(--mm-rule)] pb-2.5 mb-4">
                 <span className="font-sans text-xs font-semibold text-[var(--mm-signal)]">

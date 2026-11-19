@@ -1,4 +1,5 @@
 import React, { useState, useMemo } from 'react';
+import { motion, useReducedMotion } from 'motion/react';
 import {
   Play,
   CheckCircle2,
@@ -13,6 +14,7 @@ import { markMilestoneCompleted } from '../utils/progressTracker';
 import { FigureCaption } from './essay/FigureCaption';
 
 export const FinalChallenge: React.FC = () => {
+  const reducedMotion = useReducedMotion();
   const [currentRound, setCurrentRound] = useState<number>(1);
   const [userPrediction, setUserPrediction] = useState<string | null>(null);
   const [testRevealed, setTestRevealed] = useState<boolean>(false);
@@ -167,7 +169,13 @@ export const FinalChallenge: React.FC = () => {
         </div>
       </div>
 
-      <div className="essay-figure-stage px-5 sm:px-8 py-6 text-[var(--mm-ink)] space-y-6">
+      <motion.div
+        key={`challenge-round-${currentRound}`}
+        initial={reducedMotion ? false : { opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+        className="essay-figure-stage px-5 sm:px-8 py-6 text-[var(--mm-ink)] space-y-6"
+      >
         {/* ROUND 1: Blind Capacity & Retention */}
         {currentRound === 1 && (
           <div className="space-y-6 animate-in fade-in">
@@ -577,7 +585,7 @@ export const FinalChallenge: React.FC = () => {
           title="Three-round empirical boundary probe comparing 8D, 16D, and 32D correlated regimes across 12 sequential associations."
           source="Live Toy Computation"
         />
-      </div>
+      </motion.div>
     </section>
   );
 };

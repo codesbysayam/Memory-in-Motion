@@ -1,4 +1,5 @@
 import React, { useState, useMemo } from 'react';
+import { motion, useReducedMotion } from 'motion/react';
 import { ArrowRight } from 'lucide-react';
 import { BDHToyModel } from '../models/bdhToyModel';
 import { SectionHeader } from './ui/SectionHeader';
@@ -12,6 +13,7 @@ import { ClaimEvidenceLimitation } from './ClaimEvidenceLimitation';
 import { FigureCaption } from './essay/FigureCaption';
 
 export const Section08BDHArchitecture: React.FC = () => {
+  const reducedMotion = useReducedMotion();
   const [numNeurons, setNumNeurons] = useState<16 | 24 | 32 | 64>(24);
   const [selectedNeuronId, setSelectedNeuronId] = useState<number>(2);
   const [selectedSynapseId, setSelectedSynapseId] = useState<number | null>(null);
@@ -243,7 +245,7 @@ export const Section08BDHArchitecture: React.FC = () => {
               <div className="flex items-center justify-center p-4 bg-[var(--mm-paper-bright)] rounded-md border border-[var(--mm-rule)] relative overflow-x-auto">
                 <svg width="340" height="340" className="overflow-visible select-none">
                   {/* Synapse Lines */}
-                  {bdhNetwork.synapses.map((syn) => {
+                  {bdhNetwork.synapses.map((syn, synIdx) => {
                     const sNode = bdhNetwork.neurons.find((n) => n.id === syn.source);
                     const tNode = bdhNetwork.neurons.find((n) => n.id === syn.target);
                     if (!sNode || !tNode) return null;
@@ -262,8 +264,8 @@ export const Section08BDHArchitecture: React.FC = () => {
                     const strokeOpacity = isSynSelected ? 1.0 : isConnected ? 0.9 : 0.45;
 
                     return (
-                      <line
-                        key={syn.id}
+                      <motion.line
+                        key={`${syn.id}-${numNeurons}-${inputPattern}`}
                         onClick={() => setSelectedSynapseId(syn.id)}
                         x1={sNode.x}
                         y1={sNode.y}
@@ -271,14 +273,20 @@ export const Section08BDHArchitecture: React.FC = () => {
                         y2={tNode.y}
                         stroke={strokeColor}
                         strokeWidth={strokeWidth}
-                        strokeOpacity={strokeOpacity}
-                        className="cursor-pointer transition-all"
+                        initial={reducedMotion ? false : { pathLength: 0.15, opacity: 0.1 }}
+                        animate={{ pathLength: 1, opacity: strokeOpacity }}
+                        transition={{
+                          duration: reducedMotion ? 0 : 0.48,
+                          delay: reducedMotion ? 0 : Math.min(0.45, synIdx * 0.006),
+                          ease: [0.22, 1, 0.36, 1],
+                        }}
+                        className="cursor-pointer"
                       />
                     );
                   })}
 
                   {/* Neuron Nodes */}
-                  {bdhNetwork.neurons.map((neuron) => {
+                  {bdhNetwork.neurons.map((neuron, nIdx) => {
                     const isSelected = neuron.id === selectedNeuronId;
                     const radius = isSelected ? 12 : 8;
                     const isActive = neuron.activation > 0.05;
@@ -311,7 +319,7 @@ export const Section08BDHArchitecture: React.FC = () => {
                           />
                         )}
 
-                        <circle
+                        <motion.circle
                           cx={neuron.x}
                           cy={neuron.y}
                           r={radius}
@@ -319,6 +327,14 @@ export const Section08BDHArchitecture: React.FC = () => {
                           fillOpacity={isActive ? fillOpacity : 0.2}
                           stroke={isSelected ? 'var(--text-primary)' : isActive ? fillColor : 'var(--text-muted)'}
                           strokeWidth={isSelected ? 2 : 1}
+                          initial={reducedMotion ? false : { scale: 0.7, opacity: 0.3 }}
+                          animate={{ scale: 1, opacity: 1 }}
+                          transition={{
+                            duration: reducedMotion ? 0 : 0.32,
+                            delay: reducedMotion ? 0 : Math.min(0.36, nIdx * 0.012),
+                            ease: [0.22, 1, 0.36, 1],
+                          }}
+                          style={{ transformBox: 'fill-box', transformOrigin: 'center' }}
                         />
 
                         {numNeurons <= 32 && (

@@ -10,6 +10,13 @@ import { ConceptGlossaryDrawer } from './components/ConceptGlossaryDrawer';
 import { ShortcutsHelpModal } from './components/ui/ShortcutsHelpModal';
 import { useKeyboardShortcuts } from './hooks/useKeyboardShortcuts';
 import { getCompletedMilestones } from './utils/progressTracker';
+import {
+  EditorialAtmosphere,
+  EditorialPageTransition,
+  EditorialRevealObserver,
+  EditorialScrollProgress,
+  ChapterKicker,
+} from './components/EditorialMotion';
 
 // Components mapped to the 7 learning stages
 import { LandingDemo } from './components/LandingDemo';
@@ -20,6 +27,7 @@ import { Section04InterferenceLab } from './components/Section04InterferenceLab'
 import { ErrorBoundary } from './components/ErrorBoundary';
 import { reexecuteLastValidExperiment } from './models/interferenceLabEngine';
 import { Section05FindTheFailure } from './components/Section05FindTheFailure';
+import { MemorySurgery } from './components/MemorySurgery';
 import { SectionMeasure } from './components/SectionMeasure';
 import { Section06WhyThisMatters } from './components/Section06WhyThisMatters';
 import { Section07MeetBDH } from './components/Section07MeetBDH';
@@ -141,6 +149,9 @@ function AppContent() {
 
   return (
     <div className="min-h-screen bg-[var(--page-bg)] text-[var(--text-primary)] font-sans selection:bg-[var(--accent-blue)] selection:text-[var(--accent-blue-text)]">
+      <EditorialAtmosphere />
+      <EditorialScrollProgress />
+      <EditorialRevealObserver />
       {/* Navigation Bar */}
       <ResearchNav
         currentPage={currentPage}
@@ -197,19 +208,20 @@ function AppContent() {
         <div
           role="status"
           aria-live="polite"
-          className="fixed bottom-5 right-5 z-50 px-3.5 py-2 rounded-md border border-[var(--mm-rule-strong)] bg-[var(--surface)] text-[var(--text-primary)] font-mono text-xs shadow-[var(--shadow-popover)] pointer-events-none no-print"
+          className="fixed top-16 right-4 sm:right-6 z-50 px-3 py-1.5 rounded-sm border border-[var(--mm-rule-strong)] bg-[var(--mm-paper-bright)] text-[var(--text-primary)] font-mono text-xs shadow-[var(--shadow-popover)] pointer-events-none no-print"
         >
           {shortcutFeedback}
         </div>
       )}
 
       {/* 7 Educational Stages */}
-      <main className="w-full flex-1">
+      <EditorialPageTransition pageKey={currentPage}>
+        <main className="w-full flex-1">
           {/* ============================================================ */}
           {/* PAGE 1: MEMORY                                               */}
           {/* ============================================================ */}
           {currentPage === 'memory' && (
-            <div className="animate-in fade-in duration-300 w-full">
+            <div className="chapter-page chapter-page--memory w-full" data-chapter="01">
               <LandingDemo
                 onExploreClick={() => {
                   const el = document.getElementById('section-01');
@@ -236,24 +248,27 @@ function AppContent() {
           )}
 
           {/* ============================================================ */}
-          {/* PAGE 2: BREAK                                                */}
+          {/* PAGE 2: BREAK (DARK LABORATORY THEATRE OPENING)              */}
           {/* ============================================================ */}
           {currentPage === 'break' && (
-            <div className="animate-in fade-in duration-300 w-full">
-              <header className="w-full border-b border-[var(--mm-rule)] bg-[var(--page-bg)]">
-                <div className="research-container py-12 sm:py-16">
-                  <div className="space-y-4 max-w-3xl">
-                    <div className="essay-eyebrow">
-                      <span className="text-[var(--mm-coral)] font-semibold">Stage 02</span>
-                      <span className="mx-2 text-[var(--mm-rule-strong)]">·</span>
-                      <span>Interference &amp; stress-testing</span>
+            <div className="chapter-page chapter-page--break w-full" data-chapter="02">
+              <header className="w-full essay-night-band border-b border-[var(--mm-rule)]">
+                <div className="research-container py-10 sm:py-14">
+                  <div className="essay-stage-wide grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-10 items-end">
+                    <div className="lg:col-span-8 space-y-3">
+                      <ChapterKicker
+                        number="02 / BREAK"
+                        label="From Ch. 01 · Constant space forces shared coordinates"
+                      />
+                      <h1 className="essay-stage-title">
+                        Where does compression break?
+                      </h1>
                     </div>
-                    <h1 className="essay-stage-title">
-                      When compression collides.
-                    </h1>
-                    <p className="essay-lead">
-                      Tune decay, shrink state dimension, and inject overlapping keys to locate the exact threshold where fixed-size associative memory begins to cross-talk.
-                    </p>
+                    <div className="lg:col-span-4 lg:border-l lg:border-[var(--mm-rule)] lg:pl-6">
+                      <p className="text-sm text-[var(--text-secondary)] font-sans leading-relaxed">
+                        Walk through the five control knobs below—shrink dimension <span className="font-mono">D</span>, pack more facts, or dial down retention—and locate the exact collision boundary.
+                      </p>
+                    </div>
                   </div>
                 </div>
               </header>
@@ -280,38 +295,46 @@ function AppContent() {
                 onNavigate={handlePageChange}
                 prevPage="memory"
                 nextPage="trace"
-                ctaText="Find the failure →"
-                subtext="Next: Inspect what actually happened inside the coordinates."
+                ctaText="Inspect the trace →"
+                subtext="Next: Open the matrix mid-stream to inspect every ΔM coordinate update."
               />
             </div>
           )}
 
           {/* ============================================================ */}
-          {/* PAGE 3: TRACE                                                */}
+          {/* PAGE 3: TRACE (NIGHT-TONED FORENSIC BAND OPENING)            */}
           {/* ============================================================ */}
           {currentPage === 'trace' && (
-            <div className="animate-in fade-in duration-300 w-full">
-              <header className="w-full border-b border-[var(--mm-rule)] bg-[var(--page-bg)]">
+            <div className="chapter-page chapter-page--trace w-full" data-chapter="03">
+              <header className="w-full essay-night-band border-b border-[var(--mm-rule)]">
                 <div className="research-container py-12 sm:py-16">
-                  <div className="space-y-4 max-w-3xl">
-                    <div className="essay-eyebrow">
-                      <span className="text-[var(--mm-signal)] font-semibold">Stage 03</span>
-                      <span className="mx-2 text-[var(--mm-rule-strong)]">·</span>
-                      <span>Coordinate diagnostics &amp; interventions</span>
-                    </div>
-                    <h1 className="essay-stage-title">
+                  <div className="essay-column text-center space-y-4">
+                    <ChapterKicker
+                      number="03 / TRACE"
+                      label="From Ch. 02 · After the collision flips readout"
+                      centered
+                    />
+                    <h1 className="essay-stage-title mx-auto">
                       Inside the state update.
                     </h1>
-                    <p className="essay-lead">
-                      Follow the sequence step by step. Inspect per-write coordinate shifts (ΔM), run counterfactual Memory Surgery, and isolate the moment a fact is overwritten.
+                    <p className="essay-lead mx-auto">
+                      Step backward and forward through the exact outer-product updates (<span className="font-mono">ΔM</span>), run counterfactual Memory Surgery, and isolate the write that overwrote Tokyo.
                     </p>
                   </div>
                 </div>
               </header>
 
-              <div className="research-container py-6 space-y-8">
+              <div className="essay-night-band border-b border-[var(--mm-rule)] py-8">
+                <div className="research-container">
+                  <Page03TraceInteractions />
+                </div>
+              </div>
+
+              <div className="research-container py-8 space-y-12">
                 <Section05FindTheFailure />
-                <Page03TraceInteractions />
+                <div className="pt-8 border-t border-[var(--mm-rule)]">
+                  <MemorySurgery />
+                </div>
               </div>
 
               <PageFooterCta
@@ -319,31 +342,45 @@ function AppContent() {
                 onNavigate={handlePageChange}
                 prevPage="break"
                 nextPage="measure"
-                ctaText="Measure it →"
-                subtext="Next: Quantify capacity bounds across dimensions."
+                ctaText="Measure capacity →"
+                subtext="Next: Quantify empirical retrieval bounds across dimensions D."
               />
             </div>
           )}
 
           {/* ============================================================ */}
-          {/* PAGE 4: MEASURE                                              */}
+          {/* PAGE 4: MEASURE (WIDE DATA STORY OPENING)                    */}
           {/* ============================================================ */}
           {currentPage === 'measure' && (
-            <div className="animate-in fade-in duration-300 w-full">
+            <div className="chapter-page chapter-page--measure w-full" data-chapter="04">
               <header className="w-full border-b border-[var(--mm-rule)] bg-[var(--page-bg)]">
-                <div className="research-container py-12 sm:py-16">
-                  <div className="space-y-4 max-w-3xl">
-                    <div className="essay-eyebrow">
-                      <span className="text-[var(--mm-teal)] font-semibold">Stage 04</span>
-                      <span className="mx-2 text-[var(--mm-rule-strong)]">·</span>
-                      <span>Empirical capacity &amp; scaling</span>
-                    </div>
-                    <h1 className="essay-stage-title">
-                      How much fits before it fades.
+                <div className="research-container py-12 sm:py-16 space-y-8">
+                  <div className="essay-stage-wide space-y-4">
+                    <ChapterKicker
+                      number="04 / MEASURE"
+                      label="From Ch. 03 · Scaling laws of superposition"
+                    />
+                    <h1 className="essay-stage-title max-w-4xl">
+                      How much fits before it fades?
                     </h1>
                     <p className="essay-lead">
-                      Measure retrieval accuracy across state dimensions D, track Frobenius norm drift, and test theoretical O(D) capacity bounds against live runs.
+                      Across runs, one scaling law governs fixed-size superposition: doubling dimension <span className="font-mono">D</span> buys roughly linear room for distinct bindings before crosstalk takes over.
                     </p>
+                  </div>
+
+                  <div className="essay-stage-wide grid grid-cols-1 sm:grid-cols-3 divide-y sm:divide-y-0 sm:divide-x divide-[var(--mm-rule)] border-y border-[var(--mm-rule)] py-4 text-xs font-mono">
+                    <div className="py-2 sm:pr-6">
+                      <span className="text-[var(--text-muted)] block">EMPIRICAL SCALING</span>
+                      <span className="text-[var(--text-primary)] font-semibold text-sm">O(D) quasi-orthogonal bound</span>
+                    </div>
+                    <div className="py-2 sm:px-6">
+                      <span className="text-[var(--text-muted)] block">STATE FOOTPRINT</span>
+                      <span className="text-[var(--text-primary)] font-semibold text-sm">Constant D×D regardless of T</span>
+                    </div>
+                    <div className="py-2 sm:pl-6">
+                      <span className="text-[var(--text-muted)] block">INSPECTABLE EVIDENCE</span>
+                      <span className="text-[var(--text-primary)] font-semibold text-sm">Charts + CSV/Table fallback</span>
+                    </div>
                   </div>
                 </div>
               </header>
@@ -359,31 +396,37 @@ function AppContent() {
                 onNavigate={handlePageChange}
                 prevPage="trace"
                 nextPage="bdh"
-                ctaText="Now connect the idea →"
-                subtext="Next: From vector matrix state to synaptic neural networks."
+                ctaText="Explore BDH synapses →"
+                subtext="Next: Moving memory from dense matrices to sparse plastic graphs."
               />
             </div>
           )}
 
           {/* ============================================================ */}
-          {/* PAGE 5: BDH                                                  */}
+          {/* PAGE 5: BDH (ARCHITECTURAL EXPLAINER OPENING)                */}
           {/* ============================================================ */}
           {currentPage === 'bdh' && (
-            <div className="animate-in fade-in duration-300 w-full">
-              <header className="w-full border-b border-[var(--mm-rule)] bg-[var(--page-bg)]">
+            <div className="chapter-page chapter-page--bdh w-full" data-chapter="05">
+              <header className="w-full border-b border-[var(--mm-rule)] bg-[var(--mm-paper-bright)]">
                 <div className="research-container py-12 sm:py-16">
-                  <div className="space-y-4 max-w-3xl">
-                    <div className="essay-eyebrow">
-                      <span className="text-[var(--mm-amber)] font-semibold">Stage 05</span>
-                      <span className="mx-2 text-[var(--mm-rule-strong)]">·</span>
-                      <span>Architecture · Pathway Dragon Hatchling</span>
+                  <div className="essay-stage-wide grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+                    <div className="lg:col-span-7 space-y-4">
+                      <ChapterKicker
+                        number="05 / BDH"
+                        label="From Ch. 04 · Beyond dense D×D matrices"
+                      />
+                      <h1 className="essay-stage-title">
+                        From dense matrices to plastic synapses.
+                      </h1>
                     </div>
-                    <h1 className="essay-stage-title">
-                      From dense matrices to plastic synapses.
-                    </h1>
-                    <p className="essay-lead">
-                      How Pathway’s Dragon Hatchling (BDH) replaces dense recurrent mixing with sparse, scale-free particle graphs governed by local Hebbian plasticity.
-                    </p>
+                    <div className="lg:col-span-5 space-y-2.5 lg:pt-8 text-sm text-[var(--text-secondary)] font-sans leading-relaxed">
+                      <p>
+                        Pathway&apos;s Dragon Hatchling (BDH, <span className="font-mono text-xs">arXiv:2509.26507</span>) distributes working memory across sparse edges of a scale-free particle graph with local Hebbian plasticity.
+                      </p>
+                      <p className="text-xs font-mono text-[var(--text-muted)]">
+                        Note: Interactive simulations below separate educational toy models from published Pathway equations.
+                      </p>
+                    </div>
                   </div>
                 </div>
               </header>
@@ -402,30 +445,29 @@ function AppContent() {
                 onNavigate={handlePageChange}
                 prevPage="measure"
                 nextPage="reason"
-                ctaText="Explore recurrent reasoning →"
-                subtext="Next: Latent dynamics and thinking without token output."
+                ctaText="Explore latent reasoning →"
+                subtext="Next: How BDH-CQ relaxes across synapses before emitting tokens."
               />
             </div>
           )}
 
           {/* ============================================================ */}
-          {/* PAGE 6: REASON                                               */}
+          {/* PAGE 6: REASON (QUIET READING COLUMN OPENING)                */}
           {/* ============================================================ */}
           {currentPage === 'reason' && (
-            <div className="animate-in fade-in duration-300 w-full">
+            <div className="chapter-page chapter-page--reason w-full" data-chapter="06">
               <header className="w-full border-b border-[var(--mm-rule)] bg-[var(--page-bg)]">
                 <div className="research-container py-12 sm:py-16">
-                  <div className="space-y-4 max-w-3xl">
-                    <div className="essay-eyebrow">
-                      <span className="text-[var(--mm-signal)] font-semibold">Stage 06</span>
-                      <span className="mx-2 text-[var(--mm-rule-strong)]">·</span>
-                      <span>Latent dynamics &amp; BDH-CQ</span>
-                    </div>
+                  <div className="essay-column space-y-4">
+                    <ChapterKicker
+                      number="06 / REASON"
+                      label="From Ch. 05 · Latent relaxation & synthesis"
+                    />
                     <h1 className="essay-stage-title">
                       Reasoning without token emission.
                     </h1>
                     <p className="essay-lead">
-                      Instead of thinking only out loud through discrete tokens, inspect how BDH-CQ iterates continuously across plastic synapses before emitting an answer.
+                      Instead of thinking only out loud through discrete tokens, inspect how BDH-CQ iterates continuously across plastic synapses before committing to an output.
                     </p>
                   </div>
                 </div>
@@ -443,30 +485,30 @@ function AppContent() {
                 onNavigate={handlePageChange}
                 prevPage="bdh"
                 nextPage="prove"
-                ctaText="Prove what you learned →"
-                subtext="Final Stage: Guided evaluation, prediction challenges, and your Certificate."
+                ctaText="Verify understanding →"
+                subtext="Final Chapter: Focused predictions, empirical verification, and certificate."
               />
             </div>
           )}
 
           {/* ============================================================ */}
-          {/* PAGE 7: PROVE                                                */}
+          {/* PAGE 7: PROVE (FOCUSED SINGLE-QUESTION CLIMAX)               */}
           {/* ============================================================ */}
           {currentPage === 'prove' && (
-            <div className="animate-in fade-in duration-300 w-full">
+            <div className="chapter-page chapter-page--prove w-full" data-chapter="07">
               <header className="w-full border-b border-[var(--mm-rule)] bg-[var(--page-bg)]">
                 <div className="research-container py-12 sm:py-16">
-                  <div className="space-y-4 max-w-3xl">
-                    <div className="essay-eyebrow">
-                      <span className="text-[var(--mm-teal)] font-semibold">Stage 07</span>
-                      <span className="mx-2 text-[var(--mm-rule-strong)]">·</span>
-                      <span>Synthesis &amp; verification</span>
-                    </div>
-                    <h1 className="essay-stage-title">
-                      Demonstrate your understanding.
+                  <div className="essay-column text-center space-y-4">
+                    <ChapterKicker
+                      number="07 / PROVE"
+                      label="Final verification & synthesis"
+                      centered
+                    />
+                    <h1 className="essay-stage-title mx-auto">
+                      Predict the state before it runs.
                     </h1>
-                    <p className="essay-lead">
-                      Predict the state. Trace the update. Explain the trade-off. Verify predictions against live matrix computations and unlock your research certificate.
+                    <p className="essay-lead mx-auto">
+                      Test your intuition one question at a time against live matrix computations, trace the causal taxonomy, and claim your laboratory certificate.
                     </p>
                   </div>
                 </div>
@@ -545,6 +587,7 @@ function AppContent() {
             </div>
           )}
         </main>
+      </EditorialPageTransition>
 
         {/* Client-Side Cookie & Privacy Preferences Banner */}
         <CookieConsentBanner />

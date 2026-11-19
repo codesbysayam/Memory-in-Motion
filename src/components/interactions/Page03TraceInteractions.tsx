@@ -1,7 +1,9 @@
 import React, { useState, useEffect, useMemo } from 'react';
+import { motion, useReducedMotion } from 'motion/react';
 import {
   Play,
   Pause,
+  SkipBack,
   SkipForward,
   RotateCcw,
 } from 'lucide-react';
@@ -10,6 +12,7 @@ import { InlineMath } from '../ui/MathView';
 import { FigureCaption } from '../essay/FigureCaption';
 
 export const Page03TraceInteractions: React.FC = () => {
+  const reducedMotion = useReducedMotion();
   const dim = 8;
   const facts: Fact[] = useMemo(() => CANONICAL_FACTS.slice(0, 6), []);
 
@@ -106,42 +109,74 @@ export const Page03TraceInteractions: React.FC = () => {
     return { beforeVal, afterVal, deltaVal };
   }, [selectedCoord, currentStep, recordedSteps, initialSnapshot, activeSnapshot]);
 
+  const stepExplanation = useMemo(() => {
+    if (currentStep === 0) {
+      return 'Step t = 0 (Blank State): Every coordinate in M_0 is initialized to 0.000. No associations have been compressed yet.';
+    }
+    const prevNorm = recordedSteps[currentStep - 1]?.norm ?? 0;
+    const normDelta = activeSnapshot.norm - prevNorm;
+    const factLabel = activeSnapshot.fact ? `${activeSnapshot.fact.key} → ${activeSnapshot.fact.value}` : 'fact';
+    return `Step t = ${currentStep} (${factLabel}): Existing matrix weights were scaled by λ = 0.95, then added rank-1 outer product η k vᵀ (η = 0.80). Frobenius norm shifted by ${normDelta >= 0 ? '+' : ''}${normDelta.toFixed(3)} to ${activeSnapshot.norm.toFixed(3)}.`;
+  }, [currentStep, recordedSteps, activeSnapshot]);
+
   return (
-    <div className="space-y-8 mt-8">
-      {/* 1. TIMELINE SCRUBBER & ANIMATION CONTROLLER */}
+    <div className="space-y-8 mt-4">
+      {/* 1. TIMELINE SCRUBBER & MANUAL STEP CONTROLLER */}
       <figure className="essay-figure-stage p-5 sm:p-7 space-y-5">
         <div className="flex flex-wrap items-baseline justify-between gap-3 border-b border-[var(--mm-rule)] pb-4">
           <div>
             <span className="font-mono text-[11px] uppercase tracking-[0.14em] text-[var(--mm-signal)] font-semibold block mb-1">
-              Fig. 3.1 · Timeline scrubber &amp; replay
+              Fig. 3.1 · Forensic timeline scrubber &amp; manual trace
             </span>
             <h3 className="font-serif text-lg sm:text-xl font-normal text-[var(--mm-ink)]">
-              Walk backward through saved matrices without recalculating
+              Step forward and backward through saved matrices without recalculating
             </h3>
             <p className="text-xs text-[var(--mm-muted)] mt-1">
-              Drag the scrubber to inspect recorded states across sequence ingestion (<InlineMath math="t_0 \rightarrow t_N" />).
+              Use manual Step Back / Step Forward controls or drag the scrubber across sequence ingestion (<InlineMath math="t_0 \rightarrow t_N" />).
             </p>
           </div>
 
-          {/* Animation Controls */}
-          <div className="flex items-center gap-2">
+          {/* Manual Step + Playback Controls */}
+          <div className="flex flex-wrap items-center gap-2">
+            <button
+              type="button"
+              onClick={() => {
+                setIsPlaying(false);
+                setCurrentStep((prev) => Math.max(0, prev - 1));
+              }}
+              disabled={currentStep <= 0}
+              className="btn-secondary text-xs disabled:opacity-40"
+              title="Step backward one write"
+              aria-label="Step backward"
+            >
+              <SkipBack className="w-3.5 h-3.5" />
+              <span>Back</span>
+            </button>
+
+            <button
+              type="button"
+              onClick={() => {
+                setIsPlaying(false);
+                setCurrentStep((prev) => Math.min(prev + 1, recordedSteps.length - 1));
+              }}
+              disabled={currentStep >= recordedSteps.length - 1}
+              className="btn-secondary text-xs disabled:opacity-40"
+              title="Step forward one write"
+              aria-label="Step forward"
+            >
+              <span>Forward</span>
+              <SkipForward className="w-3.5 h-3.5" />
+            </button>
+
             <button
               type="button"
               onClick={() => setIsPlaying(!isPlaying)}
               className="btn-primary text-xs"
             >
               {isPlaying ? <Pause className="w-3.5 h-3.5" /> : <Play className="w-3.5 h-3.5" />}
-              <span>{isPlaying ? 'Pause' : 'Play trajectory'}</span>
+              <span>{isPlaying ? 'Pause' : 'Play'}</span>
             </button>
-            <button
-              type="button"
-              onClick={() => setCurrentStep((prev) => Math.min(prev + 1, recordedSteps.length - 1))}
-              disabled={currentStep >= recordedSteps.length - 1}
-              className="icon-button disabled:opacity-40"
-              title="Step forward"
-            >
-              <SkipForward className="w-3.5 h-3.5" />
-            </button>
+
             <button
               type="button"
               onClick={() => {
@@ -150,11 +185,23 @@ export const Page03TraceInteractions: React.FC = () => {
               }}
               className="icon-button"
               title="Reset to t0"
+              aria-label="Reset trace to t0"
             >
               <RotateCcw className="w-3.5 h-3.5" />
             </button>
           </div>
         </div>
+
+        {/* Synchronized Static Step Explanation */}
+        <motion.div
+          key={`trace-step-${currentStep}`}
+          initial={reducedMotion ? false : { opacity: 0, y: 6 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
+          className="border-l-2 border-[var(--mm-signal)] pl-4 py-1 text-xs sm:text-sm text-[var(--text-secondary)] font-sans leading-relaxed"
+        >
+          {stepExplanation}
+        </motion.div>
 
         {/* Scrubber Range Input */}
         <div className="space-y-2">
@@ -168,6 +215,15 @@ export const Page03TraceInteractions: React.FC = () => {
             <span className="font-sans text-xs text-[var(--text-primary)]">
               {activeSnapshot.fact ? `Ingested: ${activeSnapshot.fact.key} → ${activeSnapshot.fact.value}` : 'Initial state M_0'}
             </span>
+          </div>
+
+          <div className="relative h-1.5 w-full rounded-full bg-[var(--mm-rule)] overflow-hidden mb-1">
+            <div
+              className="h-full bg-[var(--mm-signal)] transition-[width] duration-300"
+              style={{
+                width: `${(currentStep / Math.max(1, recordedSteps.length - 1)) * 100}%`,
+              }}
+            />
           </div>
 
           <input
@@ -184,9 +240,19 @@ export const Page03TraceInteractions: React.FC = () => {
 
           <div className="flex justify-between text-[11px] font-mono text-[var(--text-secondary)] tabular-nums">
             {recordedSteps.map((s) => (
-              <span key={s.step} className={s.step === currentStep ? 'font-bold text-[var(--accent-blue-text)]' : ''}>
+              <button
+                key={s.step}
+                type="button"
+                onClick={() => {
+                  setIsPlaying(false);
+                  setCurrentStep(s.step);
+                }}
+                className={`cursor-pointer hover:text-[var(--mm-ink)] ${
+                  s.step === currentStep ? 'font-bold text-[var(--accent-blue-text)] underline underline-offset-4' : ''
+                }`}
+              >
                 t_{s.step}
-              </span>
+              </button>
             ))}
           </div>
         </div>
@@ -248,7 +314,7 @@ export const Page03TraceInteractions: React.FC = () => {
                       type="button"
                       onClick={() => setSelectedCoord({ r, c })}
                       title={`Click to inspect M[${r},${c}]`}
-                      className={`h-7 rounded-sm text-[11px] font-mono tabular-nums flex items-center justify-center transition cursor-pointer ${
+                      className={`h-7 rounded-sm text-[11px] font-mono tabular-nums flex items-center justify-center transition-all duration-300 cursor-pointer ${
                         isSelected ? 'ring-2 ring-[var(--color-matrix-ink)] scale-105 z-10 font-bold' : ''
                       }`}
                       style={{
