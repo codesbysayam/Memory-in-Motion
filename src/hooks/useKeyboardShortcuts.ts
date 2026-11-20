@@ -58,16 +58,23 @@ export function useKeyboardShortcuts({
 }: UseKeyboardShortcutsOptions) {
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (isEditableTarget(e.target)) return;
       if (e.metaKey || e.ctrlKey || e.altKey) return;
 
       if (e.key === 'Escape') {
+        if (
+          document.activeElement instanceof HTMLElement &&
+          document.activeElement.closest('[role="dialog"]')
+        ) {
+          document.activeElement.blur();
+        }
         if (isHelpOpen && onCloseHelp) {
           onCloseHelp();
         }
         window.dispatchEvent(new CustomEvent('close_all_overlays'));
         return;
       }
+
+      if (isEditableTarget(e.target)) return;
 
       if (e.key === '?' || (e.key === '/' && e.shiftKey)) {
         e.preventDefault();

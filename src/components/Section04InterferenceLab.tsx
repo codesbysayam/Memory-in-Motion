@@ -922,7 +922,7 @@ export const Section04InterferenceLab: React.FC<Section04InterferenceLabProps> =
               <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[var(--mm-rule)] pb-3">
                 <div className="flex items-center gap-2">
                   <Layers className="w-4 h-4 text-[var(--accent-blue-text)]" />
-                  <span className="font-bold text-[var(--text-primary)] text-sm font-serif">
+                  <span className="font-sans font-semibold text-[var(--text-primary)] text-sm">
                     Actual recorded matrix state (<InlineMath math={`M \\in \\mathbb{R}^{${config.dimension} \\times ${config.dimension}}`} />)
                   </span>
                 </div>

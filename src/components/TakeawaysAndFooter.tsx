@@ -69,7 +69,7 @@ export const TakeawaysAndFooter: React.FC<TakeawaysAndFooterProps> = ({
                   <span className="font-mono text-xs font-semibold tabular-nums text-[var(--mm-signal)]">
                     {t.num}
                   </span>
-                  <h4 className="text-base font-serif font-medium text-[var(--mm-ink)]">
+                  <h4 className="text-base font-serif font-normal text-[var(--mm-ink)]">
                     {t.title}
                   </h4>
                 </div>

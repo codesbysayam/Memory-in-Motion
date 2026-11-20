@@ -145,8 +145,17 @@ Status: ${certData.milestonesCount}/${certData.totalMilestones} Experiments Veri
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-black/50 backdrop-blur-xs overflow-y-auto no-print">
-      <div className="relative w-full max-w-4xl bg-[var(--surface)] rounded-xl border border-[var(--border)] shadow-2xl p-5 sm:p-8 space-y-6 max-h-[92vh] overflow-y-auto text-[var(--text-primary)]">
+    <div
+      className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-black/50 backdrop-blur-xs overflow-y-auto no-print"
+      onClick={onClose}
+    >
+      <div
+        role="dialog"
+        aria-modal="true"
+        aria-label="Certificate of Completion"
+        onClick={(e) => e.stopPropagation()}
+        className="relative w-full max-w-4xl bg-[var(--surface)] rounded-xl border border-[var(--border)] shadow-2xl p-5 sm:p-8 space-y-6 max-h-[92vh] overflow-y-auto text-[var(--text-primary)]"
+      >
         {/* Modal Header */}
         <div className="flex items-center justify-between border-b border-[var(--border)] pb-4">
           <div className="flex items-center gap-3">

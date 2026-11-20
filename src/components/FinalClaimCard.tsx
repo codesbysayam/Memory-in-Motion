@@ -11,7 +11,7 @@ export const FinalClaimCard: React.FC = () => {
             <span className="essay-eyebrow text-[var(--mm-signal)] font-semibold block">
               Epistemic contract · Scientific integrity guarantee
             </span>
-            <h3 className="text-lg font-serif font-medium text-[var(--mm-ink)]">
+            <h3 className="text-lg font-serif font-normal text-[var(--mm-ink)]">
               What this visual essay demonstrates
             </h3>
           </div>

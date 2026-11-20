@@ -172,7 +172,7 @@ export const Page01MemoryInteractions: React.FC = () => {
       <div className="border-t border-[var(--mm-rule)] pt-6 space-y-4">
         <div className="flex flex-wrap items-baseline justify-between gap-3 pb-3 border-b border-[var(--mm-rule)]">
           <div>
-            <h3 className="font-serif text-xl font-medium text-[var(--text-primary)]">
+            <h3 className="font-serif text-xl font-normal text-[var(--text-primary)]">
               1. Sequential memory timeline
             </h3>
             <p className="text-sm text-[var(--text-secondary)] mt-0.5">
@@ -279,7 +279,7 @@ export const Page01MemoryInteractions: React.FC = () => {
       <div className="border-t border-[var(--mm-rule)] pt-6 space-y-4">
         <div className="flex flex-wrap items-baseline justify-between gap-3 pb-3 border-b border-[var(--mm-rule)]">
           <div>
-            <h3 className="font-serif text-xl font-medium text-[var(--text-primary)]">
+            <h3 className="font-serif text-xl font-normal text-[var(--text-primary)]">
               2. Fact priority stream weights
             </h3>
             <p className="text-sm text-[var(--text-secondary)] mt-0.5">
@@ -310,7 +310,7 @@ export const Page01MemoryInteractions: React.FC = () => {
               </div>
 
               <div>
-                <strong className="text-base font-serif font-medium block text-[var(--text-primary)]">{fact.key}</strong>
+                <strong className="text-base font-serif font-normal block text-[var(--text-primary)]">{fact.key}</strong>
                 <span className="text-xs text-[var(--text-secondary)] font-mono">{fact.value}</span>
               </div>
 
@@ -358,7 +358,7 @@ export const Page01MemoryInteractions: React.FC = () => {
       <div className="border-t border-[var(--mm-rule)] pt-6 space-y-4">
         <div className="flex flex-wrap items-baseline justify-between gap-3 pb-3 border-b border-[var(--mm-rule)]">
           <div>
-            <h3 className="font-serif text-xl font-medium text-[var(--text-primary)]">
+            <h3 className="font-serif text-xl font-normal text-[var(--text-primary)]">
               3. Probe history &amp; replay
             </h3>
             <p className="text-sm text-[var(--text-secondary)] mt-0.5">

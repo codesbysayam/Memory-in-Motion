@@ -755,7 +755,7 @@ export const SixtySecondAssessment: React.FC<SixtySecondAssessmentProps> = ({
               <div className="essay-eyebrow text-[var(--mm-signal)] font-semibold">
                 Empirical protocol · 5-stage evaluation
               </div>
-              <h3 className="text-2xl sm:text-[32px] font-serif font-medium text-[var(--mm-ink)] tracking-[-0.02em] leading-[1.15]">
+              <h3 className="text-2xl sm:text-[32px] font-serif font-normal text-[var(--mm-ink)] tracking-[-0.02em] leading-[1.15]">
                 Can you predict, break, trace and explain a fixed-size recurrent memory?
               </h3>
               <p className="text-sm sm:text-[15px] text-[var(--mm-ink-soft)] leading-relaxed max-w-2xl">

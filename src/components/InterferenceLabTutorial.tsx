@@ -199,7 +199,7 @@ export const InterferenceLabTutorial: React.FC<InterferenceLabTutorialProps> = (
       {/* Main Step Content */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 items-center pt-1">
         <div className="lg:col-span-8 space-y-1.5">
-          <h3 className="font-serif text-lg sm:text-xl font-medium text-[var(--text-primary)] leading-snug">
+          <h3 className="font-serif text-lg sm:text-xl font-normal text-[var(--text-primary)] leading-snug">
             {step.headline}
           </h3>
           <p className="text-xs sm:text-sm text-[var(--text-secondary)] font-sans leading-relaxed">

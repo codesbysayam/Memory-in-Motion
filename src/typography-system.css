@@ -143,7 +143,7 @@ p {
 .font-serif,
 blockquote.editorial-quote {
   font-family: var(--font-display);
-  font-weight: 400;
+  font-weight: 400 !important;
 }
 
 .font-sans {

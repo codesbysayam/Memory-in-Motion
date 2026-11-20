@@ -130,8 +130,12 @@ export const FinalChallenge: React.FC = () => {
   };
 
   const scrollToBdhExplorer = () => {
-    const el = document.getElementById('section-08');
-    if (el) el.scrollIntoView({ behavior: 'smooth' });
+    const el = document.getElementById('bdh-microscope-explorer') || document.getElementById('section-08');
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth' });
+    } else {
+      window.location.hash = 'bdh/bdh-microscope-explorer';
+    }
   };
 
   return (
@@ -431,7 +435,7 @@ export const FinalChallenge: React.FC = () => {
               <div className="essay-eyebrow text-[var(--mm-amber)] font-semibold">
                 Round 3 · Causal interference diagnostic
               </div>
-              <div className="text-base sm:text-lg font-serif font-medium text-[var(--mm-ink)]">
+              <div className="text-base sm:text-lg font-serif font-normal text-[var(--mm-ink)]">
                 Which architectural change is most effective at reducing interference in a fixed-size recurrent state?
               </div>
 
@@ -496,7 +500,7 @@ export const FinalChallenge: React.FC = () => {
                     <div className="essay-eyebrow text-[var(--color-success)] font-semibold">
                       Evaluation synthesis
                     </div>
-                    <h4 className="text-lg font-serif font-medium text-[var(--mm-ink)]">
+                    <h4 className="text-lg font-serif font-normal text-[var(--mm-ink)]">
                       Empirical principles verified
                     </h4>
                   </div>

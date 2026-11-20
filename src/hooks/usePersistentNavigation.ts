@@ -148,7 +148,17 @@ export function usePersistentNavigation() {
           window.location.hash = page;
         }
       } else {
-        window.location.hash = sectionId ? `${page}/${sectionId}` : page;
+        const hashTarget = sectionId ? `${page}/${sectionId}` : page;
+        const currentPath = window.location.pathname;
+        if (currentPath && currentPath !== '/' && currentPath !== '/index.html') {
+          try {
+            window.history.pushState({ page, sectionId }, '', `/#${hashTarget}`);
+          } catch {
+            window.location.hash = hashTarget;
+          }
+        } else {
+          window.location.hash = hashTarget;
+        }
       }
 
       if (sectionId) {

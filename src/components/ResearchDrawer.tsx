@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   X,
   BookOpen,
@@ -18,11 +18,28 @@ interface ResearchDrawerProps {
 }
 
 export const ResearchDrawer: React.FC<ResearchDrawerProps> = ({ isOpen, onClose }) => {
+  useEffect(() => {
+    if (!isOpen) return;
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') onClose();
+    };
+    const handleCloseAll = () => onClose();
+    document.addEventListener('keydown', handleKeyDown);
+    window.addEventListener('close_all_overlays', handleCloseAll);
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown);
+      window.removeEventListener('close_all_overlays', handleCloseAll);
+    };
+  }, [isOpen, onClose]);
+
   if (!isOpen) return null;
 
   return (
     <div className="fixed inset-0 z-50 flex justify-end bg-black/45 backdrop-blur-xs animate-in fade-in" onClick={onClose}>
       <div
+        role="dialog"
+        aria-modal="true"
+        aria-label="Research archive"
         className="w-full max-w-xl bg-[var(--surface)] border-l border-[var(--border)] h-full overflow-y-auto p-6 sm:p-8 space-y-6 text-[var(--text-primary)] shadow-2xl"
         onClick={(e) => e.stopPropagation()}
       >
@@ -44,7 +61,7 @@ export const ResearchDrawer: React.FC<ResearchDrawerProps> = ({ isOpen, onClose 
             type="button"
             onClick={onClose}
             aria-label="Close research drawer"
-            className="p-1.5 rounded-lg bg-[var(--surface-soft)] border border-[var(--border)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition cursor-pointer"
+            className="min-w-[44px] min-h-[44px] rounded-lg bg-[var(--surface-soft)] border border-[var(--border)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] flex items-center justify-center transition cursor-pointer"
           >
             <X className="w-4 h-4" />
           </button>

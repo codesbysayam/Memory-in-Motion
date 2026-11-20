@@ -23,7 +23,7 @@ export const EvidenceAndSources: React.FC = () => {
       {/* Primary Source Dossier */}
       <div className="space-y-5">
         <div className="flex flex-wrap items-baseline justify-between gap-2 border-b border-[var(--mm-rule)] pb-3">
-          <h3 className="font-serif text-xl sm:text-2xl font-medium text-[var(--mm-ink)] flex items-center gap-2">
+          <h3 className="font-serif text-xl sm:text-2xl font-normal text-[var(--mm-ink)] flex items-center gap-2">
             <BookOpen className="w-5 h-5 text-[var(--mm-signal)]" />
             <span>Primary Recurrent &amp; BDH Bibliography</span>
           </h3>
@@ -83,7 +83,7 @@ export const EvidenceAndSources: React.FC = () => {
       {/* Paper Landscape Table */}
       <div className="space-y-4">
         <div className="flex flex-wrap items-baseline justify-between gap-2 border-b border-[var(--mm-rule)] pb-2">
-          <h3 className="font-serif text-xl sm:text-2xl font-medium text-[var(--mm-ink)]">
+          <h3 className="font-serif text-xl sm:text-2xl font-normal text-[var(--mm-ink)]">
             Comparative Academic Landscape (2022–2026)
           </h3>
           <span className="font-mono text-xs text-[var(--mm-muted)]">

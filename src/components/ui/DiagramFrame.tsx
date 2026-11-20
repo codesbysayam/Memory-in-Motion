@@ -28,7 +28,7 @@ export const DiagramFrame: React.FC<DiagramFrameProps> = ({
       <div className="px-5 py-4 border-b border-[var(--border)] bg-[var(--surface-soft)] flex flex-wrap items-center justify-between gap-3">
         <div className="min-w-0 space-y-0.5">
           <div className="flex flex-wrap items-center gap-2.5">
-            <h3 className="font-serif text-base sm:text-lg font-semibold text-[var(--text-primary)] leading-snug">
+            <h3 className="font-sans text-base sm:text-lg font-semibold text-[var(--text-primary)] leading-snug">
               {title}
             </h3>
             {badge}

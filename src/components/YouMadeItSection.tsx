@@ -159,7 +159,7 @@ Core Scientific Lesson: Fixed-size recurrent states maintain O(1) memory at the 
         <div className="essay-figure-stage px-5 sm:px-8 py-6 space-y-5">
           <div className="flex flex-wrap items-baseline justify-between gap-4 border-b border-[var(--mm-rule)] pb-4">
             <div>
-              <h3 className="text-lg font-serif font-medium text-[var(--mm-ink)]">
+              <h3 className="text-lg font-serif font-normal text-[var(--mm-ink)]">
                 Laboratory Accomplishment Checklist
               </h3>
               <p className="text-xs text-[var(--mm-ink-soft)] font-sans mt-0.5">
@@ -212,7 +212,7 @@ Core Scientific Lesson: Fixed-size recurrent states maintain O(1) memory at the 
         {/* Final Knowledge Snapshot (3 Click-to-Reveal Questions) */}
         <div className="essay-figure-stage px-5 sm:px-8 py-6 space-y-5">
           <div className="border-b border-[var(--mm-rule)] pb-3">
-            <h3 className="text-lg font-serif font-medium text-[var(--mm-ink)]">
+            <h3 className="text-lg font-serif font-normal text-[var(--mm-ink)]">
               Final Knowledge Snapshot (Foundational Questions)
             </h3>
             <p className="text-xs text-[var(--mm-ink-soft)] font-sans mt-0.5">
@@ -258,7 +258,7 @@ Core Scientific Lesson: Fixed-size recurrent states maintain O(1) memory at the 
         <div id="you-made-it-certificate" className="essay-figure-stage px-5 sm:px-8 py-6 space-y-6">
           <div className="flex flex-wrap items-baseline justify-between gap-4 border-b border-[var(--mm-rule)] pb-4">
             <div>
-              <h3 className="text-lg sm:text-xl font-serif font-medium text-[var(--mm-ink)] flex items-center gap-2">
+              <h3 className="text-lg sm:text-xl font-serif font-normal text-[var(--mm-ink)] flex items-center gap-2">
                 <Award className="w-5 h-5 text-[var(--mm-signal)]" />
                 <span>Certificate of Completion</span>
               </h3>
@@ -286,7 +286,7 @@ Core Scientific Lesson: Fixed-size recurrent states maintain O(1) memory at the 
             <div className="py-6 text-center space-y-4">
               <Lock className="w-5 h-5 text-[var(--mm-muted)] mx-auto" />
               <div className="space-y-1.5 max-w-lg mx-auto">
-                <h4 className="font-serif font-medium text-base text-[var(--mm-ink)]">
+                <h4 className="font-serif font-normal text-base text-[var(--mm-ink)]">
                   Certificate Locked — Complete Stage 07 Final Challenge
                 </h4>
                 <p className="text-xs text-[var(--mm-ink-soft)] font-sans leading-relaxed">
@@ -316,7 +316,7 @@ Core Scientific Lesson: Fixed-size recurrent states maintain O(1) memory at the 
                 <span className="essay-eyebrow text-[var(--color-success)] font-semibold block">
                   Evaluation Verified
                 </span>
-                <h4 className="font-serif font-medium text-lg text-[var(--mm-ink)]">
+                <h4 className="font-serif font-normal text-lg text-[var(--mm-ink)]">
                   Claim Your Certificate of Completion
                 </h4>
                 <p className="text-xs text-[var(--mm-ink-soft)] font-sans">

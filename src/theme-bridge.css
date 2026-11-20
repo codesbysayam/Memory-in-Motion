@@ -1,0 +1,195 @@
+/*
+ * MEMORY IN MOTION — SINGLE SOURCE OF TRUTH FOR VISUAL TOKENS
+ * Loaded after index.css, editorial-redesign.css and typography-system.css.
+ * Maps legacy Tailwind semantic variables to the active editorial palette.
+ * This prevents blue legacy utilities and coral editorial accents fighting.
+ */
+:root,
+html.light,
+html[data-theme="light"] {
+  color-scheme: light;
+
+  --mm-paper: #F2EFE7;
+  --mm-paper-bright: #FAF8F2;
+  --mm-paper-inset: #E8E3D8;
+  --mm-ink: #171A1D;
+  --mm-ink-soft: #42484D;
+  --mm-muted: #747B7E;
+  --mm-rule: #D2CDC1;
+  --mm-rule-strong: #A9A397;
+  --mm-signal: #E14B32;
+  --mm-signal-hover: #B93422;
+  --mm-signal-soft: #F7E1DB;
+  --mm-cobalt: #3157C8;
+  --mm-cobalt-soft: #E4EAFB;
+
+  --page-bg: var(--mm-paper);
+  --surface: var(--mm-paper-bright);
+  --surface-soft: var(--mm-paper-inset);
+  --text-primary: var(--mm-ink);
+  --text-secondary: var(--mm-ink-soft);
+  --text-muted: var(--mm-muted);
+  --border: var(--mm-rule);
+
+  --color-canvas: var(--mm-paper);
+  --color-surface: var(--mm-paper-bright);
+  --color-surface-soft: var(--mm-paper-inset);
+  --color-surface-muted: #E3DED2;
+  --color-ink: var(--mm-ink);
+  --color-ink-secondary: var(--mm-ink-soft);
+  --color-ink-muted: var(--mm-muted);
+  --color-border: var(--mm-rule);
+  --color-border-strong: var(--mm-rule-strong);
+
+  --color-accent: var(--mm-signal);
+  --color-accent-hover: var(--mm-signal-hover);
+  --color-accent-soft: var(--mm-signal-soft);
+  --color-accent-ink: var(--mm-signal-hover);
+
+  --color-success: #317A70;
+  --color-success-soft: #E6F2F0;
+  --color-success-border: #B4D5D0;
+  --color-warning: #8E5B14;
+  --color-warning-soft: #F6EEDD;
+  --color-warning-border: #DFC89E;
+  --color-danger: #B34D36;
+  --color-danger-soft: #F9EAE6;
+  --color-danger-border: #E5B9AD;
+
+  --success: var(--color-success);
+  --failure: var(--color-danger);
+  --link: var(--color-accent-ink);
+
+  --accent-blue: var(--mm-signal-soft);
+  --accent-blue-text: var(--mm-signal-hover);
+  --accent-green: var(--color-success-soft);
+  --accent-green-text: var(--color-success);
+  --accent-yellow: var(--color-warning-soft);
+  --accent-yellow-text: var(--color-warning);
+  --accent-pink: var(--color-danger-soft);
+  --accent-pink-text: var(--color-danger);
+
+  --lab-bg: var(--surface);
+  --lab-surface: var(--surface-soft);
+  --lab-text: var(--text-primary);
+  --lab-secondary: var(--text-secondary);
+  --lab-border: var(--border);
+
+  --font-display: "Instrument Serif", Georgia, "Times New Roman", serif;
+  --font-serif: "Instrument Serif", Georgia, "Times New Roman", serif;
+  --font-body: "Manrope", Arial, Helvetica, sans-serif;
+  --font-sans: "Manrope", Arial, Helvetica, sans-serif;
+  --font-mono: "IBM Plex Mono", "SFMono-Regular", Consolas, monospace;
+}
+
+html.dark,
+html[data-theme="dark"] {
+  color-scheme: dark;
+
+  --mm-paper: #101316;
+  --mm-paper-bright: #191F24;
+  --mm-paper-inset: #222A30;
+  --mm-ink: #F2F0E9;
+  --mm-ink-soft: #C7CBCB;
+  --mm-muted: #929B9E;
+  --mm-rule: #303A40;
+  --mm-rule-strong: #536068;
+  --mm-signal: #FF795E;
+  --mm-signal-hover: #FF9A84;
+  --mm-signal-soft: #3A2522;
+  --mm-cobalt: #8FA8FF;
+  --mm-cobalt-soft: #222D4D;
+
+  --page-bg: var(--mm-paper);
+  --surface: var(--mm-paper-bright);
+  --surface-soft: var(--mm-paper-inset);
+  --text-primary: var(--mm-ink);
+  --text-secondary: var(--mm-ink-soft);
+  --text-muted: var(--mm-muted);
+  --border: var(--mm-rule);
+
+  --color-canvas: var(--mm-paper);
+  --color-surface: var(--mm-paper-bright);
+  --color-surface-soft: var(--mm-paper-inset);
+  --color-surface-muted: #2F343D;
+  --color-ink: var(--mm-ink);
+  --color-ink-secondary: var(--mm-ink-soft);
+  --color-ink-muted: var(--mm-muted);
+  --color-border: var(--mm-rule);
+  --color-border-strong: var(--mm-rule-strong);
+
+  --color-accent: var(--mm-signal);
+  --color-accent-hover: var(--mm-signal-hover);
+  --color-accent-soft: var(--mm-signal-soft);
+  --color-accent-ink: #FFB0A0;
+
+  --color-success: #69B5A8;
+  --color-success-soft: #1A2F2D;
+  --color-success-border: #2F5753;
+  --color-warning: #E8BA67;
+  --color-warning-soft: #332A1A;
+  --color-warning-border: #594728;
+  --color-danger: #E48B76;
+  --color-danger-soft: #36211D;
+  --color-danger-border: #633B33;
+
+  --success: var(--color-success);
+  --failure: var(--color-danger);
+  --link: var(--color-accent-ink);
+
+  --accent-blue: var(--mm-signal-soft);
+  --accent-blue-text: var(--color-accent-ink);
+  --accent-green: var(--color-success-soft);
+  --accent-green-text: var(--color-success);
+  --accent-yellow: var(--color-warning-soft);
+  --accent-yellow-text: var(--color-warning);
+  --accent-pink: var(--color-danger-soft);
+  --accent-pink-text: var(--color-danger);
+
+  --lab-bg: var(--surface);
+  --lab-surface: var(--surface-soft);
+  --lab-text: var(--text-primary);
+  --lab-secondary: var(--text-secondary);
+  --lab-border: var(--border);
+}
+
+/* Night sections are local scopes. Do not mutate the global theme. */
+.essay-night-band {
+  --page-bg: #171C20;
+  --surface: #1E252B;
+  --surface-soft: #252E36;
+  --text-primary: #F4F0E8;
+  --text-secondary: #C7CCCB;
+  --text-muted: #98A2A4;
+  --border: #3A4448;
+  --color-canvas: #171C20;
+  --color-surface: #1E252B;
+  --color-surface-soft: #252E36;
+  --color-ink: #F4F0E8;
+  --color-ink-secondary: #C7CCCB;
+  --color-ink-muted: #98A2A4;
+  --color-border: #3A4448;
+  --mm-signal: #FF795E;
+  --mm-signal-hover: #FF9A84;
+  --mm-signal-soft: #3A2522;
+  --color-accent: #FF795E;
+  --color-accent-hover: #FF9A84;
+  --color-accent-soft: #3A2522;
+  --color-accent-ink: #FFB0A0;
+  --accent-blue: #222D4D;
+  --accent-blue-text: #AFC2FF;
+  --accent-green: #1A2F2D;
+  --accent-green-text: #69B5A8;
+  --accent-yellow: #332A1A;
+  --accent-yellow-text: #E8BA67;
+  --accent-pink: #36211D;
+  --accent-pink-text: #E48B76;
+}
+
+/* Components consume semantic tokens. Avoid hard-coded colour utilities in new work. */
+a { color: var(--link); }
+a:hover { color: var(--color-accent); }
+:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 3px;
+}

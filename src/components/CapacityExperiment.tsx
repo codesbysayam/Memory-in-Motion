@@ -1,7 +1,7 @@
-import React, { useState, useMemo, useCallback, useEffect } from 'react';
+import React, { useState, useMemo, useCallback, useEffect, useRef } from 'react';
 import { motion, useReducedMotion } from 'motion/react';
 import { runCapacitySweep, SweepPointResult, BENCHMARK_DIMENSIONS, BENCHMARK_FACT_COUNTS } from '../models/benchmarkEngine';
-import { Play, RotateCcw, CheckCircle2, XCircle } from 'lucide-react';
+import { Play, RotateCcw, CheckCircle2, XCircle, Download } from 'lucide-react';
 import { SourceBadge } from './ui/SourceBadge';
 import { FigureCaption } from './essay/FigureCaption';
 import { DataFallbackTable } from './essay/DataFallbackTable';
@@ -9,6 +9,17 @@ import { DataFallbackTable } from './essay/DataFallbackTable';
 const CAPACITY_CACHE_KEY = 'mm_capacity_experiment_state';
 const DEFAULT_TAB: 'accuracy' | 'confidence' = 'accuracy';
 const DEFAULT_POINT_ID = 'dim-16-facts-4';
+
+function escapeCsvCell(value: string | number): string {
+  if (typeof value === 'number') {
+    return Number.isFinite(value) ? String(value) : '';
+  }
+  const safeText = /^[=+\-@\t\r]/.test(value) ? `'${value}` : value;
+  if (/[",\r\n]/.test(safeText)) {
+    return `"${safeText.replace(/"/g, '""')}"`;
+  }
+  return safeText;
+}
 
 function loadCachedCapacityState(): { activeTab: 'accuracy' | 'confidence'; selectedPointId: string } {
   try {
@@ -41,7 +52,27 @@ export const CapacityExperiment: React.FC<CapacityExperimentProps> = ({
   const [selectedPointId, setSelectedPointId] = useState<string>(initialCache.selectedPointId);
   const [runCounter, setRunCounter] = useState<number>(1);
   const [isSweeping, setIsSweeping] = useState<boolean>(false);
-  const [resetNotice, setResetNotice] = useState<string | null>(null);
+  const [actionNotice, setActionNotice] = useState<string | null>(null);
+  const noticeTimerRef = useRef<number | null>(null);
+
+  const showTransientNotice = useCallback((message: string) => {
+    if (noticeTimerRef.current !== null) {
+      window.clearTimeout(noticeTimerRef.current);
+    }
+    setActionNotice(message);
+    noticeTimerRef.current = window.setTimeout(() => {
+      setActionNotice(null);
+      noticeTimerRef.current = null;
+    }, 2600);
+  }, []);
+
+  useEffect(() => {
+    return () => {
+      if (noticeTimerRef.current !== null) {
+        window.clearTimeout(noticeTimerRef.current);
+      }
+    };
+  }, []);
 
   useEffect(() => {
     try {
@@ -66,7 +97,7 @@ export const CapacityExperiment: React.FC<CapacityExperimentProps> = ({
 
   const handleRunSweepAgain = useCallback(() => {
     setIsSweeping(true);
-    setResetNotice(null);
+    setActionNotice(null);
     setTimeout(() => {
       setRunCounter((c) => c + 1);
       setIsSweeping(false);
@@ -83,9 +114,63 @@ export const CapacityExperiment: React.FC<CapacityExperimentProps> = ({
     setSelectedPointId(DEFAULT_POINT_ID);
     setIsSweeping(false);
     setRunCounter(1);
-    setResetNotice('Baseline restored (D=16 · N=4)');
-    window.setTimeout(() => setResetNotice(null), 2400);
-  }, []);
+    showTransientNotice('Baseline restored (D=16 · N=4)');
+  }, [showTransientNotice]);
+
+  const handleDownloadCsv = useCallback(() => {
+    const headers = [
+      'dimension_d',
+      'facts_stored_n',
+      'correct_count',
+      'total_count',
+      'wrong_count',
+      'accuracy_pct',
+      'mean_retrieval_score_pct',
+      'frobenius_norm',
+      'retention_lambda',
+      'write_strength_eta',
+      'failed_queries',
+    ];
+
+    const rows = benchmarkResults.points.map((pt) => {
+      const correctCount = pt.totalCount - pt.wrongCount;
+      const failedSummary =
+        pt.failedQueries.length > 0
+          ? pt.failedQueries
+              .map((fq) => `${fq.query}: ${fq.expected} -> ${fq.retrieved} (${fq.confidence}%)`)
+              .join('; ')
+          : 'None';
+
+      return [
+        pt.dimension,
+        pt.factCount,
+        correctCount,
+        pt.totalCount,
+        pt.wrongCount,
+        pt.accuracy,
+        pt.meanConfidence,
+        pt.matrixNorm,
+        retention,
+        writeStrength,
+        failedSummary,
+      ]
+        .map(escapeCsvCell)
+        .join(',');
+    });
+
+    const csvContent = [headers.join(','), ...rows].join('\r\n');
+    const blob = new Blob(['\uFEFF' + csvContent], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `memory-in-motion-capacity-sweep-lambda-${retention}-eta-${writeStrength}.csv`;
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+    window.setTimeout(() => URL.revokeObjectURL(url), 1000);
+
+    showTransientNotice(`Exported ${benchmarkResults.points.length} rows (CSV)`);
+  }, [benchmarkResults.points, retention, writeStrength, showTransientNotice]);
 
   const selectedPoint = useMemo<SweepPointResult | undefined>(() => {
     return (
@@ -142,15 +227,15 @@ export const CapacityExperiment: React.FC<CapacityExperimentProps> = ({
         </div>
 
         <div className="flex flex-wrap items-center gap-2">
-          {resetNotice && (
+          {actionNotice && (
             <span className="font-mono text-[11px] text-[var(--color-success)]" role="status" aria-live="polite">
-              {resetNotice}
+              {actionNotice}
             </span>
           )}
           <button
             type="button"
             onClick={handleResetBaseline}
-            className="btn-secondary text-xs min-h-[36px]"
+            className="btn-secondary text-xs min-h-[40px] whitespace-nowrap shrink-0"
             title="Clear local cached selection and restore initial baseline"
             aria-label="Reset capacity experiment"
           >
@@ -159,9 +244,19 @@ export const CapacityExperiment: React.FC<CapacityExperimentProps> = ({
           </button>
           <button
             type="button"
+            onClick={handleDownloadCsv}
+            className="btn-secondary text-xs min-h-[40px] whitespace-nowrap shrink-0"
+            title="Export empirical capacity measurements as a CSV file"
+            aria-label="Download Data (CSV)"
+          >
+            <Download className="w-3.5 h-3.5" />
+            <span>Download Data</span>
+          </button>
+          <button
+            type="button"
             onClick={handleRunSweepAgain}
             disabled={isSweeping}
-            className="btn-secondary text-xs disabled:opacity-50 min-h-[36px]"
+            className="btn-secondary text-xs disabled:opacity-50 min-h-[40px] whitespace-nowrap shrink-0"
           >
             {isSweeping ? (
               <RotateCcw className="w-3.5 h-3.5 animate-spin" />
@@ -240,7 +335,7 @@ export const CapacityExperiment: React.FC<CapacityExperimentProps> = ({
                       y={y + 4}
                       fill="var(--text-secondary)"
                       fontSize="10"
-                      fontFamily="monospace"
+                      fontFamily="var(--font-mono)"
                       textAnchor="end"
                     >
                       {val}%
@@ -267,7 +362,7 @@ export const CapacityExperiment: React.FC<CapacityExperimentProps> = ({
                       y={svgHeight - padding.bottom + 18}
                       fill="var(--text-secondary)"
                       fontSize="11"
-                      fontFamily="monospace"
+                      fontFamily="var(--font-mono)"
                       textAnchor="middle"
                     >
                       {count}
@@ -282,7 +377,7 @@ export const CapacityExperiment: React.FC<CapacityExperimentProps> = ({
                 y={svgHeight - 6}
                 fill="var(--text-muted)"
                 fontSize="11"
-                fontFamily="monospace"
+                fontFamily="var(--font-mono)"
                 textAnchor="middle"
               >
                 FACTS STORED IN MEMORY (N)

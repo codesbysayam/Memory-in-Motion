@@ -76,23 +76,23 @@ export const MatrixDiff: React.FC<MatrixDiffProps> = ({
       {/* Actual Computed Statistics */}
       <div className="grid grid-cols-3 gap-3 text-xs tabular-nums">
         <div className="metric-panel p-3 space-y-0.5">
-          <span className="text-[10px] text-[var(--text-muted)] uppercase font-bold tracking-wider">Mean |ΔM|</span>
+          <span className="text-[11px] text-[var(--text-muted)] uppercase font-bold tracking-wider">Mean |ΔM|</span>
           <div className="text-sm font-bold text-[var(--accent-blue-text)]">{meanAbsDelta.toFixed(4)}</div>
-          <span className="text-[9px] text-[var(--text-muted)] font-sans">Average magnitude change</span>
+          <span className="text-[11px] text-[var(--text-muted)] font-sans">Average magnitude change</span>
         </div>
 
         <div className="metric-panel p-3 space-y-0.5">
-          <span className="text-[10px] text-[var(--text-muted)] uppercase font-bold tracking-wider">Max |ΔM|</span>
+          <span className="text-[11px] text-[var(--text-muted)] uppercase font-bold tracking-wider">Max |ΔM|</span>
           <div className="text-sm font-bold text-[var(--accent-yellow-text)]">{maxAbsDelta.toFixed(4)}</div>
-          <span className="text-[9px] text-[var(--text-muted)] font-sans">Peak localized update</span>
+          <span className="text-[11px] text-[var(--text-muted)] font-sans">Peak localized update</span>
         </div>
 
         <div className="metric-panel p-3 space-y-0.5">
-          <span className="text-[10px] text-[var(--text-muted)] uppercase font-bold tracking-wider">Changed cells</span>
+          <span className="text-[11px] text-[var(--text-muted)] uppercase font-bold tracking-wider">Changed cells</span>
           <div className="text-sm font-bold text-[var(--accent-green-text)]">
             {changedCellsCount} / {totalCells}
           </div>
-          <span className="text-[9px] text-[var(--text-muted)] font-sans">
+          <span className="text-[11px] text-[var(--text-muted)] font-sans">
             {totalCells > 0 ? ((changedCellsCount / totalCells) * 100).toFixed(0) : 0}% of coordinates
           </span>
         </div>

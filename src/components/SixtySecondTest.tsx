@@ -206,7 +206,7 @@ export const SixtySecondTest: React.FC = () => {
                 <span className="font-mono text-xs text-[var(--mm-signal)] font-semibold">
                   QUESTION {currentQuestionIdx + 1} OF {QUESTIONS.length}
                 </span>
-                <h3 className="text-lg font-serif font-medium text-[var(--mm-ink)] mt-0.5">
+                <h3 className="text-lg font-serif font-normal text-[var(--mm-ink)] mt-0.5">
                   Conceptual Principles of Recurrent State
                 </h3>
               </div>
@@ -245,7 +245,7 @@ export const SixtySecondTest: React.FC = () => {
               transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
               className="space-y-4 font-sans"
             >
-              <h4 className="text-[var(--mm-ink)] font-serif text-xl sm:text-2xl font-medium leading-snug">
+              <h4 className="text-[var(--mm-ink)] font-serif text-xl sm:text-2xl font-normal leading-snug">
                 {activeQuestion.question}
               </h4>
 

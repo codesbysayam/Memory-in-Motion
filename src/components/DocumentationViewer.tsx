@@ -118,7 +118,7 @@ export const DocumentationViewer: React.FC<DocumentationViewerProps> = ({
             </button>
             <div className="h-4 w-px bg-[var(--border)] hidden sm:block" />
             <div className="flex items-center gap-2 min-w-0 truncate">
-              <span className="font-serif font-semibold text-sm sm:text-base text-[var(--text-primary)] truncate">
+              <span className="font-serif font-normal text-base sm:text-lg text-[var(--text-primary)] truncate">
                 Memory in Motion
               </span>
               <span className="text-[var(--text-muted)] hidden sm:inline">/</span>

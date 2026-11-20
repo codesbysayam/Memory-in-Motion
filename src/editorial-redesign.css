@@ -282,15 +282,9 @@ p { text-wrap: pretty; }
 .essay-night-band .essay-section-title,
 .essay-night-band .essay-lead { color: #F4F0E8 !important; }
 
-/* Editorial figures: no blanket rounded SaaS-card treatment. */
-figure, .essay-figure-stage {
+/* Editorial figures: keep figure stages architectural without damaging functional Tailwind cards. */
+figure.essay-figure-stage {
   border-radius: 0 !important;
-}
-main .rounded-xl, main .rounded-2xl {
-  border-radius: 3px !important;
-}
-main .shadow-lg, main .shadow-xl, main .shadow-2xl {
-  box-shadow: 0 18px 52px rgba(16, 20, 23, .075) !important;
 }
 figcaption {
   margin-top: 12px;

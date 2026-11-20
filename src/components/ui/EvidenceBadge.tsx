@@ -60,7 +60,7 @@ export function SourceCard({
       </div>
 
       <div>
-        <h4 className="font-serif font-semibold text-[var(--text-primary)] text-base leading-snug">
+        <h4 className="font-sans font-semibold text-[var(--text-primary)] text-base leading-snug">
           {link ? (
             <a
               href={link}

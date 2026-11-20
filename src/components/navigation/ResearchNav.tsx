@@ -9,7 +9,7 @@ import {
   Keyboard,
   FileText,
 } from 'lucide-react';
-import { AnimatePresence, motion, useReducedMotion } from 'motion/react';
+import { useReducedMotion } from 'motion/react';
 import { LogoMark } from '../ui/LogoMark';
 import { ThemeSwitcher } from '../ui/ThemeSwitcher';
 
@@ -395,17 +395,27 @@ export function ResearchNav({
     return null;
   }).filter(Boolean) as PageInfo[];
 
+  const closeDrawer = () => {
+    if (
+      document.activeElement instanceof HTMLElement &&
+      document.activeElement.closest('[aria-label="Essay Chapters & Index"]')
+    ) {
+      document.activeElement.blur();
+    }
+    setTocDrawerOpen(false);
+  };
+
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === 'Escape') {
-        setTocDrawerOpen(false);
+        closeDrawer();
       }
     };
     const handleToggleToc = () => {
       setTocDrawerOpen((prev) => !prev);
     };
     const handleCloseOverlays = () => {
-      setTocDrawerOpen(false);
+      closeDrawer();
     };
 
     document.addEventListener('keydown', handleKeyDown);
@@ -466,7 +476,7 @@ export function ResearchNav({
             >
               <ListTree className="w-4 h-4 text-[var(--text-secondary)] shrink-0" />
               <span>Chapters</span>
-              <kbd className="hidden lg:inline-block ml-1 px-1 py-0.2 text-[10px] font-mono text-[var(--text-muted)] border border-[var(--border)] rounded bg-[var(--page-bg)]">
+              <kbd className="hidden lg:inline-block ml-1 px-1 py-0.2 text-[11px] font-mono text-[var(--text-muted)] border border-[var(--border)] rounded bg-[var(--page-bg)]">
                 C
               </kbd>
             </button>
@@ -483,41 +493,34 @@ export function ResearchNav({
       </header>
 
       {/* Unified Chapters & Essay Index Slide-Over Drawer */}
-      <AnimatePresence>
-        {tocDrawerOpen && (
-          <motion.div
-            key="chapters-backdrop"
-            initial={reducedMotion ? false : { opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={reducedMotion ? undefined : { opacity: 0 }}
-            transition={{ duration: 0.22 }}
-            className="fixed inset-0 z-50 flex justify-end bg-black/50"
-            onClick={() => setTocDrawerOpen(false)}
+      {tocDrawerOpen && (
+        <div
+          className={`fixed inset-0 z-50 flex justify-end bg-black/50 ${
+            reducedMotion ? '' : 'animate-in fade-in duration-150'
+          }`}
+          onClick={closeDrawer}
+        >
+          <div
+            className={`w-full max-w-lg bg-[var(--page-bg)] text-[var(--text-primary)] h-full shadow-[var(--shadow-popover)] flex flex-col border-l border-[var(--border)] ${
+              reducedMotion ? '' : 'animate-in slide-in-from-right-6 duration-200'
+            }`}
+            role="dialog"
+            aria-modal="true"
+            aria-label="Essay Chapters & Index"
+            onClick={(e) => e.stopPropagation()}
           >
-            <motion.div
-              key="chapters-drawer"
-              initial={reducedMotion ? false : { x: 40, opacity: 0 }}
-              animate={{ x: 0, opacity: 1 }}
-              exit={reducedMotion ? undefined : { x: 40, opacity: 0 }}
-              transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
-              className="w-full max-w-lg bg-[var(--page-bg)] text-[var(--text-primary)] h-full shadow-[var(--shadow-popover)] flex flex-col border-l border-[var(--border)]"
-              role="dialog"
-              aria-modal="true"
-              aria-label="Essay Chapters & Index"
-              onClick={(e) => e.stopPropagation()}
-            >
             {/* Drawer Header */}
             <div className="px-6 py-5 border-b border-[var(--mm-rule)] bg-[var(--mm-paper-bright)] flex items-center justify-between gap-3">
               <div>
                 <span className="essay-eyebrow block text-[var(--mm-signal)]">Essay index</span>
-                <h2 className="font-serif text-xl font-medium text-[var(--text-primary)] leading-tight mt-0.5">
+                <h2 className="font-serif text-xl font-normal text-[var(--text-primary)] leading-tight mt-0.5">
                   Seven Chapters on Recurrent Memory
                 </h2>
               </div>
 
               <button
                 type="button"
-                onClick={() => setTocDrawerOpen(false)}
+                onClick={closeDrawer}
                 className="min-w-[44px] min-h-[44px] rounded-md hover:bg-[var(--surface-soft)] border border-[var(--border)] flex items-center justify-center text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition cursor-pointer"
                 aria-label="Close Chapters Index"
               >
@@ -558,7 +561,7 @@ export function ResearchNav({
                           <span className="font-mono text-xs font-semibold tabular-nums text-[var(--mm-signal)]">
                             {page.num}
                           </span>
-                          <span className="font-serif text-lg font-medium group-hover:text-[var(--mm-signal)] transition-colors">
+                          <span className="font-serif text-lg font-normal group-hover:text-[var(--mm-signal)] transition-colors">
                             {page.title}
                           </span>
                           <span className="text-xs font-sans text-[var(--text-muted)] hidden sm:inline">
@@ -678,10 +681,9 @@ export function ResearchNav({
                 </button>
               </div>
             </div>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+          </div>
+        </div>
+      )}
     </>
   );
 }

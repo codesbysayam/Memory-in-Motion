@@ -74,7 +74,7 @@ export const CookieConsentBanner: React.FC = () => {
             <button
               type="button"
               onClick={() => handleChoice(false)}
-              className="text-[var(--text-muted)] hover:text-[var(--text-primary)] p-0.5 cursor-pointer transition-colors"
+              className="text-[var(--text-muted)] hover:text-[var(--text-primary)] min-w-[36px] min-h-[36px] flex items-center justify-center rounded-sm cursor-pointer transition-colors"
               aria-label="Close and reject optional tracking"
             >
               <X className="w-3.5 h-3.5" />
@@ -87,14 +87,14 @@ export const CookieConsentBanner: React.FC = () => {
             <button
               type="button"
               onClick={() => handleChoice(true)}
-              className="btn-primary text-[11px] py-1 px-2.5 min-h-[28px]"
+              className="btn-primary text-xs py-1.5 px-3 min-h-[36px]"
             >
               Accept
             </button>
             <button
               type="button"
               onClick={() => handleChoice(false)}
-              className="btn-secondary text-[11px] py-1 px-2.5 min-h-[28px]"
+              className="btn-secondary text-xs py-1.5 px-3 min-h-[36px]"
             >
               Reject optional
             </button>

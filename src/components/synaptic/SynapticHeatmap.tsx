@@ -420,7 +420,7 @@ export const SynapticHeatmap: React.FC<SynapticHeatmapProps> = ({
                   name="Post-Synaptic Unit (j)"
                   domain={[-0.5, dimSize - 0.5]}
                   tickCount={dimSize}
-                  tick={{ fontSize: 10, fill: 'var(--text-muted)', fontFamily: 'monospace' }}
+                  tick={{ fontSize: 10, fill: 'var(--text-muted)', fontFamily: 'var(--font-mono)' }}
                   tickFormatter={(val) => `N${val}`}
                 />
                 <YAxis
@@ -429,7 +429,7 @@ export const SynapticHeatmap: React.FC<SynapticHeatmapProps> = ({
                   name="Pre-Synaptic Unit (i)"
                   domain={[-0.5, dimSize - 0.5]}
                   tickCount={dimSize}
-                  tick={{ fontSize: 10, fill: 'var(--text-muted)', fontFamily: 'monospace' }}
+                  tick={{ fontSize: 10, fill: 'var(--text-muted)', fontFamily: 'var(--font-mono)' }}
                   tickFormatter={(val) => `N${dimSize - 1 - val}`}
                 />
                 <ZAxis type="number" dataKey="z" range={[180, 260]} />
@@ -517,11 +517,11 @@ export const SynapticHeatmap: React.FC<SynapticHeatmapProps> = ({
                 <BarChart data={dimensionProfileData} margin={{ top: 8, right: 8, bottom: 0, left: -20 }}>
                   <XAxis
                     dataKey="dim"
-                    tick={{ fontSize: 9, fill: 'var(--text-muted)', fontFamily: 'monospace' }}
+                    tick={{ fontSize: 9, fill: 'var(--text-muted)', fontFamily: 'var(--font-mono)' }}
                   />
                   <YAxis
                     domain={[0, 0.8]}
-                    tick={{ fontSize: 9, fill: 'var(--text-muted)', fontFamily: 'monospace' }}
+                    tick={{ fontSize: 9, fill: 'var(--text-muted)', fontFamily: 'var(--font-mono)' }}
                   />
                   <Tooltip
                     formatter={(val: number) => val.toFixed(3)}

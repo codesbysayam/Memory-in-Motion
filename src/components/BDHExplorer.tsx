@@ -228,7 +228,7 @@ export const BDHExplorer: React.FC<BDHExplorerProps> = ({ id = 'bdh-explorer' })
                     y={nr.y + 3}
                     textAnchor="middle"
                     fontSize="7"
-                    fontFamily="monospace"
+                    fontFamily="var(--font-mono)"
                     fill={isActive || isSelected ? 'var(--surface)' : 'var(--text-secondary)'}
                     fontWeight="bold"
                     pointerEvents="none"

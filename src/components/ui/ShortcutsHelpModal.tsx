@@ -43,7 +43,7 @@ export const ShortcutsHelpModal: React.FC<ShortcutsHelpModalProps> = ({ isOpen, 
             <div>
               <h2
                 id="shortcuts-modal-title"
-                className="font-serif text-lg font-medium text-[var(--text-primary)] leading-tight"
+                className="font-serif text-lg font-normal text-[var(--text-primary)] leading-tight"
               >
                 Keyboard Shortcuts
               </h2>

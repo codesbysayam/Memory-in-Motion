@@ -887,7 +887,7 @@ export const Section03RecurrentMemory: React.FC = () => {
               <div className="space-y-6">
                 <figure className="essay-figure-stage p-5 sm:p-6 space-y-5">
                   <div className="space-y-1">
-                    <h3 className="text-base font-serif font-medium text-[var(--text-primary)]">Experiment parameters &amp; conditions</h3>
+                    <h3 className="text-base font-serif font-normal text-[var(--text-primary)]">Experiment parameters &amp; conditions</h3>
                     <p className="text-sm text-[var(--text-secondary)] leading-relaxed">
                       Adjust variables in the sticky sidebar or review the snapshot logs below. You can test retention factor, write strength, and noise interference under strictly controlled conditions.
                     </p>
@@ -922,7 +922,7 @@ export const Section03RecurrentMemory: React.FC = () => {
             <div id="section-context-order" className="essay-figure-stage p-5 sm:p-6 space-y-5 scroll-mt-24">
               <div className="flex flex-wrap items-center justify-between gap-2 border-b border-[var(--mm-rule)] pb-3">
                 <div>
-                  <h3 className="text-base font-serif font-medium text-[var(--text-primary)] block">
+                  <h3 className="text-base font-serif font-normal text-[var(--text-primary)] block">
                     Mechanistic inspector &amp; experimental suite
                   </h3>
                   <p className="text-xs text-[var(--text-secondary)] font-sans mt-0.5">

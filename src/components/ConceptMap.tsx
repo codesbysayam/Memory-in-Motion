@@ -284,7 +284,7 @@ export const ConceptMap: React.FC<ConceptMapProps> = ({ id, onNavigate }) => {
                 Node inspection · {selectedNode.category}
               </span>
             </div>
-            <h4 className="text-base sm:text-lg font-serif font-medium text-[var(--mm-ink)]">
+            <h4 className="text-base sm:text-lg font-serif font-normal text-[var(--mm-ink)]">
               {selectedNode.title}
             </h4>
             <p className="text-xs sm:text-sm text-[var(--mm-ink-soft)] leading-relaxed">

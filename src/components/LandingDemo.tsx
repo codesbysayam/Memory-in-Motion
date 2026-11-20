@@ -866,7 +866,7 @@ export const LandingDemo: React.FC<LandingDemoProps> = ({
                     y="138"
                     fontSize="28"
                     fontFamily="var(--font-display)"
-                    fontWeight="500"
+                    fontWeight="400"
                     fill={experiment.evaluation.isCorrect ? 'var(--mm-teal)' : 'var(--mm-coral)'}
                   >
                     {experiment.evaluation.prediction}

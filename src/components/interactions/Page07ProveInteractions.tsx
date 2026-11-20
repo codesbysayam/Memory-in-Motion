@@ -56,7 +56,7 @@ export const Page07ProveInteractions: React.FC = () => {
             <div className="essay-eyebrow text-[var(--mm-signal)] font-semibold mb-1">
               07.3 · Predict-Before-Reveal Protocol
             </div>
-            <h3 className="font-serif text-xl sm:text-2xl font-medium text-[var(--mm-ink)]">
+            <h3 className="font-serif text-xl sm:text-2xl font-normal text-[var(--mm-ink)]">
               {scenario.title}
             </h3>
           </div>

@@ -378,7 +378,7 @@ export const DiscoveryMode: React.FC<DiscoveryModeProps> = ({
                 <span className="text-xs font-mono text-[var(--mm-signal)] font-semibold">
                   Stage 01 · Writing initial associations
                 </span>
-                <h3 className="font-serif text-xl sm:text-2xl font-medium text-[var(--text-primary)]">
+                <h3 className="font-serif text-xl sm:text-2xl font-normal text-[var(--text-primary)]">
                   Write base facts into a <GlossaryTerm term="recurrent state" className="text-[var(--text-primary)] hover:text-[var(--accent-blue-text)]">fixed-size recurrent state</GlossaryTerm>
                 </h3>
                 <p className="text-xs sm:text-sm text-[var(--text-secondary)] font-sans leading-relaxed">
@@ -438,7 +438,7 @@ export const DiscoveryMode: React.FC<DiscoveryModeProps> = ({
                 <span className="text-xs font-mono text-[var(--mm-signal)] font-semibold">
                   Stage 02 · Coordinate superposition
                 </span>
-                <h3 className="font-serif text-xl sm:text-2xl font-medium text-[var(--text-primary)]">
+                <h3 className="font-serif text-xl sm:text-2xl font-normal text-[var(--text-primary)]">
                   3 facts compressed into a single matrix manifold
                 </h3>
                 <p className="text-xs sm:text-sm text-[var(--text-secondary)] font-sans leading-relaxed">
@@ -487,7 +487,7 @@ export const DiscoveryMode: React.FC<DiscoveryModeProps> = ({
                 <span className="text-xs font-mono text-[var(--mm-signal)] font-semibold">
                   Stage 03 · Hypothesis &amp; probe evaluation
                 </span>
-                <h3 className="font-serif text-xl sm:text-2xl font-medium text-[var(--text-primary)]">
+                <h3 className="font-serif text-xl sm:text-2xl font-normal text-[var(--text-primary)]">
                   Formulate a prediction before probing the state
                 </h3>
                 <p className="text-xs sm:text-sm text-[var(--text-secondary)] font-sans leading-relaxed">
@@ -632,7 +632,7 @@ export const DiscoveryMode: React.FC<DiscoveryModeProps> = ({
                   <Flame className="w-3.5 h-3.5 text-[var(--mm-coral)]" />
                   Stage 04 · Induced coordinate interference
                 </span>
-                <h3 className="font-serif text-xl sm:text-2xl font-medium text-[var(--text-primary)]">
+                <h3 className="font-serif text-xl sm:text-2xl font-normal text-[var(--text-primary)]">
                   Add competing information to observe coordinate interference
                 </h3>
                 <p className="text-xs sm:text-sm text-[var(--text-secondary)] font-sans leading-relaxed">
@@ -750,7 +750,7 @@ export const DiscoveryMode: React.FC<DiscoveryModeProps> = ({
                 <span className="text-xs font-mono text-[var(--mm-signal)] font-semibold">
                   Stage 05 · Scientific interpretation &amp; isolated variables
                 </span>
-                <h3 className="font-serif text-xl sm:text-2xl font-medium text-[var(--text-primary)]">
+                <h3 className="font-serif text-xl sm:text-2xl font-normal text-[var(--text-primary)]">
                   Controlled variable experiment
                 </h3>
                 <p className="text-xs sm:text-sm text-[var(--text-secondary)] font-sans leading-relaxed">
@@ -834,7 +834,7 @@ export const DiscoveryMode: React.FC<DiscoveryModeProps> = ({
 
               {/* Scientific Interpretation */}
               <div className="space-y-1.5">
-                <h4 className="font-serif font-medium text-base text-[var(--text-primary)]">
+                <h4 className="font-serif font-normal text-base text-[var(--text-primary)]">
                   Scientific conclusion
                 </h4>
                 <p className="text-xs sm:text-sm text-[var(--text-secondary)] font-sans leading-relaxed">
@@ -848,7 +848,7 @@ export const DiscoveryMode: React.FC<DiscoveryModeProps> = ({
               <div className="pt-5 border-t border-[var(--mm-rule)] space-y-4">
                 <div className="flex items-center gap-2">
                   <HelpCircle className="w-4 h-4 text-[var(--accent-blue-text)]" />
-                  <h4 className="text-sm font-serif font-medium text-[var(--text-primary)]">Inquiry: Why did retrieval change?</h4>
+                  <h4 className="text-sm font-serif font-normal text-[var(--text-primary)]">Inquiry: Why did retrieval change?</h4>
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 font-sans text-xs">
@@ -1193,7 +1193,7 @@ export const DiscoveryMode: React.FC<DiscoveryModeProps> = ({
             <div className="flex flex-wrap items-center justify-between gap-3">
               <div className="flex items-center gap-2">
                 <Bookmark className="w-4 h-4 text-[var(--accent-blue-text)]" />
-                <h4 className="font-serif font-medium text-base text-[var(--text-primary)]">
+                <h4 className="font-serif font-normal text-base text-[var(--text-primary)]">
                   Current run vs baseline
                 </h4>
               </div>
@@ -1346,7 +1346,7 @@ export const DiscoveryMode: React.FC<DiscoveryModeProps> = ({
                     <div className="text-[11px] font-mono uppercase text-[var(--accent-pink-text)] font-semibold tracking-wider">
                       Observed anomaly
                     </div>
-                    <h4 className="text-base font-serif font-medium text-[var(--text-primary)]">Interference detected</h4>
+                    <h4 className="text-base font-serif font-normal text-[var(--text-primary)]">Interference detected</h4>
                   </div>
                 </div>
 

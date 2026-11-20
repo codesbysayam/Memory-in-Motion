@@ -512,7 +512,7 @@ export const FrobeniusDriftExperiment: React.FC<FrobeniusDriftExperimentProps> =
                         textAnchor="middle"
                         fill={isHovered ? 'var(--accent-blue-text)' : 'var(--text-primary)'}
                         fontSize={11}
-                        fontFamily="monospace"
+                        fontFamily="var(--font-mono)"
                         fontWeight={isHovered ? 700 : 600}
                       >
                         {`S${dataItem.step}`}
@@ -524,7 +524,7 @@ export const FrobeniusDriftExperiment: React.FC<FrobeniusDriftExperimentProps> =
                         textAnchor="middle"
                         fill={isHovered ? 'var(--accent-blue-text)' : 'var(--text-secondary)'}
                         fontSize={10}
-                        fontFamily="sans-serif"
+                        fontFamily="var(--font-sans)"
                       >
                         {`+${dataItem.factName}`}
                       </text>
@@ -540,7 +540,7 @@ export const FrobeniusDriftExperiment: React.FC<FrobeniusDriftExperimentProps> =
               <YAxis
                 yAxisId="left"
                 domain={[0, (dataMax: number) => Math.max(3.5, Math.ceil(dataMax * 1.25 * 2) / 2)]}
-                tick={{ fontSize: 11, fill: 'var(--accent-yellow-text)', fontFamily: 'monospace' }}
+                tick={{ fontSize: 11, fill: 'var(--accent-yellow-text)', fontFamily: 'var(--font-mono)' }}
                 tickFormatter={(v) => Number(v).toFixed(1)}
                 stroke="var(--border)"
                 tickLine={{ stroke: 'var(--border)' }}
@@ -550,7 +550,7 @@ export const FrobeniusDriftExperiment: React.FC<FrobeniusDriftExperimentProps> =
                   position: 'insideLeft',
                   fill: 'var(--accent-yellow-text)',
                   fontSize: 11,
-                  fontFamily: 'sans-serif',
+                  fontFamily: 'var(--font-sans)',
                   fontWeight: 600,
                   offset: -32,
                   style: { textAnchor: 'middle' },
@@ -564,7 +564,7 @@ export const FrobeniusDriftExperiment: React.FC<FrobeniusDriftExperimentProps> =
                 domain={[0, 100]}
                 ticks={[0, 25, 50, 75, 100]}
                 tickFormatter={(v) => `${v}%`}
-                tick={{ fontSize: 11, fill: 'var(--accent-blue-text)', fontFamily: 'monospace' }}
+                tick={{ fontSize: 11, fill: 'var(--accent-blue-text)', fontFamily: 'var(--font-mono)' }}
                 stroke="var(--border)"
                 tickLine={{ stroke: 'var(--border)' }}
                 label={{
@@ -573,7 +573,7 @@ export const FrobeniusDriftExperiment: React.FC<FrobeniusDriftExperimentProps> =
                   position: 'insideRight',
                   fill: 'var(--accent-blue-text)',
                   fontSize: 11,
-                  fontFamily: 'sans-serif',
+                  fontFamily: 'var(--font-sans)',
                   fontWeight: 600,
                   offset: -38,
                   style: { textAnchor: 'middle' },
@@ -609,7 +609,7 @@ export const FrobeniusDriftExperiment: React.FC<FrobeniusDriftExperimentProps> =
                         y={y - 5}
                         fill="var(--accent-pink-text)"
                         fontSize={10}
-                        fontFamily="monospace"
+                        fontFamily="var(--font-mono)"
                         fontWeight={600}
                       >
                         Critical Limit (30% Recall)
@@ -649,7 +649,7 @@ export const FrobeniusDriftExperiment: React.FC<FrobeniusDriftExperimentProps> =
                           y={y - 5}
                           fill="var(--text-secondary)"
                           fontSize={10}
-                          fontFamily="monospace"
+                          fontFamily="var(--font-mono)"
                           fontWeight={600}
                         >
                           Limit ‖M‖_∞ = {asymptoticLimit}

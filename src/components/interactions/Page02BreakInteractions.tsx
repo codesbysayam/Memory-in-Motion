@@ -209,7 +209,7 @@ export const Page02BreakInteractions: React.FC = () => {
       <div className="border-t border-[var(--mm-rule)] pt-6 space-y-5">
         <div className="flex flex-wrap items-baseline justify-between gap-3 border-b border-[var(--mm-rule)] pb-3">
           <div>
-            <h3 className="font-serif text-xl font-medium text-[var(--text-primary)]">
+            <h3 className="font-serif text-xl font-normal text-[var(--text-primary)]">
               1. One-variable-at-a-time isolation
             </h3>
             <p className="text-sm text-[var(--text-secondary)] mt-0.5">
@@ -312,7 +312,7 @@ export const Page02BreakInteractions: React.FC = () => {
       <div className="border-t border-[var(--mm-rule)] pt-6 space-y-4">
         <div className="flex flex-wrap items-baseline justify-between gap-3 border-b border-[var(--mm-rule)] pb-3">
           <div>
-            <h3 className="font-serif text-xl font-medium text-[var(--text-primary)]">
+            <h3 className="font-serif text-xl font-normal text-[var(--text-primary)]">
               2. Failure boundary finder
             </h3>
             <p className="text-sm text-[var(--text-secondary)] mt-0.5">
@@ -372,7 +372,7 @@ export const Page02BreakInteractions: React.FC = () => {
       <div className="border-t border-[var(--mm-rule)] pt-6 space-y-4">
         <div className="flex flex-wrap items-baseline justify-between gap-3 border-b border-[var(--mm-rule)] pb-3">
           <div>
-            <h3 className="font-serif text-xl font-medium text-[var(--text-primary)]">
+            <h3 className="font-serif text-xl font-normal text-[var(--text-primary)]">
               3. Counterfactual memory surgery
             </h3>
             <p className="text-sm text-[var(--text-secondary)] mt-0.5">

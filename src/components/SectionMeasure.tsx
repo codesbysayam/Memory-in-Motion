@@ -598,7 +598,7 @@ export const SectionMeasure: React.FC = () => {
           <figure className="essay-figure-stage p-5 sm:p-7 space-y-6">
             <div className="flex flex-wrap items-end justify-between gap-4 border-b border-[var(--mm-rule)] pb-3">
               <div>
-                <h3 className="text-base sm:text-lg font-serif font-medium text-[var(--text-primary)]">
+                <h3 className="text-base sm:text-lg font-serif font-normal text-[var(--text-primary)]">
                   What Survived in Memory? (Final Outcome)
                 </h3>
                 <p className="text-xs text-[var(--text-secondary)] font-sans mt-0.5 tabular-nums">
@@ -811,7 +811,7 @@ export const SectionMeasure: React.FC = () => {
         {activeView === 'mechanism' && (
           <figure className="essay-figure-stage p-5 sm:p-7 space-y-6">
             <div className="border-b border-[var(--mm-rule)] pb-4">
-              <h3 className="text-base sm:text-lg font-serif font-medium text-[var(--text-primary)]">
+              <h3 className="text-base sm:text-lg font-serif font-normal text-[var(--text-primary)]">
                 How Does One Fact Become Memory? (Computational Graph)
               </h3>
               <p className="text-xs text-[var(--text-secondary)] font-sans mt-0.5">

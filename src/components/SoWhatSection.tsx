@@ -20,7 +20,7 @@ export const SoWhatSection: React.FC = () => {
             <span className="font-mono text-[11px] uppercase tracking-[0.12em] text-[var(--mm-teal)] font-semibold block">
               What our deterministic runs established
             </span>
-            <h3 className="font-serif text-xl sm:text-2xl font-medium text-[var(--text-primary)]">
+            <h3 className="font-serif text-xl sm:text-2xl font-normal text-[var(--text-primary)]">
               Constant memory space trades verbatim safety for superposition pressure
             </h3>
             <p>
@@ -32,7 +32,7 @@ export const SoWhatSection: React.FC = () => {
             <span className="font-mono text-[11px] uppercase tracking-[0.12em] text-[var(--mm-amber)] font-semibold block">
               What belongs to published research vs. educational abstraction
             </span>
-            <h3 className="font-serif text-xl sm:text-2xl font-medium text-[var(--text-primary)]">
+            <h3 className="font-serif text-xl sm:text-2xl font-normal text-[var(--text-primary)]">
               Sparse synaptic graphs offer a path beyond monolithic matrices—with open questions
             </h3>
             <p>
