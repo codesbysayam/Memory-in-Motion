@@ -192,7 +192,7 @@ export function EditorialPageTransition({
       }
 
       if (!window.location.hash.includes("/")) {
-        window.scrollTo({ top: 0, behavior: "smooth" });
+        window.scrollTo({ top: 0, behavior: "auto" });
       }
       return () => shell.removeEventListener("animationend", remove);
     }

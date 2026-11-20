@@ -40,23 +40,23 @@ export function generateCertificatePDF(data: CertificateData): jsPDF {
   const total = data.totalMilestones ?? 8;
   const finalChallengeStatus = data.finalChallengeStatus || 'Verified & Completed';
 
-  // 1. Warm paper background (#FBF9F5)
-  doc.setFillColor(251, 249, 245);
+  // 1. Mineral archival background (#F7FAF4)
+  doc.setFillColor(247, 250, 244);
   doc.rect(0, 0, PAGE_WIDTH, PAGE_HEIGHT, 'F');
 
-  // 2. Outer elegant neutral border (16mm margin)
-  doc.setDrawColor(216, 212, 203);
+  // 2. Outer slate-mineral border (16mm margin)
+  doc.setDrawColor(203, 213, 199);
   doc.setLineWidth(0.6);
   doc.rect(SAFE_MARGIN, SAFE_MARGIN, PAGE_WIDTH - 2 * SAFE_MARGIN, PAGE_HEIGHT - 2 * SAFE_MARGIN);
 
   // 3. Inner restrained accent border (18.5mm margin)
   const innerMargin = SAFE_MARGIN + 2.5;
-  doc.setDrawColor(217, 220, 216); // #D9DCD8
+  doc.setDrawColor(203, 213, 199);
   doc.setLineWidth(0.3);
   doc.rect(innerMargin, innerMargin, PAGE_WIDTH - 2 * innerMargin, PAGE_HEIGHT - 2 * innerMargin);
 
-  // 4. Corner tick accents
-  doc.setDrawColor(37, 37, 37); // #252525
+  // 4. Corner tick accents (Forest Lime #38600A)
+  doc.setDrawColor(56, 96, 10);
   doc.setLineWidth(0.6);
   // Top-left
   doc.line(innerMargin, innerMargin + 4, innerMargin + 4, innerMargin + 4);
@@ -73,13 +73,13 @@ export function generateCertificatePDF(data: CertificateData): jsPDF {
 
   // 5. Logo Mark (Memory + Recurrent loop + State node)
   const logoY = 24;
-  doc.setFillColor(240, 241, 239); // #F0F1EF
-  doc.setDrawColor(217, 220, 216); // #D9DCD8
+  doc.setFillColor(236, 248, 214); // #ECF8D6
+  doc.setDrawColor(203, 213, 199);
   doc.setLineWidth(0.3);
   doc.roundedRect(CENTER_X - 6, logoY, 12, 12, 2.5, 2.5, 'FD');
 
   // Recurrent M continuous line
-  doc.setDrawColor(37, 37, 37); // #252525
+  doc.setDrawColor(56, 96, 10); // #38600A
   doc.setLineWidth(0.65);
   doc.line(CENTER_X - 3.5, logoY + 9.5, CENTER_X - 3.5, logoY + 4.5);
   doc.line(CENTER_X - 3.5, logoY + 4.5, CENTER_X - 1.2, logoY + 6.8);
@@ -87,30 +87,30 @@ export function generateCertificatePDF(data: CertificateData): jsPDF {
   doc.line(CENTER_X + 1.2, logoY + 4.5, CENTER_X + 3.5, logoY + 9.5);
 
   // Active state node
-  doc.setFillColor(43, 98, 130); // #2B6282
+  doc.setFillColor(74, 124, 16); // #4A7C10
   doc.circle(CENTER_X, logoY + 6.8, 0.75, 'F');
 
   // 6. Header: Lab Name
-  doc.setFont('helvetica', 'normal');
+  doc.setFont('helvetica', 'bold');
   doc.setFontSize(8.5);
-  doc.setTextColor(113, 111, 104);
+  doc.setTextColor(73, 87, 77);
   doc.text('MEMORY IN MOTION · INTERACTIVE SCIENTIFIC LABORATORY', CENTER_X, 42, { align: 'center' });
 
   // 7. Main Certificate Title
-  doc.setFont('times', 'bold');
+  doc.setFont('helvetica', 'bold');
   doc.setFontSize(22);
-  doc.setTextColor(21, 21, 21);
+  doc.setTextColor(12, 19, 15);
   doc.text('CERTIFICATE OF COMPLETION', CENTER_X, 58, { align: 'center' });
 
-  // Thin decorative divider line
-  doc.setDrawColor(216, 212, 203);
-  doc.setLineWidth(0.4);
+  // Forest Lime divider line
+  doc.setDrawColor(74, 124, 16);
+  doc.setLineWidth(0.6);
   doc.line(CENTER_X - 25, 66, CENTER_X + 25, 66);
 
   // 8. Presentation Line
-  doc.setFont('times', 'italic');
-  doc.setFontSize(12.5);
-  doc.setTextColor(113, 111, 104);
+  doc.setFont('helvetica', 'normal');
+  doc.setFontSize(12);
+  doc.setTextColor(71, 85, 105);
   doc.text('This certifies that', CENTER_X, 78, { align: 'center' });
 
   // 9. Learner Name (Dynamically sized and wrapped to prevent any clipping)
@@ -120,62 +120,62 @@ export function generateCertificatePDF(data: CertificateData): jsPDF {
   } else if (name.length > 18) {
     nameFontSize = 20;
   }
-  doc.setFont('times', 'bold');
+  doc.setFont('helvetica', 'bold');
   doc.setFontSize(nameFontSize);
-  doc.setTextColor(21, 21, 21);
+  doc.setTextColor(11, 21, 40);
   const nameLines = doc.splitTextToSize(name, 140);
   doc.text(nameLines, CENTER_X, 93, { align: 'center' });
 
   // Decorative underline beneath name
-  doc.setDrawColor(229, 224, 216);
+  doc.setDrawColor(203, 213, 225);
   doc.setLineWidth(0.3);
   doc.line(CENTER_X - 40, 103, CENTER_X + 40, 103);
 
   // 10. Completion Declaration
   doc.setFont('helvetica', 'normal');
   doc.setFontSize(9.5);
-  doc.setTextColor(82, 80, 74);
+  doc.setTextColor(71, 85, 105);
   doc.text('has completed', CENTER_X, 114, { align: 'center' });
 
   doc.setFont('helvetica', 'bold');
   doc.setFontSize(11.5);
-  doc.setTextColor(21, 21, 21);
+  doc.setTextColor(11, 21, 40);
   doc.text('IN-CONTEXT LEARNING WITH RECURRENT MEMORY', CENTER_X, 122, { align: 'center' });
 
   // Scope quote
-  doc.setFont('times', 'italic');
-  doc.setFontSize(10);
-  doc.setTextColor(82, 80, 74);
+  doc.setFont('helvetica', 'normal');
+  doc.setFontSize(9.5);
+  doc.setTextColor(71, 85, 105);
   const quoteText =
     '"An interactive laboratory exploring recurrent state, retrieval, interference and its connection to BDH."';
   const wrappedQuote = doc.splitTextToSize(quoteText, 140);
   doc.text(wrappedQuote, CENTER_X, 133, { align: 'center', lineHeightFactor: 1.4 });
 
   // 11. Verification Metadata Box (X: 35, Y: 152, W: 140, H: 28)
-  doc.setFillColor(250, 248, 245);
-  doc.setDrawColor(229, 224, 216);
+  doc.setFillColor(255, 255, 255);
+  doc.setDrawColor(203, 213, 225);
   doc.setLineWidth(0.4);
   doc.roundedRect(35, 152, 140, 28, 2, 2, 'FD');
 
   doc.setFont('helvetica', 'normal');
   doc.setFontSize(8.5);
-  doc.setTextColor(113, 111, 104);
+  doc.setTextColor(71, 85, 105);
   doc.text('Completion ID:', 42, 162);
   doc.text('Date Issued:', 108, 162);
   doc.text('Experiments Completed:', 42, 172);
   doc.text('Final Challenge:', 108, 172);
 
   doc.setFont('helvetica', 'bold');
-  doc.setTextColor(43, 98, 130); // #2B6282 for ID
+  doc.setTextColor(55, 48, 163); // #3730A3 for ID
   doc.text(certId, 68, 162);
 
-  doc.setTextColor(37, 37, 37); // #252525
+  doc.setTextColor(11, 21, 40); // #0B1528
   doc.text(dateStr, 127, 162);
 
-  doc.setTextColor(36, 69, 46); // #24452E for experiments
+  doc.setTextColor(4, 120, 87); // #047857 for experiments
   doc.text(`${milestones} / ${total}`, 77, 172);
 
-  doc.setTextColor(36, 69, 46); // #24452E for verified
+  doc.setTextColor(4, 120, 87); // #047857 for verified
   doc.text(finalChallengeStatus, 131, 172);
 
   // 12. Attestation Row
@@ -183,27 +183,27 @@ export function generateCertificatePDF(data: CertificateData): jsPDF {
   const rightSigX = 145;
   const sigY = 224;
 
-  doc.setDrawColor(216, 212, 203);
+  doc.setDrawColor(203, 213, 225);
   doc.setLineWidth(0.4);
   doc.line(leftSigX - 25, sigY, leftSigX + 25, sigY);
   doc.line(rightSigX - 25, sigY, rightSigX + 25, sigY);
 
   doc.setFont('helvetica', 'bold');
   doc.setFontSize(7.5);
-  doc.setTextColor(42, 41, 38);
+  doc.setTextColor(11, 21, 40);
   doc.text('DATE ISSUED', leftSigX, sigY + 5, { align: 'center' });
   doc.text('LABORATORY ATTESTATION', rightSigX, sigY + 5, { align: 'center' });
 
   doc.setFont('courier', 'normal');
   doc.setFontSize(8);
-  doc.setTextColor(113, 111, 104);
+  doc.setTextColor(71, 85, 105);
   doc.text(dateStr, leftSigX, sigY + 11, { align: 'center' });
   doc.text('Deterministic In-Browser Engine', rightSigX, sigY + 11, { align: 'center' });
 
   // 13. Bottom Honest Disclaimer (Safe distance from bottom border: Y = 258)
-  doc.setFont('helvetica', 'italic');
+  doc.setFont('helvetica', 'normal');
   doc.setFontSize(7.5);
-  doc.setTextColor(140, 137, 130);
+  doc.setTextColor(100, 116, 139);
   doc.text(
     'Educational completion certificate — not an institutional or professional certification.',
     CENTER_X,

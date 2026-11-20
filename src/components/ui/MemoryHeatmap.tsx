@@ -48,7 +48,7 @@ export const MemoryHeatmap: React.FC<MemoryHeatmapProps> = ({
       </div>
 
       <p className="text-xs text-[var(--color-matrix-muted)] leading-relaxed">
-        Each row represents the fixed-size vector state <code className="text-sky-300 font-mono">h_t</code> after ingesting that step&apos;s information. Notice how new data superimposes and compresses into the same coordinates.
+        Each row represents the fixed-size vector state <code className="text-lime-300 font-mono">h_t</code> after ingesting that step&apos;s information. Notice how new data superimposes and compresses into the same coordinates.
       </p>
 
       {/* Heatmap Grid */}
@@ -74,7 +74,7 @@ export const MemoryHeatmap: React.FC<MemoryHeatmapProps> = ({
                 onClick={() => onSelectStep && onSelectStep(t)}
                 className={`flex items-center gap-1 p-1 rounded transition-colors cursor-pointer ${
                   isHighlighted
-                    ? 'bg-sky-950/70 ring-1 ring-sky-400'
+                    ? 'bg-lime-950/60 ring-1 ring-lime-400'
                     : 'hover:bg-[var(--color-matrix-surface)]'
                 }`}
               >
@@ -83,7 +83,7 @@ export const MemoryHeatmap: React.FC<MemoryHeatmapProps> = ({
                   className="w-16 shrink-0 font-mono text-[11px] tabular-nums truncate text-[var(--color-matrix-muted)] text-left"
                   title={label}
                 >
-                  <span className={isHighlighted ? 'text-sky-300 font-semibold' : ''}>
+                  <span className={isHighlighted ? 'text-lime-300 font-semibold' : ''}>
                     {t === 0 ? 'init' : `t_${t}`}
                   </span>
                 </div>
@@ -96,8 +96,8 @@ export const MemoryHeatmap: React.FC<MemoryHeatmapProps> = ({
                     const prev = t > 0 ? data[t - 1][d] : undefined;
 
                     const bg = isPos
-                      ? `rgba(78, 134, 240, ${Math.max(0.14, abs * 0.85)})`
-                      : `rgba(220, 76, 76, ${Math.max(0.14, abs * 0.78)})`;
+                      ? `rgba(184, 243, 68, ${Math.max(0.18, abs * 0.85)})`
+                      : `rgba(244, 63, 94, ${Math.max(0.18, abs * 0.82)})`;
 
                     const isCellHovered =
                       hoveredCell?.step === t && hoveredCell?.dim === d;
@@ -162,7 +162,7 @@ export const MemoryHeatmap: React.FC<MemoryHeatmapProps> = ({
       ) : (
         <div className="text-[11px] font-mono text-[var(--color-matrix-muted)] flex flex-wrap items-center justify-between gap-2 pt-2 border-t border-[var(--color-matrix-border)]">
           <span>Hover coordinates to view numerical Δ across transitions</span>
-          <span className="text-sky-300">Blue: (+) · Coral: (-)</span>
+          <span className="text-indigo-300">Indigo: (+) · Rose: (-)</span>
         </div>
       )}
     </div>

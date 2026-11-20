@@ -36,27 +36,27 @@ export const CertificateDocument: React.FC<CertificateDocumentProps> = ({ data, 
   return (
     <div
       id="certificate-document"
-      className={`certificate-print-wrapper certificate-page relative w-full max-w-[620px] aspect-[210/297] mx-auto bg-[#FBF9F5] text-[#151515] p-6 sm:p-10 print:p-[16mm] flex flex-col justify-between select-none shadow-md rounded-lg overflow-hidden border border-[#D8D4CB] print:shadow-none print:max-w-none print:w-[210mm] print:h-[297mm] print:rounded-none print:border-none ${className}`}
+      className={`certificate-print-wrapper certificate-page relative w-full max-w-[620px] aspect-[210/297] mx-auto bg-[#F7FAF4] text-[#0C130F] p-6 sm:p-10 print:p-[16mm] flex flex-col justify-between select-none shadow-md rounded-lg overflow-hidden border border-[#CBD5C7] print:shadow-none print:max-w-none print:w-[210mm] print:h-[297mm] print:rounded-none print:border-none ${className}`}
       style={{ boxSizing: 'border-box' }}
     >
       {/* Outer Border (Strict 16mm safe margin) */}
-      <div className="absolute inset-4 sm:inset-5 print:inset-[16mm] border border-[#D9DCD8] pointer-events-none rounded-sm">
+      <div className="absolute inset-4 sm:inset-5 print:inset-[16mm] border border-[#CBD5C7] pointer-events-none rounded-sm">
         {/* Inner Restrained Accent Border (18.5mm equivalent) */}
-        <div className="absolute inset-1.5 print:inset-[2.5mm] border border-[#D9DCD8] pointer-events-none">
+        <div className="absolute inset-1.5 print:inset-[2.5mm] border border-[#CBD5C7] pointer-events-none">
           {/* Corner tick accents */}
-          <div className="absolute -top-[1px] -left-[1px] w-2.5 h-2.5 border-t-2 border-l-2 border-[#252525]" />
-          <div className="absolute -top-[1px] -right-[1px] w-2.5 h-2.5 border-t-2 border-r-2 border-[#252525]" />
-          <div className="absolute -bottom-[1px] -left-[1px] w-2.5 h-2.5 border-b-2 border-l-2 border-[#252525]" />
-          <div className="absolute -bottom-[1px] -right-[1px] w-2.5 h-2.5 border-b-2 border-r-2 border-[#252525]" />
+          <div className="absolute -top-[1px] -left-[1px] w-2.5 h-2.5 border-t-2 border-l-2 border-[#38600A]" />
+          <div className="absolute -top-[1px] -right-[1px] w-2.5 h-2.5 border-t-2 border-r-2 border-[#38600A]" />
+          <div className="absolute -bottom-[1px] -left-[1px] w-2.5 h-2.5 border-b-2 border-l-2 border-[#38600A]" />
+          <div className="absolute -bottom-[1px] -right-[1px] w-2.5 h-2.5 border-b-2 border-r-2 border-[#38600A]" />
         </div>
       </div>
 
       {/* Top Header & Logo Mark */}
       <div className="text-center pt-2 sm:pt-4 space-y-2 relative z-10">
         <div className="flex justify-center">
-          <LogoMark size={36} variant="editorial" />
+          <LogoMark size={36} variant="soft-blue" />
         </div>
-        <p className="text-[9.5px] sm:text-[10.5px] font-sans font-semibold tracking-widest text-[#5F625F] uppercase">
+        <p className="text-[9.5px] sm:text-[10.5px] font-sans font-semibold tracking-widest text-[#49574D] uppercase">
           Memory in Motion · Interactive Scientific Laboratory
         </p>
       </div>
@@ -64,56 +64,56 @@ export const CertificateDocument: React.FC<CertificateDocumentProps> = ({ data, 
       {/* Central Content */}
       <div className="text-center space-y-3 sm:space-y-4 px-3 sm:px-6 relative z-10 my-auto">
         <div className="space-y-2">
-          <h2 className="text-2xl sm:text-3xl md:text-4xl font-serif font-normal tracking-tight text-[#252525]">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-display font-bold tracking-tight text-[#0C130F]">
             CERTIFICATE OF COMPLETION
           </h2>
-          <div className="w-16 sm:w-20 h-px bg-[#D9DCD8] mx-auto" />
+          <div className="w-16 sm:w-20 h-0.5 bg-[#4A7C10] mx-auto" />
         </div>
 
         <div className="space-y-1 sm:space-y-2 pt-1">
-          <p className="text-xs sm:text-sm font-serif italic text-[#5F625F]">
+          <p className="text-xs sm:text-sm font-sans font-medium text-[#49574D]">
             This certifies that
           </p>
           <div
-            className={`font-serif font-normal text-[#252525] tracking-wide break-words px-2 leading-tight ${getNameSizeClass(
+            className={`font-display font-semibold text-[#0C130F] tracking-tight break-words px-2 leading-tight ${getNameSizeClass(
               name.length
             )}`}
           >
             {name}
           </div>
-          <div className="w-32 sm:w-48 h-px bg-[#D9DCD8] mx-auto mt-1" />
+          <div className="w-32 sm:w-48 h-px bg-[#CBD5C7] mx-auto mt-1" />
         </div>
 
         <div className="space-y-1 pt-1">
-          <p className="text-xs text-[#5F625F] font-sans">
+          <p className="text-xs text-[#49574D] font-sans">
             has completed
           </p>
-          <p className="text-xs sm:text-sm font-sans font-bold text-[#252525] tracking-wide uppercase">
+          <p className="text-xs sm:text-sm font-sans font-bold text-[#0C130F] tracking-wide uppercase">
             IN-CONTEXT LEARNING WITH RECURRENT MEMORY
           </p>
-          <p className="text-xs text-[#5F625F] font-serif italic max-w-[440px] mx-auto leading-relaxed pt-1">
-            "An interactive laboratory exploring recurrent state, retrieval, interference and its connection to BDH."
+          <p className="text-xs text-[#49574D] font-sans max-w-[440px] mx-auto leading-relaxed pt-1">
+            &ldquo;An interactive laboratory exploring recurrent state, retrieval, interference and its connection to BDH.&rdquo;
           </p>
         </div>
 
         {/* Verification Metadata Box */}
-        <div className="bg-[#FFFFFF] border border-[#D9DCD8] rounded-lg py-2.5 px-3 sm:px-4 max-w-[460px] mx-auto space-y-1 text-center font-mono">
-          <div className="grid grid-cols-2 gap-1 text-xs text-[#252525] text-left px-2">
+        <div className="bg-[#FFFFFF] border border-[#CBD5C7] rounded-lg py-2.5 px-3 sm:px-4 max-w-[460px] mx-auto space-y-1 text-center font-mono">
+          <div className="grid grid-cols-2 gap-1 text-xs text-[#0C130F] text-left px-2">
             <div>
-              <span className="text-[#5F625F]">Completion ID: </span>
-              <strong className="text-[#2B6282]">{certId}</strong>
+              <span className="text-[#49574D]">Completion ID: </span>
+              <strong className="text-[#38600A]">{certId}</strong>
             </div>
             <div>
-              <span className="text-[#5F625F]">Date Issued: </span>
-              <strong className="text-[#252525]">{dateStr}</strong>
+              <span className="text-[#475569]">Date Issued: </span>
+              <strong className="text-[#0B1528]">{dateStr}</strong>
             </div>
             <div>
-              <span className="text-[#5F625F]">Experiments Completed: </span>
-              <strong className="text-[#24452E]">{milestones} / {total}</strong>
+              <span className="text-[#475569]">Experiments Completed: </span>
+              <strong className="text-[#047857]">{milestones} / {total}</strong>
             </div>
             <div>
-              <span className="text-[#5F625F]">Final Challenge: </span>
-              <strong className="text-[#24452E]">{finalChallengeStatus}</strong>
+              <span className="text-[#475569]">Final Challenge: </span>
+              <strong className="text-[#047857]">{finalChallengeStatus}</strong>
             </div>
           </div>
         </div>
@@ -121,19 +121,19 @@ export const CertificateDocument: React.FC<CertificateDocumentProps> = ({ data, 
 
       {/* Footer Attestation & Honest Disclaimer */}
       <div className="pt-2 sm:pt-4 relative z-10 space-y-2">
-        <div className="flex items-center justify-between px-4 sm:px-10 pb-2 border-t border-[#D9DCD8] text-xs pt-3 font-sans">
+        <div className="flex items-center justify-between px-4 sm:px-10 pb-2 border-t border-[#CBD5E1] text-xs pt-3 font-sans">
           <div className="text-left">
-            <span className="block font-bold text-[#252525]">ISSUED DATE</span>
-            <span className="font-mono text-[#5F625F]">{dateStr}</span>
+            <span className="block font-bold text-[#0B1528]">ISSUED DATE</span>
+            <span className="font-mono text-[#475569]">{dateStr}</span>
           </div>
           <div className="text-right">
-            <span className="block font-bold text-[#252525]">LABORATORY ATTESTATION</span>
-            <span className="font-mono text-[#5F625F]">Deterministic In-Browser Engine</span>
+            <span className="block font-bold text-[#0B1528]">LABORATORY ATTESTATION</span>
+            <span className="font-mono text-[#475569]">Deterministic In-Browser Engine</span>
           </div>
         </div>
 
         {/* Honest Disclaimer */}
-        <p className="text-xs font-sans italic text-[#5F625F] text-center pb-1">
+        <p className="text-xs font-sans text-[#475569] text-center pb-1">
           Educational completion certificate — not an institutional or professional certification.
         </p>
       </div>

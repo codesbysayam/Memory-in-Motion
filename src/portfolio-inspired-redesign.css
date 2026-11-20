@@ -1,0 +1,648 @@
+/* ============================================================================
+   MEMORY IN MOTION — PORTFOLIO-INSPIRED CREATIVE-TECH VISUAL SYSTEM
+   Loaded LAST in src/main.tsx.
+   Deep Ink & Acid Lime identity + floating glass navigation + desktop split hero
+   + chapter openings with oversized index numerals + responsive layout rules.
+   ============================================================================ */
+
+/* Scroll progress indicator & canvas defaults */
+.editorial-scroll-progress {
+  background: linear-gradient(90deg, var(--mm-lime), var(--mm-teal) 55%, var(--mm-signal)) !important;
+}
+
+body {
+  background-color: var(--page-bg) !important;
+  color: var(--text-primary) !important;
+  font-family: var(--font-body);
+}
+
+/* ============================================================================
+   FLOATING TRANSLUCENT GLASS NAVIGATION (.site-header)
+   ============================================================================ */
+.site-header {
+  position: sticky !important;
+  top: 12px !important;
+  z-index: 40 !important;
+  width: min(100% - 40px, 1400px) !important;
+  margin: 12px auto 0 !important;
+  border-radius: 16px !important;
+  border: 1px solid var(--border-strong, var(--mm-rule-strong)) !important;
+  background: color-mix(in srgb, var(--surface) 78%, transparent) !important;
+  backdrop-filter: blur(20px) saturate(145%) !important;
+  -webkit-backdrop-filter: blur(20px) saturate(145%) !important;
+  box-shadow: 0 10px 30px rgba(12, 19, 15, 0.08) !important;
+  overflow: hidden;
+  transition:
+    background-color 220ms ease,
+    border-color 220ms ease,
+    box-shadow 220ms ease !important;
+}
+
+[data-theme="dark"] .site-header,
+.dark .site-header {
+  background: color-mix(in srgb, #0F1712 80%, transparent) !important;
+  border-color: #2C3D32 !important;
+  box-shadow: 0 16px 38px rgba(0, 0, 0, 0.42) !important;
+}
+
+.site-header-inner {
+  width: 100% !important;
+  padding-inline: 18px !important;
+  min-height: 62px !important;
+}
+
+.header-brand-title {
+  font-family: var(--font-display) !important;
+  font-weight: 700 !important;
+  letter-spacing: -0.03em !important;
+}
+
+.header-secondary-button {
+  min-height: 38px !important;
+  padding: 0 14px !important;
+  border: 1px solid var(--border-strong, var(--mm-rule-strong)) !important;
+  border-radius: 10px !important;
+  background: color-mix(in srgb, var(--surface) 88%, transparent) !important;
+  color: var(--text-primary) !important;
+  font-weight: 600 !important;
+  font-size: 12.5px !important;
+}
+
+.header-secondary-button:hover {
+  border-color: var(--mm-lime) !important;
+  background: var(--mm-signal-soft) !important;
+  color: var(--text-primary) !important;
+}
+
+.theme-switcher {
+  border-radius: 10px !important;
+  padding: 3px !important;
+  background: var(--surface-soft) !important;
+  border: 1px solid var(--mm-rule) !important;
+}
+
+.theme-option {
+  border-radius: 7px !important;
+}
+
+.theme-option.active {
+  background: var(--surface) !important;
+  color: var(--color-accent-ink) !important;
+  border-color: color-mix(in srgb, var(--mm-lime) 55%, var(--mm-rule)) !important;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.12) !important;
+}
+
+/* Reading progress bar inside floating header */
+.site-header > div[aria-hidden="true"] > div {
+  background: var(--mm-lime) !important;
+}
+
+/* ============================================================================
+   HERO OPENING (#landing-hero): DESKTOP 2-COLUMN SPLIT + STACKED MOBILE
+   ============================================================================ */
+#landing-hero {
+  position: relative;
+  background:
+    radial-gradient(ellipse 46rem 28rem at 82% 8%, color-mix(in srgb, var(--mm-lime) 14%, transparent), transparent 72%),
+    radial-gradient(ellipse 36rem 24rem at 10% 42%, color-mix(in srgb, var(--mm-teal) 8%, transparent), transparent 70%),
+    var(--page-bg) !important;
+}
+
+#landing-hero > .research-container:first-child {
+  display: grid !important;
+  grid-template-columns: minmax(0, 0.96fr) minmax(0, 1.14fr) !important;
+  column-gap: clamp(28px, 4vw, 56px) !important;
+  row-gap: 24px !important;
+  align-items: center !important;
+  padding-top: clamp(38px, 6vh, 72px) !important;
+  padding-bottom: clamp(42px, 6.5vh, 78px) !important;
+}
+
+/* Neutralize Tailwind space-y-* margins on grid children so rows align accurately */
+#landing-hero > .research-container:first-child > * {
+  margin-top: 0 !important;
+}
+
+#landing-hero > .research-container:first-child > .essay-stage-wide.text-left {
+  grid-column: 1 !important;
+  grid-row: 1 !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  align-self: end !important;
+  gap: 16px !important;
+}
+
+#landing-hero > .research-container:first-child > div.essay-stage-wide {
+  grid-column: 1 !important;
+  grid-row: 2 !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  align-self: start !important;
+  justify-content: flex-start !important;
+  padding-top: 4px !important;
+}
+
+#landing-hero > .research-container:first-child > figure.essay-stage-wide {
+  grid-column: 2 !important;
+  grid-row: 1 / span 2 !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  margin: 0 !important;
+  align-self: center !important;
+  border-radius: 18px !important;
+  border: 1px solid var(--border-strong, var(--mm-rule-strong)) !important;
+  background: var(--surface) !important;
+  box-shadow: var(--shadow-panel) !important;
+  overflow: hidden !important;
+}
+
+#landing-hero figure.essay-stage-wide > div:first-child {
+  border: 0 !important;
+  border-radius: 17px !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  padding: clamp(16px, 2vw, 24px) !important;
+}
+
+#landing-hero svg[role="img"] {
+  min-height: 220px !important;
+  max-height: 280px !important;
+  width: 100% !important;
+}
+
+#landing-hero figure.essay-stage-wide figcaption > div:first-child {
+  flex-direction: column !important;
+  align-items: flex-start !important;
+  gap: 5px !important;
+}
+
+#landing-hero figure.essay-stage-wide figcaption > div:first-child > span {
+  text-align: left !important;
+  white-space: normal !important;
+}
+
+#landing-hero .essay-eyebrow {
+  color: var(--color-accent-ink) !important;
+  font-family: var(--font-mono) !important;
+  font-weight: 600 !important;
+}
+
+#landing-hero .essay-cover-title {
+  font-family: var(--font-display) !important;
+  font-weight: 700 !important;
+  font-size: clamp(2.65rem, 4.4vw, 4.85rem) !important;
+  letter-spacing: -0.045em !important;
+  line-height: 0.96 !important;
+  max-width: 12ch !important;
+  color: var(--text-primary) !important;
+}
+
+#landing-hero .essay-lead {
+  border-left: none !important;
+  padding-left: 0 !important;
+  color: var(--text-secondary) !important;
+  font-family: var(--font-body) !important;
+  font-size: clamp(1rem, 1.15vw, 1.14rem) !important;
+  line-height: 1.68 !important;
+  max-width: 48ch !important;
+}
+
+/* ============================================================================
+   CHAPTER OPENINGS (02 – 07) WITH OVERSIZED INDEX & LIME ACCENT RULE
+   ============================================================================ */
+.chapter-page {
+  isolation: isolate;
+}
+
+.chapter-opening {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  border-bottom: 1px solid var(--border) !important;
+  border-radius: 0 0 26px 26px;
+  background:
+    radial-gradient(ellipse 38rem 22rem at 86% 0%, color-mix(in srgb, var(--mm-lime) 14%, transparent), transparent 72%),
+    var(--surface) !important;
+  margin-bottom: 36px;
+}
+
+.chapter-opening.essay-night-band {
+  background-color: #0C130F !important;
+  background-image:
+    radial-gradient(ellipse 40rem 24rem at 86% 0%, color-mix(in srgb, var(--mm-lime) 13%, transparent), transparent 72%),
+    linear-gradient(180deg, #0C130F 0%, #101A14 100%) !important;
+  border-color: #26352B !important;
+}
+
+.chapter-opening::before {
+  content: attr(data-chapter-index);
+  position: absolute;
+  font-family: var(--font-display) !important;
+  font-size: clamp(9rem, 21vw, 19rem) !important;
+  font-weight: 700 !important;
+  letter-spacing: -0.09em !important;
+  line-height: 0.8;
+  color: color-mix(in srgb, var(--mm-signal) 10%, transparent) !important;
+  right: 3vw !important;
+  top: 50% !important;
+  transform: translateY(-50%) !important;
+  pointer-events: none;
+  user-select: none;
+  z-index: 0;
+}
+
+.chapter-opening.essay-night-band::before {
+  color: rgba(184, 243, 68, 0.08) !important;
+}
+
+.chapter-opening::after {
+  content: "";
+  position: absolute;
+  inset: auto 0 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--mm-lime), var(--mm-teal), transparent 78%);
+  opacity: 0.85;
+  z-index: 0;
+}
+
+.chapter-opening > * {
+  position: relative;
+  z-index: 1;
+}
+
+.chapter-opening .essay-stage-title {
+  max-width: 14ch;
+  font-family: var(--font-display) !important;
+  font-weight: 700 !important;
+  font-size: clamp(2.45rem, 5.2vw, 4.75rem) !important;
+  letter-spacing: -0.04em !important;
+  line-height: 0.98 !important;
+}
+
+.essay-section-title {
+  font-family: var(--font-display) !important;
+  font-weight: 700 !important;
+  font-size: clamp(1.95rem, 3.6vw, 3.35rem) !important;
+  letter-spacing: -0.035em !important;
+  line-height: 1.04 !important;
+}
+
+/* Night Band Scope (preserves semantic readout colors & primary CTA ink) */
+.essay-night-band {
+  background: #0C130F !important;
+  color: #F1F5ED !important;
+  border-color: #26352B !important;
+}
+
+/* ============================================================================
+   BUTTONS, INTERACTIVE PANELS, FORMS, TABLES & FOCUS STATES
+   ============================================================================ */
+.btn,
+.btn-primary,
+.btn-secondary,
+.btn-tertiary,
+.btn-ghost {
+  border-radius: 10px !important;
+  font-family: var(--font-body) !important;
+}
+
+.btn-primary {
+  background: #B8F344 !important;
+  border: 1px solid #8EC428 !important;
+  color: #090E0B !important;
+  font-weight: 700 !important;
+  box-shadow: 0 4px 14px rgba(184, 243, 68, 0.22) !important;
+}
+
+.btn-primary:hover:not(:disabled) {
+  background: #C9FA64 !important;
+  border-color: #B8F344 !important;
+  color: #090E0B !important;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(184, 243, 68, 0.34) !important;
+}
+
+[data-theme="dark"] .btn-primary,
+.dark .btn-primary,
+.essay-night-band .btn-primary {
+  background: #B8F344 !important;
+  border-color: #CEF874 !important;
+  color: #090E0B !important;
+  box-shadow: 0 4px 16px rgba(184, 243, 68, 0.28) !important;
+}
+
+[data-theme="dark"] .btn-primary:hover:not(:disabled),
+.dark .btn-primary:hover:not(:disabled),
+.essay-night-band .btn-primary:hover:not(:disabled) {
+  background: #CEF874 !important;
+  border-color: #E2FB9E !important;
+  color: #090E0B !important;
+}
+
+.btn-secondary {
+  background: var(--surface) !important;
+  color: var(--text-primary) !important;
+  border: 1px solid var(--border-strong, var(--mm-rule-strong)) !important;
+  box-shadow: 0 1px 2px rgba(12, 19, 15, 0.05);
+}
+
+.btn-secondary:hover:not(:disabled) {
+  background: var(--mm-signal-soft) !important;
+  border-color: var(--mm-signal) !important;
+  color: var(--color-accent-ink) !important;
+  transform: translateY(-1px);
+}
+
+button,
+[role="button"] {
+  transition:
+    transform 180ms ease,
+    box-shadow 180ms ease,
+    background-color 180ms ease,
+    color 180ms ease,
+    border-color 180ms ease;
+}
+
+button:not(:disabled):hover,
+[role="button"]:not([aria-disabled="true"]):hover {
+  transform: translateY(-1px);
+}
+
+button:not(:disabled):active,
+[role="button"]:not([aria-disabled="true"]):active {
+  transform: translateY(0) scale(0.98);
+}
+
+button:disabled {
+  opacity: 0.48;
+  cursor: not-allowed;
+}
+
+/* Panels & Data Surfaces */
+.card,
+.lab-section,
+.diagram-frame,
+.glossary-modal {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  box-shadow: var(--shadow-panel);
+}
+
+figure.essay-figure-stage,
+.essay-figure-stage {
+  border-radius: 18px !important;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-panel);
+  overflow: hidden;
+}
+
+input:not([type="range"]):not([type="checkbox"]):not([type="radio"]),
+select,
+textarea {
+  border-radius: 10px !important;
+  border-color: var(--border-strong, var(--mm-rule-strong));
+  background: var(--surface);
+  color: var(--text-primary);
+}
+
+input:not([type="range"]):not([type="checkbox"]):not([type="radio"]):focus,
+select:focus,
+textarea:focus {
+  outline: none !important;
+  border-color: var(--mm-signal) !important;
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--mm-lime) 30%, transparent) !important;
+}
+
+:focus-visible {
+  outline: 2.5px solid var(--mm-signal) !important;
+  outline-offset: 2px !important;
+}
+
+hr,
+td,
+th {
+  border-color: var(--border);
+}
+
+.research-table-wrap {
+  border-radius: 14px;
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-panel);
+}
+
+.research-table th {
+  font-family: var(--font-mono) !important;
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-secondary) !important;
+  background: var(--surface-soft);
+}
+
+pre,
+code {
+  border-radius: 8px;
+}
+
+/* ============================================================================
+   RESPONSIVE COMPOSITIONS (TABLET & MOBILE 320px–900px)
+   ============================================================================ */
+@media (max-width: 900px) {
+  #landing-hero > .research-container:first-child {
+    grid-template-columns: minmax(0, 1fr) !important;
+    padding-top: 38px !important;
+    padding-bottom: 42px !important;
+    row-gap: 28px !important;
+  }
+
+  #landing-hero > .research-container:first-child > .essay-stage-wide.text-left,
+  #landing-hero > .research-container:first-child > div.essay-stage-wide,
+  #landing-hero > .research-container:first-child > figure.essay-stage-wide {
+    grid-column: 1 !important;
+    grid-row: auto !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  #landing-hero .essay-cover-title {
+    max-width: 14ch !important;
+    font-size: clamp(2.4rem, 8.2vw, 3.8rem) !important;
+    line-height: 0.98 !important;
+  }
+
+  #landing-hero svg[role="img"] {
+    min-height: 200px !important;
+    max-height: 260px !important;
+  }
+}
+
+@media (max-width: 640px) {
+  .site-header {
+    top: 8px !important;
+    width: calc(100% - 18px) !important;
+    margin: 8px auto 0 !important;
+    border-radius: 13px !important;
+  }
+
+  .site-header-inner {
+    min-height: 54px !important;
+    padding-inline: 11px !important;
+    gap: 8px !important;
+  }
+
+  .header-brand-title {
+    font-size: 15px !important;
+  }
+
+  .header-secondary-button {
+    min-height: 35px !important;
+    padding-inline: 10px !important;
+    font-size: 11.5px !important;
+  }
+
+  .research-container {
+    width: calc(100% - 28px) !important;
+  }
+
+  #landing-hero > .research-container:first-child {
+    padding-top: 28px !important;
+    padding-bottom: 34px !important;
+    row-gap: 22px !important;
+  }
+
+  #landing-hero .essay-cover-title {
+    font-size: clamp(2.15rem, 10vw, 3.1rem) !important;
+    line-height: 0.98 !important;
+  }
+
+  #landing-hero .essay-lead {
+    font-size: 0.96rem !important;
+    line-height: 1.65 !important;
+  }
+
+  #landing-hero > .research-container:first-child > figure.essay-stage-wide {
+    border-radius: 15px !important;
+  }
+
+  #landing-hero > .research-container:first-child > figure.essay-stage-wide > div:first-child {
+    padding: 12px !important;
+  }
+
+  #landing-hero svg[role="img"] {
+    min-height: 170px !important;
+    max-height: 215px !important;
+  }
+
+  .chapter-opening {
+    border-radius: 0 0 18px 18px;
+    margin-bottom: 24px;
+  }
+
+  .chapter-opening .research-container {
+    padding-top: 38px !important;
+    padding-bottom: 38px !important;
+  }
+
+  .chapter-opening .essay-stage-title {
+    font-size: clamp(2.05rem, 9.6vw, 3.1rem) !important;
+  }
+
+  .chapter-opening::before {
+    font-size: 7.5rem !important;
+    right: 6px !important;
+    top: 10px !important;
+    transform: none !important;
+  }
+
+  .essay-section-title {
+    font-size: clamp(1.7rem, 7.6vw, 2.35rem) !important;
+  }
+}
+
+@media (max-width: 420px) {
+  .site-header {
+    width: calc(100% - 14px) !important;
+  }
+
+  .site-header-inner {
+    padding-inline: 9px !important;
+    gap: 5px !important;
+  }
+
+  .header-brand {
+    gap: 6px !important;
+  }
+
+  .header-brand-title {
+    font-size: 13px !important;
+    letter-spacing: -0.025em !important;
+  }
+
+  .header-actions {
+    gap: 4px !important;
+  }
+
+  .theme-switcher {
+    padding: 2px !important;
+  }
+
+  .theme-option {
+    min-height: 28px !important;
+    padding: 0 5px !important;
+  }
+
+  .header-secondary-button {
+    min-height: 32px !important;
+    padding-inline: 8px !important;
+    font-size: 11px !important;
+    gap: 4px !important;
+  }
+}
+
+@media (max-width: 360px) {
+  .site-header {
+    width: calc(100% - 10px) !important;
+  }
+
+  .site-header-inner {
+    padding-inline: 8px !important;
+    gap: 4px !important;
+  }
+
+  .header-brand button > *:first-child {
+    display: none !important;
+  }
+
+  .header-brand-title {
+    font-size: 13px !important;
+    letter-spacing: -0.025em !important;
+  }
+
+  .theme-option {
+    min-height: 26px !important;
+    padding: 0 4px !important;
+  }
+
+  .header-secondary-button {
+    min-height: 30px !important;
+    padding-inline: 7px !important;
+    font-size: 10.5px !important;
+  }
+
+  .header-secondary-button svg {
+    display: none !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

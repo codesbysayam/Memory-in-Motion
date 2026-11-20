@@ -208,7 +208,7 @@ function AppContent() {
         <div
           role="status"
           aria-live="polite"
-          className="fixed top-16 right-4 sm:right-6 z-50 px-3 py-1.5 rounded-sm border border-[var(--mm-rule-strong)] bg-[var(--mm-paper-bright)] text-[var(--text-primary)] font-mono text-xs shadow-[var(--shadow-popover)] pointer-events-none no-print"
+          className="fixed bottom-5 left-4 sm:left-6 z-30 px-3 py-1.5 rounded-lg border border-[var(--mm-rule-strong)] bg-[var(--surface)] text-[var(--text-primary)] font-mono text-xs shadow-[var(--shadow-popover)] pointer-events-none no-print"
         >
           {shortcutFeedback}
         </div>
@@ -252,7 +252,10 @@ function AppContent() {
           {/* ============================================================ */}
           {currentPage === 'break' && (
             <div className="chapter-page chapter-page--break w-full" data-chapter="02">
-              <header className="w-full essay-night-band border-b border-[var(--mm-rule)]">
+              <header
+                className="chapter-opening w-full essay-night-band border-b border-[var(--mm-rule)]"
+                data-chapter-index="02"
+              >
                 <div className="research-container py-10 sm:py-14">
                   <div className="essay-stage-wide grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-10 items-end">
                     <div className="lg:col-span-8 space-y-3">
@@ -306,7 +309,10 @@ function AppContent() {
           {/* ============================================================ */}
           {currentPage === 'trace' && (
             <div className="chapter-page chapter-page--trace w-full" data-chapter="03">
-              <header className="w-full essay-night-band border-b border-[var(--mm-rule)]">
+              <header
+                className="chapter-opening w-full essay-night-band border-b border-[var(--mm-rule)]"
+                data-chapter-index="03"
+              >
                 <div className="research-container py-12 sm:py-16">
                   <div className="essay-column text-center space-y-4">
                     <ChapterKicker
@@ -353,7 +359,10 @@ function AppContent() {
           {/* ============================================================ */}
           {currentPage === 'measure' && (
             <div className="chapter-page chapter-page--measure w-full" data-chapter="04">
-              <header className="w-full border-b border-[var(--mm-rule)] bg-[var(--page-bg)]">
+              <header
+                className="chapter-opening w-full border-b border-[var(--mm-rule)] bg-[var(--page-bg)]"
+                data-chapter-index="04"
+              >
                 <div className="research-container py-12 sm:py-16 space-y-8">
                   <div className="essay-stage-wide space-y-4">
                     <ChapterKicker
@@ -407,7 +416,10 @@ function AppContent() {
           {/* ============================================================ */}
           {currentPage === 'bdh' && (
             <div className="chapter-page chapter-page--bdh w-full" data-chapter="05">
-              <header className="w-full border-b border-[var(--mm-rule)] bg-[var(--mm-paper-bright)]">
+              <header
+                className="chapter-opening w-full border-b border-[var(--mm-rule)] bg-[var(--mm-paper-bright)]"
+                data-chapter-index="05"
+              >
                 <div className="research-container py-12 sm:py-16">
                   <div className="essay-stage-wide grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
                     <div className="lg:col-span-7 space-y-4">
@@ -456,7 +468,10 @@ function AppContent() {
           {/* ============================================================ */}
           {currentPage === 'reason' && (
             <div className="chapter-page chapter-page--reason w-full" data-chapter="06">
-              <header className="w-full border-b border-[var(--mm-rule)] bg-[var(--page-bg)]">
+              <header
+                className="chapter-opening w-full border-b border-[var(--mm-rule)] bg-[var(--page-bg)]"
+                data-chapter-index="06"
+              >
                 <div className="research-container py-12 sm:py-16">
                   <div className="essay-column space-y-4">
                     <ChapterKicker
@@ -496,7 +511,10 @@ function AppContent() {
           {/* ============================================================ */}
           {currentPage === 'prove' && (
             <div className="chapter-page chapter-page--prove w-full" data-chapter="07">
-              <header className="w-full border-b border-[var(--mm-rule)] bg-[var(--page-bg)]">
+              <header
+                className="chapter-opening w-full border-b border-[var(--mm-rule)] bg-[var(--page-bg)]"
+                data-chapter-index="07"
+              >
                 <div className="research-container py-12 sm:py-16">
                   <div className="essay-column text-center space-y-4">
                     <ChapterKicker

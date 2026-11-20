@@ -774,8 +774,8 @@ export const LandingDemo: React.FC<LandingDemoProps> = ({
                       const mag = Math.min(1, Math.abs(val) * 1.45);
                       const isPos = val >= 0;
                       const fill = isPos
-                        ? `rgba(78, 134, 240, ${Math.max(0.14, mag * 0.92)})`
-                        : `rgba(218, 98, 76, ${Math.max(0.14, mag * 0.92)})`;
+                        ? `rgba(184, 243, 68, ${Math.max(0.18, mag * 0.92)})`
+                        : `rgba(244, 63, 94, ${Math.max(0.18, mag * 0.88)})`;
                       return (
                         <g key={`${r}-${c}`}>
                           <motion.rect
@@ -866,7 +866,7 @@ export const LandingDemo: React.FC<LandingDemoProps> = ({
                     y="138"
                     fontSize="28"
                     fontFamily="var(--font-display)"
-                    fontWeight="400"
+                    fontWeight="600"
                     fill={experiment.evaluation.isCorrect ? 'var(--mm-teal)' : 'var(--mm-coral)'}
                   >
                     {experiment.evaluation.prediction}
@@ -1025,8 +1025,8 @@ export const LandingDemo: React.FC<LandingDemoProps> = ({
                       style={{
                         backgroundColor:
                           val >= 0
-                            ? `rgba(78, 134, 240, ${Math.max(0.2, Math.min(1, Math.abs(val) * 1.4))})`
-                            : `rgba(218, 98, 76, ${Math.max(0.2, Math.min(1, Math.abs(val) * 1.4))})`,
+                            ? `rgba(184, 243, 68, ${Math.max(0.22, Math.min(1, Math.abs(val) * 1.45))})`
+                            : `rgba(244, 63, 94, ${Math.max(0.22, Math.min(1, Math.abs(val) * 1.45))})`,
                       }}
                     />
                   );
@@ -1342,8 +1342,8 @@ export const LandingDemo: React.FC<LandingDemoProps> = ({
                       const isPos = val >= 0;
                       const abs = Math.min(Math.abs(val) * 1.4, 1);
                       const bg = isPos
-                        ? `rgba(78, 134, 240, ${Math.max(0.16, abs)})`
-                        : `rgba(220, 76, 76, ${Math.max(0.16, abs)})`;
+                        ? `rgba(99, 102, 241, ${Math.max(0.18, abs)})`
+                        : `rgba(244, 63, 94, ${Math.max(0.18, abs)})`;
 
                       const isSelected = selectedCell?.r === rIdx && selectedCell?.c === cIdx;
                       const isHovered = hoveredCell?.r === rIdx && hoveredCell?.c === cIdx;

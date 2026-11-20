@@ -353,12 +353,12 @@ export const DocumentationViewer: React.FC<DocumentationViewerProps> = ({
                     </div>
                     <div className="p-3 rounded-lg border border-[var(--border)] bg-[var(--surface-soft)]">
                       <div className="w-full h-8 rounded bg-[var(--color-accent)] mb-2" />
-                      <div className="font-mono text-xs font-semibold text-[var(--text-primary)]">Cobalt Accent</div>
+                      <div className="font-mono text-xs font-semibold text-[var(--text-primary)]">Acid Lime Signal</div>
                       <div className="font-mono text-[11px] text-[var(--text-muted)]">var(--color-accent)</div>
                     </div>
                     <div className="p-3 rounded-lg border border-[var(--border)] bg-[var(--surface-soft)]">
                       <div className="w-full h-8 rounded bg-[var(--color-success)] mb-2" />
-                      <div className="font-mono text-xs font-semibold text-[var(--text-primary)]">Empirical Green</div>
+                      <div className="font-mono text-xs font-semibold text-[var(--text-primary)]">Mint Empirical Green</div>
                       <div className="font-mono text-[11px] text-[var(--text-muted)]">var(--color-success)</div>
                     </div>
                     <div className="p-3 rounded-lg border border-[var(--border)] bg-[var(--surface-soft)]">
@@ -370,9 +370,9 @@ export const DocumentationViewer: React.FC<DocumentationViewerProps> = ({
 
                   <h3 className="font-sans font-semibold text-base text-[var(--text-primary)]">2. Typography Hierarchy</h3>
                   <ul className="list-disc pl-5 space-y-1.5">
-                    <li><strong className="text-[var(--text-primary)]">Display Headlines (h1, h2):</strong> Instrument Serif (weight 400) for authoritative editorial presence.</li>
-                    <li><strong className="text-[var(--text-primary)]">Interface &amp; Body:</strong> Manrope for dense, legible controls, questions, and paragraphs.</li>
-                    <li><strong className="text-[var(--text-primary)]">Formulas &amp; Coordinates:</strong> IBM Plex Mono (tabular numerals) and KaTeX for technical precision.</li>
+                    <li><strong className="text-[var(--text-primary)]">Display Headlines (h1, h2):</strong> Space Grotesk (weights 500–700) for geometric architectural presence.</li>
+                    <li><strong className="text-[var(--text-primary)]">Interface &amp; Body:</strong> DM Sans for dense, legible controls, questions, and paragraphs.</li>
+                    <li><strong className="text-[var(--text-primary)]">Formulas &amp; Coordinates:</strong> DM Mono (tabular numerals) and KaTeX for technical precision.</li>
                   </ul>
                 </div>
               </article>

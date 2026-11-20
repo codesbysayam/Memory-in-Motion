@@ -36,7 +36,7 @@ export function StateInspector({
     >
       <div className="flex items-center justify-between border-b border-[var(--color-matrix-border)] pb-2.5 gap-2">
         <div className="flex items-center gap-2">
-          <Activity className="w-3.5 h-3.5 text-sky-300" />
+          <Activity className="w-3.5 h-3.5 text-lime-300" />
           <span className="text-xs font-mono font-medium text-[var(--color-matrix-ink)]">
             Current internal state · Live toy model
           </span>
@@ -50,7 +50,7 @@ export function StateInspector({
       <div className="space-y-1.5">
         <div className="text-xs text-[var(--color-matrix-muted)] flex items-center justify-between gap-2">
           <span>Hover or click any state coordinate to inspect numerical delta:</span>
-          <span className="font-mono text-[11px] tabular-nums text-sky-300 shrink-0">{dimensions}-D vector</span>
+          <span className="font-mono text-[11px] tabular-nums text-lime-300 shrink-0">{dimensions}-D vector</span>
         </div>
 
         <div className="grid grid-cols-4 sm:grid-cols-8 gap-1.5">
@@ -62,8 +62,8 @@ export function StateInspector({
             const bgOpacity = Math.min(Math.max(absVal, 0.1), 1);
             const style = {
               backgroundColor: isPositive
-                ? `rgba(78, 134, 240, ${bgOpacity * 0.72})`
-                : `rgba(220, 76, 76, ${bgOpacity * 0.65})`,
+                ? `rgba(184, 243, 68, ${bgOpacity * 0.72})`
+                : `rgba(244, 63, 94, ${bgOpacity * 0.72})`,
             };
 
             return (
@@ -76,7 +76,7 @@ export function StateInspector({
                 style={style}
                 className={`flex flex-col items-center justify-center p-2 rounded border transition-colors text-left cursor-pointer ${
                   isInspected
-                    ? 'border-sky-300 ring-1 ring-sky-300 z-10'
+                    ? 'border-lime-300 ring-1 ring-lime-300 z-10'
                     : 'border-[var(--color-matrix-border)] hover:border-[var(--color-matrix-muted)]'
                 }`}
                 title={`Coordinate ${unitPrefix}[${idx}]: ${val.toFixed(3)}`}
@@ -95,7 +95,7 @@ export function StateInspector({
 
       {/* Technical detail panel */}
       <div className="rounded-lg bg-[var(--color-matrix-surface)] border border-[var(--color-matrix-border)] p-3 text-xs space-y-2.5 font-mono">
-        <div className="flex items-center justify-between text-sky-300 text-[11px] font-semibold border-b border-[var(--color-matrix-border)] pb-1.5">
+        <div className="flex items-center justify-between text-lime-300 text-[11px] font-semibold border-b border-[var(--color-matrix-border)] pb-1.5">
           <span className="flex items-center gap-1.5">
             <Layers className="w-3.5 h-3.5" />
             Coordinate inspection

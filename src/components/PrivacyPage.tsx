@@ -97,7 +97,7 @@ export const PrivacyPage: React.FC<LegalPageProps> = ({ onBackToLab }) => {
             3. Typography &amp; External Fonts
           </h2>
           <p>
-            This application loads open-source fonts (Instrument Serif, Manrope, and IBM Plex Mono) through Google Fonts, and mathematical rendering stylesheets via KaTeX CDN. Requests for these static assets follow standard web browser caching policies.
+            This application loads open-source fonts (Space Grotesk, DM Sans, and DM Mono) through Google Fonts, and mathematical rendering stylesheets via KaTeX CDN. Requests for these static assets follow standard web browser caching policies.
           </p>
         </div>
 

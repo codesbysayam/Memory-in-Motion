@@ -1,27 +1,26 @@
 /*
- * MEMORY IN MOTION — SINGLE SOURCE OF TRUTH FOR VISUAL TOKENS
- * Loaded after index.css, editorial-redesign.css and typography-system.css.
- * Maps legacy Tailwind semantic variables to the active editorial palette.
- * This prevents blue legacy utilities and coral editorial accents fighting.
+ * MEMORY IN MOTION — SINGLE SOURCE OF TRUTH FOR VISUAL TOKENS (PORTFOLIO CREATIVE-TECH)
+ * Loaded after index.css, editorial-redesign.css, and typography-system.css.
  */
 :root,
 html.light,
 html[data-theme="light"] {
   color-scheme: light;
 
-  --mm-paper: #F2EFE7;
-  --mm-paper-bright: #FAF8F2;
-  --mm-paper-inset: #E8E3D8;
-  --mm-ink: #171A1D;
-  --mm-ink-soft: #42484D;
-  --mm-muted: #747B7E;
-  --mm-rule: #D2CDC1;
-  --mm-rule-strong: #A9A397;
-  --mm-signal: #E14B32;
-  --mm-signal-hover: #B93422;
-  --mm-signal-soft: #F7E1DB;
-  --mm-cobalt: #3157C8;
-  --mm-cobalt-soft: #E4EAFB;
+  --mm-paper: #F4F7F0;
+  --mm-paper-bright: #FFFFFF;
+  --mm-paper-inset: #EBF0E5;
+  --mm-ink: #0C130F;
+  --mm-ink-soft: #313E35;
+  --mm-muted: #58685D;
+  --mm-rule: #D4DDD0;
+  --mm-rule-strong: #AEBCAE;
+  --mm-signal: #4A7C10;
+  --mm-signal-hover: #38600A;
+  --mm-signal-soft: #ECF8D6;
+  --mm-lime: #B8F344;
+  --mm-cobalt: #059669;
+  --mm-cobalt-soft: #E6FAF3;
 
   --page-bg: var(--mm-paper);
   --surface: var(--mm-paper-bright);
@@ -34,7 +33,7 @@ html[data-theme="light"] {
   --color-canvas: var(--mm-paper);
   --color-surface: var(--mm-paper-bright);
   --color-surface-soft: var(--mm-paper-inset);
-  --color-surface-muted: #E3DED2;
+  --color-surface-muted: #DCE5D5;
   --color-ink: var(--mm-ink);
   --color-ink-secondary: var(--mm-ink-soft);
   --color-ink-muted: var(--mm-muted);
@@ -44,24 +43,24 @@ html[data-theme="light"] {
   --color-accent: var(--mm-signal);
   --color-accent-hover: var(--mm-signal-hover);
   --color-accent-soft: var(--mm-signal-soft);
-  --color-accent-ink: var(--mm-signal-hover);
+  --color-accent-ink: #365C09;
 
-  --color-success: #317A70;
-  --color-success-soft: #E6F2F0;
-  --color-success-border: #B4D5D0;
-  --color-warning: #8E5B14;
-  --color-warning-soft: #F6EEDD;
-  --color-warning-border: #DFC89E;
-  --color-danger: #B34D36;
-  --color-danger-soft: #F9EAE6;
-  --color-danger-border: #E5B9AD;
+  --color-success: #047857;
+  --color-success-soft: #E6FAF3;
+  --color-success-border: #99E3C8;
+  --color-warning: #B45309;
+  --color-warning-soft: #FEF5E4;
+  --color-warning-border: #F5CE87;
+  --color-danger: #BE123C;
+  --color-danger-soft: #FFEAF0;
+  --color-danger-border: #F5B5C5;
 
   --success: var(--color-success);
   --failure: var(--color-danger);
   --link: var(--color-accent-ink);
 
   --accent-blue: var(--mm-signal-soft);
-  --accent-blue-text: var(--mm-signal-hover);
+  --accent-blue-text: var(--color-accent-ink);
   --accent-green: var(--color-success-soft);
   --accent-green-text: var(--color-success);
   --accent-yellow: var(--color-warning-soft);
@@ -75,30 +74,31 @@ html[data-theme="light"] {
   --lab-secondary: var(--text-secondary);
   --lab-border: var(--border);
 
-  --font-display: "Instrument Serif", Georgia, "Times New Roman", serif;
-  --font-serif: "Instrument Serif", Georgia, "Times New Roman", serif;
-  --font-body: "Manrope", Arial, Helvetica, sans-serif;
-  --font-sans: "Manrope", Arial, Helvetica, sans-serif;
-  --font-mono: "IBM Plex Mono", "SFMono-Regular", Consolas, monospace;
+  --font-display: "Space Grotesk", "DM Sans", system-ui, sans-serif;
+  --font-serif: "Space Grotesk", "DM Sans", system-ui, sans-serif;
+  --font-body: "DM Sans", Arial, Helvetica, sans-serif;
+  --font-sans: "DM Sans", Arial, Helvetica, sans-serif;
+  --font-mono: "DM Mono", "SFMono-Regular", Consolas, monospace;
 }
 
 html.dark,
 html[data-theme="dark"] {
   color-scheme: dark;
 
-  --mm-paper: #101316;
-  --mm-paper-bright: #191F24;
-  --mm-paper-inset: #222A30;
-  --mm-ink: #F2F0E9;
-  --mm-ink-soft: #C7CBCB;
-  --mm-muted: #929B9E;
-  --mm-rule: #303A40;
-  --mm-rule-strong: #536068;
-  --mm-signal: #FF795E;
-  --mm-signal-hover: #FF9A84;
-  --mm-signal-soft: #3A2522;
-  --mm-cobalt: #8FA8FF;
-  --mm-cobalt-soft: #222D4D;
+  --mm-paper: #080D0A;
+  --mm-paper-bright: #0F1712;
+  --mm-paper-inset: #16221B;
+  --mm-ink: #F1F5ED;
+  --mm-ink-soft: #C4CEBE;
+  --mm-muted: #8C9B88;
+  --mm-rule: #223027;
+  --mm-rule-strong: #35493C;
+  --mm-signal: #B8F344;
+  --mm-signal-hover: #CEF874;
+  --mm-signal-soft: #1A2811;
+  --mm-lime: #B8F344;
+  --mm-cobalt: #34D399;
+  --mm-cobalt-soft: #0A2E25;
 
   --page-bg: var(--mm-paper);
   --surface: var(--mm-paper-bright);
@@ -111,7 +111,7 @@ html[data-theme="dark"] {
   --color-canvas: var(--mm-paper);
   --color-surface: var(--mm-paper-bright);
   --color-surface-soft: var(--mm-paper-inset);
-  --color-surface-muted: #2F343D;
+  --color-surface-muted: #1D2D23;
   --color-ink: var(--mm-ink);
   --color-ink-secondary: var(--mm-ink-soft);
   --color-ink-muted: var(--mm-muted);
@@ -121,17 +121,17 @@ html[data-theme="dark"] {
   --color-accent: var(--mm-signal);
   --color-accent-hover: var(--mm-signal-hover);
   --color-accent-soft: var(--mm-signal-soft);
-  --color-accent-ink: #FFB0A0;
+  --color-accent-ink: #B8F344;
 
-  --color-success: #69B5A8;
-  --color-success-soft: #1A2F2D;
-  --color-success-border: #2F5753;
-  --color-warning: #E8BA67;
-  --color-warning-soft: #332A1A;
-  --color-warning-border: #594728;
-  --color-danger: #E48B76;
-  --color-danger-soft: #36211D;
-  --color-danger-border: #633B33;
+  --color-success: #34D399;
+  --color-success-soft: #0A2E25;
+  --color-success-border: #1A5C48;
+  --color-warning: #FBBF24;
+  --color-warning-soft: #2D210A;
+  --color-warning-border: #614512;
+  --color-danger: #FB7185;
+  --color-danger-soft: #35121D;
+  --color-danger-border: #6E2538;
 
   --success: var(--color-success);
   --failure: var(--color-danger);
@@ -155,38 +155,39 @@ html[data-theme="dark"] {
 
 /* Night sections are local scopes. Do not mutate the global theme. */
 .essay-night-band {
-  --page-bg: #171C20;
-  --surface: #1E252B;
-  --surface-soft: #252E36;
-  --text-primary: #F4F0E8;
-  --text-secondary: #C7CCCB;
-  --text-muted: #98A2A4;
-  --border: #3A4448;
-  --color-canvas: #171C20;
-  --color-surface: #1E252B;
-  --color-surface-soft: #252E36;
-  --color-ink: #F4F0E8;
-  --color-ink-secondary: #C7CCCB;
-  --color-ink-muted: #98A2A4;
-  --color-border: #3A4448;
-  --mm-signal: #FF795E;
-  --mm-signal-hover: #FF9A84;
-  --mm-signal-soft: #3A2522;
-  --color-accent: #FF795E;
-  --color-accent-hover: #FF9A84;
-  --color-accent-soft: #3A2522;
-  --color-accent-ink: #FFB0A0;
-  --accent-blue: #222D4D;
-  --accent-blue-text: #AFC2FF;
-  --accent-green: #1A2F2D;
-  --accent-green-text: #69B5A8;
-  --accent-yellow: #332A1A;
-  --accent-yellow-text: #E8BA67;
-  --accent-pink: #36211D;
-  --accent-pink-text: #E48B76;
+  --page-bg: #0C130F;
+  --surface: #121C16;
+  --surface-soft: #18251D;
+  --text-primary: #F1F5ED;
+  --text-secondary: #C4CEBE;
+  --text-muted: #8C9B88;
+  --border: #26352B;
+  --color-canvas: #0C130F;
+  --color-surface: #121C16;
+  --color-surface-soft: #18251D;
+  --color-ink: #F1F5ED;
+  --color-ink-secondary: #C4CEBE;
+  --color-ink-muted: #8C9B88;
+  --color-border: #26352B;
+  --color-border-strong: #394F41;
+  --mm-signal: #B8F344;
+  --mm-signal-hover: #CEF874;
+  --mm-signal-soft: #1B2A12;
+  --color-accent: #B8F344;
+  --color-accent-hover: #CEF874;
+  --color-accent-soft: #1B2A12;
+  --color-accent-ink: #B8F344;
+  --accent-blue: #1B2A12;
+  --accent-blue-text: #B8F344;
+  --accent-green: #0A2E25;
+  --accent-green-text: #34D399;
+  --accent-yellow: #2D210A;
+  --accent-yellow-text: #FBBF24;
+  --accent-pink: #35121D;
+  --accent-pink-text: #FB7185;
 }
 
-/* Components consume semantic tokens. Avoid hard-coded colour utilities in new work. */
+/* Components consume semantic tokens. */
 a { color: var(--link); }
 a:hover { color: var(--color-accent); }
 :focus-visible {

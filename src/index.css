@@ -4,9 +4,9 @@
 @custom-variant dark (&:where(.dark, .dark *, [data-theme="dark"], [data-theme="dark"] *));
 
 @theme {
-  --font-serif: "Instrument Serif", Georgia, "Times New Roman", serif;
-  --font-sans: "Manrope", Arial, Helvetica, sans-serif;
-  --font-mono: "IBM Plex Mono", "SFMono-Regular", Consolas, monospace;
+  --font-serif: "Space Grotesk", "DM Sans", system-ui, sans-serif;
+  --font-sans: "DM Sans", Arial, Helvetica, sans-serif;
+  --font-mono: "DM Mono", "SFMono-Regular", Consolas, monospace;
 
   --color-paper: var(--page-bg);
   --color-surface: var(--surface);
@@ -32,40 +32,40 @@
 }
 
 /* ==================================================
-   UNIFIED DESIGN TOKENS — LIGHT (WARM EDITORIAL NOTEBOOK)
+   UNIFIED DESIGN TOKENS — LIGHT (MINERAL INK & ACID LIME)
    ================================================== */
 :root,
 [data-theme="light"],
 .light {
-  /* Pudding-Inspired Editorial Research Notebook Palette */
-  --mm-paper: #F4F1E9;
-  --mm-paper-bright: #FBFAF6;
-  --mm-paper-inset: #ECE8DD;
-  --mm-ink: #202124;
-  --mm-ink-soft: #42454A;
-  --mm-muted: #707378;
-  --mm-rule: #D8D5CC;
-  --mm-rule-strong: #B8B3A7;
-  --mm-signal: #E14B32;
-  --mm-signal-hover: #B93422;
-  --mm-signal-soft: #FBE9E5;
-  --mm-coral: #C96C55;
-  --mm-coral-soft: #F9EAE6;
-  --mm-coral-border: #E5B9AD;
-  --mm-teal: #43877E;
-  --mm-teal-soft: #E6F2F0;
-  --mm-teal-border: #B4D5D0;
-  --mm-amber: #8E5B14;
-  --mm-amber-soft: #F6EEDD;
-  --mm-amber-border: #DFC89E;
-  --mm-dark: #202326;
-  --mm-dark-paper: #F2F0E9;
+  --mm-paper: #F4F7F0;
+  --mm-paper-bright: #FFFFFF;
+  --mm-paper-inset: #EBF0E5;
+  --mm-ink: #0C130F;
+  --mm-ink-soft: #313E35;
+  --mm-muted: #58685D;
+  --mm-rule: #D4DDD0;
+  --mm-rule-strong: #AEBCAE;
+  --mm-signal: #4A7C10;
+  --mm-signal-hover: #38600A;
+  --mm-signal-soft: #ECF8D6;
+  --mm-lime: #B8F344;
+  --mm-coral: #DC2626;
+  --mm-coral-soft: #FFEAF0;
+  --mm-coral-border: #F5B5C5;
+  --mm-teal: #059669;
+  --mm-teal-soft: #E6FAF3;
+  --mm-teal-border: #99E3C8;
+  --mm-amber: #B45309;
+  --mm-amber-soft: #FEF5E4;
+  --mm-amber-border: #F5CE87;
+  --mm-dark: #0C130F;
+  --mm-dark-paper: #F1F5ED;
 
   /* Core Surfaces mapped from --mm-* */
   --color-canvas: var(--mm-paper);
   --color-surface: var(--mm-paper-bright);
   --color-surface-soft: var(--mm-paper-inset);
-  --color-surface-muted: #E3DFD3;
+  --color-surface-muted: #DCE5D5;
 
   /* Ink & Typography */
   --color-ink: var(--mm-ink);
@@ -76,14 +76,14 @@
   --color-border: var(--mm-rule);
   --color-border-strong: var(--mm-rule-strong);
 
-  /* Primary Signal Accent (Single Active Accent Family) */
+  /* Primary Signal Accent (Acid / Forest Lime) */
   --color-accent: var(--mm-signal);
   --color-accent-hover: var(--mm-signal-hover);
   --color-accent-soft: var(--mm-signal-soft);
-  --color-accent-ink: var(--mm-signal-hover);
+  --color-accent-ink: #365C09;
 
-  /* Semantic Status (Strictly Meaningful Encoding) */
-  --color-success: #2C6E66;
+  /* Semantic Status (Mint-Green Success, Amber Warning, Crimson Danger) */
+  --color-success: #047857;
   --color-success-soft: var(--mm-teal-soft);
   --color-success-border: var(--mm-teal-border);
 
@@ -91,17 +91,17 @@
   --color-warning-soft: var(--mm-amber-soft);
   --color-warning-border: var(--mm-amber-border);
 
-  --color-danger: #B34D36;
+  --color-danger: #BE123C;
   --color-danger-soft: var(--mm-coral-soft);
   --color-danger-border: var(--mm-coral-border);
 
-  /* Technical / Code / Matrix Canvases */
-  --color-code-bg: #EFECE3;
-  --color-matrix-bg: #1A1D21;
-  --color-matrix-surface: #23272D;
-  --color-matrix-border: #343A43;
-  --color-matrix-ink: #F2F0E9;
-  --color-matrix-muted: #B6BAC0;
+  /* Technical / Code / Matrix Canvases (Deep Ink Instrument Stage) */
+  --color-code-bg: #ECF2E6;
+  --color-matrix-bg: #090F0C;
+  --color-matrix-surface: #101914;
+  --color-matrix-border: #243429;
+  --color-matrix-ink: #F1F5ED;
+  --color-matrix-muted: #98A99B;
 
   /* Application Semantic Tokens */
   --page-bg: var(--color-canvas);
@@ -163,9 +163,9 @@
   --grey-700: var(--color-ink);
 
   /* Typography */
-  --font-display: "Instrument Serif", Georgia, "Times New Roman", serif;
-  --font-body: "Manrope", Arial, Helvetica, sans-serif;
-  --font-mono: "IBM Plex Mono", "SFMono-Regular", Consolas, monospace;
+  --font-display: "Space Grotesk", "DM Sans", system-ui, sans-serif;
+  --font-body: "DM Sans", Arial, Helvetica, sans-serif;
+  --font-mono: "DM Mono", "SFMono-Regular", Consolas, monospace;
 
   /* Spacing Scale */
   --space-1: 4px;
@@ -179,14 +179,14 @@
   --space-12: 88px;
 
   /* Radii & Shadows */
-  --radius-sm: 4px;
-  --radius-md: 8px;
-  --radius-lg: 12px;
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
   --radius-pill: 999px;
-  --radius: 8px;
+  --radius: 10px;
 
-  --shadow-panel: 0 1px 2px rgba(32, 33, 36, 0.04);
-  --shadow-popover: 0 10px 28px rgba(32, 33, 36, 0.11);
+  --shadow-panel: 0 2px 6px rgba(12, 19, 15, 0.05), 0 12px 28px rgba(12, 19, 15, 0.04);
+  --shadow-popover: 0 16px 38px rgba(12, 19, 15, 0.14);
 
   /* Layout Widths */
   --content-width: 1280px;
@@ -202,37 +202,38 @@
 }
 
 /* ==================================================
-   UNIFIED DESIGN TOKENS — DARK (HIGH-CONTRAST STUDIO INK)
+   UNIFIED DESIGN TOKENS — DARK (DEEP INK & ACID LIME)
    ================================================== */
 [data-theme="dark"],
 .dark {
-  --mm-paper: #16181B;
-  --mm-paper-bright: #1E2126;
-  --mm-paper-inset: #252930;
-  --mm-ink: #F2F0E9;
-  --mm-ink-soft: #CAC8C0;
-  --mm-muted: #989790;
-  --mm-rule: #2F333B;
-  --mm-rule-strong: #464C57;
-  --mm-signal: #FF795E;
-  --mm-signal-hover: #FF9882;
-  --mm-signal-soft: #3B1F1B;
-  --mm-coral: #E48B76;
-  --mm-coral-soft: #36211D;
-  --mm-coral-border: #633B33;
-  --mm-teal: #65B2A8;
-  --mm-teal-soft: #1A2F2D;
-  --mm-teal-border: #2F5753;
-  --mm-amber: #E8BA67;
-  --mm-amber-soft: #332A1A;
-  --mm-amber-border: #594728;
-  --mm-dark: #101215;
-  --mm-dark-paper: #F2F0E9;
+  --mm-paper: #080D0A;
+  --mm-paper-bright: #0F1712;
+  --mm-paper-inset: #16221B;
+  --mm-ink: #F1F5ED;
+  --mm-ink-soft: #C4CEBE;
+  --mm-muted: #8C9B88;
+  --mm-rule: #223027;
+  --mm-rule-strong: #35493C;
+  --mm-signal: #B8F344;
+  --mm-signal-hover: #CEF874;
+  --mm-signal-soft: #1A2811;
+  --mm-lime: #B8F344;
+  --mm-coral: #FB7185;
+  --mm-coral-soft: #35121D;
+  --mm-coral-border: #6E2538;
+  --mm-teal: #34D399;
+  --mm-teal-soft: #0A2E25;
+  --mm-teal-border: #1A5C48;
+  --mm-amber: #FBBF24;
+  --mm-amber-soft: #2D210A;
+  --mm-amber-border: #614512;
+  --mm-dark: #050806;
+  --mm-dark-paper: #F1F5ED;
 
   --color-canvas: var(--mm-paper);
   --color-surface: var(--mm-paper-bright);
   --color-surface-soft: var(--mm-paper-inset);
-  --color-surface-muted: #2F343D;
+  --color-surface-muted: #1D2D23;
 
   --color-ink: var(--mm-ink);
   --color-ink-secondary: var(--mm-ink-soft);
@@ -244,7 +245,7 @@
   --color-accent: var(--mm-signal);
   --color-accent-hover: var(--mm-signal-hover);
   --color-accent-soft: var(--mm-signal-soft);
-  --color-accent-ink: #AFC8FF;
+  --color-accent-ink: #B8F344;
 
   --color-success: var(--mm-teal);
   --color-success-soft: var(--mm-teal-soft);
@@ -258,12 +259,12 @@
   --color-danger-soft: var(--mm-coral-soft);
   --color-danger-border: var(--mm-coral-border);
 
-  --color-code-bg: #1D2025;
-  --color-matrix-bg: #111316;
-  --color-matrix-surface: #1A1D22;
-  --color-matrix-border: #2D323A;
-  --color-matrix-ink: #F2F0E9;
-  --color-matrix-muted: #A6A9B0;
+  --color-code-bg: #101914;
+  --color-matrix-bg: #050907;
+  --color-matrix-surface: #0D1510;
+  --color-matrix-border: #26352B;
+  --color-matrix-ink: #F1F5ED;
+  --color-matrix-muted: #98A99B;
 
   --page-bg: var(--color-canvas);
   --surface: var(--color-surface);
@@ -322,8 +323,8 @@
   --grey-600: var(--color-ink-secondary);
   --grey-700: var(--color-ink);
 
-  --shadow-panel: 0 1px 2px rgba(0, 0, 0, 0.28);
-  --shadow-popover: 0 10px 28px rgba(0, 0, 0, 0.48);
+  --shadow-panel: 0 2px 6px rgba(0, 0, 0, 0.36);
+  --shadow-popover: 0 16px 38px rgba(0, 0, 0, 0.56);
 }
 
 [data-theme="dark"] .katex,
@@ -464,7 +465,6 @@ select {
     width: 100%;
     max-width: 100%;
     min-height: 100vh;
-    overflow-x: clip;
     display: flex;
     flex-direction: column;
     background-color: var(--page-bg);
@@ -629,40 +629,40 @@ select {
   border-bottom: 1px solid var(--mm-rule);
 }
 
-/* Night-toned forensic band for Stage 03 Trace & contrast chapters */
+/* Night-toned forensic band for Stage 02/03 contrast chapters (Deep Navy) */
 .essay-night-band {
-  background-color: #191C20;
-  color: #F2F0E9;
-  --page-bg: #191C20;
-  --surface: #20242A;
-  --surface-soft: #262B33;
-  --mm-paper: #191C20;
-  --mm-paper-bright: #20242A;
-  --mm-paper-inset: #262B33;
-  --mm-ink: #F2F0E9;
-  --mm-ink-soft: #D1CFC7;
-  --mm-muted: #9B9E9F;
-  --mm-rule: #323741;
-  --mm-rule-strong: #4A515E;
-  --mm-signal: #82A7FF;
-  --mm-signal-hover: #A4BFFF;
-  --mm-signal-soft: #202C46;
-  --color-canvas: #191C20;
-  --color-surface: #20242A;
-  --color-surface-soft: #262B33;
-  --color-ink: #F2F0E9;
-  --color-ink-secondary: #D1CFC7;
-  --color-ink-muted: #9B9E9F;
-  --color-border: #323741;
-  --color-border-strong: #4A515E;
-  --color-accent: #82A7FF;
-  --color-accent-ink: #AFC8FF;
-  --text-primary: #F2F0E9;
-  --text-secondary: #D1CFC7;
-  --text-muted: #9B9E9F;
-  --border: #323741;
-  --accent-blue: #202C46;
-  --accent-blue-text: #AFC8FF;
+  background-color: #091122;
+  color: #F1F5F9;
+  --page-bg: #091122;
+  --surface: #0F182E;
+  --surface-soft: #172442;
+  --mm-paper: #091122;
+  --mm-paper-bright: #0F182E;
+  --mm-paper-inset: #172442;
+  --mm-ink: #F1F5F9;
+  --mm-ink-soft: #CBD5E1;
+  --mm-muted: #93A7C6;
+  --mm-rule: #223354;
+  --mm-rule-strong: #354E7A;
+  --mm-signal: #818CF8;
+  --mm-signal-hover: #A5B4FC;
+  --mm-signal-soft: #1C244E;
+  --color-canvas: #091122;
+  --color-surface: #0F182E;
+  --color-surface-soft: #172442;
+  --color-ink: #F1F5F9;
+  --color-ink-secondary: #CBD5E1;
+  --color-ink-muted: #93A7C6;
+  --color-border: #223354;
+  --color-border-strong: #354E7A;
+  --color-accent: #818CF8;
+  --color-accent-ink: #A5B4FC;
+  --text-primary: #F1F5F9;
+  --text-secondary: #CBD5E1;
+  --text-muted: #93A7C6;
+  --border: #223354;
+  --accent-blue: #1C244E;
+  --accent-blue-text: #A5B4FC;
 }
 
 .scrolly-step {

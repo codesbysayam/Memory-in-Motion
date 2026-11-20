@@ -131,14 +131,22 @@ export const InterferenceLabTutorial: React.FC<InterferenceLabTutorialProps> = (
   const isFirst = currentStepIndex === 0;
   const isLast = currentStepIndex === INTERFERENCE_TUTORIAL_STEPS.length - 1;
 
-  // Scroll the highlighted control knob gently into view when advancing steps
+  const prevStepRef = React.useRef<number>(currentStepIndex);
+
+  // Scroll the highlighted control knob gently into view only when the user steps through the guide
   useEffect(() => {
-    if (!isOpen) return;
-    const target = document.querySelector(`[data-tutorial-knob="${step.id}"]`);
-    if (target instanceof HTMLElement) {
-      target.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    if (!isOpen) {
+      prevStepRef.current = currentStepIndex;
+      return;
     }
-  }, [isOpen, step.id]);
+    if (prevStepRef.current !== currentStepIndex) {
+      prevStepRef.current = currentStepIndex;
+      const target = document.querySelector(`[data-tutorial-knob="${step.id}"]`);
+      if (target instanceof HTMLElement) {
+        target.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }
+    }
+  }, [isOpen, currentStepIndex, step.id]);
 
   if (!isOpen) return null;
 

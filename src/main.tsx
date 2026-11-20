@@ -5,6 +5,8 @@ import './index.css';
 import './editorial-redesign.css';
 import './typography-system.css';
 import './theme-bridge.css';
+import './visual-identity-v2.css';
+import './portfolio-inspired-redesign.css';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
